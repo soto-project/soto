@@ -213,6 +213,15 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IdentityCertificateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deprovisioning = "DEPROVISIONING"
+        case failed = "FAILED"
+        case inactive = "INACTIVE"
+        case provisioning = "PROVISIONING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domain = "DOMAIN"
         case emailAddress = "EMAIL_ADDRESS"
@@ -373,6 +382,11 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum SignatureFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case detached = "DETACHED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -448,6 +462,47 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum SigningScheme: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Use the default signing behavior. When you select this option, Amazon SES API v2 doesn't add an S/MIME signature to messages sent with the configuration set.
+        case defaultScheme(DefaultSigningScheme)
+        /// Sign messages sent with the configuration set using S/MIME. For signing to apply, the email identity used to send a message must have an active S/MIME certificate association.
+        case smimeScheme(SmimeSigningScheme)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .defaultScheme:
+                let value = try container.decode(DefaultSigningScheme.self, forKey: .defaultScheme)
+                self = .defaultScheme(value)
+            case .smimeScheme:
+                let value = try container.decode(SmimeSigningScheme.self, forKey: .smimeScheme)
+                self = .smimeScheme(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .defaultScheme(let value):
+                try container.encode(value, forKey: .defaultScheme)
+            case .smimeScheme(let value):
+                try container.encode(value, forKey: .smimeScheme)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultScheme = "DefaultScheme"
+            case smimeScheme = "SmimeScheme"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AccountDetails: AWSDecodableShape {
@@ -502,6 +557,39 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case archiveArn = "ArchiveArn"
         }
+    }
+
+    public struct AssociateEmailIdentityCertificateRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Certificate Manager (ACM) certificate to associate with the email identity.
+        public let certificateArn: String
+        /// The email identity, either an email address or a domain, to associate the certificate with.
+        public let emailIdentity: String
+        /// The email address that the certificate applies to. This value is required when the email identity is a domain, and the address must belong to that domain or one of its subdomains. When the email identity is an email address, this value is optional. If you specify it, it must exactly match the email identity.
+        public let fromAddress: String?
+
+        @inlinable
+        public init(certificateArn: String, emailIdentity: String, fromAddress: String? = nil) {
+            self.certificateArn = certificateArn
+            self.emailIdentity = emailIdentity
+            self.fromAddress = fromAddress
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:certificate/[\\w+=,.@-]+$")
+            try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case emailIdentity = "EmailIdentity"
+            case fromAddress = "FromAddress"
+        }
+    }
+
+    public struct AssociateEmailIdentityCertificateResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct Attachment: AWSEncodableShape {
@@ -848,6 +936,20 @@ extension SESv2 {
         }
     }
 
+    public struct ConfigurationOverrides: AWSEncodableShape {
+        /// An object that overrides the open and click tracking settings that would otherwise apply to the message.
+        public let tracking: TrackingConfigurationOverrides?
+
+        @inlinable
+        public init(tracking: TrackingConfigurationOverrides? = nil) {
+            self.tracking = tracking
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tracking = "Tracking"
+        }
+    }
+
     public struct Contact: AWSDecodableShape {
         /// The contact's email address.
         public let emailAddress: String?
@@ -976,6 +1078,8 @@ extension SESv2 {
         public let configurationSetName: String
         /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
         public let deliveryOptions: DeliveryOptions?
+        /// The message security options to apply to the configuration set, such as the signing scheme used for messages that you send with the configuration set.
+        public let messageSecurityOptions: MessageSecurityOptions?
         /// An object that defines whether or not Amazon SES collects reputation metrics for the emails that you send that use the configuration set.
         public let reputationOptions: ReputationOptions?
         /// An object that defines whether or not Amazon SES can send email that you send using the configuration set.
@@ -990,10 +1094,11 @@ extension SESv2 {
         public let vdmOptions: VdmOptions?
 
         @inlinable
-        public init(archivingOptions: ArchivingOptions? = nil, configurationSetName: String, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
+        public init(archivingOptions: ArchivingOptions? = nil, configurationSetName: String, deliveryOptions: DeliveryOptions? = nil, messageSecurityOptions: MessageSecurityOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
             self.archivingOptions = archivingOptions
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
+            self.messageSecurityOptions = messageSecurityOptions
             self.reputationOptions = reputationOptions
             self.sendingOptions = sendingOptions
             self.suppressionOptions = suppressionOptions
@@ -1011,6 +1116,7 @@ extension SESv2 {
             case archivingOptions = "ArchivingOptions"
             case configurationSetName = "ConfigurationSetName"
             case deliveryOptions = "DeliveryOptions"
+            case messageSecurityOptions = "MessageSecurityOptions"
             case reputationOptions = "ReputationOptions"
             case sendingOptions = "SendingOptions"
             case suppressionOptions = "SuppressionOptions"
@@ -1672,6 +1778,10 @@ extension SESv2 {
         }
     }
 
+    public struct DefaultSigningScheme: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
         /// The name of the configuration set that contains the event destination to delete.
         public let configurationSetName: String
@@ -2112,6 +2222,32 @@ extension SESv2 {
         private enum CodingKeys: String, CodingKey {
             case routesDetails = "RoutesDetails"
         }
+    }
+
+    public struct DisassociateEmailIdentityCertificateRequest: AWSEncodableShape {
+        /// The email identity whose certificate association you want to remove.
+        public let emailIdentity: String
+        /// The email address whose certificate association you want to remove. This value is required when the email identity is a domain. When the email identity is an email address, this value is optional.
+        public let fromAddress: String?
+
+        @inlinable
+        public init(emailIdentity: String, fromAddress: String? = nil) {
+            self.emailIdentity = emailIdentity
+            self.fromAddress = fromAddress
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailIdentity = "EmailIdentity"
+            case fromAddress = "FromAddress"
+        }
+    }
+
+    public struct DisassociateEmailIdentityCertificateResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DkimAttributes: AWSDecodableShape {
@@ -2833,6 +2969,8 @@ extension SESv2 {
         public let configurationSetName: String?
         /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
         public let deliveryOptions: DeliveryOptions?
+        /// The message security options that are applied to the configuration set, such as the signing scheme used for messages that you send with the configuration set.
+        public let messageSecurityOptions: MessageSecurityOptions?
         /// An object that defines whether or not Amazon SES collects reputation metrics for the emails that you send that use the configuration set.
         public let reputationOptions: ReputationOptions?
         /// An object that defines whether or not Amazon SES can send email that you send using the configuration set.
@@ -2847,10 +2985,11 @@ extension SESv2 {
         public let vdmOptions: VdmOptions?
 
         @inlinable
-        public init(archivingOptions: ArchivingOptions? = nil, configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
+        public init(archivingOptions: ArchivingOptions? = nil, configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, messageSecurityOptions: MessageSecurityOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
             self.archivingOptions = archivingOptions
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
+            self.messageSecurityOptions = messageSecurityOptions
             self.reputationOptions = reputationOptions
             self.sendingOptions = sendingOptions
             self.suppressionOptions = suppressionOptions
@@ -2863,6 +3002,7 @@ extension SESv2 {
             case archivingOptions = "ArchivingOptions"
             case configurationSetName = "ConfigurationSetName"
             case deliveryOptions = "DeliveryOptions"
+            case messageSecurityOptions = "MessageSecurityOptions"
             case reputationOptions = "ReputationOptions"
             case sendingOptions = "SendingOptions"
             case suppressionOptions = "SuppressionOptions"
@@ -3880,6 +4020,32 @@ extension SESv2 {
         }
     }
 
+    public struct IdentityCertificate: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Certificate Manager (ACM) certificate that's associated with the email identity.
+        public let certificateArn: String?
+        /// The timestamp after which the certificate is no longer valid.
+        public let certificateExpiryTime: Date?
+        /// The email address that the certificate applies to.
+        public let fromAddress: String?
+        /// The status of the certificate association. A status of ACTIVE indicates that the certificate is ready to use for signing.
+        public let status: IdentityCertificateStatus?
+
+        @inlinable
+        public init(certificateArn: String? = nil, certificateExpiryTime: Date? = nil, fromAddress: String? = nil, status: IdentityCertificateStatus? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateExpiryTime = certificateExpiryTime
+            self.fromAddress = fromAddress
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case certificateExpiryTime = "CertificateExpiryTime"
+            case fromAddress = "FromAddress"
+            case status = "Status"
+        }
+    }
+
     public struct IdentityInfo: AWSDecodableShape {
         /// The address or domain of the identity.
         public let identityName: String?
@@ -4416,6 +4582,50 @@ extension SESv2 {
 
         private enum CodingKeys: String, CodingKey {
             case emailIdentities = "EmailIdentities"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEmailIdentityCertificatesRequest: AWSEncodableShape {
+        /// The email identity whose certificate associations you want to list.
+        public let emailIdentity: String
+        /// A token returned from a previous call to ListEmailIdentityCertificates to indicate the position in the list of certificates.
+        public let nextToken: String?
+        /// The number of results to show in a single call to ListEmailIdentityCertificates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+        public let pageSize: Int?
+
+        @inlinable
+        public init(emailIdentity: String, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.emailIdentity = emailIdentity
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.emailIdentity, name: "emailIdentity", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailIdentity = "EmailIdentity"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListEmailIdentityCertificatesResponse: AWSDecodableShape {
+        /// An array that contains the certificate associations for the email identity. Each entry includes the from address, the certificate's status, its Amazon Resource Name (ARN), and its expiry time.
+        public let certificates: [IdentityCertificate]?
+        /// A token that indicates that there are additional certificates to list. To view additional certificates, issue another request to ListEmailIdentityCertificates, and pass this token in the NextToken parameter.
+        public let nextToken: String?
+
+        @inlinable
+        public init(certificates: [IdentityCertificate]? = nil, nextToken: String? = nil) {
+            self.certificates = certificates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificates = "Certificates"
             case nextToken = "NextToken"
         }
     }
@@ -5044,7 +5254,7 @@ extension SESv2 {
         public let exclude: MessageInsightsFilters?
         /// Filters for results to be included in the export file.
         public let include: MessageInsightsFilters?
-        /// The maximum number of results.
+        /// The maximum number of results.  If you don't specify MaxResults, the export returns a maximum of 1,000 results.
         public let maxResults: Int?
         /// Represents the start date for the export interval as a timestamp. The start date is inclusive.
         public let startDate: Date
@@ -5126,6 +5336,20 @@ extension SESv2 {
             case lastDeliveryEvent = "LastDeliveryEvent"
             case lastEngagementEvent = "LastEngagementEvent"
             case subject = "Subject"
+        }
+    }
+
+    public struct MessageSecurityOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The signing scheme that Amazon SES API v2 applies to messages sent with the configuration set.
+        public let signingScheme: SigningScheme?
+
+        @inlinable
+        public init(signingScheme: SigningScheme? = nil) {
+            self.signingScheme = signingScheme
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signingScheme = "SigningScheme"
         }
     }
 
@@ -5339,7 +5563,7 @@ extension SESv2 {
     public struct PricingAttributes: AWSDecodableShape {
         /// The pricing plan that is currently active on your Amazon SES account.
         public let currentPlan: PricingPlan?
-        /// The pricing plan that will become active at the start of the next billing cycle, if a scheduled change has been requested. This field is empty when no scheduled change is pending.
+        /// The pricing plan that will become active at the start of the next monthly cycle, if a scheduled change has been requested. This field is empty when no scheduled change is pending.
         public let nextPlan: PricingPlan?
 
         @inlinable
@@ -5425,7 +5649,7 @@ extension SESv2 {
     }
 
     public struct PutAccountPricingAttributesRequest: AWSEncodableShape {
-        /// The pricing plan to apply to your Amazon SES account. Can be one of the following:    NONE – No pricing plan is applied; billing follows per-feature pricing.    ESSENTIALS – Baseline Amazon SES capabilities and select premium features.    PRO – Includes everything in ESSENTIALS, plus additional premium features for growing senders.    ENTERPRISE – Includes everything in PRO, plus features intended for large-scale senders.
+        /// The pricing plan to apply to your Amazon SES account. For details about each plan, see Amazon SES Pricing. Can be one of the following:    NONE     ESSENTIALS     PRO     ENTERPRISE
         public let plan: PricingPlan
 
         @inlinable
@@ -6327,6 +6551,8 @@ extension SESv2 {
     public struct SendBulkEmailRequest: AWSEncodableShape {
         /// The list of bulk email entry objects.
         public let bulkEmailEntries: [BulkEmailEntry]
+        /// An object that overrides, for the messages in this request only, settings that would otherwise apply to them. The overrides apply to every message in the request. Each setting that you don't override keeps the value that already applies.
+        public let configurationOverrides: ConfigurationOverrides?
         /// The name of the configuration set to use when sending the email.
         public let configurationSetName: String?
         /// An object that contains the body of the message. You can specify a template message.
@@ -6349,8 +6575,9 @@ extension SESv2 {
         public let tenantName: String?
 
         @inlinable
-        public init(bulkEmailEntries: [BulkEmailEntry], configurationSetName: String? = nil, defaultContent: BulkEmailContent, defaultEmailTags: [MessageTag]? = nil, endpointId: String? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, replyToAddresses: [String]? = nil, tenantName: String? = nil) {
+        public init(bulkEmailEntries: [BulkEmailEntry], configurationOverrides: ConfigurationOverrides? = nil, configurationSetName: String? = nil, defaultContent: BulkEmailContent, defaultEmailTags: [MessageTag]? = nil, endpointId: String? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, replyToAddresses: [String]? = nil, tenantName: String? = nil) {
             self.bulkEmailEntries = bulkEmailEntries
+            self.configurationOverrides = configurationOverrides
             self.configurationSetName = configurationSetName
             self.defaultContent = defaultContent
             self.defaultEmailTags = defaultEmailTags
@@ -6375,6 +6602,7 @@ extension SESv2 {
 
         private enum CodingKeys: String, CodingKey {
             case bulkEmailEntries = "BulkEmailEntries"
+            case configurationOverrides = "ConfigurationOverrides"
             case configurationSetName = "ConfigurationSetName"
             case defaultContent = "DefaultContent"
             case defaultEmailTags = "DefaultEmailTags"
@@ -6443,6 +6671,8 @@ extension SESv2 {
     }
 
     public struct SendEmailRequest: AWSEncodableShape {
+        /// An object that overrides, for this message only, settings that would otherwise apply to it. Each setting that you don't override keeps the value that already applies.
+        public let configurationOverrides: ConfigurationOverrides?
         /// The name of the configuration set to use when sending the email.
         public let configurationSetName: String?
         /// An object that contains the body of the message. You can send either a Simple message, Raw message, or a Templated message.
@@ -6469,7 +6699,8 @@ extension SESv2 {
         public let tenantName: String?
 
         @inlinable
-        public init(configurationSetName: String? = nil, content: EmailContent, destination: Destination? = nil, emailTags: [MessageTag]? = nil, endpointId: String? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, listManagementOptions: ListManagementOptions? = nil, replyToAddresses: [String]? = nil, tenantName: String? = nil) {
+        public init(configurationOverrides: ConfigurationOverrides? = nil, configurationSetName: String? = nil, content: EmailContent, destination: Destination? = nil, emailTags: [MessageTag]? = nil, endpointId: String? = nil, feedbackForwardingEmailAddress: String? = nil, feedbackForwardingEmailAddressIdentityArn: String? = nil, fromEmailAddress: String? = nil, fromEmailAddressIdentityArn: String? = nil, listManagementOptions: ListManagementOptions? = nil, replyToAddresses: [String]? = nil, tenantName: String? = nil) {
+            self.configurationOverrides = configurationOverrides
             self.configurationSetName = configurationSetName
             self.content = content
             self.destination = destination
@@ -6492,6 +6723,7 @@ extension SESv2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configurationOverrides = "ConfigurationOverrides"
             case configurationSetName = "ConfigurationSetName"
             case content = "Content"
             case destination = "Destination"
@@ -6554,6 +6786,20 @@ extension SESv2 {
 
         private enum CodingKeys: String, CodingKey {
             case sendingEnabled = "SendingEnabled"
+        }
+    }
+
+    public struct SmimeSigningScheme: AWSEncodableShape & AWSDecodableShape {
+        /// The format of the S/MIME signature that Amazon SES API v2 applies to messages.
+        public let signatureFormat: SignatureFormat?
+
+        @inlinable
+        public init(signatureFormat: SignatureFormat? = nil) {
+            self.signatureFormat = signatureFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signatureFormat = "SignatureFormat"
         }
     }
 
@@ -7075,6 +7321,24 @@ extension SESv2 {
         }
     }
 
+    public struct TrackingConfigurationOverrides: AWSEncodableShape {
+        /// Specifies whether Amazon SES tracks when the recipient clicks a link in this message. Can be one of the following:    ENABLED – Amazon SES tracks clicks for this message, even when your account-level and configuration set settings don't enable click tracking.    DISABLED – Amazon SES doesn't track clicks for this message, even when your account-level or configuration set settings enable click tracking. Amazon SES doesn't rewrite the links in the message.   If you don't specify this value, Amazon SES uses the click tracking setting that would otherwise apply to the message.  Enabling open or click tracking with an override doesn't create an event destination. Amazon SES records the resulting open and click events in VDM, where you can review them using VDM metrics and Message Insights. To also receive these events at a destination that you own, the configuration set that the message uses must have an event destination that publishes open and click events.
+        public let clickTrackingEnabled: FeatureStatus?
+        /// Specifies whether Amazon SES tracks when the recipient opens this message. Can be one of the following:    ENABLED – Amazon SES tracks opens for this message, even when your account-level and configuration set settings don't enable open tracking.    DISABLED – Amazon SES doesn't track opens for this message, even when your account-level or configuration set settings enable open tracking. Amazon SES doesn't add the tracking image to the message.   If you don't specify this value, Amazon SES uses the open tracking setting that would otherwise apply to the message.
+        public let openTrackingEnabled: FeatureStatus?
+
+        @inlinable
+        public init(clickTrackingEnabled: FeatureStatus? = nil, openTrackingEnabled: FeatureStatus? = nil) {
+            self.clickTrackingEnabled = clickTrackingEnabled
+            self.openTrackingEnabled = openTrackingEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clickTrackingEnabled = "ClickTrackingEnabled"
+            case openTrackingEnabled = "OpenTrackingEnabled"
+        }
+    }
+
     public struct TrackingOptions: AWSEncodableShape & AWSDecodableShape {
         /// The domain to use for tracking open and click events.
         public let customRedirectDomain: String
@@ -7156,6 +7420,28 @@ extension SESv2 {
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateConfigurationSetRequest: AWSEncodableShape {
+        /// The name of the configuration set to update.
+        public let configurationSetName: String
+        /// The security options that apply to the MIME message itself for messages sent with the configuration set.
+        public let messageSecurityOptions: MessageSecurityOptions?
+
+        @inlinable
+        public init(configurationSetName: String, messageSecurityOptions: MessageSecurityOptions? = nil) {
+            self.configurationSetName = configurationSetName
+            self.messageSecurityOptions = messageSecurityOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case messageSecurityOptions = "MessageSecurityOptions"
+        }
+    }
+
+    public struct UpdateConfigurationSetResponse: AWSDecodableShape {
         public init() {}
     }
 

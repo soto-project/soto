@@ -1883,6 +1883,44 @@ public struct DirectConnect: AWSService {
         return try await self.disassociateMacSecKey(input, logger: logger)
     }
 
+    /// Lists the routes for the specified virtual interface. Use the routeDirection filter to control which routes are returned:    accepted: routes received from the customer network over the virtual interface.    advertised: routes advertised to the customer network over the virtual interface.
+    @Sendable
+    @inlinable
+    public func listVirtualInterfaceRoutes(_ input: ListVirtualInterfaceRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVirtualInterfaceRoutesResponse {
+        try await self.client.execute(
+            operation: "ListVirtualInterfaceRoutes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the routes for the specified virtual interface. Use the routeDirection filter to control which routes are returned:    accepted: routes received from the customer network over the virtual interface.    advertised: routes advertised to the customer network over the virtual interface.
+    ///
+    /// Parameters:
+    ///   - filters: The filters to apply to the routes returned.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - virtualInterfaceId: The ID of the virtual interface.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listVirtualInterfaceRoutes(
+        filters: RouteFilters? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        virtualInterfaceId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListVirtualInterfaceRoutesResponse {
+        let input = ListVirtualInterfaceRoutesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            virtualInterfaceId: virtualInterfaceId
+        )
+        return try await self.listVirtualInterfaceRoutes(input, logger: logger)
+    }
+
     /// Lists the virtual interface failover test history.
     @Sendable
     @inlinable
@@ -2213,6 +2251,8 @@ public struct DirectConnect: AWSService {
     /// Parameters:
     ///   - enableSiteLink: Indicates whether to enable or disable SiteLink.
     ///   - mtu: The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
+    ///   - prefixPoolAllocatedCountIpv4: The number of inbound IPv4 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.
+    ///   - prefixPoolAllocatedCountIpv6: The number of inbound IPv6 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.
     ///   - rateLimit: The rate limit (bandwidth allocation) to apply to the virtual interface. Use this to update the bandwidth allocation on an existing virtual interface.
     ///   - virtualInterfaceId: The ID of the virtual private interface.
     ///   - virtualInterfaceName: The name of the virtual private interface.
@@ -2221,6 +2261,8 @@ public struct DirectConnect: AWSService {
     public func updateVirtualInterfaceAttributes(
         enableSiteLink: Bool? = nil,
         mtu: Int? = nil,
+        prefixPoolAllocatedCountIpv4: Int? = nil,
+        prefixPoolAllocatedCountIpv6: Int? = nil,
         rateLimit: String? = nil,
         virtualInterfaceId: String,
         virtualInterfaceName: String? = nil,
@@ -2229,6 +2271,8 @@ public struct DirectConnect: AWSService {
         let input = UpdateVirtualInterfaceAttributesRequest(
             enableSiteLink: enableSiteLink, 
             mtu: mtu, 
+            prefixPoolAllocatedCountIpv4: prefixPoolAllocatedCountIpv4, 
+            prefixPoolAllocatedCountIpv6: prefixPoolAllocatedCountIpv6, 
             rateLimit: rateLimit, 
             virtualInterfaceId: virtualInterfaceId, 
             virtualInterfaceName: virtualInterfaceName

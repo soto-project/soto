@@ -980,6 +980,8 @@ extension Amp {
         public let clientToken: String?
         /// The destination where the scraper sends the collected metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination
+        /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the scraper is created without an exporter configuration.
+        public let exporters: [ExporterConfiguration]?
         /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
         public let roleConfiguration: RoleConfiguration?
         /// The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User Guide.
@@ -990,10 +992,11 @@ extension Amp {
         public let tags: [String: String]?
 
         @inlinable
-        public init(alias: String? = nil, clientToken: String? = CreateScraperRequest.idempotencyToken(), destination: Destination, roleConfiguration: RoleConfiguration? = nil, scrapeConfiguration: ScrapeConfiguration, source: Source, tags: [String: String]? = nil) {
+        public init(alias: String? = nil, clientToken: String? = CreateScraperRequest.idempotencyToken(), destination: Destination, exporters: [ExporterConfiguration]? = nil, roleConfiguration: RoleConfiguration? = nil, scrapeConfiguration: ScrapeConfiguration, source: Source, tags: [String: String]? = nil) {
             self.alias = alias
             self.clientToken = clientToken
             self.destination = destination
+            self.exporters = exporters
             self.roleConfiguration = roleConfiguration
             self.scrapeConfiguration = scrapeConfiguration
             self.source = source
@@ -1008,6 +1011,10 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.destination.validate(name: "\(name).destination")
+            try self.exporters?.forEach {
+                try $0.validate(name: "\(name).exporters[]")
+            }
+            try self.validate(self.exporters, name: "exporters", parent: name, max: 1)
             try self.roleConfiguration?.validate(name: "\(name).roleConfiguration")
             try self.source.validate(name: "\(name).source")
             try self.tags?.forEach {
@@ -1024,6 +1031,7 @@ extension Amp {
             case alias = "alias"
             case clientToken = "clientToken"
             case destination = "destination"
+            case exporters = "exporters"
             case roleConfiguration = "roleConfiguration"
             case scrapeConfiguration = "scrapeConfiguration"
             case source = "source"
@@ -2323,6 +2331,24 @@ extension Amp {
         }
     }
 
+    public struct OpenSearchExporterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon OpenSearch Service domain.
+        public let domainArn: String
+
+        @inlinable
+        public init(domainArn: String) {
+            self.domainArn = domainArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainArn, name: "domainArn", parent: name, pattern: "^arn:aws[-a-z]*:es:[-a-z0-9]+:[0-9]{12}:domain\\/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "domainArn"
+        }
+    }
+
     public struct PutAlertManagerDefinitionRequest: AWSEncodableShape {
         /// A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
         public let clientToken: String?
@@ -2848,6 +2874,8 @@ extension Amp {
         public let createdAt: Date
         /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination
+        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration for an Amazon OpenSearch Service domain.
+        public let exporters: [ExporterConfiguration]?
         /// The date and time that the scraper was last modified.
         public let lastModifiedAt: Date
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf. For example, arn:aws:iam::123456789012:role/service-role/AmazonGrafanaServiceRole-12example.
@@ -2868,11 +2896,12 @@ extension Amp {
         public let tags: [String: String]?
 
         @inlinable
-        public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, lastModifiedAt: Date, roleArn: String, roleConfiguration: RoleConfiguration? = nil, scrapeConfiguration: ScrapeConfiguration, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
+        public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, exporters: [ExporterConfiguration]? = nil, lastModifiedAt: Date, roleArn: String, roleConfiguration: RoleConfiguration? = nil, scrapeConfiguration: ScrapeConfiguration, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
             self.destination = destination
+            self.exporters = exporters
             self.lastModifiedAt = lastModifiedAt
             self.roleArn = roleArn
             self.roleConfiguration = roleConfiguration
@@ -2889,6 +2918,7 @@ extension Amp {
             case arn = "arn"
             case createdAt = "createdAt"
             case destination = "destination"
+            case exporters = "exporters"
             case lastModifiedAt = "lastModifiedAt"
             case roleArn = "roleArn"
             case roleConfiguration = "roleConfiguration"
@@ -2942,6 +2972,8 @@ extension Amp {
         public let createdAt: Date
         /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination
+        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration for an Amazon OpenSearch Service domain.
+        public let exporters: [ExporterConfiguration]?
         /// The date and time that the scraper was last modified.
         public let lastModifiedAt: Date
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf.
@@ -2960,11 +2992,12 @@ extension Amp {
         public let tags: [String: String]?
 
         @inlinable
-        public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, lastModifiedAt: Date, roleArn: String, roleConfiguration: RoleConfiguration? = nil, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
+        public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, exporters: [ExporterConfiguration]? = nil, lastModifiedAt: Date, roleArn: String, roleConfiguration: RoleConfiguration? = nil, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
             self.destination = destination
+            self.exporters = exporters
             self.lastModifiedAt = lastModifiedAt
             self.roleArn = roleArn
             self.roleConfiguration = roleConfiguration
@@ -2980,6 +3013,7 @@ extension Amp {
             case arn = "arn"
             case createdAt = "createdAt"
             case destination = "destination"
+            case exporters = "exporters"
             case lastModifiedAt = "lastModifiedAt"
             case roleArn = "roleArn"
             case roleConfiguration = "roleConfiguration"
@@ -3296,6 +3330,8 @@ extension Amp {
         public let clientToken: String?
         /// The new destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         public let destination: Destination?
+        /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the existing exporter configuration remains unchanged.
+        public let exporters: [ExporterConfiguration]?
         /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
         public let roleConfiguration: RoleConfiguration?
         /// Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
@@ -3304,10 +3340,11 @@ extension Amp {
         public let scraperId: String
 
         @inlinable
-        public init(alias: String? = nil, clientToken: String? = UpdateScraperRequest.idempotencyToken(), destination: Destination? = nil, roleConfiguration: RoleConfiguration? = nil, scrapeConfiguration: ScrapeConfiguration? = nil, scraperId: String) {
+        public init(alias: String? = nil, clientToken: String? = UpdateScraperRequest.idempotencyToken(), destination: Destination? = nil, exporters: [ExporterConfiguration]? = nil, roleConfiguration: RoleConfiguration? = nil, scrapeConfiguration: ScrapeConfiguration? = nil, scraperId: String) {
             self.alias = alias
             self.clientToken = clientToken
             self.destination = destination
+            self.exporters = exporters
             self.roleConfiguration = roleConfiguration
             self.scrapeConfiguration = scrapeConfiguration
             self.scraperId = scraperId
@@ -3319,6 +3356,7 @@ extension Amp {
             try container.encodeIfPresent(self.alias, forKey: .alias)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.destination, forKey: .destination)
+            try container.encodeIfPresent(self.exporters, forKey: .exporters)
             try container.encodeIfPresent(self.roleConfiguration, forKey: .roleConfiguration)
             try container.encodeIfPresent(self.scrapeConfiguration, forKey: .scrapeConfiguration)
             request.encodePath(self.scraperId, key: "scraperId")
@@ -3332,6 +3370,10 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.destination?.validate(name: "\(name).destination")
+            try self.exporters?.forEach {
+                try $0.validate(name: "\(name).exporters[]")
+            }
+            try self.validate(self.exporters, name: "exporters", parent: name, max: 1)
             try self.roleConfiguration?.validate(name: "\(name).roleConfiguration")
             try self.validate(self.scraperId, name: "scraperId", parent: name, max: 64)
             try self.validate(self.scraperId, name: "scraperId", parent: name, min: 1)
@@ -3342,6 +3384,7 @@ extension Amp {
             case alias = "alias"
             case clientToken = "clientToken"
             case destination = "destination"
+            case exporters = "exporters"
             case roleConfiguration = "roleConfiguration"
             case scrapeConfiguration = "scrapeConfiguration"
         }
@@ -3713,6 +3756,24 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case randomCutForest = "randomCutForest"
+        }
+    }
+
+    public struct ExporterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration that the scraper uses to export metrics to an Amazon OpenSearch Service domain.
+        public let openSearchConfiguration: OpenSearchExporterConfiguration?
+
+        @inlinable
+        public init(openSearchConfiguration: OpenSearchExporterConfiguration? = nil) {
+            self.openSearchConfiguration = openSearchConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.openSearchConfiguration?.validate(name: "\(name).openSearchConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case openSearchConfiguration = "openSearchConfiguration"
         }
     }
 

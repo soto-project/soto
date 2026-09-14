@@ -100,6 +100,8 @@ extension DataZone {
         case databricks = "DATABRICKS"
         case documentdb = "DOCUMENTDB"
         case dynamodb = "DYNAMODB"
+        /// A Git connection type.
+        case git = "GIT"
         case hyperpod = "HYPERPOD"
         case iam = "IAM"
         case mlflow = "MLFLOW"
@@ -1043,6 +1045,8 @@ extension DataZone {
         case amazonQProperties(AmazonQPropertiesInput)
         /// The Amazon Athena properties of a connection.
         case athenaProperties(AthenaPropertiesInput)
+        /// The Git properties of a connection.
+        case gitProperties(GitPropertiesInput)
         /// The Amazon Web Services Glue properties of a connection.
         case glueProperties(GluePropertiesInput)
         /// The hyper pod properties of a connection.
@@ -1077,6 +1081,8 @@ extension DataZone {
                 try container.encode(value, forKey: .amazonQProperties)
             case .athenaProperties(let value):
                 try container.encode(value, forKey: .athenaProperties)
+            case .gitProperties(let value):
+                try container.encode(value, forKey: .gitProperties)
             case .glueProperties(let value):
                 try container.encode(value, forKey: .glueProperties)
             case .hyperPodProperties(let value):
@@ -1128,6 +1134,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case amazonQProperties = "amazonQProperties"
             case athenaProperties = "athenaProperties"
+            case gitProperties = "gitProperties"
             case glueProperties = "glueProperties"
             case hyperPodProperties = "hyperPodProperties"
             case iamProperties = "iamProperties"
@@ -1149,6 +1156,8 @@ extension DataZone {
         case amazonQProperties(AmazonQPropertiesOutput)
         /// The Amazon Athena properties of a connection.
         case athenaProperties(AthenaPropertiesOutput)
+        /// The Git properties of a connection.
+        case gitProperties(GitPropertiesOutput)
         /// The Amazon Web Services Glue properties of a connection.
         case glueProperties(GluePropertiesOutput)
         /// The hyper pod properties of a connection.
@@ -1192,6 +1201,9 @@ extension DataZone {
             case .athenaProperties:
                 let value = try container.decode(AthenaPropertiesOutput.self, forKey: .athenaProperties)
                 self = .athenaProperties(value)
+            case .gitProperties:
+                let value = try container.decode(GitPropertiesOutput.self, forKey: .gitProperties)
+                self = .gitProperties(value)
             case .glueProperties:
                 let value = try container.decode(GluePropertiesOutput.self, forKey: .glueProperties)
                 self = .glueProperties(value)
@@ -1237,6 +1249,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case amazonQProperties = "amazonQProperties"
             case athenaProperties = "athenaProperties"
+            case gitProperties = "gitProperties"
             case glueProperties = "glueProperties"
             case hyperPodProperties = "hyperPodProperties"
             case iamProperties = "iamProperties"
@@ -1258,6 +1271,8 @@ extension DataZone {
         case amazonQProperties(AmazonQPropertiesPatch)
         /// The Amazon Athena properties of a connection properties patch.
         case athenaProperties(AthenaPropertiesPatch)
+        /// The Git properties of a connection properties patch.
+        case gitProperties(GitPropertiesPatch)
         /// The Amazon Web Services Glue properties of a connection properties patch.
         case glueProperties(GluePropertiesPatch)
         /// The IAM properties of a connection properties patch.
@@ -1284,6 +1299,8 @@ extension DataZone {
                 try container.encode(value, forKey: .amazonQProperties)
             case .athenaProperties(let value):
                 try container.encode(value, forKey: .athenaProperties)
+            case .gitProperties(let value):
+                try container.encode(value, forKey: .gitProperties)
             case .glueProperties(let value):
                 try container.encode(value, forKey: .glueProperties)
             case .iamProperties(let value):
@@ -1323,6 +1340,7 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case amazonQProperties = "amazonQProperties"
             case athenaProperties = "athenaProperties"
+            case gitProperties = "gitProperties"
             case glueProperties = "glueProperties"
             case iamProperties = "iamProperties"
             case lakehouseProperties = "lakehouseProperties"
@@ -3642,14 +3660,17 @@ extension DataZone {
         public let errorMessage: String?
         /// The filter IDs of the asset scope.
         public let filterIds: [String]
+        /// The name of the materialized asset scope.
+        public let scopeName: String?
         /// The status of the asset scope.
         public let status: String
 
         @inlinable
-        public init(assetId: String, errorMessage: String? = nil, filterIds: [String], status: String) {
+        public init(assetId: String, errorMessage: String? = nil, filterIds: [String], scopeName: String? = nil, status: String) {
             self.assetId = assetId
             self.errorMessage = errorMessage
             self.filterIds = filterIds
+            self.scopeName = scopeName
             self.status = status
         }
 
@@ -3657,6 +3678,7 @@ extension DataZone {
             case assetId = "assetId"
             case errorMessage = "errorMessage"
             case filterIds = "filterIds"
+            case scopeName = "scopeName"
             case status = "status"
         }
     }
@@ -9284,15 +9306,18 @@ extension DataZone {
     }
 
     public struct DeleteDomainInput: AWSEncodableShape {
+        /// Specifies whether to delete the domain along with all of its associated resources. When you use this parameter, Amazon DataZone deletes the domain and cleanly removes its associated resources without leaving orphaned resources behind. Amazon DataZone reports deletion progress in the deleteProgress field. Amazon DataZone reports any resources that it can't delete in the failureReasons field of the GetDomain response. You can't use this parameter together with skipDeletionCheck. If you don't specify a value, the default is false.
+        public let cascadeDelete: Bool?
         /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
         public let clientToken: String?
         /// The identifier of the Amazon Web Services domain that is to be deleted.
         public let identifier: String
-        /// Specifies the optional flag to delete all child entities within the domain.
+        /// Specifies whether to skip the check that prevents deletion of a domain that still contains resources. When you use this parameter, Amazon DataZone deletes the domain but might not remove its associated resources, which can leave orphaned resources behind. To delete a domain and fully clean up its associated resources, use cascadeDelete instead. You can't use this parameter together with cascadeDelete.
         public let skipDeletionCheck: Bool?
 
         @inlinable
-        public init(clientToken: String? = DeleteDomainInput.idempotencyToken(), identifier: String, skipDeletionCheck: Bool? = nil) {
+        public init(cascadeDelete: Bool? = nil, clientToken: String? = DeleteDomainInput.idempotencyToken(), identifier: String, skipDeletionCheck: Bool? = nil) {
+            self.cascadeDelete = cascadeDelete
             self.clientToken = clientToken
             self.identifier = identifier
             self.skipDeletionCheck = skipDeletionCheck
@@ -9301,6 +9326,7 @@ extension DataZone {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.cascadeDelete, key: "cascadeDelete")
             request.encodeQuery(self.clientToken, key: "clientToken")
             request.encodePath(self.identifier, key: "identifier")
             request.encodeQuery(self.skipDeletionCheck, key: "skipDeletionCheck")
@@ -9707,6 +9733,20 @@ extension DataZone {
 
     public struct DeleteNotebookOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteProgress: AWSDecodableShape {
+        /// The number of projects that Amazon DataZone successfully deleted during the domain deletion.
+        public let successfullyDeletedProjectCount: Int?
+
+        @inlinable
+        public init(successfullyDeletedProjectCount: Int? = nil) {
+            self.successfullyDeletedProjectCount = successfullyDeletedProjectCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case successfullyDeletedProjectCount = "successfullyDeletedProjectCount"
+        }
     }
 
     public struct DeleteProjectInput: AWSEncodableShape {
@@ -10964,6 +11004,24 @@ extension DataZone {
         }
     }
 
+    public struct FailureReason: AWSDecodableShape {
+        /// The identifier of the resource that failed to delete.
+        public let id: String?
+        /// The error message associated with the resource that failed to delete.
+        public let message: String?
+
+        @inlinable
+        public init(id: String? = nil, message: String? = nil) {
+            self.id = id
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case message = "message"
+        }
+    }
+
     public struct Filter: AWSEncodableShape {
         /// A search filter attribute in Amazon DataZone.
         public let attribute: String
@@ -12074,12 +12132,16 @@ extension DataZone {
         public let arn: String?
         /// The timestamp of when the Amazon DataZone domain was created.
         public let createdAt: Date?
+        /// The progress of the current domain deletion, including the number of projects that Amazon DataZone successfully deleted.
+        public let deleteProgress: DeleteProgress?
         /// The description of the Amazon DataZone domain.
         public let description: String?
         /// The domain execution role with which the Amazon DataZone domain is created.
         public let domainExecutionRole: String
         /// The version of the domain.
         public let domainVersion: DomainVersion?
+        /// The list of failure reasons for resources that Amazon DataZone could not delete during a cascade deletion of the domain.
+        public let failureReasons: [FailureReason]?
         /// The identifier of the specified Amazon DataZone domain.
         public let id: String
         /// The identifier of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt the Amazon DataZone domain, metadata, and reporting data.
@@ -12102,12 +12164,14 @@ extension DataZone {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, domainExecutionRole: String, domainVersion: DomainVersion? = nil, id: String, kmsKeyIdentifier: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, portalUrl: String? = nil, rootDomainUnitId: String? = nil, serviceRole: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, deleteProgress: DeleteProgress? = nil, description: String? = nil, domainExecutionRole: String, domainVersion: DomainVersion? = nil, failureReasons: [FailureReason]? = nil, id: String, kmsKeyIdentifier: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, portalUrl: String? = nil, rootDomainUnitId: String? = nil, serviceRole: String? = nil, singleSignOn: SingleSignOn? = nil, status: DomainStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
+            self.deleteProgress = deleteProgress
             self.description = description
             self.domainExecutionRole = domainExecutionRole
             self.domainVersion = domainVersion
+            self.failureReasons = failureReasons
             self.id = id
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.lastUpdatedAt = lastUpdatedAt
@@ -12123,9 +12187,11 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdAt = "createdAt"
+            case deleteProgress = "deleteProgress"
             case description = "description"
             case domainExecutionRole = "domainExecutionRole"
             case domainVersion = "domainVersion"
+            case failureReasons = "failureReasons"
             case id = "id"
             case kmsKeyIdentifier = "kmsKeyIdentifier"
             case lastUpdatedAt = "lastUpdatedAt"
@@ -14700,6 +14766,76 @@ extension DataZone {
             case connectionId = "connectionId"
             case fileName = "fileName"
             case repository = "repository"
+        }
+    }
+
+    public struct GitPropertiesInput: AWSEncodableShape {
+        /// The ARN of the CodeConnections connection used to connect to the Git repository.
+        public let codeConnectionArn: String
+        /// The default branch of the Git repository.
+        public let defaultBranch: String
+        /// The ID of the Git repository. This is the owner and repository name, for example, owner/repo-name.
+        public let repositoryId: String
+
+        @inlinable
+        public init(codeConnectionArn: String, defaultBranch: String, repositoryId: String) {
+            self.codeConnectionArn = codeConnectionArn
+            self.defaultBranch = defaultBranch
+            self.repositoryId = repositoryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeConnectionArn = "codeConnectionArn"
+            case defaultBranch = "defaultBranch"
+            case repositoryId = "repositoryId"
+        }
+    }
+
+    public struct GitPropertiesOutput: AWSDecodableShape {
+        /// The ARN of the CodeConnections connection used to connect to the Git repository.
+        public let codeConnectionArn: String
+        /// The default branch of the Git repository.
+        public let defaultBranch: String
+        /// The error message that describes why the Git connection failed. This member is populated when the connection status is CREATE_FAILED or UPDATE_FAILED.
+        public let errorMessage: String?
+        /// The ID of the Git repository. This is the owner and repository name, for example, owner/repo-name.
+        public let repositoryId: String
+        /// The status of the Git connection.
+        public let status: ConnectionStatus?
+
+        @inlinable
+        public init(codeConnectionArn: String, defaultBranch: String, errorMessage: String? = nil, repositoryId: String, status: ConnectionStatus? = nil) {
+            self.codeConnectionArn = codeConnectionArn
+            self.defaultBranch = defaultBranch
+            self.errorMessage = errorMessage
+            self.repositoryId = repositoryId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeConnectionArn = "codeConnectionArn"
+            case defaultBranch = "defaultBranch"
+            case errorMessage = "errorMessage"
+            case repositoryId = "repositoryId"
+            case status = "status"
+        }
+    }
+
+    public struct GitPropertiesPatch: AWSEncodableShape {
+        /// The ARN of the CodeConnections connection used to connect to the Git repository.
+        public let codeConnectionArn: String?
+        /// The default branch of the Git repository.
+        public let defaultBranch: String?
+
+        @inlinable
+        public init(codeConnectionArn: String? = nil, defaultBranch: String? = nil) {
+            self.codeConnectionArn = codeConnectionArn
+            self.defaultBranch = defaultBranch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeConnectionArn = "codeConnectionArn"
+            case defaultBranch = "defaultBranch"
         }
     }
 

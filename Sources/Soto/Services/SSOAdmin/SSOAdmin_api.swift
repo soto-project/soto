@@ -2691,7 +2691,7 @@ public struct SSOAdmin: AWSService {
         return try await self.updateApplication(input, logger: logger)
     }
 
-    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
+    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account. In a single UpdateInstance request, you can perform only one of the following operations:   Update the encryption configuration of the instance by specifying EncryptionConfiguration.   Enable permission sets for the instance by specifying PermissionSetsEnabled.   A request that specifies both EncryptionConfiguration and PermissionSetsEnabled returns a ValidationException. To perform both operations, call UpdateInstance separately for each. The two calls can be made in parallel.
     @Sendable
     @inlinable
     public func updateInstance(_ input: UpdateInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInstanceResponse {
@@ -2704,24 +2704,27 @@ public struct SSOAdmin: AWSService {
             logger: logger
         )
     }
-    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
+    /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account. In a single UpdateInstance request, you can perform only one of the following operations:   Update the encryption configuration of the instance by specifying EncryptionConfiguration.   Enable permission sets for the instance by specifying PermissionSetsEnabled.   A request that specifies both EncryptionConfiguration and PermissionSetsEnabled returns a ValidationException. To perform both operations, call UpdateInstance separately for each. The two calls can be made in parallel.
     ///
     /// Parameters:
     ///   - encryptionConfiguration: Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys or Amazon Web Services owned KMS keys for encrypting your instance data.
     ///   - instanceArn: The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - name: Updates the instance name.
+    ///   - permissionSetsEnabled: Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled.  You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. These calls can be made in parallel.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateInstance(
         encryptionConfiguration: EncryptionConfiguration? = nil,
         instanceArn: String,
         name: String? = nil,
+        permissionSetsEnabled: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateInstanceResponse {
         let input = UpdateInstanceRequest(
             encryptionConfiguration: encryptionConfiguration, 
             instanceArn: instanceArn, 
-            name: name
+            name: name, 
+            permissionSetsEnabled: permissionSetsEnabled
         )
         return try await self.updateInstance(input, logger: logger)
     }

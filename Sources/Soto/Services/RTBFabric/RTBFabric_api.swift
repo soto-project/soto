@@ -136,7 +136,7 @@ public struct RTBFabric: AWSService {
     ///
     /// Parameters:
     ///   - acmCertificateArn: The Amazon Resource Name (ARN) of the ACM certificate to associate.
-    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - gatewayId: The unique identifier of the gateway.
     ///   - logger: Logger use during operation
     @inlinable
@@ -171,7 +171,7 @@ public struct RTBFabric: AWSService {
     ///
     /// Parameters:
     ///   - attributes: Attributes of the link.
-    ///   - clientToken: The unique client token.
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - gatewayId: The unique identifier of the gateway.
     ///   - logSettings: Settings for the application logs.
     ///   - tags: A map of the key-value pairs of the tag or tags to assign to the resource.
@@ -214,7 +214,7 @@ public struct RTBFabric: AWSService {
     ///   - attributes: Attributes of the link.
     ///   - gatewayId: The unique identifier of the gateway.
     ///   - httpResponderAllowed: Boolean to specify if an HTTP responder is allowed.
-    ///   - logSettings: Settings for the application logs.
+    ///   - logSettings: Application log settings for the link. This value is required. Under applicationLogs.sampling, the errorLog and filterLog fields set the percentage of eligible events to log. Valid values range from 0 through 100. To turn off application logs, set both fields to 0, as in {"applicationLogs":{"sampling":{"errorLog":0,"filterLog":0}}}.
     ///   - peerGatewayId: The unique identifier of the peer gateway.
     ///   - tags: A map of the key-value pairs of the tag or tags to assign to the resource.
     ///   - timeoutInMillis: The timeout value in milliseconds.
@@ -258,7 +258,7 @@ public struct RTBFabric: AWSService {
     /// Creates a routing rule for a link. Routing rules use priority-based evaluation where lower priority numbers are evaluated first. Each rule specifies conditions that must all match for the rule to apply.
     ///
     /// Parameters:
-    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - conditions: The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set.
     ///   - gatewayId: The unique identifier of the gateway.
     ///   - linkId: The unique identifier of the link.
@@ -303,7 +303,7 @@ public struct RTBFabric: AWSService {
     ///
     /// Parameters:
     ///   - attributes: Attributes of the link.
-    ///   - clientToken: The unique client token.
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - gatewayId: The unique identifier of the gateway.
     ///   - logSettings: Settings for the application logs.
     ///   - publicEndpoint: The public endpoint of the link.
@@ -346,7 +346,7 @@ public struct RTBFabric: AWSService {
     /// Creates a requester gateway.
     ///
     /// Parameters:
-    ///   - clientToken: The unique client token.
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - description: An optional description for the requester gateway.
     ///   - securityGroupIds: The unique identifiers of the security groups.
     ///   - subnetIds: The unique identifiers of the subnets.
@@ -390,7 +390,8 @@ public struct RTBFabric: AWSService {
     /// Creates a responder gateway.  A domain name or managed endpoint is required.
     ///
     /// Parameters:
-    ///   - clientToken: The unique client token.
+    ///   - clientRoutingPolicy: The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. Valid values are the following:    AVAILABILITY_ZONE_AFFINITY: RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Availability Zones of the gateway.    ANY_AVAILABILITY_ZONE: RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this.   If you don't specify a value, RTB Fabric uses AVAILABILITY_ZONE_AFFINITY. To get the behavior of ANY_AVAILABILITY_ZONE, create the gateway with subnets in more than one Availability Zone. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABILITY_ZONE_AFFINITY is not a valid value. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide.
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - description: An optional description for the responder gateway.
     ///   - domainName: The domain name for the responder gateway.
     ///   - gatewayType: The type of gateway. Valid values are EXTERNAL or INTERNAL.
@@ -399,13 +400,14 @@ public struct RTBFabric: AWSService {
     ///   - port: The networking port to use.
     ///   - protocol: The networking protocol to use.
     ///   - securityGroupIds: The unique identifiers of the security groups.
-    ///   - subnetIds: The unique identifiers of the subnets.
+    ///   - subnetIds: Unique identifiers of the subnets. A service quota for your account sets the number of Availability Zones that your subnets can span. By default, this quota is one Availability Zone. To span more Availability Zones, request a quota increase.
     ///   - tags: A map of the key-value pairs of the tag or tags to assign to the resource.
     ///   - trustStoreConfiguration: The configuration of the trust store.
     ///   - vpcId: The unique identifier of the Virtual Private Cloud (VPC).
     ///   - logger: Logger use during operation
     @inlinable
     public func createResponderGateway(
+        clientRoutingPolicy: ClientRoutingPolicy? = nil,
         clientToken: String = CreateResponderGatewayRequest.idempotencyToken(),
         description: String? = nil,
         domainName: String? = nil,
@@ -422,6 +424,7 @@ public struct RTBFabric: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateResponderGatewayResponse {
         let input = CreateResponderGatewayRequest(
+            clientRoutingPolicy: clientRoutingPolicy, 
             clientToken: clientToken, 
             description: description, 
             domainName: domainName, 
@@ -1232,7 +1235,7 @@ public struct RTBFabric: AWSService {
     /// Updates a link module flow.
     ///
     /// Parameters:
-    ///   - clientToken: The unique client token.
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - gatewayId: The unique identifier of the gateway.
     ///   - linkId: The unique identifier of the link.
     ///   - modules: The configuration of a module.
@@ -1311,7 +1314,7 @@ public struct RTBFabric: AWSService {
     /// Updates a requester gateway.
     ///
     /// Parameters:
-    ///   - clientToken: The unique client token.
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - description: An optional description for the requester gateway.
     ///   - gatewayId: The unique identifier of the gateway.
     ///   - logger: Logger use during operation
@@ -1330,7 +1333,7 @@ public struct RTBFabric: AWSService {
         return try await self.updateRequesterGateway(input, logger: logger)
     }
 
-    /// Updates a responder gateway.
+    /// Updates the description, Auto Scaling group managed endpoint configuration, trust store configuration, and client routing policy of a responder gateway. This operation also updates the protocols list in the listener configuration. You cannot change the domainName, port, and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one.
     @Sendable
     @inlinable
     public func updateResponderGateway(_ input: UpdateResponderGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResponderGatewayResponse {
@@ -1343,21 +1346,23 @@ public struct RTBFabric: AWSService {
             logger: logger
         )
     }
-    /// Updates a responder gateway.
+    /// Updates the description, Auto Scaling group managed endpoint configuration, trust store configuration, and client routing policy of a responder gateway. This operation also updates the protocols list in the listener configuration. You cannot change the domainName, port, and protocol values that you set when you create a responder gateway. To change any of them, delete the gateway and create a new one.
     ///
     /// Parameters:
-    ///   - clientToken: The unique client token.
+    ///   - clientRoutingPolicy: The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. Valid values are the following:    AVAILABILITY_ZONE_AFFINITY: RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Availability Zones of the gateway.    ANY_AVAILABILITY_ZONE: RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this.   If you don't specify a value, the gateway keeps its current client routing policy. Changing the policy sets the gateway status to PENDING_UPDATE until the change is complete. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABILITY_ZONE_AFFINITY is not a valid value. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide.
+    ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - description: An optional description for the responder gateway.
-    ///   - domainName: The domain name for the responder gateway.
+    ///   - domainName: Domain name for the responder gateway. This operation does not change the domain name of an existing gateway. To use a different domain name, delete the gateway and create a new one.
     ///   - gatewayId: The unique identifier of the gateway.
     ///   - listenerConfig: The listener configuration for the responder gateway.
     ///   - managedEndpointConfiguration: The configuration for the managed endpoint.
-    ///   - port: The networking port to use.
-    ///   - protocol: The networking protocol to use.
+    ///   - port: Networking port to use. This operation does not change the port of an existing gateway. To use a different port, delete the gateway and create a new one.
+    ///   - protocol: Networking protocol to use. This operation does not change the protocol of an existing gateway. To use a different protocol, delete the gateway and create a new one.
     ///   - trustStoreConfiguration: The configuration of the trust store.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateResponderGateway(
+        clientRoutingPolicy: ClientRoutingPolicy? = nil,
         clientToken: String = UpdateResponderGatewayRequest.idempotencyToken(),
         description: String? = nil,
         domainName: String? = nil,
@@ -1370,6 +1375,7 @@ public struct RTBFabric: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateResponderGatewayResponse {
         let input = UpdateResponderGatewayRequest(
+            clientRoutingPolicy: clientRoutingPolicy, 
             clientToken: clientToken, 
             description: description, 
             domainName: domainName, 

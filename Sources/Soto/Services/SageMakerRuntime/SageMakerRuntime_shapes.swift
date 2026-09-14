@@ -208,6 +208,8 @@ extension SageMakerRuntime {
         public let inferenceComponentName: String?
         /// If you provide a value, it is added to the captured data when you enable data capture on the endpoint. For information about data capture, see Capture Data.
         public let inferenceId: String?
+        /// An optional, stable identifier that serves as a routing hint for prefix-aware routing. The service routes requests with the same prefix and the same identifier to the same instance. If requests from different applications might have the same prompt prefix, set a different identifier for each application to differentiate their routing decisions. Applies only to endpoints configured with a RoutingStrategy of PREFIX_AWARE.
+        public let prefixAwareId: String?
         /// Creates a stateful session or identifies an existing one. You can do one of the following:   Create a stateful session by specifying the value NEW_SESSION.   Send your request to an existing stateful session by specifying the ID of that session.   With a stateful session, you can send multiple requests to a stateful model. When you create a session with a stateful model, the model must create the session ID and set the expiration time. The model must also provide that information in the response to your request. You can get the ID and timestamp from the NewSessionId response parameter. For any subsequent request where you specify that session ID, SageMaker AI routes the request to the same instance that supports the session.
         public let sessionId: String?
         /// If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke.
@@ -218,7 +220,7 @@ extension SageMakerRuntime {
         public let targetVariant: String?
 
         @inlinable
-        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, customAttributes: String? = nil, enableExplanations: String? = nil, endpointName: String, inferenceComponentName: String? = nil, inferenceId: String? = nil, sessionId: String? = nil, targetContainerHostname: String? = nil, targetModel: String? = nil, targetVariant: String? = nil) {
+        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, customAttributes: String? = nil, enableExplanations: String? = nil, endpointName: String, inferenceComponentName: String? = nil, inferenceId: String? = nil, prefixAwareId: String? = nil, sessionId: String? = nil, targetContainerHostname: String? = nil, targetModel: String? = nil, targetVariant: String? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
@@ -227,6 +229,7 @@ extension SageMakerRuntime {
             self.endpointName = endpointName
             self.inferenceComponentName = inferenceComponentName
             self.inferenceId = inferenceId
+            self.prefixAwareId = prefixAwareId
             self.sessionId = sessionId
             self.targetContainerHostname = targetContainerHostname
             self.targetModel = targetModel
@@ -244,6 +247,7 @@ extension SageMakerRuntime {
             request.encodePath(self.endpointName, key: "EndpointName")
             request.encodeHeader(self.inferenceComponentName, key: "X-Amzn-SageMaker-Inference-Component")
             request.encodeHeader(self.inferenceId, key: "X-Amzn-SageMaker-Inference-Id")
+            request.encodeHeader(self.prefixAwareId, key: "X-Amzn-SageMaker-Prefix-Aware-Id")
             request.encodeHeader(self.sessionId, key: "X-Amzn-SageMaker-Session-Id")
             request.encodeHeader(self.targetContainerHostname, key: "X-Amzn-SageMaker-Target-Container-Hostname")
             request.encodeHeader(self.targetModel, key: "X-Amzn-SageMaker-Target-Model")
@@ -268,6 +272,9 @@ extension SageMakerRuntime {
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, max: 64)
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, min: 1)
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, pattern: "^\\A\\S[\\p{Print}]*\\z$")
+            try self.validate(self.prefixAwareId, name: "prefixAwareId", parent: name, max: 64)
+            try self.validate(self.prefixAwareId, name: "prefixAwareId", parent: name, min: 1)
+            try self.validate(self.prefixAwareId, name: "prefixAwareId", parent: name, pattern: "^\\A\\S[\\p{Print}]*\\z$")
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^(NEW_SESSION)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.targetContainerHostname, name: "targetContainerHostname", parent: name, max: 63)
@@ -336,6 +343,8 @@ extension SageMakerRuntime {
         public let inferenceComponentName: String?
         /// An identifier that you assign to your request.
         public let inferenceId: String?
+        /// An optional, stable identifier that serves as a routing hint for prefix-aware routing. The service routes requests with the same prefix and the same identifier to the same instance. If requests from different applications might have the same prompt prefix, set a different identifier for each application to differentiate their routing decisions. Applies only to endpoints configured with a RoutingStrategy of PREFIX_AWARE.
+        public let prefixAwareId: String?
         /// The ID of a stateful session to handle your request. You can't create a stateful session by using the InvokeEndpointWithResponseStream action. Instead, you can create one by using the  InvokeEndpoint action. In your request, you specify NEW_SESSION for the SessionId request parameter. The response to that request provides the session ID for the NewSessionId response parameter.
         public let sessionId: String?
         /// If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke.
@@ -344,7 +353,7 @@ extension SageMakerRuntime {
         public let targetVariant: String?
 
         @inlinable
-        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, inferenceComponentName: String? = nil, inferenceId: String? = nil, sessionId: String? = nil, targetContainerHostname: String? = nil, targetVariant: String? = nil) {
+        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, customAttributes: String? = nil, endpointName: String, inferenceComponentName: String? = nil, inferenceId: String? = nil, prefixAwareId: String? = nil, sessionId: String? = nil, targetContainerHostname: String? = nil, targetVariant: String? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
@@ -352,6 +361,7 @@ extension SageMakerRuntime {
             self.endpointName = endpointName
             self.inferenceComponentName = inferenceComponentName
             self.inferenceId = inferenceId
+            self.prefixAwareId = prefixAwareId
             self.sessionId = sessionId
             self.targetContainerHostname = targetContainerHostname
             self.targetVariant = targetVariant
@@ -367,6 +377,7 @@ extension SageMakerRuntime {
             request.encodePath(self.endpointName, key: "EndpointName")
             request.encodeHeader(self.inferenceComponentName, key: "X-Amzn-SageMaker-Inference-Component")
             request.encodeHeader(self.inferenceId, key: "X-Amzn-SageMaker-Inference-Id")
+            request.encodeHeader(self.prefixAwareId, key: "X-Amzn-SageMaker-Prefix-Aware-Id")
             request.encodeHeader(self.sessionId, key: "X-Amzn-SageMaker-Session-Id")
             request.encodeHeader(self.targetContainerHostname, key: "X-Amzn-SageMaker-Target-Container-Hostname")
             request.encodeHeader(self.targetVariant, key: "X-Amzn-SageMaker-Target-Variant")
@@ -387,6 +398,9 @@ extension SageMakerRuntime {
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, max: 64)
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, min: 1)
             try self.validate(self.inferenceId, name: "inferenceId", parent: name, pattern: "^\\A\\S[\\p{Print}]*\\z$")
+            try self.validate(self.prefixAwareId, name: "prefixAwareId", parent: name, max: 64)
+            try self.validate(self.prefixAwareId, name: "prefixAwareId", parent: name, min: 1)
+            try self.validate(self.prefixAwareId, name: "prefixAwareId", parent: name, pattern: "^\\A\\S[\\p{Print}]*\\z$")
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.targetContainerHostname, name: "targetContainerHostname", parent: name, max: 63)

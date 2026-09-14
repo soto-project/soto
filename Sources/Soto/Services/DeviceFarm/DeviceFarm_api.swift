@@ -1163,7 +1163,7 @@ public struct DeviceFarm: AWSService {
         return try await self.getTestGridProject(input, logger: logger)
     }
 
-    /// A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult$url. You can use the following to look up sessions:   The session ARN (GetTestGridSessionRequest$sessionArn).   The project ARN and a session ID (GetTestGridSessionRequest$projectArn and GetTestGridSessionRequest$sessionId).
+    /// A session is an instance of a browser created through a RemoteWebDriver with the URL from  CreateTestGridUrlResult. You can use the following to look up sessions:   The session ARN.   The project ARN and a session ID.
     @Sendable
     @inlinable
     public func getTestGridSession(_ input: GetTestGridSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTestGridSessionResult {
@@ -1176,7 +1176,7 @@ public struct DeviceFarm: AWSService {
             logger: logger
         )
     }
-    /// A session is an instance of a browser created through a RemoteWebDriver with the URL from CreateTestGridUrlResult$url. You can use the following to look up sessions:   The session ARN (GetTestGridSessionRequest$sessionArn).   The project ARN and a session ID (GetTestGridSessionRequest$projectArn and GetTestGridSessionRequest$sessionId).
+    /// A session is an instance of a browser created through a RemoteWebDriver with the URL from  CreateTestGridUrlResult. You can use the following to look up sessions:   The session ARN.   The project ARN and a session ID.
     ///
     /// Parameters:
     ///   - projectArn: The ARN for the project that this session belongs to. See CreateTestGridProject and ListTestGridProjects.
@@ -1707,7 +1707,7 @@ public struct DeviceFarm: AWSService {
         return try await self.listRuns(input, logger: logger)
     }
 
-    /// Gets information about samples, given an AWS Device Farm job ARN.
+    /// Gets information about samples, given an AWS Device Farm job ARN.  Device Farm does not support performance data samples during test executions.
     @Sendable
     @inlinable
     public func listSamples(_ input: ListSamplesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSamplesResult {
@@ -1720,7 +1720,7 @@ public struct DeviceFarm: AWSService {
             logger: logger
         )
     }
-    /// Gets information about samples, given an AWS Device Farm job ARN.
+    /// Gets information about samples, given an AWS Device Farm job ARN.  Device Farm does not support performance data samples during test executions.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the job used to list samples.

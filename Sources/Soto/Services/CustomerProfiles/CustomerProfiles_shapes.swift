@@ -52,6 +52,8 @@ extension CustomerProfiles {
         case inclusive = "INCLUSIVE"
         case lessThan = "LESS_THAN"
         case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
+        case listContains = "LIST_CONTAINS"
+        case listContainsAll = "LIST_CONTAINS_ALL"
         case notBetween = "NOT_BETWEEN"
         case on = "ON"
         public var description: String { return self.rawValue }
@@ -149,6 +151,21 @@ extension CustomerProfiles {
     public enum EventStreamState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case running = "RUNNING"
         case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventSubscriptionSegmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventSubscriptionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case running = "RUNNING"
+        case stopped = "STOPPED"
+        case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
@@ -439,6 +456,11 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScheduleConfigurationUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hourly = "HOURLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Scope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domain = "DOMAIN"
         case profile = "PROFILE"
@@ -462,6 +484,14 @@ extension CustomerProfiles {
     public enum SegmentSortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "ASC"
         case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SegmentSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -543,6 +573,7 @@ extension CustomerProfiles {
         case maxOccurrence = "MAX_OCCURRENCE"
         case maximum = "MAXIMUM"
         case minimum = "MINIMUM"
+        case recentOccurrences = "RECENT_OCCURRENCES"
         case sum = "SUM"
         public var description: String { return self.rawValue }
     }
@@ -570,6 +601,18 @@ extension CustomerProfiles {
         case endsWith = "ENDS_WITH"
         case exclusive = "EXCLUSIVE"
         case inclusive = "INCLUSIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case joined = "JOINED"
+        case left = "LEFT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriptionEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case live = "LIVE"
+        case schedule = "SCHEDULE"
         public var description: String { return self.rawValue }
     }
 
@@ -1027,6 +1070,72 @@ extension CustomerProfiles {
         }
     }
 
+    public struct AssociateStreamForSegmentsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream to deliver segment membership events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name.
+        public let destinationArn: String
+        /// The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting AWS Key Management Service (KMS) and Amazon Kinesis operations. The role must grant the following Amazon Kinesis permissions to deliver segment membership events to the stream:     kinesis:PutRecord     kinesis:PutRecords     kinesis:DescribeStream
+        public let destinationRoleArn: String
+        /// The unique name of the domain.
+        public let domainName: String
+
+        @inlinable
+        public init(destinationArn: String, destinationRoleArn: String, domainName: String) {
+            self.destinationArn = destinationArn
+            self.destinationRoleArn = destinationRoleArn
+            self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.destinationArn, forKey: .destinationArn)
+            try container.encode(self.destinationRoleArn, forKey: .destinationRoleArn)
+            request.encodePath(self.domainName, key: "DomainName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, max: 2048)
+            try self.validate(self.destinationArn, name: "destinationArn", parent: name, min: 1)
+            try self.validate(self.destinationRoleArn, name: "destinationRoleArn", parent: name, max: 512)
+            try self.validate(self.destinationRoleArn, name: "destinationRoleArn", parent: name, min: 1)
+            try self.validate(self.destinationRoleArn, name: "destinationRoleArn", parent: name, pattern: "arn:aws:iam:.*:[0-9]+:")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationArn = "DestinationArn"
+            case destinationRoleArn = "DestinationRoleArn"
+        }
+    }
+
+    public struct AssociateStreamForSegmentsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssociatedSegment: AWSDecodableShape {
+        /// An optional message providing context, such as a failure reason.
+        public let message: String?
+        /// The unique name of the segment definition.
+        public let segmentName: String?
+        /// The subscription status of the segment. The following are valid values:     STARTING: The segment is being prepared to publish membership events.     RUNNING: The segment is actively publishing membership events to the stream.     STOPPED: The segment has stopped publishing membership events.     FAILED: The segment failed to publish membership events.
+        public let status: EventSubscriptionSegmentStatus?
+
+        @inlinable
+        public init(message: String? = nil, segmentName: String? = nil, status: EventSubscriptionSegmentStatus? = nil) {
+            self.message = message
+            self.segmentName = segmentName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case segmentName = "SegmentName"
+            case status = "Status"
+        }
+    }
+
     public struct AttributeDetails: AWSEncodableShape & AWSDecodableShape {
         /// A list of attribute items specified in the mathematical expression.
         public let attributes: [AttributeItem]
@@ -1058,7 +1167,7 @@ extension CustomerProfiles {
     public struct AttributeDimension: AWSEncodableShape & AWSDecodableShape {
         /// The action to segment with.
         public let dimensionType: AttributeDimensionType
-        /// The values to apply the DimensionType on.
+        /// The values to apply the DimensionType on. To reference a calculated attribute or profile attribute as a dynamic value, use handlebar notation: {{_profile.ProfileAttributeName}} or {{_calculated_attribute.CalculatedAttributeName}}.
         public let values: [String]
 
         @inlinable
@@ -1512,7 +1621,7 @@ extension CustomerProfiles {
         public let conditionOverrides: ConditionOverrides?
         /// The action to segment with.
         public let dimensionType: AttributeDimensionType
-        /// The values to apply the DimensionType with.
+        /// The values to apply the DimensionType with. To reference a calculated attribute or profile attribute as a dynamic value, use handlebar notation: {{_profile.ProfileAttributeName}} or {{_calculated_attribute.CalculatedAttributeName}}.
         public let values: [String]
 
         @inlinable
@@ -3306,7 +3415,7 @@ extension CustomerProfiles {
     public struct DateDimension: AWSEncodableShape & AWSDecodableShape {
         /// The action to segment with.
         public let dimensionType: DateDimensionType
-        /// The values to apply the DimensionType on.
+        /// The values to apply the DimensionType on. To reference a calculated attribute or profile attribute as a dynamic value, use handlebar notation: {{_profile.ProfileAttributeName}} or {{_calculated_attribute.CalculatedAttributeName}}.
         public let values: [String]
 
         @inlinable
@@ -3977,6 +4086,51 @@ extension CustomerProfiles {
         }
     }
 
+    public struct DeleteSegmentSubscriptionRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the segment definition.
+        public let segmentDefinitionName: String
+
+        @inlinable
+        public init(domainName: String, segmentDefinitionName: String) {
+            self.domainName = domainName
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSegmentSubscriptionResponse: AWSDecodableShape {
+        /// A confirmation message indicating the subscription was deleted successfully.
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct DeleteWorkflowRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -4102,6 +4256,44 @@ extension CustomerProfiles {
             case fields = "Fields"
             case keys = "Keys"
             case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
+        }
+    }
+
+    public struct DisassociateStreamForSegmentsRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+
+        @inlinable
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateStreamForSegmentsResponse: AWSDecodableShape {
+        /// A confirmation message indicating the stream was disassociated successfully.
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
         }
     }
 
@@ -4529,7 +4721,7 @@ extension CustomerProfiles {
     public struct ExtraLengthValueProfileDimension: AWSEncodableShape & AWSDecodableShape {
         /// The action to segment with.
         public let dimensionType: StringDimensionType
-        /// The values to apply the DimensionType on.
+        /// The values to apply the DimensionType on. To reference a calculated attribute or profile attribute as a dynamic value, use handlebar notation: {{_profile.ProfileAttributeName}} or {{_calculated_attribute.CalculatedAttributeName}}.
         public let values: [String]
 
         @inlinable
@@ -6691,6 +6883,71 @@ extension CustomerProfiles {
         }
     }
 
+    public struct GetSegmentSubscriptionRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the segment definition.
+        public let segmentDefinitionName: String
+
+        @inlinable
+        public init(domainName: String, segmentDefinitionName: String) {
+            self.domainName = domainName
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSegmentSubscriptionResponse: AWSDecodableShape {
+        /// The timestamp of the most recent configuration change.
+        public let lastUpdatedAt: Date?
+        /// A status message providing additional context, such as a failure reason.
+        public let message: String?
+        /// The schedule configuration for periodic membership event notifications.
+        public let scheduleConfiguration: ScheduleConfiguration?
+        /// Information about scheduled execution timestamps.
+        public let scheduledExecutions: ScheduledExecutions?
+        /// The timestamp of when the subscription was first started.
+        public let startedAt: Date?
+        /// The current lifecycle status of the subscription. The following are valid values:     STARTING: Initial snapshot is in progress.     RUNNING: Notifications are active and running.     STOPPED: Notifications have been stopped.     FAILED: Notifications failed (for example, the Amazon Kinesis data stream became inaccessible).
+        public let status: SegmentSubscriptionStatus?
+
+        @inlinable
+        public init(lastUpdatedAt: Date? = nil, message: String? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, scheduledExecutions: ScheduledExecutions? = nil, startedAt: Date? = nil, status: SegmentSubscriptionStatus? = nil) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.message = message
+            self.scheduleConfiguration = scheduleConfiguration
+            self.scheduledExecutions = scheduledExecutions
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedAt = "LastUpdatedAt"
+            case message = "Message"
+            case scheduleConfiguration = "ScheduleConfiguration"
+            case scheduledExecutions = "ScheduledExecutions"
+            case startedAt = "StartedAt"
+            case status = "Status"
+        }
+    }
+
     public struct GetSimilarProfilesRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -6778,6 +7035,72 @@ extension CustomerProfiles {
             case nextToken = "NextToken"
             case profileIds = "ProfileIds"
             case ruleLevel = "RuleLevel"
+        }
+    }
+
+    public struct GetStreamForSegmentsRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+
+        @inlinable
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetStreamForSegmentsResponse: AWSDecodableShape {
+        /// The timestamp of when the stream was associated.
+        public let associatedAt: Date?
+        /// A list of segments currently associated with the stream and their subscription status.
+        public let associatedSegments: [AssociatedSegment]?
+        /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream receiving segment membership events.
+        public let destinationArn: String?
+        /// The Amazon Resource Name (ARN) of the IAM role used for Amazon Kinesis and AWS Key Management Service (KMS) operations.
+        public let destinationRoleArn: String?
+        /// The timestamp of when the stream was disassociated.
+        public let disassociatedAt: Date?
+        /// The unique name of the domain.
+        public let domainName: String?
+        /// The reason why the stream is in an unhealthy state, if applicable.
+        public let failureReason: String?
+        /// The operational state of the destination stream. The following are valid values:     RUNNING: The stream is associated and healthy. Segment membership events are being published.     UNHEALTHY: The stream is associated but events cannot currently be published. See FailureReason for details.     STOPPED: The stream is no longer publishing segment membership events.
+        public let state: EventSubscriptionState?
+
+        @inlinable
+        public init(associatedAt: Date? = nil, associatedSegments: [AssociatedSegment]? = nil, destinationArn: String? = nil, destinationRoleArn: String? = nil, disassociatedAt: Date? = nil, domainName: String? = nil, failureReason: String? = nil, state: EventSubscriptionState? = nil) {
+            self.associatedAt = associatedAt
+            self.associatedSegments = associatedSegments
+            self.destinationArn = destinationArn
+            self.destinationRoleArn = destinationRoleArn
+            self.disassociatedAt = disassociatedAt
+            self.domainName = domainName
+            self.failureReason = failureReason
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedAt = "AssociatedAt"
+            case associatedSegments = "AssociatedSegments"
+            case destinationArn = "DestinationArn"
+            case destinationRoleArn = "DestinationRoleArn"
+            case disassociatedAt = "DisassociatedAt"
+            case domainName = "DomainName"
+            case failureReason = "FailureReason"
+            case state = "State"
         }
     }
 
@@ -8804,6 +9127,67 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ListSegmentSubscriptionEventsRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of events to return per page.
+        public let maxResults: Int?
+        /// The pagination token from the previous call to retrieve the next page of results.
+        public let nextToken: String?
+        /// The unique name of the segment definition.
+        public let segmentDefinitionName: String
+
+        @inlinable
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil, segmentDefinitionName: String) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSegmentSubscriptionEventsResponse: AWSDecodableShape {
+        /// A list of segment membership events.
+        public let events: [SubscriptionEventItem]?
+        /// The pagination token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(events: [SubscriptionEventItem]? = nil, nextToken: String? = nil) {
+            self.events = events
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The ARN of the resource for which you want to view tags.
         public let resourceArn: String
@@ -9679,7 +10063,7 @@ extension CustomerProfiles {
     public struct ProfileDimension: AWSEncodableShape & AWSDecodableShape {
         /// The action to segment on.
         public let dimensionType: StringDimensionType
-        /// The values to apply the DimensionType on.
+        /// The values to apply the DimensionType on. To reference a calculated attribute or profile attribute as a dynamic value, use handlebar notation: {{_profile.ProfileAttributeName}} or {{_calculated_attribute.CalculatedAttributeName}}.
         public let values: [String]
 
         @inlinable
@@ -10310,6 +10694,66 @@ extension CustomerProfiles {
             case sourcePriority = "SourcePriority"
             case tags = "Tags"
             case templateId = "TemplateId"
+        }
+    }
+
+    public struct PutSegmentSubscriptionRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The optional schedule configuration that controls how often membership snapshots are run. If not provided, the subscription defaults to a 24-hour interval.
+        public let scheduleConfiguration: ScheduleConfiguration?
+        /// The unique name of the segment definition.
+        public let segmentDefinitionName: String
+
+        @inlinable
+        public init(domainName: String, scheduleConfiguration: ScheduleConfiguration? = nil, segmentDefinitionName: String) {
+            self.domainName = domainName
+            self.scheduleConfiguration = scheduleConfiguration
+            self.segmentDefinitionName = segmentDefinitionName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.scheduleConfiguration, forKey: .scheduleConfiguration)
+            request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.scheduleConfiguration?.validate(name: "\(name).scheduleConfiguration")
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
+            try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduleConfiguration = "ScheduleConfiguration"
+        }
+    }
+
+    public struct PutSegmentSubscriptionResponse: AWSDecodableShape {
+        /// The schedule configuration for the subscription, if configured.
+        public let scheduleConfiguration: ScheduleConfiguration?
+        /// The timestamp of when the subscription was started.
+        public let startedAt: Date?
+        /// The current lifecycle status of the subscription. The following are valid values:     STARTING: Initial snapshot is in progress.     RUNNING: Notifications are active and running.     STOPPED: Notifications have been stopped.     FAILED: Notifications failed (for example, the Amazon Kinesis data stream became inaccessible).
+        public let status: SegmentSubscriptionStatus?
+
+        @inlinable
+        public init(scheduleConfiguration: ScheduleConfiguration? = nil, startedAt: Date? = nil, status: SegmentSubscriptionStatus? = nil) {
+            self.scheduleConfiguration = scheduleConfiguration
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduleConfiguration = "ScheduleConfiguration"
+            case startedAt = "StartedAt"
+            case status = "Status"
         }
     }
 
@@ -10978,6 +11422,47 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ScheduleConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The interval between scheduled executions.
+        public let interval: Int
+        /// The unit for the interval. The following are valid values:     HOURLY: The interval is measured in hours.
+        public let unit: ScheduleConfigurationUnit?
+
+        @inlinable
+        public init(interval: Int, unit: ScheduleConfigurationUnit? = nil) {
+            self.interval = interval
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.interval, name: "interval", parent: name, max: 24)
+            try self.validate(self.interval, name: "interval", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interval = "Interval"
+            case unit = "Unit"
+        }
+    }
+
+    public struct ScheduledExecutions: AWSDecodableShape {
+        /// The timestamp of the last successful scheduled execution.
+        public let lastExecutedAt: Date?
+        /// The timestamp of the next scheduled execution.
+        public let nextExecutedAt: Date?
+
+        @inlinable
+        public init(lastExecutedAt: Date? = nil, nextExecutedAt: Date? = nil) {
+            self.lastExecutedAt = lastExecutedAt
+            self.nextExecutedAt = nextExecutedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastExecutedAt = "LastExecutedAt"
+            case nextExecutedAt = "NextExecutedAt"
+        }
+    }
+
     public struct ScheduledTriggerProperties: AWSEncodableShape {
         /// Specifies whether a scheduled flow has an incremental data transfer or a complete data transfer for each flow run.
         public let dataPullMode: DataPullMode?
@@ -11500,6 +11985,32 @@ extension CustomerProfiles {
 
     public struct StopUploadJobResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct SubscriptionEventItem: AWSDecodableShape {
+        /// Whether the profile joined or left the segment. The following are valid values:     JOINED: The profile joined the segment.     LEFT: The profile left the segment.
+        public let event: SubscriptionEvent?
+        /// The type of event that triggered the membership change. The following are valid values:     LIVE: Real-time event triggered by a profile or calculated attribute change (Classic segments only).     SCHEDULE: Event generated during a scheduled execution.
+        public let eventType: SubscriptionEventType?
+        /// The unique identifier of a customer profile.
+        public let profileId: String?
+        /// The timestamp of when the membership change was detected.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(event: SubscriptionEvent? = nil, eventType: SubscriptionEventType? = nil, profileId: String? = nil, updatedAt: Date? = nil) {
+            self.event = event
+            self.eventType = eventType
+            self.profileId = profileId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event = "Event"
+            case eventType = "EventType"
+            case profileId = "ProfileId"
+            case updatedAt = "UpdatedAt"
+        }
     }
 
     public struct TagResourceRequest: AWSEncodableShape {

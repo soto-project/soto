@@ -107,6 +107,7 @@ extension ARCRegionSwitch {
         case parallel = "Parallel"
         case rdsCreateCrossRegionReplica = "RdsCreateCrossRegionReplica"
         case rdsPromoteReadReplica = "RdsPromoteReadReplica"
+        case rdsSwitchoverReadReplica = "RdsSwitchoverReadReplica"
         case regionSwitch = "ARCRegionSwitchPlan"
         case route53HealthCheck = "Route53HealthCheck"
         case routingControl = "ARCRoutingControl"
@@ -200,6 +201,11 @@ extension ARCRegionSwitch {
 
     public enum NeptuneUngracefulBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failover = "failover"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RdsUngracefulBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case promoteReadReplica = "promoteReadReplica"
         public var description: String { return self.rawValue }
     }
 
@@ -298,6 +304,8 @@ extension ARCRegionSwitch {
         case rdsCreateCrossRegionReadReplicaConfig(RdsCreateCrossRegionReplicaConfiguration)
         /// An Amazon RDS promote read replica execution block.
         case rdsPromoteReadReplicaConfig(RdsPromoteReadReplicaConfiguration)
+        /// An Amazon RDS switchover read replica execution block.
+        case rdsSwitchoverReadReplicaConfig(RdsSwitchoverReadReplicaConfiguration)
         /// A Region switch plan execution block.
         case regionSwitchPlanConfig(RegionSwitchPlanConfiguration)
         /// The Amazon Route 53 health check configuration.
@@ -358,6 +366,9 @@ extension ARCRegionSwitch {
             case .rdsPromoteReadReplicaConfig:
                 let value = try container.decode(RdsPromoteReadReplicaConfiguration.self, forKey: .rdsPromoteReadReplicaConfig)
                 self = .rdsPromoteReadReplicaConfig(value)
+            case .rdsSwitchoverReadReplicaConfig:
+                let value = try container.decode(RdsSwitchoverReadReplicaConfiguration.self, forKey: .rdsSwitchoverReadReplicaConfig)
+                self = .rdsSwitchoverReadReplicaConfig(value)
             case .regionSwitchPlanConfig:
                 let value = try container.decode(RegionSwitchPlanConfiguration.self, forKey: .regionSwitchPlanConfig)
                 self = .regionSwitchPlanConfig(value)
@@ -400,6 +411,8 @@ extension ARCRegionSwitch {
                 try container.encode(value, forKey: .rdsCreateCrossRegionReadReplicaConfig)
             case .rdsPromoteReadReplicaConfig(let value):
                 try container.encode(value, forKey: .rdsPromoteReadReplicaConfig)
+            case .rdsSwitchoverReadReplicaConfig(let value):
+                try container.encode(value, forKey: .rdsSwitchoverReadReplicaConfig)
             case .regionSwitchPlanConfig(let value):
                 try container.encode(value, forKey: .regionSwitchPlanConfig)
             case .route53HealthCheckConfig(let value):
@@ -437,6 +450,8 @@ extension ARCRegionSwitch {
                 try value.validate(name: "\(name).rdsCreateCrossRegionReadReplicaConfig")
             case .rdsPromoteReadReplicaConfig(let value):
                 try value.validate(name: "\(name).rdsPromoteReadReplicaConfig")
+            case .rdsSwitchoverReadReplicaConfig(let value):
+                try value.validate(name: "\(name).rdsSwitchoverReadReplicaConfig")
             case .regionSwitchPlanConfig(let value):
                 try value.validate(name: "\(name).regionSwitchPlanConfig")
             case .route53HealthCheckConfig(let value):
@@ -462,6 +477,7 @@ extension ARCRegionSwitch {
             case parallelConfig = "parallelConfig"
             case rdsCreateCrossRegionReadReplicaConfig = "rdsCreateCrossRegionReadReplicaConfig"
             case rdsPromoteReadReplicaConfig = "rdsPromoteReadReplicaConfig"
+            case rdsSwitchoverReadReplicaConfig = "rdsSwitchoverReadReplicaConfig"
             case regionSwitchPlanConfig = "regionSwitchPlanConfig"
             case route53HealthCheckConfig = "route53HealthCheckConfig"
         }
@@ -2471,6 +2487,58 @@ extension ARCRegionSwitch {
             case dbInstanceArnMap = "dbInstanceArnMap"
             case externalId = "externalId"
             case timeoutMinutes = "timeoutMinutes"
+        }
+    }
+
+    public struct RdsSwitchoverReadReplicaConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The cross-account role for the configuration.
+        public let crossAccountRole: String?
+        /// A map of database instance ARNs for each Region in the plan.
+        public let dbInstanceArnMap: [String: String]
+        /// The external ID (secret key) for the configuration.
+        public let externalId: String?
+        /// The timeout value specified for the configuration.
+        public let timeoutMinutes: Int?
+        /// The ungraceful execution settings for the configuration.
+        public let ungraceful: RdsUngraceful?
+
+        @inlinable
+        public init(crossAccountRole: String? = nil, dbInstanceArnMap: [String: String], externalId: String? = nil, timeoutMinutes: Int? = nil, ungraceful: RdsUngraceful? = nil) {
+            self.crossAccountRole = crossAccountRole
+            self.dbInstanceArnMap = dbInstanceArnMap
+            self.externalId = externalId
+            self.timeoutMinutes = timeoutMinutes
+            self.ungraceful = ungraceful
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.dbInstanceArnMap.forEach {
+                try validate($0.key, name: "dbInstanceArnMap.key", parent: name, pattern: "^[a-z]{2}-[a-z-]+-\\d+$")
+                try validate($0.value, name: "dbInstanceArnMap[\"\($0.key)\"]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:rds:[a-z0-9-]+:\\d{12}:db:[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossAccountRole = "crossAccountRole"
+            case dbInstanceArnMap = "dbInstanceArnMap"
+            case externalId = "externalId"
+            case timeoutMinutes = "timeoutMinutes"
+            case ungraceful = "ungraceful"
+        }
+    }
+
+    public struct RdsUngraceful: AWSEncodableShape & AWSDecodableShape {
+        /// The ungraceful behavior to perform if switching to ungraceful execution.
+        public let ungraceful: RdsUngracefulBehavior?
+
+        @inlinable
+        public init(ungraceful: RdsUngracefulBehavior? = nil) {
+            self.ungraceful = ungraceful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ungraceful = "ungraceful"
         }
     }
 

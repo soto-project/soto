@@ -28,6 +28,7 @@ extension Outposts {
     public enum AWSServiceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
         case ec2 = "EC2"
+        case eks = "EKS"
         case elasticache = "ELASTICACHE"
         case elb = "ELB"
         case rds = "RDS"
@@ -276,6 +277,12 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
+    public enum PrivateConnectivityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QuoteCapacityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ebs = "EBS"
         case ec2 = "EC2"
@@ -287,6 +294,7 @@ extension Outposts {
         case rackMaxPowerKva = "RACK_MAX_POWER_KVA"
         case rackMaxWeightLbs = "RACK_MAX_WEIGHT_LBS"
         case rackMaximum = "RACK_MAXIMUM"
+        case rackSpaceConstrained = "RACK_SPACE_CONSTRAINED"
         public var description: String { return self.rawValue }
     }
 
@@ -313,6 +321,12 @@ extension Outposts {
         case created = "CREATED"
         case expired = "EXPIRED"
         case orderSubmitted = "ORDER_SUBMITTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RackScalingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case multiRack = "MULTI_RACK"
+        case singleRack = "SINGLE_RACK"
         public var description: String { return self.rawValue }
     }
 
@@ -748,6 +762,8 @@ extension Outposts {
         public let itemStatus: CatalogItemStatus?
         ///  Information about the power draw of an item.
         public let powerKva: Float?
+        /// The rack scaling type supported by the catalog item. Valid values are SINGLE_RACK and MULTI_RACK.
+        public let rackScalingType: RackScalingType?
         ///  The supported storage options for the catalog item.
         public let supportedStorage: [SupportedStorageEnum]?
         ///  The uplink speed this catalog item requires for the connection to the Region.
@@ -756,11 +772,12 @@ extension Outposts {
         public let weightLbs: Int?
 
         @inlinable
-        public init(catalogItemId: String? = nil, ec2Capacities: [EC2Capacity]? = nil, itemStatus: CatalogItemStatus? = nil, powerKva: Float? = nil, supportedStorage: [SupportedStorageEnum]? = nil, supportedUplinkGbps: [Int]? = nil, weightLbs: Int? = nil) {
+        public init(catalogItemId: String? = nil, ec2Capacities: [EC2Capacity]? = nil, itemStatus: CatalogItemStatus? = nil, powerKva: Float? = nil, rackScalingType: RackScalingType? = nil, supportedStorage: [SupportedStorageEnum]? = nil, supportedUplinkGbps: [Int]? = nil, weightLbs: Int? = nil) {
             self.catalogItemId = catalogItemId
             self.ec2Capacities = ec2Capacities
             self.itemStatus = itemStatus
             self.powerKva = powerKva
+            self.rackScalingType = rackScalingType
             self.supportedStorage = supportedStorage
             self.supportedUplinkGbps = supportedUplinkGbps
             self.weightLbs = weightLbs
@@ -771,6 +788,7 @@ extension Outposts {
             case ec2Capacities = "EC2Capacities"
             case itemStatus = "ItemStatus"
             case powerKva = "PowerKva"
+            case rackScalingType = "RackScalingType"
             case supportedStorage = "SupportedStorage"
             case supportedUplinkGbps = "SupportedUplinkGbps"
             case weightLbs = "WeightLbs"
@@ -997,6 +1015,59 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case outpost = "Outpost"
+        }
+    }
+
+    public struct CreatePrivateConnectivityConfigInput: AWSEncodableShape {
+        /// The ID or ARN of the Outpost.
+        public let outpostId: String
+        /// Information about the VPC used for private connectivity, including the VPC, its subnets, and an associated VPC endpoint. You can specify at most one entry.
+        public let vpcInformationList: [VpcInformation]
+
+        @inlinable
+        public init(outpostId: String, vpcInformationList: [VpcInformation]) {
+            self.outpostId = outpostId
+            self.vpcInformationList = vpcInformationList
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.outpostId, key: "OutpostId")
+            try container.encode(self.vpcInformationList, forKey: .vpcInformationList)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outpostId, name: "outpostId", parent: name, max: 180)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+            try self.vpcInformationList.forEach {
+                try $0.validate(name: "\(name).vpcInformationList[]")
+            }
+            try self.validate(self.vpcInformationList, name: "vpcInformationList", parent: name, max: 1)
+            try self.validate(self.vpcInformationList, name: "vpcInformationList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcInformationList = "VpcInformationList"
+        }
+    }
+
+    public struct CreatePrivateConnectivityConfigOutput: AWSDecodableShape {
+        /// The ID of the Outpost.
+        public let outpostId: String?
+        /// The private connectivity configuration for the Outpost.
+        public let privateConnectivityConfig: PrivateConnectivityConfig?
+
+        @inlinable
+        public init(outpostId: String? = nil, privateConnectivityConfig: PrivateConnectivityConfig? = nil) {
+            self.outpostId = outpostId
+            self.privateConnectivityConfig = privateConnectivityConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outpostId = "OutpostId"
+            case privateConnectivityConfig = "PrivateConnectivityConfig"
         }
     }
 
@@ -1799,6 +1870,44 @@ extension Outposts {
         private enum CodingKeys: String, CodingKey {
             case instanceTypes = "InstanceTypes"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetPrivateConnectivityConfigInput: AWSEncodableShape {
+        /// The ID or ARN of the Outpost.
+        public let outpostId: String
+
+        @inlinable
+        public init(outpostId: String) {
+            self.outpostId = outpostId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.outpostId, key: "OutpostId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outpostId, name: "outpostId", parent: name, max: 180)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPrivateConnectivityConfigOutput: AWSDecodableShape {
+        /// The private connectivity configuration for the Outpost.
+        public let privateConnectivityConfig: PrivateConnectivityConfig?
+
+        @inlinable
+        public init(privateConnectivityConfig: PrivateConnectivityConfig? = nil) {
+            self.privateConnectivityConfig = privateConnectivityConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateConnectivityConfig = "PrivateConnectivityConfig"
         }
     }
 
@@ -2919,12 +3028,16 @@ extension Outposts {
         public let availabilityZone: String?
         public let availabilityZoneId: String?
         public let description: String?
+        /// The Outpost generation. Valid values are GENERATION_1 for first-generation rack deployments and GENERATION_2 for second-generation rack deployments.
+        public let generation: OutpostGeneration?
         public let lifeCycleStatus: String?
         public let name: String?
         public let outpostArn: String?
         ///  The ID of the Outpost.
         public let outpostId: String?
         public let ownerId: String?
+        /// The rack scaling type. Valid values are SINGLE_RACK for single-rack Outposts and MULTI_RACK for multi-rack Outposts that can expand across multiple racks.
+        public let rackScalingType: RackScalingType?
         public let siteArn: String?
         public let siteId: String?
         ///  The hardware type.
@@ -2933,15 +3046,17 @@ extension Outposts {
         public let tags: [String: String]?
 
         @inlinable
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, lifeCycleStatus: String? = nil, name: String? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil, siteArn: String? = nil, siteId: String? = nil, supportedHardwareType: SupportedHardwareType? = nil, tags: [String: String]? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, description: String? = nil, generation: OutpostGeneration? = nil, lifeCycleStatus: String? = nil, name: String? = nil, outpostArn: String? = nil, outpostId: String? = nil, ownerId: String? = nil, rackScalingType: RackScalingType? = nil, siteArn: String? = nil, siteId: String? = nil, supportedHardwareType: SupportedHardwareType? = nil, tags: [String: String]? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.description = description
+            self.generation = generation
             self.lifeCycleStatus = lifeCycleStatus
             self.name = name
             self.outpostArn = outpostArn
             self.outpostId = outpostId
             self.ownerId = ownerId
+            self.rackScalingType = rackScalingType
             self.siteArn = siteArn
             self.siteId = siteId
             self.supportedHardwareType = supportedHardwareType
@@ -2952,11 +3067,13 @@ extension Outposts {
             case availabilityZone = "AvailabilityZone"
             case availabilityZoneId = "AvailabilityZoneId"
             case description = "Description"
+            case generation = "Generation"
             case lifeCycleStatus = "LifeCycleStatus"
             case name = "Name"
             case outpostArn = "OutpostArn"
             case outpostId = "OutpostId"
             case ownerId = "OwnerId"
+            case rackScalingType = "RackScalingType"
             case siteArn = "SiteArn"
             case siteId = "SiteId"
             case supportedHardwareType = "SupportedHardwareType"
@@ -2979,6 +3096,32 @@ extension Outposts {
         private enum CodingKeys: String, CodingKey {
             case pricingType = "PricingType"
             case subscriptionPricingDetails = "SubscriptionPricingDetails"
+        }
+    }
+
+    public struct PrivateConnectivityConfig: AWSDecodableShape {
+        /// The status of private connectivity for the Outpost. Valid values are ENABLED and DISABLED.
+        public let privateConnectivityStatus: PrivateConnectivityStatus?
+        /// The Amazon Resource Name (ARN) of the provisioning role in your account that Amazon Web Services Outposts uses to establish the service link connection during Outpost installation. This field is present only when VPC endpoint-based provisioning is configured.
+        public let provisioningRoleArn: String?
+        /// The Amazon Resource Name (ARN) of the service-linked role that Amazon Web Services Outposts creates and uses to provision and attach the network interfaces for private connectivity in your VPC. The role's permissions are scoped to the specific Outpost and VPC.
+        public let roleArn: String?
+        /// Information about the VPC used for private connectivity.
+        public let vpcInformationList: [VpcInformation]?
+
+        @inlinable
+        public init(privateConnectivityStatus: PrivateConnectivityStatus? = nil, provisioningRoleArn: String? = nil, roleArn: String? = nil, vpcInformationList: [VpcInformation]? = nil) {
+            self.privateConnectivityStatus = privateConnectivityStatus
+            self.provisioningRoleArn = provisioningRoleArn
+            self.roleArn = roleArn
+            self.vpcInformationList = vpcInformationList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateConnectivityStatus = "PrivateConnectivityStatus"
+            case provisioningRoleArn = "ProvisioningRoleArn"
+            case roleArn = "RoleArn"
+            case vpcInformationList = "VpcInformationList"
         }
     }
 
@@ -3085,7 +3228,7 @@ extension Outposts {
     }
 
     public struct QuoteConstraint: AWSEncodableShape & AWSDecodableShape {
-        /// The type of constraint. Valid values are RACK_MAXIMUM, RACK_MAX_POWER_KVA, and RACK_MAX_WEIGHT_LBS.
+        /// The type of constraint. Valid values are RACK_MAXIMUM, RACK_MAX_POWER_KVA, RACK_MAX_WEIGHT_LBS, and RACK_SPACE_CONSTRAINED.
         public let quoteConstraintType: QuoteConstraintType?
         /// The value of the constraint.
         public let value: String?
@@ -4161,6 +4304,44 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case site = "Site"
+        }
+    }
+
+    public struct VpcInformation: AWSEncodableShape & AWSDecodableShape {
+        /// The IDs of the subnets associated with the VPC endpoint. Currently, only one subnet is supported.
+        public let subnetIds: [String]?
+        /// The ID of the interface VPC endpoint for the Amazon Web Services Outposts service. When specified, the endpoint must be in the available state and the specified subnets must be associated with it.
+        public let vpcEndpointId: String?
+        /// The ID of the VPC used for private connectivity.
+        public let vpcId: String?
+
+        @inlinable
+        public init(subnetIds: [String]? = nil, vpcEndpointId: String? = nil, vpcId: String? = nil) {
+            self.subnetIds = subnetIds
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.subnetIds?.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 25)
+                try validate($0, name: "subnetIds[]", parent: name, min: 1)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^[a-z0-9-]+$")
+            }
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 10)
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 25)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 1)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[a-f0-9]+$")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 25)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case vpcEndpointId = "VpcEndpointId"
+            case vpcId = "VpcId"
         }
     }
 }

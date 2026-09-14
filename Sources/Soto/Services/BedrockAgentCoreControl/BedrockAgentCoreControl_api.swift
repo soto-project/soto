@@ -114,6 +114,41 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.addDatasetExamples(input, logger: logger)
     }
 
+    /// Atomically creates or updates multiple rate limits for a gateway. The operation updates existing limits with matching keys and creates new limits for new keys. If the operation fails, the service applies no changes. Retry the request after resolving the issue.
+    @Sendable
+    @inlinable
+    public func batchPutGatewayRateLimits(_ input: BatchPutGatewayRateLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutGatewayRateLimitsResponse {
+        try await self.client.execute(
+            operation: "BatchPutGatewayRateLimits", 
+            path: "/gateways/{gatewayIdentifier}/rate-limits/batch", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Atomically creates or updates multiple rate limits for a gateway. The operation updates existing limits with matching keys and creates new limits for new keys. If the operation fails, the service applies no changes. Retry the request after resolving the issue.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - gatewayIdentifier: The unique identifier of the gateway.
+    ///   - rateLimits: The complete set of rate limits for this gateway. This operation replaces all existing rate limits in a single request. If the operation fails, no rate limits are changed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchPutGatewayRateLimits(
+        clientToken: String? = BatchPutGatewayRateLimitsRequest.idempotencyToken(),
+        gatewayIdentifier: String,
+        rateLimits: [BatchPutLimitEntry],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchPutGatewayRateLimitsResponse {
+        let input = BatchPutGatewayRateLimitsRequest(
+            clientToken: clientToken, 
+            gatewayIdentifier: gatewayIdentifier, 
+            rateLimits: rateLimits
+        )
+        return try await self.batchPutGatewayRateLimits(input, logger: logger)
+    }
+
     /// Creates an Amazon Bedrock AgentCore Runtime.
     @Sendable
     @inlinable
@@ -133,6 +168,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - agentRuntimeArtifact: The artifact of the AgentCore Runtime.
     ///   - agentRuntimeName: The name of the AgentCore Runtime.
     ///   - authorizerConfiguration: The authorizer configuration for the AgentCore Runtime.
+    ///   - capacityProviderConfiguration: The capacity provider configuration for the AgentCore Runtime. Use a capacity provider to run the AgentCore Runtime on the Instances compute type, which provisions Amazon Web Services managed compute in your account.
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - description: The description of the AgentCore Runtime.
     ///   - environmentVariables: Environment variables to set in the AgentCore Runtime environment.
@@ -149,12 +185,13 @@ public struct BedrockAgentCoreControl: AWSService {
         agentRuntimeArtifact: AgentRuntimeArtifact,
         agentRuntimeName: String,
         authorizerConfiguration: AuthorizerConfiguration? = nil,
+        capacityProviderConfiguration: CapacityProviderConfiguration? = nil,
         clientToken: String? = CreateAgentRuntimeRequest.idempotencyToken(),
         description: String? = nil,
         environmentVariables: [String: String]? = nil,
         filesystemConfigurations: [FilesystemConfiguration]? = nil,
         lifecycleConfiguration: LifecycleConfiguration? = nil,
-        networkConfiguration: NetworkConfiguration,
+        networkConfiguration: NetworkConfiguration? = nil,
         protocolConfiguration: ProtocolConfiguration? = nil,
         requestHeaderConfiguration: RequestHeaderConfiguration? = nil,
         roleArn: String,
@@ -165,6 +202,7 @@ public struct BedrockAgentCoreControl: AWSService {
             agentRuntimeArtifact: agentRuntimeArtifact, 
             agentRuntimeName: agentRuntimeName, 
             authorizerConfiguration: authorizerConfiguration, 
+            capacityProviderConfiguration: capacityProviderConfiguration, 
             clientToken: clientToken, 
             description: description, 
             environmentVariables: environmentVariables, 
@@ -361,6 +399,50 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.createBrowserProfile(input, logger: logger)
     }
 
+    /// Creates a capacity provider. A capacity provider defines the Amazon EC2 infrastructure for AgentCore Runtime, including the operating system, allowed instance types, networking, and storage. It also specifies the IAM permissions that AgentCore uses to manage those instances. The capacity provider name must be unique within your account. After you create the capacity provider, it enters a CREATING state and transitions to READY when it is available for use.
+    @Sendable
+    @inlinable
+    public func createCapacityProvider(_ input: CreateCapacityProviderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityProviderOutput {
+        try await self.client.execute(
+            operation: "CreateCapacityProvider", 
+            path: "/capacity-providers", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a capacity provider. A capacity provider defines the Amazon EC2 infrastructure for AgentCore Runtime, including the operating system, allowed instance types, networking, and storage. It also specifies the IAM permissions that AgentCore uses to manage those instances. The capacity provider name must be unique within your account. After you create the capacity provider, it enters a CREATING state and transitions to READY when it is available for use.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - computeConfiguration: The compute configuration for the capacity provider. This defines the Amazon EC2 compute resources used to launch instances: the operating system, allowed instance types, networking, and storage.
+    ///   - description: An optional description of the capacity provider. If you don't specify a description, the service creates the capacity provider without one.
+    ///   - name: The name of the capacity provider. The name must be unique within your account.
+    ///   - permissionsConfiguration: The permissions configuration for the capacity provider. This specifies the IAM role that AgentCore uses to manage the Amazon EC2 instances on your behalf.
+    ///   - tags: A map of tag keys and values to associate with the capacity provider. If you don't specify tags, the capacity provider is created with no tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCapacityProvider(
+        clientToken: String? = CreateCapacityProviderInput.idempotencyToken(),
+        computeConfiguration: ComputeConfiguration,
+        description: String? = nil,
+        name: String,
+        permissionsConfiguration: PermissionsConfiguration,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCapacityProviderOutput {
+        let input = CreateCapacityProviderInput(
+            clientToken: clientToken, 
+            computeConfiguration: computeConfiguration, 
+            description: description, 
+            name: name, 
+            permissionsConfiguration: permissionsConfiguration, 
+            tags: tags
+        )
+        return try await self.createCapacityProvider(input, logger: logger)
+    }
+
     /// Creates a custom code interpreter.
     @Sendable
     @inlinable
@@ -462,6 +544,50 @@ public struct BedrockAgentCoreControl: AWSService {
             tags: tags
         )
         return try await self.createConfigurationBundle(input, logger: logger)
+    }
+
+    /// Creates a new consent portal.
+    @Sendable
+    @inlinable
+    public func createConsentPortal(_ input: CreateConsentPortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConsentPortalResponse {
+        try await self.client.execute(
+            operation: "CreateConsentPortal", 
+            path: "/identities/CreateConsentPortal", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new consent portal.
+    ///
+    /// Parameters:
+    ///   - description: The description of the consent portal.
+    ///   - executionRoleArn: The Amazon Resource Name (ARN) of the IAM role that the consent portal assumes to access the resources defined in its sources.
+    ///   - idpConfig: The identity provider configuration that the consent portal uses to authenticate end users.
+    ///   - name: The name of the consent portal. The name must be unique within your account.
+    ///   - sources: The resources served by the consent portal. Currently, we only support type agentcore-gateway.
+    ///   - tags: A map of tag keys and values to assign to the consent portal. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConsentPortal(
+        description: String? = nil,
+        executionRoleArn: String,
+        idpConfig: ConsentPortalIdpConfig,
+        name: String,
+        sources: [ConsentPortalSource],
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConsentPortalResponse {
+        let input = CreateConsentPortalRequest(
+            description: description, 
+            executionRoleArn: executionRoleArn, 
+            idpConfig: idpConfig, 
+            name: name, 
+            sources: sources, 
+            tags: tags
+        )
+        return try await self.createConsentPortal(input, logger: logger)
     }
 
     ///  Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED.
@@ -653,6 +779,50 @@ public struct BedrockAgentCoreControl: AWSService {
             tags: tags
         )
         return try await self.createGateway(input, logger: logger)
+    }
+
+    /// Creates a rate limit for a gateway. Rate limits define throttling rules for each dimension that control request rates, token consumption rates, and concurrent connections through the gateway.
+    @Sendable
+    @inlinable
+    public func createGatewayRateLimit(_ input: CreateGatewayRateLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGatewayRateLimitResponse {
+        try await self.client.execute(
+            operation: "CreateGatewayRateLimit", 
+            path: "/gateways/{gatewayIdentifier}/rate-limits", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a rate limit for a gateway. Rate limits define throttling rules for each dimension that control request rates, token consumption rates, and concurrent connections through the gateway.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - description: An optional human-readable description for this rate limit. If not provided, the rate limit is created without a description.
+    ///   - dimensionKeys: The ordered list of dimension key names that define the scope of this rate limit. Must be unique per gateway—no two rate limits can share the same dimension keys.
+    ///   - entries: The rule entries that map dimension values to rate configurations.
+    ///   - gatewayIdentifier: The unique identifier of the gateway to create the rate limit for.
+    ///   - rateLimitId: An optional customer-defined identifier for the rate limit. If not provided, the system generates one.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createGatewayRateLimit(
+        clientToken: String? = CreateGatewayRateLimitRequest.idempotencyToken(),
+        description: String? = nil,
+        dimensionKeys: [String],
+        entries: [LimitEntry],
+        gatewayIdentifier: String,
+        rateLimitId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateGatewayRateLimitResponse {
+        let input = CreateGatewayRateLimitRequest(
+            clientToken: clientToken, 
+            description: description, 
+            dimensionKeys: dimensionKeys, 
+            entries: entries, 
+            gatewayIdentifier: gatewayIdentifier, 
+            rateLimitId: rateLimitId
+        )
+        return try await self.createGatewayRateLimit(input, logger: logger)
     }
 
     /// Creates a rule for a gateway. Rules define conditions and actions that control how requests are routed and processed through the gateway, including principal-based access control and path-based routing.
@@ -897,6 +1067,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - memoryExecutionRoleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the memory to access Amazon Web Services services.
     ///   - memoryStrategies: The memory strategies to use for this memory. Strategies define how information is extracted, processed, and consolidated.
     ///   - name: The name of the memory. The name must be unique within your account.
+    ///   - namespaceKeys: The namespace variable key definitions with optional validation rules. Use these namespaceKeys in namespaceTemplates to control namespace hierarchy.
     ///   - streamDeliveryResources: Configuration for streaming memory record data to external resources.
     ///   - tags: A map of tag keys and values to assign to an AgentCore Memory. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
@@ -910,6 +1081,7 @@ public struct BedrockAgentCoreControl: AWSService {
         memoryExecutionRoleArn: String? = nil,
         memoryStrategies: [MemoryStrategyInput]? = nil,
         name: String,
+        namespaceKeys: [NamespaceKeyEntry]? = nil,
         streamDeliveryResources: StreamDeliveryResources? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -923,6 +1095,7 @@ public struct BedrockAgentCoreControl: AWSService {
             memoryExecutionRoleArn: memoryExecutionRoleArn, 
             memoryStrategies: memoryStrategies, 
             name: name, 
+            namespaceKeys: namespaceKeys, 
             streamDeliveryResources: streamDeliveryResources, 
             tags: tags
         )
@@ -992,6 +1165,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - evaluators:  The list of evaluators to apply during online evaluation. Can include both built-in evaluators and custom evaluators created with CreateEvaluator.
     ///   - insights: The list of insight types to run against agent sessions.
     ///   - onlineEvaluationConfigName:  The name of the online evaluation configuration. Must be unique within your account.
+    ///   - outputConfig: 
     ///   - rule:  The evaluation rule that defines sampling configuration, filters, and session detection settings for the online evaluation.
     ///   - tags: A map of tag keys and values to assign to an AgentCore Online Evaluation Config. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
@@ -1006,6 +1180,7 @@ public struct BedrockAgentCoreControl: AWSService {
         evaluators: [EvaluatorReference]? = nil,
         insights: [Insight]? = nil,
         onlineEvaluationConfigName: String,
+        outputConfig: OutputConfig? = nil,
         rule: Rule,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1020,6 +1195,7 @@ public struct BedrockAgentCoreControl: AWSService {
             evaluators: evaluators, 
             insights: insights, 
             onlineEvaluationConfigName: onlineEvaluationConfigName, 
+            outputConfig: outputConfig, 
             rule: rule, 
             tags: tags
         )
@@ -1047,6 +1223,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - description: A description of the payment connector.
     ///   - name: The name of the payment connector.
     ///   - paymentManagerId: The unique identifier of the payment manager to create the connector for.
+    ///   - provisionMode: The provision mode for creating the payment connector. If you don't specify a value, the default is MANUAL.    MANUAL - You provide the credential provider configurations directly.    QUICK_CREATE - The service orchestrates OAuth consent and provisions the credential provider for you.
     ///   - type: The type of payment connector, which determines the payment provider integration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1056,6 +1233,7 @@ public struct BedrockAgentCoreControl: AWSService {
         description: String? = nil,
         name: String,
         paymentManagerId: String,
+        provisionMode: PaymentConnectorProvisionMode? = nil,
         type: PaymentConnectorType,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePaymentConnectorResponse {
@@ -1065,6 +1243,7 @@ public struct BedrockAgentCoreControl: AWSService {
             description: description, 
             name: name, 
             paymentManagerId: paymentManagerId, 
+            provisionMode: provisionMode, 
             type: type
         )
         return try await self.createPaymentConnector(input, logger: logger)
@@ -1128,6 +1307,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - authorizerType: The type of authorizer to use for the payment manager.    CUSTOM_JWT - Authorize with a bearer token.    AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
     ///   - description: A description of the payment manager.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the customer managed KMS key to use for encrypting sensitive payment manager data at rest. If you don't specify a key, the data is encrypted with an Amazon Web Services owned key.
     ///   - name: The name of the payment manager.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that the payment manager assumes to access resources on your behalf.
     ///   - tags: A map of tag keys and values to assign to the payment manager.
@@ -1138,6 +1318,7 @@ public struct BedrockAgentCoreControl: AWSService {
         authorizerType: PaymentsAuthorizerType,
         clientToken: String? = CreatePaymentManagerRequest.idempotencyToken(),
         description: String? = nil,
+        kmsKeyArn: String? = nil,
         name: String,
         roleArn: String,
         tags: [String: String]? = nil,
@@ -1148,6 +1329,7 @@ public struct BedrockAgentCoreControl: AWSService {
             authorizerType: authorizerType, 
             clientToken: clientToken, 
             description: description, 
+            kmsKeyArn: kmsKeyArn, 
             name: name, 
             roleArn: roleArn, 
             tags: tags
@@ -1155,7 +1337,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.createPaymentManager(input, logger: logger)
     }
 
-    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
+    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using Cedar or Dogwood, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion. If the new policy is a temporal policy, creating it invalidates the policy engine's active temporal sessions. For more information about temporal policy sessions, see session-based temporal policies. The policy engine returns an HTTP 409 ConflictException to in-flight sessions. To resume, you must start a new session with a new session ID.
     @Sendable
     @inlinable
     public func createPolicy(_ input: CreatePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePolicyResponse {
@@ -1168,11 +1350,11 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
+    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using Cedar or Dogwood, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion. If the new policy is a temporal policy, creating it invalidates the policy engine's active temporal sessions. For more information about temporal policy sessions, see session-based temporal policies. The policy engine returns an HTTP 409 ConflictException to in-flight sessions. To resume, you must start a new session with a new session ID.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy.
-    ///   - definition: The Cedar policy statement that defines the access control rules. This contains the actual policy logic written in Cedar policy language, specifying effect (permit or forbid), principals, actions, resources, and conditions for agent behavior control.
+    ///   - definition: The Cedar or Dogwood policy statement that defines the access control rules. This contains the actual policy logic written in Cedar or Dogwood, specifying effect (permit or forbid), principals, actions, resources, and conditions for agent behavior control.
     ///   - description: A human-readable description of the policy's purpose and functionality (1-4,096 characters). This helps policy administrators understand the policy's intent, business rules, and operational scope. Use this field to document why the policy exists, what business requirement it addresses, and any special considerations for maintenance. Clear descriptions are essential for policy governance, auditing, and troubleshooting.
     ///   - enforcementMode: The enforcement mode for the policy. Run this policy in LOG_ONLY mode to collect data on how it affects your application. Once you are satisfied with the data gathered, switch the policy to ACTIVE. Defaults to ACTIVE.
     ///   - name: The customer-assigned immutable name for the policy. Must be unique within the account. This name is used for policy identification and cannot be changed after creation.
@@ -1375,7 +1557,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.createWorkloadIdentity(input, logger: logger)
     }
 
-    /// Deletes an Amazon Bedrock AgentCore Runtime.
+    /// Deletes an Amazon Bedrock AgentCore Runtime, or a single version of an AgentCore Runtime when you provide the version qualifier.
     @Sendable
     @inlinable
     public func deleteAgentRuntime(_ input: DeleteAgentRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentRuntimeResponse {
@@ -1388,26 +1570,29 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Amazon Bedrock AgentCore Runtime.
+    /// Deletes an Amazon Bedrock AgentCore Runtime, or a single version of an AgentCore Runtime when you provide the version qualifier.
     ///
     /// Parameters:
     ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to delete.
+    ///   - agentRuntimeVersion: The version of the AgentCore Runtime to delete. When you provide this value, only that version is deleted. When you omit it, the entire AgentCore Runtime and all of its versions are deleted.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAgentRuntime(
         agentRuntimeId: String,
+        agentRuntimeVersion: String? = nil,
         clientToken: String? = DeleteAgentRuntimeRequest.idempotencyToken(),
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteAgentRuntimeResponse {
         let input = DeleteAgentRuntimeRequest(
             agentRuntimeId: agentRuntimeId, 
+            agentRuntimeVersion: agentRuntimeVersion, 
             clientToken: clientToken
         )
         return try await self.deleteAgentRuntime(input, logger: logger)
     }
 
-    /// Deletes an AAgentCore Runtime endpoint.
+    /// Deletes an AgentCore Runtime endpoint.
     @Sendable
     @inlinable
     public func deleteAgentRuntimeEndpoint(_ input: DeleteAgentRuntimeEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentRuntimeEndpointResponse {
@@ -1420,7 +1605,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Deletes an AAgentCore Runtime endpoint.
+    /// Deletes an AgentCore Runtime endpoint.
     ///
     /// Parameters:
     ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime associated with the endpoint.
@@ -1535,6 +1720,38 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteBrowserProfile(input, logger: logger)
     }
 
+    /// Deletes a capacity provider. Before you delete a capacity provider, disassociate all agent runtimes and runtime versions that reference it. If any references remain, the operation fails.
+    @Sendable
+    @inlinable
+    public func deleteCapacityProvider(_ input: DeleteCapacityProviderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCapacityProviderOutput {
+        try await self.client.execute(
+            operation: "DeleteCapacityProvider", 
+            path: "/capacity-providers/{capacityProviderId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a capacity provider. Before you delete a capacity provider, disassociate all agent runtimes and runtime versions that reference it. If any references remain, the operation fails.
+    ///
+    /// Parameters:
+    ///   - capacityProviderId: The unique identifier of the capacity provider to delete.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCapacityProvider(
+        capacityProviderId: String,
+        clientToken: String? = DeleteCapacityProviderInput.idempotencyToken(),
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCapacityProviderOutput {
+        let input = DeleteCapacityProviderInput(
+            capacityProviderId: capacityProviderId, 
+            clientToken: clientToken
+        )
+        return try await self.deleteCapacityProvider(input, logger: logger)
+    }
+
     /// Deletes a custom code interpreter.
     @Sendable
     @inlinable
@@ -1594,6 +1811,35 @@ public struct BedrockAgentCoreControl: AWSService {
             bundleId: bundleId
         )
         return try await self.deleteConfigurationBundle(input, logger: logger)
+    }
+
+    /// Deletes a consent portal.
+    @Sendable
+    @inlinable
+    public func deleteConsentPortal(_ input: DeleteConsentPortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConsentPortalResponse {
+        try await self.client.execute(
+            operation: "DeleteConsentPortal", 
+            path: "/identities/DeleteConsentPortal", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a consent portal.
+    ///
+    /// Parameters:
+    ///   - consentPortalIdentifier: The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConsentPortal(
+        consentPortalIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteConsentPortalResponse {
+        let input = DeleteConsentPortalRequest(
+            consentPortalIdentifier: consentPortalIdentifier
+        )
+        return try await self.deleteConsentPortal(input, logger: logger)
     }
 
     ///  Deletes a dataset version or an entire dataset asynchronously. If datasetVersion is absent, deletes all versions and the dataset record itself. If provided, deletes only that specific version.
@@ -1719,6 +1965,38 @@ public struct BedrockAgentCoreControl: AWSService {
             gatewayIdentifier: gatewayIdentifier
         )
         return try await self.deleteGateway(input, logger: logger)
+    }
+
+    /// Deletes a gateway rate limit.
+    @Sendable
+    @inlinable
+    public func deleteGatewayRateLimit(_ input: DeleteGatewayRateLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGatewayRateLimitResponse {
+        try await self.client.execute(
+            operation: "DeleteGatewayRateLimit", 
+            path: "/gateways/{gatewayIdentifier}/rate-limits/{rateLimitId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a gateway rate limit.
+    ///
+    /// Parameters:
+    ///   - gatewayIdentifier: The unique identifier of the gateway.
+    ///   - rateLimitId: The unique identifier of the rate limit to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteGatewayRateLimit(
+        gatewayIdentifier: String,
+        rateLimitId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteGatewayRateLimitResponse {
+        let input = DeleteGatewayRateLimitRequest(
+            gatewayIdentifier: gatewayIdentifier, 
+            rateLimitId: rateLimitId
+        )
+        return try await self.deleteGatewayRateLimit(input, logger: logger)
     }
 
     /// Deletes a gateway rule.
@@ -1855,7 +2133,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteHarnessEndpoint(input, logger: logger)
     }
 
-    /// Deletes an Amazon Bedrock AgentCore Memory resource.
+    /// Deletes an Amazon Bedrock AgentCore Memory resource. When you delete a memory resource, it is permanently removed.
     @Sendable
     @inlinable
     public func deleteMemory(_ input: DeleteMemoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMemoryOutput {
@@ -1868,7 +2146,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Amazon Bedrock AgentCore Memory resource.
+    /// Deletes an Amazon Bedrock AgentCore Memory resource. When you delete a memory resource, it is permanently removed.
     ///
     /// Parameters:
     ///   - clientToken: A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier.
@@ -2372,6 +2650,35 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getBrowserProfile(input, logger: logger)
     }
 
+    /// Retrieves information about a capacity provider, including its status, permissions configuration, and compute configuration.
+    @Sendable
+    @inlinable
+    public func getCapacityProvider(_ input: GetCapacityProviderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCapacityProviderOutput {
+        try await self.client.execute(
+            operation: "GetCapacityProvider", 
+            path: "/capacity-providers/{capacityProviderId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a capacity provider, including its status, permissions configuration, and compute configuration.
+    ///
+    /// Parameters:
+    ///   - capacityProviderId: The unique identifier of the capacity provider.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCapacityProvider(
+        capacityProviderId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCapacityProviderOutput {
+        let input = GetCapacityProviderInput(
+            capacityProviderId: capacityProviderId
+        )
+        return try await self.getCapacityProvider(input, logger: logger)
+    }
+
     /// Gets information about a custom code interpreter.
     @Sendable
     @inlinable
@@ -2465,6 +2772,35 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getConfigurationBundleVersion(input, logger: logger)
     }
 
+    /// Retrieves information about a consent portal.
+    @Sendable
+    @inlinable
+    public func getConsentPortal(_ input: GetConsentPortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConsentPortalResponse {
+        try await self.client.execute(
+            operation: "GetConsentPortal", 
+            path: "/identities/GetConsentPortal", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a consent portal.
+    ///
+    /// Parameters:
+    ///   - consentPortalIdentifier: The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConsentPortal(
+        consentPortalIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConsentPortalResponse {
+        let input = GetConsentPortalRequest(
+            consentPortalIdentifier: consentPortalIdentifier
+        )
+        return try await self.getConsentPortal(input, logger: logger)
+    }
+
     ///  Retrieves dataset metadata. Use the datasetVersion query parameter to retrieve a specific version's metadata. If absent, defaults to DRAFT. For paginated example content, use ListDatasetExamples.
     @Sendable
     @inlinable
@@ -2556,6 +2892,38 @@ public struct BedrockAgentCoreControl: AWSService {
             gatewayIdentifier: gatewayIdentifier
         )
         return try await self.getGateway(input, logger: logger)
+    }
+
+    /// Retrieves information about a gateway rate limit.
+    @Sendable
+    @inlinable
+    public func getGatewayRateLimit(_ input: GetGatewayRateLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGatewayRateLimitResponse {
+        try await self.client.execute(
+            operation: "GetGatewayRateLimit", 
+            path: "/gateways/{gatewayIdentifier}/rate-limits/{rateLimitId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a gateway rate limit.
+    ///
+    /// Parameters:
+    ///   - gatewayIdentifier: The unique identifier of the gateway.
+    ///   - rateLimitId: The unique identifier of the rate limit to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getGatewayRateLimit(
+        gatewayIdentifier: String,
+        rateLimitId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetGatewayRateLimitResponse {
+        let input = GetGatewayRateLimitRequest(
+            gatewayIdentifier: gatewayIdentifier, 
+            rateLimitId: rateLimitId
+        )
+        return try await self.getGatewayRateLimit(input, logger: logger)
     }
 
     /// Retrieves detailed information about a specific gateway rule.
@@ -2956,7 +3324,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getPolicyEngineSummary(input, logger: logger)
     }
 
-    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Cedar policy statements using AI-powered translation, enabling non-technical users to create policies.
+    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered translation, enabling non-technical users to create policies.
     @Sendable
     @inlinable
     public func getPolicyGeneration(_ input: GetPolicyGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyGenerationResponse {
@@ -2969,7 +3337,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Cedar policy statements using AI-powered translation, enabling non-technical users to create policies.
+    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Dogwood policy statements using AI-powered translation, enabling non-technical users to create policies.
     ///
     /// Parameters:
     ///   - policyEngineId: The identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and schema validation.
@@ -3270,6 +3638,41 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listAgentRuntimeVersions(input, logger: logger)
     }
 
+    /// Lists the agent runtime versions that are associated with a capacity provider. Use this operation to identify the runtimes you must disassociate before you can delete the capacity provider. Results are paginated; use the nextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listAgentRuntimeVersionsByCapacityProvider(_ input: ListAgentRuntimeVersionsByCapacityProviderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentRuntimeVersionsByCapacityProviderOutput {
+        try await self.client.execute(
+            operation: "ListAgentRuntimeVersionsByCapacityProvider", 
+            path: "/capacity-providers/{capacityProviderId}/runtime-versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the agent runtime versions that are associated with a capacity provider. Use this operation to identify the runtimes you must disassociate before you can delete the capacity provider. Results are paginated; use the nextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - capacityProviderId: The unique identifier of the capacity provider.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgentRuntimeVersionsByCapacityProvider(
+        capacityProviderId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgentRuntimeVersionsByCapacityProviderOutput {
+        let input = ListAgentRuntimeVersionsByCapacityProviderInput(
+            capacityProviderId: capacityProviderId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAgentRuntimeVersionsByCapacityProvider(input, logger: logger)
+    }
+
     /// Lists all Amazon Secure Agents in your account.
     @Sendable
     @inlinable
@@ -3404,6 +3807,38 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listBrowsers(input, logger: logger)
     }
 
+    /// Lists the capacity providers in your account and returns summary information for each one. To retrieve the full configuration for a specific capacity provider, use GetCapacityProvider. Results are paginated; use the nextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listCapacityProviders(_ input: ListCapacityProvidersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCapacityProvidersOutput {
+        try await self.client.execute(
+            operation: "ListCapacityProviders", 
+            path: "/capacity-providers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the capacity providers in your account and returns summary information for each one. To retrieve the full configuration for a specific capacity provider, use GetCapacityProvider. Results are paginated; use the nextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCapacityProviders(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCapacityProvidersOutput {
+        let input = ListCapacityProvidersInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCapacityProviders(input, logger: logger)
+    }
+
     /// Lists all custom code interpreters in your account.
     @Sendable
     @inlinable
@@ -3507,6 +3942,38 @@ public struct BedrockAgentCoreControl: AWSService {
             nextToken: nextToken
         )
         return try await self.listConfigurationBundles(input, logger: logger)
+    }
+
+    /// Lists all of the consent portals in your account.
+    @Sendable
+    @inlinable
+    public func listConsentPortals(_ input: ListConsentPortalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConsentPortalsResponse {
+        try await self.client.execute(
+            operation: "ListConsentPortals", 
+            path: "/identities/ListConsentPortals", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all of the consent portals in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of consent portals to return in a single call.
+    ///   - nextToken: A token to retrieve the next page of results. Use the value returned in a previous response to request the next page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConsentPortals(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConsentPortalsResponse {
+        let input = ListConsentPortalsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConsentPortals(input, logger: logger)
     }
 
     ///  Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations.
@@ -3644,6 +4111,41 @@ public struct BedrockAgentCoreControl: AWSService {
             nextToken: nextToken
         )
         return try await self.listEvaluators(input, logger: logger)
+    }
+
+    /// Lists all rate limits for a gateway. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listGatewayRateLimits(_ input: ListGatewayRateLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewayRateLimitsResponse {
+        try await self.client.execute(
+            operation: "ListGatewayRateLimits", 
+            path: "/gateways/{gatewayIdentifier}/rate-limits", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all rate limits for a gateway. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - gatewayIdentifier: The unique identifier of the gateway.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: The token to use to retrieve the next page of results. Use the value returned in a previous ListGatewayRateLimits response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listGatewayRateLimits(
+        gatewayIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListGatewayRateLimitsResponse {
+        let input = ListGatewayRateLimitsRequest(
+            gatewayIdentifier: gatewayIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listGatewayRateLimits(input, logger: logger)
     }
 
     /// Lists all rules for a gateway.
@@ -4147,7 +4649,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listPolicyEngines(input, logger: logger)
     }
 
-    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Cedar policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options.
+    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options.
     @Sendable
     @inlinable
     public func listPolicyGenerationAssets(_ input: ListPolicyGenerationAssetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyGenerationAssetsResponse {
@@ -4160,7 +4662,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Cedar policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options.
+    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Dogwood policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of policy generation assets to return in a single response. If not specified, the default is 10 assets per page, with a maximum of 100 per page. This helps control response size when dealing with policy generations that produce many alternative policy options.
@@ -4500,7 +5002,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.setTokenVaultCMK(input, logger: logger)
     }
 
-    /// Initiates the AI-powered generation of Cedar policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Cedar policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Cedar syntax, though generated policies may require refinement for complex scenarios.
+    /// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Dogwood syntax, though generated policies may require refinement for complex scenarios.
     @Sendable
     @inlinable
     public func startPolicyGeneration(_ input: StartPolicyGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartPolicyGenerationResponse {
@@ -4513,11 +5015,11 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Initiates the AI-powered generation of Cedar policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Cedar policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Cedar syntax, though generated policies may require refinement for complex scenarios.
+    /// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Dogwood syntax, though generated policies may require refinement for complex scenarios.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation.
-    ///   - content: The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Cedar policy statements that match the described intent.
+    ///   - content: The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Dogwood policy statements that match the described intent.
     ///   - name: A customer-assigned name for the policy generation request. This helps track and identify generation operations, especially when running multiple generations simultaneously.
     ///   - policyEngineId: The identifier of the policy engine that provides the context for policy generation. This engine's schema and tool context are used to ensure generated policies are valid and applicable.
     ///   - resource: The resource information that provides context for policy generation. This helps the AI understand the target resources and generate appropriate access control rules.
@@ -4688,6 +5190,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - agentRuntimeArtifact: The updated artifact of the AgentCore Runtime.
     ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to update.
     ///   - authorizerConfiguration: The updated authorizer configuration for the AgentCore Runtime.
+    ///   - capacityProviderConfiguration: The updated capacity provider configuration for the AgentCore Runtime.
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - description: The updated description of the AgentCore Runtime.
     ///   - environmentVariables: Updated environment variables to set in the AgentCore Runtime environment.
@@ -4704,13 +5207,14 @@ public struct BedrockAgentCoreControl: AWSService {
         agentRuntimeArtifact: AgentRuntimeArtifact,
         agentRuntimeId: String,
         authorizerConfiguration: AuthorizerConfiguration? = nil,
+        capacityProviderConfiguration: CapacityProviderConfiguration? = nil,
         clientToken: String? = UpdateAgentRuntimeRequest.idempotencyToken(),
         description: String? = nil,
         environmentVariables: [String: String]? = nil,
         filesystemConfigurations: [FilesystemConfiguration]? = nil,
         lifecycleConfiguration: LifecycleConfiguration? = nil,
         metadataConfiguration: RuntimeMetadataConfiguration? = nil,
-        networkConfiguration: NetworkConfiguration,
+        networkConfiguration: NetworkConfiguration? = nil,
         protocolConfiguration: ProtocolConfiguration? = nil,
         requestHeaderConfiguration: RequestHeaderConfiguration? = nil,
         roleArn: String,
@@ -4720,6 +5224,7 @@ public struct BedrockAgentCoreControl: AWSService {
             agentRuntimeArtifact: agentRuntimeArtifact, 
             agentRuntimeId: agentRuntimeId, 
             authorizerConfiguration: authorizerConfiguration, 
+            capacityProviderConfiguration: capacityProviderConfiguration, 
             clientToken: clientToken, 
             description: description, 
             environmentVariables: environmentVariables, 
@@ -4813,6 +5318,41 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.updateApiKeyCredentialProvider(input, logger: logger)
     }
 
+    /// Updates a capacity provider. Only the description can be changed. To change other configuration, such as instance types, networking, or storage, create a new capacity provider.
+    @Sendable
+    @inlinable
+    public func updateCapacityProvider(_ input: UpdateCapacityProviderInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCapacityProviderOutput {
+        try await self.client.execute(
+            operation: "UpdateCapacityProvider", 
+            path: "/capacity-providers/{capacityProviderId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a capacity provider. Only the description can be changed. To change other configuration, such as instance types, networking, or storage, create a new capacity provider.
+    ///
+    /// Parameters:
+    ///   - capacityProviderId: The unique identifier of the capacity provider to update.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - description: The updated description of the capacity provider.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCapacityProvider(
+        capacityProviderId: String,
+        clientToken: String? = UpdateCapacityProviderInput.idempotencyToken(),
+        description: UpdatedDescription? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCapacityProviderOutput {
+        let input = UpdateCapacityProviderInput(
+            capacityProviderId: capacityProviderId, 
+            clientToken: clientToken, 
+            description: description
+        )
+        return try await self.updateCapacityProvider(input, logger: logger)
+    }
+
     /// Updates a configuration bundle by creating a new version with the specified changes. Each update creates a new version in the version history.
     @Sendable
     @inlinable
@@ -4851,7 +5391,7 @@ public struct BedrockAgentCoreControl: AWSService {
         createdBy: VersionCreatedBySource? = nil,
         description: String? = nil,
         kmsKeyArn: String? = nil,
-        parentVersionIds: [String]? = nil,
+        parentVersionIds: [String],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateConfigurationBundleResponse {
         let input = UpdateConfigurationBundleRequest(
@@ -4867,6 +5407,44 @@ public struct BedrockAgentCoreControl: AWSService {
             parentVersionIds: parentVersionIds
         )
         return try await self.updateConfigurationBundle(input, logger: logger)
+    }
+
+    /// Updates an existing consent portal.
+    @Sendable
+    @inlinable
+    public func updateConsentPortal(_ input: UpdateConsentPortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConsentPortalResponse {
+        try await self.client.execute(
+            operation: "UpdateConsentPortal", 
+            path: "/identities/UpdateConsentPortal", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing consent portal.
+    ///
+    /// Parameters:
+    ///   - consentPortalIdentifier: The identifier of the consent portal. You can specify either the consent portal ID or its Amazon Resource Name (ARN).
+    ///   - description: The description of the consent portal.
+    ///   - executionRoleArn: The Amazon Resource Name (ARN) of the IAM role that the consent portal assumes to access the resources defined in its sources.
+    ///   - idpConfig: The identity provider configuration that the consent portal uses to authenticate end users.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConsentPortal(
+        consentPortalIdentifier: String,
+        description: String? = nil,
+        executionRoleArn: String? = nil,
+        idpConfig: ConsentPortalIdpConfig? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConsentPortalResponse {
+        let input = UpdateConsentPortalRequest(
+            consentPortalIdentifier: consentPortalIdentifier, 
+            description: description, 
+            executionRoleArn: executionRoleArn, 
+            idpConfig: idpConfig
+        )
+        return try await self.updateConsentPortal(input, logger: logger)
     }
 
     ///  Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples, UpdateDatasetExamples, or DeleteDatasetExamples.
@@ -5049,6 +5627,44 @@ public struct BedrockAgentCoreControl: AWSService {
             wafConfiguration: wafConfiguration
         )
         return try await self.updateGateway(input, logger: logger)
+    }
+
+    /// Updates the entries of a gateway rate limit. The dimension keys are immutable after creation.
+    @Sendable
+    @inlinable
+    public func updateGatewayRateLimit(_ input: UpdateGatewayRateLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayRateLimitResponse {
+        try await self.client.execute(
+            operation: "UpdateGatewayRateLimit", 
+            path: "/gateways/{gatewayIdentifier}/rate-limits/{rateLimitId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the entries of a gateway rate limit. The dimension keys are immutable after creation.
+    ///
+    /// Parameters:
+    ///   - description: The updated human-readable description for this rate limit.
+    ///   - entries: The updated rule entries. The dimension keys are immutable after creation and cannot be changed.
+    ///   - gatewayIdentifier: The unique identifier of the gateway.
+    ///   - rateLimitId: The unique identifier of the rate limit to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateGatewayRateLimit(
+        description: String? = nil,
+        entries: [LimitEntry],
+        gatewayIdentifier: String,
+        rateLimitId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateGatewayRateLimitResponse {
+        let input = UpdateGatewayRateLimitRequest(
+            description: description, 
+            entries: entries, 
+            gatewayIdentifier: gatewayIdentifier, 
+            rateLimitId: rateLimitId
+        )
+        return try await self.updateGatewayRateLimit(input, logger: logger)
     }
 
     /// Updates a gateway rule's priority, conditions, actions, or description.
@@ -5286,6 +5902,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - memoryExecutionRoleArn: The ARN of the IAM role that provides permissions for the AgentCore Memory resource.
     ///   - memoryId: The unique identifier of the memory to update.
     ///   - memoryStrategies: The memory strategies to add, modify, or delete.
+    ///   - namespaceKeys: The namespace variable key definitions with validation rules for this memory. This value fully replaces the existing set — any key you omit is removed. Any referenced namespaceKey omission will throw ValidationException.
     ///   - streamDeliveryResources: Configuration for streaming memory record data to external resources.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5297,6 +5914,7 @@ public struct BedrockAgentCoreControl: AWSService {
         memoryExecutionRoleArn: String? = nil,
         memoryId: String,
         memoryStrategies: ModifyMemoryStrategies? = nil,
+        namespaceKeys: [NamespaceKeyEntry]? = nil,
         streamDeliveryResources: StreamDeliveryResources? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateMemoryOutput {
@@ -5308,6 +5926,7 @@ public struct BedrockAgentCoreControl: AWSService {
             memoryExecutionRoleArn: memoryExecutionRoleArn, 
             memoryId: memoryId, 
             memoryStrategies: memoryStrategies, 
+            namespaceKeys: namespaceKeys, 
             streamDeliveryResources: streamDeliveryResources
         )
         return try await self.updateMemory(input, logger: logger)
@@ -5373,6 +5992,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - executionStatus:  The updated execution status to enable or disable the online evaluation.
     ///   - insights: The updated list of insight types to run against agent sessions.
     ///   - onlineEvaluationConfigId:  The unique identifier of the online evaluation configuration to update.
+    ///   - outputConfig: 
     ///   - rule:  The updated evaluation rule containing sampling configuration, filters, and session settings.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5386,6 +6006,7 @@ public struct BedrockAgentCoreControl: AWSService {
         executionStatus: OnlineEvaluationExecutionStatus? = nil,
         insights: [Insight]? = nil,
         onlineEvaluationConfigId: String,
+        outputConfig: OutputConfig? = nil,
         rule: Rule? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateOnlineEvaluationConfigResponse {
@@ -5399,6 +6020,7 @@ public struct BedrockAgentCoreControl: AWSService {
             executionStatus: executionStatus, 
             insights: insights, 
             onlineEvaluationConfigId: onlineEvaluationConfigId, 
+            outputConfig: outputConfig, 
             rule: rule
         )
         return try await self.updateOnlineEvaluationConfig(input, logger: logger)
@@ -5503,6 +6125,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - authorizerType: The updated authorizer type for the payment manager.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
     ///   - description: The updated description of the payment manager.
+    ///   - kmsKeyArn: The updated Amazon Resource Name (ARN) of the customer managed KMS key used to encrypt sensitive payment manager data at rest.
     ///   - paymentManagerId: The unique identifier of the payment manager to update.
     ///   - roleArn: The updated Amazon Resource Name (ARN) of the IAM role for the payment manager.
     ///   - logger: Logger use during operation
@@ -5512,6 +6135,7 @@ public struct BedrockAgentCoreControl: AWSService {
         authorizerType: PaymentsAuthorizerType? = nil,
         clientToken: String? = UpdatePaymentManagerRequest.idempotencyToken(),
         description: String? = nil,
+        kmsKeyArn: String? = nil,
         paymentManagerId: String,
         roleArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -5521,13 +6145,14 @@ public struct BedrockAgentCoreControl: AWSService {
             authorizerType: authorizerType, 
             clientToken: clientToken, 
             description: description, 
+            kmsKeyArn: kmsKeyArn, 
             paymentManagerId: paymentManagerId, 
             roleArn: roleArn
         )
         return try await self.updatePaymentManager(input, logger: logger)
     }
 
-    /// Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
+    /// Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion. If the updated policy is a temporal policy, the policy engine invalidates all active temporal sessions. If the update adds or removes temporal operators, the policy engine also invalidates active temporal sessions. For more information about temporal policy sessions, see session-based temporal policies. The policy engine returns an HTTP 409 ConflictException to in-flight sessions. To resume, you must start a new session with a new session ID.
     @Sendable
     @inlinable
     public func updatePolicy(_ input: UpdatePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePolicyResponse {
@@ -5540,10 +6165,10 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
+    /// Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion. If the updated policy is a temporal policy, the policy engine invalidates all active temporal sessions. If the update adds or removes temporal operators, the policy engine also invalidates active temporal sessions. For more information about temporal policy sessions, see session-based temporal policies. The policy engine returns an HTTP 409 ConflictException to in-flight sessions. To resume, you must start a new session with a new session ID.
     ///
     /// Parameters:
-    ///   - definition: The new Cedar policy statement that defines the access control rules. This replaces the existing policy definition with new logic while maintaining the policy's identity.
+    ///   - definition: The new Cedar or Dogwood policy statement that defines the access control rules. This replaces the existing policy definition with new logic while maintaining the policy's identity.
     ///   - description: The new human-readable description for the policy. This optional field allows updating the policy's documentation while keeping the same policy logic.
     ///   - enforcementMode: The enforcement mode for the policy. Run this policy in LOG_ONLY mode to collect data on how it affects your application. Once you are satisfied with the data gathered, switch the policy to ACTIVE. If you omit this field, the policy's existing enforcement mode is unchanged.
     ///   - policyEngineId: The identifier of the policy engine that manages the policy to be updated. This ensures the policy is updated within the correct policy engine context.
@@ -5858,6 +6483,43 @@ extension BedrockAgentCoreControl {
         return self.listAgentRuntimeVersionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listAgentRuntimeVersionsByCapacityProvider(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentRuntimeVersionsByCapacityProviderPaginator(
+        _ input: ListAgentRuntimeVersionsByCapacityProviderInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgentRuntimeVersionsByCapacityProviderInput, ListAgentRuntimeVersionsByCapacityProviderOutput> {
+        return .init(
+            input: input,
+            command: self.listAgentRuntimeVersionsByCapacityProvider,
+            inputKey: \ListAgentRuntimeVersionsByCapacityProviderInput.nextToken,
+            outputKey: \ListAgentRuntimeVersionsByCapacityProviderOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgentRuntimeVersionsByCapacityProvider(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - capacityProviderId: The unique identifier of the capacity provider.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentRuntimeVersionsByCapacityProviderPaginator(
+        capacityProviderId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgentRuntimeVersionsByCapacityProviderInput, ListAgentRuntimeVersionsByCapacityProviderOutput> {
+        let input = ListAgentRuntimeVersionsByCapacityProviderInput(
+            capacityProviderId: capacityProviderId, 
+            maxResults: maxResults
+        )
+        return self.listAgentRuntimeVersionsByCapacityProviderPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAgentRuntimes(_:logger:)``.
     ///
     /// - Parameters:
@@ -6000,6 +6662,40 @@ extension BedrockAgentCoreControl {
         return self.listBrowsersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCapacityProviders(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCapacityProvidersPaginator(
+        _ input: ListCapacityProvidersInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCapacityProvidersInput, ListCapacityProvidersOutput> {
+        return .init(
+            input: input,
+            command: self.listCapacityProviders,
+            inputKey: \ListCapacityProvidersInput.nextToken,
+            outputKey: \ListCapacityProvidersOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCapacityProviders(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCapacityProvidersPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCapacityProvidersInput, ListCapacityProvidersOutput> {
+        let input = ListCapacityProvidersInput(
+            maxResults: maxResults
+        )
+        return self.listCapacityProvidersPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCodeInterpreters(_:logger:)``.
     ///
     /// - Parameters:
@@ -6109,6 +6805,40 @@ extension BedrockAgentCoreControl {
             maxResults: maxResults
         )
         return self.listConfigurationBundlesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listConsentPortals(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConsentPortalsPaginator(
+        _ input: ListConsentPortalsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConsentPortalsRequest, ListConsentPortalsResponse> {
+        return .init(
+            input: input,
+            command: self.listConsentPortals,
+            inputKey: \ListConsentPortalsRequest.nextToken,
+            outputKey: \ListConsentPortalsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConsentPortals(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of consent portals to return in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConsentPortalsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConsentPortalsRequest, ListConsentPortalsResponse> {
+        let input = ListConsentPortalsRequest(
+            maxResults: maxResults
+        )
+        return self.listConsentPortalsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listDatasetExamples(_:logger:)``.
@@ -6254,6 +6984,43 @@ extension BedrockAgentCoreControl {
             maxResults: maxResults
         )
         return self.listEvaluatorsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listGatewayRateLimits(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGatewayRateLimitsPaginator(
+        _ input: ListGatewayRateLimitsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGatewayRateLimitsRequest, ListGatewayRateLimitsResponse> {
+        return .init(
+            input: input,
+            command: self.listGatewayRateLimits,
+            inputKey: \ListGatewayRateLimitsRequest.nextToken,
+            outputKey: \ListGatewayRateLimitsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listGatewayRateLimits(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - gatewayIdentifier: The unique identifier of the gateway.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGatewayRateLimitsPaginator(
+        gatewayIdentifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListGatewayRateLimitsRequest, ListGatewayRateLimitsResponse> {
+        let input = ListGatewayRateLimitsRequest(
+            gatewayIdentifier: gatewayIdentifier, 
+            maxResults: maxResults
+        )
+        return self.listGatewayRateLimitsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listGatewayRules(_:logger:)``.
@@ -7073,6 +7840,17 @@ extension BedrockAgentCoreControl.ListAgentRuntimeEndpointsRequest: AWSPaginateT
     }
 }
 
+extension BedrockAgentCoreControl.ListAgentRuntimeVersionsByCapacityProviderInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListAgentRuntimeVersionsByCapacityProviderInput {
+        return .init(
+            capacityProviderId: self.capacityProviderId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension BedrockAgentCoreControl.ListAgentRuntimeVersionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListAgentRuntimeVersionsRequest {
@@ -7126,6 +7904,16 @@ extension BedrockAgentCoreControl.ListBrowsersRequest: AWSPaginateToken {
     }
 }
 
+extension BedrockAgentCoreControl.ListCapacityProvidersInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListCapacityProvidersInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension BedrockAgentCoreControl.ListCodeInterpretersRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListCodeInterpretersRequest {
@@ -7152,6 +7940,16 @@ extension BedrockAgentCoreControl.ListConfigurationBundleVersionsRequest: AWSPag
 extension BedrockAgentCoreControl.ListConfigurationBundlesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListConfigurationBundlesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListConsentPortalsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListConsentPortalsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
@@ -7196,6 +7994,17 @@ extension BedrockAgentCoreControl.ListEvaluatorsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListEvaluatorsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListGatewayRateLimitsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListGatewayRateLimitsRequest {
+        return .init(
+            gatewayIdentifier: self.gatewayIdentifier,
             maxResults: self.maxResults,
             nextToken: token
         )

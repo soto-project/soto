@@ -63,6 +63,29 @@ extension GeoMaps {
         public var description: String { return self.rawValue }
     }
 
+    public enum PoiCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accommodations = "Accommodations"
+        case businessAndServices = "BusinessAndServices"
+        case entertainment = "Entertainment"
+        case facilitiesAndBuildings = "FacilitiesAndBuildings"
+        case foodAndDrink = "FoodAndDrink"
+        case leisureAndOutdoor = "LeisureAndOutdoor"
+        case shopping = "Shopping"
+        case sightsAndMuseums = "SightsAndMuseums"
+        case transportation = "Transportation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PoiDensity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "Default"
+        case dense = "Dense"
+        case off = "Off"
+        case sparse = "Sparse"
+        case veryDense = "VeryDense"
+        case verySparse = "VerySparse"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScaleBarUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kilometers = "Kilometers"
         case kilometersMiles = "KilometersMiles"
@@ -108,9 +131,7 @@ extension GeoMaps {
     }
 
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        ///     The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
         case cannotParse = "CannotParse"
-        ///     The input is present and parsable, but it is otherwise invalid. For example, a required numeric argument is outside the allowed range.
         case fieldValidationFailed = "FieldValidationFailed"
         /// The required input is missing.
         case missing = "Missing"
@@ -404,6 +425,10 @@ extension GeoMaps {
         public let contourDensity: ContourDensity?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
+        /// Renders only the specified categories of points of interest. When you omit this parameter, the map renders all categories. The following categories are currently supported:    FoodAndDrink     Entertainment     SightsAndMuseums     Transportation     Accommodations     LeisureAndOutdoor     Shopping     BusinessAndServices     FacilitiesAndBuildings    Specify each category as a separate poi-categories query parameter. Duplicate values are rejected.  This parameter has no effect when poi-density is set to Off, which hides all points of interest regardless of category.  This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style.
+        public let poiCategories: [PoiCategory]?
+        /// Controls how densely points of interest are rendered on the map. The density value controls the zoom level at which each category of points of interest appears, and how quickly less prominent points of interest are revealed as you zoom in. Denser values display more points of interest at lower zoom levels. Use Off to hide all points of interest. When you omit this parameter, the map renders at Default density.  The difference between density values is most noticeable at mid-range zoom levels. At high zoom levels, all density values converge on displaying every available point of interest.  This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style.
+        public let poiDensity: PoiDensity?
         /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
         public let politicalView: String?
         /// Style specifies the desired map style. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values.
@@ -416,11 +441,13 @@ extension GeoMaps {
         public let travelModes: [TravelMode]?
 
         @inlinable
-        public init(buildings: Buildings? = nil, colorScheme: ColorScheme? = nil, contourDensity: ContourDensity? = nil, key: String? = nil, politicalView: String? = nil, style: MapStyle, terrain: Terrain? = nil, traffic: Traffic? = nil, travelModes: [TravelMode]? = nil) {
+        public init(buildings: Buildings? = nil, colorScheme: ColorScheme? = nil, contourDensity: ContourDensity? = nil, key: String? = nil, poiCategories: [PoiCategory]? = nil, poiDensity: PoiDensity? = nil, politicalView: String? = nil, style: MapStyle, terrain: Terrain? = nil, traffic: Traffic? = nil, travelModes: [TravelMode]? = nil) {
             self.buildings = buildings
             self.colorScheme = colorScheme
             self.contourDensity = contourDensity
             self.key = key
+            self.poiCategories = poiCategories
+            self.poiDensity = poiDensity
             self.politicalView = politicalView
             self.style = style
             self.terrain = terrain
@@ -435,6 +462,8 @@ extension GeoMaps {
             request.encodeQuery(self.colorScheme, key: "color-scheme")
             request.encodeQuery(self.contourDensity, key: "contour-density")
             request.encodeQuery(self.key, key: "key")
+            request.encodeQuery(self.poiCategories, key: "poi-categories")
+            request.encodeQuery(self.poiDensity, key: "poi-density")
             request.encodeQuery(self.politicalView, key: "political-view")
             request.encodePath(self.style, key: "Style")
             request.encodeQuery(self.terrain, key: "terrain")
@@ -444,6 +473,7 @@ extension GeoMaps {
 
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 1000)
+            try self.validate(self.poiCategories, name: "poiCategories", parent: name, max: 9)
             try self.validate(self.politicalView, name: "politicalView", parent: name, max: 3)
             try self.validate(self.politicalView, name: "politicalView", parent: name, min: 2)
             try self.validate(self.politicalView, name: "politicalView", parent: name, pattern: "^([A-Z]{2}|[A-Z]{3})$")

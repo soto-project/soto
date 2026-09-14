@@ -151,7 +151,8 @@ public struct MediaPackageV2: AWSService {
     ///   - clientToken: A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     ///   - description: Enter any descriptive text that helps you to identify the channel.
     ///   - inputSwitchConfiguration: The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
-    ///   - inputType: The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+    ///   - inputType: The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).    MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
+    ///   - multiviewConfiguration: The multiview configuration for the channel. This setting is required when InputType is MULTIVIEW, and can't be set for any other input type.
     ///   - outputHeaderConfiguration: The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     ///   - outputLockingMode: The output locking mode for the channel. This setting is only valid when InputType is CMAF. This value is immutable after channel creation. If you don't specify a value, the default is EPOCH_LOCKED. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time. This mode supports cross-region synchronization and failover.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0. This mode does not support cross-region synchronization or failover.
     ///   - tags: A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
@@ -164,6 +165,7 @@ public struct MediaPackageV2: AWSService {
         description: String? = nil,
         inputSwitchConfiguration: InputSwitchConfiguration? = nil,
         inputType: InputType? = nil,
+        multiviewConfiguration: MultiviewConfiguration? = nil,
         outputHeaderConfiguration: OutputHeaderConfiguration? = nil,
         outputLockingMode: OutputLockingMode? = nil,
         tags: [String: String]? = nil,
@@ -176,6 +178,7 @@ public struct MediaPackageV2: AWSService {
             description: description, 
             inputSwitchConfiguration: inputSwitchConfiguration, 
             inputType: inputType, 
+            multiviewConfiguration: multiviewConfiguration, 
             outputHeaderConfiguration: outputHeaderConfiguration, 
             outputLockingMode: outputLockingMode, 
             tags: tags
@@ -306,6 +309,7 @@ public struct MediaPackageV2: AWSService {
     ///   - originEndpointName: The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and must be unique for your account in the AWS Region and channel. You can't use spaces in the name. You can't change the name after you create the endpoint.
     ///   - segment: The segment configuration, including the segment name, duration, and other configuration values.
     ///   - startoverWindowSeconds: The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
+    ///   - streamNameOutputMode: The output mode for stream names in egress manifests. This setting is valid only when the associated channel's InputType is HLS. You can't change the stream name output mode after you create the endpoint.  INDEX uses numeric indices for stream names (for example, 1, 2, 3). PASSTHROUGH_NAME uses the stream names from the input manifest. If you don't specify a value, the default is INDEX.
     ///   - tags: A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
     ///   - uriSeparator: The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value, the default is UNDERSCORE.
     ///   - logger: Logger use during operation
@@ -324,6 +328,7 @@ public struct MediaPackageV2: AWSService {
         originEndpointName: String,
         segment: Segment? = nil,
         startoverWindowSeconds: Int? = nil,
+        streamNameOutputMode: StreamNameOutputMode? = nil,
         tags: [String: String]? = nil,
         uriSeparator: UriSeparator? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -342,6 +347,7 @@ public struct MediaPackageV2: AWSService {
             originEndpointName: originEndpointName, 
             segment: segment, 
             startoverWindowSeconds: startoverWindowSeconds, 
+            streamNameOutputMode: streamNameOutputMode, 
             tags: tags, 
             uriSeparator: uriSeparator
         )
@@ -1118,6 +1124,7 @@ public struct MediaPackageV2: AWSService {
     ///   - description: Any descriptive information that you want to add to the channel for future identification purposes.
     ///   - eTag: The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
     ///   - inputSwitchConfiguration: The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
+    ///   - multiviewConfiguration: The multiview configuration for the channel. This setting is required when the channel's InputType is MULTIVIEW, and can't be set for any other input type. Because InputType is immutable, you can change a multiview channel's sources and layouts. You can't add or remove the multiview configuration itself.
     ///   - outputHeaderConfiguration: The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1127,6 +1134,7 @@ public struct MediaPackageV2: AWSService {
         description: String? = nil,
         eTag: String? = nil,
         inputSwitchConfiguration: InputSwitchConfiguration? = nil,
+        multiviewConfiguration: MultiviewConfiguration? = nil,
         outputHeaderConfiguration: OutputHeaderConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateChannelResponse {
@@ -1136,6 +1144,7 @@ public struct MediaPackageV2: AWSService {
             description: description, 
             eTag: eTag, 
             inputSwitchConfiguration: inputSwitchConfiguration, 
+            multiviewConfiguration: multiviewConfiguration, 
             outputHeaderConfiguration: outputHeaderConfiguration
         )
         return try await self.updateChannel(input, logger: logger)
@@ -1205,6 +1214,7 @@ public struct MediaPackageV2: AWSService {
     ///   - originEndpointName: The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     ///   - segment: The segment configuration, including the segment name, duration, and other configuration values.
     ///   - startoverWindowSeconds: The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
+    ///   - streamNameOutputMode: The output mode for stream names in egress manifests. If you provide a value, it must match the current value. You can't change the stream name output mode after you create the endpoint.
     ///   - uriSeparator: The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value in the update request, the current value is preserved.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1222,6 +1232,7 @@ public struct MediaPackageV2: AWSService {
         originEndpointName: String,
         segment: Segment? = nil,
         startoverWindowSeconds: Int? = nil,
+        streamNameOutputMode: StreamNameOutputMode? = nil,
         uriSeparator: UriSeparator? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateOriginEndpointResponse {
@@ -1239,6 +1250,7 @@ public struct MediaPackageV2: AWSService {
             originEndpointName: originEndpointName, 
             segment: segment, 
             startoverWindowSeconds: startoverWindowSeconds, 
+            streamNameOutputMode: streamNameOutputMode, 
             uriSeparator: uriSeparator
         )
         return try await self.updateOriginEndpoint(input, logger: logger)

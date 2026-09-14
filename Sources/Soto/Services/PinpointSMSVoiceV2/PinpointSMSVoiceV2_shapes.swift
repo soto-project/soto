@@ -392,6 +392,14 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum PreferenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contains = "Contains"
+        case endsWith = "EndsWith"
+        case exactMatch = "ExactMatch"
+        case startsWith = "StartsWith"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProtectConfigurationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountDefault = "account-default"
         case deletionProtectionEnabled = "deletion-protection-enabled"
@@ -548,6 +556,11 @@ extension PinpointSMSVoiceV2 {
         case registrationAttachment = "registration-attachment"
         case senderId = "sender-id"
         case verifiedDestinationNumber = "verified-destination-number"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchableNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case tenDlc = "TEN_DLC"
         public var description: String { return self.rawValue }
     }
 
@@ -1154,6 +1167,72 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case iamRoleArn = "IamRoleArn"
             case logGroupArn = "LogGroupArn"
+        }
+    }
+
+    public struct ConditionalBehavior: AWSDecodableShape {
+        /// The field behavior that applies when no conditional rule in Rules matches. Valid values are REQUIRED, OPTIONAL, and DISALLOWED.
+        public let defaultBehavior: String
+        /// An ordered list of conditional rules. Rules are evaluated top-to-bottom and the first rule whose conditions all evaluate to true determines the field's behavior. Rules whose conditions do not all match are skipped and evaluation continues to the next rule.
+        public let rules: [ConditionalRule]
+
+        @inlinable
+        public init(defaultBehavior: String, rules: [ConditionalRule]) {
+            self.defaultBehavior = defaultBehavior
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultBehavior = "DefaultBehavior"
+            case rules = "Rules"
+        }
+    }
+
+    public struct ConditionalRule: AWSDecodableShape {
+        /// Optional per-rule validation constraints (minimum length, maximum length, regex pattern, allowed select values) that override the field's default validation when this rule matches.
+        public let conditionalValidation: ConditionalValidation?
+        /// The conditions that must all evaluate to true for this rule to match. Conditions are combined with logical AND. Use multiple rules with the same RuleBehavior to express logical OR.
+        public let conditions: [FieldCondition]
+        /// The field behavior that applies when all conditions in this rule match. Valid values are REQUIRED, OPTIONAL, and DISALLOWED.
+        public let ruleBehavior: String
+
+        @inlinable
+        public init(conditionalValidation: ConditionalValidation? = nil, conditions: [FieldCondition], ruleBehavior: String) {
+            self.conditionalValidation = conditionalValidation
+            self.conditions = conditions
+            self.ruleBehavior = ruleBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionalValidation = "ConditionalValidation"
+            case conditions = "Conditions"
+            case ruleBehavior = "RuleBehavior"
+        }
+    }
+
+    public struct ConditionalValidation: AWSDecodableShape {
+        /// The allowed values for a select field when this rule applies. A subset of the field's full option list.
+        public let allowedValues: [String]?
+        /// The maximum length for the field value when this rule applies.
+        public let maxLength: Int?
+        /// The minimum length for the field value when this rule applies.
+        public let minLength: Int?
+        /// A regular expression that the field value must match when this rule applies.
+        public let pattern: String?
+
+        @inlinable
+        public init(allowedValues: [String]? = nil, maxLength: Int? = nil, minLength: Int? = nil, pattern: String? = nil) {
+            self.allowedValues = allowedValues
+            self.maxLength = maxLength
+            self.minLength = minLength
+            self.pattern = pattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "AllowedValues"
+            case maxLength = "MaxLength"
+            case minLength = "MinLength"
+            case pattern = "Pattern"
         }
     }
 
@@ -2007,7 +2086,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct CreateRegistrationAttachmentRequest: AWSEncodableShape {
-        /// The registration file to upload. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG.
+        /// The registration file to upload. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG.
         public let attachmentBody: AWSBase64Data?
         /// Registration files have to be stored in an Amazon S3 bucket. The URI to use when sending is in the format s3://BucketName/FileName.
         public let attachmentUrl: String?
@@ -2025,7 +2104,7 @@ extension PinpointSMSVoiceV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.attachmentBody, name: "attachmentBody", parent: name, max: 1572864)
+            try self.validate(self.attachmentBody, name: "attachmentBody", parent: name, max: 6990508)
             try self.validate(self.attachmentBody, name: "attachmentBody", parent: name, min: 1)
             try self.validate(self.attachmentUrl, name: "attachmentUrl", parent: name, max: 2048)
             try self.validate(self.attachmentUrl, name: "attachmentUrl", parent: name, min: 1)
@@ -5054,6 +5133,28 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct FieldCondition: AWSDecodableShape {
+        /// The path of the field whose value determines this condition, for example companyInfo.businessType.
+        public let dependsOnFieldPath: String
+        /// The comparison operator to apply between the dependency field's value and Values. Valid values are EQUALS, NOT_EQUALS, IN, NOT_IN, HAS_VALUE, and NO_VALUE. Operators not in this list are treated as evaluating to false, which causes the containing rule to be skipped. This allows forward-compatible additions of new operators without breaking older SDK clients.
+        public let `operator`: String
+        /// The values to compare the dependency field's value against. Required for the EQUALS, NOT_EQUALS, IN, and NOT_IN operators. Omitted for HAS_VALUE and NO_VALUE, which test only presence.
+        public let values: [String]?
+
+        @inlinable
+        public init(dependsOnFieldPath: String, operator: String, values: [String]? = nil) {
+            self.dependsOnFieldPath = dependsOnFieldPath
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dependsOnFieldPath = "DependsOnFieldPath"
+            case `operator` = "Operator"
+            case values = "Values"
+        }
+    }
+
     public struct GetProtectConfigurationCountryRuleSetRequest: AWSEncodableShape {
         /// The capability type to return the CountryRuleSet for. Valid values are SMS, VOICE, or MMS.
         public let numberCapability: NumberCapability
@@ -5237,6 +5338,84 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamArn = "DeliveryStreamArn"
             case iamRoleArn = "IamRoleArn"
+        }
+    }
+
+    public struct ListAvailablePhoneNumbersRequest: AWSEncodableShape {
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region in which to search for available phone numbers. This operation currently supports only US.
+        public let isoCountryCode: String
+        /// The maximum number of results to return per page. If you don't specify a value, the default is 10.
+        public let maxResults: Int?
+        /// The token returned from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned.
+        public let numberCapabilities: [NumberCapability]
+        /// Optional. If omitted, returns unfiltered available numbers.
+        /// Max 1 element for List API.
+        public let numberPreference: [NumberPreferenceItem]?
+        /// The type of phone number to search for.
+        public let numberType: SearchableNumberType
+        /// The registration associated with the request. A registration is required for regulated number types. You can specify either:   The unique identifier of the registration.   The Amazon Resource Name (ARN) of the registration.
+        public let registrationId: String?
+
+        @inlinable
+        public init(isoCountryCode: String, maxResults: Int? = nil, nextToken: String? = nil, numberCapabilities: [NumberCapability], numberPreference: [NumberPreferenceItem]? = nil, numberType: SearchableNumberType, registrationId: String? = nil) {
+            self.isoCountryCode = isoCountryCode
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.numberCapabilities = numberCapabilities
+            self.numberPreference = numberPreference
+            self.numberType = numberType
+            self.registrationId = registrationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, max: 2)
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, min: 2)
+            try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, pattern: "^[A-Z]{2}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.numberCapabilities, name: "numberCapabilities", parent: name, max: 4)
+            try self.validate(self.numberCapabilities, name: "numberCapabilities", parent: name, min: 1)
+            try self.numberPreference?.forEach {
+                try $0.validate(name: "\(name).numberPreference[]")
+            }
+            try self.validate(self.numberPreference, name: "numberPreference", parent: name, max: 1)
+            try self.validate(self.numberPreference, name: "numberPreference", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
+            try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isoCountryCode = "IsoCountryCode"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case numberCapabilities = "NumberCapabilities"
+            case numberPreference = "NumberPreference"
+            case numberType = "NumberType"
+            case registrationId = "RegistrationId"
+        }
+    }
+
+    public struct ListAvailablePhoneNumbersResult: AWSDecodableShape {
+        /// An array of phone numbers, in E.164 format, that are available to request based on the specified filters.
+        public let availablePhoneNumbers: [String]
+        /// The token to include in the next request to retrieve the next page of results. This value is null when there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(availablePhoneNumbers: [String], nextToken: String? = nil) {
+            self.availablePhoneNumbers = availablePhoneNumbers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availablePhoneNumbers = "AvailablePhoneNumbers"
+            case nextToken = "NextToken"
         }
     }
 
@@ -5542,6 +5721,24 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct MessagingLimits: AWSDecodableShape {
+        /// The advisory maximum number of messages that can be sent per day, keyed by provider (for example, T-MOBILE). Applies to 10DLC phone numbers and is omitted when no daily cap applies.
+        public let dailyMessageCaps: [String: Int64]?
+        /// The maximum send rate for each supported capability, in messages per second. The map is keyed by capability, such as SMS, MMS, VOICE, or RCS.
+        public let rateLimits: [String: Int64]?
+
+        @inlinable
+        public init(dailyMessageCaps: [String: Int64]? = nil, rateLimits: [String: Int64]? = nil) {
+            self.dailyMessageCaps = dailyMessageCaps
+            self.rateLimits = rateLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dailyMessageCaps = "DailyMessageCaps"
+            case rateLimits = "RateLimits"
+        }
+    }
+
     public struct NotifyConfigurationFilter: AWSEncodableShape {
         /// The name of the attribute to filter on.
         public let name: NotifyConfigurationFilterName
@@ -5756,6 +5953,36 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct NumberPreferenceItem: AWSEncodableShape {
+        /// The digit pattern values to match against available phone numbers, using the specified preference type.
+        public let filter: [String]
+        /// The type of match to apply to the filter values.    StartsWith: Returns numbers that begin with the filter value.    EndsWith: Returns numbers that end with the filter value.    Contains: Returns numbers that contain the filter value.    ExactMatch: Returns the number that exactly matches the filter value.
+        public let preferenceType: [PreferenceType]
+
+        @inlinable
+        public init(filter: [String], preferenceType: [PreferenceType]) {
+            self.filter = filter
+            self.preferenceType = preferenceType
+        }
+
+        public func validate(name: String) throws {
+            try self.filter.forEach {
+                try validate($0, name: "filter[]", parent: name, max: 16)
+                try validate($0, name: "filter[]", parent: name, min: 2)
+                try validate($0, name: "filter[]", parent: name, pattern: "^\\+?[0-9]{1,15}$")
+            }
+            try self.validate(self.filter, name: "filter", parent: name, max: 10)
+            try self.validate(self.filter, name: "filter", parent: name, min: 1)
+            try self.validate(self.preferenceType, name: "preferenceType", parent: name, max: 1)
+            try self.validate(self.preferenceType, name: "preferenceType", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case preferenceType = "PreferenceType"
+        }
+    }
+
     public struct OptOutListInformation: AWSDecodableShape {
         /// The time when the OutOutList was created, in UNIX epoch time format.
         public let createdTimestamp: Date
@@ -5897,6 +6124,8 @@ extension PinpointSMSVoiceV2 {
         public let isoCountryCode: String
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let messageType: MessageType
+        /// The messaging limits that apply to the phone number, including the per-capability send rates and any advisory per-provider daily message caps.
+        public let messagingLimits: MessagingLimits?
         /// The price, in US dollars, to lease the phone number.
         public let monthlyLeasingPrice: String
         /// Describes if the origination identity can be used for text messages, voice calls or both.
@@ -5927,12 +6156,13 @@ extension PinpointSMSVoiceV2 {
         public let twoWayEnabled: Bool
 
         @inlinable
-        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, internationalSendingEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, monthlyLeasingPrice: String, numberCapabilities: [NumberCapability], numberType: NumberType, optOutListName: String, phoneNumber: String, phoneNumberArn: String, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool, status: NumberStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool) {
+        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, internationalSendingEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, messagingLimits: MessagingLimits? = nil, monthlyLeasingPrice: String, numberCapabilities: [NumberCapability], numberType: NumberType, optOutListName: String, phoneNumber: String, phoneNumberArn: String, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool, status: NumberStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.internationalSendingEnabled = internationalSendingEnabled
             self.isoCountryCode = isoCountryCode
             self.messageType = messageType
+            self.messagingLimits = messagingLimits
             self.monthlyLeasingPrice = monthlyLeasingPrice
             self.numberCapabilities = numberCapabilities
             self.numberType = numberType
@@ -5955,6 +6185,7 @@ extension PinpointSMSVoiceV2 {
             case internationalSendingEnabled = "InternationalSendingEnabled"
             case isoCountryCode = "IsoCountryCode"
             case messageType = "MessageType"
+            case messagingLimits = "MessagingLimits"
             case monthlyLeasingPrice = "MonthlyLeasingPrice"
             case numberCapabilities = "NumberCapabilities"
             case numberType = "NumberType"
@@ -6631,6 +6862,8 @@ extension PinpointSMSVoiceV2 {
         public let createdTimestamp: Date
         /// When set to true the RCS agent can't be deleted.
         public let deletionProtectionEnabled: Bool
+        /// The messaging limits that apply to the RCS agent, including the per-capability send rates.
+        public let messagingLimits: MessagingLimits?
         /// The name of the OptOutList associated with the RCS agent.
         public let optOutListName: String?
         /// The unique identifier of the pool associated with the RCS agent.
@@ -6661,9 +6894,10 @@ extension PinpointSMSVoiceV2 {
         public let twoWayRcsEventsEnabled: [String]?
 
         @inlinable
-        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, optOutListName: String? = nil, poolId: String? = nil, rcsAgentArn: String, rcsAgentId: String, selfManagedOptOutsEnabled: Bool, status: RcsAgentStatus, testingAgent: TestingAgentInformation? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool, twoWayMediaS3BucketName: String? = nil, twoWayMediaS3KeyPrefix: String? = nil, twoWayMediaS3Role: String? = nil, twoWayRcsEventsEnabled: [String]? = nil) {
+        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, messagingLimits: MessagingLimits? = nil, optOutListName: String? = nil, poolId: String? = nil, rcsAgentArn: String, rcsAgentId: String, selfManagedOptOutsEnabled: Bool, status: RcsAgentStatus, testingAgent: TestingAgentInformation? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool, twoWayMediaS3BucketName: String? = nil, twoWayMediaS3KeyPrefix: String? = nil, twoWayMediaS3Role: String? = nil, twoWayRcsEventsEnabled: [String]? = nil) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.messagingLimits = messagingLimits
             self.optOutListName = optOutListName
             self.poolId = poolId
             self.rcsAgentArn = rcsAgentArn
@@ -6683,6 +6917,7 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case messagingLimits = "MessagingLimits"
             case optOutListName = "OptOutListName"
             case poolId = "PoolId"
             case rcsAgentArn = "RcsAgentArn"
@@ -7362,6 +7597,8 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct RegistrationFieldDefinition: AWSDecodableShape {
+        /// The conditional behavior rules for this field. Only present when FieldRequirement is CONDITIONAL. Rules are evaluated in order and the first matching rule determines the field's resolved requirement. If no rule matches, the DefaultBehavior applies.
+        public let conditionalBehavior: ConditionalBehavior?
         /// An array of RegistrationFieldDisplayHints objects for the field.
         public let displayHints: RegistrationFieldDisplayHints
         /// The path to the registration form field. You can use DescribeRegistrationFieldDefinitions for a list of FieldPaths.
@@ -7378,7 +7615,8 @@ extension PinpointSMSVoiceV2 {
         public let textValidation: TextValidation?
 
         @inlinable
-        public init(displayHints: RegistrationFieldDisplayHints, fieldPath: String, fieldRequirement: FieldRequirement, fieldType: FieldType, sectionPath: String, selectValidation: SelectValidation? = nil, textValidation: TextValidation? = nil) {
+        public init(conditionalBehavior: ConditionalBehavior? = nil, displayHints: RegistrationFieldDisplayHints, fieldPath: String, fieldRequirement: FieldRequirement, fieldType: FieldType, sectionPath: String, selectValidation: SelectValidation? = nil, textValidation: TextValidation? = nil) {
+            self.conditionalBehavior = conditionalBehavior
             self.displayHints = displayHints
             self.fieldPath = fieldPath
             self.fieldRequirement = fieldRequirement
@@ -7389,6 +7627,7 @@ extension PinpointSMSVoiceV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case conditionalBehavior = "ConditionalBehavior"
             case displayHints = "DisplayHints"
             case fieldPath = "FieldPath"
             case fieldRequirement = "FieldRequirement"
@@ -7957,6 +8196,8 @@ extension PinpointSMSVoiceV2 {
         public let messageType: MessageType
         /// Indicates if the phone number will be used for text messages, voice messages, or both.
         public let numberCapabilities: [NumberCapability]
+        /// An optional selection preference used to request a specific phone number, such as a number that starts with, ends with, or contains a particular digit pattern. You can specify at most one preference. Number preferences apply only to TEN_DLC requests in the US.
+        public let numberPreference: [NumberPreferenceItem]?
         /// The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL.
         public let numberType: RequestableNumberType
         /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
@@ -7969,13 +8210,14 @@ extension PinpointSMSVoiceV2 {
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = RequestPhoneNumberRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, internationalSendingEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, numberCapabilities: [NumberCapability], numberType: RequestableNumberType, optOutListName: String? = nil, poolId: String? = nil, registrationId: String? = nil, tags: [Tag]? = nil) {
+        public init(clientToken: String? = RequestPhoneNumberRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, internationalSendingEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, numberCapabilities: [NumberCapability], numberPreference: [NumberPreferenceItem]? = nil, numberType: RequestableNumberType, optOutListName: String? = nil, poolId: String? = nil, registrationId: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.internationalSendingEnabled = internationalSendingEnabled
             self.isoCountryCode = isoCountryCode
             self.messageType = messageType
             self.numberCapabilities = numberCapabilities
+            self.numberPreference = numberPreference
             self.numberType = numberType
             self.optOutListName = optOutListName
             self.poolId = poolId
@@ -7992,6 +8234,11 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, pattern: "^[A-Z]{2}$")
             try self.validate(self.numberCapabilities, name: "numberCapabilities", parent: name, max: 4)
             try self.validate(self.numberCapabilities, name: "numberCapabilities", parent: name, min: 1)
+            try self.numberPreference?.forEach {
+                try $0.validate(name: "\(name).numberPreference[]")
+            }
+            try self.validate(self.numberPreference, name: "numberPreference", parent: name, max: 1)
+            try self.validate(self.numberPreference, name: "numberPreference", parent: name, min: 1)
             try self.validate(self.optOutListName, name: "optOutListName", parent: name, max: 256)
             try self.validate(self.optOutListName, name: "optOutListName", parent: name, min: 1)
             try self.validate(self.optOutListName, name: "optOutListName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
@@ -8013,6 +8260,7 @@ extension PinpointSMSVoiceV2 {
             case isoCountryCode = "IsoCountryCode"
             case messageType = "MessageType"
             case numberCapabilities = "NumberCapabilities"
+            case numberPreference = "NumberPreference"
             case numberType = "NumberType"
             case optOutListName = "OptOutListName"
             case poolId = "PoolId"
@@ -9049,6 +9297,8 @@ extension PinpointSMSVoiceV2 {
         public let isoCountryCode: String
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let messageTypes: [MessageType]
+        /// The messaging limits that apply to the sender ID, including the per-capability send rates.
+        public let messagingLimits: MessagingLimits?
         /// The monthly leasing price, in US dollars.
         public let monthlyLeasingPrice: String
         /// True if the sender ID is registered.
@@ -9061,10 +9311,11 @@ extension PinpointSMSVoiceV2 {
         public let senderIdArn: String
 
         @inlinable
-        public init(deletionProtectionEnabled: Bool, isoCountryCode: String, messageTypes: [MessageType], monthlyLeasingPrice: String, registered: Bool, registrationId: String? = nil, senderId: String, senderIdArn: String) {
+        public init(deletionProtectionEnabled: Bool, isoCountryCode: String, messageTypes: [MessageType], messagingLimits: MessagingLimits? = nil, monthlyLeasingPrice: String, registered: Bool, registrationId: String? = nil, senderId: String, senderIdArn: String) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
             self.messageTypes = messageTypes
+            self.messagingLimits = messagingLimits
             self.monthlyLeasingPrice = monthlyLeasingPrice
             self.registered = registered
             self.registrationId = registrationId
@@ -9076,6 +9327,7 @@ extension PinpointSMSVoiceV2 {
             case deletionProtectionEnabled = "DeletionProtectionEnabled"
             case isoCountryCode = "IsoCountryCode"
             case messageTypes = "MessageTypes"
+            case messagingLimits = "MessagingLimits"
             case monthlyLeasingPrice = "MonthlyLeasingPrice"
             case registered = "Registered"
             case registrationId = "RegistrationId"

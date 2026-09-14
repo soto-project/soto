@@ -1197,24 +1197,31 @@ extension Appflow {
     public struct ConnectorOAuthRequest: AWSEncodableShape {
         ///  The code provided by the connector when it has been authenticated via the connected app.
         public let authCode: String?
+        ///  The code verifier used in the PKCE (Proof Key for Code Exchange) OAuth flow.
+        public let codeVerifier: String?
         ///  The URL to which the authentication server redirects the browser after authorization has been granted.
         public let redirectUri: String?
 
         @inlinable
-        public init(authCode: String? = nil, redirectUri: String? = nil) {
+        public init(authCode: String? = nil, codeVerifier: String? = nil, redirectUri: String? = nil) {
             self.authCode = authCode
+            self.codeVerifier = codeVerifier
             self.redirectUri = redirectUri
         }
 
         public func validate(name: String) throws {
             try self.validate(self.authCode, name: "authCode", parent: name, max: 4096)
             try self.validate(self.authCode, name: "authCode", parent: name, pattern: "^\\S+$")
+            try self.validate(self.codeVerifier, name: "codeVerifier", parent: name, max: 128)
+            try self.validate(self.codeVerifier, name: "codeVerifier", parent: name, min: 43)
+            try self.validate(self.codeVerifier, name: "codeVerifier", parent: name, pattern: "^[A-Za-z0-9\\-._~]+$")
             try self.validate(self.redirectUri, name: "redirectUri", parent: name, max: 512)
             try self.validate(self.redirectUri, name: "redirectUri", parent: name, pattern: "^\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case authCode = "authCode"
+            case codeVerifier = "codeVerifier"
             case redirectUri = "redirectUri"
         }
     }
@@ -4988,25 +4995,32 @@ extension Appflow {
 
     public struct SnowflakeConnectorProfileCredentials: AWSEncodableShape {
         ///  The password that corresponds to the user name.
-        public let password: String
+        public let password: String?
+        ///  The RSA private key used for key pair authentication with Snowflake. Provide this instead of a password when your Snowflake account uses key pair authentication.
+        public let privateKey: String?
         ///  The name of the user.
         public let username: String
 
         @inlinable
-        public init(password: String, username: String) {
+        public init(password: String? = nil, privateKey: String? = nil, username: String) {
             self.password = password
+            self.privateKey = privateKey
             self.username = username
         }
 
         public func validate(name: String) throws {
             try self.validate(self.password, name: "password", parent: name, max: 512)
             try self.validate(self.password, name: "password", parent: name, pattern: ".*")
+            try self.validate(self.privateKey, name: "privateKey", parent: name, max: 8192)
+            try self.validate(self.privateKey, name: "privateKey", parent: name, min: 1)
+            try self.validate(self.privateKey, name: "privateKey", parent: name, pattern: ".*")
             try self.validate(self.username, name: "username", parent: name, max: 512)
             try self.validate(self.username, name: "username", parent: name, pattern: "^\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case password = "password"
+            case privateKey = "privateKey"
             case username = "username"
         }
     }

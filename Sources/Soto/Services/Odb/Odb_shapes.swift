@@ -231,6 +231,20 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum GridImageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// A custom grid image.
+        case customImage = "CUSTOM_IMAGE"
+        /// A release update grid image.
+        case releaseUpdate = "RELEASE_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HardwareType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cell = "CELL"
+        case compute = "COMPUTE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IamRoleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case associating = "ASSOCIATING"
         case connected = "CONNECTED"
@@ -392,6 +406,14 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum ShapeAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Block storage shape attribute.
+        case blockStorage = "BLOCK_STORAGE"
+        /// Smart storage shape attribute.
+        case smartStorage = "SMART_STORAGE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ShapeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amd = "AMD"
         case ampereFlexA1 = "AMPERE_FLEX_A1"
@@ -420,6 +442,14 @@ extension Odb {
 
     public enum SupportedAwsIntegration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kmsTde = "KmsTde"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case nonRollingApply = "NON_ROLLING_APPLY"
+        case precheck = "PRECHECK"
+        case rollback = "ROLLBACK"
+        case rollingApply = "ROLLING_APPLY"
         public var description: String { return self.rawValue }
     }
 
@@ -614,6 +644,56 @@ extension Odb {
 
     public struct AssociateIamRoleToResourceOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct AssociateVirtualMachinesToExadbVmClusterInput: AWSEncodableShape {
+        /// The desired number of nodes in the Exascale VM cluster after the association.
+        public let desiredNodeCount: Int
+        /// The unique identifier of the Exascale VM cluster to add virtual machines to.
+        public let exadbVmClusterId: String
+
+        @inlinable
+        public init(desiredNodeCount: Int, exadbVmClusterId: String) {
+            self.desiredNodeCount = desiredNodeCount
+            self.exadbVmClusterId = exadbVmClusterId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, max: 2048)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, min: 6)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredNodeCount = "desiredNodeCount"
+            case exadbVmClusterId = "exadbVmClusterId"
+        }
+    }
+
+    public struct AssociateVirtualMachinesToExadbVmClusterOutput: AWSDecodableShape {
+        /// The user-friendly name for the Exascale VM cluster.
+        public let displayName: String?
+        /// The unique identifier of the Exascale VM cluster.
+        public let exadbVmClusterId: String
+        /// The current status of the Exascale VM cluster.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exascale VM cluster.
+        public let statusReason: String?
+
+        @inlinable
+        public init(displayName: String? = nil, exadbVmClusterId: String, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.displayName = displayName
+            self.exadbVmClusterId = exadbVmClusterId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case exadbVmClusterId = "exadbVmClusterId"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
     }
 
     public struct AutonomousDatabase: AWSDecodableShape {
@@ -2830,7 +2910,7 @@ extension Odb {
         public let odbNetworkId: String?
         /// The amount of progress made on the current operation on the VM cluster, expressed as a percentage.
         public let percentProgress: Float?
-        /// The FQDN of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the VM cluster.
+        /// The fully qualified domain name (FQDN) of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the VM cluster.
         public let scanDnsName: String?
         /// The OCID of the DNS record for the SCAN IP addresses that are associated with the VM cluster.
         public let scanDnsRecordId: String?
@@ -3010,7 +3090,7 @@ extension Odb {
         public let odbNetworkId: String?
         /// The amount of progress made on the current operation on the VM cluster, expressed as a percentage.
         public let percentProgress: Float?
-        /// The FQDN of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the VM cluster.
+        /// The fully qualified domain name (FQDN) of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the VM cluster.
         public let scanDnsName: String?
         /// The OCID of the DNS record for the SCAN IP addresses that are associated with the VM cluster.
         public let scanDnsRecordId: String?
@@ -3744,7 +3824,7 @@ extension Odb {
         public let dataCollectionOptions: DataCollectionOptions?
         /// The size of the data disk group, in terabytes (TBs), to allocate for the VM cluster.
         public let dataStorageSizeInTBs: Double?
-        /// The amount of local node storage, in gigabytes (GBs), to allocate for the VM cluster.
+        /// The amount of local node storage, in gigabytes (GB), to allocate for the VM cluster.
         public let dbNodeStorageSizeInGBs: Int?
         /// The list of database servers for the VM cluster.
         public let dbServers: [String]?
@@ -3760,7 +3840,7 @@ extension Odb {
         public let isSparseDiskgroupEnabled: Bool?
         /// The Oracle license model to apply to the VM cluster. Default: LICENSE_INCLUDED
         public let licenseModel: LicenseModel?
-        /// The amount of memory, in gigabytes (GBs), to allocate for the VM cluster.
+        /// The amount of memory, in gigabytes (GB), to allocate for the VM cluster.
         public let memorySizeInGBs: Int?
         /// The unique identifier of the ODB network for the VM cluster.
         public let odbNetworkId: String
@@ -3876,6 +3956,248 @@ extension Odb {
         private enum CodingKeys: String, CodingKey {
             case cloudVmClusterId = "cloudVmClusterId"
             case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct CreateExadbVmClusterInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.
+        public let clientToken: String?
+        /// A name for the Grid Infrastructure cluster. The name isn't case sensitive.
+        public let clusterName: String?
+        /// The set of preferences for the various diagnostic collection options for the Exascale VM cluster.
+        public let dataCollectionOptions: DataCollectionOptions?
+        /// A user-friendly name for the Exascale VM cluster.
+        public let displayName: String
+        /// The number of ECPUs to enable for the Exascale VM cluster.
+        public let enabledEcpuCount: Int
+        /// The unique identifier of the Exascale storage vault for this Exascale VM cluster.
+        public let exascaleDbStorageVaultId: String
+        /// The Grid Infrastructure software image ID for the Exascale VM cluster.
+        public let gridImageId: String
+        /// The host name for the Exascale VM cluster.
+        public let hostname: String
+        /// The Oracle license model to apply to the Exascale VM cluster.
+        public let licenseModel: LicenseModel?
+        /// The number of nodes in the Exascale VM cluster.
+        public let nodeCount: Int
+        /// The unique identifier of the ODB network for the Exascale VM cluster.
+        public let odbNetworkId: String
+        /// The port number for TCP connections to the Single Client Access Name (SCAN) listener.
+        public let scanListenerPortTcp: Int?
+        /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener.
+        public let scanListenerPortTcpSsl: Int?
+        /// The shape of the Exascale VM cluster.
+        public let shape: String
+        /// The shape attribute for the Exascale VM cluster.
+        public let shapeAttribute: ShapeAttribute?
+        /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
+        public let sshPublicKeys: [String]
+        /// The version of the operating system of the image for the Exascale VM cluster.
+        public let systemVersion: String?
+        /// The list of resource tags to apply to the Exascale VM cluster.
+        public let tags: [String: String]?
+        /// The time zone for the Exascale VM cluster.
+        public let timeZone: String?
+        /// The total number of ECPUs for the Exascale VM cluster.
+        public let totalEcpuCount: Int
+        /// The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster.
+        public let vmFileSystemStorageTotalSizeInGBs: Int
+
+        @inlinable
+        public init(clientToken: String? = CreateExadbVmClusterInput.idempotencyToken(), clusterName: String? = nil, dataCollectionOptions: DataCollectionOptions? = nil, displayName: String, enabledEcpuCount: Int, exascaleDbStorageVaultId: String, gridImageId: String, hostname: String, licenseModel: LicenseModel? = nil, nodeCount: Int, odbNetworkId: String, scanListenerPortTcp: Int? = nil, scanListenerPortTcpSsl: Int? = nil, shape: String, shapeAttribute: ShapeAttribute? = nil, sshPublicKeys: [String], systemVersion: String? = nil, tags: [String: String]? = nil, timeZone: String? = nil, totalEcpuCount: Int, vmFileSystemStorageTotalSizeInGBs: Int) {
+            self.clientToken = clientToken
+            self.clusterName = clusterName
+            self.dataCollectionOptions = dataCollectionOptions
+            self.displayName = displayName
+            self.enabledEcpuCount = enabledEcpuCount
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.gridImageId = gridImageId
+            self.hostname = hostname
+            self.licenseModel = licenseModel
+            self.nodeCount = nodeCount
+            self.odbNetworkId = odbNetworkId
+            self.scanListenerPortTcp = scanListenerPortTcp
+            self.scanListenerPortTcpSsl = scanListenerPortTcpSsl
+            self.shape = shape
+            self.shapeAttribute = shapeAttribute
+            self.sshPublicKeys = sshPublicKeys
+            self.systemVersion = systemVersion
+            self.tags = tags
+            self.timeZone = timeZone
+            self.totalEcpuCount = totalEcpuCount
+            self.vmFileSystemStorageTotalSizeInGBs = vmFileSystemStorageTotalSizeInGBs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9_\\/.=-]+$")
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 11)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]*$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, max: 2048)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, min: 6)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.hostname, name: "hostname", parent: name, max: 12)
+            try self.validate(self.hostname, name: "hostname", parent: name, min: 1)
+            try self.validate(self.hostname, name: "hostname", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-]*[a-zA-Z0-9]$")
+            try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, max: 2048)
+            try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, min: 6)
+            try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.sshPublicKeys, name: "sshPublicKeys", parent: name, max: 1024)
+            try self.validate(self.sshPublicKeys, name: "sshPublicKeys", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case clusterName = "clusterName"
+            case dataCollectionOptions = "dataCollectionOptions"
+            case displayName = "displayName"
+            case enabledEcpuCount = "enabledEcpuCount"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+            case gridImageId = "gridImageId"
+            case hostname = "hostname"
+            case licenseModel = "licenseModel"
+            case nodeCount = "nodeCount"
+            case odbNetworkId = "odbNetworkId"
+            case scanListenerPortTcp = "scanListenerPortTcp"
+            case scanListenerPortTcpSsl = "scanListenerPortTcpSsl"
+            case shape = "shape"
+            case shapeAttribute = "shapeAttribute"
+            case sshPublicKeys = "sshPublicKeys"
+            case systemVersion = "systemVersion"
+            case tags = "tags"
+            case timeZone = "timeZone"
+            case totalEcpuCount = "totalEcpuCount"
+            case vmFileSystemStorageTotalSizeInGBs = "vmFileSystemStorageTotalSizeInGBs"
+        }
+    }
+
+    public struct CreateExadbVmClusterOutput: AWSDecodableShape {
+        /// The user-friendly name for the Exascale VM cluster.
+        public let displayName: String?
+        /// The unique identifier of the Exascale VM cluster.
+        public let exadbVmClusterId: String
+        /// The current status of the Exascale VM cluster.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exascale VM cluster.
+        public let statusReason: String?
+
+        @inlinable
+        public init(displayName: String? = nil, exadbVmClusterId: String, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.displayName = displayName
+            self.exadbVmClusterId = exadbVmClusterId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case exadbVmClusterId = "exadbVmClusterId"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct CreateExascaleDbStorageVaultInput: AWSEncodableShape {
+        /// The additional flash cache percentage for the Exascale storage vault.
+        public let additionalFlashCacheInPercent: Int?
+        /// The autoscale limit in gigabytes (GB) for the Exascale storage vault.
+        public let autoscaleLimitInGBs: Int?
+        /// The Availability Zone for the Exascale storage vault.
+        public let availabilityZone: String?
+        /// The Availability Zone ID for the Exascale storage vault.
+        public let availabilityZoneId: String?
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.
+        public let clientToken: String?
+        /// A description of the Exascale storage vault.
+        public let description: String?
+        /// A user-friendly name for the Exascale storage vault.
+        public let displayName: String
+        /// The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault.
+        public let highCapacityDatabaseStorageTotalSizeInGBs: Int
+        /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+        public let isAutoscaleEnabled: Bool?
+        /// The list of resource tags to apply to the Exascale storage vault.
+        public let tags: [String: String]?
+        /// The time zone for the Exascale storage vault.
+        public let timeZone: String?
+
+        @inlinable
+        public init(additionalFlashCacheInPercent: Int? = nil, autoscaleLimitInGBs: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, clientToken: String? = CreateExascaleDbStorageVaultInput.idempotencyToken(), description: String? = nil, displayName: String, highCapacityDatabaseStorageTotalSizeInGBs: Int, isAutoscaleEnabled: Bool? = nil, tags: [String: String]? = nil, timeZone: String? = nil) {
+            self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
+            self.autoscaleLimitInGBs = autoscaleLimitInGBs
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.clientToken = clientToken
+            self.description = description
+            self.displayName = displayName
+            self.highCapacityDatabaseStorageTotalSizeInGBs = highCapacityDatabaseStorageTotalSizeInGBs
+            self.isAutoscaleEnabled = isAutoscaleEnabled
+            self.tags = tags
+            self.timeZone = timeZone
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9_\\/.=-]+$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalFlashCacheInPercent = "additionalFlashCacheInPercent"
+            case autoscaleLimitInGBs = "autoscaleLimitInGBs"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case clientToken = "clientToken"
+            case description = "description"
+            case displayName = "displayName"
+            case highCapacityDatabaseStorageTotalSizeInGBs = "highCapacityDatabaseStorageTotalSizeInGBs"
+            case isAutoscaleEnabled = "isAutoscaleEnabled"
+            case tags = "tags"
+            case timeZone = "timeZone"
+        }
+    }
+
+    public struct CreateExascaleDbStorageVaultOutput: AWSDecodableShape {
+        /// The user-friendly name for the Exascale storage vault.
+        public let displayName: String?
+        /// The unique identifier of the Exascale storage vault.
+        public let exascaleDbStorageVaultId: String
+        /// The current status of the Exascale storage vault.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exascale storage vault.
+        public let statusReason: String?
+
+        @inlinable
+        public init(displayName: String? = nil, exascaleDbStorageVaultId: String, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.displayName = displayName
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
             case status = "status"
             case statusReason = "statusReason"
         }
@@ -4452,7 +4774,7 @@ extension Odb {
         public let dbNodeArn: String?
         /// The unique identifier of the DB node.
         public let dbNodeId: String?
-        /// The amount of local node storage, in gigabytes (GBs), that's allocated on the DB node.
+        /// The amount of local node storage, in gigabytes (GB), that's allocated on the DB node.
         public let dbNodeStorageSizeInGBs: Int?
         /// The unique identifier of the Db server that is associated with the DB node.
         public let dbServerId: String?
@@ -4921,13 +5243,15 @@ extension Odb {
         public let name: String?
         /// The runtime minimum number of CPU cores that can be enabled for the shape.
         public let runtimeMinimumCoreCount: Int?
+        /// If provided and applicable, return DB System shape parameters based on the shape attribute provided.
+        public let shapeAttributes: [ShapeAttribute]?
         /// The family of the shape.
         public let shapeFamily: String?
         /// The shape type. This property is determined by the CPU hardware.
         public let shapeType: ShapeType?
 
         @inlinable
-        public init(areServerTypesSupported: Bool? = nil, availableCoreCount: Int? = nil, availableCoreCountPerNode: Int? = nil, availableDataStorageInTBs: Int? = nil, availableDataStoragePerServerInTBs: Int? = nil, availableDbNodePerNodeInGBs: Int? = nil, availableDbNodeStorageInGBs: Int? = nil, availableMemoryInGBs: Int? = nil, availableMemoryPerNodeInGBs: Int? = nil, computeModel: ComputeModel? = nil, coreCountIncrement: Int? = nil, maximumNodeCount: Int? = nil, maxStorageCount: Int? = nil, minCoreCountPerNode: Int? = nil, minDataStorageInTBs: Int? = nil, minDbNodeStoragePerNodeInGBs: Int? = nil, minimumCoreCount: Int? = nil, minimumNodeCount: Int? = nil, minMemoryPerNodeInGBs: Int? = nil, minStorageCount: Int? = nil, name: String? = nil, runtimeMinimumCoreCount: Int? = nil, shapeFamily: String? = nil, shapeType: ShapeType? = nil) {
+        public init(areServerTypesSupported: Bool? = nil, availableCoreCount: Int? = nil, availableCoreCountPerNode: Int? = nil, availableDataStorageInTBs: Int? = nil, availableDataStoragePerServerInTBs: Int? = nil, availableDbNodePerNodeInGBs: Int? = nil, availableDbNodeStorageInGBs: Int? = nil, availableMemoryInGBs: Int? = nil, availableMemoryPerNodeInGBs: Int? = nil, computeModel: ComputeModel? = nil, coreCountIncrement: Int? = nil, maximumNodeCount: Int? = nil, maxStorageCount: Int? = nil, minCoreCountPerNode: Int? = nil, minDataStorageInTBs: Int? = nil, minDbNodeStoragePerNodeInGBs: Int? = nil, minimumCoreCount: Int? = nil, minimumNodeCount: Int? = nil, minMemoryPerNodeInGBs: Int? = nil, minStorageCount: Int? = nil, name: String? = nil, runtimeMinimumCoreCount: Int? = nil, shapeAttributes: [ShapeAttribute]? = nil, shapeFamily: String? = nil, shapeType: ShapeType? = nil) {
             self.areServerTypesSupported = areServerTypesSupported
             self.availableCoreCount = availableCoreCount
             self.availableCoreCountPerNode = availableCoreCountPerNode
@@ -4950,6 +5274,7 @@ extension Odb {
             self.minStorageCount = minStorageCount
             self.name = name
             self.runtimeMinimumCoreCount = runtimeMinimumCoreCount
+            self.shapeAttributes = shapeAttributes
             self.shapeFamily = shapeFamily
             self.shapeType = shapeType
         }
@@ -4977,6 +5302,7 @@ extension Odb {
             case minStorageCount = "minStorageCount"
             case name = "name"
             case runtimeMinimumCoreCount = "runtimeMinimumCoreCount"
+            case shapeAttributes = "shapeAttributes"
             case shapeFamily = "shapeFamily"
             case shapeType = "shapeType"
         }
@@ -5122,6 +5448,54 @@ extension Odb {
         public init() {}
     }
 
+    public struct DeleteExadbVmClusterInput: AWSEncodableShape {
+        /// The unique identifier of the Exascale VM cluster to delete.
+        public let exadbVmClusterId: String
+
+        @inlinable
+        public init(exadbVmClusterId: String) {
+            self.exadbVmClusterId = exadbVmClusterId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, max: 2048)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, min: 6)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exadbVmClusterId = "exadbVmClusterId"
+        }
+    }
+
+    public struct DeleteExadbVmClusterOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteExascaleDbStorageVaultInput: AWSEncodableShape {
+        /// The unique identifier of the Exascale storage vault to delete.
+        public let exascaleDbStorageVaultId: String
+
+        @inlinable
+        public init(exascaleDbStorageVaultId: String) {
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, max: 2048)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, min: 6)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+        }
+    }
+
+    public struct DeleteExascaleDbStorageVaultOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteOdbNetworkInput: AWSEncodableShape {
         /// Specifies whether to delete associated OCI networking resources along with the ODB network.
         public let deleteAssociatedResources: Bool
@@ -5218,6 +5592,61 @@ extension Odb {
         public init() {}
     }
 
+    public struct DisassociateVirtualMachinesFromExadbVmClusterInput: AWSEncodableShape {
+        /// The list of DB node IDs to remove from the Exascale VM cluster.
+        public let dbNodeIds: [String]
+        /// The unique identifier of the Exascale VM cluster to remove virtual machines from.
+        public let exadbVmClusterId: String
+
+        @inlinable
+        public init(dbNodeIds: [String], exadbVmClusterId: String) {
+            self.dbNodeIds = dbNodeIds
+            self.exadbVmClusterId = exadbVmClusterId
+        }
+
+        public func validate(name: String) throws {
+            try self.dbNodeIds.forEach {
+                try validate($0, name: "dbNodeIds[]", parent: name, max: 64)
+                try validate($0, name: "dbNodeIds[]", parent: name, min: 6)
+                try validate($0, name: "dbNodeIds[]", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
+            }
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, max: 2048)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, min: 6)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbNodeIds = "dbNodeIds"
+            case exadbVmClusterId = "exadbVmClusterId"
+        }
+    }
+
+    public struct DisassociateVirtualMachinesFromExadbVmClusterOutput: AWSDecodableShape {
+        /// The user-friendly name for the Exascale VM cluster.
+        public let displayName: String?
+        /// The unique identifier of the Exascale VM cluster.
+        public let exadbVmClusterId: String
+        /// The current status of the Exascale VM cluster.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exascale VM cluster.
+        public let statusReason: String?
+
+        @inlinable
+        public init(displayName: String? = nil, exadbVmClusterId: String, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.displayName = displayName
+            self.exadbVmClusterId = exadbVmClusterId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case exadbVmClusterId = "exadbVmClusterId"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
     public struct DisasterRecoveryConfiguration: AWSDecodableShape {
         /// The type of disaster recovery configured for the Autonomous Database.
         public let disasterRecoveryType: DisasterRecoveryType?
@@ -5288,6 +5717,606 @@ extension Odb {
         }
     }
 
+    public struct ExadbVmCluster: AWSDecodableShape {
+        /// The name of the Grid Infrastructure (GI) cluster.
+        public let clusterName: String?
+        /// The date and time when the Exascale VM cluster was created.
+        public let createdAt: Date?
+        /// The set of diagnostic collection options enabled for the Exascale VM cluster.
+        public let dataCollectionOptions: DataCollectionOptions?
+        /// The user-friendly name for the Exascale VM cluster.
+        public let displayName: String?
+        /// The domain of the Exascale VM cluster.
+        public let domain: String?
+        /// The number of elastic compute processing units (ECPUs) enabled on the Exascale VM cluster.
+        public let enabledEcpuCount: Int?
+        /// The Amazon Resource Name (ARN) of the Exascale VM cluster.
+        public let exadbVmClusterArn: String?
+        /// The unique identifier of the Exascale VM cluster.
+        public let exadbVmClusterId: String
+        /// The Amazon Resource Name (ARN) of the Exascale storage vault associated with this Exascale VM cluster.
+        public let exascaleDbStorageVaultArn: String?
+        /// The unique identifier of the Exascale storage vault associated with this Exascale VM cluster.
+        public let exascaleDbStorageVaultId: String?
+        /// The software version of the Oracle Grid Infrastructure (GI) for the Exascale VM cluster.
+        public let giVersion: String?
+        /// The Grid Infrastructure software image ID for the Exascale VM cluster.
+        public let gridImageId: String?
+        /// The type of Grid Infrastructure image for the Exascale VM cluster.
+        public let gridImageType: GridImageType?
+        /// The host name for the Exascale VM cluster.
+        public let hostname: String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Exascale VM cluster.
+        public let iamRoles: [IamRole]?
+        /// The I/O Resource Management (IORM) configuration cache details for the Exascale VM cluster.
+        public let iormConfigCache: ExadataIormConfig?
+        /// The Oracle Cloud ID (OCID) of the last maintenance update history entry.
+        public let lastUpdateHistoryEntryId: String?
+        /// The Oracle license model applied to the Exascale VM cluster.
+        public let licenseModel: LicenseModel?
+        /// The port number configured for the listener on the Exascale VM cluster.
+        public let listenerPort: Int?
+        /// The amount of memory, in gigabytes (GB), that's allocated for the Exascale VM cluster.
+        public let memorySizeInGBs: Int?
+        /// The number of nodes in the Exascale VM cluster.
+        public let nodeCount: Int?
+        /// The OCID of the Exascale VM cluster.
+        public let ocid: String?
+        /// The name of the OCI resource anchor for the Exascale VM cluster.
+        public let ociResourceAnchorName: String?
+        /// The HTTPS link to the Exascale VM cluster in Oracle Cloud Infrastructure (OCI).
+        public let ociUrl: String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this Exascale VM cluster.
+        public let odbNetworkArn: String?
+        /// The unique identifier of the ODB network for the Exascale VM cluster.
+        public let odbNetworkId: String?
+        /// The amount of progress made on the current operation on the Exascale VM cluster, expressed as a percentage.
+        public let percentProgress: Float?
+        /// The fully qualified domain name (FQDN) of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the Exascale VM cluster.
+        public let scanDnsName: String?
+        /// The OCID of the DNS record for the SCAN IP addresses that are associated with the Exascale VM cluster.
+        public let scanDnsRecordId: String?
+        /// The OCID of the SCAN IP addresses that are associated with the Exascale VM cluster.
+        public let scanIpIds: [String]?
+        /// The port number for TCP connections to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
+        public let scanListenerPortTcp: Int?
+        /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
+        public let scanListenerPortTcpSsl: Int?
+        /// The hardware model name of the Exadata infrastructure that's running the Exascale VM cluster.
+        public let shape: String?
+        /// The shape attribute for the Exascale VM cluster.
+        public let shapeAttribute: ShapeAttribute?
+        /// The snapshot file system storage details for the Exascale VM cluster.
+        public let snapshotFileSystemStorage: ExadbVmClusterStorageDetails?
+        /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
+        public let sshPublicKeys: [String]?
+        /// The current status of the Exascale VM cluster.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exascale VM cluster.
+        public let statusReason: String?
+        /// The operating system version of the image chosen for the Exascale VM cluster.
+        public let systemVersion: String?
+        /// The time zone of the Exascale VM cluster.
+        public let timeZone: String?
+        /// The total number of ECPUs for the Exascale VM cluster.
+        public let totalEcpuCount: Int?
+        /// The total file system storage details for the Exascale VM cluster.
+        public let totalFileSystemStorage: ExadbVmClusterStorageDetails?
+        /// The virtual IP (VIP) addresses associated with the Exascale VM cluster. One VIP address is assigned per node to support failover. If a node fails, its VIP is reassigned to another active node in the cluster.
+        public let vipIds: [String]?
+        /// The VM file system storage details for the Exascale VM cluster.
+        public let vmFileSystemStorage: ExadbVmClusterStorageDetails?
+
+        @inlinable
+        public init(clusterName: String? = nil, createdAt: Date? = nil, dataCollectionOptions: DataCollectionOptions? = nil, displayName: String? = nil, domain: String? = nil, enabledEcpuCount: Int? = nil, exadbVmClusterArn: String? = nil, exadbVmClusterId: String, exascaleDbStorageVaultArn: String? = nil, exascaleDbStorageVaultId: String? = nil, giVersion: String? = nil, gridImageId: String? = nil, gridImageType: GridImageType? = nil, hostname: String? = nil, iamRoles: [IamRole]? = nil, iormConfigCache: ExadataIormConfig? = nil, lastUpdateHistoryEntryId: String? = nil, licenseModel: LicenseModel? = nil, listenerPort: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, scanDnsName: String? = nil, scanDnsRecordId: String? = nil, scanIpIds: [String]? = nil, scanListenerPortTcp: Int? = nil, scanListenerPortTcpSsl: Int? = nil, shape: String? = nil, shapeAttribute: ShapeAttribute? = nil, snapshotFileSystemStorage: ExadbVmClusterStorageDetails? = nil, sshPublicKeys: [String]? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, systemVersion: String? = nil, timeZone: String? = nil, totalEcpuCount: Int? = nil, totalFileSystemStorage: ExadbVmClusterStorageDetails? = nil, vipIds: [String]? = nil, vmFileSystemStorage: ExadbVmClusterStorageDetails? = nil) {
+            self.clusterName = clusterName
+            self.createdAt = createdAt
+            self.dataCollectionOptions = dataCollectionOptions
+            self.displayName = displayName
+            self.domain = domain
+            self.enabledEcpuCount = enabledEcpuCount
+            self.exadbVmClusterArn = exadbVmClusterArn
+            self.exadbVmClusterId = exadbVmClusterId
+            self.exascaleDbStorageVaultArn = exascaleDbStorageVaultArn
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.giVersion = giVersion
+            self.gridImageId = gridImageId
+            self.gridImageType = gridImageType
+            self.hostname = hostname
+            self.iamRoles = iamRoles
+            self.iormConfigCache = iormConfigCache
+            self.lastUpdateHistoryEntryId = lastUpdateHistoryEntryId
+            self.licenseModel = licenseModel
+            self.listenerPort = listenerPort
+            self.memorySizeInGBs = memorySizeInGBs
+            self.nodeCount = nodeCount
+            self.ocid = ocid
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.odbNetworkArn = odbNetworkArn
+            self.odbNetworkId = odbNetworkId
+            self.percentProgress = percentProgress
+            self.scanDnsName = scanDnsName
+            self.scanDnsRecordId = scanDnsRecordId
+            self.scanIpIds = scanIpIds
+            self.scanListenerPortTcp = scanListenerPortTcp
+            self.scanListenerPortTcpSsl = scanListenerPortTcpSsl
+            self.shape = shape
+            self.shapeAttribute = shapeAttribute
+            self.snapshotFileSystemStorage = snapshotFileSystemStorage
+            self.sshPublicKeys = sshPublicKeys
+            self.status = status
+            self.statusReason = statusReason
+            self.systemVersion = systemVersion
+            self.timeZone = timeZone
+            self.totalEcpuCount = totalEcpuCount
+            self.totalFileSystemStorage = totalFileSystemStorage
+            self.vipIds = vipIds
+            self.vmFileSystemStorage = vmFileSystemStorage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+            case createdAt = "createdAt"
+            case dataCollectionOptions = "dataCollectionOptions"
+            case displayName = "displayName"
+            case domain = "domain"
+            case enabledEcpuCount = "enabledEcpuCount"
+            case exadbVmClusterArn = "exadbVmClusterArn"
+            case exadbVmClusterId = "exadbVmClusterId"
+            case exascaleDbStorageVaultArn = "exascaleDbStorageVaultArn"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+            case giVersion = "giVersion"
+            case gridImageId = "gridImageId"
+            case gridImageType = "gridImageType"
+            case hostname = "hostname"
+            case iamRoles = "iamRoles"
+            case iormConfigCache = "iormConfigCache"
+            case lastUpdateHistoryEntryId = "lastUpdateHistoryEntryId"
+            case licenseModel = "licenseModel"
+            case listenerPort = "listenerPort"
+            case memorySizeInGBs = "memorySizeInGBs"
+            case nodeCount = "nodeCount"
+            case ocid = "ocid"
+            case ociResourceAnchorName = "ociResourceAnchorName"
+            case ociUrl = "ociUrl"
+            case odbNetworkArn = "odbNetworkArn"
+            case odbNetworkId = "odbNetworkId"
+            case percentProgress = "percentProgress"
+            case scanDnsName = "scanDnsName"
+            case scanDnsRecordId = "scanDnsRecordId"
+            case scanIpIds = "scanIpIds"
+            case scanListenerPortTcp = "scanListenerPortTcp"
+            case scanListenerPortTcpSsl = "scanListenerPortTcpSsl"
+            case shape = "shape"
+            case shapeAttribute = "shapeAttribute"
+            case snapshotFileSystemStorage = "snapshotFileSystemStorage"
+            case sshPublicKeys = "sshPublicKeys"
+            case status = "status"
+            case statusReason = "statusReason"
+            case systemVersion = "systemVersion"
+            case timeZone = "timeZone"
+            case totalEcpuCount = "totalEcpuCount"
+            case totalFileSystemStorage = "totalFileSystemStorage"
+            case vipIds = "vipIds"
+            case vmFileSystemStorage = "vmFileSystemStorage"
+        }
+    }
+
+    public struct ExadbVmClusterStorageDetails: AWSDecodableShape {
+        /// The total storage size, in gigabytes (GB).
+        public let totalSizeInGBs: Int?
+
+        @inlinable
+        public init(totalSizeInGBs: Int? = nil) {
+            self.totalSizeInGBs = totalSizeInGBs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalSizeInGBs = "totalSizeInGBs"
+        }
+    }
+
+    public struct ExadbVmClusterSummary: AWSDecodableShape {
+        /// The name of the Grid Infrastructure (GI) cluster.
+        public let clusterName: String?
+        /// The date and time when the Exascale VM cluster was created.
+        public let createdAt: Date?
+        /// The set of diagnostic collection options enabled for the Exascale VM cluster.
+        public let dataCollectionOptions: DataCollectionOptions?
+        /// The user-friendly name for the Exascale VM cluster.
+        public let displayName: String?
+        /// The domain of the Exascale VM cluster.
+        public let domain: String?
+        /// The number of elastic compute processing units (ECPUs) enabled on the Exascale VM cluster.
+        public let enabledEcpuCount: Int?
+        /// The Amazon Resource Name (ARN) of the Exascale VM cluster.
+        public let exadbVmClusterArn: String?
+        /// The unique identifier of the Exascale VM cluster.
+        public let exadbVmClusterId: String
+        /// The Amazon Resource Name (ARN) of the Exascale storage vault associated with this Exascale VM cluster.
+        public let exascaleDbStorageVaultArn: String?
+        /// The unique identifier of the Exascale storage vault associated with this Exascale VM cluster.
+        public let exascaleDbStorageVaultId: String?
+        /// The software version of the Oracle Grid Infrastructure (GI) for the Exascale VM cluster.
+        public let giVersion: String?
+        /// The Grid Infrastructure software image ID for the Exascale VM cluster.
+        public let gridImageId: String?
+        /// The type of Grid Infrastructure image for the Exascale VM cluster.
+        public let gridImageType: GridImageType?
+        /// The host name for the Exascale VM cluster.
+        public let hostname: String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Exascale VM cluster.
+        public let iamRoles: [IamRole]?
+        /// The I/O Resource Management (IORM) configuration cache details for the Exascale VM cluster.
+        public let iormConfigCache: ExadataIormConfig?
+        /// The Oracle Cloud ID (OCID) of the last maintenance update history entry.
+        public let lastUpdateHistoryEntryId: String?
+        /// The Oracle license model applied to the Exascale VM cluster.
+        public let licenseModel: LicenseModel?
+        /// The port number configured for the listener on the Exascale VM cluster.
+        public let listenerPort: Int?
+        /// The amount of memory, in gigabytes (GB), that's allocated for the Exascale VM cluster.
+        public let memorySizeInGBs: Int?
+        /// The number of nodes in the Exascale VM cluster.
+        public let nodeCount: Int?
+        /// The OCID of the Exascale VM cluster.
+        public let ocid: String?
+        /// The name of the OCI resource anchor for the Exascale VM cluster.
+        public let ociResourceAnchorName: String?
+        /// The HTTPS link to the Exascale VM cluster in Oracle Cloud Infrastructure (OCI).
+        public let ociUrl: String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this Exascale VM cluster.
+        public let odbNetworkArn: String?
+        /// The unique identifier of the ODB network for the Exascale VM cluster.
+        public let odbNetworkId: String?
+        /// The amount of progress made on the current operation on the Exascale VM cluster, expressed as a percentage.
+        public let percentProgress: Float?
+        /// The fully qualified domain name (FQDN) of the DNS record for the Single Client Access Name (SCAN) IP addresses that are associated with the Exascale VM cluster.
+        public let scanDnsName: String?
+        /// The OCID of the DNS record for the SCAN IP addresses that are associated with the Exascale VM cluster.
+        public let scanDnsRecordId: String?
+        /// The OCID of the SCAN IP addresses that are associated with the Exascale VM cluster.
+        public let scanIpIds: [String]?
+        /// The port number for TCP connections to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
+        public let scanListenerPortTcp: Int?
+        /// The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener for the Exascale VM cluster.
+        public let scanListenerPortTcpSsl: Int?
+        /// The hardware model name of the Exadata infrastructure that's running the Exascale VM cluster.
+        public let shape: String?
+        /// The shape attribute for the Exascale VM cluster.
+        public let shapeAttribute: ShapeAttribute?
+        /// The snapshot file system storage details for the Exascale VM cluster.
+        public let snapshotFileSystemStorage: ExadbVmClusterStorageDetails?
+        /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
+        public let sshPublicKeys: [String]?
+        /// The current status of the Exascale VM cluster.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exascale VM cluster.
+        public let statusReason: String?
+        /// The operating system version of the image chosen for the Exascale VM cluster.
+        public let systemVersion: String?
+        /// The time zone of the Exascale VM cluster.
+        public let timeZone: String?
+        /// The total number of ECPUs for the Exascale VM cluster.
+        public let totalEcpuCount: Int?
+        /// The total file system storage details for the Exascale VM cluster.
+        public let totalFileSystemStorage: ExadbVmClusterStorageDetails?
+        /// The virtual IP (VIP) addresses associated with the Exascale VM cluster. One VIP address is assigned per node to support failover. If a node fails, its VIP is reassigned to another active node in the cluster.
+        public let vipIds: [String]?
+        /// The VM file system storage details for the Exascale VM cluster.
+        public let vmFileSystemStorage: ExadbVmClusterStorageDetails?
+
+        @inlinable
+        public init(clusterName: String? = nil, createdAt: Date? = nil, dataCollectionOptions: DataCollectionOptions? = nil, displayName: String? = nil, domain: String? = nil, enabledEcpuCount: Int? = nil, exadbVmClusterArn: String? = nil, exadbVmClusterId: String, exascaleDbStorageVaultArn: String? = nil, exascaleDbStorageVaultId: String? = nil, giVersion: String? = nil, gridImageId: String? = nil, gridImageType: GridImageType? = nil, hostname: String? = nil, iamRoles: [IamRole]? = nil, iormConfigCache: ExadataIormConfig? = nil, lastUpdateHistoryEntryId: String? = nil, licenseModel: LicenseModel? = nil, listenerPort: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, scanDnsName: String? = nil, scanDnsRecordId: String? = nil, scanIpIds: [String]? = nil, scanListenerPortTcp: Int? = nil, scanListenerPortTcpSsl: Int? = nil, shape: String? = nil, shapeAttribute: ShapeAttribute? = nil, snapshotFileSystemStorage: ExadbVmClusterStorageDetails? = nil, sshPublicKeys: [String]? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, systemVersion: String? = nil, timeZone: String? = nil, totalEcpuCount: Int? = nil, totalFileSystemStorage: ExadbVmClusterStorageDetails? = nil, vipIds: [String]? = nil, vmFileSystemStorage: ExadbVmClusterStorageDetails? = nil) {
+            self.clusterName = clusterName
+            self.createdAt = createdAt
+            self.dataCollectionOptions = dataCollectionOptions
+            self.displayName = displayName
+            self.domain = domain
+            self.enabledEcpuCount = enabledEcpuCount
+            self.exadbVmClusterArn = exadbVmClusterArn
+            self.exadbVmClusterId = exadbVmClusterId
+            self.exascaleDbStorageVaultArn = exascaleDbStorageVaultArn
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.giVersion = giVersion
+            self.gridImageId = gridImageId
+            self.gridImageType = gridImageType
+            self.hostname = hostname
+            self.iamRoles = iamRoles
+            self.iormConfigCache = iormConfigCache
+            self.lastUpdateHistoryEntryId = lastUpdateHistoryEntryId
+            self.licenseModel = licenseModel
+            self.listenerPort = listenerPort
+            self.memorySizeInGBs = memorySizeInGBs
+            self.nodeCount = nodeCount
+            self.ocid = ocid
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.odbNetworkArn = odbNetworkArn
+            self.odbNetworkId = odbNetworkId
+            self.percentProgress = percentProgress
+            self.scanDnsName = scanDnsName
+            self.scanDnsRecordId = scanDnsRecordId
+            self.scanIpIds = scanIpIds
+            self.scanListenerPortTcp = scanListenerPortTcp
+            self.scanListenerPortTcpSsl = scanListenerPortTcpSsl
+            self.shape = shape
+            self.shapeAttribute = shapeAttribute
+            self.snapshotFileSystemStorage = snapshotFileSystemStorage
+            self.sshPublicKeys = sshPublicKeys
+            self.status = status
+            self.statusReason = statusReason
+            self.systemVersion = systemVersion
+            self.timeZone = timeZone
+            self.totalEcpuCount = totalEcpuCount
+            self.totalFileSystemStorage = totalFileSystemStorage
+            self.vipIds = vipIds
+            self.vmFileSystemStorage = vmFileSystemStorage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+            case createdAt = "createdAt"
+            case dataCollectionOptions = "dataCollectionOptions"
+            case displayName = "displayName"
+            case domain = "domain"
+            case enabledEcpuCount = "enabledEcpuCount"
+            case exadbVmClusterArn = "exadbVmClusterArn"
+            case exadbVmClusterId = "exadbVmClusterId"
+            case exascaleDbStorageVaultArn = "exascaleDbStorageVaultArn"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+            case giVersion = "giVersion"
+            case gridImageId = "gridImageId"
+            case gridImageType = "gridImageType"
+            case hostname = "hostname"
+            case iamRoles = "iamRoles"
+            case iormConfigCache = "iormConfigCache"
+            case lastUpdateHistoryEntryId = "lastUpdateHistoryEntryId"
+            case licenseModel = "licenseModel"
+            case listenerPort = "listenerPort"
+            case memorySizeInGBs = "memorySizeInGBs"
+            case nodeCount = "nodeCount"
+            case ocid = "ocid"
+            case ociResourceAnchorName = "ociResourceAnchorName"
+            case ociUrl = "ociUrl"
+            case odbNetworkArn = "odbNetworkArn"
+            case odbNetworkId = "odbNetworkId"
+            case percentProgress = "percentProgress"
+            case scanDnsName = "scanDnsName"
+            case scanDnsRecordId = "scanDnsRecordId"
+            case scanIpIds = "scanIpIds"
+            case scanListenerPortTcp = "scanListenerPortTcp"
+            case scanListenerPortTcpSsl = "scanListenerPortTcpSsl"
+            case shape = "shape"
+            case shapeAttribute = "shapeAttribute"
+            case snapshotFileSystemStorage = "snapshotFileSystemStorage"
+            case sshPublicKeys = "sshPublicKeys"
+            case status = "status"
+            case statusReason = "statusReason"
+            case systemVersion = "systemVersion"
+            case timeZone = "timeZone"
+            case totalEcpuCount = "totalEcpuCount"
+            case totalFileSystemStorage = "totalFileSystemStorage"
+            case vipIds = "vipIds"
+            case vmFileSystemStorage = "vmFileSystemStorage"
+        }
+    }
+
+    public struct ExascaleDbStorageDetails: AWSDecodableShape {
+        /// The available storage size, in gigabytes (GB).
+        public let availableSizeInGBs: Int?
+        /// The total storage size, in gigabytes (GB).
+        public let totalSizeInGBs: Int?
+
+        @inlinable
+        public init(availableSizeInGBs: Int? = nil, totalSizeInGBs: Int? = nil) {
+            self.availableSizeInGBs = availableSizeInGBs
+            self.totalSizeInGBs = totalSizeInGBs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableSizeInGBs = "availableSizeInGBs"
+            case totalSizeInGBs = "totalSizeInGBs"
+        }
+    }
+
+    public struct ExascaleDbStorageVault: AWSDecodableShape {
+        /// The additional flash cache percentage for the Exascale storage vault.
+        public let additionalFlashCacheInPercent: Int?
+        /// The list of shape attributes attached to the Exascale storage vault.
+        public let attachedShapeAttributes: [ShapeAttribute]?
+        /// The autoscale limit in gigabytes (GB) for the Exascale storage vault.
+        public let autoscaleLimitInGBs: Int?
+        /// The Availability Zone for the Exascale storage vault.
+        public let availabilityZone: String?
+        /// The Availability Zone ID for the Exascale storage vault.
+        public let availabilityZoneId: String?
+        /// The date and time when the Exascale storage vault was created.
+        public let createdAt: Date?
+        /// The description of the Exascale storage vault.
+        public let description: String?
+        /// The user-friendly name for the Exascale storage vault.
+        public let displayName: String?
+        /// The Amazon Resource Name (ARN) of the Exascale storage vault.
+        public let exascaleDbStorageVaultArn: String?
+        /// The unique identifier of the Exascale storage vault.
+        public let exascaleDbStorageVaultId: String
+        /// The high-capacity database storage details for the Exascale storage vault.
+        public let highCapacityDatabaseStorage: ExascaleDbStorageDetails?
+        /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+        public let isAutoscaleEnabled: Bool?
+        /// The OCID of the Exascale storage vault.
+        public let ocid: String?
+        /// The name of the OCI resource anchor for the Exascale storage vault.
+        public let ociResourceAnchorName: String?
+        /// The HTTPS link to the Exascale storage vault in Oracle Cloud Infrastructure (OCI).
+        public let ociUrl: String?
+        /// The amount of progress made on the current operation on the Exascale storage vault, expressed as a percentage.
+        public let percentProgress: Float?
+        /// The current status of the Exascale storage vault.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exascale storage vault.
+        public let statusReason: String?
+        /// The time zone of the Exascale storage vault.
+        public let timeZone: String?
+        /// The list of Amazon Resource Names (ARNs) of the VM clusters associated with this Exascale storage vault.
+        public let vmClusterArns: [String]?
+        /// The number of VM clusters associated with this Exascale storage vault.
+        public let vmClusterCount: Int?
+        /// The list of unique identifiers of the VM clusters associated with this Exascale storage vault.
+        public let vmClusterIds: [String]?
+
+        @inlinable
+        public init(additionalFlashCacheInPercent: Int? = nil, attachedShapeAttributes: [ShapeAttribute]? = nil, autoscaleLimitInGBs: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, exascaleDbStorageVaultArn: String? = nil, exascaleDbStorageVaultId: String, highCapacityDatabaseStorage: ExascaleDbStorageDetails? = nil, isAutoscaleEnabled: Bool? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeZone: String? = nil, vmClusterArns: [String]? = nil, vmClusterCount: Int? = nil, vmClusterIds: [String]? = nil) {
+            self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
+            self.attachedShapeAttributes = attachedShapeAttributes
+            self.autoscaleLimitInGBs = autoscaleLimitInGBs
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.exascaleDbStorageVaultArn = exascaleDbStorageVaultArn
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.highCapacityDatabaseStorage = highCapacityDatabaseStorage
+            self.isAutoscaleEnabled = isAutoscaleEnabled
+            self.ocid = ocid
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.percentProgress = percentProgress
+            self.status = status
+            self.statusReason = statusReason
+            self.timeZone = timeZone
+            self.vmClusterArns = vmClusterArns
+            self.vmClusterCount = vmClusterCount
+            self.vmClusterIds = vmClusterIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalFlashCacheInPercent = "additionalFlashCacheInPercent"
+            case attachedShapeAttributes = "attachedShapeAttributes"
+            case autoscaleLimitInGBs = "autoscaleLimitInGBs"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case createdAt = "createdAt"
+            case description = "description"
+            case displayName = "displayName"
+            case exascaleDbStorageVaultArn = "exascaleDbStorageVaultArn"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+            case highCapacityDatabaseStorage = "highCapacityDatabaseStorage"
+            case isAutoscaleEnabled = "isAutoscaleEnabled"
+            case ocid = "ocid"
+            case ociResourceAnchorName = "ociResourceAnchorName"
+            case ociUrl = "ociUrl"
+            case percentProgress = "percentProgress"
+            case status = "status"
+            case statusReason = "statusReason"
+            case timeZone = "timeZone"
+            case vmClusterArns = "vmClusterArns"
+            case vmClusterCount = "vmClusterCount"
+            case vmClusterIds = "vmClusterIds"
+        }
+    }
+
+    public struct ExascaleDbStorageVaultSummary: AWSDecodableShape {
+        /// The additional flash cache percentage for the Exascale storage vault.
+        public let additionalFlashCacheInPercent: Int?
+        /// The list of shape attributes attached to the Exascale storage vault.
+        public let attachedShapeAttributes: [ShapeAttribute]?
+        /// The autoscale limit in gigabytes (GB) for the Exascale storage vault.
+        public let autoscaleLimitInGBs: Int?
+        /// The Availability Zone for the Exascale storage vault.
+        public let availabilityZone: String?
+        /// The Availability Zone ID for the Exascale storage vault.
+        public let availabilityZoneId: String?
+        /// The date and time when the Exascale storage vault was created.
+        public let createdAt: Date?
+        /// The description of the Exascale storage vault.
+        public let description: String?
+        /// The user-friendly name for the Exascale storage vault.
+        public let displayName: String?
+        /// The Amazon Resource Name (ARN) of the Exascale storage vault.
+        public let exascaleDbStorageVaultArn: String?
+        /// The unique identifier of the Exascale storage vault.
+        public let exascaleDbStorageVaultId: String
+        /// The high-capacity database storage details for the Exascale storage vault.
+        public let highCapacityDatabaseStorage: ExascaleDbStorageDetails?
+        /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+        public let isAutoscaleEnabled: Bool?
+        /// The OCID of the Exascale storage vault.
+        public let ocid: String?
+        /// The name of the OCI resource anchor for the Exascale storage vault.
+        public let ociResourceAnchorName: String?
+        /// The HTTPS link to the Exascale storage vault in Oracle Cloud Infrastructure (OCI).
+        public let ociUrl: String?
+        /// The amount of progress made on the current operation on the Exascale storage vault, expressed as a percentage.
+        public let percentProgress: Float?
+        /// The current status of the Exascale storage vault.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exascale storage vault.
+        public let statusReason: String?
+        /// The time zone of the Exascale storage vault.
+        public let timeZone: String?
+        /// The list of Amazon Resource Names (ARNs) of the VM clusters associated with this Exascale storage vault.
+        public let vmClusterArns: [String]?
+        /// The number of VM clusters associated with this Exascale storage vault.
+        public let vmClusterCount: Int?
+        /// The list of unique identifiers of the VM clusters associated with this Exascale storage vault.
+        public let vmClusterIds: [String]?
+
+        @inlinable
+        public init(additionalFlashCacheInPercent: Int? = nil, attachedShapeAttributes: [ShapeAttribute]? = nil, autoscaleLimitInGBs: Int? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, exascaleDbStorageVaultArn: String? = nil, exascaleDbStorageVaultId: String, highCapacityDatabaseStorage: ExascaleDbStorageDetails? = nil, isAutoscaleEnabled: Bool? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, percentProgress: Float? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeZone: String? = nil, vmClusterArns: [String]? = nil, vmClusterCount: Int? = nil, vmClusterIds: [String]? = nil) {
+            self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
+            self.attachedShapeAttributes = attachedShapeAttributes
+            self.autoscaleLimitInGBs = autoscaleLimitInGBs
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.exascaleDbStorageVaultArn = exascaleDbStorageVaultArn
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.highCapacityDatabaseStorage = highCapacityDatabaseStorage
+            self.isAutoscaleEnabled = isAutoscaleEnabled
+            self.ocid = ocid
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.percentProgress = percentProgress
+            self.status = status
+            self.statusReason = statusReason
+            self.timeZone = timeZone
+            self.vmClusterArns = vmClusterArns
+            self.vmClusterCount = vmClusterCount
+            self.vmClusterIds = vmClusterIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalFlashCacheInPercent = "additionalFlashCacheInPercent"
+            case attachedShapeAttributes = "attachedShapeAttributes"
+            case autoscaleLimitInGBs = "autoscaleLimitInGBs"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case createdAt = "createdAt"
+            case description = "description"
+            case displayName = "displayName"
+            case exascaleDbStorageVaultArn = "exascaleDbStorageVaultArn"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+            case highCapacityDatabaseStorage = "highCapacityDatabaseStorage"
+            case isAutoscaleEnabled = "isAutoscaleEnabled"
+            case ocid = "ocid"
+            case ociResourceAnchorName = "ociResourceAnchorName"
+            case ociUrl = "ociUrl"
+            case percentProgress = "percentProgress"
+            case status = "status"
+            case statusReason = "statusReason"
+            case timeZone = "timeZone"
+            case vmClusterArns = "vmClusterArns"
+            case vmClusterCount = "vmClusterCount"
+            case vmClusterIds = "vmClusterIds"
+        }
+    }
+
     public struct FailoverAutonomousDatabaseInput: AWSEncodableShape {
         /// The unique identifier of the Autonomous Database to fail over.
         public let autonomousDatabaseId: String
@@ -5338,6 +6367,60 @@ extension Odb {
             case displayName = "displayName"
             case status = "status"
             case statusReason = "statusReason"
+        }
+    }
+
+    public struct FlexComponentSummary: AWSDecodableShape {
+        /// The maximum number of CPU cores that can be enabled for the flex component.
+        public let availableCoreCount: Int?
+        /// The maximum amount of database storage, in gigabytes (GB), that can be enabled for the flex component.
+        public let availableDbStorageInGBs: Int?
+        /// The maximum amount of local storage, in gigabytes (GB), that can be enabled for the flex component.
+        public let availableLocalStorageInGBs: Int?
+        /// The maximum amount of memory, in gigabytes (GB), that can be enabled for the flex component.
+        public let availableMemoryInGBs: Int?
+        /// The OCI model compute model used when you create or clone an instance: ECPU or OCPU. An ECPU is an abstracted measure of compute resources. ECPUs are based on the number of cores elastically allocated from a pool of compute and storage servers. An OCPU is a legacy physical measure of compute resources. OCPUs are based on the physical core of a processor with hyper-threading enabled.
+        public let computeModel: ComputeModel?
+        /// A summary description of the flex component.
+        public let descriptionSummary: String?
+        /// The type of hardware for the flex component. Valid values are COMPUTE for compute servers and CELL for storage servers.
+        public let hardwareType: HardwareType?
+        /// The minimum number of CPU cores that can be enabled for the flex component.
+        public let minimumCoreCount: Int?
+        /// The name of the flex component.
+        public let name: String?
+        /// The runtime minimum number of CPU cores that can be enabled for the flex component.
+        public let runtimeMinimumCoreCount: Int?
+        /// The shape that uses the flex component.
+        public let shape: String?
+
+        @inlinable
+        public init(availableCoreCount: Int? = nil, availableDbStorageInGBs: Int? = nil, availableLocalStorageInGBs: Int? = nil, availableMemoryInGBs: Int? = nil, computeModel: ComputeModel? = nil, descriptionSummary: String? = nil, hardwareType: HardwareType? = nil, minimumCoreCount: Int? = nil, name: String? = nil, runtimeMinimumCoreCount: Int? = nil, shape: String? = nil) {
+            self.availableCoreCount = availableCoreCount
+            self.availableDbStorageInGBs = availableDbStorageInGBs
+            self.availableLocalStorageInGBs = availableLocalStorageInGBs
+            self.availableMemoryInGBs = availableMemoryInGBs
+            self.computeModel = computeModel
+            self.descriptionSummary = descriptionSummary
+            self.hardwareType = hardwareType
+            self.minimumCoreCount = minimumCoreCount
+            self.name = name
+            self.runtimeMinimumCoreCount = runtimeMinimumCoreCount
+            self.shape = shape
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableCoreCount = "availableCoreCount"
+            case availableDbStorageInGBs = "availableDbStorageInGBs"
+            case availableLocalStorageInGBs = "availableLocalStorageInGBs"
+            case availableMemoryInGBs = "availableMemoryInGBs"
+            case computeModel = "computeModel"
+            case descriptionSummary = "descriptionSummary"
+            case hardwareType = "hardwareType"
+            case minimumCoreCount = "minimumCoreCount"
+            case name = "name"
+            case runtimeMinimumCoreCount = "runtimeMinimumCoreCount"
+            case shape = "shape"
         }
     }
 
@@ -5612,22 +6695,26 @@ extension Odb {
     }
 
     public struct GetDbNodeInput: AWSEncodableShape {
-        /// The unique identifier of the VM cluster that contains the DB node.
-        public let cloudVmClusterId: String
+        /// The unique identifier of the VM cluster that contains the DB node. You must specify either this parameter or exadbVmClusterId.
+        public let cloudVmClusterId: String?
         /// The unique identifier of the DB node to retrieve information about.
         public let dbNodeId: String
+        /// The unique identifier of the Exascale VM cluster that contains the DB node. You must specify either this parameter or cloudVmClusterId.
+        public let exadbVmClusterId: String?
 
         @inlinable
-        public init(cloudVmClusterId: String, dbNodeId: String) {
+        public init(cloudVmClusterId: String? = nil, dbNodeId: String, exadbVmClusterId: String? = nil) {
             self.cloudVmClusterId = cloudVmClusterId
             self.dbNodeId = dbNodeId
+            self.exadbVmClusterId = exadbVmClusterId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.cloudVmClusterId, key: "cloudVmClusterId")
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cloudVmClusterId, forKey: .cloudVmClusterId)
             request.encodePath(self.dbNodeId, key: "dbNodeId")
+            try container.encodeIfPresent(self.exadbVmClusterId, forKey: .exadbVmClusterId)
         }
 
         public func validate(name: String) throws {
@@ -5637,9 +6724,15 @@ extension Odb {
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, max: 64)
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, min: 6)
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, max: 64)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, min: 6)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case cloudVmClusterId = "cloudVmClusterId"
+            case exadbVmClusterId = "exadbVmClusterId"
+        }
     }
 
     public struct GetDbNodeOutput: AWSDecodableShape {
@@ -5697,6 +6790,74 @@ extension Odb {
 
         private enum CodingKeys: String, CodingKey {
             case dbServer = "dbServer"
+        }
+    }
+
+    public struct GetExadbVmClusterInput: AWSEncodableShape {
+        /// The unique identifier of the Exascale VM cluster.
+        public let exadbVmClusterId: String
+
+        @inlinable
+        public init(exadbVmClusterId: String) {
+            self.exadbVmClusterId = exadbVmClusterId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, max: 2048)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, min: 6)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exadbVmClusterId = "exadbVmClusterId"
+        }
+    }
+
+    public struct GetExadbVmClusterOutput: AWSDecodableShape {
+        /// The Exascale VM cluster.
+        public let exadbVmCluster: ExadbVmCluster
+
+        @inlinable
+        public init(exadbVmCluster: ExadbVmCluster) {
+            self.exadbVmCluster = exadbVmCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exadbVmCluster = "exadbVmCluster"
+        }
+    }
+
+    public struct GetExascaleDbStorageVaultInput: AWSEncodableShape {
+        /// The unique identifier of the Exascale storage vault.
+        public let exascaleDbStorageVaultId: String
+
+        @inlinable
+        public init(exascaleDbStorageVaultId: String) {
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, max: 2048)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, min: 6)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+        }
+    }
+
+    public struct GetExascaleDbStorageVaultOutput: AWSDecodableShape {
+        /// The Exascale storage vault.
+        public let exascaleDbStorageVault: ExascaleDbStorageVault
+
+        @inlinable
+        public init(exascaleDbStorageVault: ExascaleDbStorageVault) {
+            self.exascaleDbStorageVault = exascaleDbStorageVault
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exascaleDbStorageVault = "exascaleDbStorageVault"
         }
     }
 
@@ -5817,6 +6978,24 @@ extension Odb {
 
         private enum CodingKeys: String, CodingKey {
             case odbPeeringConnection = "odbPeeringConnection"
+        }
+    }
+
+    public struct GiMinorVersionSummary: AWSDecodableShape {
+        /// The Grid Infrastructure software image ID for this minor version.
+        public let gridImageId: String?
+        /// The GI minor version.
+        public let version: String
+
+        @inlinable
+        public init(gridImageId: String? = nil, version: String) {
+            self.gridImageId = gridImageId
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gridImageId = "gridImageId"
+            case version = "version"
         }
     }
 
@@ -6419,24 +7598,28 @@ extension Odb {
     }
 
     public struct ListDbNodesInput: AWSEncodableShape {
-        /// The unique identifier of the VM cluster.
-        public let cloudVmClusterId: String
+        /// The unique identifier of the VM cluster. You must specify either this parameter or exadbVmClusterId.
+        public let cloudVmClusterId: String?
+        /// The unique identifier of the Exascale VM cluster. You must specify either this parameter or cloudVmClusterId.
+        public let exadbVmClusterId: String?
         /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. Default: 10
         public let maxResults: Int?
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
 
         @inlinable
-        public init(cloudVmClusterId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(cloudVmClusterId: String? = nil, exadbVmClusterId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.cloudVmClusterId = cloudVmClusterId
+            self.exadbVmClusterId = exadbVmClusterId
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.cloudVmClusterId, key: "cloudVmClusterId")
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cloudVmClusterId, forKey: .cloudVmClusterId)
+            try container.encodeIfPresent(self.exadbVmClusterId, forKey: .exadbVmClusterId)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -6445,9 +7628,15 @@ extension Odb {
             try self.validate(self.cloudVmClusterId, name: "cloudVmClusterId", parent: name, max: 64)
             try self.validate(self.cloudVmClusterId, name: "cloudVmClusterId", parent: name, min: 6)
             try self.validate(self.cloudVmClusterId, name: "cloudVmClusterId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, max: 64)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, min: 6)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case cloudVmClusterId = "cloudVmClusterId"
+            case exadbVmClusterId = "exadbVmClusterId"
+        }
     }
 
     public struct ListDbNodesOutput: AWSDecodableShape {
@@ -6527,13 +7716,16 @@ extension Odb {
         public let maxResults: Int?
         /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
         public let nextToken: String?
+        /// The shape family to filter results by.
+        public let shapeFamily: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, shapeFamily: String? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.shapeFamily = shapeFamily
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -6543,11 +7735,13 @@ extension Odb {
             try container.encodeIfPresent(self.availabilityZoneId, forKey: .availabilityZoneId)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.shapeFamily, forKey: .shapeFamily)
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
             case availabilityZoneId = "availabilityZoneId"
+            case shapeFamily = "shapeFamily"
         }
     }
 
@@ -6565,6 +7759,194 @@ extension Odb {
 
         private enum CodingKeys: String, CodingKey {
             case dbSystemShapes = "dbSystemShapes"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListExadbVmClustersInput: AWSEncodableShape {
+        /// The unique identifier of the Exascale storage vault to list the associated Exascale VM clusters.
+        public let exascaleDbStorageVaultId: String?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(exascaleDbStorageVaultId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.exascaleDbStorageVaultId, key: "exascaleDbStorageVaultId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, max: 2048)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, min: 6)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExadbVmClustersOutput: AWSDecodableShape {
+        /// The list of Exascale VM clusters.
+        public let exadbVmClusters: [ExadbVmClusterSummary]
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(exadbVmClusters: [ExadbVmClusterSummary], nextToken: String? = nil) {
+            self.exadbVmClusters = exadbVmClusters
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exadbVmClusters = "exadbVmClusters"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListExascaleDbStorageVaultsInput: AWSEncodableShape {
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExascaleDbStorageVaultsOutput: AWSDecodableShape {
+        /// The list of Exascale storage vaults.
+        public let exascaleDbStorageVaults: [ExascaleDbStorageVaultSummary]
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(exascaleDbStorageVaults: [ExascaleDbStorageVaultSummary], nextToken: String? = nil) {
+            self.exascaleDbStorageVaults = exascaleDbStorageVaults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exascaleDbStorageVaults = "exascaleDbStorageVaults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFlexComponentsInput: AWSEncodableShape {
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+        /// The shape to return flex components for. For a list of valid shapes, use the ListDbSystemShapes operation.
+        public let shape: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, shape: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.shape = shape
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.shape, forKey: .shape)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shape = "shape"
+        }
+    }
+
+    public struct ListFlexComponentsOutput: AWSDecodableShape {
+        /// The list of flex components along with their properties.
+        public let flexComponents: [FlexComponentSummary]
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flexComponents: [FlexComponentSummary], nextToken: String? = nil) {
+            self.flexComponents = flexComponents
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flexComponents = "flexComponents"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListGiMinorVersionsInput: AWSEncodableShape {
+        /// The Availability Zone to filter GI minor versions.
+        public let availabilityZone: String?
+        /// The Availability Zone ID to filter GI minor versions.
+        public let availabilityZoneId: String?
+        /// The Oracle Grid Infrastructure (GI) major version.
+        public let giVersion: String
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+        /// The shape family for the GI minor version.
+        public let shapeFamily: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, giVersion: String, maxResults: Int? = nil, nextToken: String? = nil, shapeFamily: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.giVersion = giVersion
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.shapeFamily = shapeFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case giVersion = "giVersion"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case shapeFamily = "shapeFamily"
+        }
+    }
+
+    public struct ListGiMinorVersionsOutput: AWSDecodableShape {
+        /// The list of GI minor versions.
+        public let giMinorVersions: [GiMinorVersionSummary]
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(giMinorVersions: [GiMinorVersionSummary], nextToken: String? = nil) {
+            self.giMinorVersions = giMinorVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case giMinorVersions = "giMinorVersions"
             case nextToken = "nextToken"
         }
     }
@@ -7467,22 +8849,26 @@ extension Odb {
     }
 
     public struct RebootDbNodeInput: AWSEncodableShape {
-        /// The unique identifier of the VM cluster that contains the DB node to reboot.
-        public let cloudVmClusterId: String
+        /// The unique identifier of the VM cluster that contains the DB node to reboot. You must specify either this parameter or exadbVmClusterId.
+        public let cloudVmClusterId: String?
         /// The unique identifier of the DB node to reboot.
         public let dbNodeId: String
+        /// The unique identifier of the Exascale VM cluster that contains the DB node to reboot. You must specify either this parameter or cloudVmClusterId.
+        public let exadbVmClusterId: String?
 
         @inlinable
-        public init(cloudVmClusterId: String, dbNodeId: String) {
+        public init(cloudVmClusterId: String? = nil, dbNodeId: String, exadbVmClusterId: String? = nil) {
             self.cloudVmClusterId = cloudVmClusterId
             self.dbNodeId = dbNodeId
+            self.exadbVmClusterId = exadbVmClusterId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.cloudVmClusterId, key: "cloudVmClusterId")
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cloudVmClusterId, forKey: .cloudVmClusterId)
             request.encodePath(self.dbNodeId, key: "dbNodeId")
+            try container.encodeIfPresent(self.exadbVmClusterId, forKey: .exadbVmClusterId)
         }
 
         public func validate(name: String) throws {
@@ -7492,9 +8878,15 @@ extension Odb {
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, max: 64)
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, min: 6)
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, max: 64)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, min: 6)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case cloudVmClusterId = "cloudVmClusterId"
+            case exadbVmClusterId = "exadbVmClusterId"
+        }
     }
 
     public struct RebootDbNodeOutput: AWSDecodableShape {
@@ -7836,22 +9228,26 @@ extension Odb {
     }
 
     public struct StartDbNodeInput: AWSEncodableShape {
-        /// The unique identifier of the VM cluster that contains the DB node to start.
-        public let cloudVmClusterId: String
+        /// The unique identifier of the VM cluster that contains the DB node to start. You must specify either this parameter or exadbVmClusterId.
+        public let cloudVmClusterId: String?
         /// The unique identifier of the DB node to start.
         public let dbNodeId: String
+        /// The unique identifier of the Exascale VM cluster that contains the DB node to start. You must specify either this parameter or cloudVmClusterId.
+        public let exadbVmClusterId: String?
 
         @inlinable
-        public init(cloudVmClusterId: String, dbNodeId: String) {
+        public init(cloudVmClusterId: String? = nil, dbNodeId: String, exadbVmClusterId: String? = nil) {
             self.cloudVmClusterId = cloudVmClusterId
             self.dbNodeId = dbNodeId
+            self.exadbVmClusterId = exadbVmClusterId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.cloudVmClusterId, key: "cloudVmClusterId")
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cloudVmClusterId, forKey: .cloudVmClusterId)
             request.encodePath(self.dbNodeId, key: "dbNodeId")
+            try container.encodeIfPresent(self.exadbVmClusterId, forKey: .exadbVmClusterId)
         }
 
         public func validate(name: String) throws {
@@ -7861,9 +9257,15 @@ extension Odb {
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, max: 64)
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, min: 6)
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, max: 64)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, min: 6)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case cloudVmClusterId = "cloudVmClusterId"
+            case exadbVmClusterId = "exadbVmClusterId"
+        }
     }
 
     public struct StartDbNodeOutput: AWSDecodableShape {
@@ -7935,22 +9337,26 @@ extension Odb {
     }
 
     public struct StopDbNodeInput: AWSEncodableShape {
-        /// The unique identifier of the VM cluster that contains the DB node to stop.
-        public let cloudVmClusterId: String
+        /// The unique identifier of the VM cluster that contains the DB node to stop. You must specify either this parameter or exadbVmClusterId.
+        public let cloudVmClusterId: String?
         /// The unique identifier of the DB node to stop.
         public let dbNodeId: String
+        /// The unique identifier of the Exascale VM cluster that contains the DB node to stop. You must specify either this parameter or cloudVmClusterId.
+        public let exadbVmClusterId: String?
 
         @inlinable
-        public init(cloudVmClusterId: String, dbNodeId: String) {
+        public init(cloudVmClusterId: String? = nil, dbNodeId: String, exadbVmClusterId: String? = nil) {
             self.cloudVmClusterId = cloudVmClusterId
             self.dbNodeId = dbNodeId
+            self.exadbVmClusterId = exadbVmClusterId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodePath(self.cloudVmClusterId, key: "cloudVmClusterId")
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.cloudVmClusterId, forKey: .cloudVmClusterId)
             request.encodePath(self.dbNodeId, key: "dbNodeId")
+            try container.encodeIfPresent(self.exadbVmClusterId, forKey: .exadbVmClusterId)
         }
 
         public func validate(name: String) throws {
@@ -7960,9 +9366,15 @@ extension Odb {
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, max: 64)
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, min: 6)
             try self.validate(self.dbNodeId, name: "dbNodeId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, max: 64)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, min: 6)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, pattern: "^[a-zA-Z0-9_~.-]+$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case cloudVmClusterId = "cloudVmClusterId"
+            case exadbVmClusterId = "exadbVmClusterId"
+        }
     }
 
     public struct StopDbNodeOutput: AWSDecodableShape {
@@ -8557,6 +9969,170 @@ extension Odb {
         private enum CodingKeys: String, CodingKey {
             case cloudExadataInfrastructureId = "cloudExadataInfrastructureId"
             case displayName = "displayName"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct UpdateExadbVmClusterInput: AWSEncodableShape {
+        /// The set of preferences for the various diagnostic collection options for the Exascale VM cluster.
+        public let dataCollectionOptions: DataCollectionOptions?
+        /// A new user-friendly name for the Exascale VM cluster.
+        public let displayName: String?
+        /// The number of ECPUs to enable for the Exascale VM cluster.
+        public let enabledEcpuCount: Int?
+        /// The unique identifier of the Exascale VM cluster to update.
+        public let exadbVmClusterId: String
+        /// The Grid Infrastructure software image ID for the Exascale VM cluster.
+        public let gridImageId: String?
+        /// The Oracle license model to apply to the Exascale VM cluster.
+        public let licenseModel: LicenseModel?
+        /// The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
+        public let sshPublicKeys: [String]?
+        /// The version of the operating system of the image for the Exascale VM cluster.
+        public let systemVersion: String?
+        /// The total number of ECPUs for the Exascale VM cluster.
+        public let totalEcpuCount: Int?
+        /// The update action to perform on the Exascale VM cluster.
+        public let updateAction: UpdateAction?
+        /// The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster.
+        public let vmFileSystemStorageTotalSizeInGBs: Int?
+
+        @inlinable
+        public init(dataCollectionOptions: DataCollectionOptions? = nil, displayName: String? = nil, enabledEcpuCount: Int? = nil, exadbVmClusterId: String, gridImageId: String? = nil, licenseModel: LicenseModel? = nil, sshPublicKeys: [String]? = nil, systemVersion: String? = nil, totalEcpuCount: Int? = nil, updateAction: UpdateAction? = nil, vmFileSystemStorageTotalSizeInGBs: Int? = nil) {
+            self.dataCollectionOptions = dataCollectionOptions
+            self.displayName = displayName
+            self.enabledEcpuCount = enabledEcpuCount
+            self.exadbVmClusterId = exadbVmClusterId
+            self.gridImageId = gridImageId
+            self.licenseModel = licenseModel
+            self.sshPublicKeys = sshPublicKeys
+            self.systemVersion = systemVersion
+            self.totalEcpuCount = totalEcpuCount
+            self.updateAction = updateAction
+            self.vmFileSystemStorageTotalSizeInGBs = vmFileSystemStorageTotalSizeInGBs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, max: 2048)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, min: 6)
+            try self.validate(self.exadbVmClusterId, name: "exadbVmClusterId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.validate(self.sshPublicKeys, name: "sshPublicKeys", parent: name, max: 1024)
+            try self.validate(self.sshPublicKeys, name: "sshPublicKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataCollectionOptions = "dataCollectionOptions"
+            case displayName = "displayName"
+            case enabledEcpuCount = "enabledEcpuCount"
+            case exadbVmClusterId = "exadbVmClusterId"
+            case gridImageId = "gridImageId"
+            case licenseModel = "licenseModel"
+            case sshPublicKeys = "sshPublicKeys"
+            case systemVersion = "systemVersion"
+            case totalEcpuCount = "totalEcpuCount"
+            case updateAction = "updateAction"
+            case vmFileSystemStorageTotalSizeInGBs = "vmFileSystemStorageTotalSizeInGBs"
+        }
+    }
+
+    public struct UpdateExadbVmClusterOutput: AWSDecodableShape {
+        /// The user-friendly name for the Exascale VM cluster.
+        public let displayName: String?
+        /// The unique identifier of the Exascale VM cluster.
+        public let exadbVmClusterId: String
+        /// The current status of the Exascale VM cluster.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exascale VM cluster.
+        public let statusReason: String?
+
+        @inlinable
+        public init(displayName: String? = nil, exadbVmClusterId: String, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.displayName = displayName
+            self.exadbVmClusterId = exadbVmClusterId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case exadbVmClusterId = "exadbVmClusterId"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct UpdateExascaleDbStorageVaultInput: AWSEncodableShape {
+        /// The additional flash cache percentage for the Exascale storage vault.
+        public let additionalFlashCacheInPercent: Int?
+        /// The autoscale limit in gigabytes (GB) for the Exascale storage vault.
+        public let autoscaleLimitInGBs: Int?
+        /// A new description for the Exascale storage vault.
+        public let description: String?
+        /// A new user-friendly name for the Exascale storage vault.
+        public let displayName: String?
+        /// The unique identifier of the Exascale storage vault to update.
+        public let exascaleDbStorageVaultId: String
+        /// The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault.
+        public let highCapacityDatabaseStorageTotalSizeInGBs: Int?
+        /// Specifies whether autoscaling is enabled for the Exascale storage vault.
+        public let isAutoscaleEnabled: Bool?
+
+        @inlinable
+        public init(additionalFlashCacheInPercent: Int? = nil, autoscaleLimitInGBs: Int? = nil, description: String? = nil, displayName: String? = nil, exascaleDbStorageVaultId: String, highCapacityDatabaseStorageTotalSizeInGBs: Int? = nil, isAutoscaleEnabled: Bool? = nil) {
+            self.additionalFlashCacheInPercent = additionalFlashCacheInPercent
+            self.autoscaleLimitInGBs = autoscaleLimitInGBs
+            self.description = description
+            self.displayName = displayName
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.highCapacityDatabaseStorageTotalSizeInGBs = highCapacityDatabaseStorageTotalSizeInGBs
+            self.isAutoscaleEnabled = isAutoscaleEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, max: 2048)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, min: 6)
+            try self.validate(self.exascaleDbStorageVaultId, name: "exascaleDbStorageVaultId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalFlashCacheInPercent = "additionalFlashCacheInPercent"
+            case autoscaleLimitInGBs = "autoscaleLimitInGBs"
+            case description = "description"
+            case displayName = "displayName"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
+            case highCapacityDatabaseStorageTotalSizeInGBs = "highCapacityDatabaseStorageTotalSizeInGBs"
+            case isAutoscaleEnabled = "isAutoscaleEnabled"
+        }
+    }
+
+    public struct UpdateExascaleDbStorageVaultOutput: AWSDecodableShape {
+        /// The user-friendly name for the Exascale storage vault.
+        public let displayName: String?
+        /// The unique identifier of the Exascale storage vault.
+        public let exascaleDbStorageVaultId: String
+        /// The current status of the Exascale storage vault.
+        public let status: ResourceStatus?
+        /// Additional information about the status of the Exascale storage vault.
+        public let statusReason: String?
+
+        @inlinable
+        public init(displayName: String? = nil, exascaleDbStorageVaultId: String, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.displayName = displayName
+            self.exascaleDbStorageVaultId = exascaleDbStorageVaultId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "displayName"
+            case exascaleDbStorageVaultId = "exascaleDbStorageVaultId"
             case status = "status"
             case statusReason = "statusReason"
         }

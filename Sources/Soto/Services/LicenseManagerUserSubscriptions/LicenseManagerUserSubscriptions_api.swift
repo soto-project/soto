@@ -214,7 +214,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Parameters:
     ///   - identityProvider: An object that specifies details for the Active Directory identity provider.
     ///   - identityProviderArn: The Amazon Resource Name (ARN) that identifies the identity provider to deregister.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     ///   - logger: Logger use during operation
     @inlinable
     public func deregisterIdentityProvider(
@@ -397,7 +397,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     ///   - identityProvider: An object that specifies details for the identity provider.
     ///   - maxResults: The maximum number of results to return from a single request.
     ///   - nextToken: A token to specify where to start paginating. This is the nextToken from a previously truncated response.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     ///   - logger: Logger use during operation
     @inlinable
     public func listProductSubscriptions(
@@ -505,7 +505,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     ///
     /// Parameters:
     ///   - identityProvider: An object that specifies details for the identity provider to register.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     ///   - settings: The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
     ///   - tags: The tags that apply to the identity provider's registration.
     ///   - logger: Logger use during operation
@@ -544,7 +544,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Parameters:
     ///   - domain: The domain name of the Active Directory that contains the user for whom to start the product subscription.
     ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     ///   - tags: The tags that apply to the product subscription.
     ///   - username: The user name from the identity provider of the user.
     ///   - logger: Logger use during operation
@@ -585,7 +585,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Parameters:
     ///   - domain: The domain name of the Active Directory that contains the user for whom to stop the product subscription.
     ///   - identityProvider: An object that specifies details for the identity provider.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     ///   - productUserArn: The Amazon Resource Name (ARN) of the product user.
     ///   - username: The user name from the identity provider for the user.
     ///   - logger: Logger use during operation
@@ -690,7 +690,7 @@ public struct LicenseManagerUserSubscriptions: AWSService {
     /// Parameters:
     ///   - identityProvider: 
     ///   - identityProviderArn: The Amazon Resource Name (ARN) of the identity provider to update.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     ///   - updateSettings: Updates the registered identity provider’s product related configuration settings. You can update any combination of settings in a single operation such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which you want to remove the VPC endpoints from.   Security group ID which permits traffic to the VPC endpoints.
     ///   - logger: Logger use during operation
     @inlinable
@@ -859,7 +859,7 @@ extension LicenseManagerUserSubscriptions {
     ///   - filters: You can use the following filters to streamline results:   Status   Username   Domain
     ///   - identityProvider: An object that specifies details for the identity provider.
     ///   - maxResults: The maximum number of results to return from a single request.
-    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+    ///   - product: The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
     ///   - logger: Logger used for logging
     @inlinable
     public func listProductSubscriptionsPaginator(

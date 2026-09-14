@@ -285,6 +285,14 @@ extension AutoScaling {
         public var description: String { return self.rawValue }
     }
 
+    public enum TargetCapacityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityBlock = "capacity-block"
+        case interruptibleCapacityReservation = "interruptible-capacity-reservation"
+        case onDemand = "on-demand"
+        case onDemandCapacityReservation = "on-demand-capacity-reservation"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WarmPoolState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hibernated = "Hibernated"
         case running = "Running"
@@ -423,15 +431,20 @@ extension AutoScaling {
     }
 
     public struct ActivityType: AWSDecodableShape {
+        /// The scaling activities related to terminating the instances from the Auto Scaling group.
+        @OptionalCustomCoding<StandardArrayCoder<Activity>>
+        public var activities: [Activity]?
         /// A scaling activity.
         public let activity: Activity?
 
         @inlinable
-        public init(activity: Activity? = nil) {
+        public init(activities: [Activity]? = nil, activity: Activity? = nil) {
+            self.activities = activities
             self.activity = activity
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activities = "Activities"
             case activity = "Activity"
         }
     }
@@ -689,6 +702,8 @@ extension AutoScaling {
         public let mixedInstancesPolicy: MixedInstancesPolicy?
         /// Indicates whether newly launched EC2 instances are protected from termination when scaling in for the Auto Scaling group.  For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
+        /// The entity that manages the Auto Scaling group, if applicable. When set, only the designated operator can make changes to the group configuration.
+        public let `operator`: Operator?
         /// The name of the placement group into which to launch EC2 instances for the Auto Scaling group.
         public let placementGroup: String?
         /// The predicted capacity of the group when it has a predictive scaling policy.
@@ -720,7 +735,7 @@ extension AutoScaling {
         public let warmPoolSize: Int?
 
         @inlinable
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneIds: [String]? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, createdTime: Date? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneIds: [String]? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, createdTime: Date? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, operator: Operator? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
@@ -750,6 +765,7 @@ extension AutoScaling {
             self.minSize = minSize
             self.mixedInstancesPolicy = mixedInstancesPolicy
             self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
+            self.`operator` = `operator`
             self.placementGroup = placementGroup
             self.predictedCapacity = predictedCapacity
             self.serviceLinkedRoleARN = serviceLinkedRoleARN
@@ -794,6 +810,7 @@ extension AutoScaling {
             case minSize = "MinSize"
             case mixedInstancesPolicy = "MixedInstancesPolicy"
             case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
+            case `operator` = "Operator"
             case placementGroup = "PlacementGroup"
             case predictedCapacity = "PredictedCapacity"
             case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
@@ -950,7 +967,7 @@ extension AutoScaling {
     }
 
     public struct AvailabilityZoneDistribution: AWSEncodableShape & AWSDecodableShape {
-        ///  If launches fail in an Availability Zone, the following strategies are available. The default is balanced-best-effort.     balanced-only - If launches fail in an Availability Zone, Auto Scaling will continue to attempt to launch in the unhealthy zone to preserve a balanced distribution.    balanced-best-effort - If launches fail in an Availability Zone, Auto Scaling will attempt to launch in another healthy Availability Zone instead.    reservations-then-balanced - Auto Scaling will first attempt to launch into your Capacity Reservations, and then balance any remaining capacity across the healthy Availability Zones.
+        ///  If launches fail in an Availability Zone, the following strategies are available. The default is balanced-best-effort.     balanced-only - If launches fail in an Availability Zone, Auto Scaling will continue to attempt to launch in the unhealthy zone to preserve a balanced distribution.    balanced-best-effort - If launches fail in an Availability Zone, Auto Scaling will attempt to launch in another healthy Availability Zone instead.    reservations-then-balanced - Auto Scaling will first attempt to launch into your Capacity Reservations, and then balance any remaining capacity across healthy Availability Zones.
         public let capacityDistributionStrategy: CapacityDistributionStrategy?
 
         @inlinable
@@ -1375,10 +1392,12 @@ extension AutoScaling {
         public let maxSize: Int?
         /// The minimum size of the group.
         public let minSize: Int?
-        /// The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
+        /// The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide. To learn how to prioritize multiple capacity types, see Use Distribution Segments to target multiple capacity types in the Amazon EC2 Auto Scaling User Guide.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
         /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
+        /// The entity that manages the Auto Scaling group. If you specify this parameter, Amazon EC2 Auto Scaling passes the operator identity to EC2 for instance launches and only allows the designated operator to make changes to the Auto Scaling group. All mutating API calls from non-operator callers are rejected with an AccessDenied exception.
+        public let `operator`: Operator?
         /// The name of the placement group into which to launch your instances. For more information, see Placement groups in the Amazon EC2 User Guide.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
         public let placementGroup: String?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
@@ -1401,7 +1420,7 @@ extension AutoScaling {
         public let vpcZoneIdentifier: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneIds: [String]? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneIds: [String]? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, deletionProtection: DeletionProtection? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, operator: Operator? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
             self.availabilityZoneIds = availabilityZoneIds
@@ -1429,6 +1448,7 @@ extension AutoScaling {
             self.minSize = minSize
             self.mixedInstancesPolicy = mixedInstancesPolicy
             self.newInstancesProtectedFromScaleIn = newInstancesProtectedFromScaleIn
+            self.`operator` = `operator`
             self.placementGroup = placementGroup
             self.serviceLinkedRoleARN = serviceLinkedRoleARN
             self.skipZonalShiftValidation = skipZonalShiftValidation
@@ -1477,6 +1497,7 @@ extension AutoScaling {
                 try validate($0, name: "loadBalancerNames[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
             try self.mixedInstancesPolicy?.validate(name: "\(name).mixedInstancesPolicy")
+            try self.`operator`?.validate(name: "\(name).`operator`")
             try self.validate(self.placementGroup, name: "placementGroup", parent: name, max: 255)
             try self.validate(self.placementGroup, name: "placementGroup", parent: name, min: 1)
             try self.validate(self.placementGroup, name: "placementGroup", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -1532,6 +1553,7 @@ extension AutoScaling {
             case minSize = "MinSize"
             case mixedInstancesPolicy = "MixedInstancesPolicy"
             case newInstancesProtectedFromScaleIn = "NewInstancesProtectedFromScaleIn"
+            case `operator` = "Operator"
             case placementGroup = "PlacementGroup"
             case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
             case skipZonalShiftValidation = "SkipZonalShiftValidation"
@@ -2608,7 +2630,7 @@ extension AutoScaling {
     public struct DesiredConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Describes the launch template and the version of the launch template that Amazon EC2 Auto Scaling uses to launch Amazon EC2 instances. For more information about launch templates, see Launch templates in the Amazon EC2 Auto Scaling User Guide.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// Use this structure to launch multiple instance types and On-Demand Instances and Spot Instances within a single Auto Scaling group. A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch instances and help optimize your costs. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
+        /// Use this structure to launch multiple instance types and configure how capacity is distributed across On-Demand, Spot, and supported Capacity Reservation types within a single Auto Scaling group. A mixed instances policy contains information that Amazon EC2 Auto Scaling can use to launch instances, prioritize capacity types, and help optimize your costs. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
 
         @inlinable
@@ -2804,6 +2826,21 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
             case metrics = "Metrics"
+        }
+    }
+
+    public struct DistributionSegment: AWSEncodableShape & AWSDecodableShape {
+        /// The capacity types to prioritize, in order. Amazon EC2 Auto Scaling attempts to launch instances in the priority order of the capacity types, and within each capacity type, in the order of instance types listed in your launch template Overrides. The following lists the valid values:  on-demand-capacity-reservation  On-Demand Capacity Reservations.  capacity-block  Capacity Blocks.  interruptible-capacity-reservation  Interruptible Capacity Reservations.  on-demand  On-Demand capacity. Include this value to allow the group to fall back to On-Demand capacity when the preceding capacity types are unavailable.
+        @OptionalCustomCoding<StandardArrayCoder<TargetCapacityType>>
+        public var targetCapacityTypes: [TargetCapacityType]?
+
+        @inlinable
+        public init(targetCapacityTypes: [TargetCapacityType]? = nil) {
+            self.targetCapacityTypes = targetCapacityTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetCapacityTypes = "TargetCapacityTypes"
         }
     }
 
@@ -3598,6 +3635,9 @@ extension AutoScaling {
     }
 
     public struct InstancesDistribution: AWSEncodableShape & AWSDecodableShape {
+        /// The Distribution Segments configuration. Each segment contains an ordered list of capacity types to prioritize. For more information, see Use Distribution Segments to target multiple capacity types in the Amazon EC2 Auto Scaling User Guide.
+        @OptionalCustomCoding<StandardArrayCoder<DistributionSegment>>
+        public var distributionSegments: [DistributionSegment]?
         /// The allocation strategy to apply to your On-Demand Instances when they are launched. Possible instance types are determined by the launch template overrides that you specify. The following lists the valid values:  lowest-price  Uses price to determine which instance types are the highest priority, launching the lowest priced instance types within an Availability Zone first. This is the default value for Auto Scaling groups that specify  InstanceRequirements.   prioritized  You set the order of instance types for the launch template overrides from highest to lowest priority (from first to last in the list). Amazon EC2 Auto Scaling launches your highest priority instance types first. If all your On-Demand capacity cannot be fulfilled using your highest priority instance type, then Amazon EC2 Auto Scaling launches the remaining capacity using the second priority instance type, and so on. This is the default value for Auto Scaling groups that don't specify InstanceRequirements and cannot be used for groups that do.
         public let onDemandAllocationStrategy: String?
         /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances. This base portion is launched first as your group scales. This number has the same unit of measurement as the group's desired capacity. If you change the default unit of measurement (number of instances) by specifying weighted capacity values in your launch template overrides list, or by changing the default desired capacity type setting of the group, you must specify this number using the same unit of measurement. Default: 0
@@ -3612,7 +3652,8 @@ extension AutoScaling {
         public let spotMaxPrice: String?
 
         @inlinable
-        public init(onDemandAllocationStrategy: String? = nil, onDemandBaseCapacity: Int? = nil, onDemandPercentageAboveBaseCapacity: Int? = nil, spotAllocationStrategy: String? = nil, spotInstancePools: Int? = nil, spotMaxPrice: String? = nil) {
+        public init(distributionSegments: [DistributionSegment]? = nil, onDemandAllocationStrategy: String? = nil, onDemandBaseCapacity: Int? = nil, onDemandPercentageAboveBaseCapacity: Int? = nil, spotAllocationStrategy: String? = nil, spotInstancePools: Int? = nil, spotMaxPrice: String? = nil) {
+            self.distributionSegments = distributionSegments
             self.onDemandAllocationStrategy = onDemandAllocationStrategy
             self.onDemandBaseCapacity = onDemandBaseCapacity
             self.onDemandPercentageAboveBaseCapacity = onDemandPercentageAboveBaseCapacity
@@ -3628,6 +3669,7 @@ extension AutoScaling {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case distributionSegments = "DistributionSegments"
             case onDemandAllocationStrategy = "OnDemandAllocationStrategy"
             case onDemandBaseCapacity = "OnDemandBaseCapacity"
             case onDemandPercentageAboveBaseCapacity = "OnDemandPercentageAboveBaseCapacity"
@@ -4386,7 +4428,7 @@ extension AutoScaling {
     public struct MixedInstancesPolicy: AWSEncodableShape & AWSDecodableShape {
         /// The instances distribution.
         public let instancesDistribution: InstancesDistribution?
-        /// One or more launch templates and the instance types (overrides) that are used to launch EC2 instances to fulfill On-Demand and Spot capacities.
+        /// One or more launch templates and the instance types (overrides) that are used to launch EC2 instances to fulfill the configured capacities.
         public let launchTemplate: LaunchTemplate?
 
         @inlinable
@@ -4471,6 +4513,25 @@ extension AutoScaling {
             case autoScalingGroupName = "AutoScalingGroupName"
             case notificationType = "NotificationType"
             case topicARN = "TopicARN"
+        }
+    }
+
+    public struct Operator: AWSEncodableShape & AWSDecodableShape {
+        /// The service principal that is authorized to manage the Auto Scaling group. When an operator is specified, only the designated operator service principal can make mutating changes to the Auto Scaling group.
+        public let principal: String?
+
+        @inlinable
+        public init(principal: String? = nil) {
+            self.principal = principal
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.principal, name: "principal", parent: name, max: 128)
+            try self.validate(self.principal, name: "principal", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principal = "Principal"
         }
     }
 
@@ -5153,7 +5214,7 @@ extension AutoScaling {
         public var checkpointPercentages: [Int]?
         /// A time period, in seconds, during which an instance refresh waits before moving on to replacing the next instance after a new instance enters the InService state. This property is not required for normal usage. Instead, use the DefaultInstanceWarmup property of the Auto Scaling group. The InstanceWarmup and DefaultInstanceWarmup properties work the same way. Only specify this property if you must override the DefaultInstanceWarmup property.  If you do not specify this property, the instance warmup by default is the value of the DefaultInstanceWarmup property, if defined (which is recommended in all cases), or the HealthCheckGracePeriod property otherwise.
         public let instanceWarmup: Int?
-        /// Specifies the maximum percentage of the group that can be in service and healthy, or pending, to support your workload when replacing instances. The value is expressed as a percentage of the desired capacity of the Auto Scaling group. Value range is 100 to 200. If you specify MaxHealthyPercentage, you must also specify MinHealthyPercentage, and the difference between them cannot be greater than 100. A larger range increases the number of instances that can be replaced at the same time. If you do not specify this property, the default is 100 percent, or the percentage set in the instance maintenance policy for the Auto Scaling group, if defined.
+        /// Specifies the maximum percentage of the group that can be in service and healthy, or pending, to support your workload when replacing instances. The value is expressed as a percentage of the desired capacity of the Auto Scaling group. Value range is 100 to 200. If you specify MaxHealthyPercentage, you must also specify MinHealthyPercentage, and the difference between them cannot be greater than 100. A larger range increases the number of instances that can be replaced at the same time. If you do not specify this property, the default is 100 percent, or the percentage set in the instance maintenance policy for the Auto Scaling group, if defined.  Explicitly setting MaxHealthyPercentage to 100 is not equivalent to omitting it. When MaxHealthyPercentage is explicitly set and it is mathematically impossible to replace instances while honoring both MinHealthyPercentage and MaxHealthyPercentage bounds simultaneously, Auto Scaling launches a new instance before terminating an old one (temporarily exceeding the desired capacity). When MaxHealthyPercentage is omitted, Auto Scaling terminates an instance and launches its replacement simultaneously. This behavioral difference can affect workflows that depend on instance replacement ordering.
         public let maxHealthyPercentage: Int?
         /// Specifies the minimum percentage of the group to keep in service, healthy, and ready to use to support your workload to allow the operation to continue. The value is expressed as a percentage of the desired capacity of the Auto Scaling group. Value range is 0 to 100. If you do not specify this property, the default is 90 percent, or the percentage set in the instance maintenance policy for the Auto Scaling group, if defined.
         public let minHealthyPercentage: Int?
@@ -5908,25 +5969,44 @@ extension AutoScaling {
     }
 
     public struct TerminateInstanceInAutoScalingGroupType: AWSEncodableShape {
+        /// The name of the Auto Scaling group. Required when using InstanceIds.
+        public let autoScalingGroupName: String?
         /// The ID of the instance.
         public let instanceId: String?
+        /// The IDs of the instances. You can specify up to 100 instances. This parameter requires that you also specify AutoScalingGroupName.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var instanceIds: [String]?
         /// Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
         public let shouldDecrementDesiredCapacity: Bool?
 
         @inlinable
-        public init(instanceId: String? = nil, shouldDecrementDesiredCapacity: Bool? = nil) {
+        public init(autoScalingGroupName: String? = nil, instanceId: String? = nil, instanceIds: [String]? = nil, shouldDecrementDesiredCapacity: Bool? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
             self.instanceId = instanceId
+            self.instanceIds = instanceIds
             self.shouldDecrementDesiredCapacity = shouldDecrementDesiredCapacity
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 19)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.instanceIds?.forEach {
+                try validate($0, name: "instanceIds[]", parent: name, max: 19)
+                try validate($0, name: "instanceIds[]", parent: name, min: 1)
+                try validate($0, name: "instanceIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+            try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 100)
+            try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
             case instanceId = "InstanceId"
+            case instanceIds = "InstanceIds"
             case shouldDecrementDesiredCapacity = "ShouldDecrementDesiredCapacity"
         }
     }
@@ -6063,7 +6143,7 @@ extension AutoScaling {
         public let maxSize: Int?
         /// The minimum size of the Auto Scaling group.
         public let minSize: Int?
-        /// The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
+        /// The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide. You can remove the Distribution Segments configuration by specifying OnDemandBaseCapacity or OnDemandPercentageAboveBaseCapacity. You can also remove it explicitly by specifying an empty list for DistributionSegments.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
         /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
@@ -6248,6 +6328,7 @@ public struct AutoScalingErrorType: AWSErrorType {
     enum Code: String {
         case activeInstanceRefreshNotFoundFault = "ActiveInstanceRefreshNotFound"
         case alreadyExistsFault = "AlreadyExists"
+        case idempotentCallInProgressFault = "IdempotentCallInProgress"
         case idempotentParameterMismatchError = "IdempotentParameterMismatch"
         case instanceRefreshInProgressFault = "InstanceRefreshInProgress"
         case invalidNextToken = "InvalidNextToken"
@@ -6281,6 +6362,8 @@ public struct AutoScalingErrorType: AWSErrorType {
     public static var activeInstanceRefreshNotFoundFault: Self { .init(.activeInstanceRefreshNotFoundFault) }
     /// You already have an Auto Scaling group or launch configuration with this name.
     public static var alreadyExistsFault: Self { .init(.alreadyExistsFault) }
+    ///  The service is currently processing another request with the same client token. Retry the request with the same client token—the in-flight operation will complete and return its result.
+    public static var idempotentCallInProgressFault: Self { .init(.idempotentCallInProgressFault) }
     ///  Indicates that the parameters in the current request do not match the parameters from a previous request with the same client token within the idempotency window.
     public static var idempotentParameterMismatchError: Self { .init(.idempotentParameterMismatchError) }
     /// The request failed because an active instance refresh already exists for the specified Auto Scaling group.

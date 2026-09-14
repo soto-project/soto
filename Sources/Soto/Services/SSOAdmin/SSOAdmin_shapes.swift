@@ -1857,19 +1857,22 @@ extension SSOAdmin {
         public let name: String?
         /// The identifier of the Amazon Web Services account for which the instance was created.
         public let ownerAccountId: String?
+        /// Indicates whether permission sets are enabled for this Identity Center instance.
+        public let permissionSetsEnabled: Bool?
         /// The status of the instance.
         public let status: InstanceStatus?
         /// Provides additional context about the current status of the IAM Identity Center instance. This field is particularly useful when an instance is in a non-ACTIVE state, such as CREATE_FAILED. When an instance fails to create or update, this field contains information about the cause, which may include issues with KMS key configuration, permission problems with the specified KMS key, or service-related errors.
         public let statusReason: String?
 
         @inlinable
-        public init(createdDate: Date? = nil, encryptionConfigurationDetails: EncryptionConfigurationDetails? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
+        public init(createdDate: Date? = nil, encryptionConfigurationDetails: EncryptionConfigurationDetails? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, permissionSetsEnabled: Bool? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
             self.createdDate = createdDate
             self.encryptionConfigurationDetails = encryptionConfigurationDetails
             self.identityStoreId = identityStoreId
             self.instanceArn = instanceArn
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.permissionSetsEnabled = permissionSetsEnabled
             self.status = status
             self.statusReason = statusReason
         }
@@ -1881,6 +1884,7 @@ extension SSOAdmin {
             case instanceArn = "InstanceArn"
             case name = "Name"
             case ownerAccountId = "OwnerAccountId"
+            case permissionSetsEnabled = "PermissionSetsEnabled"
             case status = "Status"
             case statusReason = "StatusReason"
         }
@@ -4700,12 +4704,15 @@ extension SSOAdmin {
         public let instanceArn: String
         /// Updates the instance name.
         public let name: String?
+        /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled.  You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. These calls can be made in parallel.
+        public let permissionSetsEnabled: Bool?
 
         @inlinable
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, instanceArn: String, name: String? = nil) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, instanceArn: String, name: String? = nil, permissionSetsEnabled: Bool? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.instanceArn = instanceArn
             self.name = name
+            self.permissionSetsEnabled = permissionSetsEnabled
         }
 
         public func validate(name: String) throws {
@@ -4721,6 +4728,7 @@ extension SSOAdmin {
             case encryptionConfiguration = "EncryptionConfiguration"
             case instanceArn = "InstanceArn"
             case name = "Name"
+            case permissionSetsEnabled = "PermissionSetsEnabled"
         }
     }
 

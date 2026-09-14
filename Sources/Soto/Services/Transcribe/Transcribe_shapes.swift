@@ -256,17 +256,35 @@ extension Transcribe {
 
     public enum PiiEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case address = "ADDRESS"
+        case age = "AGE"
         case all = "ALL"
+        case awsAccessKey = "AWS_ACCESS_KEY"
+        case awsSecretKey = "AWS_SECRET_KEY"
         case bankAccountNumber = "BANK_ACCOUNT_NUMBER"
         case bankRouting = "BANK_ROUTING"
+        case caHealthNumber = "CA_HEALTH_NUMBER"
+        case caSocialInsuranceNumber = "CA_SOCIAL_INSURANCE_NUMBER"
         case creditDebitCvv = "CREDIT_DEBIT_CVV"
         case creditDebitExpiry = "CREDIT_DEBIT_EXPIRY"
         case creditDebitNumber = "CREDIT_DEBIT_NUMBER"
+        case dateTime = "DATE_TIME"
+        case driverId = "DRIVER_ID"
         case email = "EMAIL"
+        case internationalBankAccountNumber = "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+        case ipAddress = "IP_ADDRESS"
+        case licensePlate = "LICENSE_PLATE"
+        case macAddress = "MAC_ADDRESS"
         case name = "NAME"
+        case passportNumber = "PASSPORT_NUMBER"
+        case password = "PASSWORD"
         case phone = "PHONE"
         case pin = "PIN"
         case ssn = "SSN"
+        case swiftCode = "SWIFT_CODE"
+        case url = "URL"
+        case usIndividualTaxIdentificationNumber = "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+        case username = "USERNAME"
+        case vehicleIdentificationNumber = "VEHICLE_IDENTIFICATION_NUMBER"
         public var description: String { return self.rawValue }
     }
 
@@ -757,7 +775,7 @@ extension Transcribe {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, max: 11)
+            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, max: 29)
         }
 
         private enum CodingKeys: String, CodingKey {

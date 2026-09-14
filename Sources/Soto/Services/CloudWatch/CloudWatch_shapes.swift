@@ -2446,9 +2446,11 @@ extension CloudWatch {
         public let threshold: Double?
         /// How this alarm handles missing data points. Valid values are breaching, notBreaching, ignore, and missing.
         public let treatMissingData: String?
+        /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. During the warm-up period, the alarm stays in INSUFFICIENT_DATA and does not perform alarm actions. For more information, see Alarm warm-up periods in the Amazon CloudWatch User Guide.
+        public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, evaluationState: EvaluationState? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, threshold: Double? = nil, treatMissingData: String? = nil) {
+        public init(actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, evaluationState: EvaluationState? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, threshold: Double? = nil, treatMissingData: String? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
             self.actionLogLineCount = actionLogLineCount
             self.actionLogLineRoleArn = actionLogLineRoleArn
             self.actionsEnabled = actionsEnabled
@@ -2471,6 +2473,7 @@ extension CloudWatch {
             self.stateValue = stateValue
             self.threshold = threshold
             self.treatMissingData = treatMissingData
+            self.warmUpConfiguration = warmUpConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2496,6 +2499,7 @@ extension CloudWatch {
             case stateValue = "StateValue"
             case threshold = "Threshold"
             case treatMissingData = "TreatMissingData"
+            case warmUpConfiguration = "WarmUpConfiguration"
         }
     }
 
@@ -2689,9 +2693,11 @@ extension CloudWatch {
         public let treatMissingData: String?
         /// The unit of the metric associated with the alarm.
         public let unit: StandardUnit?
+        /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. During the warm-up period, the alarm stays in INSUFFICIENT_DATA and does not perform alarm actions. For more information, see Alarm warm-up periods in the Amazon CloudWatch User Guide.
+        public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationState: EvaluationState? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationState: EvaluationState? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -2724,6 +2730,7 @@ extension CloudWatch {
             self.thresholdMetricId = thresholdMetricId
             self.treatMissingData = treatMissingData
             self.unit = unit
+            self.warmUpConfiguration = warmUpConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2759,6 +2766,7 @@ extension CloudWatch {
             case thresholdMetricId = "ThresholdMetricId"
             case treatMissingData = "TreatMissingData"
             case unit = "Unit"
+            case warmUpConfiguration = "WarmUpConfiguration"
         }
     }
 
@@ -3469,9 +3477,11 @@ extension CloudWatch {
         public let threshold: Double?
         /// Sets how this alarm is to handle missing data points. Valid values are breaching, notBreaching, ignore, and missing. If this parameter is omitted, the default behavior of missing is used.
         public let treatMissingData: String?
+        /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. The warm-up period reduces alarm noise from missing data while a new resource or service starts publishing data. For more information, see Alarm warm-up periods in the Amazon CloudWatch User Guide.
+        public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, tags: [Tag]? = nil, threshold: Double? = nil, treatMissingData: String? = nil) {
+        public init(actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, tags: [Tag]? = nil, threshold: Double? = nil, treatMissingData: String? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
             self.actionLogLineCount = actionLogLineCount
             self.actionLogLineRoleArn = actionLogLineRoleArn
             self.actionsEnabled = actionsEnabled
@@ -3487,6 +3497,7 @@ extension CloudWatch {
             self.tags = tags
             self.threshold = threshold
             self.treatMissingData = treatMissingData
+            self.warmUpConfiguration = warmUpConfiguration
         }
 
         public func validate(name: String) throws {
@@ -3516,6 +3527,7 @@ extension CloudWatch {
             }
             try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, max: 255)
             try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, min: 1)
+            try self.warmUpConfiguration?.validate(name: "\(name).warmUpConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3534,6 +3546,7 @@ extension CloudWatch {
             case tags = "Tags"
             case threshold = "Threshold"
             case treatMissingData = "TreatMissingData"
+            case warmUpConfiguration = "WarmUpConfiguration"
         }
     }
 
@@ -3622,9 +3635,11 @@ extension CloudWatch {
         public let treatMissingData: String?
         /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you are creating an alarm based on a metric math expression, you can specify the unit for each metric (if needed) within the objects in the Metrics array. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves unpredictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
         public let unit: StandardUnit?
+        /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. The warm-up period reduces alarm noise from missing data while a new resource or service starts publishing metrics. For more information, see Alarm warm-up periods in the Amazon CloudWatch User Guide.
+        public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmDescription = alarmDescription
@@ -3650,6 +3665,7 @@ extension CloudWatch {
             self.thresholdMetricId = thresholdMetricId
             self.treatMissingData = treatMissingData
             self.unit = unit
+            self.warmUpConfiguration = warmUpConfiguration
         }
 
         public func validate(name: String) throws {
@@ -3699,6 +3715,7 @@ extension CloudWatch {
             try self.validate(self.thresholdMetricId, name: "thresholdMetricId", parent: name, min: 1)
             try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, max: 255)
             try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, min: 1)
+            try self.warmUpConfiguration?.validate(name: "\(name).warmUpConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3727,6 +3744,7 @@ extension CloudWatch {
             case thresholdMetricId = "ThresholdMetricId"
             case treatMissingData = "TreatMissingData"
             case unit = "Unit"
+            case warmUpConfiguration = "WarmUpConfiguration"
         }
     }
 
@@ -4300,6 +4318,29 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case timezone = "Timezone"
+        }
+    }
+
+    public struct WarmUpConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the alarm waits for the full warm-up period before it starts to evaluate. The default is false. If true, the alarm waits the entire WarmUpPeriodDurationInMinutes before it starts to evaluate, even if metric data arrives earlier. If false, the alarm ends the warm-up period early. Evaluation begins as soon as the alarm has enough metric data to fill its evaluation window.
+        public let onlyStartEvaluatingAfterWarmUpPeriodEnds: Bool?
+        /// The length of the warm-up period, in minutes. After you create or update the alarm, the alarm stays in INSUFFICIENT_DATA for this duration. During this time, the alarm does not perform alarm actions. You can change this value at any time, including after the warm-up period ends. If you change it after the warm-up period ends, the new value does not restart the warm-up period.
+        public let warmUpPeriodDurationInMinutes: Int?
+
+        @inlinable
+        public init(onlyStartEvaluatingAfterWarmUpPeriodEnds: Bool? = nil, warmUpPeriodDurationInMinutes: Int? = nil) {
+            self.onlyStartEvaluatingAfterWarmUpPeriodEnds = onlyStartEvaluatingAfterWarmUpPeriodEnds
+            self.warmUpPeriodDurationInMinutes = warmUpPeriodDurationInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.warmUpPeriodDurationInMinutes, name: "warmUpPeriodDurationInMinutes", parent: name, max: 2880)
+            try self.validate(self.warmUpPeriodDurationInMinutes, name: "warmUpPeriodDurationInMinutes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onlyStartEvaluatingAfterWarmUpPeriodEnds = "OnlyStartEvaluatingAfterWarmUpPeriodEnds"
+            case warmUpPeriodDurationInMinutes = "WarmUpPeriodDurationInMinutes"
         }
     }
 

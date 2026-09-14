@@ -675,16 +675,20 @@ extension AppIntegrations {
     public struct DeleteApplicationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Application.
         public let arn: String
+        /// Specifies whether to delete the application even if it still has application associations. If true, the operation removes the application and its associations. If false or absent, the delete fails when associations exist.  Setting this parameter to true permanently removes all of the application's associations. Doing so might impact other resources that rely on and reference the application. This action can't be undone.
+        public let force: Bool?
 
         @inlinable
-        public init(arn: String) {
+        public init(arn: String, force: Bool? = nil) {
             self.arn = arn
+            self.force = force
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.arn, key: "Arn")
+            request.encodeQuery(self.force, key: "force")
         }
 
         public func validate(name: String) throws {
@@ -2053,6 +2057,7 @@ extension AppIntegrations {
 public struct AppIntegrationsErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case duplicateResourceException = "DuplicateResourceException"
         case internalServiceError = "InternalServiceError"
         case invalidRequestException = "InvalidRequestException"
@@ -2082,6 +2087,8 @@ public struct AppIntegrationsErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request conflicts with the current state of the resource. Verify the application's current state and retry the request.
+    public static var conflictException: Self { .init(.conflictException) }
     /// A resource with the specified name already exists.
     public static var duplicateResourceException: Self { .init(.duplicateResourceException) }
     /// Request processing failed due to an error or failure with the service.

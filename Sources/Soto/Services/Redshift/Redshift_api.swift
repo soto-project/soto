@@ -3825,14 +3825,20 @@ public struct Redshift: AWSService {
     ///
     /// Parameters:
     ///   - clusterIdentifier: The identifier of the cluster on which logging is to be stopped. Example: examplecluster
+    ///   - logDestinationType: The log destination type. An enum with possible values of s3, cloudwatch, and s3table. When set to s3table, stops system table publishing. When omitted, the operation disables audit logging.
+    ///   - logExports: The collection of log types to stop exporting. When LogDestinationType is s3table, the values are the names of the system tables to stop publishing. Omitting this parameter or passing all stops publishing all system tables.
     ///   - logger: Logger use during operation
     @inlinable
     public func disableLogging(
         clusterIdentifier: String? = nil,
+        logDestinationType: LogDestinationType? = nil,
+        logExports: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> LoggingStatus {
         let input = DisableLoggingMessage(
-            clusterIdentifier: clusterIdentifier
+            clusterIdentifier: clusterIdentifier, 
+            logDestinationType: logDestinationType, 
+            logExports: logExports
         )
         return try await self.disableLogging(input, logger: logger)
     }
@@ -3922,9 +3928,11 @@ public struct Redshift: AWSService {
     /// Parameters:
     ///   - bucketName: The name of an existing S3 bucket where the log files are to be stored. Constraints:   Must be in the same region as the cluster   The cluster must have read bucket and put object permissions
     ///   - clusterIdentifier: The identifier of the cluster on which logging is to be started. Example: examplecluster
-    ///   - logDestinationType: The log destination type. An enum with possible values of s3 and cloudwatch.
-    ///   - logExports: The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
+    ///   - logDestinationType: The log destination type. An enum with possible values of s3, cloudwatch, and s3table.
+    ///   - logExports: The collection of exported log types. When LogDestinationType is s3 or cloudwatch, possible values are connectionlog, useractivitylog, and userlog. When LogDestinationType is s3table, the values are the names of the system tables to publish. Omitting this parameter, passing an empty list, or including the value all publishes all current and future system tables.
     ///   - s3KeyPrefix: The prefix applied to the log file names. Valid characters are any letter from any language, any whitespace character, any numeric character, and the following characters:  underscore (_), period (.), colon (:), slash (/), equal (=), plus (+), backslash (\), hyphen (-), at symbol (@).
+    ///   - s3TableGranularity: The scope of system table publishing. Valid values are cluster and account. A value of cluster scopes publishing to the individual cluster. A value of account scopes publishing to the Amazon Web Services account. This parameter is valid only when LogDestinationType is s3table.
+    ///   - s3TableKmsKeyId: The identifier of a customer managed KMS key used to encrypt the S3 tables. This parameter is valid only when LogDestinationType is s3table.
     ///   - logger: Logger use during operation
     @inlinable
     public func enableLogging(
@@ -3933,6 +3941,8 @@ public struct Redshift: AWSService {
         logDestinationType: LogDestinationType? = nil,
         logExports: [String]? = nil,
         s3KeyPrefix: String? = nil,
+        s3TableGranularity: String? = nil,
+        s3TableKmsKeyId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> LoggingStatus {
         let input = EnableLoggingMessage(
@@ -3940,7 +3950,9 @@ public struct Redshift: AWSService {
             clusterIdentifier: clusterIdentifier, 
             logDestinationType: logDestinationType, 
             logExports: logExports, 
-            s3KeyPrefix: s3KeyPrefix
+            s3KeyPrefix: s3KeyPrefix, 
+            s3TableGranularity: s3TableGranularity, 
+            s3TableKmsKeyId: s3TableKmsKeyId
         )
         return try await self.enableLogging(input, logger: logger)
     }

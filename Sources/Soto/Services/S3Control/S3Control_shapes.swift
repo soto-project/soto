@@ -304,6 +304,12 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3AnnotationDirective: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case copy = "COPY"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "private"
         case authenticatedRead = "authenticated-read"
@@ -348,6 +354,12 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3ObjectLockEventHold: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case off = "OFF"
+        case on = "ON"
+        public var description: String { return self.rawValue }
+    }
+
     public enum S3ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "OFF"
         case on = "ON"
@@ -357,6 +369,12 @@ extension S3Control {
     public enum S3ObjectLockMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compliance = "COMPLIANCE"
         case governance = "GOVERNANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ObjectLockRetentionEventHold: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case off = "OFF"
+        case on = "ON"
         public var description: String { return self.rawValue }
     }
 
@@ -4531,6 +4549,7 @@ extension S3Control {
             try self.s3InitiateRestoreObject?.validate(name: "\(name).s3InitiateRestoreObject")
             try self.s3PutObjectAcl?.validate(name: "\(name).s3PutObjectAcl")
             try self.s3PutObjectCopy?.validate(name: "\(name).s3PutObjectCopy")
+            try self.s3PutObjectRetention?.validate(name: "\(name).s3PutObjectRetention")
             try self.s3PutObjectTagging?.validate(name: "\(name).s3PutObjectTagging")
             try self.s3UpdateObjectEncryption?.validate(name: "\(name).s3UpdateObjectEncryption")
         }
@@ -7297,6 +7316,8 @@ extension S3Control {
         ///   This functionality is not supported by directory buckets.
         @OptionalCustomCoding<StandardArrayCoder<S3Grant>>
         public var accessControlGrants: [S3Grant]?
+        /// Specifies whether the Batch Operations copy job copies object annotations from the source object or skips them. If this property isn't specified, COPY is the default behavior. Valid Values: COPY | EXCLUDE   This functionality is not supported by directory buckets.
+        public let annotationDirective: S3AnnotationDirective?
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an Copy action doesn’t affect bucket-level settings for S3 Bucket Key.   Directory buckets - S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets
         /// to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through the Copy operation in Batch Operations. In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
         public let bucketKeyEnabled: Bool?
@@ -7311,6 +7332,10 @@ extension S3Control {
         /// Specifies a list of tags to add to the destination objects after they are copied.  If NewObjectTagging is not specified, the tags of the source objects are copied to destination objects by default.   Directory buckets - Tags aren't supported by directory buckets.  If your source objects have tags and your destination bucket is a directory bucket, specify an empty tag set in the NewObjectTagging field  to prevent copying the source object tags to the directory bucket.
         @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var newObjectTagging: [S3Tag]?
+        /// The event hold status to be applied to all objects in the Batch Operations copy job. Set to ON to enable an event hold or OFF to disable it.  This functionality is not supported by directory buckets.
+        public let objectLockEventHold: S3ObjectLockEventHold?
+        /// The event hold duration to be applied to all objects in the Batch Operations copy job. The duration specifies how long the object remains protected after the event hold is released.  This functionality is not supported by directory buckets.
+        public let objectLockEventHoldDuration: S3ObjectLockEventHoldDuration?
         /// The legal hold status to be applied to all objects in the Batch Operations job.  This functionality is not supported by directory buckets.
         public let objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus?
         /// The retention mode to be applied to all objects in the Batch Operations job.  This functionality is not supported by directory buckets.
@@ -7334,8 +7359,9 @@ extension S3Control {
         public let unModifiedSinceConstraint: Date?
 
         @inlinable
-        public init(accessControlGrants: [S3Grant]? = nil, bucketKeyEnabled: Bool? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, checksumAlgorithm: S3ChecksumAlgorithm? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: Date? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sseAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: Date? = nil) {
+        public init(accessControlGrants: [S3Grant]? = nil, annotationDirective: S3AnnotationDirective? = nil, bucketKeyEnabled: Bool? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, checksumAlgorithm: S3ChecksumAlgorithm? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: Date? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockEventHold: S3ObjectLockEventHold? = nil, objectLockEventHoldDuration: S3ObjectLockEventHoldDuration? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sseAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: Date? = nil) {
             self.accessControlGrants = accessControlGrants
+            self.annotationDirective = annotationDirective
             self.bucketKeyEnabled = bucketKeyEnabled
             self.cannedAccessControlList = cannedAccessControlList
             self.checksumAlgorithm = checksumAlgorithm
@@ -7343,6 +7369,8 @@ extension S3Control {
             self.modifiedSinceConstraint = modifiedSinceConstraint
             self.newObjectMetadata = newObjectMetadata
             self.newObjectTagging = newObjectTagging
+            self.objectLockEventHold = objectLockEventHold
+            self.objectLockEventHoldDuration = objectLockEventHoldDuration
             self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
             self.objectLockMode = objectLockMode
             self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -7363,6 +7391,7 @@ extension S3Control {
             try self.newObjectTagging?.forEach {
                 try $0.validate(name: "\(name).newObjectTagging[]")
             }
+            try self.objectLockEventHoldDuration?.validate(name: "\(name).objectLockEventHoldDuration")
             try self.validate(self.redirectLocation, name: "redirectLocation", parent: name, max: 2048)
             try self.validate(self.redirectLocation, name: "redirectLocation", parent: name, min: 1)
             try self.validate(self.sseAwsKmsKeyId, name: "sseAwsKmsKeyId", parent: name, max: 2000)
@@ -7376,6 +7405,7 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case accessControlGrants = "AccessControlGrants"
+            case annotationDirective = "AnnotationDirective"
             case bucketKeyEnabled = "BucketKeyEnabled"
             case cannedAccessControlList = "CannedAccessControlList"
             case checksumAlgorithm = "ChecksumAlgorithm"
@@ -7383,6 +7413,8 @@ extension S3Control {
             case modifiedSinceConstraint = "ModifiedSinceConstraint"
             case newObjectMetadata = "NewObjectMetadata"
             case newObjectTagging = "NewObjectTagging"
+            case objectLockEventHold = "ObjectLockEventHold"
+            case objectLockEventHoldDuration = "ObjectLockEventHoldDuration"
             case objectLockLegalHoldStatus = "ObjectLockLegalHoldStatus"
             case objectLockMode = "ObjectLockMode"
             case objectLockRetainUntilDate = "ObjectLockRetainUntilDate"
@@ -7488,7 +7520,7 @@ extension S3Control {
     public struct S3JobManifestGenerator: AWSEncodableShape & AWSDecodableShape {
         /// Determines whether or not to write the job's generated manifest to a bucket.
         public let enableManifestOutput: Bool
-        /// The Amazon Web Services account ID that owns the bucket the generated manifest is written to. If provided the generated manifest bucket's owner Amazon Web Services account ID must match this value, else the job fails.
+        /// The Amazon Web Services account ID that owns the source bucket specified in SourceBucket. If provided, the manifest source bucket owner's Amazon Web Services account ID must match this value, else the job fails.
         public let expectedBucketOwner: String?
         /// Specifies rules the S3JobManifestGenerator should use to decide whether an object in the source bucket should or should not be included in the generated job manifest.
         public let filter: JobManifestGeneratorFilter?
@@ -7566,6 +7598,31 @@ extension S3Control {
         }
     }
 
+    public struct S3ObjectLockEventHoldDuration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of days for the event hold duration. The minimum value is 1 and the maximum value is 36,500.
+        public let days: Int?
+        /// The number of years for the event hold duration. The minimum value is 1 and the maximum value is 100.
+        public let years: Int?
+
+        @inlinable
+        public init(days: Int? = nil, years: Int? = nil) {
+            self.days = days
+            self.years = years
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.days, name: "days", parent: name, max: 36500)
+            try self.validate(self.days, name: "days", parent: name, min: 1)
+            try self.validate(self.years, name: "years", parent: name, max: 100)
+            try self.validate(self.years, name: "years", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case days = "Days"
+            case years = "Years"
+        }
+    }
+
     public struct S3ObjectLockLegalHold: AWSEncodableShape & AWSDecodableShape {
         /// The Object Lock legal hold status to be applied to all objects in the Batch Operations job.
         public let status: S3ObjectLockLegalHoldStatus
@@ -7577,6 +7634,31 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
+        }
+    }
+
+    public struct S3ObjectLockRetentionEventHoldDuration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of days for the event hold duration. The minimum value is 1 and the maximum value is 36,500.
+        public let days: Int?
+        /// The number of years for the event hold duration. The minimum value is 1 and the maximum value is 100.
+        public let years: Int?
+
+        @inlinable
+        public init(days: Int? = nil, years: Int? = nil) {
+            self.days = days
+            self.years = years
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.days, name: "days", parent: name, max: 36500)
+            try self.validate(self.days, name: "days", parent: name, min: 1)
+            try self.validate(self.years, name: "years", parent: name, max: 100)
+            try self.validate(self.years, name: "years", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case days = "Days"
+            case years = "Years"
         }
     }
 
@@ -7678,18 +7760,30 @@ extension S3Control {
     }
 
     public struct S3Retention: AWSEncodableShape & AWSDecodableShape {
+        /// The event hold status to be applied to all objects in the Batch Operations job. Set to ON to enable an event hold or OFF to disable it.
+        public let eventHold: S3ObjectLockRetentionEventHold?
+        /// The event hold duration to be applied to all objects in the Batch Operations job. The duration specifies how long the object remains protected after the event hold is released.
+        public let eventHoldDuration: S3ObjectLockRetentionEventHoldDuration?
         /// The Object Lock retention mode to be applied to all objects in the Batch Operations job.
         public let mode: S3ObjectLockRetentionMode?
         /// The date when the applied Object Lock retention will expire on all objects set by the Batch Operations job.
         public let retainUntilDate: Date?
 
         @inlinable
-        public init(mode: S3ObjectLockRetentionMode? = nil, retainUntilDate: Date? = nil) {
+        public init(eventHold: S3ObjectLockRetentionEventHold? = nil, eventHoldDuration: S3ObjectLockRetentionEventHoldDuration? = nil, mode: S3ObjectLockRetentionMode? = nil, retainUntilDate: Date? = nil) {
+            self.eventHold = eventHold
+            self.eventHoldDuration = eventHoldDuration
             self.mode = mode
             self.retainUntilDate = retainUntilDate
         }
 
+        public func validate(name: String) throws {
+            try self.eventHoldDuration?.validate(name: "\(name).eventHoldDuration")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case eventHold = "EventHold"
+            case eventHoldDuration = "EventHoldDuration"
             case mode = "Mode"
             case retainUntilDate = "RetainUntilDate"
         }
@@ -7736,6 +7830,10 @@ extension S3Control {
         public init(bypassGovernanceRetention: Bool? = nil, retention: S3Retention) {
             self.bypassGovernanceRetention = bypassGovernanceRetention
             self.retention = retention
+        }
+
+        public func validate(name: String) throws {
+            try self.retention.validate(name: "\(name).retention")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7933,7 +8031,7 @@ extension S3Control {
         public let delimiter: String?
         /// The max depth of the selection criteria
         public let maxDepth: Int?
-        /// The minimum number of storage bytes percentage whose metrics will be selected.  You must choose a value greater than or equal to 1.0.
+        /// The minimum percentage of total bucket storage that a prefix must hold for its metrics to be included.
         public let minStorageBytesPercentage: Double?
 
         @inlinable

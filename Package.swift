@@ -36,6 +36,9 @@ let package = Package(
         .library(name: "SotoARCZonalShift", targets: ["SotoARCZonalShift"]),
         .library(name: "SotoAccessAnalyzer", targets: ["SotoAccessAnalyzer"]),
         .library(name: "SotoAccount", targets: ["SotoAccount"]),
+        .library(name: "SotoAccountAccess", targets: ["SotoAccountAccess"]),
+        .library(name: "SotoAgentRegistry", targets: ["SotoAgentRegistry"]),
+        .library(name: "SotoAgentRegistryControl", targets: ["SotoAgentRegistryControl"]),
         .library(name: "SotoAmp", targets: ["SotoAmp"]),
         .library(name: "SotoAmplify", targets: ["SotoAmplify"]),
         .library(name: "SotoAmplifyBackend", targets: ["SotoAmplifyBackend"]),
@@ -208,6 +211,7 @@ let package = Package(
         .library(name: "SotoHealth", targets: ["SotoHealth"]),
         .library(name: "SotoHealthLake", targets: ["SotoHealthLake"]),
         .library(name: "SotoIAM", targets: ["SotoIAM"]),
+        .library(name: "SotoIAMToolbox", targets: ["SotoIAMToolbox"]),
         .library(name: "SotoIVS", targets: ["SotoIVS"]),
         .library(name: "SotoIVSRealTime", targets: ["SotoIVSRealTime"]),
         .library(name: "SotoIdentityStore", targets: ["SotoIdentityStore"]),
@@ -335,6 +339,7 @@ let package = Package(
         .library(name: "SotoPipes", targets: ["SotoPipes"]),
         .library(name: "SotoPolly", targets: ["SotoPolly"]),
         .library(name: "SotoPricing", targets: ["SotoPricing"]),
+        .library(name: "SotoPricingPlanManager", targets: ["SotoPricingPlanManager"]),
         .library(name: "SotoProton", targets: ["SotoProton"]),
         .library(name: "SotoQApps", targets: ["SotoQApps"]),
         .library(name: "SotoQBusiness", targets: ["SotoQBusiness"]),
@@ -455,7 +460,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.14.0")
+        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.9.0")
     ],
     targets: [
         .target(
@@ -504,6 +509,24 @@ let package = Package(
             name: "SotoAccount",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Account",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoAccountAccess",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/AccountAccess",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoAgentRegistry",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/AgentRegistry",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoAgentRegistryControl",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/AgentRegistryControl",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -1539,6 +1562,12 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
+            name: "SotoIAMToolbox",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/IAMToolbox",
+            swiftSettings: swiftSettings
+        ),
+        .target(
             name: "SotoIVS",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/IVS",
@@ -2298,6 +2327,12 @@ let package = Package(
             name: "SotoPricing",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Pricing",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoPricingPlanManager",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/PricingPlanManager",
             swiftSettings: swiftSettings
         ),
         .target(

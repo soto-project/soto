@@ -30,20 +30,32 @@ extension EKSAuth {
     public struct AssumeRoleForPodIdentityRequest: AWSEncodableShape {
         /// The name of the cluster for the request.
         public let clusterName: String
+        /// The Kubernetes node name of the worker node where the pod is running.
+        public let eksNodeName: String?
+        /// The Amazon EC2 instance ID of the worker node where the pod is running.
+        public let instanceId: String?
         /// The token of the Kubernetes service account for the pod.
         public let token: String
+        /// The Availability Zone ID of the worker node where the pod is running.
+        public let zone: String?
 
         @inlinable
-        public init(clusterName: String, token: String) {
+        public init(clusterName: String, eksNodeName: String? = nil, instanceId: String? = nil, token: String, zone: String? = nil) {
             self.clusterName = clusterName
+            self.eksNodeName = eksNodeName
+            self.instanceId = instanceId
             self.token = token
+            self.zone = zone
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.eksNodeName, forKey: .eksNodeName)
+            try container.encodeIfPresent(self.instanceId, forKey: .instanceId)
             try container.encode(self.token, forKey: .token)
+            try container.encodeIfPresent(self.zone, forKey: .zone)
         }
 
         public func validate(name: String) throws {
@@ -55,7 +67,10 @@ extension EKSAuth {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eksNodeName = "eksNodeName"
+            case instanceId = "instanceId"
             case token = "token"
+            case zone = "zone"
         }
     }
 

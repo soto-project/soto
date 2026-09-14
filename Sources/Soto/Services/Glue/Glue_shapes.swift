@@ -491,6 +491,21 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportSetting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FederationSourceErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDeniedException = "AccessDeniedException"
         case entityNotFoundException = "EntityNotFoundException"
@@ -1873,12 +1888,18 @@ extension Glue {
         public let clientToken: String?
         /// The list of glossary term identifiers to associate with the asset.
         public let glossaryTermIdentifiers: [String]
+        /// The identifier of the item within the iterable form. Required when iterableFormName is specified.
+        public let itemIdentifier: String?
+        /// The name of the iterable form. When specified along with itemIdentifier, the glossary terms are associated with an item within the iterable form rather than the asset itself.
+        public let iterableFormName: String?
 
         @inlinable
-        public init(assetIdentifier: String, clientToken: String? = AssociateGlossaryTermsRequest.idempotencyToken(), glossaryTermIdentifiers: [String]) {
+        public init(assetIdentifier: String, clientToken: String? = AssociateGlossaryTermsRequest.idempotencyToken(), glossaryTermIdentifiers: [String], itemIdentifier: String? = nil, iterableFormName: String? = nil) {
             self.assetIdentifier = assetIdentifier
             self.clientToken = clientToken
             self.glossaryTermIdentifiers = glossaryTermIdentifiers
+            self.itemIdentifier = itemIdentifier
+            self.iterableFormName = iterableFormName
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1887,6 +1908,8 @@ extension Glue {
             request.encodePath(self.assetIdentifier, key: "AssetIdentifier")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encode(self.glossaryTermIdentifiers, forKey: .glossaryTermIdentifiers)
+            try container.encodeIfPresent(self.itemIdentifier, forKey: .itemIdentifier)
+            try container.encodeIfPresent(self.iterableFormName, forKey: .iterableFormName)
         }
 
         public func validate(name: String) throws {
@@ -1898,11 +1921,18 @@ extension Glue {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.glossaryTermIdentifiers, name: "glossaryTermIdentifiers", parent: name, max: 10)
             try self.validate(self.glossaryTermIdentifiers, name: "glossaryTermIdentifiers", parent: name, min: 1)
+            try self.validate(self.itemIdentifier, name: "itemIdentifier", parent: name, max: 1087)
+            try self.validate(self.itemIdentifier, name: "itemIdentifier", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, max: 256)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case glossaryTermIdentifiers = "GlossaryTermIdentifiers"
+            case itemIdentifier = "ItemIdentifier"
+            case iterableFormName = "IterableFormName"
         }
     }
 
@@ -1911,16 +1941,24 @@ extension Glue {
         public let assetIdentifier: String?
         /// The glossary terms now associated with the asset.
         public let glossaryTerms: [String]?
+        /// The identifier of the item within the iterable form, if applicable.
+        public let itemIdentifier: String?
+        /// The name of the iterable form, if the association targets an item.
+        public let iterableFormName: String?
 
         @inlinable
-        public init(assetIdentifier: String? = nil, glossaryTerms: [String]? = nil) {
+        public init(assetIdentifier: String? = nil, glossaryTerms: [String]? = nil, itemIdentifier: String? = nil, iterableFormName: String? = nil) {
             self.assetIdentifier = assetIdentifier
             self.glossaryTerms = glossaryTerms
+            self.itemIdentifier = itemIdentifier
+            self.iterableFormName = iterableFormName
         }
 
         private enum CodingKeys: String, CodingKey {
             case assetIdentifier = "AssetIdentifier"
             case glossaryTerms = "GlossaryTerms"
+            case itemIdentifier = "ItemIdentifier"
+            case iterableFormName = "IterableFormName"
         }
     }
 
@@ -10397,14 +10435,22 @@ extension Glue {
     public struct DeleteAttachmentResponse: AWSDecodableShape {
         /// The unique identifier of the asset.
         public let assetIdentifier: String?
+        /// The identifier of the item within the iterable form, if applicable.
+        public let itemIdentifier: String?
+        /// The name of the iterable form, if the deletion targets an item.
+        public let iterableFormName: String?
 
         @inlinable
-        public init(assetIdentifier: String? = nil) {
+        public init(assetIdentifier: String? = nil, itemIdentifier: String? = nil, iterableFormName: String? = nil) {
             self.assetIdentifier = assetIdentifier
+            self.itemIdentifier = itemIdentifier
+            self.iterableFormName = iterableFormName
         }
 
         private enum CodingKeys: String, CodingKey {
             case assetIdentifier = "AssetIdentifier"
+            case itemIdentifier = "ItemIdentifier"
+            case iterableFormName = "IterableFormName"
         }
     }
 
@@ -12212,12 +12258,18 @@ extension Glue {
         public let clientToken: String?
         /// The list of glossary term identifiers to disassociate from the asset.
         public let glossaryTermIdentifiers: [String]
+        /// The identifier of the item within the iterable form. Required when iterableFormName is specified.
+        public let itemIdentifier: String?
+        /// The name of the iterable form. When specified along with itemIdentifier, the glossary terms are disassociated from an item within the iterable form rather than the asset itself.
+        public let iterableFormName: String?
 
         @inlinable
-        public init(assetIdentifier: String, clientToken: String? = DisassociateGlossaryTermsRequest.idempotencyToken(), glossaryTermIdentifiers: [String]) {
+        public init(assetIdentifier: String, clientToken: String? = DisassociateGlossaryTermsRequest.idempotencyToken(), glossaryTermIdentifiers: [String], itemIdentifier: String? = nil, iterableFormName: String? = nil) {
             self.assetIdentifier = assetIdentifier
             self.clientToken = clientToken
             self.glossaryTermIdentifiers = glossaryTermIdentifiers
+            self.itemIdentifier = itemIdentifier
+            self.iterableFormName = iterableFormName
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -12226,6 +12278,8 @@ extension Glue {
             request.encodePath(self.assetIdentifier, key: "AssetIdentifier")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encode(self.glossaryTermIdentifiers, forKey: .glossaryTermIdentifiers)
+            try container.encodeIfPresent(self.itemIdentifier, forKey: .itemIdentifier)
+            try container.encodeIfPresent(self.iterableFormName, forKey: .iterableFormName)
         }
 
         public func validate(name: String) throws {
@@ -12237,11 +12291,18 @@ extension Glue {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.glossaryTermIdentifiers, name: "glossaryTermIdentifiers", parent: name, max: 10)
             try self.validate(self.glossaryTermIdentifiers, name: "glossaryTermIdentifiers", parent: name, min: 1)
+            try self.validate(self.itemIdentifier, name: "itemIdentifier", parent: name, max: 1087)
+            try self.validate(self.itemIdentifier, name: "itemIdentifier", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, max: 256)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, min: 1)
+            try self.validate(self.iterableFormName, name: "iterableFormName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*(::[a-zA-Z][a-zA-Z0-9_]*)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case glossaryTermIdentifiers = "GlossaryTermIdentifiers"
+            case itemIdentifier = "ItemIdentifier"
+            case iterableFormName = "IterableFormName"
         }
     }
 
@@ -12250,16 +12311,24 @@ extension Glue {
         public let assetIdentifier: String?
         /// The remaining glossary terms associated with the asset.
         public let glossaryTerms: [String]?
+        /// The identifier of the item within the iterable form, if applicable.
+        public let itemIdentifier: String?
+        /// The name of the iterable form, if the disassociation targets an item.
+        public let iterableFormName: String?
 
         @inlinable
-        public init(assetIdentifier: String? = nil, glossaryTerms: [String]? = nil) {
+        public init(assetIdentifier: String? = nil, glossaryTerms: [String]? = nil, itemIdentifier: String? = nil, iterableFormName: String? = nil) {
             self.assetIdentifier = assetIdentifier
             self.glossaryTerms = glossaryTerms
+            self.itemIdentifier = itemIdentifier
+            self.iterableFormName = iterableFormName
         }
 
         private enum CodingKeys: String, CodingKey {
             case assetIdentifier = "AssetIdentifier"
             case glossaryTerms = "GlossaryTerms"
+            case itemIdentifier = "ItemIdentifier"
+            case iterableFormName = "IterableFormName"
         }
     }
 
@@ -12965,6 +13034,28 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case maxConcurrentRuns = "MaxConcurrentRuns"
+        }
+    }
+
+    public struct ExportEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the KMS key used to encrypt the exported data.
+        public let kmsKeyArn: String?
+        /// The server-side encryption algorithm used for the exported data. Valid values are AES256 and aws:kms.
+        public let sseAlgorithm: String?
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil, sseAlgorithm: String? = nil) {
+            self.kmsKeyArn = kmsKeyArn
+            self.sseAlgorithm = sseAlgorithm
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case sseAlgorithm = "SseAlgorithm"
         }
     }
 
@@ -14686,6 +14777,44 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case dataCatalogEncryptionSettings = "DataCatalogEncryptionSettings"
+        }
+    }
+
+    public struct GetDataCatalogExportConfigurationInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetDataCatalogExportConfigurationOutput: AWSDecodableShape {
+        /// The timestamp at which the export configuration was created.
+        public let createdAt: Date?
+        /// The encryption configuration for the exported data.
+        public let encryptionConfiguration: ExportEncryptionConfiguration?
+        /// The export setting for the data catalog. Valid values are ENABLED and DISABLED.
+        public let exportSetting: ExportSetting?
+        /// The ARN of the S3 Tables bucket where catalog metadata is exported.
+        public let s3TableBucketArn: String?
+        /// The current status of the export. Valid values are ENABLING, ENABLED, DISABLING, DISABLED, and FAILED.
+        public let status: ExportStatus?
+        /// The timestamp at which the export configuration was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, encryptionConfiguration: ExportEncryptionConfiguration? = nil, exportSetting: ExportSetting? = nil, s3TableBucketArn: String? = nil, status: ExportStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.encryptionConfiguration = encryptionConfiguration
+            self.exportSetting = exportSetting
+            self.s3TableBucketArn = s3TableBucketArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case exportSetting = "ExportSetting"
+            case s3TableBucketArn = "S3TableBucketArn"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -21981,7 +22110,7 @@ extension Glue {
         public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        /// The name of the table for which statistics is generated.
+        /// The name of the materialized view.
         public let tableName: String?
 
         @inlinable
@@ -22771,13 +22900,13 @@ extension Glue {
         public let processedBytes: Int64?
         /// The type of the refresh task run. Either FULL or INCREMENTAL.
         public let refreshType: MaterializedViewRefreshType?
-        /// The IAM role that the service assumes to generate statistics.
+        /// The IAM role that the service assumes to run the materialized view refresh task.
         public let role: String?
         /// The start time of the task.
         public let startTime: Date?
         /// The status of the task run.
         public let status: MaterializedViewRefreshState?
-        /// The name of the table for which statistics is generated.
+        /// The name of the materialized view.
         public let tableName: String?
 
         @inlinable
@@ -24516,6 +24645,53 @@ extension Glue {
 
     public struct PutDataCatalogEncryptionSettingsResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct PutDataCatalogExportConfigurationInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The encryption configuration for the exported data. If not specified, the default encryption settings are used.
+        public let encryptionConfiguration: ExportEncryptionConfiguration?
+        /// The export setting for the data catalog. Specify ENABLED to start exporting catalog metadata to S3 Tables, or DISABLED to stop exporting. This field is required.
+        public let exportSetting: ExportSetting
+
+        @inlinable
+        public init(clientToken: String? = PutDataCatalogExportConfigurationInput.idempotencyToken(), encryptionConfiguration: ExportEncryptionConfiguration? = nil, exportSetting: ExportSetting) {
+            self.clientToken = clientToken
+            self.encryptionConfiguration = encryptionConfiguration
+            self.exportSetting = exportSetting
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 255)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case exportSetting = "ExportSetting"
+        }
+    }
+
+    public struct PutDataCatalogExportConfigurationOutput: AWSDecodableShape {
+        /// The encryption configuration for the exported data.
+        public let encryptionConfiguration: ExportEncryptionConfiguration?
+        /// The export setting for the data catalog.
+        public let exportSetting: ExportSetting?
+
+        @inlinable
+        public init(encryptionConfiguration: ExportEncryptionConfiguration? = nil, exportSetting: ExportSetting? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.exportSetting = exportSetting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case exportSetting = "ExportSetting"
+        }
     }
 
     public struct PutDataQualityProfileAnnotationRequest: AWSEncodableShape {
@@ -29155,7 +29331,7 @@ extension Glue {
         public let databaseName: String
         /// Specifies whether this is a full refresh of the task run.
         public let fullRefresh: Bool?
-        /// The name of the table to generate run the materialized view refresh task.
+        /// The name of the materialized view to run the refresh task for.
         public let tableName: String
 
         @inlinable
@@ -29629,7 +29805,7 @@ extension Glue {
         public let catalogId: String
         /// The name of the database where the table resides.
         public let databaseName: String
-        /// The name of the table to generate statistics.
+        /// The name of the materialized view.
         public let tableName: String
 
         @inlinable

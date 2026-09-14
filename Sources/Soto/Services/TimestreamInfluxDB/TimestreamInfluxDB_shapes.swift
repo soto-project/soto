@@ -25,6 +25,16 @@ import Foundation
 extension TimestreamInfluxDB {
     // MARK: Enums
 
+    public enum AutomatedDbBackupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case continuous = "CONTINUOUS"
+        case customSchedule = "CUSTOM_SCHEDULE"
+        case daily = "DAILY"
+        case hourly = "HOURLY"
+        case monthly = "MONTHLY"
+        case weekly = "WEEKLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterDeploymentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiNodeReadReplicas = "MULTI_NODE_READ_REPLICAS"
         public var description: String { return self.rawValue }
@@ -40,6 +50,8 @@ extension TimestreamInfluxDB {
         case partiallyAvailable = "PARTIALLY_AVAILABLE"
         case rebootFailed = "REBOOT_FAILED"
         case rebooting = "REBOOTING"
+        case restoreFailed = "RESTORE_FAILED"
+        case restoring = "RESTORING"
         case updating = "UPDATING"
         case updatingInstanceType = "UPDATING_INSTANCE_TYPE"
         public var description: String { return self.rawValue }
@@ -48,6 +60,26 @@ extension TimestreamInfluxDB {
     public enum DataFusionRuntimeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiThread = "multi-thread"
         case multiThreadAlt = "multi-thread-alt"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DbBackupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DbBackupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case continuous = "CONTINUOUS"
+        case customSchedule = "CUSTOM_SCHEDULE"
+        case daily = "DAILY"
+        case hourly = "HOURLY"
+        case monthly = "MONTHLY"
+        case onDemand = "ON_DEMAND"
+        case weekly = "WEEKLY"
         public var description: String { return self.rawValue }
     }
 
@@ -128,6 +160,30 @@ extension TimestreamInfluxDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceDeploymentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case multiNodeReadReplicas = "MULTI_NODE_READ_REPLICAS"
+        case singleAz = "SINGLE_AZ"
+        case withMultiazStandby = "WITH_MULTIAZ_STANDBY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dbCluster = "DB_CLUSTER"
+        case dbInstance = "DB_INSTANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RestoreMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case newResource = "NEW_RESOURCE"
+        case replaceExisting = "REPLACE_EXISTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RestoreStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case restoring = "RESTORING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case creating = "CREATING"
@@ -138,6 +194,8 @@ extension TimestreamInfluxDB {
         case modifying = "MODIFYING"
         case rebootFailed = "REBOOT_FAILED"
         case rebooting = "REBOOTING"
+        case restoreFailed = "RESTORE_FAILED"
+        case restoring = "RESTORING"
         case updating = "UPDATING"
         case updatingDeploymentType = "UPDATING_DEPLOYMENT_TYPE"
         case updatingInstanceType = "UPDATING_INSTANCE_TYPE"
@@ -303,11 +361,167 @@ extension TimestreamInfluxDB {
         }
     }
 
+    public struct CreateDbBackupInput: AWSEncodableShape {
+        /// The id of the DB instance or DB cluster to back up.
+        public let dbResourceId: String
+        /// The name of the backup. Must be unique within the account and region.
+        public let name: String
+        /// The number of days to retain the backup. Valid values are 1 to 3650.
+        public let retentionDays: Int?
+        /// A list of key-value pairs to associate with the backup.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(dbResourceId: String, name: String, retentionDays: Int? = nil, tags: [String: String]? = nil) {
+            self.dbResourceId = dbResourceId
+            self.name = name
+            self.retentionDays = retentionDays
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dbResourceId, name: "dbResourceId", parent: name, max: 64)
+            try self.validate(self.dbResourceId, name: "dbResourceId", parent: name, min: 3)
+            try self.validate(self.dbResourceId, name: "dbResourceId", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 40)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.retentionDays, name: "retentionDays", parent: name, max: 3650)
+            try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbResourceId = "dbResourceId"
+            case name = "name"
+            case retentionDays = "retentionDays"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDbBackupOutput: AWSDecodableShape {
+        /// The allocated storage of the resource at the time of backup, in GiB.
+        public let allocatedStorage: Int?
+        /// The Amazon Resource Name (ARN) of the backup.
+        public let arn: String
+        /// The cluster configuration of the resource at the time of backup.
+        public let clusterConfiguration: ClusterConfiguration?
+        /// The time when the backup was created.
+        public let createdAt: Date?
+        /// The DB instance type of the resource at the time of backup.
+        public let dbInstanceType: DbInstanceType?
+        /// The identifier of the DB parameter group associated with the backup.
+        public let dbParameterGroupId: String?
+        /// The identifier of the DB resource that the backup was created from.
+        public let dbResourceId: String?
+        /// The storage type of the resource at the time of backup.
+        public let dbStorageType: DbStorageType?
+        /// The deployment type of the resource that the backup was created from.
+        public let deploymentType: ResourceDeploymentType?
+        /// The engine type of the resource that the backup was created from.
+        public let engineType: EngineType?
+        /// The date after which the backup will be automatically deleted.
+        public let expiresAfter: String?
+        /// The failover mode of the resource at the time of backup.
+        public let failoverMode: FailoverMode?
+        /// Service-generated unique identifier of the backup.
+        public let id: String
+        /// The ARN of the Secrets Manager secret containing the InfluxDB auth parameters.
+        public let influxAuthParametersSecretArn: String?
+        /// The Amazon Web Services KMS key ARN used for encryption of the resource at the time of backup.
+        public let kmsKeyId: String?
+        /// The log delivery configuration of the resource at the time of backup.
+        public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The maintenance schedule of the resource at the time of backup.
+        public let maintenanceSchedule: MaintenanceSchedule?
+        /// The customer-provided name of the backup.
+        public let name: String?
+        /// The network type of the resource at the time of backup.
+        public let networkType: NetworkType?
+        /// The port number of the resource at the time of backup.
+        public let port: Int?
+        /// Indicates whether the resource was publicly accessible at the time of backup.
+        public let publiclyAccessible: Bool?
+        /// The current status of the backup.
+        public let status: DbBackupStatus?
+        /// The type of backup.
+        public let type: DbBackupType?
+        /// The VPC security group IDs associated with the resource at the time of backup.
+        public let vpcSecurityGroupIds: [String]?
+        /// The VPC subnet IDs associated with the resource at the time of backup.
+        public let vpcSubnetIds: [String]?
+
+        @inlinable
+        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.arn = arn
+            self.clusterConfiguration = clusterConfiguration
+            self.createdAt = createdAt
+            self.dbInstanceType = dbInstanceType
+            self.dbParameterGroupId = dbParameterGroupId
+            self.dbResourceId = dbResourceId
+            self.dbStorageType = dbStorageType
+            self.deploymentType = deploymentType
+            self.engineType = engineType
+            self.expiresAfter = expiresAfter
+            self.failoverMode = failoverMode
+            self.id = id
+            self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+            self.kmsKeyId = kmsKeyId
+            self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
+            self.name = name
+            self.networkType = networkType
+            self.port = port
+            self.publiclyAccessible = publiclyAccessible
+            self.status = status
+            self.type = type
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "allocatedStorage"
+            case arn = "arn"
+            case clusterConfiguration = "clusterConfiguration"
+            case createdAt = "createdAt"
+            case dbInstanceType = "dbInstanceType"
+            case dbParameterGroupId = "dbParameterGroupId"
+            case dbResourceId = "dbResourceId"
+            case dbStorageType = "dbStorageType"
+            case deploymentType = "deploymentType"
+            case engineType = "engineType"
+            case expiresAfter = "expiresAfter"
+            case failoverMode = "failoverMode"
+            case id = "id"
+            case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
+            case kmsKeyId = "kmsKeyId"
+            case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
+            case name = "name"
+            case networkType = "networkType"
+            case port = "port"
+            case publiclyAccessible = "publiclyAccessible"
+            case status = "status"
+            case type = "type"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
+            case vpcSubnetIds = "vpcSubnetIds"
+        }
+    }
+
     public struct CreateDbClusterInput: AWSEncodableShape {
         /// The amount of storage to allocate for your DB storage type in GiB (gibibytes).
         public let allocatedStorage: Int?
         /// The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
         public let bucket: String?
+        /// A list of backup configurations to enable automated backups for the DB cluster.
+        public let dbBackupConfigurations: [DbBackupConfiguration]?
         /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
         public let dbInstanceType: DbInstanceType
         /// The ID of the DB parameter group to assign to your DB cluster. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
@@ -318,6 +532,8 @@ extension TimestreamInfluxDB {
         public let deploymentType: ClusterDeploymentType?
         /// Specifies the behavior of failure recovery when the primary node of the cluster fails.
         public let failoverMode: FailoverMode?
+        /// The Amazon Web Services KMS key identifier to use for encryption of the DB cluster. Can be a key ID, key ARN, alias name, or alias ARN.
+        public let kmsKeyId: String?
         /// Configuration for sending InfluxDB engine logs to a specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// Specifies the maintenance schedule for the DB cluster, including the preferred maintenance window and timezone.
@@ -344,14 +560,16 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, bucket: String? = nil, dbBackupConfigurations: [DbBackupConfiguration]? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, failoverMode: FailoverMode? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.bucket = bucket
+            self.dbBackupConfigurations = dbBackupConfigurations
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
             self.dbStorageType = dbStorageType
             self.deploymentType = deploymentType
             self.failoverMode = failoverMode
+            self.kmsKeyId = kmsKeyId
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.maintenanceSchedule = maintenanceSchedule
             self.name = name
@@ -372,9 +590,17 @@ extension TimestreamInfluxDB {
             try self.validate(self.bucket, name: "bucket", parent: name, max: 64)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 2)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[^_\"][^\"]*$")
+            try self.dbBackupConfigurations?.forEach {
+                try $0.validate(name: "\(name).dbBackupConfigurations[]")
+            }
+            try self.validate(self.dbBackupConfigurations, name: "dbBackupConfigurations", parent: name, max: 4)
+            try self.validate(self.dbBackupConfigurations, name: "dbBackupConfigurations", parent: name, min: 1)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, max: 64)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, min: 3)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_\\-]+$")
             try self.maintenanceSchedule?.validate(name: "\(name).maintenanceSchedule")
             try self.validate(self.name, name: "name", parent: name, max: 40)
             try self.validate(self.name, name: "name", parent: name, min: 3)
@@ -412,11 +638,13 @@ extension TimestreamInfluxDB {
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "allocatedStorage"
             case bucket = "bucket"
+            case dbBackupConfigurations = "dbBackupConfigurations"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
             case dbStorageType = "dbStorageType"
             case deploymentType = "deploymentType"
             case failoverMode = "failoverMode"
+            case kmsKeyId = "kmsKeyId"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case maintenanceSchedule = "maintenanceSchedule"
             case name = "name"
@@ -455,6 +683,8 @@ extension TimestreamInfluxDB {
         public let allocatedStorage: Int
         /// The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
         public let bucket: String?
+        /// A list of backup configurations to enable automated backups for the DB instance.
+        public let dbBackupConfigurations: [DbBackupConfiguration]?
         /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
         public let dbInstanceType: DbInstanceType
         /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
@@ -463,6 +693,8 @@ extension TimestreamInfluxDB {
         public let dbStorageType: DbStorageType?
         /// Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
         public let deploymentType: DeploymentType?
+        /// The Amazon Web Services KMS key identifier to use for encryption of the DB instance. Can be a key ID, key ARN, alias name, or alias ARN.
+        public let kmsKeyId: String?
         /// Configuration for sending InfluxDB engine logs to a specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
         /// Specifies the maintenance schedule for the DB instance, including the preferred maintenance window and timezone.
@@ -489,13 +721,15 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int, bucket: String? = nil, dbBackupConfigurations: [DbBackupConfiguration]? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.bucket = bucket
+            self.dbBackupConfigurations = dbBackupConfigurations
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
             self.dbStorageType = dbStorageType
             self.deploymentType = deploymentType
+            self.kmsKeyId = kmsKeyId
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.maintenanceSchedule = maintenanceSchedule
             self.name = name
@@ -516,9 +750,17 @@ extension TimestreamInfluxDB {
             try self.validate(self.bucket, name: "bucket", parent: name, max: 64)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 2)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[^_\"][^\"]*$")
+            try self.dbBackupConfigurations?.forEach {
+                try $0.validate(name: "\(name).dbBackupConfigurations[]")
+            }
+            try self.validate(self.dbBackupConfigurations, name: "dbBackupConfigurations", parent: name, max: 4)
+            try self.validate(self.dbBackupConfigurations, name: "dbBackupConfigurations", parent: name, min: 1)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, max: 64)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, min: 3)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_\\-]+$")
             try self.maintenanceSchedule?.validate(name: "\(name).maintenanceSchedule")
             try self.validate(self.name, name: "name", parent: name, max: 40)
             try self.validate(self.name, name: "name", parent: name, min: 3)
@@ -556,10 +798,12 @@ extension TimestreamInfluxDB {
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "allocatedStorage"
             case bucket = "bucket"
+            case dbBackupConfigurations = "dbBackupConfigurations"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
             case dbStorageType = "dbStorageType"
             case deploymentType = "deploymentType"
+            case kmsKeyId = "kmsKeyId"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case maintenanceSchedule = "maintenanceSchedule"
             case name = "name"
@@ -582,6 +826,8 @@ extension TimestreamInfluxDB {
         public let arn: String
         /// The Availability Zone in which the DB instance resides.
         public let availabilityZone: String?
+        /// The backup configurations for the DB instance.
+        public let dbBackupConfigurations: [DbBackupConfigurationOutput]?
         /// Specifies the DbCluster to which this DbInstance belongs to.
         public let dbClusterId: String?
         /// The Timestream for InfluxDB instance type that InfluxDB runs on.
@@ -602,6 +848,8 @@ extension TimestreamInfluxDB {
         public let instanceMode: InstanceMode?
         /// Specifies the DbInstance's roles in the cluster.
         public let instanceModes: [InstanceMode]?
+        /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+        public let kmsKeyId: String?
         /// The timestamp of the last completed maintenance operation on the DB instance.
         public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -628,10 +876,11 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbBackupConfigurations: [DbBackupConfigurationOutput]? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, kmsKeyId: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
+            self.dbBackupConfigurations = dbBackupConfigurations
             self.dbClusterId = dbClusterId
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -642,6 +891,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
             self.instanceModes = instanceModes
+            self.kmsKeyId = kmsKeyId
             self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.maintenanceSchedule = maintenanceSchedule
@@ -660,6 +910,7 @@ extension TimestreamInfluxDB {
             case allocatedStorage = "allocatedStorage"
             case arn = "arn"
             case availabilityZone = "availabilityZone"
+            case dbBackupConfigurations = "dbBackupConfigurations"
             case dbClusterId = "dbClusterId"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
@@ -670,6 +921,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
             case instanceModes = "instanceModes"
+            case kmsKeyId = "kmsKeyId"
             case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case maintenanceSchedule = "maintenanceSchedule"
@@ -752,6 +1004,124 @@ extension TimestreamInfluxDB {
             case id = "id"
             case name = "name"
             case parameters = "parameters"
+        }
+    }
+
+    public struct DbBackupConfiguration: AWSEncodableShape {
+        /// A custom cron schedule expression for the backup. Required when type is CUSTOM_SCHEDULE.
+        public let customSchedule: String?
+        /// Specifies whether this backup configuration is enabled.
+        public let enabled: Bool
+        /// The number of days to retain automated backups. Valid values are 1 to 365.
+        public let retentionDays: Int
+        /// The type of automated backup schedule. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY, CUSTOM_SCHEDULE, and CONTINUOUS.
+        public let type: AutomatedDbBackupType
+
+        @inlinable
+        public init(customSchedule: String? = nil, enabled: Bool, retentionDays: Int, type: AutomatedDbBackupType) {
+            self.customSchedule = customSchedule
+            self.enabled = enabled
+            self.retentionDays = retentionDays
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customSchedule, name: "customSchedule", parent: name, max: 256)
+            try self.validate(self.customSchedule, name: "customSchedule", parent: name, min: 9)
+            try self.validate(self.customSchedule, name: "customSchedule", parent: name, pattern: "^cron\\(\\S+ \\S+ \\S+ \\S+ \\S+ \\S+\\)$")
+            try self.validate(self.retentionDays, name: "retentionDays", parent: name, max: 365)
+            try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customSchedule = "customSchedule"
+            case enabled = "enabled"
+            case retentionDays = "retentionDays"
+            case type = "type"
+        }
+    }
+
+    public struct DbBackupConfigurationOutput: AWSDecodableShape {
+        /// The custom cron schedule expression for the backup, if applicable.
+        public let customSchedule: String?
+        /// Indicates whether this backup configuration is enabled.
+        public let enabled: Bool
+        /// The next scheduled time for an automated backup to be taken.
+        public let nextAutomatedBackupTime: Date?
+        /// The number of days automated backups are retained.
+        public let retentionDays: Int
+        /// The type of automated backup schedule.
+        public let type: AutomatedDbBackupType
+
+        @inlinable
+        public init(customSchedule: String? = nil, enabled: Bool, nextAutomatedBackupTime: Date? = nil, retentionDays: Int, type: AutomatedDbBackupType) {
+            self.customSchedule = customSchedule
+            self.enabled = enabled
+            self.nextAutomatedBackupTime = nextAutomatedBackupTime
+            self.retentionDays = retentionDays
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customSchedule = "customSchedule"
+            case enabled = "enabled"
+            case nextAutomatedBackupTime = "nextAutomatedBackupTime"
+            case retentionDays = "retentionDays"
+            case type = "type"
+        }
+    }
+
+    public struct DbBackupSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the backup.
+        public let arn: String
+        /// The time when the backup was created.
+        public let createdAt: Date?
+        /// The identifier of the DB resource that the backup was created from.
+        public let dbResourceId: String?
+        /// The deployment type of the resource that the backup was created from.
+        public let deploymentType: ResourceDeploymentType?
+        /// The engine type of the resource that the backup was created from.
+        public let engineType: EngineType?
+        /// The date after which the backup will be automatically deleted.
+        public let expiresAfter: String?
+        /// Service-generated unique identifier of the backup.
+        public let id: String
+        /// The Amazon Web Services KMS key ARN used for encryption of the resource at the time of backup.
+        public let kmsKeyId: String?
+        /// The customer-provided name of the backup.
+        public let name: String?
+        /// The status of the backup. Valid values are IN_PROGRESS, COMPLETED, FAILED, DELETING, and DELETED.
+        public let status: DbBackupStatus?
+        /// The type of backup. Valid values are HOURLY, DAILY, WEEKLY, MONTHLY, CUSTOM_SCHEDULE, ON_DEMAND, and CONTINUOUS.
+        public let type: DbBackupType?
+
+        @inlinable
+        public init(arn: String, createdAt: Date? = nil, dbResourceId: String? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, id: String, kmsKeyId: String? = nil, name: String? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dbResourceId = dbResourceId
+            self.deploymentType = deploymentType
+            self.engineType = engineType
+            self.expiresAfter = expiresAfter
+            self.id = id
+            self.kmsKeyId = kmsKeyId
+            self.name = name
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case dbResourceId = "dbResourceId"
+            case deploymentType = "deploymentType"
+            case engineType = "engineType"
+            case expiresAfter = "expiresAfter"
+            case id = "id"
+            case kmsKeyId = "kmsKeyId"
+            case name = "name"
+            case status = "status"
+            case type = "type"
         }
     }
 
@@ -959,13 +1329,146 @@ extension TimestreamInfluxDB {
         }
     }
 
+    public struct DeleteDbBackupInput: AWSEncodableShape {
+        /// The identifier of the backup to delete.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 3)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+        }
+    }
+
+    public struct DeleteDbBackupOutput: AWSDecodableShape {
+        /// The allocated storage of the resource at the time of backup, in GiB.
+        public let allocatedStorage: Int?
+        /// The Amazon Resource Name (ARN) of the deleted backup.
+        public let arn: String
+        /// The cluster configuration of the resource at the time of backup.
+        public let clusterConfiguration: ClusterConfiguration?
+        /// The time when the backup was created.
+        public let createdAt: Date?
+        /// The DB instance type of the resource at the time of backup.
+        public let dbInstanceType: DbInstanceType?
+        /// The identifier of the DB parameter group associated with the backup.
+        public let dbParameterGroupId: String?
+        /// The identifier of the DB resource that the backup was created from.
+        public let dbResourceId: String?
+        /// The storage type of the resource at the time of backup.
+        public let dbStorageType: DbStorageType?
+        /// The deployment type of the resource that the backup was created from.
+        public let deploymentType: ResourceDeploymentType?
+        /// The engine type of the resource that the backup was created from.
+        public let engineType: EngineType?
+        /// The date after which the backup was set to be automatically deleted.
+        public let expiresAfter: String?
+        /// The failover mode of the resource at the time of backup.
+        public let failoverMode: FailoverMode?
+        /// Service-generated unique identifier of the deleted backup.
+        public let id: String
+        /// The ARN of the Secrets Manager secret containing the InfluxDB auth parameters.
+        public let influxAuthParametersSecretArn: String?
+        /// The Amazon Web Services KMS key ARN used for encryption of the resource at the time of backup.
+        public let kmsKeyId: String?
+        /// The log delivery configuration of the resource at the time of backup.
+        public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The maintenance schedule of the resource at the time of backup.
+        public let maintenanceSchedule: MaintenanceSchedule?
+        /// The customer-provided name of the deleted backup.
+        public let name: String?
+        /// The network type of the resource at the time of backup.
+        public let networkType: NetworkType?
+        /// The port number of the resource at the time of backup.
+        public let port: Int?
+        /// Indicates whether the resource was publicly accessible at the time of backup.
+        public let publiclyAccessible: Bool?
+        /// The current status of the backup.
+        public let status: DbBackupStatus?
+        /// The type of backup.
+        public let type: DbBackupType?
+        /// The VPC security group IDs associated with the resource at the time of backup.
+        public let vpcSecurityGroupIds: [String]?
+        /// The VPC subnet IDs associated with the resource at the time of backup.
+        public let vpcSubnetIds: [String]?
+
+        @inlinable
+        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.arn = arn
+            self.clusterConfiguration = clusterConfiguration
+            self.createdAt = createdAt
+            self.dbInstanceType = dbInstanceType
+            self.dbParameterGroupId = dbParameterGroupId
+            self.dbResourceId = dbResourceId
+            self.dbStorageType = dbStorageType
+            self.deploymentType = deploymentType
+            self.engineType = engineType
+            self.expiresAfter = expiresAfter
+            self.failoverMode = failoverMode
+            self.id = id
+            self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+            self.kmsKeyId = kmsKeyId
+            self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
+            self.name = name
+            self.networkType = networkType
+            self.port = port
+            self.publiclyAccessible = publiclyAccessible
+            self.status = status
+            self.type = type
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "allocatedStorage"
+            case arn = "arn"
+            case clusterConfiguration = "clusterConfiguration"
+            case createdAt = "createdAt"
+            case dbInstanceType = "dbInstanceType"
+            case dbParameterGroupId = "dbParameterGroupId"
+            case dbResourceId = "dbResourceId"
+            case dbStorageType = "dbStorageType"
+            case deploymentType = "deploymentType"
+            case engineType = "engineType"
+            case expiresAfter = "expiresAfter"
+            case failoverMode = "failoverMode"
+            case id = "id"
+            case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
+            case kmsKeyId = "kmsKeyId"
+            case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
+            case name = "name"
+            case networkType = "networkType"
+            case port = "port"
+            case publiclyAccessible = "publiclyAccessible"
+            case status = "status"
+            case type = "type"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
+            case vpcSubnetIds = "vpcSubnetIds"
+        }
+    }
+
     public struct DeleteDbClusterInput: AWSEncodableShape {
         /// Service-generated unique identifier of the DB cluster.
         public let dbClusterId: String
+        /// Specifies whether to retain automated backups after the DB cluster is deleted. If set to true, automated backups are not deleted and can be restored later.
+        public let retainAutomatedBackups: Bool?
 
         @inlinable
-        public init(dbClusterId: String) {
+        public init(dbClusterId: String, retainAutomatedBackups: Bool? = nil) {
             self.dbClusterId = dbClusterId
+            self.retainAutomatedBackups = retainAutomatedBackups
         }
 
         public func validate(name: String) throws {
@@ -976,6 +1479,7 @@ extension TimestreamInfluxDB {
 
         private enum CodingKeys: String, CodingKey {
             case dbClusterId = "dbClusterId"
+            case retainAutomatedBackups = "retainAutomatedBackups"
         }
     }
 
@@ -996,10 +1500,13 @@ extension TimestreamInfluxDB {
     public struct DeleteDbInstanceInput: AWSEncodableShape {
         /// The id of the DB instance.
         public let identifier: String
+        /// Specifies whether to retain automated backups after the DB instance is deleted. If set to true, automated backups are not deleted and can be restored later.
+        public let retainAutomatedBackups: Bool?
 
         @inlinable
-        public init(identifier: String) {
+        public init(identifier: String, retainAutomatedBackups: Bool? = nil) {
             self.identifier = identifier
+            self.retainAutomatedBackups = retainAutomatedBackups
         }
 
         public func validate(name: String) throws {
@@ -1010,6 +1517,7 @@ extension TimestreamInfluxDB {
 
         private enum CodingKeys: String, CodingKey {
             case identifier = "identifier"
+            case retainAutomatedBackups = "retainAutomatedBackups"
         }
     }
 
@@ -1020,6 +1528,8 @@ extension TimestreamInfluxDB {
         public let arn: String
         /// The Availability Zone in which the DB instance resides.
         public let availabilityZone: String?
+        /// The backup configurations that were associated with the deleted DB instance.
+        public let dbBackupConfigurations: [DbBackupConfigurationOutput]?
         /// Specifies the DbCluster to which this DbInstance belongs to.
         public let dbClusterId: String?
         /// The Timestream for InfluxDB instance type that InfluxDB runs on.
@@ -1040,6 +1550,8 @@ extension TimestreamInfluxDB {
         public let instanceMode: InstanceMode?
         /// Specifies the DbInstance's roles in the cluster.
         public let instanceModes: [InstanceMode]?
+        /// The Amazon Web Services KMS key ARN that was used for encryption of the deleted DB instance.
+        public let kmsKeyId: String?
         /// The timestamp of the last completed maintenance operation on the DB instance.
         public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -1066,10 +1578,11 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbBackupConfigurations: [DbBackupConfigurationOutput]? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, kmsKeyId: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
+            self.dbBackupConfigurations = dbBackupConfigurations
             self.dbClusterId = dbClusterId
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -1080,6 +1593,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
             self.instanceModes = instanceModes
+            self.kmsKeyId = kmsKeyId
             self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.maintenanceSchedule = maintenanceSchedule
@@ -1098,6 +1612,7 @@ extension TimestreamInfluxDB {
             case allocatedStorage = "allocatedStorage"
             case arn = "arn"
             case availabilityZone = "availabilityZone"
+            case dbBackupConfigurations = "dbBackupConfigurations"
             case dbClusterId = "dbClusterId"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
@@ -1108,6 +1623,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
             case instanceModes = "instanceModes"
+            case kmsKeyId = "kmsKeyId"
             case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case maintenanceSchedule = "maintenanceSchedule"
@@ -1141,6 +1657,136 @@ extension TimestreamInfluxDB {
         }
     }
 
+    public struct GetDbBackupInput: AWSEncodableShape {
+        /// The identifier of the backup to retrieve information for.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 3)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+        }
+    }
+
+    public struct GetDbBackupOutput: AWSDecodableShape {
+        /// The allocated storage of the resource at the time of backup, in GiB.
+        public let allocatedStorage: Int?
+        /// The Amazon Resource Name (ARN) of the backup.
+        public let arn: String
+        /// The cluster configuration of the resource at the time of backup.
+        public let clusterConfiguration: ClusterConfiguration?
+        /// The time when the backup was created.
+        public let createdAt: Date?
+        /// The DB instance type of the resource at the time of backup.
+        public let dbInstanceType: DbInstanceType?
+        /// The identifier of the DB parameter group associated with the backup.
+        public let dbParameterGroupId: String?
+        /// The identifier of the DB resource that the backup was created from.
+        public let dbResourceId: String?
+        /// The storage type of the resource at the time of backup.
+        public let dbStorageType: DbStorageType?
+        /// The deployment type of the resource that the backup was created from.
+        public let deploymentType: ResourceDeploymentType?
+        /// The engine type of the resource that the backup was created from.
+        public let engineType: EngineType?
+        /// The date after which the backup will be automatically deleted.
+        public let expiresAfter: String?
+        /// The failover mode of the resource at the time of backup.
+        public let failoverMode: FailoverMode?
+        /// Service-generated unique identifier of the backup.
+        public let id: String
+        /// The ARN of the Secrets Manager secret containing the InfluxDB auth parameters.
+        public let influxAuthParametersSecretArn: String?
+        /// The Amazon Web Services KMS key ARN used for encryption of the resource at the time of backup.
+        public let kmsKeyId: String?
+        /// The log delivery configuration of the resource at the time of backup.
+        public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The maintenance schedule of the resource at the time of backup.
+        public let maintenanceSchedule: MaintenanceSchedule?
+        /// The customer-provided name of the backup.
+        public let name: String?
+        /// The network type of the resource at the time of backup.
+        public let networkType: NetworkType?
+        /// The port number of the resource at the time of backup.
+        public let port: Int?
+        /// Indicates whether the resource was publicly accessible at the time of backup.
+        public let publiclyAccessible: Bool?
+        /// The current status of the backup.
+        public let status: DbBackupStatus?
+        /// The type of backup.
+        public let type: DbBackupType?
+        /// The VPC security group IDs associated with the resource at the time of backup.
+        public let vpcSecurityGroupIds: [String]?
+        /// The VPC subnet IDs associated with the resource at the time of backup.
+        public let vpcSubnetIds: [String]?
+
+        @inlinable
+        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, createdAt: Date? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupId: String? = nil, dbResourceId: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, expiresAfter: String? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String? = nil, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, status: DbBackupStatus? = nil, type: DbBackupType? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+            self.allocatedStorage = allocatedStorage
+            self.arn = arn
+            self.clusterConfiguration = clusterConfiguration
+            self.createdAt = createdAt
+            self.dbInstanceType = dbInstanceType
+            self.dbParameterGroupId = dbParameterGroupId
+            self.dbResourceId = dbResourceId
+            self.dbStorageType = dbStorageType
+            self.deploymentType = deploymentType
+            self.engineType = engineType
+            self.expiresAfter = expiresAfter
+            self.failoverMode = failoverMode
+            self.id = id
+            self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+            self.kmsKeyId = kmsKeyId
+            self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
+            self.name = name
+            self.networkType = networkType
+            self.port = port
+            self.publiclyAccessible = publiclyAccessible
+            self.status = status
+            self.type = type
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "allocatedStorage"
+            case arn = "arn"
+            case clusterConfiguration = "clusterConfiguration"
+            case createdAt = "createdAt"
+            case dbInstanceType = "dbInstanceType"
+            case dbParameterGroupId = "dbParameterGroupId"
+            case dbResourceId = "dbResourceId"
+            case dbStorageType = "dbStorageType"
+            case deploymentType = "deploymentType"
+            case engineType = "engineType"
+            case expiresAfter = "expiresAfter"
+            case failoverMode = "failoverMode"
+            case id = "id"
+            case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
+            case kmsKeyId = "kmsKeyId"
+            case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
+            case name = "name"
+            case networkType = "networkType"
+            case port = "port"
+            case publiclyAccessible = "publiclyAccessible"
+            case status = "status"
+            case type = "type"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
+            case vpcSubnetIds = "vpcSubnetIds"
+        }
+    }
+
     public struct GetDbClusterInput: AWSEncodableShape {
         /// Service-generated unique identifier of the DB cluster to retrieve.
         public let dbClusterId: String
@@ -1168,6 +1814,8 @@ extension TimestreamInfluxDB {
         public let arn: String
         /// Configuration for node modes in the DbCluster.
         public let clusterConfiguration: ClusterConfiguration?
+        /// The backup configurations for the DB cluster.
+        public let dbBackupConfigurations: [DbBackupConfigurationOutput]?
         /// The Timestream for InfluxDB instance type that InfluxDB runs on.
         public let dbInstanceType: DbInstanceType?
         /// The ID of the DB parameter group assigned to your DB cluster.
@@ -1176,6 +1824,8 @@ extension TimestreamInfluxDB {
         public let dbStorageType: DbStorageType?
         /// Deployment type of the DB cluster.
         public let deploymentType: ClusterDeploymentType?
+        /// The ID of the DB parameter group actually applied to your DB cluster. When the service applies optimized defaults, it creates a service-managed DB parameter group and this field reflects that group, while dbParameterGroupIdentifier reflects the customer-provided DB parameter group. When no service-managed DB parameter group is applied, this value matches dbParameterGroupIdentifier.
+        public let effectiveDbParameterGroupIdentifier: String?
         /// The endpoint used to connect to the Timestream for InfluxDB cluster for write and read operations.
         public let endpoint: String?
         /// The engine type of your DB cluster.
@@ -1186,6 +1836,8 @@ extension TimestreamInfluxDB {
         public let id: String
         /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
+        /// The Amazon Web Services KMS key ARN used for encryption of the DB cluster.
+        public let kmsKeyId: String?
         /// The timestamp of the last completed maintenance operation on the DB cluster.
         public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -1212,19 +1864,22 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, endpoint: String? = nil, engineType: EngineType? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, dbBackupConfigurations: [DbBackupConfigurationOutput]? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, effectiveDbParameterGroupIdentifier: String? = nil, endpoint: String? = nil, engineType: EngineType? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, kmsKeyId: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.clusterConfiguration = clusterConfiguration
+            self.dbBackupConfigurations = dbBackupConfigurations
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
             self.dbStorageType = dbStorageType
             self.deploymentType = deploymentType
+            self.effectiveDbParameterGroupIdentifier = effectiveDbParameterGroupIdentifier
             self.endpoint = endpoint
             self.engineType = engineType
             self.failoverMode = failoverMode
             self.id = id
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+            self.kmsKeyId = kmsKeyId
             self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.maintenanceSchedule = maintenanceSchedule
@@ -1243,15 +1898,18 @@ extension TimestreamInfluxDB {
             case allocatedStorage = "allocatedStorage"
             case arn = "arn"
             case clusterConfiguration = "clusterConfiguration"
+            case dbBackupConfigurations = "dbBackupConfigurations"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
             case dbStorageType = "dbStorageType"
             case deploymentType = "deploymentType"
+            case effectiveDbParameterGroupIdentifier = "effectiveDbParameterGroupIdentifier"
             case endpoint = "endpoint"
             case engineType = "engineType"
             case failoverMode = "failoverMode"
             case id = "id"
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
+            case kmsKeyId = "kmsKeyId"
             case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case maintenanceSchedule = "maintenanceSchedule"
@@ -1294,6 +1952,8 @@ extension TimestreamInfluxDB {
         public let arn: String
         /// The Availability Zone in which the DB instance resides.
         public let availabilityZone: String?
+        /// The backup configurations for the DB instance.
+        public let dbBackupConfigurations: [DbBackupConfigurationOutput]?
         /// Specifies the DbCluster to which this DbInstance belongs to.
         public let dbClusterId: String?
         /// The Timestream for InfluxDB instance type that InfluxDB runs on.
@@ -1314,6 +1974,8 @@ extension TimestreamInfluxDB {
         public let instanceMode: InstanceMode?
         /// Specifies the DbInstance's roles in the cluster.
         public let instanceModes: [InstanceMode]?
+        /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+        public let kmsKeyId: String?
         /// The timestamp of the last completed maintenance operation on the DB instance.
         public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -1340,10 +2002,11 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbBackupConfigurations: [DbBackupConfigurationOutput]? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, kmsKeyId: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
+            self.dbBackupConfigurations = dbBackupConfigurations
             self.dbClusterId = dbClusterId
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -1354,6 +2017,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
             self.instanceModes = instanceModes
+            self.kmsKeyId = kmsKeyId
             self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.maintenanceSchedule = maintenanceSchedule
@@ -1372,6 +2036,7 @@ extension TimestreamInfluxDB {
             case allocatedStorage = "allocatedStorage"
             case arn = "arn"
             case availabilityZone = "availabilityZone"
+            case dbBackupConfigurations = "dbBackupConfigurations"
             case dbClusterId = "dbClusterId"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
@@ -1382,6 +2047,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
             case instanceModes = "instanceModes"
+            case kmsKeyId = "kmsKeyId"
             case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case maintenanceSchedule = "maintenanceSchedule"
@@ -1476,7 +2142,7 @@ extension TimestreamInfluxDB {
         public let queryConcurrency: Int?
         /// Initial bytes of memory allocated for a query. Default: 0
         public let queryInitialMemoryBytes: Int64?
-        /// Maximum number of queries allowed in execution queue. When queue limit is reached, new queries are rejected. Setting to 0 allows an unlimited number of queries in the queue. Default: 0
+        /// Maximum total bytes of memory allowed for all running queries. When this limit is reached, new queries are rejected. Setting to 0 allows unlimited memory usage. Default: 0
         public let queryMaxMemoryBytes: Int64?
         /// Maximum bytes of memory allowed for a single query. Must be greater or equal to queryInitialMemoryBytes. Default: 0
         public let queryMemoryBytes: Int64?
@@ -2005,6 +2671,55 @@ extension TimestreamInfluxDB {
         }
     }
 
+    public struct ListDbBackupsInput: AWSEncodableShape {
+        /// The identifier of the DB instance or DB cluster to list backups for. If not specified, returns all backups in the account and region.
+        public let dbResourceId: String?
+        /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+        public let maxResults: Int?
+        /// The pagination token. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dbResourceId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dbResourceId = dbResourceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dbResourceId, name: "dbResourceId", parent: name, max: 64)
+            try self.validate(self.dbResourceId, name: "dbResourceId", parent: name, min: 3)
+            try self.validate(self.dbResourceId, name: "dbResourceId", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbResourceId = "dbResourceId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDbBackupsOutput: AWSDecodableShape {
+        /// A list of Timestream for InfluxDB backup summaries.
+        public let items: [DbBackupSummary]
+        /// Token from a previous call of the operation. When this value is provided, the service returns results from where the previous response left off.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [DbBackupSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListDbClustersInput: AWSEncodableShape {
         /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
         public let maxResults: Int?
@@ -2192,7 +2907,7 @@ extension TimestreamInfluxDB {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:timestream\\-influxdb:[a-z0-9\\-]+:[0-9]{12}:(db\\-instance|db\\-cluster|db\\-parameter\\-group)/[a-zA-Z0-9]{3,64}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:timestream\\-influxdb:[a-z0-9\\-]+:[0-9]{12}:(db\\-instance|db\\-cluster|db\\-parameter\\-group|db\\-backup)/[a-zA-Z0-9]{3,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2324,6 +3039,8 @@ extension TimestreamInfluxDB {
         public let arn: String
         /// The Availability Zone in which the DB instance resides.
         public let availabilityZone: String?
+        /// The backup configurations for the DB instance.
+        public let dbBackupConfigurations: [DbBackupConfigurationOutput]?
         /// Specifies the DbCluster to which this DbInstance belongs to.
         public let dbClusterId: String?
         /// The Timestream for InfluxDB instance type that InfluxDB runs on.
@@ -2344,6 +3061,8 @@ extension TimestreamInfluxDB {
         public let instanceMode: InstanceMode?
         /// Specifies the DbInstance's roles in the cluster.
         public let instanceModes: [InstanceMode]?
+        /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+        public let kmsKeyId: String?
         /// The timestamp of the last completed maintenance operation on the DB instance.
         public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -2370,10 +3089,11 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbBackupConfigurations: [DbBackupConfigurationOutput]? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, kmsKeyId: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
+            self.dbBackupConfigurations = dbBackupConfigurations
             self.dbClusterId = dbClusterId
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -2384,6 +3104,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
             self.instanceModes = instanceModes
+            self.kmsKeyId = kmsKeyId
             self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.maintenanceSchedule = maintenanceSchedule
@@ -2402,6 +3123,7 @@ extension TimestreamInfluxDB {
             case allocatedStorage = "allocatedStorage"
             case arn = "arn"
             case availabilityZone = "availabilityZone"
+            case dbBackupConfigurations = "dbBackupConfigurations"
             case dbClusterId = "dbClusterId"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
@@ -2412,6 +3134,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
             case instanceModes = "instanceModes"
+            case kmsKeyId = "kmsKeyId"
             case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case maintenanceSchedule = "maintenanceSchedule"
@@ -2448,6 +3171,145 @@ extension TimestreamInfluxDB {
         }
     }
 
+    public struct RestoreFromDbBackupInput: AWSEncodableShape {
+        /// A list of backup configurations to apply to the restored resource.
+        public let dbBackupConfigurations: [DbBackupConfiguration]?
+        /// The identifier of the backup to restore from.
+        public let dbBackupId: String
+        /// Specifies the deployment type of the restored resource. Valid values are SINGLE_AZ, WITH_MULTIAZ_STANDBY, and MULTI_NODE_READ_REPLICAS.
+        public let deploymentType: ResourceDeploymentType?
+        /// The Amazon Web Services KMS key identifier to use for encryption of the restored resource. Can be a key ID, key ARN, alias name, or alias ARN.
+        public let kmsKeyId: String?
+        /// Configuration for sending InfluxDB engine logs to the specified S3 bucket for the restored resource.
+        public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The maintenance schedule for the restored resource.
+        public let maintenanceSchedule: MaintenanceSchedule?
+        /// The name of the new resource to create from the restore. If restoring to an existing resource, the name must match the existing resource name.
+        public let name: String
+        /// Specifies the network type of the restored resource. Valid values are IPV4 and DUAL.
+        public let networkType: NetworkType?
+        /// The port number on which the restored InfluxDB resource accepts connections.
+        public let port: Int?
+        /// Specifies whether the restored resource is publicly accessible.
+        public let publiclyAccessible: Bool?
+        /// Specifies whether to restore to a new resource or replace the existing resource. Valid values are NEW_RESOURCE (default) and REPLACE_EXISTING.
+        public let restoreMode: RestoreMode?
+        /// The point in time to restore to, for continuous backups. Must be within the backup's retention window.
+        public let restoreToTime: Date?
+        /// A list of key-value pairs to associate with the restored resource.
+        public let tags: [String: String]?
+        /// A list of VPC security group IDs for the restored resource. If not specified, the restored resource uses the same security groups as the backup.
+        public let vpcSecurityGroupIds: [String]?
+        /// A list of VPC subnet IDs for the restored resource. If not specified, the restored resource uses the same subnets as the backup.
+        public let vpcSubnetIds: [String]?
+
+        @inlinable
+        public init(dbBackupConfigurations: [DbBackupConfiguration]? = nil, dbBackupId: String, deploymentType: ResourceDeploymentType? = nil, kmsKeyId: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, restoreMode: RestoreMode? = nil, restoreToTime: Date? = nil, tags: [String: String]? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+            self.dbBackupConfigurations = dbBackupConfigurations
+            self.dbBackupId = dbBackupId
+            self.deploymentType = deploymentType
+            self.kmsKeyId = kmsKeyId
+            self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
+            self.name = name
+            self.networkType = networkType
+            self.port = port
+            self.publiclyAccessible = publiclyAccessible
+            self.restoreMode = restoreMode
+            self.restoreToTime = restoreToTime
+            self.tags = tags
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.dbBackupConfigurations?.forEach {
+                try $0.validate(name: "\(name).dbBackupConfigurations[]")
+            }
+            try self.validate(self.dbBackupConfigurations, name: "dbBackupConfigurations", parent: name, max: 4)
+            try self.validate(self.dbBackupConfigurations, name: "dbBackupConfigurations", parent: name, min: 1)
+            try self.validate(self.dbBackupId, name: "dbBackupId", parent: name, max: 64)
+            try self.validate(self.dbBackupId, name: "dbBackupId", parent: name, min: 3)
+            try self.validate(self.dbBackupId, name: "dbBackupId", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_\\-]+$")
+            try self.maintenanceSchedule?.validate(name: "\(name).maintenanceSchedule")
+            try self.validate(self.name, name: "name", parent: name, max: 40)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1024)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.vpcSecurityGroupIds?.forEach {
+                try validate($0, name: "vpcSecurityGroupIds[]", parent: name, max: 64)
+                try validate($0, name: "vpcSecurityGroupIds[]", parent: name, pattern: "^sg-[a-z0-9]+$")
+            }
+            try self.validate(self.vpcSecurityGroupIds, name: "vpcSecurityGroupIds", parent: name, max: 5)
+            try self.validate(self.vpcSecurityGroupIds, name: "vpcSecurityGroupIds", parent: name, min: 1)
+            try self.vpcSubnetIds?.forEach {
+                try validate($0, name: "vpcSubnetIds[]", parent: name, max: 64)
+                try validate($0, name: "vpcSubnetIds[]", parent: name, pattern: "^subnet-[a-z0-9]+$")
+            }
+            try self.validate(self.vpcSubnetIds, name: "vpcSubnetIds", parent: name, max: 6)
+            try self.validate(self.vpcSubnetIds, name: "vpcSubnetIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbBackupConfigurations = "dbBackupConfigurations"
+            case dbBackupId = "dbBackupId"
+            case deploymentType = "deploymentType"
+            case kmsKeyId = "kmsKeyId"
+            case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
+            case name = "name"
+            case networkType = "networkType"
+            case port = "port"
+            case publiclyAccessible = "publiclyAccessible"
+            case restoreMode = "restoreMode"
+            case restoreToTime = "restoreToTime"
+            case tags = "tags"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
+            case vpcSubnetIds = "vpcSubnetIds"
+        }
+    }
+
+    public struct RestoreFromDbBackupOutput: AWSDecodableShape {
+        /// The deployment type of the restored resource.
+        public let deploymentType: ResourceDeploymentType?
+        /// The engine type of the restored resource.
+        public let engineType: EngineType?
+        /// The type of the restored resource. Valid values are DB_INSTANCE and DB_CLUSTER.
+        public let resourceType: ResourceType?
+        /// The identifier of the restored DB resource.
+        public let restoredDbResourceId: String?
+        /// The status of the restore operation.
+        public let restoreStatus: RestoreStatus?
+
+        @inlinable
+        public init(deploymentType: ResourceDeploymentType? = nil, engineType: EngineType? = nil, resourceType: ResourceType? = nil, restoredDbResourceId: String? = nil, restoreStatus: RestoreStatus? = nil) {
+            self.deploymentType = deploymentType
+            self.engineType = engineType
+            self.resourceType = resourceType
+            self.restoredDbResourceId = restoredDbResourceId
+            self.restoreStatus = restoreStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentType = "deploymentType"
+            case engineType = "engineType"
+            case resourceType = "resourceType"
+            case restoredDbResourceId = "restoredDbResourceId"
+            case restoreStatus = "restoreStatus"
+        }
+    }
+
     public struct S3Configuration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the S3 bucket to deliver logs to.
         public let bucketName: String
@@ -2481,7 +3343,7 @@ extension TimestreamInfluxDB {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:timestream\\-influxdb:[a-z0-9\\-]+:[0-9]{12}:(db\\-instance|db\\-cluster|db\\-parameter\\-group)/[a-zA-Z0-9]{3,64}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:timestream\\-influxdb:[a-z0-9\\-]+:[0-9]{12}:(db\\-instance|db\\-cluster|db\\-parameter\\-group|db\\-backup)/[a-zA-Z0-9]{3,64}$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2542,7 +3404,7 @@ extension TimestreamInfluxDB {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:timestream\\-influxdb:[a-z0-9\\-]+:[0-9]{12}:(db\\-instance|db\\-cluster|db\\-parameter\\-group)/[a-zA-Z0-9]{3,64}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:timestream\\-influxdb:[a-z0-9\\-]+:[0-9]{12}:(db\\-instance|db\\-cluster|db\\-parameter\\-group|db\\-backup)/[a-zA-Z0-9]{3,64}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -2557,6 +3419,8 @@ extension TimestreamInfluxDB {
     }
 
     public struct UpdateDbClusterInput: AWSEncodableShape {
+        /// A list of backup configurations to update for the DB cluster.
+        public let dbBackupConfigurations: [DbBackupConfiguration]?
         /// Service-generated unique identifier of the DB cluster to update.
         public let dbClusterId: String
         /// Update the DB cluster to use the specified DB instance Type.
@@ -2573,7 +3437,8 @@ extension TimestreamInfluxDB {
         public let port: Int?
 
         @inlinable
-        public init(dbClusterId: String, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, port: Int? = nil) {
+        public init(dbBackupConfigurations: [DbBackupConfiguration]? = nil, dbClusterId: String, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, port: Int? = nil) {
+            self.dbBackupConfigurations = dbBackupConfigurations
             self.dbClusterId = dbClusterId
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -2584,6 +3449,11 @@ extension TimestreamInfluxDB {
         }
 
         public func validate(name: String) throws {
+            try self.dbBackupConfigurations?.forEach {
+                try $0.validate(name: "\(name).dbBackupConfigurations[]")
+            }
+            try self.validate(self.dbBackupConfigurations, name: "dbBackupConfigurations", parent: name, max: 4)
+            try self.validate(self.dbBackupConfigurations, name: "dbBackupConfigurations", parent: name, min: 1)
             try self.validate(self.dbClusterId, name: "dbClusterId", parent: name, max: 64)
             try self.validate(self.dbClusterId, name: "dbClusterId", parent: name, min: 3)
             try self.validate(self.dbClusterId, name: "dbClusterId", parent: name, pattern: "^[a-zA-Z0-9]+$")
@@ -2596,6 +3466,7 @@ extension TimestreamInfluxDB {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dbBackupConfigurations = "dbBackupConfigurations"
             case dbClusterId = "dbClusterId"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
@@ -2623,6 +3494,8 @@ extension TimestreamInfluxDB {
     public struct UpdateDbInstanceInput: AWSEncodableShape {
         /// The amount of storage to allocate for your DB storage type (in gibibytes).
         public let allocatedStorage: Int?
+        /// A list of backup configurations to update for the DB instance.
+        public let dbBackupConfigurations: [DbBackupConfiguration]?
         /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
         public let dbInstanceType: DbInstanceType?
         /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
@@ -2641,8 +3514,9 @@ extension TimestreamInfluxDB {
         public let port: Int?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, identifier: String, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, port: Int? = nil) {
+        public init(allocatedStorage: Int? = nil, dbBackupConfigurations: [DbBackupConfiguration]? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, identifier: String, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, port: Int? = nil) {
             self.allocatedStorage = allocatedStorage
+            self.dbBackupConfigurations = dbBackupConfigurations
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
             self.dbStorageType = dbStorageType
@@ -2656,6 +3530,11 @@ extension TimestreamInfluxDB {
         public func validate(name: String) throws {
             try self.validate(self.allocatedStorage, name: "allocatedStorage", parent: name, max: 15360)
             try self.validate(self.allocatedStorage, name: "allocatedStorage", parent: name, min: 20)
+            try self.dbBackupConfigurations?.forEach {
+                try $0.validate(name: "\(name).dbBackupConfigurations[]")
+            }
+            try self.validate(self.dbBackupConfigurations, name: "dbBackupConfigurations", parent: name, max: 4)
+            try self.validate(self.dbBackupConfigurations, name: "dbBackupConfigurations", parent: name, min: 1)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, max: 64)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, min: 3)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
@@ -2669,6 +3548,7 @@ extension TimestreamInfluxDB {
 
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "allocatedStorage"
+            case dbBackupConfigurations = "dbBackupConfigurations"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
             case dbStorageType = "dbStorageType"
@@ -2687,6 +3567,8 @@ extension TimestreamInfluxDB {
         public let arn: String
         /// The Availability Zone in which the DB instance resides.
         public let availabilityZone: String?
+        /// The backup configurations for the DB instance.
+        public let dbBackupConfigurations: [DbBackupConfigurationOutput]?
         /// Specifies the DbCluster to which this DbInstance belongs to.
         public let dbClusterId: String?
         /// The Timestream for InfluxDB instance type that InfluxDB runs on.
@@ -2707,6 +3589,8 @@ extension TimestreamInfluxDB {
         public let instanceMode: InstanceMode?
         /// Specifies the DbInstance's roles in the cluster.
         public let instanceModes: [InstanceMode]?
+        /// The Amazon Web Services KMS key ARN used for encryption of the DB instance.
+        public let kmsKeyId: String?
         /// The timestamp of the last completed maintenance operation on the DB instance.
         public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -2733,10 +3617,11 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbBackupConfigurations: [DbBackupConfigurationOutput]? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, kmsKeyId: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
+            self.dbBackupConfigurations = dbBackupConfigurations
             self.dbClusterId = dbClusterId
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -2747,6 +3632,7 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
             self.instanceModes = instanceModes
+            self.kmsKeyId = kmsKeyId
             self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
             self.maintenanceSchedule = maintenanceSchedule
@@ -2765,6 +3651,7 @@ extension TimestreamInfluxDB {
             case allocatedStorage = "allocatedStorage"
             case arn = "arn"
             case availabilityZone = "availabilityZone"
+            case dbBackupConfigurations = "dbBackupConfigurations"
             case dbClusterId = "dbClusterId"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
@@ -2775,6 +3662,7 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
             case instanceModes = "instanceModes"
+            case kmsKeyId = "kmsKeyId"
             case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
             case maintenanceSchedule = "maintenanceSchedule"
