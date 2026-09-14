@@ -56,6 +56,7 @@ extension Omics {
         case pending = "PENDING"
         case processed = "PROCESSED"
         case runsDeleted = "RUNS_DELETED"
+        case runsDeleteFailed = "RUNS_DELETE_FAILED"
         case runsDeleting = "RUNS_DELETING"
         case stopping = "STOPPING"
         case submitting = "SUBMITTING"
@@ -2560,7 +2561,7 @@ extension Omics {
         public let name: String?
         /// Optional configuration for run networking behavior. If not specified, this will default to RESTRICTED.
         public let networkingMode: NetworkingMode?
-        /// The expected AWS account ID of the owner of the output S3 bucket. Can be overridden per run.
+        /// The expected Amazon Web Services account ID of the owner of the output S3 bucket. Can be overridden per run.
         public let outputBucketOwnerId: String?
         /// The destination S3 URI for workflow outputs. Must begin with s3://. The roleArn must grant write permissions to this bucket. Can be overridden per run.
         public let outputUri: String?
@@ -2570,21 +2571,23 @@ extension Omics {
         public let priority: Int?
         /// The retention behavior for runs after completion.
         public let retentionMode: RunRetentionMode?
-        /// The IAM role ARN that grants HealthOmics permissions to access required AWS resources such as Amazon S3 and CloudWatch. The role must have the same permissions required for individual StartRun calls.
+        /// The IAM role ARN that grants HealthOmics permissions to access required Amazon Web Services resources such as Amazon S3 and CloudWatch. The role must have the same permissions required for individual StartRun calls.
         public let roleArn: String
         /// The ID of the run group to contain all workflow runs in the batch.
         public let runGroupId: String?
-        /// AWS tags to associate with each workflow run. Merged with per-run runTags; run-specific values take precedence when keys overlap.
+        /// Amazon Web Services tags to associate with each workflow run. Merged with per-run runTags; run-specific values take precedence when keys overlap.
         public let runTags: [String: String]?
         /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
         public let scratchStorageMode: ScratchStorageMode?
+        /// Optional inline policy json for scoping down permissions via a session policy on the IAM role provided in the roleArn parameter.
+        public let sessionPolicy: String?
         /// The filesystem size in gibibytes (GiB) provisioned for each workflow run and shared by all tasks in that run. Defaults to 1200 GiB if not specified.
         public let storageCapacity: Int?
         /// The storage type for the workflow runs.
         public let storageType: StorageType?
         /// The identifier of the workflow to run.
         public let workflowId: String
-        /// The AWS account ID of the workflow owner, used for cross-account workflow sharing.
+        /// The Amazon Web Services account ID of the workflow owner, used for cross-account workflow sharing.
         public let workflowOwnerId: String?
         /// The type of the originating workflow. Batch runs are not supported with READY2RUN workflows.
         public let workflowType: WorkflowType?
@@ -2592,7 +2595,7 @@ extension Omics {
         public let workflowVersionName: String?
 
         @inlinable
-        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configurationName: String? = nil, engineSettings: AWSDocument? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputBucketOwnerId: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runTags: [String: String]? = nil, scratchStorageMode: ScratchStorageMode? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, workflowId: String, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
+        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configurationName: String? = nil, engineSettings: AWSDocument? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputBucketOwnerId: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runTags: [String: String]? = nil, scratchStorageMode: ScratchStorageMode? = nil, sessionPolicy: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, workflowId: String, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
             self.configurationName = configurationName
@@ -2609,6 +2612,7 @@ extension Omics {
             self.runGroupId = runGroupId
             self.runTags = runTags
             self.scratchStorageMode = scratchStorageMode
+            self.sessionPolicy = sessionPolicy
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.workflowId = workflowId
@@ -2644,6 +2648,9 @@ extension Omics {
                 try validate($0.key, name: "runTags.key", parent: name, min: 1)
                 try validate($0.value, name: "runTags[\"\($0.key)\"]", parent: name, max: 256)
             }
+            try self.validate(self.sessionPolicy, name: "sessionPolicy", parent: name, max: 2048)
+            try self.validate(self.sessionPolicy, name: "sessionPolicy", parent: name, min: 1)
+            try self.validate(self.sessionPolicy, name: "sessionPolicy", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}\\t\\n\\r]+$")
             try self.validate(self.workflowId, name: "workflowId", parent: name, max: 18)
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
             try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[0-9]+$")
@@ -2670,6 +2677,7 @@ extension Omics {
             case runGroupId = "runGroupId"
             case runTags = "runTags"
             case scratchStorageMode = "scratchStorageMode"
+            case sessionPolicy = "sessionPolicy"
             case storageCapacity = "storageCapacity"
             case storageType = "storageType"
             case workflowId = "workflowId"
@@ -3703,14 +3711,14 @@ extension Omics {
         public var processedTime: Date?
         /// A summary of run execution states. Run execution counts are eventually consistent and may lag behind actual run states. Final counts are accurate once the batch reaches PROCESSED status. See RunSummary.
         public let runSummary: RunSummary?
-        /// The current status of the run batch. Possible values: CREATING (initial setup), PENDING (ready to submit runs), SUBMITTING (submitting runs), INPROGRESS (runs executing), STOPPING (cancellation in progress), PROCESSED (all runs completed), CANCELLED (batch cancelled), FAILED (batch failed), RUNS_DELETING (deleting runs), RUNS_DELETED (runs deleted).
+        /// The current status of the run batch. Possible values: CREATING (initial setup), PENDING (ready to submit runs), SUBMITTING (submitting runs), INPROGRESS (runs executing), STOPPING (cancellation in progress), PROCESSED (all runs completed), CANCELLED (batch cancelled), FAILED (batch failed), RUNS_DELETING (deleting runs), RUNS_DELETE_FAILED (run deletion failed for some or all runs), RUNS_DELETED (runs deleted).
         public let status: BatchStatus?
         /// A summary of run submission outcomes. See SubmissionSummary.
         public let submissionSummary: SubmissionSummary?
         /// The timestamp when all run submissions completed.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var submittedTime: Date?
-        /// AWS tags associated with the run batch.
+        /// Amazon Web Services tags associated with the run batch.
         public let tags: [String: String]?
         /// The total number of runs in the batch.
         public let totalRuns: Int?
@@ -4718,6 +4726,8 @@ extension Omics {
         public let runOutputUri: String?
         /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If absent, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
         public let scratchStorageMode: ScratchStorageMode?
+        /// Inline policy json for scoping down permissions via a session policy on the IAM role.
+        public let sessionPolicy: String?
         /// Who started the run.
         public let startedBy: String?
         /// When the run started.
@@ -4752,7 +4762,7 @@ extension Omics {
         public let workflowVersionName: String?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, batchId: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configuration: ConfigurationDetails? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineSettings: AWSDocument? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, scratchStorageMode: ScratchStorageMode? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, vpcConfig: VpcConfigResponse? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowUuid: String? = nil, workflowVersionName: String? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, batchId: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configuration: ConfigurationDetails? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineSettings: AWSDocument? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, scratchStorageMode: ScratchStorageMode? = nil, sessionPolicy: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, vpcConfig: VpcConfigResponse? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowUuid: String? = nil, workflowVersionName: String? = nil) {
             self.accelerators = accelerators
             self.arn = arn
             self.batchId = batchId
@@ -4780,6 +4790,7 @@ extension Omics {
             self.runId = runId
             self.runOutputUri = runOutputUri
             self.scratchStorageMode = scratchStorageMode
+            self.sessionPolicy = sessionPolicy
             self.startedBy = startedBy
             self.startTime = startTime
             self.status = status
@@ -4825,6 +4836,7 @@ extension Omics {
             case runId = "runId"
             case runOutputUri = "runOutputUri"
             case scratchStorageMode = "scratchStorageMode"
+            case sessionPolicy = "sessionPolicy"
             case startedBy = "startedBy"
             case startTime = "startTime"
             case status = "status"
@@ -5855,7 +5867,7 @@ extension Omics {
         public let engineSettings: AWSDocument?
         /// An optional user-friendly name for this run.
         public let name: String?
-        /// The expected AWS account ID of the owner of the output S3 bucket for this run.
+        /// The expected Amazon Web Services account ID of the owner of the output S3 bucket for this run.
         public let outputBucketOwnerId: String?
         /// Override the destination S3 URI for this run's outputs.
         public let outputUri: String?
@@ -5865,7 +5877,7 @@ extension Omics {
         public let priority: Int?
         /// A customer-provided unique identifier for this run configuration within the batch. After submission, use ListRunsInBatch to map each runSettingId to the HealthOmics-generated runId.
         public let runSettingId: String
-        /// Per-run AWS tags. Merged with defaultRunSetting.runTags; values in this object take precedence when keys overlap.
+        /// Per-run Amazon Web Services tags. Merged with defaultRunSetting.runTags; values in this object take precedence when keys overlap.
         public let runTags: [String: String]?
 
         @inlinable
@@ -9159,7 +9171,7 @@ extension Omics {
         public let defaultRunSetting: DefaultRunSetting
         /// A client token used to deduplicate retry requests and prevent duplicate batches from being created.
         public let requestId: String
-        /// AWS tags to associate with the batch resource. These tags are not inherited by individual runs. To tag individual runs, use defaultRunSetting.runTags.
+        /// Amazon Web Services tags to associate with the batch resource. These tags are not inherited by individual runs. To tag individual runs, use defaultRunSetting.runTags.
         public let tags: [String: String]?
 
         @inlinable
@@ -9203,7 +9215,7 @@ extension Omics {
         public let id: String?
         /// The initial status of the run batch. Returns CREATING while the batch is being initialized.
         public let status: BatchStatus?
-        /// AWS tags associated with the run batch.
+        /// Amazon Web Services tags associated with the run batch.
         public let tags: [String: String]?
         /// The universally unique identifier (UUID) for the run batch.
         public let uuid: String?
@@ -9251,7 +9263,7 @@ extension Omics {
         public let requestId: String
         /// The retention mode for the run. The default value is RETAIN.  Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, Amazon Web Services HealthOmics automatically removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run retention mode in the Amazon Web Services HealthOmics User Guide.
         public let retentionMode: RunRetentionMode?
-        /// A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ. In this example, the AWS account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ.
+        /// A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ. In this example, the Amazon Web Services account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ.
         public let roleArn: String
         /// The run's group ID. Use a run group to cap the compute resources (and number of concurrent runs) for the runs that you add to the run group.
         public let runGroupId: String?
@@ -9259,6 +9271,8 @@ extension Omics {
         public let runId: String?
         /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
         public let scratchStorageMode: ScratchStorageMode?
+        /// Optional inline policy json for scoping down permissions via a session policy on the IAM role provided in the roleArn parameter.
+        public let sessionPolicy: String?
         /// The STATIC storage capacity (in gibibytes, GiB) for this run. The default run storage capacity is 1200 GiB. If your requested storage capacity is unavailable, the system rounds up the value to the nearest 1200 GiB multiple. If the requested storage capacity is still unavailable, the system rounds up the value to the nearest 2400 GiB multiple. This field is not required if the storage type is DYNAMIC (the system ignores any value that you enter).
         public let storageCapacity: Int?
         /// The storage type for the run. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. For more information about DYNAMIC and STATIC storage, see Run storage types in the Amazon Web Services HealthOmics User Guide.
@@ -9275,7 +9289,7 @@ extension Omics {
         public let workflowVersionName: String?
 
         @inlinable
-        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configurationName: String? = nil, engineSettings: AWSDocument? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputUri: String, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, scratchStorageMode: ScratchStorageMode? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
+        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configurationName: String? = nil, engineSettings: AWSDocument? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputUri: String, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, scratchStorageMode: ScratchStorageMode? = nil, sessionPolicy: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
             self.configurationName = configurationName
@@ -9292,6 +9306,7 @@ extension Omics {
             self.runGroupId = runGroupId
             self.runId = runId
             self.scratchStorageMode = scratchStorageMode
+            self.sessionPolicy = sessionPolicy
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.tags = tags
@@ -9326,6 +9341,9 @@ extension Omics {
             try self.validate(self.runId, name: "runId", parent: name, max: 18)
             try self.validate(self.runId, name: "runId", parent: name, min: 1)
             try self.validate(self.runId, name: "runId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.sessionPolicy, name: "sessionPolicy", parent: name, max: 2048)
+            try self.validate(self.sessionPolicy, name: "sessionPolicy", parent: name, min: 1)
+            try self.validate(self.sessionPolicy, name: "sessionPolicy", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}\\t\\n\\r]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -9357,6 +9375,7 @@ extension Omics {
             case runGroupId = "runGroupId"
             case runId = "runId"
             case scratchStorageMode = "scratchStorageMode"
+            case sessionPolicy = "sessionPolicy"
             case storageCapacity = "storageCapacity"
             case storageType = "storageType"
             case tags = "tags"
@@ -10797,7 +10816,7 @@ public struct OmicsErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

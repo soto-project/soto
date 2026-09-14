@@ -342,7 +342,7 @@ public struct IoT: AWSService {
         return try await self.attachPrincipalPolicy(input, logger: logger)
     }
 
-    /// Associates a Device Defender security profile with a thing group or this account. Each  thing group or account can have up to five security profiles associated with it. Requires permission to access the AttachSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Associates a Device Defender security profile with a thing group or this account. Each  thing group or account can have up to five security profiles associated with it. Requires permission to access the AttachSecurityProfile action.
     @Sendable
     @inlinable
     public func attachSecurityProfile(_ input: AttachSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachSecurityProfileResponse {
@@ -355,7 +355,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Associates a Device Defender security profile with a thing group or this account. Each  thing group or account can have up to five security profiles associated with it. Requires permission to access the AttachSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Associates a Device Defender security profile with a thing group or this account. Each  thing group or account can have up to five security profiles associated with it. Requires permission to access the AttachSecurityProfile action.
     ///
     /// Parameters:
     ///   - securityProfileName: The security profile that is attached.
@@ -498,7 +498,7 @@ public struct IoT: AWSService {
         return try await self.cancelCertificateTransfer(input, logger: logger)
     }
 
-    ///  Cancels a Device Defender ML Detect mitigation action.  Requires permission to access the CancelDetectMitigationActionsTask action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Cancels a Device Defender ML Detect mitigation action.  Requires permission to access the CancelDetectMitigationActionsTask action.
     @Sendable
     @inlinable
     public func cancelDetectMitigationActionsTask(_ input: CancelDetectMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelDetectMitigationActionsTaskResponse {
@@ -511,7 +511,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    ///  Cancels a Device Defender ML Detect mitigation action.  Requires permission to access the CancelDetectMitigationActionsTask action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Cancels a Device Defender ML Detect mitigation action.  Requires permission to access the CancelDetectMitigationActionsTask action.
     ///
     /// Parameters:
     ///   - taskId:  The unique identifier of the task.
@@ -923,7 +923,7 @@ public struct IoT: AWSService {
         return try await self.createCommand(input, logger: logger)
     }
 
-    ///  Use this API to define a Custom Metric published by your devices to Device Defender.  Requires permission to access the CreateCustomMetric action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Use this API to define a Custom Metric published by your devices to Device Defender.  Requires permission to access the CreateCustomMetric action.
     @Sendable
     @inlinable
     public func createCustomMetric(_ input: CreateCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomMetricResponse {
@@ -936,7 +936,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    ///  Use this API to define a Custom Metric published by your devices to Device Defender.  Requires permission to access the CreateCustomMetric action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Use this API to define a Custom Metric published by your devices to Device Defender.  Requires permission to access the CreateCustomMetric action.
     ///
     /// Parameters:
     ///   - clientRequestToken: Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
@@ -964,7 +964,7 @@ public struct IoT: AWSService {
         return try await self.createCustomMetric(input, logger: logger)
     }
 
-    /// Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender.  For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension. Requires permission to access the CreateDimension action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender.  For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension. Requires permission to access the CreateDimension action.
     @Sendable
     @inlinable
     public func createDimension(_ input: CreateDimensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDimensionResponse {
@@ -977,7 +977,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender.  For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension. Requires permission to access the CreateDimension action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender.  For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension. Requires permission to access the CreateDimension action.
     ///
     /// Parameters:
     ///   - clientRequestToken: Each dimension must have a unique client request token. If you try to create a new dimension with the same token as a dimension that already exists, an exception occurs.  If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
@@ -1795,7 +1795,7 @@ public struct IoT: AWSService {
         return try await self.createScheduledAudit(input, logger: logger)
     }
 
-    /// Creates a Device Defender security profile. Requires permission to access the CreateSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Creates a Device Defender security profile. Requires permission to access the CreateSecurityProfile action.
     @Sendable
     @inlinable
     public func createSecurityProfile(_ input: CreateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSecurityProfileResponse {
@@ -1808,7 +1808,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Creates a Device Defender security profile. Requires permission to access the CreateSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Creates a Device Defender security profile. Requires permission to access the CreateSecurityProfile action.
     ///
     /// Parameters:
     ///   - additionalMetricsToRetainV2: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
@@ -2351,7 +2351,7 @@ public struct IoT: AWSService {
         return try await self.deleteCommandExecution(input, logger: logger)
     }
 
-    ///  Deletes a Device Defender detect custom metric.  Requires permission to access the DeleteCustomMetric action.  Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the ListSecurityProfiles API with metricName set to your custom metric name.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Deletes a Device Defender detect custom metric.  Requires permission to access the DeleteCustomMetric action.  Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the ListSecurityProfiles API with metricName set to your custom metric name.
     @Sendable
     @inlinable
     public func deleteCustomMetric(_ input: DeleteCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomMetricResponse {
@@ -2364,7 +2364,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    ///  Deletes a Device Defender detect custom metric.  Requires permission to access the DeleteCustomMetric action.  Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the ListSecurityProfiles API with metricName set to your custom metric name.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Deletes a Device Defender detect custom metric.  Requires permission to access the DeleteCustomMetric action.  Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the ListSecurityProfiles API with metricName set to your custom metric name.
     ///
     /// Parameters:
     ///   - metricName:  The name of the custom metric.
@@ -2380,7 +2380,7 @@ public struct IoT: AWSService {
         return try await self.deleteCustomMetric(input, logger: logger)
     }
 
-    /// Removes the specified dimension from your Amazon Web Services accounts. Requires permission to access the DeleteDimension action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Removes the specified dimension from your Amazon Web Services accounts. Requires permission to access the DeleteDimension action.
     @Sendable
     @inlinable
     public func deleteDimension(_ input: DeleteDimensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDimensionResponse {
@@ -2393,7 +2393,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified dimension from your Amazon Web Services accounts. Requires permission to access the DeleteDimension action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Removes the specified dimension from your Amazon Web Services accounts. Requires permission to access the DeleteDimension action.
     ///
     /// Parameters:
     ///   - name: The unique identifier for the dimension that you want to delete.
@@ -2944,7 +2944,7 @@ public struct IoT: AWSService {
         return try await self.deleteScheduledAudit(input, logger: logger)
     }
 
-    /// Deletes a Device Defender security profile. Requires permission to access the DeleteSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Deletes a Device Defender security profile. Requires permission to access the DeleteSecurityProfile action.
     @Sendable
     @inlinable
     public func deleteSecurityProfile(_ input: DeleteSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSecurityProfileResponse {
@@ -2957,7 +2957,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Deletes a Device Defender security profile. Requires permission to access the DeleteSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Deletes a Device Defender security profile. Requires permission to access the DeleteSecurityProfile action.
     ///
     /// Parameters:
     ///   - expectedVersion: The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
@@ -3518,7 +3518,7 @@ public struct IoT: AWSService {
         return try await self.describeCertificateProvider(input, logger: logger)
     }
 
-    ///  Gets information about a Device Defender detect custom metric.  Requires permission to access the DescribeCustomMetric action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Gets information about a Device Defender detect custom metric.  Requires permission to access the DescribeCustomMetric action.
     @Sendable
     @inlinable
     public func describeCustomMetric(_ input: DescribeCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCustomMetricResponse {
@@ -3531,7 +3531,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    ///  Gets information about a Device Defender detect custom metric.  Requires permission to access the DescribeCustomMetric action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Gets information about a Device Defender detect custom metric.  Requires permission to access the DescribeCustomMetric action.
     ///
     /// Parameters:
     ///   - metricName:  The name of the custom metric.
@@ -3573,7 +3573,7 @@ public struct IoT: AWSService {
         return try await self.describeDefaultAuthorizer(input, logger: logger)
     }
 
-    ///  Gets information about a Device Defender ML Detect mitigation action.  Requires permission to access the DescribeDetectMitigationActionsTask action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Gets information about a Device Defender ML Detect mitigation action.  Requires permission to access the DescribeDetectMitigationActionsTask action.
     @Sendable
     @inlinable
     public func describeDetectMitigationActionsTask(_ input: DescribeDetectMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDetectMitigationActionsTaskResponse {
@@ -3586,7 +3586,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    ///  Gets information about a Device Defender ML Detect mitigation action.  Requires permission to access the DescribeDetectMitigationActionsTask action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Gets information about a Device Defender ML Detect mitigation action.  Requires permission to access the DescribeDetectMitigationActionsTask action.
     ///
     /// Parameters:
     ///   - taskId:  The unique identifier of the task.
@@ -3602,7 +3602,7 @@ public struct IoT: AWSService {
         return try await self.describeDetectMitigationActionsTask(input, logger: logger)
     }
 
-    /// Provides details about a dimension that is defined in your Amazon Web Services accounts. Requires permission to access the DescribeDimension action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Provides details about a dimension that is defined in your Amazon Web Services accounts. Requires permission to access the DescribeDimension action.
     @Sendable
     @inlinable
     public func describeDimension(_ input: DescribeDimensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDimensionResponse {
@@ -3615,7 +3615,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Provides details about a dimension that is defined in your Amazon Web Services accounts. Requires permission to access the DescribeDimension action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Provides details about a dimension that is defined in your Amazon Web Services accounts. Requires permission to access the DescribeDimension action.
     ///
     /// Parameters:
     ///   - name: The unique identifier for the dimension.
@@ -4075,7 +4075,7 @@ public struct IoT: AWSService {
         return try await self.describeScheduledAudit(input, logger: logger)
     }
 
-    /// Gets information about a Device Defender security profile. Requires permission to access the DescribeSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Gets information about a Device Defender security profile. Requires permission to access the DescribeSecurityProfile action.
     @Sendable
     @inlinable
     public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityProfileResponse {
@@ -4088,7 +4088,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a Device Defender security profile. Requires permission to access the DescribeSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Gets information about a Device Defender security profile. Requires permission to access the DescribeSecurityProfile action.
     ///
     /// Parameters:
     ///   - securityProfileName: The name of the security profile whose information you want to get.
@@ -4313,7 +4313,7 @@ public struct IoT: AWSService {
         return try await self.detachPrincipalPolicy(input, logger: logger)
     }
 
-    /// Disassociates a Device Defender security profile from a thing group or from this account. Requires permission to access the DetachSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Disassociates a Device Defender security profile from a thing group or from this account. Requires permission to access the DetachSecurityProfile action.
     @Sendable
     @inlinable
     public func detachSecurityProfile(_ input: DetachSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachSecurityProfileResponse {
@@ -4326,7 +4326,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Disassociates a Device Defender security profile from a thing group or from this account. Requires permission to access the DetachSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Disassociates a Device Defender security profile from a thing group or from this account. Requires permission to access the DetachSecurityProfile action.
     ///
     /// Parameters:
     ///   - securityProfileName: The security profile that is detached.
@@ -4476,7 +4476,7 @@ public struct IoT: AWSService {
         return try await self.enableTopicRule(input, logger: logger)
     }
 
-    ///  Returns a Device Defender's ML Detect Security Profile training model's status.  Requires permission to access the GetBehaviorModelTrainingSummaries action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Returns a Device Defender's ML Detect Security Profile training model's status.  Requires permission to access the GetBehaviorModelTrainingSummaries action.
     @Sendable
     @inlinable
     public func getBehaviorModelTrainingSummaries(_ input: GetBehaviorModelTrainingSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBehaviorModelTrainingSummariesResponse {
@@ -4489,7 +4489,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    ///  Returns a Device Defender's ML Detect Security Profile training model's status.  Requires permission to access the GetBehaviorModelTrainingSummaries action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Returns a Device Defender's ML Detect Security Profile training model's status.  Requires permission to access the GetBehaviorModelTrainingSummaries action.
     ///
     /// Parameters:
     ///   - maxResults:  The maximum number of results to return at one time. The default is 10.
@@ -5174,7 +5174,7 @@ public struct IoT: AWSService {
         return try await self.getV2LoggingOptions(input, logger: logger)
     }
 
-    /// Lists the active violations for a given Device Defender security profile. Requires permission to access the ListActiveViolations action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Lists the active violations for a given Device Defender security profile. Requires permission to access the ListActiveViolations action.
     @Sendable
     @inlinable
     public func listActiveViolations(_ input: ListActiveViolationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListActiveViolationsResponse {
@@ -5187,7 +5187,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Lists the active violations for a given Device Defender security profile. Requires permission to access the ListActiveViolations action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Lists the active violations for a given Device Defender security profile. Requires permission to access the ListActiveViolations action.
     ///
     /// Parameters:
     ///   - behaviorCriteriaType:  The criteria for a behavior.
@@ -5792,7 +5792,7 @@ public struct IoT: AWSService {
         return try await self.listCommands(input, logger: logger)
     }
 
-    ///  Lists your Device Defender detect custom metrics.  Requires permission to access the ListCustomMetrics action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Lists your Device Defender detect custom metrics.  Requires permission to access the ListCustomMetrics action.
     @Sendable
     @inlinable
     public func listCustomMetrics(_ input: ListCustomMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomMetricsResponse {
@@ -5805,7 +5805,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    ///  Lists your Device Defender detect custom metrics.  Requires permission to access the ListCustomMetrics action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Lists your Device Defender detect custom metrics.  Requires permission to access the ListCustomMetrics action.
     ///
     /// Parameters:
     ///   - maxResults:  The maximum number of results to return at one time. The default is 25.
@@ -5824,7 +5824,7 @@ public struct IoT: AWSService {
         return try await self.listCustomMetrics(input, logger: logger)
     }
 
-    ///  Lists mitigation actions executions for a Device Defender ML Detect Security Profile.  Requires permission to access the ListDetectMitigationActionsExecutions action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Lists mitigation actions executions for a Device Defender ML Detect Security Profile.  Requires permission to access the ListDetectMitigationActionsExecutions action.
     @Sendable
     @inlinable
     public func listDetectMitigationActionsExecutions(_ input: ListDetectMitigationActionsExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDetectMitigationActionsExecutionsResponse {
@@ -5837,7 +5837,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    ///  Lists mitigation actions executions for a Device Defender ML Detect Security Profile.  Requires permission to access the ListDetectMitigationActionsExecutions action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Lists mitigation actions executions for a Device Defender ML Detect Security Profile.  Requires permission to access the ListDetectMitigationActionsExecutions action.
     ///
     /// Parameters:
     ///   - endTime:  The end of the time period for which ML Detect mitigation actions executions are returned.
@@ -5871,7 +5871,7 @@ public struct IoT: AWSService {
         return try await self.listDetectMitigationActionsExecutions(input, logger: logger)
     }
 
-    ///  List of Device Defender ML Detect mitigation actions tasks.  Requires permission to access the ListDetectMitigationActionsTasks action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   List of Device Defender ML Detect mitigation actions tasks.  Requires permission to access the ListDetectMitigationActionsTasks action.
     @Sendable
     @inlinable
     public func listDetectMitigationActionsTasks(_ input: ListDetectMitigationActionsTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDetectMitigationActionsTasksResponse {
@@ -5884,7 +5884,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    ///  List of Device Defender ML Detect mitigation actions tasks.  Requires permission to access the ListDetectMitigationActionsTasks action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   List of Device Defender ML Detect mitigation actions tasks.  Requires permission to access the ListDetectMitigationActionsTasks action.
     ///
     /// Parameters:
     ///   - endTime:  The end of the time period for which ML Detect mitigation actions tasks are returned.
@@ -5909,7 +5909,7 @@ public struct IoT: AWSService {
         return try await self.listDetectMitigationActionsTasks(input, logger: logger)
     }
 
-    /// List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the ListDimensions action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the ListDimensions action.
     @Sendable
     @inlinable
     public func listDimensions(_ input: ListDimensionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDimensionsResponse {
@@ -5922,7 +5922,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the ListDimensions action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the ListDimensions action.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to retrieve at one time.
@@ -6890,7 +6890,7 @@ public struct IoT: AWSService {
         return try await self.listScheduledAudits(input, logger: logger)
     }
 
-    /// Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the ListSecurityProfiles action.   dimensionName and metricName cannot be used in the same request.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the ListSecurityProfiles action.   dimensionName and metricName cannot be used in the same request.
     @Sendable
     @inlinable
     public func listSecurityProfiles(_ input: ListSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilesResponse {
@@ -6903,7 +6903,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the ListSecurityProfiles action.   dimensionName and metricName cannot be used in the same request.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the ListSecurityProfiles action.   dimensionName and metricName cannot be used in the same request.
     ///
     /// Parameters:
     ///   - dimensionName: A filter to limit results to the security profiles that use the defined dimension. Cannot be used with metricName
@@ -6928,7 +6928,7 @@ public struct IoT: AWSService {
         return try await self.listSecurityProfiles(input, logger: logger)
     }
 
-    /// Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the ListSecurityProfilesForTarget action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the ListSecurityProfilesForTarget action.
     @Sendable
     @inlinable
     public func listSecurityProfilesForTarget(_ input: ListSecurityProfilesForTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilesForTargetResponse {
@@ -6941,7 +6941,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the ListSecurityProfilesForTarget action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the ListSecurityProfilesForTarget action.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return at one time.
@@ -7068,7 +7068,7 @@ public struct IoT: AWSService {
         return try await self.listTargetsForPolicy(input, logger: logger)
     }
 
-    /// Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the ListTargetsForSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the ListTargetsForSecurityProfile action.
     @Sendable
     @inlinable
     public func listTargetsForSecurityProfile(_ input: ListTargetsForSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTargetsForSecurityProfileResponse {
@@ -7081,7 +7081,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the ListTargetsForSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the ListTargetsForSecurityProfile action.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return at one time.
@@ -7596,7 +7596,7 @@ public struct IoT: AWSService {
         return try await self.listV2LoggingLevels(input, logger: logger)
     }
 
-    /// Lists the Device Defender security profile violations discovered during the given time period.  You can use filters to limit the results to those alerts issued for a particular security profile,  behavior, or thing (device). Requires permission to access the ListViolationEvents action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Lists the Device Defender security profile violations discovered during the given time period.  You can use filters to limit the results to those alerts issued for a particular security profile,  behavior, or thing (device). Requires permission to access the ListViolationEvents action.
     @Sendable
     @inlinable
     public func listViolationEvents(_ input: ListViolationEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListViolationEventsResponse {
@@ -7609,7 +7609,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Lists the Device Defender security profile violations discovered during the given time period.  You can use filters to limit the results to those alerts issued for a particular security profile,  behavior, or thing (device). Requires permission to access the ListViolationEvents action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Lists the Device Defender security profile violations discovered during the given time period.  You can use filters to limit the results to those alerts issued for a particular security profile,  behavior, or thing (device). Requires permission to access the ListViolationEvents action.
     ///
     /// Parameters:
     ///   - behaviorCriteriaType:  The criteria for a behavior.
@@ -7649,7 +7649,7 @@ public struct IoT: AWSService {
         return try await self.listViolationEvents(input, logger: logger)
     }
 
-    /// Set a verification state and provide a description of that verification state on a violation (detect alarm).
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Set a verification state and provide a description of that verification state on a violation (detect alarm).
     @Sendable
     @inlinable
     public func putVerificationStateOnViolation(_ input: PutVerificationStateOnViolationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVerificationStateOnViolationResponse {
@@ -7662,7 +7662,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Set a verification state and provide a description of that verification state on a violation (detect alarm).
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Set a verification state and provide a description of that verification state on a violation (detect alarm).
     ///
     /// Parameters:
     ///   - verificationState: The verification state of the violation.
@@ -8217,7 +8217,7 @@ public struct IoT: AWSService {
         return try await self.startAuditMitigationActionsTask(input, logger: logger)
     }
 
-    ///  Starts a Device Defender ML Detect mitigation actions task.  Requires permission to access the StartDetectMitigationActionsTask action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Starts a Device Defender ML Detect mitigation actions task.  Requires permission to access the StartDetectMitigationActionsTask action.
     @Sendable
     @inlinable
     public func startDetectMitigationActionsTask(_ input: StartDetectMitigationActionsTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDetectMitigationActionsTaskResponse {
@@ -8230,7 +8230,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    ///  Starts a Device Defender ML Detect mitigation actions task.  Requires permission to access the StartDetectMitigationActionsTask action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.   Starts a Device Defender ML Detect mitigation actions task.  Requires permission to access the StartDetectMitigationActionsTask action.
     ///
     /// Parameters:
     ///   - actions:  The actions to be performed when a device has unexpected behavior.
@@ -8850,7 +8850,7 @@ public struct IoT: AWSService {
         return try await self.updateCommand(input, logger: logger)
     }
 
-    /// Updates a Device Defender detect custom metric.  Requires permission to access the UpdateCustomMetric action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Updates a Device Defender detect custom metric.  Requires permission to access the UpdateCustomMetric action.
     @Sendable
     @inlinable
     public func updateCustomMetric(_ input: UpdateCustomMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCustomMetricResponse {
@@ -8863,7 +8863,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Updates a Device Defender detect custom metric.  Requires permission to access the UpdateCustomMetric action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Updates a Device Defender detect custom metric.  Requires permission to access the UpdateCustomMetric action.
     ///
     /// Parameters:
     ///   - displayName:  Field represents a friendly name in the console for the custom metric, it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated.
@@ -8882,7 +8882,7 @@ public struct IoT: AWSService {
         return try await self.updateCustomMetric(input, logger: logger)
     }
 
-    /// Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it). Requires permission to access the UpdateDimension action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it). Requires permission to access the UpdateDimension action.
     @Sendable
     @inlinable
     public func updateDimension(_ input: UpdateDimensionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDimensionResponse {
@@ -8895,7 +8895,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it). Requires permission to access the UpdateDimension action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it). Requires permission to access the UpdateDimension action.
     ///
     /// Parameters:
     ///   - name: A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
@@ -9494,7 +9494,7 @@ public struct IoT: AWSService {
         return try await self.updateScheduledAudit(input, logger: logger)
     }
 
-    /// Updates a Device Defender security profile. Requires permission to access the UpdateSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Updates a Device Defender security profile. Requires permission to access the UpdateSecurityProfile action.
     @Sendable
     @inlinable
     public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecurityProfileResponse {
@@ -9507,7 +9507,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Updates a Device Defender security profile. Requires permission to access the UpdateSecurityProfile action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Updates a Device Defender security profile. Requires permission to access the UpdateSecurityProfile action.
     ///
     /// Parameters:
     ///   - additionalMetricsToRetainV2: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
@@ -9769,7 +9769,7 @@ public struct IoT: AWSService {
         return try await self.updateTopicRuleDestination(input, logger: logger)
     }
 
-    /// Validates a Device Defender security profile behaviors specification. Requires permission to access the ValidateSecurityProfileBehaviors action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Validates a Device Defender security profile behaviors specification. Requires permission to access the ValidateSecurityProfileBehaviors action.
     @Sendable
     @inlinable
     public func validateSecurityProfileBehaviors(_ input: ValidateSecurityProfileBehaviorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidateSecurityProfileBehaviorsResponse {
@@ -9782,7 +9782,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Validates a Device Defender security profile behaviors specification. Requires permission to access the ValidateSecurityProfileBehaviors action.
+    ///  The IoT Device Defender detect feature will no longer be available to new customers starting August 31, 2026. If you would like to use the detect feature, sign up prior to August 31, 2026. To learn about alternatives to IoT Device Defender detect, see IoT Device Defender detect feature availability change in the IoT Device Defender Developer Guide. There is no change to IoT Device Defender audit availability.  Validates a Device Defender security profile behaviors specification. Requires permission to access the ValidateSecurityProfileBehaviors action.
     ///
     /// Parameters:
     ///   - behaviors: Specifies the behaviors that, when violated by a device (thing), cause an alert.

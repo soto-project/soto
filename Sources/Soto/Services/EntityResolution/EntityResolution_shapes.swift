@@ -201,7 +201,7 @@ extension EntityResolution {
             try self.principal.forEach {
                 try validate($0, name: "principal[]", parent: name, max: 64)
                 try validate($0, name: "principal[]", parent: name, min: 12)
-                try validate($0, name: "principal[]", parent: name, pattern: "^(\\d{12})|([a-z0-9\\.]+)$")
+                try validate($0, name: "principal[]", parent: name, pattern: "^((\\d{12})|([a-z0-9\\.]+))$")
             }
             try self.validate(self.principal, name: "principal", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, max: 64)
@@ -656,7 +656,7 @@ extension EntityResolution {
             try self.mappedInputFields.forEach {
                 try $0.validate(name: "\(name).mappedInputFields[]")
             }
-            try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, max: 35)
+            try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, max: 60)
             try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, min: 2)
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
@@ -3749,7 +3749,7 @@ extension EntityResolution {
             try self.mappedInputFields.forEach {
                 try $0.validate(name: "\(name).mappedInputFields[]")
             }
-            try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, max: 35)
+            try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, max: 60)
             try self.validate(self.mappedInputFields, name: "mappedInputFields", parent: name, min: 2)
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)

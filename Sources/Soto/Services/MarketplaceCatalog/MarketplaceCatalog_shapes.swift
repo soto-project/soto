@@ -41,6 +41,12 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssessmentResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fail = "FAIL"
+        case pass = "PASS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applying = "APPLYING"
         case cancelled = "CANCELLED"
@@ -64,6 +70,14 @@ extension MarketplaceCatalog {
         case draft = "Draft"
         case limited = "Limited"
         case restricted = "Restricted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ControlAssessmentResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exemptionPass = "EXEMPTION_PASS"
+        case fail = "FAIL"
+        case notExecuted = "NOT_EXECUTED"
+        case pass = "PASS"
         public var description: String { return self.rawValue }
     }
 
@@ -112,6 +126,12 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum OfferCreatedBySourceString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsMarketplace = "AwsMarketplace"
+        case seller = "Seller"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OfferSetSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case entityId = "EntityId"
         case lastModifiedDate = "LastModifiedDate"
@@ -131,6 +151,7 @@ extension MarketplaceCatalog {
     public enum OfferSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case availabilityEndDate = "AvailabilityEndDate"
         case buyerAccounts = "BuyerAccounts"
+        case createdBySource = "CreatedBySource"
         case entityId = "EntityId"
         case lastModifiedDate = "LastModifiedDate"
         case name = "Name"
@@ -139,6 +160,8 @@ extension MarketplaceCatalog {
         case releaseDate = "ReleaseDate"
         case resaleAuthorizationId = "ResaleAuthorizationId"
         case state = "State"
+        case targetAgreementId = "TargetAgreementId"
+        case targetAgreementIntent = "TargetAgreementIntent"
         case targeting = "Targeting"
         public var description: String { return self.rawValue }
     }
@@ -146,6 +169,11 @@ extension MarketplaceCatalog {
     public enum OfferStateString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case draft = "Draft"
         case released = "Released"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OfferTargetAgreementIntentString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case renew = "Renew"
         public var description: String { return self.rawValue }
     }
 
@@ -213,6 +241,14 @@ extension MarketplaceCatalog {
     public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "CannotParse"
+        case fieldValidationFailed = "FieldValidationFailed"
+        case other = "Other"
+        case unknownOperation = "UnknownOperation"
         public var description: String { return self.rawValue }
     }
 
@@ -339,7 +375,103 @@ extension MarketplaceCatalog {
         }
     }
 
+    public enum FrameworkFilters: AWSEncodableShape, Sendable {
+        /// Filters that apply to assessments performed against the AMI Security framework.
+        case amiSecurityFilters(AMISecurityFilters)
+        /// Filters that apply to assessments performed against the Container Security framework.
+        case containerSecurityFilters(ContainerSecurityFilters)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .amiSecurityFilters(let value):
+                try container.encode(value, forKey: .amiSecurityFilters)
+            case .containerSecurityFilters(let value):
+                try container.encode(value, forKey: .containerSecurityFilters)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .amiSecurityFilters(let value):
+                try value.validate(name: "\(name).amiSecurityFilters")
+            case .containerSecurityFilters(let value):
+                try value.validate(name: "\(name).containerSecurityFilters")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiSecurityFilters = "AMISecurityFilters"
+            case containerSecurityFilters = "ContainerSecurityFilters"
+        }
+    }
+
+    public enum FrameworkSummary: AWSDecodableShape, Sendable {
+        /// The details of the resource assessed under the AMI Security framework.
+        case amiSecuritySummary(AMISecuritySummary)
+        /// The details of the resource assessed under the Container Security framework.
+        case containerSecuritySummary(ContainerSecuritySummary)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .amiSecuritySummary:
+                let value = try container.decode(AMISecuritySummary.self, forKey: .amiSecuritySummary)
+                self = .amiSecuritySummary(value)
+            case .containerSecuritySummary:
+                let value = try container.decode(ContainerSecuritySummary.self, forKey: .containerSecuritySummary)
+                self = .containerSecuritySummary(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiSecuritySummary = "AMISecuritySummary"
+            case containerSecuritySummary = "ContainerSecuritySummary"
+        }
+    }
+
     // MARK: Shapes
+
+    public struct AMISecurityFilters: AWSEncodableShape {
+        /// The unique ID of the delivery option whose AMI Security assessments you want to list.
+        public let deliveryOptionId: String?
+
+        @inlinable
+        public init(deliveryOptionId: String? = nil) {
+            self.deliveryOptionId = deliveryOptionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deliveryOptionId, name: "deliveryOptionId", parent: name, max: 255)
+            try self.validate(self.deliveryOptionId, name: "deliveryOptionId", parent: name, min: 1)
+            try self.validate(self.deliveryOptionId, name: "deliveryOptionId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryOptionId = "DeliveryOptionId"
+        }
+    }
+
+    public struct AMISecuritySummary: AWSDecodableShape {
+        /// The unique ID of the delivery option that was evaluated.
+        public let deliveryOptionId: String?
+
+        @inlinable
+        public init(deliveryOptionId: String? = nil) {
+            self.deliveryOptionId = deliveryOptionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryOptionId = "DeliveryOptionId"
+        }
+    }
 
     public struct AmiProductEntityIdFilter: AWSEncodableShape {
         /// A string array of unique entity id values to be filtered on.
@@ -526,6 +658,93 @@ extension MarketplaceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case valueList = "ValueList"
+        }
+    }
+
+    public struct AssessmentSummary: AWSDecodableShape {
+        /// The ARN associated with the assessment.
+        public let assessmentArn: String?
+        /// The unique ID of the assessment.
+        public let assessmentId: String?
+        /// The overall result of the assessment.
+        public let assessmentResult: AssessmentResult?
+        /// Identifies the entity or change set that was assessed.
+        public let assessmentTargetSummary: AssessmentTargetSummary?
+        /// The date and time the assessment was created, in ISO 8601 format (2018-02-27T13:45:22Z).
+        public let createdAt: String?
+        /// The date and time the assessment expires, in ISO 8601 format (2018-02-27T13:45:22Z).
+        public let expiresAt: String?
+        /// The identifier of the framework that was evaluated by this assessment, in the format frameworkId@version (for example, AMISecurity@1.0).
+        public let frameworkId: String?
+        /// The framework-specific details of the assessed resource. The set member corresponds to the framework identified by FrameworkId.
+        public let frameworkSummary: FrameworkSummary?
+
+        @inlinable
+        public init(assessmentArn: String? = nil, assessmentId: String? = nil, assessmentResult: AssessmentResult? = nil, assessmentTargetSummary: AssessmentTargetSummary? = nil, createdAt: String? = nil, expiresAt: String? = nil, frameworkId: String? = nil, frameworkSummary: FrameworkSummary? = nil) {
+            self.assessmentArn = assessmentArn
+            self.assessmentId = assessmentId
+            self.assessmentResult = assessmentResult
+            self.assessmentTargetSummary = assessmentTargetSummary
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.frameworkId = frameworkId
+            self.frameworkSummary = frameworkSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentArn = "AssessmentArn"
+            case assessmentId = "AssessmentId"
+            case assessmentResult = "AssessmentResult"
+            case assessmentTargetSummary = "AssessmentTargetSummary"
+            case createdAt = "CreatedAt"
+            case expiresAt = "ExpiresAt"
+            case frameworkId = "FrameworkId"
+            case frameworkSummary = "FrameworkSummary"
+        }
+    }
+
+    public struct AssessmentTargetFilter: AWSEncodableShape {
+        /// The unique ID of the change set that triggered the assessments you want to list.
+        public let changeSetId: String?
+        /// The unique ID of the entity whose assessments you want to list.
+        public let entityId: String?
+
+        @inlinable
+        public init(changeSetId: String? = nil, entityId: String? = nil) {
+            self.changeSetId = changeSetId
+            self.entityId = entityId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.changeSetId, name: "changeSetId", parent: name, max: 255)
+            try self.validate(self.changeSetId, name: "changeSetId", parent: name, min: 1)
+            try self.validate(self.changeSetId, name: "changeSetId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 255)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeSetId = "ChangeSetId"
+            case entityId = "EntityId"
+        }
+    }
+
+    public struct AssessmentTargetSummary: AWSDecodableShape {
+        /// The unique ID of the change set that was assessed.
+        public let changeSetId: String?
+        /// The unique ID of the entity that was assessed.
+        public let entityId: String?
+
+        @inlinable
+        public init(changeSetId: String? = nil, entityId: String? = nil) {
+            self.changeSetId = changeSetId
+            self.entityId = entityId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeSetId = "ChangeSetId"
+            case entityId = "EntityId"
         }
     }
 
@@ -952,6 +1171,84 @@ extension MarketplaceCatalog {
         }
     }
 
+    public struct ContainerSecurityFilters: AWSEncodableShape {
+        /// The unique ID of the delivery option whose Container Security assessments you want to list.
+        public let deliveryOptionId: String?
+
+        @inlinable
+        public init(deliveryOptionId: String? = nil) {
+            self.deliveryOptionId = deliveryOptionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deliveryOptionId, name: "deliveryOptionId", parent: name, max: 255)
+            try self.validate(self.deliveryOptionId, name: "deliveryOptionId", parent: name, min: 1)
+            try self.validate(self.deliveryOptionId, name: "deliveryOptionId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryOptionId = "DeliveryOptionId"
+        }
+    }
+
+    public struct ContainerSecuritySummary: AWSDecodableShape {
+        /// The unique ID of the delivery option that was evaluated.
+        public let deliveryOptionId: String?
+
+        @inlinable
+        public init(deliveryOptionId: String? = nil) {
+            self.deliveryOptionId = deliveryOptionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryOptionId = "DeliveryOptionId"
+        }
+    }
+
+    public struct ControlAssessment: AWSDecodableShape {
+        /// The result of the control evaluation.
+        public let controlAssessmentResult: ControlAssessmentResult?
+        /// The unique ID of the control that was evaluated.
+        public let controlId: String?
+        /// An array of ControlError objects associated with the control evaluation.
+        public let errors: [ControlError]?
+
+        @inlinable
+        public init(controlAssessmentResult: ControlAssessmentResult? = nil, controlId: String? = nil, errors: [ControlError]? = nil) {
+            self.controlAssessmentResult = controlAssessmentResult
+            self.controlId = controlId
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlAssessmentResult = "ControlAssessmentResult"
+            case controlId = "ControlId"
+            case errors = "Errors"
+        }
+    }
+
+    public struct ControlError: AWSDecodableShape {
+        /// The error code that identifies the type of error.
+        public let code: String?
+        /// The message for the error.
+        public let message: String?
+        /// The list of name-value pairs that identify the resource or attribute that the error applies to.
+        public let scope: [ErrorScope]?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, scope: [ErrorScope]? = nil) {
+            self.code = code
+            self.message = message
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case scope = "Scope"
+        }
+    }
+
     public struct DataProductEntityIdFilter: AWSEncodableShape {
         /// A string array of unique entity id values to be filtered on.
         public let valueList: [String]?
@@ -1166,6 +1463,96 @@ extension MarketplaceCatalog {
 
     public struct DeleteResourcePolicyResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DescribeAssessmentRequest: AWSEncodableShape {
+        /// The unique identifier of the assessment to describe. You can provide either the assessment ID (for example, assessment-12345) or the full assessment ARN (for example, arn:aws:aws-marketplace:us-east-1::AWSMarketplace/Assessment/assessment-12345).
+        public let assessmentIdentifier: String
+        /// The catalog related to the request. Fixed value: AWSMarketplace
+        public let catalog: String
+        /// Specifies the upper limit of ControlAssessment elements returned on a single page. If a value isn't provided, the default value is 50. Valid values range from 1 to 100.
+        public let maxResults: Int?
+        /// The value of the next token, if it exists. null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(assessmentIdentifier: String, catalog: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.assessmentIdentifier = assessmentIdentifier
+            self.catalog = catalog
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assessmentIdentifier, name: "assessmentIdentifier", parent: name, max: 2048)
+            try self.validate(self.assessmentIdentifier, name: "assessmentIdentifier", parent: name, min: 1)
+            try self.validate(self.assessmentIdentifier, name: "assessmentIdentifier", parent: name, pattern: "^(assessment-[a-zA-Z0-9]+|arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:[0-9]*:[a-zA-Z0-9-]+/Assessment/assessment-[a-zA-Z0-9]+)$")
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+=.:@\\-\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentIdentifier = "AssessmentIdentifier"
+            case catalog = "Catalog"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeAssessmentResponse: AWSDecodableShape {
+        /// The ARN associated with the assessment.
+        public let assessmentArn: String?
+        /// The unique ID of the assessment.
+        public let assessmentId: String?
+        /// The overall result of the assessment.
+        public let assessmentResult: AssessmentResult?
+        /// Identifies the entity or change set that was assessed.
+        public let assessmentTargetSummary: AssessmentTargetSummary?
+        /// An array of ControlAssessment objects, each containing the result of an individual control evaluated as part of the assessment.
+        public let controlAssessments: [ControlAssessment]?
+        /// The date and time the assessment was created, in ISO 8601 format (2018-02-27T13:45:22Z).
+        public let createdAt: String?
+        /// The date and time the assessment expires, in ISO 8601 format (2018-02-27T13:45:22Z).
+        public let expiresAt: String?
+        /// The identifier of the framework that was evaluated by this assessment, in the format frameworkId@version (for example, AMISecurity@1.0).
+        public let frameworkId: String?
+        /// The framework-specific details of the assessed resource. The set member corresponds to the framework identified by FrameworkId.
+        public let frameworkSummary: FrameworkSummary?
+        /// The value of the next token, if it exists. null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(assessmentArn: String? = nil, assessmentId: String? = nil, assessmentResult: AssessmentResult? = nil, assessmentTargetSummary: AssessmentTargetSummary? = nil, controlAssessments: [ControlAssessment]? = nil, createdAt: String? = nil, expiresAt: String? = nil, frameworkId: String? = nil, frameworkSummary: FrameworkSummary? = nil, nextToken: String? = nil) {
+            self.assessmentArn = assessmentArn
+            self.assessmentId = assessmentId
+            self.assessmentResult = assessmentResult
+            self.assessmentTargetSummary = assessmentTargetSummary
+            self.controlAssessments = controlAssessments
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.frameworkId = frameworkId
+            self.frameworkSummary = frameworkSummary
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentArn = "AssessmentArn"
+            case assessmentId = "AssessmentId"
+            case assessmentResult = "AssessmentResult"
+            case assessmentTargetSummary = "AssessmentTargetSummary"
+            case controlAssessments = "ControlAssessments"
+            case createdAt = "CreatedAt"
+            case expiresAt = "ExpiresAt"
+            case frameworkId = "FrameworkId"
+            case frameworkSummary = "FrameworkSummary"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct DescribeChangeSetRequest: AWSEncodableShape {
@@ -1481,6 +1868,24 @@ extension MarketplaceCatalog {
         }
     }
 
+    public struct ErrorScope: AWSDecodableShape {
+        /// The name of the resource field the error applies to (for example, AMI_ID, FILE_PATH, or PACKAGE_NAME).
+        public let name: String?
+        /// The value of the resource field the error applies to.
+        public let value: String?
+
+        @inlinable
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
     public struct Filter: AWSEncodableShape {
         /// For ListEntities, the supported value for this is an EntityId. For ListChangeSets, the supported values are as follows:
         public let name: String?
@@ -1550,6 +1955,74 @@ extension MarketplaceCatalog {
         }
     }
 
+    public struct ListAssessmentsRequest: AWSEncodableShape {
+        /// Filters the list of assessments to those performed against a specific entity or change set.
+        public let assessmentTargetFilter: AssessmentTargetFilter?
+        /// The catalog related to the request. Fixed value: AWSMarketplace
+        public let catalog: String
+        /// Framework-specific filters. Set exactly one member to filter results to assessments performed against that framework.
+        public let frameworkFilters: FrameworkFilters?
+        /// The unique identifier of a framework. When specified, only assessments performed against this framework are returned. For example, AMISecurity.
+        public let frameworkId: String?
+        /// Specifies the upper limit of the elements on a single page. If a value isn't provided, the default value is 20. Valid values range from 1 to 100.
+        public let maxResults: Int?
+        /// The value of the next token, if it exists. null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(assessmentTargetFilter: AssessmentTargetFilter? = nil, catalog: String, frameworkFilters: FrameworkFilters? = nil, frameworkId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.assessmentTargetFilter = assessmentTargetFilter
+            self.catalog = catalog
+            self.frameworkFilters = frameworkFilters
+            self.frameworkId = frameworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.assessmentTargetFilter?.validate(name: "\(name).assessmentTargetFilter")
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.frameworkFilters?.validate(name: "\(name).frameworkFilters")
+            try self.validate(self.frameworkId, name: "frameworkId", parent: name, max: 255)
+            try self.validate(self.frameworkId, name: "frameworkId", parent: name, min: 1)
+            try self.validate(self.frameworkId, name: "frameworkId", parent: name, pattern: "^[\\w\\-@]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+=.:@\\-\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentTargetFilter = "AssessmentTargetFilter"
+            case catalog = "Catalog"
+            case frameworkFilters = "FrameworkFilters"
+            case frameworkId = "FrameworkId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAssessmentsResponse: AWSDecodableShape {
+        /// An array of AssessmentSummary objects.
+        public let assessmentSummaryList: [AssessmentSummary]?
+        /// The value of the next token, if it exists. null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(assessmentSummaryList: [AssessmentSummary]? = nil, nextToken: String? = nil) {
+            self.assessmentSummaryList = assessmentSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentSummaryList = "AssessmentSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListChangeSetsRequest: AWSEncodableShape {
         /// The catalog related to the request. Fixed value: AWSMarketplace
         public let catalog: String
@@ -1582,9 +2055,9 @@ extension MarketplaceCatalog {
             try self.validate(self.filterList, name: "filterList", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+=.:@\\-\\/]$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+=.:@\\-\\/]+$")
             try self.sort?.validate(name: "\(name).sort")
         }
 
@@ -1663,9 +2136,9 @@ extension MarketplaceCatalog {
             try self.validate(self.filterList, name: "filterList", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+=.:@\\-\\/]$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+=.:@\\-\\/]+$")
             try self.sort?.validate(name: "\(name).sort")
         }
 
@@ -1991,6 +2464,25 @@ extension MarketplaceCatalog {
         }
     }
 
+    public struct OfferCreatedBySourceFilter: AWSEncodableShape {
+        /// Allows filtering on the CreatedBySource of an offer with list input.
+        public let valueList: [OfferCreatedBySourceString]?
+
+        @inlinable
+        public init(valueList: [OfferCreatedBySourceString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 2)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
     public struct OfferEntityIdFilter: AWSEncodableShape {
         /// Allows filtering on entity id of an offer with list input.
         public let valueList: [String]?
@@ -2020,6 +2512,8 @@ extension MarketplaceCatalog {
         public let availabilityEndDate: OfferAvailabilityEndDateFilter?
         /// Allows filtering on the BuyerAccounts of an offer.
         public let buyerAccounts: OfferBuyerAccountsFilter?
+        /// Allows filtering on the CreatedBySource of an offer.
+        public let createdBySource: OfferCreatedBySourceFilter?
         /// Allows filtering on EntityId of an offer.
         public let entityId: OfferEntityIdFilter?
         /// Allows filtering on the LastModifiedDate of an offer.
@@ -2036,13 +2530,18 @@ extension MarketplaceCatalog {
         public let resaleAuthorizationId: OfferResaleAuthorizationIdFilter?
         /// Allows filtering on the State of an offer.
         public let state: OfferStateFilter?
+        /// Allows filtering on the TargetAgreementId of an offer.
+        public let targetAgreementId: OfferTargetAgreementIdFilter?
+        /// Allows filtering on the TargetAgreementIntent of an offer.
+        public let targetAgreementIntent: OfferTargetAgreementIntentFilter?
         /// Allows filtering on the Targeting of an offer.
         public let targeting: OfferTargetingFilter?
 
         @inlinable
-        public init(availabilityEndDate: OfferAvailabilityEndDateFilter? = nil, buyerAccounts: OfferBuyerAccountsFilter? = nil, entityId: OfferEntityIdFilter? = nil, lastModifiedDate: OfferLastModifiedDateFilter? = nil, name: OfferNameFilter? = nil, offerSetId: OfferSetIdFilter? = nil, productId: OfferProductIdFilter? = nil, releaseDate: OfferReleaseDateFilter? = nil, resaleAuthorizationId: OfferResaleAuthorizationIdFilter? = nil, state: OfferStateFilter? = nil, targeting: OfferTargetingFilter? = nil) {
+        public init(availabilityEndDate: OfferAvailabilityEndDateFilter? = nil, buyerAccounts: OfferBuyerAccountsFilter? = nil, createdBySource: OfferCreatedBySourceFilter? = nil, entityId: OfferEntityIdFilter? = nil, lastModifiedDate: OfferLastModifiedDateFilter? = nil, name: OfferNameFilter? = nil, offerSetId: OfferSetIdFilter? = nil, productId: OfferProductIdFilter? = nil, releaseDate: OfferReleaseDateFilter? = nil, resaleAuthorizationId: OfferResaleAuthorizationIdFilter? = nil, state: OfferStateFilter? = nil, targetAgreementId: OfferTargetAgreementIdFilter? = nil, targetAgreementIntent: OfferTargetAgreementIntentFilter? = nil, targeting: OfferTargetingFilter? = nil) {
             self.availabilityEndDate = availabilityEndDate
             self.buyerAccounts = buyerAccounts
+            self.createdBySource = createdBySource
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
             self.name = name
@@ -2051,12 +2550,15 @@ extension MarketplaceCatalog {
             self.releaseDate = releaseDate
             self.resaleAuthorizationId = resaleAuthorizationId
             self.state = state
+            self.targetAgreementId = targetAgreementId
+            self.targetAgreementIntent = targetAgreementIntent
             self.targeting = targeting
         }
 
         public func validate(name: String) throws {
             try self.availabilityEndDate?.validate(name: "\(name).availabilityEndDate")
             try self.buyerAccounts?.validate(name: "\(name).buyerAccounts")
+            try self.createdBySource?.validate(name: "\(name).createdBySource")
             try self.entityId?.validate(name: "\(name).entityId")
             try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
             try self.name?.validate(name: "\(name).name")
@@ -2065,12 +2567,15 @@ extension MarketplaceCatalog {
             try self.releaseDate?.validate(name: "\(name).releaseDate")
             try self.resaleAuthorizationId?.validate(name: "\(name).resaleAuthorizationId")
             try self.state?.validate(name: "\(name).state")
+            try self.targetAgreementId?.validate(name: "\(name).targetAgreementId")
+            try self.targetAgreementIntent?.validate(name: "\(name).targetAgreementIntent")
             try self.targeting?.validate(name: "\(name).targeting")
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityEndDate = "AvailabilityEndDate"
             case buyerAccounts = "BuyerAccounts"
+            case createdBySource = "CreatedBySource"
             case entityId = "EntityId"
             case lastModifiedDate = "LastModifiedDate"
             case name = "Name"
@@ -2079,6 +2584,8 @@ extension MarketplaceCatalog {
             case releaseDate = "ReleaseDate"
             case resaleAuthorizationId = "ResaleAuthorizationId"
             case state = "State"
+            case targetAgreementId = "TargetAgreementId"
+            case targetAgreementIntent = "TargetAgreementIntent"
             case targeting = "Targeting"
         }
     }
@@ -2619,6 +3126,8 @@ extension MarketplaceCatalog {
         public let availabilityEndDate: String?
         /// The buyer accounts in the offer.
         public let buyerAccounts: [String]?
+        /// The creation source of the offer.
+        public let createdBySource: OfferCreatedBySourceString?
         /// The name of the offer.
         public let name: String?
         /// The offer set ID of the offer.
@@ -2631,32 +3140,85 @@ extension MarketplaceCatalog {
         public let resaleAuthorizationId: String?
         /// The status of the offer.
         public let state: OfferStateString?
+        /// The target agreement ID of the offer.
+        public let targetAgreementId: String?
+        /// The target agreement intent of the offer.
+        public let targetAgreementIntent: OfferTargetAgreementIntentString?
         /// The targeting in the offer.
         public let targeting: [OfferTargetingString]?
 
         @inlinable
-        public init(availabilityEndDate: String? = nil, buyerAccounts: [String]? = nil, name: String? = nil, offerSetId: String? = nil, productId: String? = nil, releaseDate: String? = nil, resaleAuthorizationId: String? = nil, state: OfferStateString? = nil, targeting: [OfferTargetingString]? = nil) {
+        public init(availabilityEndDate: String? = nil, buyerAccounts: [String]? = nil, createdBySource: OfferCreatedBySourceString? = nil, name: String? = nil, offerSetId: String? = nil, productId: String? = nil, releaseDate: String? = nil, resaleAuthorizationId: String? = nil, state: OfferStateString? = nil, targetAgreementId: String? = nil, targetAgreementIntent: OfferTargetAgreementIntentString? = nil, targeting: [OfferTargetingString]? = nil) {
             self.availabilityEndDate = availabilityEndDate
             self.buyerAccounts = buyerAccounts
+            self.createdBySource = createdBySource
             self.name = name
             self.offerSetId = offerSetId
             self.productId = productId
             self.releaseDate = releaseDate
             self.resaleAuthorizationId = resaleAuthorizationId
             self.state = state
+            self.targetAgreementId = targetAgreementId
+            self.targetAgreementIntent = targetAgreementIntent
             self.targeting = targeting
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityEndDate = "AvailabilityEndDate"
             case buyerAccounts = "BuyerAccounts"
+            case createdBySource = "CreatedBySource"
             case name = "Name"
             case offerSetId = "OfferSetId"
             case productId = "ProductId"
             case releaseDate = "ReleaseDate"
             case resaleAuthorizationId = "ResaleAuthorizationId"
             case state = "State"
+            case targetAgreementId = "TargetAgreementId"
+            case targetAgreementIntent = "TargetAgreementIntent"
             case targeting = "Targeting"
+        }
+    }
+
+    public struct OfferTargetAgreementIdFilter: AWSEncodableShape {
+        /// Allows filtering on the TargetAgreementId of an offer with list input.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 64)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct OfferTargetAgreementIntentFilter: AWSEncodableShape {
+        /// Allows filtering on the TargetAgreementIntent of an offer with list input.
+        public let valueList: [OfferTargetAgreementIntentString]?
+
+        @inlinable
+        public init(valueList: [OfferTargetAgreementIntentString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 2)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
         }
     }
 
@@ -3708,6 +4270,57 @@ extension MarketplaceCatalog {
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
     }
+
+    public struct ValidationException: AWSErrorShape {
+        public let message: String?
+        /// A list of detailed entries describing the request fields that failed validation. Present when the failure can be attributed to one or more specific fields.
+        public let validationExceptionFieldList: [ValidationExceptionField]?
+
+        @inlinable
+        public init(message: String? = nil, validationExceptionFieldList: [ValidationExceptionField]? = nil) {
+            self.message = message
+            self.validationExceptionFieldList = validationExceptionFieldList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case validationExceptionFieldList = "ValidationExceptionFieldList"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The change type the failing field applies to, if the field is part of a change request. For example, AddDeliveryOptions.
+        public let changeType: String?
+        /// The entity identifier the failing field applies to, if the field is on a specific entity.
+        public let entityId: String?
+        /// The entity type the failing field applies to, if the field is on a specific entity. For example, AmiProduct@1.0.
+        public let entityType: String?
+        /// The name of the request field that failed validation, expressed as a JSON path (for example, Details.DeliveryOptions[0].Type).
+        public let field: String?
+        /// A human-readable message describing why the field failed validation.
+        public let message: String?
+        /// The reason the field failed validation.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(changeType: String? = nil, entityId: String? = nil, entityType: String? = nil, field: String? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+            self.changeType = changeType
+            self.entityId = entityId
+            self.entityType = entityType
+            self.field = field
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeType = "ChangeType"
+            case entityId = "EntityId"
+            case entityType = "EntityType"
+            case field = "Field"
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -3759,6 +4372,12 @@ public struct MarketplaceCatalogErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// An error occurred during validation. HTTP status code: 422
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension MarketplaceCatalogErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ValidationException": MarketplaceCatalog.ValidationException.self
+    ]
 }
 
 extension MarketplaceCatalogErrorType: Equatable {

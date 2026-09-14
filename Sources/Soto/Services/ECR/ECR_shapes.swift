@@ -3633,7 +3633,7 @@ extension ECR {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
-            try self.validate(self.rules, name: "rules", parent: name, max: 10)
+            try self.validate(self.rules, name: "rules", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {

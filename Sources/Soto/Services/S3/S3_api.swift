@@ -421,6 +421,9 @@ public struct S3: AWSService {
     ///   - key: The key of the destination object.
     ///   - metadata: A map of metadata to store with the object in S3.
     ///   - metadataDirective: Specifies whether the metadata is copied from the source object or replaced with metadata that's provided in the request. When copying an object, you can preserve all metadata (the default) or specify new metadata. If this header isn’t specified, COPY is the default behavior.   General purpose bucket - For general purpose buckets, when you grant permissions, you can use the s3:x-amz-metadata-directive condition key to enforce certain metadata behavior when objects are uploaded. For more information, see Amazon S3 condition key examples in the Amazon S3 User Guide.   x-amz-website-redirect-location is unique to each object and is not copied when using the x-amz-metadata-directive header. To copy the value, you must specify x-amz-website-redirect-location in the request header.
+    ///   - objectLockEventHold: The event hold status to apply to the object copy. Set to ON to enable or OFF to disable.  This functionality is not supported for directory buckets.
+    ///   - objectLockEventHoldDurationDays: The event hold duration in days to apply to the object copy. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
+    ///   - objectLockEventHoldDurationYears: The event hold duration in years to apply to the object copy. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
     ///   - objectLockLegalHoldStatus: Specifies whether you want to apply a legal hold to the object copy.  This functionality is not supported for directory buckets.
     ///   - objectLockMode: The Object Lock mode that you want to apply to the object copy.  This functionality is not supported for directory buckets.
     ///   - objectLockRetainUntilDate: The date and time when you want the Object Lock of the object copy to expire.  This functionality is not supported for directory buckets.
@@ -468,6 +471,9 @@ public struct S3: AWSService {
         key: String,
         metadata: [String: String]? = nil,
         metadataDirective: MetadataDirective? = nil,
+        objectLockEventHold: ObjectLockEventHold? = nil,
+        objectLockEventHoldDurationDays: Int? = nil,
+        objectLockEventHoldDurationYears: Int? = nil,
         objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil,
         objectLockMode: ObjectLockMode? = nil,
         objectLockRetainUntilDate: Date? = nil,
@@ -515,6 +521,9 @@ public struct S3: AWSService {
             key: key, 
             metadata: metadata, 
             metadataDirective: metadataDirective, 
+            objectLockEventHold: objectLockEventHold, 
+            objectLockEventHoldDurationDays: objectLockEventHoldDurationDays, 
+            objectLockEventHoldDurationYears: objectLockEventHoldDurationYears, 
             objectLockLegalHoldStatus: objectLockLegalHoldStatus, 
             objectLockMode: objectLockMode, 
             objectLockRetainUntilDate: objectLockRetainUntilDate, 
@@ -720,6 +729,9 @@ public struct S3: AWSService {
     ///   - grantWriteACP: Specify access permissions explicitly to allows grantee to allow grantee to write the ACL for the applicable object. By default, all objects are private. Only the owner has full access control. When uploading an object, you can use this header to explicitly grant access permissions to specific Amazon Web Services accounts or groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For more information, see Access Control List (ACL) Overview in the Amazon S3 User Guide. You specify each grantee as a type=value pair, where the type is one of the following:    id – if the value specified is the canonical user ID of an Amazon Web Services account    uri – if you are granting permissions to a predefined group    emailAddress – if the value specified is the email address of an Amazon Web Services account  Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US West (N. California)   US West (Oregon)   Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For example, the following x-amz-grant-read header grants the Amazon Web Services accounts identified by account IDs permissions to read object data and its metadata:  x-amz-grant-read: id="11112222333", id="444455556666"      This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
     ///   - key: Object key for which the multipart upload is to be initiated.
     ///   - metadata: A map of metadata to store with the object in S3.
+    ///   - objectLockEventHold: Specifies the event hold status to apply to the uploaded object. Set to ON to enable or OFF to disable.  This functionality is not supported for directory buckets.
+    ///   - objectLockEventHoldDurationDays: Specifies the event hold duration in days to apply to the uploaded object. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
+    ///   - objectLockEventHoldDurationYears: Specifies the event hold duration in years to apply to the uploaded object. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
     ///   - objectLockLegalHoldStatus: Specifies whether you want to apply a legal hold to the uploaded object.  This functionality is not supported for directory buckets.
     ///   - objectLockMode: Specifies the Object Lock mode that you want to apply to the uploaded object.  This functionality is not supported for directory buckets.
     ///   - objectLockRetainUntilDate: Specifies the date and time when you want the Object Lock to expire.  This functionality is not supported for directory buckets.
@@ -754,6 +766,9 @@ public struct S3: AWSService {
         grantWriteACP: String? = nil,
         key: String,
         metadata: [String: String]? = nil,
+        objectLockEventHold: ObjectLockEventHold? = nil,
+        objectLockEventHoldDurationDays: Int? = nil,
+        objectLockEventHoldDurationYears: Int? = nil,
         objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil,
         objectLockMode: ObjectLockMode? = nil,
         objectLockRetainUntilDate: Date? = nil,
@@ -788,6 +803,9 @@ public struct S3: AWSService {
             grantWriteACP: grantWriteACP, 
             key: key, 
             metadata: metadata, 
+            objectLockEventHold: objectLockEventHold, 
+            objectLockEventHoldDurationDays: objectLockEventHoldDurationDays, 
+            objectLockEventHoldDurationYears: objectLockEventHoldDurationYears, 
             objectLockLegalHoldStatus: objectLockLegalHoldStatus, 
             objectLockMode: objectLockMode, 
             objectLockRetainUntilDate: objectLockRetainUntilDate, 
@@ -4519,6 +4537,9 @@ public struct S3: AWSService {
     ///   - ifNoneMatch: Uploads the object only if the object key name does not already exist in the bucket specified. Otherwise, Amazon S3 returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should retry the upload. Expects the '*' (asterisk) character. For more information about conditional requests, see RFC 7232, or Conditional requests in the Amazon S3 User Guide.
     ///   - key: Object key for which the PUT action was initiated.
     ///   - metadata: A map of metadata to store with the object in S3.
+    ///   - objectLockEventHold: Specifies the event hold status to apply to this object. Set to ON to enable or OFF to disable.  This functionality is not supported for directory buckets.
+    ///   - objectLockEventHoldDurationDays: Specifies the event hold duration in days to apply to this object. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
+    ///   - objectLockEventHoldDurationYears: Specifies the event hold duration in years to apply to this object. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
     ///   - objectLockLegalHoldStatus: Specifies whether a legal hold will be applied to this object. For more information about S3 Object Lock, see Object Lock in the Amazon S3 User Guide.  This functionality is not supported for directory buckets.
     ///   - objectLockMode: The Object Lock mode that you want to apply to this object.  This functionality is not supported for directory buckets.
     ///   - objectLockRetainUntilDate: The date and time when you want this object's Object Lock to expire. Must be formatted as a timestamp parameter.  This functionality is not supported for directory buckets.
@@ -4568,6 +4589,9 @@ public struct S3: AWSService {
         ifNoneMatch: String? = nil,
         key: String,
         metadata: [String: String]? = nil,
+        objectLockEventHold: ObjectLockEventHold? = nil,
+        objectLockEventHoldDurationDays: Int? = nil,
+        objectLockEventHoldDurationYears: Int? = nil,
         objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil,
         objectLockMode: ObjectLockMode? = nil,
         objectLockRetainUntilDate: Date? = nil,
@@ -4617,6 +4641,9 @@ public struct S3: AWSService {
             ifNoneMatch: ifNoneMatch, 
             key: key, 
             metadata: metadata, 
+            objectLockEventHold: objectLockEventHold, 
+            objectLockEventHoldDurationDays: objectLockEventHoldDurationDays, 
+            objectLockEventHoldDurationYears: objectLockEventHoldDurationYears, 
             objectLockLegalHoldStatus: objectLockLegalHoldStatus, 
             objectLockMode: objectLockMode, 
             objectLockRetainUntilDate: objectLockRetainUntilDate, 

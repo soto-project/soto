@@ -1133,7 +1133,7 @@ extension WAFV2 {
         public let fieldToMatch: FieldToMatch
         /// The area within the portion of the web request that you want WAF to search for SearchString. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of SearchString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of SearchString, and SearchString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, SearchString must be a word, which means that both of the following are true:    SearchString is at the beginning of the specified part of the web request or is preceded by a character other than an alphanumeric character or underscore (_). Examples include the value of a header and ;BadBot.    SearchString is at the end of the specified part of the web request or is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot; and -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of SearchString.  STARTS_WITH  The value of SearchString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of SearchString must appear at the end of the specified part of the web request.
         public let positionalConstraint: PositionalConstraint
-        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 10 pre-parse text transformations per rule statement.
         public let preParseTextTransformations: [PreParseTextTransformation]?
         /// A string value that you want WAF to search for. WAF searches only in the part of web requests that you designate for inspection in FieldToMatch. The maximum length of the value is 200 bytes. Valid values depend on the component that you specify for inspection in FieldToMatch:    Method: The HTTP method that you want WAF to search for. This indicates the type of operation specified in the request.     UriPath: The value that you want WAF to search for in the URI path, for example, /images/daily-ad.jpg.     JA3Fingerprint: Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to  EXACTLY.  You can obtain the JA3 fingerprint for client requests from the web ACL logs.
         /// 						If WAF is able to calculate the fingerprint, it includes it in the logs.
@@ -2701,7 +2701,7 @@ extension WAFV2 {
     }
 
     public struct FieldToProtect: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the keys to protect for the specified field type. If you don't specify any key, then all keys for the field type are protected.
+        /// Specifies the keys to protect for the specified field type. Required for SINGLE_HEADER, SINGLE_COOKIE, and SINGLE_QUERY_ARGUMENT: provide a non-empty array naming the specific headers, cookies, or query arguments to protect. There is no option to protect all keys of these field types, so enumerate each key you intend to protect. Must be omitted for QUERY_STRING and BODY: the entire component is protected and these field types take no keys. Supplying FieldKeys for them is rejected.
         public let fieldKeys: [String]?
         /// Specifies the web request component type to protect.
         public let fieldType: FieldToProtectType
@@ -6109,7 +6109,7 @@ extension WAFV2 {
     public struct RegexMatchStatement: AWSEncodableShape & AWSDecodableShape {
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
-        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 10 pre-parse text transformations per rule statement.
         public let preParseTextTransformations: [PreParseTextTransformation]?
         /// The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see WAF quotas in the WAF Developer Guide.
         public let regexString: String
@@ -6181,7 +6181,7 @@ extension WAFV2 {
         public let arn: String
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
-        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 10 pre-parse text transformations per rule statement.
         public let preParseTextTransformations: [PreParseTextTransformation]?
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
@@ -7047,7 +7047,7 @@ extension WAFV2 {
         public let comparisonOperator: ComparisonOperator
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
-        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 10 pre-parse text transformations per rule statement.
         public let preParseTextTransformations: [PreParseTextTransformation]?
         /// The size, in byte, to compare to the request part, after any transformations.
         public let size: Int64
@@ -7134,7 +7134,7 @@ extension WAFV2 {
     public struct SqliMatchStatement: AWSEncodableShape & AWSDecodableShape {
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
-        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 10 pre-parse text transformations per rule statement.
         public let preParseTextTransformations: [PreParseTextTransformation]?
         /// The sensitivity that you want WAF to use to inspect for SQL injection attacks.   HIGH detects more attacks, but might generate more false positives,  especially if your web requests frequently contain unusual strings.  For information about identifying and mitigating false positives, see  Testing and tuning in the                                                                              WAF Developer Guide.  LOW is generally a better choice for resources that already have other  protections against SQL injection attacks or that have a low tolerance for false positives.  Default: LOW
         public let sensitivityLevel: SensitivityLevel?
@@ -8118,7 +8118,7 @@ extension WAFV2 {
     public struct XssMatchStatement: AWSEncodableShape & AWSDecodableShape {
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
-        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 10 pre-parse text transformations per rule statement.
         public let preParseTextTransformations: [PreParseTextTransformation]?
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]

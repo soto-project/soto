@@ -462,36 +462,44 @@ extension PCS {
     }
 
     public struct ComputeNodeGroupSlurmConfiguration: AWSDecodableShape {
+        /// The additional Slurm gres.conf records for the compute node group. Each item is a map of gres.conf attribute names to values that describes one gres.conf record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the NodeName= prefix and merges these records with the GPU record it derives from the instance type.
+        public let gresCustomSettings: [[String: String]]?
         /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
         @inlinable
-        public init(scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(gresCustomSettings: [[String: String]]? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.gresCustomSettings = gresCustomSettings
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case gresCustomSettings = "gresCustomSettings"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
         }
     }
 
     public struct ComputeNodeGroupSlurmConfigurationRequest: AWSEncodableShape {
+        /// The additional Slurm gres.conf records for the compute node group. Each item is a map of gres.conf attribute names to values that describes one gres.conf record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the NodeName= prefix and merges these records with the GPU record it derives from the instance type.
+        public let gresCustomSettings: [[String: String]]?
         /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
         @inlinable
-        public init(scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(gresCustomSettings: [[String: String]]? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.gresCustomSettings = gresCustomSettings
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case gresCustomSettings = "gresCustomSettings"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
         }
@@ -1665,7 +1673,7 @@ extension PCS {
     public struct Scheduler: AWSDecodableShape {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         public let type: SchedulerType
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. You can update this version using the UpdateCluster API action. For more information, see Updating the scheduler version on a cluster and Slurm versions in PCS in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05 | 25.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. You can update this version using the UpdateCluster API action. For more information, see Updating the scheduler version on a cluster and Slurm versions in PCS in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11 | 25.05 | 25.11 | 26.05
         public let version: String
 
         @inlinable
@@ -1683,7 +1691,7 @@ extension PCS {
     public struct SchedulerRequest: AWSEncodableShape {
         /// The software PCS uses to manage cluster scaling and job scheduling.
         public let type: SchedulerType
-        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in PCS in the PCS User Guide. Valid Values: 24.11 | 25.05 | 25.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in PCS in the PCS User Guide. Valid Values: 24.11 | 25.05 | 25.11 | 26.05
         public let version: String
 
         @inlinable
@@ -2120,18 +2128,22 @@ extension PCS {
     }
 
     public struct UpdateComputeNodeGroupSlurmConfigurationRequest: AWSEncodableShape {
+        /// The additional Slurm gres.conf records for the compute node group. Each item is a map of gres.conf attribute names to values that describes one gres.conf record, such as a GPU topology, MIG, MPS, or custom GRES entry. PCS adds the NodeName= prefix and merges these records with the GPU record it derives from the instance type.
+        public let gresCustomSettings: [[String: String]]?
         /// The time (in seconds) before an idle node is scaled down. If not specified, the cluster-level setting applies. This overrides the cluster-level scaleDownIdleTimeInSeconds setting. A value of -1 removes the override and applies the cluster-level setting to this compute node group. Requires Slurm version 25.11 or later.
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
 
         @inlinable
-        public init(scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(gresCustomSettings: [[String: String]]? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+            self.gresCustomSettings = gresCustomSettings
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case gresCustomSettings = "gresCustomSettings"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
         }
@@ -2224,7 +2236,7 @@ extension PCS {
     }
 
     public struct UpdateSchedulerRequest: AWSEncodableShape {
-        /// The scheduler version to update the cluster to. You can only update to a newer version. For more information about supported versions and update paths, see Updating the scheduler version on a cluster in the PCS User Guide. Valid Values: 24.05 | 24.11 | 25.05 | 25.11
+        /// The scheduler version to update the cluster to. You can only update to a newer version. For more information about supported versions and update paths, see Updating the scheduler version on a cluster in the PCS User Guide. Valid Values: 24.05 | 24.11 | 25.05 | 25.11 | 26.05
         public let version: String
 
         @inlinable

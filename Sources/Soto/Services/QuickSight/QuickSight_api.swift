@@ -180,6 +180,41 @@ public struct QuickSight: AWSService {
         return try await self.batchDeleteTopicReviewedAnswer(input, logger: logger)
     }
 
+    /// Describes the effective resource limits for one or more Amazon Quick Sight users, including the limits that apply to each user based on their profile assignments.
+    @Sendable
+    @inlinable
+    public func batchDescribeUserLimits(_ input: BatchDescribeUserLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDescribeUserLimitsResponse {
+        try await self.client.execute(
+            operation: "BatchDescribeUserLimits", 
+            path: "/governance/limits/accounts/{accountId}/user-limits", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the effective resource limits for one or more Amazon Quick Sight users, including the limits that apply to each user based on their profile assignments.
+    ///
+    /// Parameters:
+    ///   - accountId: The ID of the Amazon Web Services account that contains the users.
+    ///   - resourceTypes: An optional filter that limits the results to specific resource types. If you don't specify a value, the operation returns limits for all resource types.
+    ///   - users: A list of users to describe limits for. Each entry contains a user name and namespace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDescribeUserLimits(
+        accountId: String,
+        resourceTypes: [ResourceType]? = nil,
+        users: [UserLimitsEntry]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDescribeUserLimitsResponse {
+        let input = BatchDescribeUserLimitsRequest(
+            accountId: accountId, 
+            resourceTypes: resourceTypes, 
+            users: users
+        )
+        return try await self.batchDescribeUserLimits(input, logger: logger)
+    }
+
     /// Cancels an ongoing ingestion of data into SPICE.
     @Sendable
     @inlinable
@@ -475,7 +510,7 @@ public struct QuickSight: AWSService {
     ///   - name: A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon Quick Sight console.
     ///   - parameters: The parameter names and override values that you want to use. An analysis can have  any parameter type, and some parameters might accept multiple values.
     ///   - permissions: A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN).  To specify no permissions, omit Permissions.
-    ///   - sourceEntity: A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets. Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
+    ///   - sourceEntity: A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets or topics. Either a SourceEntity or a Definition must be provided in  order for the request to be valid.
     ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
     ///   - themeArn: The ARN for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
     ///   - validationStrategy: The option to relax the validation needed to create an analysis with definition objects. This skips the validation step for specific errors.
@@ -509,6 +544,53 @@ public struct QuickSight: AWSService {
             validationStrategy: validationStrategy
         )
         return try await self.createAnalysis(input, logger: logger)
+    }
+
+    /// Creates an approval policy in Quick Sight.
+    @Sendable
+    @inlinable
+    public func createApprovalPolicy(_ input: CreateApprovalPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApprovalPolicyResponse {
+        try await self.client.execute(
+            operation: "CreateApprovalPolicy", 
+            path: "/governance/approvalworkflows/policies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an approval policy in Quick Sight.
+    ///
+    /// Parameters:
+    ///   - actions: The list of governed actions that trigger the approval workflow.
+    ///   - applicableTo: The scoping configuration that determines who the approval policy applies to.
+    ///   - approvalGroups: The list of group ARNs whose members can approve requests.
+    ///   - assetTypes: The list of asset types that the approval policy applies to.
+    ///   - description: A description of the approval policy.
+    ///   - name: The name of the approval policy.
+    ///   - policyId: The unique identifier to assign to the approval policy. You cannot change this value after you create the policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createApprovalPolicy(
+        actions: [GovernedAction],
+        applicableTo: ApplicableTo,
+        approvalGroups: [String],
+        assetTypes: [AssetType],
+        description: String? = nil,
+        name: String,
+        policyId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateApprovalPolicyResponse {
+        let input = CreateApprovalPolicyRequest(
+            actions: actions, 
+            applicableTo: applicableTo, 
+            approvalGroups: approvalGroups, 
+            assetTypes: assetTypes, 
+            description: description, 
+            name: name, 
+            policyId: policyId
+        )
+        return try await self.createApprovalPolicy(input, logger: logger)
     }
 
     /// Creates an Quick Sight brand.
@@ -616,7 +698,7 @@ public struct QuickSight: AWSService {
     ///   - name: The display name of the dashboard.
     ///   - parameters: The parameters for the creation of the dashboard, which you want to use to override the default settings. A dashboard can have any type of parameters, and some parameters might accept multiple values.
     ///   - permissions: A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN.  To specify no permissions, omit the permissions list.
-    ///   - sourceEntity: The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.  Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    ///   - sourceEntity: The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
     ///   - themeArn: The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that is used in the source entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
     ///   - validationStrategy: The option to relax the validation needed to create a dashboard with definition objects. This option skips the validation step for specific errors.
@@ -661,8 +743,7 @@ public struct QuickSight: AWSService {
         return try await self.createDashboard(input, logger: logger)
     }
 
-    /// Creates a dataset. This operation doesn't support datasets that include uploaded files
-    /// 			as a source.
+    /// Creates a dataset.
     @Sendable
     @inlinable
     public func createDataSet(_ input: CreateDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSetResponse {
@@ -675,8 +756,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Creates a dataset. This operation doesn't support datasets that include uploaded files
-    /// 			as a source.
+    /// Creates a dataset.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
@@ -797,6 +877,56 @@ public struct QuickSight: AWSService {
             vpcConnectionProperties: vpcConnectionProperties
         )
         return try await self.createDataSource(input, logger: logger)
+    }
+
+    /// Creates a data loss prevention (DLP) setting configuration for an Amazon Web Services account. A DLP setting defines the DLP provider, the enforcement behavior, and the Quick capabilities that the setting applies to.
+    @Sendable
+    @inlinable
+    public func createDlpSetting(_ input: CreateDlpSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDlpSettingResponse {
+        try await self.client.execute(
+            operation: "CreateDlpSetting", 
+            path: "/accounts/{AwsAccountId}/data-loss-prevention/settings/{DlpSettingId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a data loss prevention (DLP) setting configuration for an Amazon Web Services account. A DLP setting defines the DLP provider, the enforcement behavior, and the Quick capabilities that the setting applies to.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account in which to create the DLP setting.
+    ///   - dlpSettingId: A unique identifier for the DLP setting.
+    ///   - enabled: Specifies whether DLP enforcement is active for this setting. Set to true to enable enforcement, or false to disable it at time of setting creation.
+    ///   - name: A human-readable display name for the DLP setting.
+    ///   - providerConfig: The provider-specific configuration for the DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    ///   - providerOutageAction: The behavior to apply when the DLP provider is unreachable. Valid values are ALLOW, WARN, and BLOCK.
+    ///   - providerType: The type of external DLP provider to use for sensitivity label classification. Currently, the only supported value is MICROSOFT_PURVIEW.
+    ///   - tags: A list of resource tags to apply to the DLP setting. You can use tags to manage access to your Amazon Web Services resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDlpSetting(
+        awsAccountId: String,
+        dlpSettingId: String,
+        enabled: Bool = false,
+        name: String,
+        providerConfig: ProviderConfig,
+        providerOutageAction: DlpAction,
+        providerType: DlpProviderType,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDlpSettingResponse {
+        let input = CreateDlpSettingRequest(
+            awsAccountId: awsAccountId, 
+            dlpSettingId: dlpSettingId, 
+            enabled: enabled, 
+            name: name, 
+            providerConfig: providerConfig, 
+            providerOutageAction: providerOutageAction, 
+            providerType: providerType, 
+            tags: tags
+        )
+        return try await self.createDlpSetting(input, logger: logger)
     }
 
     /// Creates a new flow in the specified Amazon Web Services account. Creates both a DRAFT and PUBLISHED (auto-published) version. This operation is idempotent. Supply a ClientToken to safely retry without creating duplicate resources.
@@ -1134,7 +1264,7 @@ public struct QuickSight: AWSService {
     ///   - mediaExtractionConfiguration: 
     ///   - name: The name of the knowledge base.
     ///   - permissions: A list of resource permissions on the knowledge base. Each entry grants a specified Amazon QuickSight principal either owner or viewer access. If you don't specify permissions, only the primary owner (if provided) receives owner access.
-    ///   - primaryOwnerArn: The Amazon Resource Name (ARN) of the primary owner for the knowledge base. The specified user is always granted owner access, regardless of what is specified in the Permissions field. If you don't specify a primary owner, the knowledge base is created without one.
+    ///   - primaryOwnerArn: The Amazon Resource Name (ARN) of the Amazon QuickSight user or group to set as the primary owner of the knowledge base. The specified principal is always granted owner access, regardless of what is specified in the Permissions field. This must be an Amazon QuickSight principal ARN, not an IAM user or role ARN. The API caller is never assigned as the owner automatically. If you don't specify a primary owner and don't grant owner access in Permissions, the knowledge base is created without an owner, even when you call the operation as an Amazon QuickSight user. When you call CreateKnowledgeBase as an IAM user or an assumed IAM role, specify PrimaryOwnerArn (as an Amazon QuickSight principal ARN) or an owner entry in Permissions so that the knowledge base has an owner. Although optional, specifying a primary owner is recommended.
     ///   - tags: The tags to assign to the knowledge base. If you don't specify tags, the knowledge base is created without tags.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1166,6 +1296,47 @@ public struct QuickSight: AWSService {
             tags: tags
         )
         return try await self.createKnowledgeBase(input, logger: logger)
+    }
+
+    /// Creates a limits profile that defines resource usage limits for Amazon Quick Sight users.
+    @Sendable
+    @inlinable
+    public func createLimitsProfile(_ input: CreateLimitsProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLimitsProfileResponse {
+        try await self.client.execute(
+            operation: "CreateLimitsProfile", 
+            path: "/governance/limits/accounts/{accountId}/profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a limits profile that defines resource usage limits for Amazon Quick Sight users.
+    ///
+    /// Parameters:
+    ///   - accountId: The ID of the Amazon Web Services account that contains the limits profile.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    ///   - description: A description for the limits profile.
+    ///   - profileName: A display name for the limits profile.
+    ///   - resourceLimits: A map of resource types to their limit values for this profile.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createLimitsProfile(
+        accountId: String,
+        clientToken: String,
+        description: String? = nil,
+        profileName: String,
+        resourceLimits: [ResourceType: ProfileLimitValue],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateLimitsProfileResponse {
+        let input = CreateLimitsProfileRequest(
+            accountId: accountId, 
+            clientToken: clientToken, 
+            description: description, 
+            profileName: profileName, 
+            resourceLimits: resourceLimits
+        )
+        return try await self.createLimitsProfile(input, logger: logger)
     }
 
     /// (Enterprise edition only) Creates a new namespace for you to use with Amazon Quick Sight. A namespace allows you to isolate the Quick Sight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Quick Sight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
@@ -1659,6 +1830,50 @@ public struct QuickSight: AWSService {
         return try await self.createTopicRefreshSchedule(input, logger: logger)
     }
 
+    /// Creates a new Q topic.
+    @Sendable
+    @inlinable
+    public func createTopicV2(_ input: CreateTopicV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTopicV2Response {
+        try await self.client.execute(
+            operation: "CreateTopicV2", 
+            path: "/accounts/{AwsAccountId}/topicsV2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new Q topic.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that you want to create a topic in.
+    ///   - customInstructions: 
+    ///   - folderArns: The Amazon Resource Names (ARNs) of the folders that you want the topic to reside in.
+    ///   - tags: Contains a map of the key-value pairs for the resource tag or tags that are assigned to the topic.
+    ///   - topic: The definition of a topic to create.
+    ///   - topicId: The ID for the topic that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTopicV2(
+        awsAccountId: String,
+        customInstructions: CustomInstructions? = nil,
+        folderArns: [String]? = nil,
+        tags: [Tag]? = nil,
+        topic: TopicV2Details,
+        topicId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTopicV2Response {
+        let input = CreateTopicV2Request(
+            awsAccountId: awsAccountId, 
+            customInstructions: customInstructions, 
+            folderArns: folderArns, 
+            tags: tags, 
+            topic: topic, 
+            topicId: topicId
+        )
+        return try await self.createTopicV2(input, logger: logger)
+    }
+
     /// Creates a new VPC connection.
     @Sendable
     @inlinable
@@ -1899,6 +2114,67 @@ public struct QuickSight: AWSService {
             recoveryWindowInDays: recoveryWindowInDays
         )
         return try await self.deleteAnalysis(input, logger: logger)
+    }
+
+    /// Deletes an app.
+    @Sendable
+    @inlinable
+    public func deleteApp(_ input: DeleteAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAppResponse {
+        try await self.client.execute(
+            operation: "DeleteApp", 
+            path: "/accounts/{AwsAccountId}/apps/{AppId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an app.
+    ///
+    /// Parameters:
+    ///   - appId: The ID of the app that you want to delete.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the app.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteApp(
+        appId: String,
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAppResponse {
+        let input = DeleteAppRequest(
+            appId: appId, 
+            awsAccountId: awsAccountId
+        )
+        return try await self.deleteApp(input, logger: logger)
+    }
+
+    /// Deletes an approval policy in Quick Sight.
+    @Sendable
+    @inlinable
+    public func deleteApprovalPolicy(_ input: DeleteApprovalPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApprovalPolicyResponse {
+        try await self.client.execute(
+            operation: "DeleteApprovalPolicy", 
+            path: "/governance/approvalworkflows/policies/{PolicyId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an approval policy in Quick Sight.
+    ///
+    /// Parameters:
+    ///   - policyId: The unique identifier of the approval policy to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteApprovalPolicy(
+        policyId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteApprovalPolicyResponse {
+        let input = DeleteApprovalPolicyRequest(
+            policyId: policyId
+        )
+        return try await self.deleteApprovalPolicy(input, logger: logger)
     }
 
     ///  This API permanently deletes the specified Quick Sight brand. When you delete a brand:   The brand and all its associated branding elements are permanently removed   Any applications or dashboards using this brand will revert to default styling   This action cannot be undone through the API    Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand.  Deletes an Quick Sight brand.
@@ -2157,6 +2433,38 @@ public struct QuickSight: AWSService {
             namespace: namespace
         )
         return try await self.deleteDefaultQBusinessApplication(input, logger: logger)
+    }
+
+    /// Deletes a DLP setting configuration from an Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func deleteDlpSetting(_ input: DeleteDlpSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDlpSettingResponse {
+        try await self.client.execute(
+            operation: "DeleteDlpSetting", 
+            path: "/accounts/{AwsAccountId}/data-loss-prevention/settings/{DlpSettingId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a DLP setting configuration from an Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the DLP setting that you want to delete.
+    ///   - dlpSettingId: The ID of the DLP setting that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDlpSetting(
+        awsAccountId: String,
+        dlpSettingId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDlpSettingResponse {
+        let input = DeleteDlpSettingRequest(
+            awsAccountId: awsAccountId, 
+            dlpSettingId: dlpSettingId
+        )
+        return try await self.deleteDlpSetting(input, logger: logger)
     }
 
     /// Permanently deletes a flow from the specified Amazon Web Services account. This operation cannot be undone.
@@ -2431,6 +2739,38 @@ public struct QuickSight: AWSService {
             knowledgeBaseId: knowledgeBaseId
         )
         return try await self.deleteKnowledgeBase(input, logger: logger)
+    }
+
+    /// Deletes a limits profile.
+    @Sendable
+    @inlinable
+    public func deleteLimitsProfile(_ input: DeleteLimitsProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLimitsProfileResponse {
+        try await self.client.execute(
+            operation: "DeleteLimitsProfile", 
+            path: "/governance/limits/accounts/{accountId}/profiles/{profileId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a limits profile.
+    ///
+    /// Parameters:
+    ///   - accountId: The ID of the Amazon Web Services account that contains the limits profile.
+    ///   - profileId: The unique identifier for the limits profile to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteLimitsProfile(
+        accountId: String,
+        profileId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteLimitsProfileResponse {
+        let input = DeleteLimitsProfileRequest(
+            accountId: accountId, 
+            profileId: profileId
+        )
+        return try await self.deleteLimitsProfile(input, logger: logger)
     }
 
     /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not  deleted. To delete these assets, you use the API operations for the relevant asset.
@@ -2848,6 +3188,38 @@ public struct QuickSight: AWSService {
             topicId: topicId
         )
         return try await self.deleteTopicRefreshSchedule(input, logger: logger)
+    }
+
+    /// Deletes a Q topic.
+    @Sendable
+    @inlinable
+    public func deleteTopicV2(_ input: DeleteTopicV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTopicV2Response {
+        try await self.client.execute(
+            operation: "DeleteTopicV2", 
+            path: "/accounts/{AwsAccountId}/topicsV2/{TopicId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a Q topic.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to delete.
+    ///   - topicId: The ID of the topic that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTopicV2(
+        awsAccountId: String,
+        topicId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTopicV2Response {
+        let input = DeleteTopicV2Request(
+            awsAccountId: awsAccountId, 
+            topicId: topicId
+        )
+        return try await self.deleteTopicV2(input, logger: logger)
     }
 
     /// Deletes the Amazon Quick Sight user that is associated with the identity of the
@@ -3337,6 +3709,99 @@ public struct QuickSight: AWSService {
         return try await self.describeAnalysisPermissions(input, logger: logger)
     }
 
+    /// Describes an app.
+    @Sendable
+    @inlinable
+    public func describeApp(_ input: DescribeAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppResponse {
+        try await self.client.execute(
+            operation: "DescribeApp", 
+            path: "/accounts/{AwsAccountId}/apps/{AppId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes an app.
+    ///
+    /// Parameters:
+    ///   - appId: The ID of the app that you want to describe.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the app.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeApp(
+        appId: String,
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAppResponse {
+        let input = DescribeAppRequest(
+            appId: appId, 
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeApp(input, logger: logger)
+    }
+
+    /// Describes the resource permissions for an app.
+    @Sendable
+    @inlinable
+    public func describeAppPermissions(_ input: DescribeAppPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAppPermissionsResponse {
+        try await self.client.execute(
+            operation: "DescribeAppPermissions", 
+            path: "/accounts/{AwsAccountId}/apps/{AppId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the resource permissions for an app.
+    ///
+    /// Parameters:
+    ///   - appId: The ID of the app.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the app.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAppPermissions(
+        appId: String,
+        awsAccountId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAppPermissionsResponse {
+        let input = DescribeAppPermissionsRequest(
+            appId: appId, 
+            awsAccountId: awsAccountId
+        )
+        return try await self.describeAppPermissions(input, logger: logger)
+    }
+
+    /// Describes an approval policy in Quick Sight.
+    @Sendable
+    @inlinable
+    public func describeApprovalPolicy(_ input: DescribeApprovalPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApprovalPolicyResponse {
+        try await self.client.execute(
+            operation: "DescribeApprovalPolicy", 
+            path: "/governance/approvalworkflows/policies/{PolicyId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes an approval policy in Quick Sight.
+    ///
+    /// Parameters:
+    ///   - policyId: The unique identifier of the approval policy to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeApprovalPolicy(
+        policyId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeApprovalPolicyResponse {
+        let input = DescribeApprovalPolicyRequest(
+            policyId: policyId
+        )
+        return try await self.describeApprovalPolicy(input, logger: logger)
+    }
+
     /// Describes an existing export job. Poll job descriptions after a job starts to know the status of the job. When a job succeeds, a URL is provided to download the exported assets' data from. Download URLs are valid for five minutes after they are generated. You can call the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are available for 14 days after the job starts.
     @Sendable
     @inlinable
@@ -3780,8 +4245,7 @@ public struct QuickSight: AWSService {
         return try await self.describeDashboardsQAConfiguration(input, logger: logger)
     }
 
-    /// Describes a dataset. This operation doesn't support datasets that include uploaded
-    /// 			files as a source.
+    /// Describes a dataset.
     @Sendable
     @inlinable
     public func describeDataSet(_ input: DescribeDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSetResponse {
@@ -3794,8 +4258,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Describes a dataset. This operation doesn't support datasets that include uploaded
-    /// 			files as a source.
+    /// Describes a dataset.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
@@ -3974,6 +4437,38 @@ public struct QuickSight: AWSService {
             namespace: namespace
         )
         return try await self.describeDefaultQBusinessApplication(input, logger: logger)
+    }
+
+    /// Describes the full configuration of a DLP setting in an Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func describeDlpSetting(_ input: DescribeDlpSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDlpSettingResponse {
+        try await self.client.execute(
+            operation: "DescribeDlpSetting", 
+            path: "/accounts/{AwsAccountId}/data-loss-prevention/settings/{DlpSettingId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the full configuration of a DLP setting in an Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the DLP setting that you want to describe.
+    ///   - dlpSettingId: The ID of the DLP setting that you want to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDlpSetting(
+        awsAccountId: String,
+        dlpSettingId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDlpSettingResponse {
+        let input = DescribeDlpSettingRequest(
+            awsAccountId: awsAccountId, 
+            dlpSettingId: dlpSettingId
+        )
+        return try await self.describeDlpSetting(input, logger: logger)
     }
 
     /// Returns the full details of a flow for the latest version of the requested publish state.
@@ -4397,6 +4892,38 @@ public struct QuickSight: AWSService {
             knowledgeBaseId: knowledgeBaseId
         )
         return try await self.describeKnowledgeBasePermissions(input, logger: logger)
+    }
+
+    /// Describes the properties of an existing limits profile.
+    @Sendable
+    @inlinable
+    public func describeLimitsProfile(_ input: DescribeLimitsProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLimitsProfileResponse {
+        try await self.client.execute(
+            operation: "DescribeLimitsProfile", 
+            path: "/governance/limits/accounts/{accountId}/profiles/{profileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the properties of an existing limits profile.
+    ///
+    /// Parameters:
+    ///   - accountId: The ID of the Amazon Web Services account that contains the limits profile.
+    ///   - profileId: The unique identifier for the limits profile.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeLimitsProfile(
+        accountId: String,
+        profileId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeLimitsProfileResponse {
+        let input = DescribeLimitsProfileRequest(
+            accountId: accountId, 
+            profileId: profileId
+        )
+        return try await self.describeLimitsProfile(input, logger: logger)
     }
 
     /// Describes the current namespace.
@@ -5008,6 +5535,38 @@ public struct QuickSight: AWSService {
         return try await self.describeTopicPermissions(input, logger: logger)
     }
 
+    /// Describes the permissions of a topic.
+    @Sendable
+    @inlinable
+    public func describeTopicPermissionsV2(_ input: DescribeTopicPermissionsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicPermissionsV2Response {
+        try await self.client.execute(
+            operation: "DescribeTopicPermissionsV2", 
+            path: "/accounts/{AwsAccountId}/topicsV2/{TopicId}/permissions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the permissions of a topic.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want described.
+    ///   - topicId: The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTopicPermissionsV2(
+        awsAccountId: String,
+        topicId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTopicPermissionsV2Response {
+        let input = DescribeTopicPermissionsV2Request(
+            awsAccountId: awsAccountId, 
+            topicId: topicId
+        )
+        return try await self.describeTopicPermissionsV2(input, logger: logger)
+    }
+
     /// Describes the status of a topic refresh.
     @Sendable
     @inlinable
@@ -5076,6 +5635,38 @@ public struct QuickSight: AWSService {
             topicId: topicId
         )
         return try await self.describeTopicRefreshSchedule(input, logger: logger)
+    }
+
+    /// Describes a Q topic.
+    @Sendable
+    @inlinable
+    public func describeTopicV2(_ input: DescribeTopicV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicV2Response {
+        try await self.client.execute(
+            operation: "DescribeTopicV2", 
+            path: "/accounts/{AwsAccountId}/topicsV2/{TopicId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a Q topic.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to describe.
+    ///   - topicId: The ID of the topic that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTopicV2(
+        awsAccountId: String,
+        topicId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTopicV2Response {
+        let input = DescribeTopicV2Request(
+            awsAccountId: awsAccountId, 
+            topicId: topicId
+        )
+        return try await self.describeTopicV2(input, logger: logger)
     }
 
     /// Returns information about a user, given the user name.
@@ -5575,6 +6166,73 @@ public struct QuickSight: AWSService {
         return try await self.listAnalyses(input, logger: logger)
     }
 
+    /// Lists all approval policies in the specified Quick Sight account. The results are paginated. If the response includes a NextToken value, pass it in a subsequent call to retrieve the next set of results.
+    @Sendable
+    @inlinable
+    public func listApprovalPolicies(_ input: ListApprovalPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApprovalPoliciesResponse {
+        try await self.client.execute(
+            operation: "ListApprovalPolicies", 
+            path: "/governance/approvalworkflows/policies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all approval policies in the specified Quick Sight account. The results are paginated. If the response includes a NextToken value, pass it in a subsequent call to retrieve the next set of results.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. If you don't specify a value, the service returns a default number of results. Use the NextToken value in the response to retrieve additional results.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listApprovalPolicies(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListApprovalPoliciesResponse {
+        let input = ListApprovalPoliciesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listApprovalPolicies(input, logger: logger)
+    }
+
+    /// Lists the apps in an Amazon Web Services account. Results are paginated; use the NextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listApps(_ input: ListAppsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAppsResponse {
+        try await self.client.execute(
+            operation: "ListApps", 
+            path: "/accounts/{AwsAccountId}/apps", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the apps in an Amazon Web Services account. Results are paginated; use the NextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the apps.
+    ///   - maxResults: The maximum number of results to return in a single request. Valid range is 1 to 100. If you don't specify a value, the default is 20.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listApps(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAppsResponse {
+        let input = ListAppsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listApps(input, logger: logger)
+    }
+
     /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID.
     @Sendable
     @inlinable
@@ -5860,6 +6518,41 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.listDataSources(input, logger: logger)
+    }
+
+    /// Lists all DLP settings in an Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listDlpSettings(_ input: ListDlpSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDlpSettingsResponse {
+        try await self.client.execute(
+            operation: "ListDlpSettings", 
+            path: "/accounts/{AwsAccountId}/data-loss-prevention/settings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all DLP settings in an Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the DLP settings that you want to list.
+    ///   - maxResults: The maximum number of results to return per request.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDlpSettings(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDlpSettingsResponse {
+        let input = ListDlpSettingsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDlpSettings(input, logger: logger)
     }
 
     /// Lists flows in an Amazon Web Services account.
@@ -6291,6 +6984,44 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.listKnowledgeBases(input, logger: logger)
+    }
+
+    /// Lists all limits profiles in an Amazon Quick Sight account. Results are paginated. Use the maxResults parameter to limit the number of results returned in a single call, and use the nextToken parameter to retrieve the next page of results.
+    @Sendable
+    @inlinable
+    public func listLimitsProfiles(_ input: ListLimitsProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLimitsProfilesResponse {
+        try await self.client.execute(
+            operation: "ListLimitsProfiles", 
+            path: "/governance/limits/accounts/{accountId}/profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all limits profiles in an Amazon Quick Sight account. Results are paginated. Use the maxResults parameter to limit the number of results returned in a single call, and use the nextToken parameter to retrieve the next page of results.
+    ///
+    /// Parameters:
+    ///   - accountId: The ID of the Amazon Web Services account that contains the limits profiles.
+    ///   - maxResults: The maximum number of results to return in a single call. If you don't specify a value, the service uses the default maximum.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - resourceType: An optional filter that limits the results to profiles that contain the specified resource type. If you don't specify a value, the operation returns all profiles.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listLimitsProfiles(
+        accountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceType: ResourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListLimitsProfilesResponse {
+        let input = ListLimitsProfilesRequest(
+            accountId: accountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceType: resourceType
+        )
+        return try await self.listLimitsProfiles(input, logger: logger)
     }
 
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
@@ -6894,6 +7625,41 @@ public struct QuickSight: AWSService {
         return try await self.listTopics(input, logger: logger)
     }
 
+    /// Lists all of the Q topics in the specified Amazon Web Services account in an Amazon Web Services Region.
+    @Sendable
+    @inlinable
+    public func listTopicsV2(_ input: ListTopicsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTopicsV2Response {
+        try await self.client.execute(
+            operation: "ListTopicsV2", 
+            path: "/accounts/{AwsAccountId}/topicsV2", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all of the Q topics in the specified Amazon Web Services account in an Amazon Web Services Region.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topics that you want to list.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTopicsV2(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTopicsV2Response {
+        let input = ListTopicsV2Request(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listTopicsV2(input, logger: logger)
+    }
+
     /// Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a member of.
     @Sendable
     @inlinable
@@ -7347,6 +8113,44 @@ public struct QuickSight: AWSService {
         return try await self.searchAnalyses(input, logger: logger)
     }
 
+    /// Searches for apps in an Amazon Web Services account using the specified filters. This operation is eventually consistent; the results might not reflect very recent updates. Results are paginated; use the NextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func searchApps(_ input: SearchAppsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAppsResponse {
+        try await self.client.execute(
+            operation: "SearchApps", 
+            path: "/accounts/{AwsAccountId}/search/apps", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for apps in an Amazon Web Services account using the specified filters. This operation is eventually consistent; the results might not reflect very recent updates. Results are paginated; use the NextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the apps to search.
+    ///   - filters: The filters to apply to the search.
+    ///   - maxResults: The maximum number of results to return in a single request. Valid range is 1 to 100. If you don't specify a value, the default is 20.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchApps(
+        awsAccountId: String,
+        filters: [SearchAppsFilter],
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchAppsResponse {
+        let input = SearchAppsRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.searchApps(input, logger: logger)
+    }
+
     /// Searches for dashboards that belong to a user.   This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     @Sendable
     @inlinable
@@ -7697,6 +8501,44 @@ public struct QuickSight: AWSService {
             nextToken: nextToken
         )
         return try await self.searchTopics(input, logger: logger)
+    }
+
+    /// Searches for any Q topic that exists in an Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func searchTopicsV2(_ input: SearchTopicsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchTopicsV2Response {
+        try await self.client.execute(
+            operation: "SearchTopicsV2", 
+            path: "/accounts/{AwsAccountId}/search/topicsV2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for any Q topic that exists in an Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to search.
+    ///   - filters: The filters that you want to use to search for the topic.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - nextToken: The token for the next set of results, or null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchTopicsV2(
+        awsAccountId: String,
+        filters: [TopicSearchFilter],
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchTopicsV2Response {
+        let input = SearchTopicsV2Request(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.searchTopicsV2(input, logger: logger)
     }
 
     /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon Quick Sight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon Quick Sight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
@@ -8318,7 +9160,7 @@ public struct QuickSight: AWSService {
     ///   - definition: The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
     ///   - name: A descriptive name for the analysis that you're updating. This name displays for the analysis in the Amazon Quick Sight console.
     ///   - parameters: The parameter names and override values that you want to use. An analysis can have  any parameter type, and some parameters might accept multiple values.
-    ///   - sourceEntity: A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets.
+    ///   - sourceEntity: A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets or topics.
     ///   - themeArn: The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
     ///   - validationStrategy: The option to relax the validation needed to update an analysis with definition objects. This skips the validation step for specific errors.
     ///   - logger: Logger use during operation
@@ -8385,6 +9227,47 @@ public struct QuickSight: AWSService {
         return try await self.updateAnalysisPermissions(input, logger: logger)
     }
 
+    /// Updates the resource permissions for an app. You can grant or revoke permissions and, optionally, change the app's visibility.
+    @Sendable
+    @inlinable
+    public func updateAppPermissions(_ input: UpdateAppPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppPermissionsResponse {
+        try await self.client.execute(
+            operation: "UpdateAppPermissions", 
+            path: "/accounts/{AwsAccountId}/apps/{AppId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the resource permissions for an app. You can grant or revoke permissions and, optionally, change the app's visibility.
+    ///
+    /// Parameters:
+    ///   - appId: The ID of the app.
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the app.
+    ///   - grantPermissions: The permissions that you want to grant on the app.
+    ///   - revokePermissions: The permissions that you want to revoke from the app.
+    ///   - visibility: The visibility to set for the app. Currently, only PRIVATE is accepted, which removes public (anonymous) access from the app. If you don't specify a value, the app's visibility is unchanged. Setting an app to PUBLIC through this operation is not supported.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAppPermissions(
+        appId: String,
+        awsAccountId: String,
+        grantPermissions: [ResourcePermission]? = nil,
+        revokePermissions: [ResourcePermission]? = nil,
+        visibility: AppVisibility? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAppPermissionsResponse {
+        let input = UpdateAppPermissionsRequest(
+            appId: appId, 
+            awsAccountId: awsAccountId, 
+            grantPermissions: grantPermissions, 
+            revokePermissions: revokePermissions, 
+            visibility: visibility
+        )
+        return try await self.updateAppPermissions(input, logger: logger)
+    }
+
     /// Updates an Quick application with a token exchange grant. This operation only supports Quick applications that are registered with IAM Identity Center.
     @Sendable
     @inlinable
@@ -8415,6 +9298,53 @@ public struct QuickSight: AWSService {
             namespace: namespace
         )
         return try await self.updateApplicationWithTokenExchangeGrant(input, logger: logger)
+    }
+
+    /// Updates an approval policy in Quick Sight.
+    @Sendable
+    @inlinable
+    public func updateApprovalPolicy(_ input: UpdateApprovalPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApprovalPolicyResponse {
+        try await self.client.execute(
+            operation: "UpdateApprovalPolicy", 
+            path: "/governance/approvalworkflows/policies/{PolicyId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an approval policy in Quick Sight.
+    ///
+    /// Parameters:
+    ///   - actions: The list of governed actions that trigger the approval workflow.
+    ///   - applicableTo: The scoping configuration that determines who the approval policy applies to.
+    ///   - approvalGroups: The list of group ARNs whose members can approve requests.
+    ///   - assetTypes: The list of asset types that the approval policy applies to.
+    ///   - description: A description of the approval policy.
+    ///   - name: The name of the approval policy.
+    ///   - policyId: The unique identifier of the approval policy to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateApprovalPolicy(
+        actions: [GovernedAction]? = nil,
+        applicableTo: ApplicableTo? = nil,
+        approvalGroups: [String]? = nil,
+        assetTypes: [AssetType]? = nil,
+        description: String? = nil,
+        name: String? = nil,
+        policyId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateApprovalPolicyResponse {
+        let input = UpdateApprovalPolicyRequest(
+            actions: actions, 
+            applicableTo: applicableTo, 
+            approvalGroups: approvalGroups, 
+            assetTypes: assetTypes, 
+            description: description, 
+            name: name, 
+            policyId: policyId
+        )
+        return try await self.updateApprovalPolicy(input, logger: logger)
     }
 
     /// Updates a brand.
@@ -8579,7 +9509,7 @@ public struct QuickSight: AWSService {
     ///   - definition: The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
     ///   - name: The display name of the dashboard.
     ///   - parameters: A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
-    ///   - sourceEntity: The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+    ///   - sourceEntity: The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Use the TopicReferences entity to list the replacement topics for the topic placeholders listed in the original. The schema in each topic must match its placeholder.
     ///   - themeArn: The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
     ///   - validationStrategy: The option to relax the validation needed to update a dashboard with definition objects. This skips the validation step for specific errors.
     ///   - versionDescription: A description for the first version of the dashboard being created.
@@ -8759,8 +9689,7 @@ public struct QuickSight: AWSService {
         return try await self.updateDashboardsQAConfiguration(input, logger: logger)
     }
 
-    /// Updates a dataset. This operation doesn't support datasets that include uploaded files
-    /// 			as a source. Partial updates are not supported by this operation.
+    /// Updates a dataset. Partial updates are not supported by this operation.
     @Sendable
     @inlinable
     public func updateDataSet(_ input: UpdateDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataSetResponse {
@@ -8773,8 +9702,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Updates a dataset. This operation doesn't support datasets that include uploaded files
-    /// 			as a source. Partial updates are not supported by this operation.
+    /// Updates a dataset. Partial updates are not supported by this operation.
     ///
     /// Parameters:
     ///   - awsAccountId: The Amazon Web Services account ID.
@@ -8984,6 +9912,53 @@ public struct QuickSight: AWSService {
             namespace: namespace
         )
         return try await self.updateDefaultQBusinessApplication(input, logger: logger)
+    }
+
+    /// Updates an existing DLP setting configuration in an Amazon Web Services account. Fields that are omitted from the request retain their current values.
+    @Sendable
+    @inlinable
+    public func updateDlpSetting(_ input: UpdateDlpSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDlpSettingResponse {
+        try await self.client.execute(
+            operation: "UpdateDlpSetting", 
+            path: "/accounts/{AwsAccountId}/data-loss-prevention/settings/{DlpSettingId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing DLP setting configuration in an Amazon Web Services account. Fields that are omitted from the request retain their current values.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the DLP setting that you want to update.
+    ///   - dlpSettingId: The ID of the DLP setting that you want to update.
+    ///   - enabled: Specifies whether DLP enforcement is active for this setting. Set to true to enable enforcement, or false to disable it.
+    ///   - name: An updated display name for the DLP setting.
+    ///   - providerConfig: An updated provider-specific configuration for the DLP integration. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    ///   - providerOutageAction: An updated behavior to apply when the DLP provider is unreachable. Valid values are ALLOW, WARN, and BLOCK.
+    ///   - providerType: An updated DLP provider type. Currently, the only supported value is MICROSOFT_PURVIEW.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDlpSetting(
+        awsAccountId: String,
+        dlpSettingId: String,
+        enabled: Bool? = nil,
+        name: String? = nil,
+        providerConfig: ProviderConfig? = nil,
+        providerOutageAction: DlpAction? = nil,
+        providerType: DlpProviderType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDlpSettingResponse {
+        let input = UpdateDlpSettingRequest(
+            awsAccountId: awsAccountId, 
+            dlpSettingId: dlpSettingId, 
+            enabled: enabled, 
+            name: name, 
+            providerConfig: providerConfig, 
+            providerOutageAction: providerOutageAction, 
+            providerType: providerType
+        )
+        return try await self.updateDlpSetting(input, logger: logger)
     }
 
     /// Updates an existing flow. Supply only the fields you want to change. Updates both DRAFT and PUBLISHED versions. When FlowDefinition is provided, all existing steps are replaced with the new definition.
@@ -9421,6 +10396,47 @@ public struct QuickSight: AWSService {
             revokePermissions: revokePermissions
         )
         return try await self.updateKnowledgeBasePermissions(input, logger: logger)
+    }
+
+    /// Updates the properties of an existing limits profile.
+    @Sendable
+    @inlinable
+    public func updateLimitsProfile(_ input: UpdateLimitsProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLimitsProfileResponse {
+        try await self.client.execute(
+            operation: "UpdateLimitsProfile", 
+            path: "/governance/limits/accounts/{accountId}/profiles/{profileId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the properties of an existing limits profile.
+    ///
+    /// Parameters:
+    ///   - accountId: The ID of the Amazon Web Services account that contains the limits profile.
+    ///   - description: A new description for the limits profile.
+    ///   - profileId: The unique identifier for the limits profile to update.
+    ///   - profileName: A new display name for the limits profile.
+    ///   - resourceLimits: A map of resource types to their updated limit values.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLimitsProfile(
+        accountId: String,
+        description: String? = nil,
+        profileId: String,
+        profileName: String? = nil,
+        resourceLimits: [ResourceType: ProfileLimitValue]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLimitsProfileResponse {
+        let input = UpdateLimitsProfileRequest(
+            accountId: accountId, 
+            description: description, 
+            profileId: profileId, 
+            profileName: profileName, 
+            resourceLimits: resourceLimits
+        )
+        return try await self.updateLimitsProfile(input, logger: logger)
     }
 
     /// Updates an OAuthClientApplication.
@@ -10190,6 +11206,44 @@ public struct QuickSight: AWSService {
         return try await self.updateTopicPermissions(input, logger: logger)
     }
 
+    /// Updates the permissions of a topic.
+    @Sendable
+    @inlinable
+    public func updateTopicPermissionsV2(_ input: UpdateTopicPermissionsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTopicPermissionsV2Response {
+        try await self.client.execute(
+            operation: "UpdateTopicPermissionsV2", 
+            path: "/accounts/{AwsAccountId}/topicsV2/{TopicId}/permissions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the permissions of a topic.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to update the permissions for.
+    ///   - grantPermissions: The resource permissions that you want to grant to the topic.
+    ///   - revokePermissions: The resource permissions that you want to revoke from the topic.
+    ///   - topicId: The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTopicPermissionsV2(
+        awsAccountId: String,
+        grantPermissions: [ResourcePermission]? = nil,
+        revokePermissions: [ResourcePermission]? = nil,
+        topicId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTopicPermissionsV2Response {
+        let input = UpdateTopicPermissionsV2Request(
+            awsAccountId: awsAccountId, 
+            grantPermissions: grantPermissions, 
+            revokePermissions: revokePermissions, 
+            topicId: topicId
+        )
+        return try await self.updateTopicPermissionsV2(input, logger: logger)
+    }
+
     /// Updates a topic refresh schedule.
     @Sendable
     @inlinable
@@ -10226,6 +11280,47 @@ public struct QuickSight: AWSService {
             topicId: topicId
         )
         return try await self.updateTopicRefreshSchedule(input, logger: logger)
+    }
+
+    /// Updates the definition of a Q topic.
+    @Sendable
+    @inlinable
+    public func updateTopicV2(_ input: UpdateTopicV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTopicV2Response {
+        try await self.client.execute(
+            operation: "UpdateTopicV2", 
+            path: "/accounts/{AwsAccountId}/topicsV2/{TopicId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the definition of a Q topic.
+    ///
+    /// Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to update.
+    ///   - customInstructions: 
+    ///   - publishOption: The publish option for the topic that you want to update.
+    ///   - topic: The definition of the topic that you want to update.
+    ///   - topicId: The ID of the topic that you want to modify. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTopicV2(
+        awsAccountId: String,
+        customInstructions: CustomInstructions? = nil,
+        publishOption: TopicV2PublishOption? = nil,
+        topic: TopicV2Details,
+        topicId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTopicV2Response {
+        let input = UpdateTopicV2Request(
+            awsAccountId: awsAccountId, 
+            customInstructions: customInstructions, 
+            publishOption: publishOption, 
+            topic: topic, 
+            topicId: topicId
+        )
+        return try await self.updateTopicV2(input, logger: logger)
     }
 
     /// Updates an Amazon Quick Sight user.
@@ -10543,6 +11638,77 @@ extension QuickSight {
         return self.listAnalysesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listApprovalPolicies(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listApprovalPoliciesPaginator(
+        _ input: ListApprovalPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApprovalPoliciesRequest, ListApprovalPoliciesResponse> {
+        return .init(
+            input: input,
+            command: self.listApprovalPolicies,
+            inputKey: \ListApprovalPoliciesRequest.nextToken,
+            outputKey: \ListApprovalPoliciesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listApprovalPolicies(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. If you don't specify a value, the service returns a default number of results. Use the NextToken value in the response to retrieve additional results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listApprovalPoliciesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListApprovalPoliciesRequest, ListApprovalPoliciesResponse> {
+        let input = ListApprovalPoliciesRequest(
+            maxResults: maxResults
+        )
+        return self.listApprovalPoliciesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listApps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAppsPaginator(
+        _ input: ListAppsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAppsRequest, ListAppsResponse> {
+        return .init(
+            input: input,
+            command: self.listApps,
+            inputKey: \ListAppsRequest.nextToken,
+            outputKey: \ListAppsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listApps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the apps.
+    ///   - maxResults: The maximum number of results to return in a single request. Valid range is 1 to 100. If you don't specify a value, the default is 20.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAppsPaginator(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAppsRequest, ListAppsResponse> {
+        let input = ListAppsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults
+        )
+        return self.listAppsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAssetBundleExportJobs(_:logger:)``.
     ///
     /// - Parameters:
@@ -10840,6 +12006,43 @@ extension QuickSight {
             maxResults: maxResults
         )
         return self.listDataSourcesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDlpSettings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDlpSettingsPaginator(
+        _ input: ListDlpSettingsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDlpSettingsRequest, ListDlpSettingsResponse> {
+        return .init(
+            input: input,
+            command: self.listDlpSettings,
+            inputKey: \ListDlpSettingsRequest.nextToken,
+            outputKey: \ListDlpSettingsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDlpSettings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the DLP settings that you want to list.
+    ///   - maxResults: The maximum number of results to return per request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDlpSettingsPaginator(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDlpSettingsRequest, ListDlpSettingsResponse> {
+        let input = ListDlpSettingsRequest(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults
+        )
+        return self.listDlpSettingsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listFlows(_:logger:)``.
@@ -11242,6 +12445,46 @@ extension QuickSight {
         return self.listKnowledgeBasesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listLimitsProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLimitsProfilesPaginator(
+        _ input: ListLimitsProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLimitsProfilesRequest, ListLimitsProfilesResponse> {
+        return .init(
+            input: input,
+            command: self.listLimitsProfiles,
+            inputKey: \ListLimitsProfilesRequest.nextToken,
+            outputKey: \ListLimitsProfilesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listLimitsProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountId: The ID of the Amazon Web Services account that contains the limits profiles.
+    ///   - maxResults: The maximum number of results to return in a single call. If you don't specify a value, the service uses the default maximum.
+    ///   - resourceType: An optional filter that limits the results to profiles that contain the specified resource type. If you don't specify a value, the operation returns all profiles.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLimitsProfilesPaginator(
+        accountId: String,
+        maxResults: Int? = nil,
+        resourceType: ResourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListLimitsProfilesRequest, ListLimitsProfilesResponse> {
+        let input = ListLimitsProfilesRequest(
+            accountId: accountId, 
+            maxResults: maxResults, 
+            resourceType: resourceType
+        )
+        return self.listLimitsProfilesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listNamespaces(_:logger:)``.
     ///
     /// - Parameters:
@@ -11593,6 +12836,43 @@ extension QuickSight {
         return self.listTopicsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listTopicsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTopicsV2Paginator(
+        _ input: ListTopicsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTopicsV2Request, ListTopicsV2Response> {
+        return .init(
+            input: input,
+            command: self.listTopicsV2,
+            inputKey: \ListTopicsV2Request.nextToken,
+            outputKey: \ListTopicsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTopicsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topics that you want to list.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTopicsV2Paginator(
+        awsAccountId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTopicsV2Request, ListTopicsV2Response> {
+        let input = ListTopicsV2Request(
+            awsAccountId: awsAccountId, 
+            maxResults: maxResults
+        )
+        return self.listTopicsV2Paginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listUserGroups(_:logger:)``.
     ///
     /// - Parameters:
@@ -11791,6 +13071,46 @@ extension QuickSight {
             maxResults: maxResults
         )
         return self.searchAnalysesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``searchApps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchAppsPaginator(
+        _ input: SearchAppsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchAppsRequest, SearchAppsResponse> {
+        return .init(
+            input: input,
+            command: self.searchApps,
+            inputKey: \SearchAppsRequest.nextToken,
+            outputKey: \SearchAppsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchApps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the apps to search.
+    ///   - filters: The filters to apply to the search.
+    ///   - maxResults: The maximum number of results to return in a single request. Valid range is 1 to 100. If you don't specify a value, the default is 20.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchAppsPaginator(
+        awsAccountId: String,
+        filters: [SearchAppsFilter],
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchAppsRequest, SearchAppsResponse> {
+        let input = SearchAppsRequest(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.searchAppsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``searchDashboards(_:logger:)``.
@@ -12118,6 +13438,46 @@ extension QuickSight {
         )
         return self.searchTopicsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``searchTopicsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchTopicsV2Paginator(
+        _ input: SearchTopicsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchTopicsV2Request, SearchTopicsV2Response> {
+        return .init(
+            input: input,
+            command: self.searchTopicsV2,
+            inputKey: \SearchTopicsV2Request.nextToken,
+            outputKey: \SearchTopicsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchTopicsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsAccountId: The ID of the Amazon Web Services account that contains the topic that you want to search.
+    ///   - filters: The filters that you want to use to search for the topic.
+    ///   - maxResults: The maximum number of results to be returned per request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchTopicsV2Paginator(
+        awsAccountId: String,
+        filters: [TopicSearchFilter],
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchTopicsV2Request, SearchTopicsV2Response> {
+        let input = SearchTopicsV2Request(
+            awsAccountId: awsAccountId, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.searchTopicsV2Paginator(input, logger: logger)
+    }
 }
 
 extension QuickSight.DescribeFolderPermissionsRequest: AWSPaginateToken {
@@ -12160,6 +13520,27 @@ extension QuickSight.ListActionConnectorsRequest: AWSPaginateToken {
 extension QuickSight.ListAnalysesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.ListAnalysesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListApprovalPoliciesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListApprovalPoliciesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListAppsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListAppsRequest {
         return .init(
             awsAccountId: self.awsAccountId,
             maxResults: self.maxResults,
@@ -12249,6 +13630,17 @@ extension QuickSight.ListDataSetsRequest: AWSPaginateToken {
 extension QuickSight.ListDataSourcesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.ListDataSourcesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.ListDlpSettingsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListDlpSettingsRequest {
         return .init(
             awsAccountId: self.awsAccountId,
             maxResults: self.maxResults,
@@ -12377,6 +13769,18 @@ extension QuickSight.ListKnowledgeBasesRequest: AWSPaginateToken {
     }
 }
 
+extension QuickSight.ListLimitsProfilesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListLimitsProfilesRequest {
+        return .init(
+            accountId: self.accountId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType
+        )
+    }
+}
+
 extension QuickSight.ListNamespacesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.ListNamespacesRequest {
@@ -12482,6 +13886,17 @@ extension QuickSight.ListTopicsRequest: AWSPaginateToken {
     }
 }
 
+extension QuickSight.ListTopicsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.ListTopicsV2Request {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension QuickSight.ListUserGroupsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.ListUserGroupsRequest {
@@ -12533,6 +13948,18 @@ extension QuickSight.SearchActionConnectorsRequest: AWSPaginateToken {
 extension QuickSight.SearchAnalysesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.SearchAnalysesRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.SearchAppsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.SearchAppsRequest {
         return .init(
             awsAccountId: self.awsAccountId,
             filters: self.filters,
@@ -12631,6 +14058,18 @@ extension QuickSight.SearchKnowledgeBasesRequest: AWSPaginateToken {
 extension QuickSight.SearchTopicsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QuickSight.SearchTopicsRequest {
+        return .init(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QuickSight.SearchTopicsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QuickSight.SearchTopicsV2Request {
         return .init(
             awsAccountId: self.awsAccountId,
             filters: self.filters,

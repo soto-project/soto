@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS BedrockAgentRuntime service.
 ///
-/// Contains APIs related to model invocation and querying of knowledge bases.
+///  Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see Amazon Bedrock Agents Classic availability change.  Contains APIs related to model invocation and querying of knowledge bases.
 public struct BedrockAgentRuntime: AWSService {
     // MARK: Member variables
 
@@ -97,6 +97,7 @@ public struct BedrockAgentRuntime: AWSService {
     /// Parameters:
     ///   - agenticRetrieveConfiguration: Configuration settings for the agentic retrieval operation.
     ///   - generateResponse: Whether to generate a response based on the retrieved results.
+    ///   - memoryConfiguration: The configuration for using an Amazon Bedrock AgentCore Memory resource with this retrieval.
     ///   - messages: The list of messages for the agentic retrieval conversation.
     ///   - nextToken: Opaque continuation token for paginated results.
     ///   - policyConfiguration: Policy configuration for guardrails and content filtering.
@@ -107,6 +108,7 @@ public struct BedrockAgentRuntime: AWSService {
     public func agenticRetrieveStream(
         agenticRetrieveConfiguration: AgenticRetrieveConfiguration,
         generateResponse: Bool? = nil,
+        memoryConfiguration: AgenticRetrieveMemoryConfiguration? = nil,
         messages: [AgenticRetrieveMessage],
         nextToken: String? = nil,
         policyConfiguration: AgenticRetrievePolicyConfiguration? = nil,
@@ -117,6 +119,7 @@ public struct BedrockAgentRuntime: AWSService {
         let input = AgenticRetrieveStreamRequest(
             agenticRetrieveConfiguration: agenticRetrieveConfiguration, 
             generateResponse: generateResponse, 
+            memoryConfiguration: memoryConfiguration, 
             messages: messages, 
             nextToken: nextToken, 
             policyConfiguration: policyConfiguration, 
@@ -124,6 +127,44 @@ public struct BedrockAgentRuntime: AWSService {
             userContext: userContext
         )
         return try await self.agenticRetrieveStream(input, logger: logger)
+    }
+
+    /// Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is working as expected after ingestion. To use this operation, you must have the bedrock:CheckIngestedDocumentAcl permission.
+    @Sendable
+    @inlinable
+    public func checkIngestedDocumentAcl(_ input: CheckIngestedDocumentAclRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CheckIngestedDocumentAclResponse {
+        try await self.client.execute(
+            operation: "CheckIngestedDocumentAcl", 
+            path: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/check-ingested-document-acl", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Checks whether a user has access to a specific document by verifying against the ingested access control list (ACL) in a knowledge base. Use this operation to validate that document-level access control is working as expected after ingestion. To use this operation, you must have the bedrock:CheckIngestedDocumentAcl permission.
+    ///
+    /// Parameters:
+    ///   - dataSourceId: The unique identifier of the data source that contains the document.
+    ///   - documentId: The unique identifier of the document to check access for.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base that contains the document.
+    ///   - userContext: The context object containing identity information for access control filtering, including user ID and optional group memberships used to evaluate the document access control list (ACL).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func checkIngestedDocumentAcl(
+        dataSourceId: String,
+        documentId: String,
+        knowledgeBaseId: String,
+        userContext: UserContext,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CheckIngestedDocumentAclResponse {
+        let input = CheckIngestedDocumentAclRequest(
+            dataSourceId: dataSourceId, 
+            documentId: documentId, 
+            knowledgeBaseId: knowledgeBaseId, 
+            userContext: userContext
+        )
+        return try await self.checkIngestedDocumentAcl(input, logger: logger)
     }
 
     /// Creates a new invocation within a session. An invocation groups the related invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions. Related APIs    ListInvocations     ListSessions     GetSession
@@ -388,7 +429,7 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - documentId: The unique identifier of the document to retrieve content for.
     ///   - knowledgeBaseId: The unique identifier of the knowledge base that contains the document.
     ///   - outputFormat: The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW.
-    ///   - userContext: 
+    ///   - userContext: Contains information about the user making the request. This is used for access control filtering to ensure that results only include documents the user is authorized to access.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDocumentContent(
@@ -479,6 +520,41 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.getFlowExecution(input, logger: logger)
     }
 
+    /// Retrieves the ingested access control list (ACL) for a specific document in a knowledge base. Use this operation to inspect the allow and deny lists that were ingested for a document to troubleshoot access control issues. To use this operation, you must have the bedrock:GetIngestedDocumentAcl permission.
+    @Sendable
+    @inlinable
+    public func getIngestedDocumentAcl(_ input: GetIngestedDocumentAclRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIngestedDocumentAclResponse {
+        try await self.client.execute(
+            operation: "GetIngestedDocumentAcl", 
+            path: "/knowledgebases/{knowledgeBaseId}/datasources/{dataSourceId}/get-ingested-document-acl", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the ingested access control list (ACL) for a specific document in a knowledge base. Use this operation to inspect the allow and deny lists that were ingested for a document to troubleshoot access control issues. To use this operation, you must have the bedrock:GetIngestedDocumentAcl permission.
+    ///
+    /// Parameters:
+    ///   - dataSourceId: The unique identifier of the data source that contains the document.
+    ///   - documentId: The unique identifier of the document to retrieve the ingested access control list (ACL) for.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base that contains the document.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIngestedDocumentAcl(
+        dataSourceId: String,
+        documentId: String,
+        knowledgeBaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIngestedDocumentAclResponse {
+        let input = GetIngestedDocumentAclRequest(
+            dataSourceId: dataSourceId, 
+            documentId: documentId, 
+            knowledgeBaseId: knowledgeBaseId
+        )
+        return try await self.getIngestedDocumentAcl(input, logger: logger)
+    }
+
     /// Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
     @Sendable
     @inlinable
@@ -543,7 +619,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.getSession(input, logger: logger)
     }
 
-    ///   Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response contains both chunk and trace attributes. The final response is returned in the bytes field of the chunk object. The InvokeAgent returns one chunk for the entire interaction.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
+    ///  Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see Amazon Bedrock Agents Classic availability change.    Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response contains both chunk and trace attributes. The final response is returned in the bytes field of the chunk object. The InvokeAgent returns one chunk for the entire interaction.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
     @Sendable
     @inlinable
     public func invokeAgent(_ input: InvokeAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAgentResponse {
@@ -556,7 +632,7 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    ///   Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response contains both chunk and trace attributes. The final response is returned in the bytes field of the chunk object. The InvokeAgent returns one chunk for the entire interaction.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
+    ///  Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see Amazon Bedrock Agents Classic availability change.    Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response contains both chunk and trace attributes. The final response is returned in the bytes field of the chunk object. The InvokeAgent returns one chunk for the entire interaction.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
     ///
     /// Parameters:
     ///   - agentAliasId: The alias of the agent to use.
@@ -1089,7 +1165,7 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - nextToken: If there are more results than can fit in the response, the response returns a nextToken. Use this token in the nextToken field of another request to retrieve the next batch of results.
     ///   - retrievalConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
     ///   - retrievalQuery: Contains the query to send the knowledge base.
-    ///   - userContext: 
+    ///   - userContext: Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
     ///   - logger: Logger use during operation
     @inlinable
     public func retrieve(
@@ -1132,7 +1208,7 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - retrieveAndGenerateConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
     ///   - sessionConfiguration: Contains details about the session with the knowledge base.
     ///   - sessionId: The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
-    ///   - userContext: 
+    ///   - userContext: Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
     ///   - logger: Logger use during operation
     @inlinable
     public func retrieveAndGenerate(
@@ -1173,7 +1249,7 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - retrieveAndGenerateConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
     ///   - sessionConfiguration: Contains details about the session with the knowledge base.
     ///   - sessionId: The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
-    ///   - userContext: 
+    ///   - userContext: Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
     ///   - logger: Logger use during operation
     @inlinable
     public func retrieveAndGenerateStream(
@@ -1688,7 +1764,7 @@ extension BedrockAgentRuntime {
     ///   - knowledgeBaseId: The unique identifier of the knowledge base to query.
     ///   - retrievalConfiguration: Contains configurations for the knowledge base query and retrieval process. For more information, see Query configurations.
     ///   - retrievalQuery: Contains the query to send the knowledge base.
-    ///   - userContext: 
+    ///   - userContext: Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
     ///   - logger: Logger used for logging
     @inlinable
     public func retrievePaginator(

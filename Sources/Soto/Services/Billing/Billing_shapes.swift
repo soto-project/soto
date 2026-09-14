@@ -134,6 +134,28 @@ extension Billing {
         }
     }
 
+    public struct AdditionalCharge: AWSDecodableShape {
+        /// The charge amount.
+        public let amount: String?
+        /// The type of additional charge.
+        public let chargeType: String?
+        /// A description of the additional charge.
+        public let description: String
+
+        @inlinable
+        public init(amount: String? = nil, chargeType: String? = nil, description: String) {
+            self.amount = amount
+            self.chargeType = chargeType
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "amount"
+            case chargeType = "chargeType"
+            case description = "description"
+        }
+    }
+
     public struct Amount: AWSDecodableShape {
         /// The amount as a decimal string (for example, "743.21"). Negative values represent credits that reduce a bill.
         public let currencyAmount: String
@@ -415,6 +437,24 @@ extension Billing {
         }
     }
 
+    public struct ChargeAccount: AWSDecodableShape {
+        /// The account ID.
+        public let accountId: String
+        /// The percentage of the total Support charge allocated to this account. This is 0.0 when supportAllocationMethod = Proportional.
+        public let chargePercentage: String
+
+        @inlinable
+        public init(accountId: String, chargePercentage: String) {
+            self.accountId = accountId
+            self.chargePercentage = chargePercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case chargePercentage = "chargePercentage"
+        }
+    }
+
     public struct ConflictException: AWSErrorShape {
         public let message: String
         ///  The identifier for the service resource associated with the request.
@@ -433,6 +473,24 @@ extension Billing {
             case message = "message"
             case resourceId = "resourceId"
             case resourceType = "resourceType"
+        }
+    }
+
+    public struct ContractAccount: AWSDecodableShape {
+        /// The account ID.
+        public let accountId: String
+        /// When true, Support charges are calculated on charges before private discounts. When false, they are calculated after private discounts.
+        public let isGdn: Bool
+
+        @inlinable
+        public init(accountId: String, isGdn: Bool) {
+            self.accountId = accountId
+            self.isGdn = isGdn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case isGdn = "isGdn"
         }
     }
 
@@ -779,6 +837,24 @@ extension Billing {
         }
     }
 
+    public struct EnterpriseSupportTimePeriod: AWSDecodableShape {
+        /// The begin date of the time period.
+        public let beginDate: Date
+        /// The end date of the time period.
+        public let endDate: Date?
+
+        @inlinable
+        public init(beginDate: Date, endDate: Date? = nil) {
+            self.beginDate = beginDate
+            self.endDate = endDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginDate = "beginDate"
+            case endDate = "endDate"
+        }
+    }
+
     public struct Expression: AWSEncodableShape & AWSDecodableShape {
         ///  The filter that's based on CostCategory values.
         public let costCategories: CostCategoryValues?
@@ -1005,6 +1081,170 @@ extension Billing {
         }
     }
 
+    public struct GetEnterpriseSupportChargeSummaryRequest: AWSEncodableShape {
+        /// The billing month in YYYY-MM format. This must be a month in the past.
+        public let billingMonth: String
+
+        @inlinable
+        public init(billingMonth: String) {
+            self.billingMonth = billingMonth
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.billingMonth, name: "billingMonth", parent: name, pattern: "^\\d{4}-(0[1-9]|1[0-2])$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingMonth = "billingMonth"
+        }
+    }
+
+    public struct GetEnterpriseSupportChargeSummaryResponse: AWSDecodableShape {
+        /// The date the bill was generated.
+        public let billDate: Date
+        /// The billing month in YYYY-MM format. This must be a month in the past.
+        public let billingMonth: String
+        /// The end date of the billing period.
+        public let billingPeriodEndDate: Date
+        /// The start date of the billing period.
+        public let billingPeriodStartDate: Date
+        /// When true, the Support charge amount is estimated. When false, the Support charge amount is finalized.
+        public let isEstimated: Bool
+        /// The payer account ID that is authorized to view Enterprise Support data for all accounts in its Support profile.
+        public let payerAccountId: String
+        /// The Support charge amount for the account.
+        public let supportCharge: String
+        /// The percentage applied to the total Support-eligible spend to calculate the total Support charge across all accounts in the Support profile.
+        public let supportChargePercentage: String
+        /// The support discount amount.
+        public let supportDiscount: String
+        /// The effective pricing plan used for the support charge calculation.
+        public let supportEffectivePricingPlan: PricingPlan
+        /// The total Support charge amount for all accounts in the Support profile.
+        public let totalSupportCharge: String
+        /// The total Support-eligible Reserved Instance spend from all accounts in the Support profile.
+        public let totalSupportEligibleReservedInstanceSpend: String
+        /// The total Support-eligible Savings Plan spend from all accounts in the Support profile.
+        public let totalSupportEligibleSavingsPlanSpend: String
+        /// The total Support-eligible Spend from all accounts in the Support profile. This includes eligible spend from usage of Amazon Web Services, Reserved Instances, and Savings Plans.
+        public let totalSupportEligibleSpend: String
+        /// The total Support-eligible spend from usage of Amazon Web Services from all accounts in the Support profile.
+        public let totalSupportEligibleUsageSpend: String
+
+        @inlinable
+        public init(billDate: Date, billingMonth: String, billingPeriodEndDate: Date, billingPeriodStartDate: Date, isEstimated: Bool, payerAccountId: String, supportCharge: String, supportChargePercentage: String, supportDiscount: String, supportEffectivePricingPlan: PricingPlan, totalSupportCharge: String, totalSupportEligibleReservedInstanceSpend: String, totalSupportEligibleSavingsPlanSpend: String, totalSupportEligibleSpend: String, totalSupportEligibleUsageSpend: String) {
+            self.billDate = billDate
+            self.billingMonth = billingMonth
+            self.billingPeriodEndDate = billingPeriodEndDate
+            self.billingPeriodStartDate = billingPeriodStartDate
+            self.isEstimated = isEstimated
+            self.payerAccountId = payerAccountId
+            self.supportCharge = supportCharge
+            self.supportChargePercentage = supportChargePercentage
+            self.supportDiscount = supportDiscount
+            self.supportEffectivePricingPlan = supportEffectivePricingPlan
+            self.totalSupportCharge = totalSupportCharge
+            self.totalSupportEligibleReservedInstanceSpend = totalSupportEligibleReservedInstanceSpend
+            self.totalSupportEligibleSavingsPlanSpend = totalSupportEligibleSavingsPlanSpend
+            self.totalSupportEligibleSpend = totalSupportEligibleSpend
+            self.totalSupportEligibleUsageSpend = totalSupportEligibleUsageSpend
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billDate = "billDate"
+            case billingMonth = "billingMonth"
+            case billingPeriodEndDate = "billingPeriodEndDate"
+            case billingPeriodStartDate = "billingPeriodStartDate"
+            case isEstimated = "isEstimated"
+            case payerAccountId = "payerAccountId"
+            case supportCharge = "supportCharge"
+            case supportChargePercentage = "supportChargePercentage"
+            case supportDiscount = "supportDiscount"
+            case supportEffectivePricingPlan = "supportEffectivePricingPlan"
+            case totalSupportCharge = "totalSupportCharge"
+            case totalSupportEligibleReservedInstanceSpend = "totalSupportEligibleReservedInstanceSpend"
+            case totalSupportEligibleSavingsPlanSpend = "totalSupportEligibleSavingsPlanSpend"
+            case totalSupportEligibleSpend = "totalSupportEligibleSpend"
+            case totalSupportEligibleUsageSpend = "totalSupportEligibleUsageSpend"
+        }
+    }
+
+    public struct GetEnterpriseSupportContractDetailsRequest: AWSEncodableShape {
+        /// The billing month in YYYY-MM format. This must be a month in the past.
+        public let billingMonth: String
+
+        @inlinable
+        public init(billingMonth: String) {
+            self.billingMonth = billingMonth
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.billingMonth, name: "billingMonth", parent: name, pattern: "^\\d{4}-(0[1-9]|1[0-2])$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingMonth = "billingMonth"
+        }
+    }
+
+    public struct GetEnterpriseSupportContractDetailsResponse: AWSDecodableShape {
+        /// Any Additional support charges applied to the contract.
+        public let additionalSupportCharge: [AdditionalCharge]?
+        /// Any Additional support-eligible usage spend charges.
+        public let additionalSupportEligibleUsageSpend: [AdditionalCharge]?
+        /// The list of payer accounts and their charge allocation percentages.
+        public let chargedPayerAccountIds: [ChargeAccount]
+        /// The list of accounts covered by the Enterprise Support contract.
+        public let contractPayerAccountIds: [ContractAccount]
+        /// When true, the Enterprise Support contract is active. When false, the Enterprise Support Contract is inactive.
+        public let isContractActive: Bool?
+        /// The pricing plans associated with this Enterprise Support contract.
+        public let pricingPlans: [PricingPlan]
+        /// The method used to distribute the total Support charge amount across each account in the Support profile. Valid values: Proportional, Fixed_Percentage. Proportional means support charges are distributed to each account in proportion to its eligible Spend. Fixed_Percentage means support charges are distributed across accounts according to pre-configured percentages from the contract.
+        public let supportAllocationMethod: String
+        /// The start date for accounts subscribed or unsubscribed to Support billing during the billing month.
+        public let supportProrateStartDate: Date?
+        /// When supportReservedInstanceTreatmentMethod = AmortizedCustom, only amortized fees for Reserved Instances purchased on or after this date are included in the calculation. This field is Null for all other treatment methods.
+        public let supportReservedInstanceAmortizationStartDate: Date?
+        /// The method used to include Reserved Instance (RI) fees in the Enterprise Support charge calculation. Valid values: None (RI fees excluded from Support-eligible spend), Upfront (full upfront RI fees included in month of purchase), Amortized (RI fees spread over commitment term for RIs purchased on or after Support subscription start date), AmortizedCustom (same as Amortized but only for RIs purchased on or after a specified custom start date), AmortizedAll (RI fees amortized for all active RIs including those purchased before Support subscription started).
+        public let supportReservedInstanceTreatmentMethod: String?
+        /// This is applicable when supportSavingsPlansTreatmentMethod = Amortized and is Null for all other methods. It shows the start date from which Savings Plan fees are included in Support Eligible Spend.
+        public let supportSavingsPlansAmortizationStartDate: Date?
+        /// The method used to include Savings Plans fees in Enterprise Support charge calculations. Valid values: None (Savings Plan fees excluded from Support-eligible spend), Upfront (full upfront Savings Plan fees included in month of purchase), Amortized (Savings Plan fees spread over commitment term for Savings Plans purchased on or after Support subscription start date), AmortizedCustom (same as Amortized but only for Savings Plans purchased on or after a specified custom start date), AmortizedAll (Savings Plan fees amortized for all active Savings Plans including those purchased before Support subscription started).
+        public let supportSavingsPlansTreatmentMethod: String?
+
+        @inlinable
+        public init(additionalSupportCharge: [AdditionalCharge]? = nil, additionalSupportEligibleUsageSpend: [AdditionalCharge]? = nil, chargedPayerAccountIds: [ChargeAccount], contractPayerAccountIds: [ContractAccount], isContractActive: Bool? = nil, pricingPlans: [PricingPlan], supportAllocationMethod: String, supportProrateStartDate: Date? = nil, supportReservedInstanceAmortizationStartDate: Date? = nil, supportReservedInstanceTreatmentMethod: String? = nil, supportSavingsPlansAmortizationStartDate: Date? = nil, supportSavingsPlansTreatmentMethod: String? = nil) {
+            self.additionalSupportCharge = additionalSupportCharge
+            self.additionalSupportEligibleUsageSpend = additionalSupportEligibleUsageSpend
+            self.chargedPayerAccountIds = chargedPayerAccountIds
+            self.contractPayerAccountIds = contractPayerAccountIds
+            self.isContractActive = isContractActive
+            self.pricingPlans = pricingPlans
+            self.supportAllocationMethod = supportAllocationMethod
+            self.supportProrateStartDate = supportProrateStartDate
+            self.supportReservedInstanceAmortizationStartDate = supportReservedInstanceAmortizationStartDate
+            self.supportReservedInstanceTreatmentMethod = supportReservedInstanceTreatmentMethod
+            self.supportSavingsPlansAmortizationStartDate = supportSavingsPlansAmortizationStartDate
+            self.supportSavingsPlansTreatmentMethod = supportSavingsPlansTreatmentMethod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalSupportCharge = "additionalSupportCharge"
+            case additionalSupportEligibleUsageSpend = "additionalSupportEligibleUsageSpend"
+            case chargedPayerAccountIds = "chargedPayerAccountIds"
+            case contractPayerAccountIds = "contractPayerAccountIds"
+            case isContractActive = "isContractActive"
+            case pricingPlans = "pricingPlans"
+            case supportAllocationMethod = "supportAllocationMethod"
+            case supportProrateStartDate = "supportProrateStartDate"
+            case supportReservedInstanceAmortizationStartDate = "supportReservedInstanceAmortizationStartDate"
+            case supportReservedInstanceTreatmentMethod = "supportReservedInstanceTreatmentMethod"
+            case supportSavingsPlansAmortizationStartDate = "supportSavingsPlansAmortizationStartDate"
+            case supportSavingsPlansTreatmentMethod = "supportSavingsPlansTreatmentMethod"
+        }
+    }
+
     public struct GetResourcePolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the billing view resource to which the policy is attached to.
         public let resourceArn: String
@@ -1038,6 +1278,64 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case policy = "policy"
             case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct LinkedAccountCharge: AWSDecodableShape {
+        /// The linked account ID.
+        public let accountId: String
+        /// The type of account.
+        public let accountType: String?
+        /// The number of billable seconds in the billing period based on when the account was subscribed to Enterprise Support.
+        public let billableSeconds: Int64
+        /// The time periods during which this account was linked.
+        public let linkedTimePeriods: [EnterpriseSupportTimePeriod]?
+        /// The payer account ID that is authorized to view Enterprise Support data for all accounts in its Support profile.
+        public let payerAccountId: String
+        /// The prorated total support-eligible spend based on when the account was subscribed to Enterprise Support.
+        public let proratedTotalSupportEligibleSpend: String
+        /// The subscription time periods for this account.
+        public let subscriptionTimePeriods: [EnterpriseSupportTimePeriod]?
+        /// The support-eligible spend broken down by service.
+        public let supportEligibleSpendByService: [ServiceLevelAccountUsage]?
+        /// The total number of seconds in the billing period.
+        public let totalSeconds: Int64
+        /// The total support-eligible Reserved Instance spend for this account.
+        public let totalSupportEligibleReservedInstanceSpend: String?
+        /// The total support-eligible Savings Plan spend for this account.
+        public let totalSupportEligibleSavingsPlanSpend: String?
+        /// The total support-eligible spend for this account.
+        public let totalSupportEligibleSpend: String
+
+        @inlinable
+        public init(accountId: String, accountType: String? = nil, billableSeconds: Int64, linkedTimePeriods: [EnterpriseSupportTimePeriod]? = nil, payerAccountId: String, proratedTotalSupportEligibleSpend: String, subscriptionTimePeriods: [EnterpriseSupportTimePeriod]? = nil, supportEligibleSpendByService: [ServiceLevelAccountUsage]? = nil, totalSeconds: Int64, totalSupportEligibleReservedInstanceSpend: String? = nil, totalSupportEligibleSavingsPlanSpend: String? = nil, totalSupportEligibleSpend: String) {
+            self.accountId = accountId
+            self.accountType = accountType
+            self.billableSeconds = billableSeconds
+            self.linkedTimePeriods = linkedTimePeriods
+            self.payerAccountId = payerAccountId
+            self.proratedTotalSupportEligibleSpend = proratedTotalSupportEligibleSpend
+            self.subscriptionTimePeriods = subscriptionTimePeriods
+            self.supportEligibleSpendByService = supportEligibleSpendByService
+            self.totalSeconds = totalSeconds
+            self.totalSupportEligibleReservedInstanceSpend = totalSupportEligibleReservedInstanceSpend
+            self.totalSupportEligibleSavingsPlanSpend = totalSupportEligibleSavingsPlanSpend
+            self.totalSupportEligibleSpend = totalSupportEligibleSpend
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case accountType = "accountType"
+            case billableSeconds = "billableSeconds"
+            case linkedTimePeriods = "linkedTimePeriods"
+            case payerAccountId = "payerAccountId"
+            case proratedTotalSupportEligibleSpend = "proratedTotalSupportEligibleSpend"
+            case subscriptionTimePeriods = "subscriptionTimePeriods"
+            case supportEligibleSpendByService = "supportEligibleSpendByService"
+            case totalSeconds = "totalSeconds"
+            case totalSupportEligibleReservedInstanceSpend = "totalSupportEligibleReservedInstanceSpend"
+            case totalSupportEligibleSavingsPlanSpend = "totalSupportEligibleSavingsPlanSpend"
+            case totalSupportEligibleSpend = "totalSupportEligibleSpend"
         }
     }
 
@@ -1116,6 +1414,58 @@ extension Billing {
 
         private enum CodingKeys: String, CodingKey {
             case billingViews = "billingViews"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListEnterpriseSupportLinkedAccountChargesRequest: AWSEncodableShape {
+        /// An optional linked account ID to filter results to a specific account.
+        public let accountId: String?
+        /// The billing month in YYYY-MM format. This must be a month in the past.
+        public let billingMonth: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The pagination token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(accountId: String? = nil, billingMonth: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.billingMonth = billingMonth
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.billingMonth, name: "billingMonth", parent: name, pattern: "^\\d{4}-(0[1-9]|1[0-2])$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4095)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case billingMonth = "billingMonth"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListEnterpriseSupportLinkedAccountChargesResponse: AWSDecodableShape {
+        /// The list of Enterprise Support charges per linked account.
+        public let linkedAccount: [LinkedAccountCharge]
+        /// The pagination token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(linkedAccount: [LinkedAccountCharge], nextToken: String? = nil) {
+            self.linkedAccount = linkedAccount
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkedAccount = "linkedAccount"
             case nextToken = "nextToken"
         }
     }
@@ -1201,6 +1551,98 @@ extension Billing {
         }
     }
 
+    public struct PricingPlan: AWSDecodableShape {
+        /// A description of the pricing plan.
+        public let description: String?
+        /// Whether the discount applies to the minimum Support charge.
+        public let discountAppliesToMinimumCharge: Bool?
+        /// The end date of the pricing plan.
+        public let endDate: Date?
+        /// The minimum Support charge amount for this pricing plan.
+        public let minimumCharge: String?
+        /// The name of the pricing plan.
+        public let name: String?
+        /// The discount percentage applied by this pricing plan.
+        public let planDiscountPercent: String?
+        /// The unique identifier for the pricing plan.
+        public let pricingPlanId: String?
+        /// The start date of the pricing plan.
+        public let startDate: Date?
+        /// Whether the pricing plan uses tiered pricing.
+        public let tiered: String?
+        /// The pricing tiers within this plan.
+        public let tiers: [PricingPlanTier]
+
+        @inlinable
+        public init(description: String? = nil, discountAppliesToMinimumCharge: Bool? = nil, endDate: Date? = nil, minimumCharge: String? = nil, name: String? = nil, planDiscountPercent: String? = nil, pricingPlanId: String? = nil, startDate: Date? = nil, tiered: String? = nil, tiers: [PricingPlanTier]) {
+            self.description = description
+            self.discountAppliesToMinimumCharge = discountAppliesToMinimumCharge
+            self.endDate = endDate
+            self.minimumCharge = minimumCharge
+            self.name = name
+            self.planDiscountPercent = planDiscountPercent
+            self.pricingPlanId = pricingPlanId
+            self.startDate = startDate
+            self.tiered = tiered
+            self.tiers = tiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case discountAppliesToMinimumCharge = "discountAppliesToMinimumCharge"
+            case endDate = "endDate"
+            case minimumCharge = "minimumCharge"
+            case name = "name"
+            case planDiscountPercent = "planDiscountPercent"
+            case pricingPlanId = "pricingPlanId"
+            case startDate = "startDate"
+            case tiered = "tiered"
+            case tiers = "tiers"
+        }
+    }
+
+    public struct PricingPlanTier: AWSDecodableShape {
+        /// The additional percentage applied to aggregate charges in this tier.
+        public let additionalPercentageOfAggregateCharges: String
+        /// The adjustment applied to aggregate charges.
+        public let aggregateChargesAdjustment: String
+        /// The base charge for this tier.
+        public let baseCharge: String
+        /// The increment amount for incremental tier calculations.
+        public let increment: String?
+        /// Whether the tier charges are calculated incrementally.
+        public let incremental: Bool
+        /// The charge per increment.
+        public let incrementCharge: String?
+        /// The maximum spend threshold for this tier.
+        public let tierMaximum: String?
+        /// The minimum spend threshold for this tier.
+        public let tierMinimum: String
+
+        @inlinable
+        public init(additionalPercentageOfAggregateCharges: String, aggregateChargesAdjustment: String, baseCharge: String, increment: String? = nil, incremental: Bool, incrementCharge: String? = nil, tierMaximum: String? = nil, tierMinimum: String) {
+            self.additionalPercentageOfAggregateCharges = additionalPercentageOfAggregateCharges
+            self.aggregateChargesAdjustment = aggregateChargesAdjustment
+            self.baseCharge = baseCharge
+            self.increment = increment
+            self.incremental = incremental
+            self.incrementCharge = incrementCharge
+            self.tierMaximum = tierMaximum
+            self.tierMinimum = tierMinimum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalPercentageOfAggregateCharges = "additionalPercentageOfAggregateCharges"
+            case aggregateChargesAdjustment = "aggregateChargesAdjustment"
+            case baseCharge = "baseCharge"
+            case increment = "increment"
+            case incremental = "incremental"
+            case incrementCharge = "incrementCharge"
+            case tierMaximum = "tierMaximum"
+            case tierMinimum = "tierMinimum"
+        }
+    }
+
     public struct RedeemCreditsRequest: AWSEncodableShape {
         /// The promotional credit code to redeem.
         public let promoCode: String
@@ -1267,6 +1709,24 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case value = "value"
+        }
+    }
+
+    public struct ServiceLevelAccountUsage: AWSDecodableShape {
+        /// The service code for which to return Support-eligible spend data.
+        public let serviceCode: String?
+        /// The total support-eligible spend for the service.
+        public let totalSupportEligibleSpend: String?
+
+        @inlinable
+        public init(serviceCode: String? = nil, totalSupportEligibleSpend: String? = nil) {
+            self.serviceCode = serviceCode
+            self.totalSupportEligibleSpend = totalSupportEligibleSpend
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceCode = "serviceCode"
+            case totalSupportEligibleSpend = "totalSupportEligibleSpend"
         }
     }
 

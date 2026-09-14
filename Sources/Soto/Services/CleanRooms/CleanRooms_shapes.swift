@@ -54,14 +54,32 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum AggregationThresholdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case countDistinct = "COUNT_DISTINCT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AggregationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case countDistinct = "COUNT_DISTINCT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AllowedAggregateExpressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anyExpression = "ANY_EXPRESSION"
+        case columnsOnly = "COLUMNS_ONLY"
         public var description: String { return self.rawValue }
     }
 
     public enum AnalysisFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pyspark10 = "PYSPARK_1_0"
         case sql = "SQL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalysisLogExportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -113,7 +131,9 @@ extension CleanRooms {
 
     public enum AutoApprovedChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case addMember = "ADD_MEMBER"
+        case grantExportQueryAnalysisLogAbility = "GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
         case grantReceiveResultsAbility = "GRANT_RECEIVE_RESULTS_ABILITY"
+        case revokeExportQueryAnalysisLogAbility = "REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
         case revokeReceiveResultsAbility = "REVOKE_RECEIVE_RESULTS_ABILITY"
         public var description: String { return self.rawValue }
     }
@@ -166,10 +186,12 @@ extension CleanRooms {
         case editAutoApprovedChangeTypes = "EDIT_AUTO_APPROVED_CHANGE_TYPES"
         case grantCanReceiveInferenceOutput = "GRANT_CAN_RECEIVE_INFERENCE_OUTPUT"
         case grantCanReceiveModelOutput = "GRANT_CAN_RECEIVE_MODEL_OUTPUT"
+        case grantExportQueryAnalysisLogAbility = "GRANT_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
         case grantReceiveResultsAbility = "GRANT_RECEIVE_RESULTS_ABILITY"
         case removePayerCandidate = "REMOVE_PAYER_CANDIDATE"
         case revokeCanReceiveInferenceOutput = "REVOKE_CAN_RECEIVE_INFERENCE_OUTPUT"
         case revokeCanReceiveModelOutput = "REVOKE_CAN_RECEIVE_MODEL_OUTPUT"
+        case revokeExportQueryAnalysisLogAbility = "REVOKE_EXPORT_QUERY_ANALYSIS_LOG_ABILITY"
         case revokeReceiveResultsAbility = "REVOKE_RECEIVE_RESULTS_ABILITY"
         public var description: String { return self.rawValue }
     }
@@ -323,7 +345,13 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum LogExportAnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case protectedQuery = "PROTECTED_QUERY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MemberAbility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canExportQueryAnalysisLog = "CAN_EXPORT_QUERY_ANALYSIS_LOG"
         case canQuery = "CAN_QUERY"
         case canReceiveResults = "CAN_RECEIVE_RESULTS"
         case canRunJob = "CAN_RUN_JOB"
@@ -1548,6 +1576,200 @@ extension CleanRooms {
         }
     }
 
+    public struct AggregationThreshold: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether a query can aggregate a transformed column. This applies to the arguments of both aggregate and window functions. Valid values are:  COLUMNS_ONLY – A query can aggregate only a direct column reference, such as SUM(amount), or a constant. Clean Rooms rejects a query that transforms a column and then aggregates it, such as SUM(amount * 2) or SUM(ROUND(amount)).  ANY_EXPRESSION – A query can aggregate any expression. This includes arithmetic, such as SUM(price * quantity); a cast, such as SUM(CAST(amount AS DECIMAL)); a nested function call, such as SUM(COALESCE(amount, 0)); and a conditional, such as SUM(CASE WHEN region = 'EU' THEN amount ELSE 0 END).
+        public let allowedAggregateExpressionType: AllowedAggregateExpressionType
+        /// The identity column, such as user_id, whose distinct values Clean Rooms counts to enforce minimum aggregation thresholds. Currently, you can specify only one column, and its data type must be string, varchar, or char.
+        public let identityColumns: [String]
+        /// The minimum number of distinct identities that each query output group must represent. This threshold applies to all output columns in the table. To override this threshold for a specific column, use outputColumnThresholds.
+        public let minimumIdentityCount: Int
+        /// The per-column overrides of minimumIdentityCount. An output column without an override uses minimumIdentityCount.
+        public let outputColumnThresholds: [OutputColumnThreshold]?
+        /// The type of aggregation that the threshold enforces. Currently, the only supported value is COUNT_DISTINCT, which counts the distinct values in the identity column.
+        public let type: AggregationThresholdType
+
+        @inlinable
+        public init(allowedAggregateExpressionType: AllowedAggregateExpressionType, identityColumns: [String], minimumIdentityCount: Int, outputColumnThresholds: [OutputColumnThreshold]? = nil, type: AggregationThresholdType) {
+            self.allowedAggregateExpressionType = allowedAggregateExpressionType
+            self.identityColumns = identityColumns
+            self.minimumIdentityCount = minimumIdentityCount
+            self.outputColumnThresholds = outputColumnThresholds
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.identityColumns.forEach {
+                try validate($0, name: "identityColumns[]", parent: name, max: 127)
+                try validate($0, name: "identityColumns[]", parent: name, min: 1)
+                try validate($0, name: "identityColumns[]", parent: name, pattern: "^[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?$")
+            }
+            try self.outputColumnThresholds?.forEach {
+                try $0.validate(name: "\(name).outputColumnThresholds[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedAggregateExpressionType = "allowedAggregateExpressionType"
+            case identityColumns = "identityColumns"
+            case minimumIdentityCount = "minimumIdentityCount"
+            case outputColumnThresholds = "outputColumnThresholds"
+            case type = "type"
+        }
+    }
+
+    public struct AnalysisLogExport: AWSDecodableShape {
+        /// The unique identifier of the protected query that the analysis logs were exported for.
+        public let analysisId: String
+        /// The unique identifier of the analysis log export.
+        public let analysisLogExportId: String
+        /// The type of analysis that the logs were exported for. Currently, only PROTECTED_QUERY is supported.
+        public let analysisType: LogExportAnalysisType
+        /// The time the analysis log export was created.
+        public let createTime: Date
+        /// The analysis log export error. This is present only when the export status is FAILED.
+        public let error: AnalysisLogExportError?
+        /// The unique identifier of the membership that the analysis log export belongs to.
+        public let membershipId: String
+        /// Contains the details needed to write the exported analysis logs.
+        public let resultConfiguration: AnalysisLogExportResultConfiguration
+        /// The status of the analysis log export. Possible values are:    IN_PROGRESS – The export is currently running.    SUCCESS – The export completed successfully.    FAILED – The export failed. See the error field for details.
+        public let status: AnalysisLogExportStatus
+        /// The time the analysis log export was last updated.
+        public let updateTime: Date
+
+        @inlinable
+        public init(analysisId: String, analysisLogExportId: String, analysisType: LogExportAnalysisType, createTime: Date, error: AnalysisLogExportError? = nil, membershipId: String, resultConfiguration: AnalysisLogExportResultConfiguration, status: AnalysisLogExportStatus, updateTime: Date) {
+            self.analysisId = analysisId
+            self.analysisLogExportId = analysisLogExportId
+            self.analysisType = analysisType
+            self.createTime = createTime
+            self.error = error
+            self.membershipId = membershipId
+            self.resultConfiguration = resultConfiguration
+            self.status = status
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "analysisId"
+            case analysisLogExportId = "analysisLogExportId"
+            case analysisType = "analysisType"
+            case createTime = "createTime"
+            case error = "error"
+            case membershipId = "membershipId"
+            case resultConfiguration = "resultConfiguration"
+            case status = "status"
+            case updateTime = "updateTime"
+        }
+    }
+
+    public struct AnalysisLogExportError: AWSDecodableShape {
+        /// The error code for the analysis log export.
+        public let code: String
+        /// The message for the analysis log export error.
+        public let message: String
+
+        @inlinable
+        public init(code: String, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct AnalysisLogExportOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Required configuration for an analysis log export with an s3 output type.
+        public let s3: AnalysisLogExportS3OutputConfiguration
+
+        @inlinable
+        public init(s3: AnalysisLogExportS3OutputConfiguration) {
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
+    public struct AnalysisLogExportResultConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for analysis log export results.
+        public let outputConfiguration: AnalysisLogExportOutputConfiguration
+
+        @inlinable
+        public init(outputConfiguration: AnalysisLogExportOutputConfiguration) {
+            self.outputConfiguration = outputConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.outputConfiguration.validate(name: "\(name).outputConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputConfiguration = "outputConfiguration"
+        }
+    }
+
+    public struct AnalysisLogExportS3OutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 bucket that the exported analysis logs are written to. The bucket must be in the same Amazon Web Services Region as the collaboration.
+        public let bucket: String
+        /// The S3 key prefix under which the exported analysis logs are written. Only one export can be in progress at a time for a given query and destination. To export the same query twice at once, use a different key prefix for the second export.
+        public let keyPrefix: String?
+
+        @inlinable
+        public init(bucket: String, keyPrefix: String? = nil) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, max: 512)
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, pattern: "^[\\w!.=*/-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+        }
+    }
+
+    public struct AnalysisLogExportSummary: AWSDecodableShape {
+        /// The unique identifier of the protected query that the analysis logs were exported for.
+        public let analysisId: String
+        /// The unique identifier of the analysis log export.
+        public let analysisLogExportId: String
+        /// The type of analysis that the logs were exported for. Currently, only PROTECTED_QUERY is supported.
+        public let analysisType: LogExportAnalysisType
+        /// The time the analysis log export was created.
+        public let createTime: Date
+        /// The status of the analysis log export. Possible values are:    IN_PROGRESS – The export is currently running.    SUCCESS – The export completed successfully.    FAILED – The export failed.
+        public let status: AnalysisLogExportStatus
+
+        @inlinable
+        public init(analysisId: String, analysisLogExportId: String, analysisType: LogExportAnalysisType, createTime: Date, status: AnalysisLogExportStatus) {
+            self.analysisId = analysisId
+            self.analysisLogExportId = analysisLogExportId
+            self.analysisType = analysisType
+            self.createTime = createTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "analysisId"
+            case analysisLogExportId = "analysisLogExportId"
+            case analysisType = "analysisType"
+            case createTime = "createTime"
+            case status = "status"
+        }
+    }
+
     public struct AnalysisParameter: AWSEncodableShape & AWSDecodableShape {
         /// Optional. The default value that is applied in the analysis template. The member who can query can override this value in the query editor.
         public let defaultValue: String?
@@ -1684,6 +1906,8 @@ extension CleanRooms {
     public struct AnalysisRuleCustom: AWSEncodableShape & AWSDecodableShape {
         ///  An indicator as to whether additional analyses (such as Clean Rooms ML) can be applied to the output of the direct query.
         public let additionalAnalyses: AdditionalAnalyses?
+        /// The aggregation thresholds that each query output group must satisfy. Clean Rooms filters out any group that represents fewer than the specified number of distinct identities. You can specify at most one threshold. You can't use aggregation thresholds with differential privacy, or when allowedAnalyses allows only jobs.
+        public let aggregationThresholds: [AggregationThreshold]?
         /// The list of allowed additional analyses for the custom analysis rule.
         public let allowedAdditionalAnalyses: [String]?
         /// The ARN of the analysis templates that are allowed by the custom analysis rule.
@@ -1692,23 +1916,32 @@ extension CleanRooms {
         public let allowedAnalysisProviders: [String]?
         /// The list of Amazon Web Services account IDs that are allowed to receive results from queries run on the configured table.
         public let allowedResultReceivers: [String]?
+        /// The controls that restrict how a query can compare the columns in the configured table. You can't use comparison controls with differential privacy, or when allowedAnalyses allows only jobs.
+        public let comparisonControls: ComparisonControls?
         /// The differential privacy configuration.
         public let differentialPrivacy: DifferentialPrivacyConfiguration?
         ///  A list of columns that aren't allowed to be shown in the query output.
         public let disallowedOutputColumns: [String]?
 
         @inlinable
-        public init(additionalAnalyses: AdditionalAnalyses? = nil, allowedAdditionalAnalyses: [String]? = nil, allowedAnalyses: [String], allowedAnalysisProviders: [String]? = nil, allowedResultReceivers: [String]? = nil, differentialPrivacy: DifferentialPrivacyConfiguration? = nil, disallowedOutputColumns: [String]? = nil) {
+        public init(additionalAnalyses: AdditionalAnalyses? = nil, aggregationThresholds: [AggregationThreshold]? = nil, allowedAdditionalAnalyses: [String]? = nil, allowedAnalyses: [String], allowedAnalysisProviders: [String]? = nil, allowedResultReceivers: [String]? = nil, comparisonControls: ComparisonControls? = nil, differentialPrivacy: DifferentialPrivacyConfiguration? = nil, disallowedOutputColumns: [String]? = nil) {
             self.additionalAnalyses = additionalAnalyses
+            self.aggregationThresholds = aggregationThresholds
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedAnalyses = allowedAnalyses
             self.allowedAnalysisProviders = allowedAnalysisProviders
             self.allowedResultReceivers = allowedResultReceivers
+            self.comparisonControls = comparisonControls
             self.differentialPrivacy = differentialPrivacy
             self.disallowedOutputColumns = disallowedOutputColumns
         }
 
         public func validate(name: String) throws {
+            try self.aggregationThresholds?.forEach {
+                try $0.validate(name: "\(name).aggregationThresholds[]")
+            }
+            try self.validate(self.aggregationThresholds, name: "aggregationThresholds", parent: name, max: 1)
+            try self.validate(self.aggregationThresholds, name: "aggregationThresholds", parent: name, min: 1)
             try self.allowedAdditionalAnalyses?.forEach {
                 try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, max: 256)
                 try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configuredaudiencemodelassociation\\/[\\*\\d\\w-]+$|^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:([0-9]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configured-model-algorithm-association\\/([-a-zA-Z0-9_\\/.]+|\\*)$")
@@ -1728,6 +1961,7 @@ extension CleanRooms {
                 try validate($0, name: "allowedResultReceivers[]", parent: name, min: 12)
                 try validate($0, name: "allowedResultReceivers[]", parent: name, pattern: "^\\d+$")
             }
+            try self.comparisonControls?.validate(name: "\(name).comparisonControls")
             try self.differentialPrivacy?.validate(name: "\(name).differentialPrivacy")
             try self.disallowedOutputColumns?.forEach {
                 try validate($0, name: "disallowedOutputColumns[]", parent: name, max: 127)
@@ -1738,10 +1972,12 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case additionalAnalyses = "additionalAnalyses"
+            case aggregationThresholds = "aggregationThresholds"
             case allowedAdditionalAnalyses = "allowedAdditionalAnalyses"
             case allowedAnalyses = "allowedAnalyses"
             case allowedAnalysisProviders = "allowedAnalysisProviders"
             case allowedResultReceivers = "allowedResultReceivers"
+            case comparisonControls = "comparisonControls"
             case differentialPrivacy = "differentialPrivacy"
             case disallowedOutputColumns = "disallowedOutputColumns"
         }
@@ -3273,6 +3509,37 @@ extension CleanRooms {
         }
     }
 
+    public struct ComparisonControls: AWSEncodableShape & AWSDecodableShape {
+        /// The columns that a query can compare to another column, for example, in a join, a WHERE clause, a GROUP BY clause, or a window function. Clean Rooms rejects a query that uses any other column in a column-to-column comparison. Specify an empty list to block column-to-column comparison on every column.
+        public let allowedColumnComparisonColumns: [String]
+        /// The columns that a query can compare to literal values, for example, in a WHERE clause. Clean Rooms rejects a query that compares any other column to a literal value. Specify an empty list to block literal comparison on every column. You can't specify a column that you also use as an identity column in an aggregation threshold.
+        public let allowedLiteralComparisonColumns: [String]
+
+        @inlinable
+        public init(allowedColumnComparisonColumns: [String], allowedLiteralComparisonColumns: [String]) {
+            self.allowedColumnComparisonColumns = allowedColumnComparisonColumns
+            self.allowedLiteralComparisonColumns = allowedLiteralComparisonColumns
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedColumnComparisonColumns.forEach {
+                try validate($0, name: "allowedColumnComparisonColumns[]", parent: name, max: 127)
+                try validate($0, name: "allowedColumnComparisonColumns[]", parent: name, min: 1)
+                try validate($0, name: "allowedColumnComparisonColumns[]", parent: name, pattern: "^[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?$")
+            }
+            try self.allowedLiteralComparisonColumns.forEach {
+                try validate($0, name: "allowedLiteralComparisonColumns[]", parent: name, max: 127)
+                try validate($0, name: "allowedLiteralComparisonColumns[]", parent: name, min: 1)
+                try validate($0, name: "allowedLiteralComparisonColumns[]", parent: name, pattern: "^[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedColumnComparisonColumns = "allowedColumnComparisonColumns"
+            case allowedLiteralComparisonColumns = "allowedLiteralComparisonColumns"
+        }
+    }
+
     public struct ConfiguredAudienceModelAssociation: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the configured audience model association.
         public let arn: String
@@ -3846,6 +4113,8 @@ extension CleanRooms {
     public struct ConsolidatedPolicyCustom: AWSDecodableShape {
         ///  Additional analyses for the consolidated policy.
         public let additionalAnalyses: AdditionalAnalyses?
+        ///  The aggregation thresholds for the consolidated policy.
+        public let aggregationThresholds: [AggregationThreshold]?
         ///  The additional analyses allowed by the consolidated policy.
         public let allowedAdditionalAnalyses: [String]?
         ///  The allowed analyses.
@@ -3854,27 +4123,33 @@ extension CleanRooms {
         public let allowedAnalysisProviders: [String]?
         ///  The allowed result receivers.
         public let allowedResultReceivers: [String]?
+        ///  The comparison controls for the consolidated policy.
+        public let comparisonControls: ComparisonControls?
         public let differentialPrivacy: DifferentialPrivacyConfiguration?
         ///  Disallowed output columns
         public let disallowedOutputColumns: [String]?
 
         @inlinable
-        public init(additionalAnalyses: AdditionalAnalyses? = nil, allowedAdditionalAnalyses: [String]? = nil, allowedAnalyses: [String], allowedAnalysisProviders: [String]? = nil, allowedResultReceivers: [String]? = nil, differentialPrivacy: DifferentialPrivacyConfiguration? = nil, disallowedOutputColumns: [String]? = nil) {
+        public init(additionalAnalyses: AdditionalAnalyses? = nil, aggregationThresholds: [AggregationThreshold]? = nil, allowedAdditionalAnalyses: [String]? = nil, allowedAnalyses: [String], allowedAnalysisProviders: [String]? = nil, allowedResultReceivers: [String]? = nil, comparisonControls: ComparisonControls? = nil, differentialPrivacy: DifferentialPrivacyConfiguration? = nil, disallowedOutputColumns: [String]? = nil) {
             self.additionalAnalyses = additionalAnalyses
+            self.aggregationThresholds = aggregationThresholds
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedAnalyses = allowedAnalyses
             self.allowedAnalysisProviders = allowedAnalysisProviders
             self.allowedResultReceivers = allowedResultReceivers
+            self.comparisonControls = comparisonControls
             self.differentialPrivacy = differentialPrivacy
             self.disallowedOutputColumns = disallowedOutputColumns
         }
 
         private enum CodingKeys: String, CodingKey {
             case additionalAnalyses = "additionalAnalyses"
+            case aggregationThresholds = "aggregationThresholds"
             case allowedAdditionalAnalyses = "allowedAdditionalAnalyses"
             case allowedAnalyses = "allowedAnalyses"
             case allowedAnalysisProviders = "allowedAnalysisProviders"
             case allowedResultReceivers = "allowedResultReceivers"
+            case comparisonControls = "comparisonControls"
             case differentialPrivacy = "differentialPrivacy"
             case disallowedOutputColumns = "disallowedOutputColumns"
         }
@@ -4723,9 +4998,9 @@ extension CleanRooms {
         public let membershipIdentifier: String
         /// The display name for the intermediate table.
         public let name: String
-        /// The configuration that defines the analysis used to populate the intermediate table. This configuration contains the SQL query or analysis template reference.
+        /// The configuration that defines the analysis used to populate the intermediate table.
         public let populationAnalysisConfiguration: PopulationAnalysisConfiguration
-        /// The number of days to retain populated data versions. Minimum value of 1, maximum value of 365.
+        /// The number of days to retain populated data versions.
         public let retentionInDays: Int?
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
@@ -5751,6 +6026,51 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case type = "type"
+        }
+    }
+
+    public struct GetAnalysisLogExportInput: AWSEncodableShape {
+        /// The unique identifier of the analysis log export to retrieve.
+        public let analysisLogExportIdentifier: String
+        /// A unique identifier for the membership that the analysis log export belongs to. Currently accepts the membership ID.
+        public let membershipIdentifier: String
+
+        @inlinable
+        public init(analysisLogExportIdentifier: String, membershipIdentifier: String) {
+            self.analysisLogExportIdentifier = analysisLogExportIdentifier
+            self.membershipIdentifier = membershipIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.analysisLogExportIdentifier, key: "analysisLogExportIdentifier")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisLogExportIdentifier, name: "analysisLogExportIdentifier", parent: name, max: 36)
+            try self.validate(self.analysisLogExportIdentifier, name: "analysisLogExportIdentifier", parent: name, min: 36)
+            try self.validate(self.analysisLogExportIdentifier, name: "analysisLogExportIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAnalysisLogExportOutput: AWSDecodableShape {
+        /// The analysis log export processing metadata.
+        public let analysisLogExport: AnalysisLogExport
+
+        @inlinable
+        public init(analysisLogExport: AnalysisLogExport) {
+            self.analysisLogExport = analysisLogExport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisLogExport = "analysisLogExport"
         }
     }
 
@@ -7482,6 +7802,8 @@ extension CleanRooms {
     public struct IntermediateTableAnalysisRuleCustom: AWSEncodableShape & AWSDecodableShape {
         /// The setting that controls whether additional analyses are allowed on the intermediate table.
         public let additionalAnalyses: AdditionalAnalyses?
+        /// The aggregation thresholds that each query output group must satisfy. Clean Rooms filters out any group that represents fewer than the specified number of distinct identities. You can specify at most one threshold. You can't use aggregation thresholds with differential privacy, or when allowedAnalyses allows only jobs.
+        public let aggregationThresholds: [AggregationThreshold]?
         /// The list of allowed additional analyses for the intermediate table.
         public let allowedAdditionalAnalyses: [String]?
         /// The list of allowed analyses that can be performed on the intermediate table.
@@ -7490,22 +7812,31 @@ extension CleanRooms {
         public let allowedAnalysisProviders: [String]?
         /// The list of Amazon Web Services account IDs that are allowed to receive results from queries run on the intermediate table.
         public let allowedResultReceivers: [String]?
+        /// The controls that restrict how a query can compare the columns in the intermediate table. You can't use comparison controls with differential privacy, or when allowedAnalyses allows only jobs.
+        public let comparisonControls: ComparisonControls?
         public let differentialPrivacy: DifferentialPrivacyConfiguration?
         /// The list of columns that are not allowed in the query output.
         public let disallowedOutputColumns: [String]?
 
         @inlinable
-        public init(additionalAnalyses: AdditionalAnalyses? = nil, allowedAdditionalAnalyses: [String]? = nil, allowedAnalyses: [String]? = nil, allowedAnalysisProviders: [String]? = nil, allowedResultReceivers: [String]? = nil, differentialPrivacy: DifferentialPrivacyConfiguration? = nil, disallowedOutputColumns: [String]? = nil) {
+        public init(additionalAnalyses: AdditionalAnalyses? = nil, aggregationThresholds: [AggregationThreshold]? = nil, allowedAdditionalAnalyses: [String]? = nil, allowedAnalyses: [String]? = nil, allowedAnalysisProviders: [String]? = nil, allowedResultReceivers: [String]? = nil, comparisonControls: ComparisonControls? = nil, differentialPrivacy: DifferentialPrivacyConfiguration? = nil, disallowedOutputColumns: [String]? = nil) {
             self.additionalAnalyses = additionalAnalyses
+            self.aggregationThresholds = aggregationThresholds
             self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedAnalyses = allowedAnalyses
             self.allowedAnalysisProviders = allowedAnalysisProviders
             self.allowedResultReceivers = allowedResultReceivers
+            self.comparisonControls = comparisonControls
             self.differentialPrivacy = differentialPrivacy
             self.disallowedOutputColumns = disallowedOutputColumns
         }
 
         public func validate(name: String) throws {
+            try self.aggregationThresholds?.forEach {
+                try $0.validate(name: "\(name).aggregationThresholds[]")
+            }
+            try self.validate(self.aggregationThresholds, name: "aggregationThresholds", parent: name, max: 1)
+            try self.validate(self.aggregationThresholds, name: "aggregationThresholds", parent: name, min: 1)
             try self.allowedAdditionalAnalyses?.forEach {
                 try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, max: 256)
                 try validate($0, name: "allowedAdditionalAnalyses[]", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:([\\d]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configuredaudiencemodelassociation\\/[\\*\\d\\w-]+$|^arn:aws[-a-z]*:cleanrooms-ml:[-a-z0-9]+:([0-9]{12}|\\*):membership\\/[\\*\\d\\w-]+\\/configured-model-algorithm-association\\/([-a-zA-Z0-9_\\/.]+|\\*)$")
@@ -7525,6 +7856,7 @@ extension CleanRooms {
                 try validate($0, name: "allowedResultReceivers[]", parent: name, min: 12)
                 try validate($0, name: "allowedResultReceivers[]", parent: name, pattern: "^\\d+$")
             }
+            try self.comparisonControls?.validate(name: "\(name).comparisonControls")
             try self.differentialPrivacy?.validate(name: "\(name).differentialPrivacy")
             try self.disallowedOutputColumns?.forEach {
                 try validate($0, name: "disallowedOutputColumns[]", parent: name, max: 127)
@@ -7535,10 +7867,12 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case additionalAnalyses = "additionalAnalyses"
+            case aggregationThresholds = "aggregationThresholds"
             case allowedAdditionalAnalyses = "allowedAdditionalAnalyses"
             case allowedAnalyses = "allowedAnalyses"
             case allowedAnalysisProviders = "allowedAnalysisProviders"
             case allowedResultReceivers = "allowedResultReceivers"
+            case comparisonControls = "comparisonControls"
             case differentialPrivacy = "differentialPrivacy"
             case disallowedOutputColumns = "disallowedOutputColumns"
         }
@@ -7577,7 +7911,7 @@ extension CleanRooms {
         public let id: String
         /// The name of the dependency table.
         public let name: String
-        /// Whether the dependency is direct or indirect. A direct dependency is a table explicitly referenced in the stored query, while an indirect dependency is referenced through another intermediate table.
+        /// The type of dependency, either direct or indirect. A direct dependency is a table explicitly referenced in the stored query. An indirect dependency is a table referenced through another intermediate table.
         public let parentType: BaseTableParentType
         /// The type of the dependency table.
         public let type: BaseTableDependencyType
@@ -7802,6 +8136,70 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case isResponsible = "isResponsible"
+        }
+    }
+
+    public struct ListAnalysisLogExportsInput: AWSEncodableShape {
+        /// A filter on the unique identifier of the protected query that the analysis logs were exported for.
+        public let analysisIdentifier: String?
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a nextToken even if the maxResults value has not been met.
+        public let maxResults: Int?
+        /// A unique identifier for the membership to list analysis log exports for. Currently accepts the membership ID.
+        public let membershipIdentifier: String
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+        /// A filter on the status of the analysis log export.
+        public let status: AnalysisLogExportStatus?
+
+        @inlinable
+        public init(analysisIdentifier: String? = nil, maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil, status: AnalysisLogExportStatus? = nil) {
+            self.analysisIdentifier = analysisIdentifier
+            self.maxResults = maxResults
+            self.membershipIdentifier = membershipIdentifier
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.analysisIdentifier, key: "analysisIdentifier")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisIdentifier, name: "analysisIdentifier", parent: name, max: 36)
+            try self.validate(self.analysisIdentifier, name: "analysisIdentifier", parent: name, min: 36)
+            try self.validate(self.analysisIdentifier, name: "analysisIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAnalysisLogExportsOutput: AWSDecodableShape {
+        /// A list of analysis log exports.
+        public let analysisLogExports: [AnalysisLogExportSummary]
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(analysisLogExports: [AnalysisLogExportSummary], nextToken: String? = nil) {
+            self.analysisLogExports = analysisLogExports
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisLogExports = "analysisLogExports"
+            case nextToken = "nextToken"
         }
     }
 
@@ -9107,7 +9505,7 @@ extension CleanRooms {
         public let accountId: String
         /// Specifies the display name that will be shown for this member in the collaboration. While this field is required when inviting new members, it becomes optional when modifying abilities of existing collaboration members.
         public let displayName: String?
-        /// The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration.  The following values are currently not supported: CAN_QUERY and CAN_RUN_JOB.  Set the value of memberAbilities to [] to allow a member to contribute data. Set the value of memberAbilities to [CAN_RECEIVE_RESULTS] to allow a member to contribute data and receive results.
+        /// The abilities granted to the collaboration member. These determine what actions the member can perform within the collaboration.  The following values are currently not supported: CAN_QUERY and CAN_RUN_JOB.  Set the value of memberAbilities to [] to allow a member to contribute data. Set the value of memberAbilities to [CAN_RECEIVE_RESULTS] to allow a member to contribute data and receive results. Set the value of memberAbilities to [CAN_EXPORT_QUERY_ANALYSIS_LOG] so that the member can export the analysis logs for a protected query. Having this ability isn't sufficient on its own: You can export logs only for queries that you ran or paid for.
         public let memberAbilities: [MemberAbility]
         public let mlMemberAbilities: MLMemberAbilities?
         public let paymentConfiguration: PaymentConfiguration?
@@ -9564,6 +9962,30 @@ extension CleanRooms {
         }
     }
 
+    public struct OutputColumnThreshold: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum number of distinct identities that each query output group must represent for this column. Specify 0 to exempt the column from the threshold, or a value of 2 or greater to enforce a threshold.
+        public let minimumIdentityCount: Int
+        /// The name of the output column that the override applies to. You can specify each column only once.
+        public let outputColumnName: String
+
+        @inlinable
+        public init(minimumIdentityCount: Int, outputColumnName: String) {
+            self.minimumIdentityCount = minimumIdentityCount
+            self.outputColumnName = outputColumnName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outputColumnName, name: "outputColumnName", parent: name, max: 127)
+            try self.validate(self.outputColumnName, name: "outputColumnName", parent: name, min: 1)
+            try self.validate(self.outputColumnName, name: "outputColumnName", parent: name, pattern: "^[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minimumIdentityCount = "minimumIdentityCount"
+            case outputColumnName = "outputColumnName"
+        }
+    }
+
     public struct PaymentConfiguration: AWSEncodableShape & AWSDecodableShape {
         ///  The compute configuration for the job.
         public let jobCompute: JobComputePaymentConfig?
@@ -9695,7 +10117,7 @@ extension CleanRooms {
     }
 
     public struct PopulateIntermediateTableOutput: AWSDecodableShape {
-        /// The identifier for the protected query execution. Use this value with GetProtectedQuery to track the population progress.
+        /// The identifier for the protected query execution that populated the intermediate table.
         public let analysisId: String
         /// The type of analysis performed to populate the intermediate table.
         public let analysisType: PopulateIntermediateTableAnalysisType
@@ -9719,7 +10141,7 @@ extension CleanRooms {
     public struct PopulationAnalysisSqlParameters: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the analysis template to use for populating the intermediate table.
         public let analysisTemplateArn: String?
-        /// The SQL query string used to populate the intermediate table. Maximum length of 500,000 characters.
+        /// The SQL query string used to populate the intermediate table.
         public let queryString: String?
 
         @inlinable
@@ -11006,6 +11428,64 @@ extension CleanRooms {
         private enum CodingKeys: String, CodingKey {
             case columnName = "columnName"
             case columnType = "columnType"
+        }
+    }
+
+    public struct StartAnalysisLogExportInput: AWSEncodableShape {
+        /// The unique identifier of the protected query that you want to export the analysis logs for.
+        public let analysisId: String
+        /// The type of analysis that the logs are exported for. Currently, only PROTECTED_QUERY is supported.
+        public let analysisType: LogExportAnalysisType
+        /// A unique identifier for the membership to export the analysis logs for. Currently accepts a membership ID.
+        public let membershipIdentifier: String
+        /// The details needed to write the exported analysis logs. You don't need to create an IAM role for log export. Clean Rooms writes the exported logs using your own identity, so Clean Rooms writes the exported logs only where your existing permissions allow.
+        public let resultConfiguration: AnalysisLogExportResultConfiguration
+
+        @inlinable
+        public init(analysisId: String, analysisType: LogExportAnalysisType, membershipIdentifier: String, resultConfiguration: AnalysisLogExportResultConfiguration) {
+            self.analysisId = analysisId
+            self.analysisType = analysisType
+            self.membershipIdentifier = membershipIdentifier
+            self.resultConfiguration = resultConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.analysisId, forKey: .analysisId)
+            try container.encode(self.analysisType, forKey: .analysisType)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encode(self.resultConfiguration, forKey: .resultConfiguration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisId, name: "analysisId", parent: name, max: 36)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, min: 36)
+            try self.validate(self.analysisId, name: "analysisId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.resultConfiguration.validate(name: "\(name).resultConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisId = "analysisId"
+            case analysisType = "analysisType"
+            case resultConfiguration = "resultConfiguration"
+        }
+    }
+
+    public struct StartAnalysisLogExportOutput: AWSDecodableShape {
+        /// The analysis log export that was started. The status is IN_PROGRESS.
+        public let analysisLogExport: AnalysisLogExport
+
+        @inlinable
+        public init(analysisLogExport: AnalysisLogExport) {
+            self.analysisLogExport = analysisLogExport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisLogExport = "analysisLogExport"
         }
     }
 
