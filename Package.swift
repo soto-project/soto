@@ -1,4 +1,4 @@
-// swift-tools-version:6.0
+// swift-tools-version:6.2
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Soto for AWS open source project
