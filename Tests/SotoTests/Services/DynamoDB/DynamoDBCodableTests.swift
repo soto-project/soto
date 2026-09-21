@@ -222,7 +222,7 @@ extension DynamoDBTests {
 
         let request = DynamoDB.ScanInput(
             consistentRead: true,
-            expressionAttributeValues: [":message": .s("Message 2")],
+            expressionAttributeValues: [":id": .s("testCodableScan"), ":message": .s("Message 2")],
             filterExpression: "message = :message",
             tableName: Self.tableWithValueName
         )
