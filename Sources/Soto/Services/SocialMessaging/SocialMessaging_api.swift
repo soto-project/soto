@@ -110,6 +110,35 @@ public struct SocialMessaging: AWSService {
         return try await self.associateWhatsAppBusinessAccount(input, logger: logger)
     }
 
+    /// Creates a Meta Conversions API dataset for a WhatsApp Business Account.
+    @Sendable
+    @inlinable
+    public func createWhatsAppDataset(_ input: CreateWhatsAppDatasetInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWhatsAppDatasetOutput {
+        try await self.client.execute(
+            operation: "CreateWhatsAppDataset", 
+            path: "/v1/whatsapp/waba/dataset", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a Meta Conversions API dataset for a WhatsApp Business Account.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the WhatsApp Business Account to create a dataset for, formatted as waba-01234567890123456789012345678901.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createWhatsAppDataset(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateWhatsAppDatasetOutput {
+        let input = CreateWhatsAppDatasetInput(
+            id: id
+        )
+        return try await self.createWhatsAppDataset(input, logger: logger)
+    }
+
     /// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leaving WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immediately.
     @Sendable
     @inlinable
@@ -128,6 +157,7 @@ public struct SocialMessaging: AWSService {
     /// Parameters:
     ///   - categories: The categories that classify the business purpose of the Flow. At least one category is required.
     ///   - cloneFlowId: The ID of an existing Flow within the same WhatsApp Business Account to clone.
+    ///   - endpointUri: The HTTPS endpoint that Meta calls for a data exchange Flow.
     ///   - flowJson: The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB.
     ///   - flowName: The name of the Flow. Must be unique within the WhatsApp Business Account.
     ///   - id: The ID of the WhatsApp Business Account to associate with this Flow.
@@ -137,6 +167,7 @@ public struct SocialMessaging: AWSService {
     public func createWhatsAppFlow(
         categories: [MetaFlowCategory],
         cloneFlowId: String? = nil,
+        endpointUri: String? = nil,
         flowJson: AWSBase64Data? = nil,
         flowName: String,
         id: String,
@@ -146,6 +177,7 @@ public struct SocialMessaging: AWSService {
         let input = CreateWhatsAppFlowInput(
             categories: categories, 
             cloneFlowId: cloneFlowId, 
+            endpointUri: endpointUri, 
             flowJson: flowJson, 
             flowName: flowName, 
             id: id, 
@@ -469,6 +501,70 @@ public struct SocialMessaging: AWSService {
             id: id
         )
         return try await self.getLinkedWhatsAppBusinessAccountPhoneNumber(input, logger: logger)
+    }
+
+    /// Retrieves the business public key for a phone number and its signature status.
+    @Sendable
+    @inlinable
+    public func getWhatsAppBusinessPublicKey(_ input: GetWhatsAppBusinessPublicKeyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWhatsAppBusinessPublicKeyOutput {
+        try await self.client.execute(
+            operation: "GetWhatsAppBusinessPublicKey", 
+            path: "/v1/whatsapp/business-public-key", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the business public key for a phone number and its signature status.
+    ///
+    /// Parameters:
+    ///   - originationPhoneNumberId: The unique identifier of the phone number whose business public key to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getWhatsAppBusinessPublicKey(
+        originationPhoneNumberId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetWhatsAppBusinessPublicKeyOutput {
+        let input = GetWhatsAppBusinessPublicKeyInput(
+            originationPhoneNumberId: originationPhoneNumberId
+        )
+        return try await self.getWhatsAppBusinessPublicKey(input, logger: logger)
+    }
+
+    /// Retrieves the current calling permission for a WhatsApp end user, along with the calling actions the business is allowed to take with that user. Provide the destination phone number or the business-scoped user ID to identify the end user.
+    @Sendable
+    @inlinable
+    public func getWhatsAppCallPermission(_ input: GetWhatsAppCallPermissionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWhatsAppCallPermissionOutput {
+        try await self.client.execute(
+            operation: "GetWhatsAppCallPermission", 
+            path: "/v1/whatsapp/call/permission/get", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current calling permission for a WhatsApp end user, along with the calling actions the business is allowed to take with that user. Provide the destination phone number or the business-scoped user ID to identify the end user.
+    ///
+    /// Parameters:
+    ///   - destinationPhoneNumber: The end user's phone number, in E.164 format, for which to retrieve the calling permission.
+    ///   - endUserBsuid: The business-scoped user identifier (BSUID) of the end user for which to retrieve the calling permission.
+    ///   - originationPhoneNumberId: The unique identifier of the business phone number for which to retrieve the calling permission. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getWhatsAppCallPermission(
+        destinationPhoneNumber: String? = nil,
+        endUserBsuid: String? = nil,
+        originationPhoneNumberId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetWhatsAppCallPermissionOutput {
+        let input = GetWhatsAppCallPermissionInput(
+            destinationPhoneNumber: destinationPhoneNumber, 
+            endUserBsuid: endUserBsuid, 
+            originationPhoneNumberId: originationPhoneNumberId
+        )
+        return try await self.getWhatsAppCallPermission(input, logger: logger)
     }
 
     /// Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status.
@@ -923,6 +1019,111 @@ public struct SocialMessaging: AWSService {
         return try await self.putWhatsAppBusinessAccountEventDestinations(input, logger: logger)
     }
 
+    /// Sets the business public key used to encrypt the data exchanged with the endpoint of a data exchange Flow.
+    @Sendable
+    @inlinable
+    public func putWhatsAppBusinessPublicKey(_ input: PutWhatsAppBusinessPublicKeyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutWhatsAppBusinessPublicKeyOutput {
+        try await self.client.execute(
+            operation: "PutWhatsAppBusinessPublicKey", 
+            path: "/v1/whatsapp/business-public-key", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets the business public key used to encrypt the data exchanged with the endpoint of a data exchange Flow.
+    ///
+    /// Parameters:
+    ///   - businessPublicKey: The PEM-encoded 2048-bit RSA public key to set. Mutually exclusive with kmsKeyArn.
+    ///   - kmsKeyArn: The ARN of a customer managed asymmetric RSA key in Amazon Web Services KMS. Mutually exclusive with businessPublicKey.
+    ///   - originationPhoneNumberId: The unique identifier of the phone number to associate with the business public key.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putWhatsAppBusinessPublicKey(
+        businessPublicKey: String? = nil,
+        kmsKeyArn: String? = nil,
+        originationPhoneNumberId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutWhatsAppBusinessPublicKeyOutput {
+        let input = PutWhatsAppBusinessPublicKeyInput(
+            businessPublicKey: businessPublicKey, 
+            kmsKeyArn: kmsKeyArn, 
+            originationPhoneNumberId: originationPhoneNumberId
+        )
+        return try await self.putWhatsAppBusinessPublicKey(input, logger: logger)
+    }
+
+    /// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func sendWhatsAppCallEvent(_ input: SendWhatsAppCallEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SendWhatsAppCallEventOutput {
+        try await self.client.execute(
+            operation: "SendWhatsAppCallEvent", 
+            path: "/v1/whatsapp/call/event", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - callEvent: The call event payload to send, as a JSON blob in the format defined by the Meta calling API.
+    ///   - metaApiVersion: The version of the Meta Graph API to use for the request.
+    ///   - originationPhoneNumberId: The unique identifier of the origination phone number for the call. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use GetLinkedWhatsAppBusinessAccount to find a phone number's ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendWhatsAppCallEvent(
+        callEvent: AWSBase64Data,
+        metaApiVersion: String,
+        originationPhoneNumberId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendWhatsAppCallEventOutput {
+        let input = SendWhatsAppCallEventInput(
+            callEvent: callEvent, 
+            metaApiVersion: metaApiVersion, 
+            originationPhoneNumberId: originationPhoneNumberId
+        )
+        return try await self.sendWhatsAppCallEvent(input, logger: logger)
+    }
+
+    /// Sends a conversion event to Meta's Conversions API for the specified WhatsApp Business Account dataset.
+    @Sendable
+    @inlinable
+    public func sendWhatsAppConversionEvent(_ input: SendWhatsAppConversionEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SendWhatsAppConversionEventOutput {
+        try await self.client.execute(
+            operation: "SendWhatsAppConversionEvent", 
+            path: "/v1/whatsapp/waba/dataset/events", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends a conversion event to Meta's Conversions API for the specified WhatsApp Business Account dataset.
+    ///
+    /// Parameters:
+    ///   - datasetId: The Meta-generated dataset ID to send the event to.
+    ///   - eventData: The raw Meta Conversions API event payload as a JSON blob. See Meta's server event parameters for the supported format.
+    ///   - id: The ID of the WhatsApp Business Account associated with the dataset, formatted as waba-01234567890123456789012345678901.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendWhatsAppConversionEvent(
+        datasetId: String,
+        eventData: AWSBase64Data,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendWhatsAppConversionEventOutput {
+        let input = SendWhatsAppConversionEventInput(
+            datasetId: datasetId, 
+            eventData: eventData, 
+            id: id
+        )
+        return try await self.sendWhatsAppConversionEvent(input, logger: logger)
+    }
+
     /// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see Sending messages in the  Amazon Web Services End User Messaging Social User Guide .
     @Sendable
     @inlinable
@@ -1022,6 +1223,38 @@ public struct SocialMessaging: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates the calling settings for a linked WhatsApp business phone number, such as whether calling is enabled and the hours during which the business accepts calls.
+    @Sendable
+    @inlinable
+    public func updateLinkedWhatsAppBusinessAccountPhoneNumber(_ input: UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput {
+        try await self.client.execute(
+            operation: "UpdateLinkedWhatsAppBusinessAccountPhoneNumber", 
+            path: "/v1/whatsapp/waba/phone", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the calling settings for a linked WhatsApp business phone number, such as whether calling is enabled and the hours during which the business accepts calls.
+    ///
+    /// Parameters:
+    ///   - callSettings: The calling settings to apply to the phone number.
+    ///   - id: The unique identifier of the phone number to update. The phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLinkedWhatsAppBusinessAccountPhoneNumber(
+        callSettings: WhatsAppCallSettings,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput {
+        let input = UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput(
+            callSettings: callSettings, 
+            id: id
+        )
+        return try await self.updateLinkedWhatsAppBusinessAccountPhoneNumber(input, logger: logger)
+    }
+
     /// Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON.
     @Sendable
     @inlinable
@@ -1039,23 +1272,29 @@ public struct SocialMessaging: AWSService {
     ///
     /// Parameters:
     ///   - categories: The updated categories for the Flow.
+    ///   - endpointUri: The updated HTTPS endpoint for a data exchange Flow.
     ///   - flowId: The unique identifier of the Flow to update.
     ///   - flowName: The updated name for the Flow.
     ///   - id: The ID of the WhatsApp Business Account associated with this Flow.
+    ///   - metaAppId: The ID of the Meta application to attach to the Flow.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateWhatsAppFlow(
         categories: [MetaFlowCategory]? = nil,
+        endpointUri: String? = nil,
         flowId: String,
         flowName: String? = nil,
         id: String,
+        metaAppId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateWhatsAppFlowOutput {
         let input = UpdateWhatsAppFlowInput(
             categories: categories, 
+            endpointUri: endpointUri, 
             flowId: flowId, 
             flowName: flowName, 
-            id: id
+            id: id, 
+            metaAppId: metaAppId
         )
         return try await self.updateWhatsAppFlow(input, logger: logger)
     }

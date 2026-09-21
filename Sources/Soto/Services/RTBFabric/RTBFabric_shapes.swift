@@ -34,6 +34,12 @@ extension RTBFabric {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClientRoutingPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anyAvailabilityZone = "ANY_AVAILABILITY_ZONE"
+        case availabilityZoneAffinity = "AVAILABILITY_ZONE_AFFINITY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectivityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case externalInbound = "EXTERNAL_INBOUND"
@@ -384,7 +390,7 @@ extension RTBFabric {
     public struct AssociateCertificateRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the ACM certificate to associate.
         public let acmCertificateArn: String
-        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String
         /// The unique identifier of the gateway.
         public let gatewayId: String
@@ -500,7 +506,7 @@ extension RTBFabric {
     public struct CreateInboundExternalLinkRequest: AWSEncodableShape {
         /// Attributes of the link.
         public let attributes: LinkAttributes?
-        /// The unique client token.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String
         /// The unique identifier of the gateway.
         public let gatewayId: String
@@ -582,7 +588,7 @@ extension RTBFabric {
         public let gatewayId: String
         /// Boolean to specify if an HTTP responder is allowed.
         public let httpResponderAllowed: Bool?
-        /// Settings for the application logs.
+        /// Application log settings for the link. This value is required. Under applicationLogs.sampling, the errorLog and filterLog fields set the percentage of eligible events to log. Valid values range from 0 through 100. To turn off application logs, set both fields to 0, as in {"applicationLogs":{"sampling":{"errorLog":0,"filterLog":0}}}.
         public let logSettings: LinkLogSettings
         /// The unique identifier of the peer gateway.
         public let peerGatewayId: String
@@ -704,7 +710,7 @@ extension RTBFabric {
     }
 
     public struct CreateLinkRoutingRuleRequest: AWSEncodableShape {
-        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String
         /// The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set.
         public let conditions: RuleCondition
@@ -788,7 +794,7 @@ extension RTBFabric {
     public struct CreateOutboundExternalLinkRequest: AWSEncodableShape {
         /// Attributes of the link.
         public let attributes: LinkAttributes?
-        /// The unique client token.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String
         /// The unique identifier of the gateway.
         public let gatewayId: String
@@ -867,7 +873,7 @@ extension RTBFabric {
     }
 
     public struct CreateRequesterGatewayRequest: AWSEncodableShape {
-        /// The unique client token.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String
         /// An optional description for the requester gateway.
         public let description: String?
@@ -945,7 +951,9 @@ extension RTBFabric {
     }
 
     public struct CreateResponderGatewayRequest: AWSEncodableShape {
-        /// The unique client token.
+        /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. Valid values are the following:    AVAILABILITY_ZONE_AFFINITY: RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Availability Zones of the gateway.    ANY_AVAILABILITY_ZONE: RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this.   If you don't specify a value, RTB Fabric uses AVAILABILITY_ZONE_AFFINITY. To get the behavior of ANY_AVAILABILITY_ZONE, create the gateway with subnets in more than one Availability Zone. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABILITY_ZONE_AFFINITY is not a valid value. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide.
+        public let clientRoutingPolicy: ClientRoutingPolicy?
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String
         /// An optional description for the responder gateway.
         public let description: String?
@@ -962,7 +970,7 @@ extension RTBFabric {
         public let `protocol`: `Protocol`
         /// The unique identifiers of the security groups.
         public let securityGroupIds: [String]
-        /// The unique identifiers of the subnets.
+        /// Unique identifiers of the subnets. A service quota for your account sets the number of Availability Zones that your subnets can span. By default, this quota is one Availability Zone. To span more Availability Zones, request a quota increase.
         public let subnetIds: [String]
         /// A map of the key-value pairs of the tag or tags to assign to the resource.
         public let tags: [String: String]?
@@ -972,7 +980,8 @@ extension RTBFabric {
         public let vpcId: String
 
         @inlinable
-        public init(clientToken: String = CreateResponderGatewayRequest.idempotencyToken(), description: String? = nil, domainName: String? = nil, gatewayType: GatewayType? = nil, listenerConfig: ListenerConfig? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, securityGroupIds: [String], subnetIds: [String], tags: [String: String]? = nil, trustStoreConfiguration: TrustStoreConfiguration? = nil, vpcId: String) {
+        public init(clientRoutingPolicy: ClientRoutingPolicy? = nil, clientToken: String = CreateResponderGatewayRequest.idempotencyToken(), description: String? = nil, domainName: String? = nil, gatewayType: GatewayType? = nil, listenerConfig: ListenerConfig? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, securityGroupIds: [String], subnetIds: [String], tags: [String: String]? = nil, trustStoreConfiguration: TrustStoreConfiguration? = nil, vpcId: String) {
+            self.clientRoutingPolicy = clientRoutingPolicy
             self.clientToken = clientToken
             self.description = description
             self.domainName = domainName
@@ -1017,6 +1026,7 @@ extension RTBFabric {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientRoutingPolicy = "clientRoutingPolicy"
             case clientToken = "clientToken"
             case description = "description"
             case domainName = "domainName"
@@ -1034,6 +1044,8 @@ extension RTBFabric {
     }
 
     public struct CreateResponderGatewayResponse: AWSDecodableShape {
+        /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide.
+        public let clientRoutingPolicy: ClientRoutingPolicy?
         /// The external inbound endpoint for the responder gateway.
         public let externalInboundEndpoint: String?
         /// The unique identifier of the gateway.
@@ -1044,7 +1056,8 @@ extension RTBFabric {
         public let status: ResponderGatewayStatus
 
         @inlinable
-        public init(externalInboundEndpoint: String? = nil, gatewayId: String, listenerConfig: ListenerConfig? = nil, status: ResponderGatewayStatus) {
+        public init(clientRoutingPolicy: ClientRoutingPolicy? = nil, externalInboundEndpoint: String? = nil, gatewayId: String, listenerConfig: ListenerConfig? = nil, status: ResponderGatewayStatus) {
+            self.clientRoutingPolicy = clientRoutingPolicy
             self.externalInboundEndpoint = externalInboundEndpoint
             self.gatewayId = gatewayId
             self.listenerConfig = listenerConfig
@@ -1052,6 +1065,7 @@ extension RTBFabric {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientRoutingPolicy = "clientRoutingPolicy"
             case externalInboundEndpoint = "externalInboundEndpoint"
             case gatewayId = "gatewayId"
             case listenerConfig = "listenerConfig"
@@ -2013,6 +2027,8 @@ extension RTBFabric {
     public struct GetResponderGatewayResponse: AWSDecodableShape {
         /// The count of active links for the responder gateway.
         public let activeLinksCount: Int?
+        /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. RTB Fabric omits this member if the gateway has never had a client routing policy. An omitted value means that the gateway uses AVAILABILITY_ZONE_AFFINITY. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide.
+        public let clientRoutingPolicy: ClientRoutingPolicy?
         /// The timestamp of when the responder gateway was created.
         public let createdAt: Date?
         /// The description of the responder gateway.
@@ -2053,8 +2069,9 @@ extension RTBFabric {
         public let vpcId: String
 
         @inlinable
-        public init(activeLinksCount: Int? = nil, createdAt: Date? = nil, description: String? = nil, domainName: String? = nil, externalInboundEndpoint: String? = nil, gatewayId: String, gatewayType: GatewayType? = nil, linksRequestedCount: Int? = nil, listenerConfig: ListenerConfig? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, securityGroupIds: [String], status: ResponderGatewayStatus, subnetIds: [String], tags: [String: String]? = nil, totalLinksCount: Int? = nil, trustStoreConfiguration: TrustStoreConfiguration? = nil, updatedAt: Date? = nil, vpcId: String) {
+        public init(activeLinksCount: Int? = nil, clientRoutingPolicy: ClientRoutingPolicy? = nil, createdAt: Date? = nil, description: String? = nil, domainName: String? = nil, externalInboundEndpoint: String? = nil, gatewayId: String, gatewayType: GatewayType? = nil, linksRequestedCount: Int? = nil, listenerConfig: ListenerConfig? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, securityGroupIds: [String], status: ResponderGatewayStatus, subnetIds: [String], tags: [String: String]? = nil, totalLinksCount: Int? = nil, trustStoreConfiguration: TrustStoreConfiguration? = nil, updatedAt: Date? = nil, vpcId: String) {
             self.activeLinksCount = activeLinksCount
+            self.clientRoutingPolicy = clientRoutingPolicy
             self.createdAt = createdAt
             self.description = description
             self.domainName = domainName
@@ -2078,6 +2095,7 @@ extension RTBFabric {
 
         private enum CodingKeys: String, CodingKey {
             case activeLinksCount = "activeLinksCount"
+            case clientRoutingPolicy = "clientRoutingPolicy"
             case createdAt = "createdAt"
             case description = "description"
             case domainName = "domainName"
@@ -3020,7 +3038,7 @@ extension RTBFabric {
     }
 
     public struct UpdateLinkModuleFlowRequest: AWSEncodableShape {
-        /// The unique client token.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String
         /// The unique identifier of the gateway.
         public let gatewayId: String
@@ -3222,7 +3240,7 @@ extension RTBFabric {
     }
 
     public struct UpdateRequesterGatewayRequest: AWSEncodableShape {
-        /// The unique client token.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String
         /// An optional description for the requester gateway.
         public let description: String?
@@ -3275,11 +3293,13 @@ extension RTBFabric {
     }
 
     public struct UpdateResponderGatewayRequest: AWSEncodableShape {
-        /// The unique client token.
+        /// The client routing policy of the gateway. This policy controls which Availability Zones RTB Fabric uses to reach the gateway for the requester gateways that send traffic to it. Valid values are the following:    AVAILABILITY_ZONE_AFFINITY: RTB Fabric routes each requester's traffic to gateway capacity in the requester's own Availability Zone when the gateway has capacity available there. Otherwise, RTB Fabric routes the traffic to gateway capacity in the other Availability Zones of the gateway.    ANY_AVAILABILITY_ZONE: RTB Fabric routes each requester's traffic to gateway capacity in every Availability Zone that the subnets of the gateway span. The Availability Zone that the requester is in does not change this.   If you don't specify a value, the gateway keeps its current client routing policy. Changing the policy sets the gateway status to PENDING_UPDATE until the change is complete. RTB Fabric does not support partial Availability Zone affinity, so PARTIAL_AVAILABILITY_ZONE_AFFINITY is not a valid value. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide.
+        public let clientRoutingPolicy: ClientRoutingPolicy?
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same clientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String
         /// An optional description for the responder gateway.
         public let description: String?
-        /// The domain name for the responder gateway.
+        /// Domain name for the responder gateway. This operation does not change the domain name of an existing gateway. To use a different domain name, delete the gateway and create a new one.
         public let domainName: String?
         /// The unique identifier of the gateway.
         public let gatewayId: String
@@ -3287,15 +3307,16 @@ extension RTBFabric {
         public let listenerConfig: ListenerConfig?
         /// The configuration for the managed endpoint.
         public let managedEndpointConfiguration: ManagedEndpointConfiguration?
-        /// The networking port to use.
+        /// Networking port to use. This operation does not change the port of an existing gateway. To use a different port, delete the gateway and create a new one.
         public let port: Int
-        /// The networking protocol to use.
+        /// Networking protocol to use. This operation does not change the protocol of an existing gateway. To use a different protocol, delete the gateway and create a new one.
         public let `protocol`: `Protocol`
         /// The configuration of the trust store.
         public let trustStoreConfiguration: TrustStoreConfiguration?
 
         @inlinable
-        public init(clientToken: String = UpdateResponderGatewayRequest.idempotencyToken(), description: String? = nil, domainName: String? = nil, gatewayId: String, listenerConfig: ListenerConfig? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, trustStoreConfiguration: TrustStoreConfiguration? = nil) {
+        public init(clientRoutingPolicy: ClientRoutingPolicy? = nil, clientToken: String = UpdateResponderGatewayRequest.idempotencyToken(), description: String? = nil, domainName: String? = nil, gatewayId: String, listenerConfig: ListenerConfig? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, trustStoreConfiguration: TrustStoreConfiguration? = nil) {
+            self.clientRoutingPolicy = clientRoutingPolicy
             self.clientToken = clientToken
             self.description = description
             self.domainName = domainName
@@ -3310,6 +3331,7 @@ extension RTBFabric {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRoutingPolicy, forKey: .clientRoutingPolicy)
             try container.encode(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.domainName, forKey: .domainName)
@@ -3334,6 +3356,7 @@ extension RTBFabric {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientRoutingPolicy = "clientRoutingPolicy"
             case clientToken = "clientToken"
             case description = "description"
             case domainName = "domainName"
@@ -3346,18 +3369,22 @@ extension RTBFabric {
     }
 
     public struct UpdateResponderGatewayResponse: AWSDecodableShape {
+        /// The client routing policy of the gateway. If the operation changed this policy, the gateway uses the new policy after its status returns to ACTIVE. For more information, see Configuring Availability Zone affinity in the Amazon Web Services RTB Fabric User Guide.
+        public let clientRoutingPolicy: ClientRoutingPolicy?
         /// The unique identifier of the gateway.
         public let gatewayId: String
         /// The status of the request.
         public let status: ResponderGatewayStatus
 
         @inlinable
-        public init(gatewayId: String, status: ResponderGatewayStatus) {
+        public init(clientRoutingPolicy: ClientRoutingPolicy? = nil, gatewayId: String, status: ResponderGatewayStatus) {
+            self.clientRoutingPolicy = clientRoutingPolicy
             self.gatewayId = gatewayId
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientRoutingPolicy = "clientRoutingPolicy"
             case gatewayId = "gatewayId"
             case status = "status"
         }

@@ -1033,6 +1033,7 @@ extension Billingconductor {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.tiering?.validate(name: "\(name).tiering")
             try self.validate(self.usageType, name: "usageType", parent: name, max: 256)
             try self.validate(self.usageType, name: "usageType", parent: name, min: 1)
             try self.validate(self.usageType, name: "usageType", parent: name, pattern: "^\\S+$")
@@ -1068,15 +1069,27 @@ extension Billingconductor {
     }
 
     public struct CreateTieringInput: AWSEncodableShape {
+        ///  The set of custom tiers for the pricing rule.
+        public let customTiers: [CustomTier]?
         ///  The possible Amazon Web Services Free Tier configurations.
-        public let freeTier: CreateFreeTierConfig
+        public let freeTier: CreateFreeTierConfig?
 
         @inlinable
-        public init(freeTier: CreateFreeTierConfig) {
+        public init(customTiers: [CustomTier]? = nil, freeTier: CreateFreeTierConfig? = nil) {
+            self.customTiers = customTiers
             self.freeTier = freeTier
         }
 
+        public func validate(name: String) throws {
+            try self.customTiers?.forEach {
+                try $0.validate(name: "\(name).customTiers[]")
+            }
+            try self.validate(self.customTiers, name: "customTiers", parent: name, max: 10)
+            try self.validate(self.customTiers, name: "customTiers", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case customTiers = "CustomTiers"
             case freeTier = "FreeTier"
         }
     }
@@ -1317,6 +1330,34 @@ extension Billingconductor {
             case productCode = "ProductCode"
             case startBillingPeriod = "StartBillingPeriod"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct CustomTier: AWSEncodableShape & AWSDecodableShape {
+        ///  The inclusive start of the usage range that this tier applies to.
+        public let beginRangeInclusive: Double
+        ///  The exclusive end of the usage range that this tier applies to. If you don't specify a value, this tier applies to all usage that is greater than or equal to BeginRangeInclusive.
+        public let endRangeExclusive: Double?
+        ///  The rate that's applied to the usage that falls within this tier.
+        public let rateValue: Double
+
+        @inlinable
+        public init(beginRangeInclusive: Double, endRangeExclusive: Double? = nil, rateValue: Double) {
+            self.beginRangeInclusive = beginRangeInclusive
+            self.endRangeExclusive = endRangeExclusive
+            self.rateValue = rateValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.beginRangeInclusive, name: "beginRangeInclusive", parent: name, min: 0.0)
+            try self.validate(self.endRangeExclusive, name: "endRangeExclusive", parent: name, min: 0.0)
+            try self.validate(self.rateValue, name: "rateValue", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginRangeInclusive = "BeginRangeInclusive"
+            case endRangeExclusive = "EndRangeExclusive"
+            case rateValue = "RateValue"
         }
     }
 
@@ -2877,15 +2918,19 @@ extension Billingconductor {
     }
 
     public struct Tiering: AWSDecodableShape {
+        ///  The set of custom tiers for the pricing rule.
+        public let customTiers: [CustomTier]?
         ///  The possible Amazon Web Services Free Tier configurations.
-        public let freeTier: FreeTierConfig
+        public let freeTier: FreeTierConfig?
 
         @inlinable
-        public init(freeTier: FreeTierConfig) {
+        public init(customTiers: [CustomTier]? = nil, freeTier: FreeTierConfig? = nil) {
+            self.customTiers = customTiers
             self.freeTier = freeTier
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customTiers = "CustomTiers"
             case freeTier = "FreeTier"
         }
     }
@@ -3295,6 +3340,7 @@ extension Billingconductor {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\+=\\.\\-@]+$")
+            try self.tiering?.validate(name: "\(name).tiering")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3370,15 +3416,27 @@ extension Billingconductor {
     }
 
     public struct UpdateTieringInput: AWSEncodableShape & AWSDecodableShape {
+        ///  The set of custom tiers for the pricing rule.
+        public let customTiers: [CustomTier]?
         ///  The possible Amazon Web Services Free Tier configurations.
-        public let freeTier: UpdateFreeTierConfig
+        public let freeTier: UpdateFreeTierConfig?
 
         @inlinable
-        public init(freeTier: UpdateFreeTierConfig) {
+        public init(customTiers: [CustomTier]? = nil, freeTier: UpdateFreeTierConfig? = nil) {
+            self.customTiers = customTiers
             self.freeTier = freeTier
         }
 
+        public func validate(name: String) throws {
+            try self.customTiers?.forEach {
+                try $0.validate(name: "\(name).customTiers[]")
+            }
+            try self.validate(self.customTiers, name: "customTiers", parent: name, max: 10)
+            try self.validate(self.customTiers, name: "customTiers", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case customTiers = "CustomTiers"
             case freeTier = "FreeTier"
         }
     }

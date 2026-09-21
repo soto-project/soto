@@ -71,13 +71,13 @@ extension Notifications {
     }
 
     public enum ChannelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        ///     User Notification Service sends notifications to Account Managed contacts.
+        /// User Notification Service sends notifications to Account Managed contacts.
         case accountContact = "ACCOUNT_CONTACT"
-        ///     Chatbot sends notifications to group platforms, like Slack or Chime. Link:https://aws.amazon.com/chatbot/
+        /// Chatbot sends notifications to group platforms, like Slack or Chime. Link:https://aws.amazon.com/chatbot/
         case chatbot = "CHATBOT"
-        ///     Email sends notifications to email addresses.
+        /// Email sends notifications to email addresses.
         case email = "EMAIL"
-        ///     AWS Console Mobile App sends notifications to mobile devices. Link:https://aws.amazon.com/console/mobile/
+        /// AWS Console Mobile App sends notifications to mobile devices. Link:https://aws.amazon.com/console/mobile/
         case mobile = "MOBILE"
         public var description: String { return self.rawValue }
     }
@@ -203,6 +203,7 @@ extension Notifications {
     public enum TextPartType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case localizedText = "LOCALIZED_TEXT"
         case plainText = "PLAIN_TEXT"
+        case portableText = "PORTABLE_TEXT"
         case url = "URL"
         public var description: String { return self.rawValue }
     }
@@ -301,8 +302,8 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
-            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -317,12 +318,15 @@ extension Notifications {
     public struct AssociateManagedNotificationAccountContactRequest: AWSEncodableShape {
         /// A unique value of an Account Contact Type to associate with the ManagedNotificationConfiguration.
         public let contactIdentifier: AccountContactType
+        /// Specifies whether this contact is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls access to sensitive events. Defaults to false.
+        public let isSensitiveEventsSubscribed: Bool?
         /// The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the Account Contact.
         public let managedNotificationConfigurationArn: String
 
         @inlinable
-        public init(contactIdentifier: AccountContactType, managedNotificationConfigurationArn: String) {
+        public init(contactIdentifier: AccountContactType, isSensitiveEventsSubscribed: Bool? = nil, managedNotificationConfigurationArn: String) {
             self.contactIdentifier = contactIdentifier
+            self.isSensitiveEventsSubscribed = isSensitiveEventsSubscribed
             self.managedNotificationConfigurationArn = managedNotificationConfigurationArn
         }
 
@@ -330,14 +334,16 @@ extension Notifications {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.contactIdentifier, key: "contactIdentifier")
+            try container.encodeIfPresent(self.isSensitiveEventsSubscribed, forKey: .isSensitiveEventsSubscribed)
             try container.encode(self.managedNotificationConfigurationArn, forKey: .managedNotificationConfigurationArn)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
+            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case isSensitiveEventsSubscribed = "isSensitiveEventsSubscribed"
             case managedNotificationConfigurationArn = "managedNotificationConfigurationArn"
         }
     }
@@ -349,12 +355,15 @@ extension Notifications {
     public struct AssociateManagedNotificationAdditionalChannelRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration. Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and email (notifications-contacts).
         public let channelArn: String
+        /// Specifies whether this channel is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls access to sensitive events. Defaults to false.
+        public let isSensitiveEventsSubscribed: Bool?
         /// The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the additional Channel.
         public let managedNotificationConfigurationArn: String
 
         @inlinable
-        public init(channelArn: String, managedNotificationConfigurationArn: String) {
+        public init(channelArn: String, isSensitiveEventsSubscribed: Bool? = nil, managedNotificationConfigurationArn: String) {
             self.channelArn = channelArn
+            self.isSensitiveEventsSubscribed = isSensitiveEventsSubscribed
             self.managedNotificationConfigurationArn = managedNotificationConfigurationArn
         }
 
@@ -362,15 +371,17 @@ extension Notifications {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.channelArn, key: "channelArn")
+            try container.encodeIfPresent(self.isSensitiveEventsSubscribed, forKey: .isSensitiveEventsSubscribed)
             try container.encode(self.managedNotificationConfigurationArn, forKey: .managedNotificationConfigurationArn)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
-            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
+            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case isSensitiveEventsSubscribed = "isSensitiveEventsSubscribed"
             case managedNotificationConfigurationArn = "managedNotificationConfigurationArn"
         }
     }
@@ -399,7 +410,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
             try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^(Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -455,11 +466,11 @@ extension Notifications {
             try self.validate(self.eventType, name: "eventType", parent: name, max: 128)
             try self.validate(self.eventType, name: "eventType", parent: name, min: 1)
             try self.validate(self.eventType, name: "eventType", parent: name, pattern: "^([a-zA-Z0-9 \\-\\(\\)])+$")
-            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
             try self.regions.forEach {
                 try validate($0, name: "regions[]", parent: name, max: 25)
                 try validate($0, name: "regions[]", parent: name, min: 2)
-                try validate($0, name: "regions[]", parent: name, pattern: "^([a-z]{1,2})-([a-z]{1,15}-)+([0-9])$")
+                try validate($0, name: "regions[]", parent: name, pattern: "^([a-z]{1,4})-([a-z]{1,15}-)+([0-9])$")
             }
             try self.validate(self.regions, name: "regions", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, max: 36)
@@ -571,7 +582,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}/rule/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}/rule/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -597,7 +608,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -608,7 +619,7 @@ extension Notifications {
     }
 
     public struct DeregisterNotificationHubRequest: AWSEncodableShape {
-        /// The NotificationConfiguration Region.
+        /// The NotificationHub Region.
         public let notificationHubRegion: String
 
         @inlinable
@@ -625,16 +636,16 @@ extension Notifications {
         public func validate(name: String) throws {
             try self.validate(self.notificationHubRegion, name: "notificationHubRegion", parent: name, max: 25)
             try self.validate(self.notificationHubRegion, name: "notificationHubRegion", parent: name, min: 2)
-            try self.validate(self.notificationHubRegion, name: "notificationHubRegion", parent: name, pattern: "^([a-z]{1,2})-([a-z]{1,15}-)+([0-9])$")
+            try self.validate(self.notificationHubRegion, name: "notificationHubRegion", parent: name, pattern: "^([a-z]{1,4})-([a-z]{1,15}-)+([0-9])$")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DeregisterNotificationHubResponse: AWSDecodableShape {
-        /// The NotificationConfiguration Region.
+        /// The NotificationHub Region.
         public let notificationHubRegion: String
-        ///  NotificationConfiguration status information.
+        ///  NotificationHub status information.
         public let statusSummary: NotificationHubStatusSummary
 
         @inlinable
@@ -695,8 +706,8 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
-            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -728,7 +739,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
+            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -760,8 +771,8 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
-            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
+            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -793,7 +804,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
             try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^(Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -895,7 +906,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}/rule/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}/rule/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -968,7 +979,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}/event/[a-z0-9]{27}/child-event/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}/event/[a-z0-9]{27}/child-event/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1017,7 +1028,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1073,7 +1084,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}/event/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}/event/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1122,7 +1133,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1187,7 +1198,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications:[-.a-z0-9]{1,63}:[0-9]{12}:configuration/[a-z0-9]{27}/event/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications:[-.a-z0-9]{1,63}:[0-9]{12}:configuration/[a-z0-9]{27}/event/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1265,7 +1276,7 @@ extension Notifications {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
-            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1316,7 +1327,7 @@ extension Notifications {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
-            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1364,7 +1375,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
+            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
@@ -1435,7 +1446,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.aggregateManagedNotificationEventArn, name: "aggregateManagedNotificationEventArn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}/event/[a-z0-9]{27}$")
+            try self.validate(self.aggregateManagedNotificationEventArn, name: "aggregateManagedNotificationEventArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}/event/[a-z0-9]{27}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
@@ -1488,7 +1499,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.channelIdentifier, name: "channelIdentifier", parent: name, pattern: "^ACCOUNT_PRIMARY|ACCOUNT_ALTERNATE_BILLING|ACCOUNT_ALTERNATE_OPERATIONS|ACCOUNT_ALTERNATE_SECURITY|arn:aws:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
+            try self.validate(self.channelIdentifier, name: "channelIdentifier", parent: name, pattern: "^(ACCOUNT_PRIMARY|ACCOUNT_ALTERNATE_BILLING|ACCOUNT_ALTERNATE_OPERATIONS|ACCOUNT_ALTERNATE_SECURITY|arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+)$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
@@ -1518,6 +1529,8 @@ extension Notifications {
     public struct ListManagedNotificationEventsRequest: AWSEncodableShape {
         /// Latest time of events to return from this call.
         public let endTime: Date?
+        /// Specifies whether to include sensitive events in the result. By default, only non-sensitive events are returned. The notifications:AccessSensitiveEvents permission controls access to sensitive events.
+        public let includeSensitiveEvents: Bool?
         /// The locale code of the language used for the retrieved NotificationEvent. The default locale is English (en_US).
         public let locale: LocaleCode?
         /// The maximum number of results to be returned in this call. Defaults to 20.
@@ -1534,8 +1547,9 @@ extension Notifications {
         public let startTime: Date?
 
         @inlinable
-        public init(endTime: Date? = nil, locale: LocaleCode? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationalUnitId: String? = nil, relatedAccount: String? = nil, source: String? = nil, startTime: Date? = nil) {
+        public init(endTime: Date? = nil, includeSensitiveEvents: Bool? = nil, locale: LocaleCode? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationalUnitId: String? = nil, relatedAccount: String? = nil, source: String? = nil, startTime: Date? = nil) {
             self.endTime = endTime
+            self.includeSensitiveEvents = includeSensitiveEvents
             self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1549,6 +1563,7 @@ extension Notifications {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.endTime, key: "endTime")
+            request.encodeQuery(self.includeSensitiveEvents, key: "includeSensitiveEvents")
             request.encodeQuery(self.locale, key: "locale")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
@@ -1630,7 +1645,7 @@ extension Notifications {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
-            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
             try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "^(Root|r-[0-9a-z]{4,32}|ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
         }
 
@@ -1691,7 +1706,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:aws:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
+            try self.validate(self.channelArn, name: "channelArn", parent: name, pattern: "^arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+$")
             try self.validate(self.eventRuleSource, name: "eventRuleSource", parent: name, max: 36)
             try self.validate(self.eventRuleSource, name: "eventRuleSource", parent: name, min: 1)
             try self.validate(self.eventRuleSource, name: "eventRuleSource", parent: name, pattern: "^aws.([a-z0-9\\-])+$")
@@ -1769,7 +1784,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.aggregateNotificationEventArn, name: "aggregateNotificationEventArn", parent: name, pattern: "^arn:[-.a-z0-9]{1,63}:notifications:[-.a-z0-9]{1,63}:[0-9]{12}:configuration/[a-z0-9]{27}/event/[a-z0-9]{27}$")
+            try self.validate(self.aggregateNotificationEventArn, name: "aggregateNotificationEventArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications:[-.a-z0-9]{1,63}:[0-9]{12}:configuration/[a-z0-9]{27}/event/[a-z0-9]{27}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
@@ -1873,7 +1888,7 @@ extension Notifications {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w+-/=]+$")
-            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.notificationConfigurationArn, name: "notificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1913,7 +1928,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1938,19 +1953,23 @@ extension Notifications {
         public let channelIdentifier: String
         /// The type of notification channel used for message delivery.   Values:    ACCOUNT_CONTACT    Delivers notifications to Account Managed contacts through the User Notification Service.      MOBILE    Delivers notifications through the Amazon Web Services Console Mobile Application to mobile devices.      CHATBOT    Delivers notifications through Amazon Q Developer in chat applications to collaboration platforms (Slack, Chime).      EMAIL    Delivers notifications to email addresses.
         public let channelType: ChannelType
+        /// Specifies whether this channel association is subscribed to sensitive events. Defaults to false for associations created without the flag.
+        public let isSensitiveEventsSubscribed: Bool?
         /// Controls whether users can modify channel associations for a notification configuration.   Values:    ENABLED    Users can associate or disassociate channels with the notification configuration.      DISABLED    Users cannot associate or disassociate channels with the notification configuration.
         public let overrideOption: ChannelAssociationOverrideOption?
 
         @inlinable
-        public init(channelIdentifier: String, channelType: ChannelType, overrideOption: ChannelAssociationOverrideOption? = nil) {
+        public init(channelIdentifier: String, channelType: ChannelType, isSensitiveEventsSubscribed: Bool? = nil, overrideOption: ChannelAssociationOverrideOption? = nil) {
             self.channelIdentifier = channelIdentifier
             self.channelType = channelType
+            self.isSensitiveEventsSubscribed = isSensitiveEventsSubscribed
             self.overrideOption = overrideOption
         }
 
         private enum CodingKeys: String, CodingKey {
             case channelIdentifier = "channelIdentifier"
             case channelType = "channelType"
+            case isSensitiveEventsSubscribed = "isSensitiveEventsSubscribed"
             case overrideOption = "overrideOption"
         }
     }
@@ -2114,6 +2133,8 @@ extension Notifications {
         /// The notifications aggregation type.
         public let aggregationEventType: AggregationEventType?
         public let aggregationSummary: AggregationSummary?
+        /// A list of files attached to the notification event.
+        public let attachments: [NotificationEventAttachment]?
         /// The end time of the notification event.
         public let endTime: Date?
         /// The status of an event.   Values:    HEALTHY    All EventRules are ACTIVE and any call can be run.      UNHEALTHY    Some EventRules are ACTIVE and some are INACTIVE. Any call can be run.
@@ -2137,9 +2158,10 @@ extension Notifications {
         public let textParts: [String: TextPartValue]
 
         @inlinable
-        public init(aggregationEventType: AggregationEventType? = nil, aggregationSummary: AggregationSummary? = nil, endTime: Date? = nil, eventStatus: EventStatus? = nil, id: String, messageComponents: MessageComponents, notificationType: NotificationType, organizationalUnitId: String? = nil, schemaVersion: SchemaVersion, sourceEventDetailUrl: String? = nil, sourceEventDetailUrlDisplayText: String? = nil, startTime: Date? = nil, textParts: [String: TextPartValue]) {
+        public init(aggregationEventType: AggregationEventType? = nil, aggregationSummary: AggregationSummary? = nil, attachments: [NotificationEventAttachment]? = nil, endTime: Date? = nil, eventStatus: EventStatus? = nil, id: String, messageComponents: MessageComponents, notificationType: NotificationType, organizationalUnitId: String? = nil, schemaVersion: SchemaVersion, sourceEventDetailUrl: String? = nil, sourceEventDetailUrlDisplayText: String? = nil, startTime: Date? = nil, textParts: [String: TextPartValue]) {
             self.aggregationEventType = aggregationEventType
             self.aggregationSummary = aggregationSummary
+            self.attachments = attachments
             self.endTime = endTime
             self.eventStatus = eventStatus
             self.id = id
@@ -2156,6 +2178,7 @@ extension Notifications {
         private enum CodingKeys: String, CodingKey {
             case aggregationEventType = "aggregationEventType"
             case aggregationSummary = "aggregationSummary"
+            case attachments = "attachments"
             case endTime = "endTime"
             case eventStatus = "eventStatus"
             case id = "id"
@@ -2329,14 +2352,17 @@ extension Notifications {
         public let dimensions: [Dimension]?
         /// A sentence long summary. For example, titles or an email subject line.
         public let headline: String?
+        /// A rich description in Portable Text format, which you can convert to markup formats such as HTML, Markdown, or plain text. Channels that don't support rich rendering ignore this field and use the plain text components instead.
+        public let markupDescription: String?
         /// A paragraph long or multiple sentence summary. For example, Amazon Q Developer in chat applications notifications.
         public let paragraphSummary: String?
 
         @inlinable
-        public init(completeDescription: String? = nil, dimensions: [Dimension]? = nil, headline: String? = nil, paragraphSummary: String? = nil) {
+        public init(completeDescription: String? = nil, dimensions: [Dimension]? = nil, headline: String? = nil, markupDescription: String? = nil, paragraphSummary: String? = nil) {
             self.completeDescription = completeDescription
             self.dimensions = dimensions
             self.headline = headline
+            self.markupDescription = markupDescription
             self.paragraphSummary = paragraphSummary
         }
 
@@ -2344,6 +2370,7 @@ extension Notifications {
             case completeDescription = "completeDescription"
             case dimensions = "dimensions"
             case headline = "headline"
+            case markupDescription = "markupDescription"
             case paragraphSummary = "paragraphSummary"
         }
     }
@@ -2398,6 +2425,28 @@ extension Notifications {
             case name = "name"
             case status = "status"
             case subtype = "subtype"
+        }
+    }
+
+    public struct NotificationEventAttachment: AWSDecodableShape {
+        /// A temporary URL for downloading the attachment. The URL expires shortly after it's issued.
+        public let attachmentDownloadUrl: String?
+        /// The MIME content type of the attachment, for example application/pdf.
+        public let contentType: String
+        /// The name of the attachment that recipients see.
+        public let displayName: String
+
+        @inlinable
+        public init(attachmentDownloadUrl: String? = nil, contentType: String, displayName: String) {
+            self.attachmentDownloadUrl = attachmentDownloadUrl
+            self.contentType = contentType
+            self.displayName = displayName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentDownloadUrl = "attachmentDownloadUrl"
+            case contentType = "contentType"
+            case displayName = "displayName"
         }
     }
 
@@ -2623,7 +2672,7 @@ extension Notifications {
         public func validate(name: String) throws {
             try self.validate(self.notificationHubRegion, name: "notificationHubRegion", parent: name, max: 25)
             try self.validate(self.notificationHubRegion, name: "notificationHubRegion", parent: name, min: 2)
-            try self.validate(self.notificationHubRegion, name: "notificationHubRegion", parent: name, pattern: "^([a-z]{1,2})-([a-z]{1,15}-)+([0-9])$")
+            try self.validate(self.notificationHubRegion, name: "notificationHubRegion", parent: name, pattern: "^([a-z]{1,4})-([a-z]{1,15}-)+([0-9])$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2640,7 +2689,7 @@ extension Notifications {
         public var lastActivationTime: Date?
         /// The Region of the NotificationHub.
         public let notificationHubRegion: String
-        /// Provides additional information about the current NotificationConfiguration status information.
+        /// Provides additional information about the current NotificationHub status information.
         public let statusSummary: NotificationHubStatusSummary
 
         @inlinable
@@ -2855,7 +2904,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).{1,128}$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
@@ -2951,7 +3000,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:).{1,128}$")
             }
@@ -2989,12 +3038,12 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}/rule/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}/rule/[a-z0-9]{27}$")
             try self.validate(self.eventPattern, name: "eventPattern", parent: name, max: 4096)
             try self.regions?.forEach {
                 try validate($0, name: "regions[]", parent: name, max: 25)
                 try validate($0, name: "regions[]", parent: name, min: 2)
-                try validate($0, name: "regions[]", parent: name, pattern: "^([a-z]{1,2})-([a-z]{1,15}-)+([0-9])$")
+                try validate($0, name: "regions[]", parent: name, pattern: "^([a-z]{1,4})-([a-z]{1,15}-)+([0-9])$")
             }
             try self.validate(self.regions, name: "regions", parent: name, min: 1)
         }
@@ -3027,6 +3076,37 @@ extension Notifications {
         }
     }
 
+    public struct UpdateManagedNotificationChannelAssociationRequest: AWSEncodableShape {
+        /// The identifier of the channel association to update. You can specify one of the following:   An Account contact identifier.   A Channel ARN.
+        public let channelIdentifier: String
+        /// Specifies whether the association is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls access to sensitive events.
+        public let isSensitiveEventsSubscribed: Bool?
+        /// The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration whose Channel association property you want to update.
+        public let managedNotificationConfigurationArn: String
+
+        @inlinable
+        public init(channelIdentifier: String, isSensitiveEventsSubscribed: Bool? = nil, managedNotificationConfigurationArn: String) {
+            self.channelIdentifier = channelIdentifier
+            self.isSensitiveEventsSubscribed = isSensitiveEventsSubscribed
+            self.managedNotificationConfigurationArn = managedNotificationConfigurationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelIdentifier, name: "channelIdentifier", parent: name, pattern: "^(ACCOUNT_PRIMARY|ACCOUNT_ALTERNATE_BILLING|ACCOUNT_ALTERNATE_OPERATIONS|ACCOUNT_ALTERNATE_SECURITY|arn:[a-z-]{3,10}:(chatbot|consoleapp|notifications-contacts):[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-_.@]+/[a-zA-Z0-9/_.@:-]+)$")
+            try self.validate(self.managedNotificationConfigurationArn, name: "managedNotificationConfigurationArn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:managed-notification-configuration/category/[a-zA-Z0-9\\-]{3,64}/sub-category/[a-zA-Z0-9\\-]{3,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelIdentifier = "channelIdentifier"
+            case isSensitiveEventsSubscribed = "isSensitiveEventsSubscribed"
+            case managedNotificationConfigurationArn = "managedNotificationConfigurationArn"
+        }
+    }
+
+    public struct UpdateManagedNotificationChannelAssociationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateNotificationConfigurationRequest: AWSEncodableShape {
         /// The aggregation preference of the NotificationConfiguration.   Values:    LONG    Aggregate notifications for long periods of time (12 hours).      SHORT    Aggregate notifications for short periods of time (5 minutes).      NONE    Don't aggregate notifications.
         public let aggregationDuration: AggregationDuration?
@@ -3055,7 +3135,7 @@ extension Notifications {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-z-]{3,10}:notifications::[0-9]{12}:configuration/[a-z0-9]{27}$")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\u0001-\\u001F\\u007F-\\u009F]*$")
             try self.validate(self.name, name: "name", parent: name, max: 64)

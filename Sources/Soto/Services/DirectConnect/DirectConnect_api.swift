@@ -354,6 +354,41 @@ public struct DirectConnect: AWSService {
         return try await self.associateConnectionWithLag(input, logger: logger)
     }
 
+    /// Associates one or more connections with the specified resiliency group. This operation is atomic: either all of the specified connections are associated, or the operation fails and no changes are made.
+    @Sendable
+    @inlinable
+    public func associateConnectionsToResiliencyGroup(_ input: AssociateConnectionsToResiliencyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateConnectionsToResiliencyGroupResult {
+        try await self.client.execute(
+            operation: "AssociateConnectionsToResiliencyGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates one or more connections with the specified resiliency group. This operation is atomic: either all of the specified connections are associated, or the operation fails and no changes are made.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - connectionIdentifiers: The IDs or ARNs of the connections to associate with the resiliency group.
+    ///   - resiliencyGroupId: The ID of the resiliency group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateConnectionsToResiliencyGroup(
+        clientToken: String? = nil,
+        connectionIdentifiers: [String],
+        resiliencyGroupId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateConnectionsToResiliencyGroupResult {
+        let input = AssociateConnectionsToResiliencyGroupRequest(
+            clientToken: clientToken, 
+            connectionIdentifiers: connectionIdentifiers, 
+            resiliencyGroupId: resiliencyGroupId
+        )
+        return try await self.associateConnectionsToResiliencyGroup(input, logger: logger)
+    }
+
     /// Associates a hosted connection and its virtual interfaces with a link aggregation group (LAG) or interconnect. If the target interconnect or LAG has an existing hosted connection with a conflicting VLAN number or IP address, the operation fails. This action temporarily interrupts the hosted connection's connectivity to Amazon Web Services  as it is being migrated.  Intended for use by Direct Connect Partners only.
     @Sendable
     @inlinable
@@ -659,6 +694,7 @@ public struct DirectConnect: AWSService {
     ///
     /// Parameters:
     ///   - bandwidth: The bandwidth of the connection.
+    ///   - billingMode: The billing mode for the connection.
     ///   - connectionName: The name of the connection.
     ///   - lagId: The ID of the LAG.
     ///   - location: The location of the connection.
@@ -669,6 +705,7 @@ public struct DirectConnect: AWSService {
     @inlinable
     public func createConnection(
         bandwidth: String,
+        billingMode: RequestBillingMode? = nil,
         connectionName: String,
         lagId: String? = nil,
         location: String,
@@ -679,6 +716,7 @@ public struct DirectConnect: AWSService {
     ) async throws -> Connection {
         let input = CreateConnectionRequest(
             bandwidth: bandwidth, 
+            billingMode: billingMode, 
             connectionName: connectionName, 
             lagId: lagId, 
             location: location, 
@@ -866,6 +904,7 @@ public struct DirectConnect: AWSService {
     /// Creates a link aggregation group (LAG) with the specified number of bundled physical dedicated connections between the customer network and a specific Direct Connect location. A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to aggregate multiple interfaces, enabling you to treat them as a single  interface. All connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or 400Gbps) and must terminate at the same Direct Connect endpoint. You can have up to 10 dedicated connections per location. Regardless of this limit, if you request more connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is created.. You can specify an existing physical dedicated connection or interconnect to include in the LAG (which counts towards the total number of connections). Doing so interrupts the current physical dedicated connection, and re-establishes them as a member of the LAG. The LAG will be created on the same Direct Connect endpoint to which the dedicated connection terminates. Any virtual interfaces associated with the dedicated connection are automatically disassociated and re-associated with the LAG. The connection ID does not change. If the Amazon Web Services account used to create a LAG is a registered Direct Connect Partner, the LAG is  automatically enabled to host sub-connections. For a LAG owned by a partner, any associated virtual  interfaces cannot be directly configured.
     ///
     /// Parameters:
+    ///   - billingMode: The billing mode for the LAG.
     ///   - childConnectionTags: The tags to associate with the automtically created LAGs.
     ///   - connectionId: The ID of an existing dedicated connection to migrate to the LAG.
     ///   - connectionsBandwidth: The bandwidth of the individual physical dedicated connections bundled by the LAG. The possible values are  1Gbps,10Gbps, 100Gbps, and 400Gbps.
@@ -878,6 +917,7 @@ public struct DirectConnect: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createLag(
+        billingMode: RequestBillingMode? = nil,
         childConnectionTags: [Tag]? = nil,
         connectionId: String? = nil,
         connectionsBandwidth: String,
@@ -890,6 +930,7 @@ public struct DirectConnect: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> Lag {
         let input = CreateLagRequest(
+            billingMode: billingMode, 
             childConnectionTags: childConnectionTags, 
             connectionId: connectionId, 
             connectionsBandwidth: connectionsBandwidth, 
@@ -965,6 +1006,44 @@ public struct DirectConnect: AWSService {
             newPublicVirtualInterface: newPublicVirtualInterface
         )
         return try await self.createPublicVirtualInterface(input, logger: logger)
+    }
+
+    /// Creates a resiliency group. A resiliency group lets you group Direct Connect connections together and manage them as a single unit to meet a target resiliency model.
+    @Sendable
+    @inlinable
+    public func createResiliencyGroup(_ input: CreateResiliencyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResiliencyGroupResult {
+        try await self.client.execute(
+            operation: "CreateResiliencyGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a resiliency group. A resiliency group lets you group Direct Connect connections together and manage them as a single unit to meet a target resiliency model.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - intendedResiliencyModel: The resiliency model that the resiliency group is intended to meet. The valid values are maximum-resiliency, high-resiliency, and basic-resiliency.
+    ///   - resiliencyGroupName: The name of the resiliency group.
+    ///   - tags: The tags to associate with the resiliency group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createResiliencyGroup(
+        clientToken: String? = nil,
+        intendedResiliencyModel: ResiliencyModel,
+        resiliencyGroupName: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateResiliencyGroupResult {
+        let input = CreateResiliencyGroupRequest(
+            clientToken: clientToken, 
+            intendedResiliencyModel: intendedResiliencyModel, 
+            resiliencyGroupName: resiliencyGroupName, 
+            tags: tags
+        )
+        return try await self.createResiliencyGroup(input, logger: logger)
     }
 
     /// Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway.  If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails.  A jumbo MTU value must be either 1500 or 8500. No other values will be accepted. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual interface supports jumbo frames, call DescribeVirtualInterfaces.
@@ -1218,6 +1297,35 @@ public struct DirectConnect: AWSService {
             lagId: lagId
         )
         return try await self.deleteLag(input, logger: logger)
+    }
+
+    /// Deletes the specified resiliency group. Deletion is asynchronous: the resiliency group transitions through the deleting state before it reaches the deleted state. The response returns the resiliency group so you can observe its current state without a subsequent GetResiliencyGroup call.
+    @Sendable
+    @inlinable
+    public func deleteResiliencyGroup(_ input: DeleteResiliencyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResiliencyGroupResult {
+        try await self.client.execute(
+            operation: "DeleteResiliencyGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified resiliency group. Deletion is asynchronous: the resiliency group transitions through the deleting state before it reaches the deleted state. The response returns the resiliency group so you can observe its current state without a subsequent GetResiliencyGroup call.
+    ///
+    /// Parameters:
+    ///   - resiliencyGroupId: The ID of the resiliency group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResiliencyGroup(
+        resiliencyGroupId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResiliencyGroupResult {
+        let input = DeleteResiliencyGroupRequest(
+            resiliencyGroupId: resiliencyGroupId
+        )
+        return try await self.deleteResiliencyGroup(input, logger: logger)
     }
 
     /// Deletes a virtual interface.
@@ -1851,6 +1959,41 @@ public struct DirectConnect: AWSService {
         return try await self.disassociateConnectionFromLag(input, logger: logger)
     }
 
+    /// Disassociates one or more connections from the specified resiliency group. This operation is atomic: either all of the specified connections are disassociated, or the operation fails and no changes are made.
+    @Sendable
+    @inlinable
+    public func disassociateConnectionsFromResiliencyGroup(_ input: DisassociateConnectionsFromResiliencyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateConnectionsFromResiliencyGroupResult {
+        try await self.client.execute(
+            operation: "DisassociateConnectionsFromResiliencyGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates one or more connections from the specified resiliency group. This operation is atomic: either all of the specified connections are disassociated, or the operation fails and no changes are made.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - connectionIdentifiers: The IDs or ARNs of the connections to disassociate from the resiliency group.
+    ///   - resiliencyGroupId: The ID of the resiliency group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateConnectionsFromResiliencyGroup(
+        clientToken: String? = nil,
+        connectionIdentifiers: [String],
+        resiliencyGroupId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateConnectionsFromResiliencyGroupResult {
+        let input = DisassociateConnectionsFromResiliencyGroupRequest(
+            clientToken: clientToken, 
+            connectionIdentifiers: connectionIdentifiers, 
+            resiliencyGroupId: resiliencyGroupId
+        )
+        return try await self.disassociateConnectionsFromResiliencyGroup(input, logger: logger)
+    }
+
     /// Removes the association between a MAC Security (MACsec) security key and a Direct Connect connection.
     @Sendable
     @inlinable
@@ -1881,6 +2024,140 @@ public struct DirectConnect: AWSService {
             secretARN: secretARN
         )
         return try await self.disassociateMacSecKey(input, logger: logger)
+    }
+
+    /// Gets information about the specified resiliency group.
+    @Sendable
+    @inlinable
+    public func getResiliencyGroup(_ input: GetResiliencyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResiliencyGroupResult {
+        try await self.client.execute(
+            operation: "GetResiliencyGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about the specified resiliency group.
+    ///
+    /// Parameters:
+    ///   - resiliencyGroupId: The ID of the resiliency group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResiliencyGroup(
+        resiliencyGroupId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResiliencyGroupResult {
+        let input = GetResiliencyGroupRequest(
+            resiliencyGroupId: resiliencyGroupId
+        )
+        return try await self.getResiliencyGroup(input, logger: logger)
+    }
+
+    /// Lists the connection associations for the specified resiliency group.
+    @Sendable
+    @inlinable
+    public func listResiliencyGroupAssociations(_ input: ListResiliencyGroupAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResiliencyGroupAssociationsResult {
+        try await self.client.execute(
+            operation: "ListResiliencyGroupAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the connection associations for the specified resiliency group.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - resiliencyGroupId: The ID of the resiliency group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResiliencyGroupAssociations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resiliencyGroupId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResiliencyGroupAssociationsResult {
+        let input = ListResiliencyGroupAssociationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resiliencyGroupId: resiliencyGroupId
+        )
+        return try await self.listResiliencyGroupAssociations(input, logger: logger)
+    }
+
+    /// Lists the resiliency groups owned by your Amazon Web Services account in the current Amazon Web Services Region.
+    @Sendable
+    @inlinable
+    public func listResiliencyGroups(_ input: ListResiliencyGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResiliencyGroupsResult {
+        try await self.client.execute(
+            operation: "ListResiliencyGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the resiliency groups owned by your Amazon Web Services account in the current Amazon Web Services Region.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResiliencyGroups(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResiliencyGroupsResult {
+        let input = ListResiliencyGroupsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listResiliencyGroups(input, logger: logger)
+    }
+
+    /// Lists the routes for the specified virtual interface. Use the routeDirection filter to control which routes are returned:    accepted: routes received from the customer network over the virtual interface.    advertised: routes advertised to the customer network over the virtual interface.
+    @Sendable
+    @inlinable
+    public func listVirtualInterfaceRoutes(_ input: ListVirtualInterfaceRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVirtualInterfaceRoutesResponse {
+        try await self.client.execute(
+            operation: "ListVirtualInterfaceRoutes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the routes for the specified virtual interface. Use the routeDirection filter to control which routes are returned:    accepted: routes received from the customer network over the virtual interface.    advertised: routes advertised to the customer network over the virtual interface.
+    ///
+    /// Parameters:
+    ///   - filters: The filters to apply to the routes returned.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - virtualInterfaceId: The ID of the virtual interface.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listVirtualInterfaceRoutes(
+        filters: RouteFilters? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        virtualInterfaceId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListVirtualInterfaceRoutesResponse {
+        let input = ListVirtualInterfaceRoutesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            virtualInterfaceId: virtualInterfaceId
+        )
+        return try await self.listVirtualInterfaceRoutes(input, logger: logger)
     }
 
     /// Lists the virtual interface failover test history.
@@ -2090,6 +2367,38 @@ public struct DirectConnect: AWSService {
         return try await self.updateConnection(input, logger: logger)
     }
 
+    /// Updates the billing mode for the specified Direct Connect connections. You can update the billing mode for up to 200 connections in a single request.
+    @Sendable
+    @inlinable
+    public func updateConnectionsBillingMode(_ input: UpdateConnectionsBillingModeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectionsBillingModeResponse {
+        try await self.client.execute(
+            operation: "UpdateConnectionsBillingMode", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the billing mode for the specified Direct Connect connections. You can update the billing mode for up to 200 connections in a single request.
+    ///
+    /// Parameters:
+    ///   - billingMode: The billing mode to apply to the specified connections. The valid values are PayAsYouGo, FlatRateTier1, FlatRateTier2, FlatRateTier3, FlatRateTier4, and FlatRateTier5.
+    ///   - connectionIds: The IDs of the connections to update. You can specify from 1 to 200 connections.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConnectionsBillingMode(
+        billingMode: RequestBillingMode,
+        connectionIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConnectionsBillingModeResponse {
+        let input = UpdateConnectionsBillingModeRequest(
+            billingMode: billingMode, 
+            connectionIds: connectionIds
+        )
+        return try await self.updateConnectionsBillingMode(input, logger: logger)
+    }
+
     /// Updates the name of a current Direct Connect gateway.
     @Sendable
     @inlinable
@@ -2195,6 +2504,41 @@ public struct DirectConnect: AWSService {
         return try await self.updateLag(input, logger: logger)
     }
 
+    /// Updates the name of the specified resiliency group.
+    @Sendable
+    @inlinable
+    public func updateResiliencyGroup(_ input: UpdateResiliencyGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResiliencyGroupResult {
+        try await self.client.execute(
+            operation: "UpdateResiliencyGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the name of the specified resiliency group.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - resiliencyGroupId: The ID of the resiliency group.
+    ///   - resiliencyGroupName: The new name of the resiliency group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateResiliencyGroup(
+        clientToken: String? = nil,
+        resiliencyGroupId: String,
+        resiliencyGroupName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateResiliencyGroupResult {
+        let input = UpdateResiliencyGroupRequest(
+            clientToken: clientToken, 
+            resiliencyGroupId: resiliencyGroupId, 
+            resiliencyGroupName: resiliencyGroupName
+        )
+        return try await self.updateResiliencyGroup(input, logger: logger)
+    }
+
     /// Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating  the connection disrupts network connectivity for all virtual interfaces associated with  the connection for up to 30 seconds. To check whether your connection supports jumbo  frames, call DescribeConnections. To check whether your virtual  interface supports jumbo frames, call DescribeVirtualInterfaces.
     @Sendable
     @inlinable
@@ -2213,6 +2557,8 @@ public struct DirectConnect: AWSService {
     /// Parameters:
     ///   - enableSiteLink: Indicates whether to enable or disable SiteLink.
     ///   - mtu: The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
+    ///   - prefixPoolAllocatedCountIpv4: The number of inbound IPv4 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.
+    ///   - prefixPoolAllocatedCountIpv6: The number of inbound IPv6 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.
     ///   - rateLimit: The rate limit (bandwidth allocation) to apply to the virtual interface. Use this to update the bandwidth allocation on an existing virtual interface.
     ///   - virtualInterfaceId: The ID of the virtual private interface.
     ///   - virtualInterfaceName: The name of the virtual private interface.
@@ -2221,6 +2567,8 @@ public struct DirectConnect: AWSService {
     public func updateVirtualInterfaceAttributes(
         enableSiteLink: Bool? = nil,
         mtu: Int? = nil,
+        prefixPoolAllocatedCountIpv4: Int? = nil,
+        prefixPoolAllocatedCountIpv6: Int? = nil,
         rateLimit: String? = nil,
         virtualInterfaceId: String,
         virtualInterfaceName: String? = nil,
@@ -2229,6 +2577,8 @@ public struct DirectConnect: AWSService {
         let input = UpdateVirtualInterfaceAttributesRequest(
             enableSiteLink: enableSiteLink, 
             mtu: mtu, 
+            prefixPoolAllocatedCountIpv4: prefixPoolAllocatedCountIpv4, 
+            prefixPoolAllocatedCountIpv6: prefixPoolAllocatedCountIpv6, 
             rateLimit: rateLimit, 
             virtualInterfaceId: virtualInterfaceId, 
             virtualInterfaceName: virtualInterfaceName

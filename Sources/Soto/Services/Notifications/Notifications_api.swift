@@ -211,16 +211,19 @@ public struct Notifications: AWSService {
     ///
     /// Parameters:
     ///   - contactIdentifier: A unique value of an Account Contact Type to associate with the ManagedNotificationConfiguration.
+    ///   - isSensitiveEventsSubscribed: Specifies whether this contact is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls access to sensitive events. Defaults to false.
     ///   - managedNotificationConfigurationArn: The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the Account Contact.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateManagedNotificationAccountContact(
         contactIdentifier: AccountContactType,
+        isSensitiveEventsSubscribed: Bool? = nil,
         managedNotificationConfigurationArn: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AssociateManagedNotificationAccountContactResponse {
         let input = AssociateManagedNotificationAccountContactRequest(
             contactIdentifier: contactIdentifier, 
+            isSensitiveEventsSubscribed: isSensitiveEventsSubscribed, 
             managedNotificationConfigurationArn: managedNotificationConfigurationArn
         )
         return try await self.associateManagedNotificationAccountContact(input, logger: logger)
@@ -243,16 +246,19 @@ public struct Notifications: AWSService {
     ///
     /// Parameters:
     ///   - channelArn: The Amazon Resource Name (ARN) of the Channel to associate with the ManagedNotificationConfiguration. Supported ARNs include Amazon Q Developer in chat applications, the Console Mobile Application, and email (notifications-contacts).
+    ///   - isSensitiveEventsSubscribed: Specifies whether this channel is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls access to sensitive events. Defaults to false.
     ///   - managedNotificationConfigurationArn: The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration to associate with the additional Channel.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateManagedNotificationAdditionalChannel(
         channelArn: String,
+        isSensitiveEventsSubscribed: Bool? = nil,
         managedNotificationConfigurationArn: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AssociateManagedNotificationAdditionalChannelResponse {
         let input = AssociateManagedNotificationAdditionalChannelRequest(
             channelArn: channelArn, 
+            isSensitiveEventsSubscribed: isSensitiveEventsSubscribed, 
             managedNotificationConfigurationArn: managedNotificationConfigurationArn
         )
         return try await self.associateManagedNotificationAdditionalChannel(input, logger: logger)
@@ -427,7 +433,7 @@ public struct Notifications: AWSService {
         return try await self.deleteNotificationConfiguration(input, logger: logger)
     }
 
-    /// Deregisters a NotificationConfiguration in the specified Region.  You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationConfiguration are no longer be visible. Recreating a new NotificationConfiguration in the same Region restores access to those NotificationEvents.
+    /// Deregisters a NotificationHub in the specified Region.  You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents.
     @Sendable
     @inlinable
     public func deregisterNotificationHub(_ input: DeregisterNotificationHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterNotificationHubResponse {
@@ -440,10 +446,10 @@ public struct Notifications: AWSService {
             logger: logger
         )
     }
-    /// Deregisters a NotificationConfiguration in the specified Region.  You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationConfiguration are no longer be visible. Recreating a new NotificationConfiguration in the same Region restores access to those NotificationEvents.
+    /// Deregisters a NotificationHub in the specified Region.  You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationHub are no longer visible. Recreating a new NotificationHub in the same Region restores access to those NotificationEvents.
     ///
     /// Parameters:
-    ///   - notificationHubRegion: The NotificationConfiguration Region.
+    ///   - notificationHubRegion: The NotificationHub Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func deregisterNotificationHub(
@@ -1052,6 +1058,7 @@ public struct Notifications: AWSService {
     ///
     /// Parameters:
     ///   - endTime: Latest time of events to return from this call.
+    ///   - includeSensitiveEvents: Specifies whether to include sensitive events in the result. By default, only non-sensitive events are returned. The notifications:AccessSensitiveEvents permission controls access to sensitive events.
     ///   - locale: The locale code of the language used for the retrieved NotificationEvent. The default locale is English (en_US).
     ///   - maxResults: The maximum number of results to be returned in this call. Defaults to 20.
     ///   - nextToken: The start token for paginated calls. Retrieved from the response of a previous ListManagedNotificationChannelAssociations call. Next token uses Base64 encoding.
@@ -1063,6 +1070,7 @@ public struct Notifications: AWSService {
     @inlinable
     public func listManagedNotificationEvents(
         endTime: Date? = nil,
+        includeSensitiveEvents: Bool? = nil,
         locale: LocaleCode? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -1074,6 +1082,7 @@ public struct Notifications: AWSService {
     ) async throws -> ListManagedNotificationEventsResponse {
         let input = ListManagedNotificationEventsRequest(
             endTime: endTime, 
+            includeSensitiveEvents: includeSensitiveEvents, 
             locale: locale, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -1322,7 +1331,7 @@ public struct Notifications: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Registers a NotificationConfiguration in the specified Region. There is a maximum of one NotificationConfiguration per Region. You can have a maximum of 3 NotificationHub resources at a time.
+    /// Registers a NotificationHub in the specified Region. There is a maximum of one NotificationHub per Region. You can have a maximum of 3 NotificationHub resources at a time.
     @Sendable
     @inlinable
     public func registerNotificationHub(_ input: RegisterNotificationHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterNotificationHubResponse {
@@ -1335,7 +1344,7 @@ public struct Notifications: AWSService {
             logger: logger
         )
     }
-    /// Registers a NotificationConfiguration in the specified Region. There is a maximum of one NotificationConfiguration per Region. You can have a maximum of 3 NotificationHub resources at a time.
+    /// Registers a NotificationHub in the specified Region. There is a maximum of one NotificationHub per Region. You can have a maximum of 3 NotificationHub resources at a time.
     ///
     /// Parameters:
     ///   - notificationHubRegion: The Region of the NotificationHub.
@@ -1448,6 +1457,41 @@ public struct Notifications: AWSService {
             regions: regions
         )
         return try await self.updateEventRule(input, logger: logger)
+    }
+
+    /// Updates the isSensitiveEventsSubscribed property of a particular ManagedNotification channel association.
+    @Sendable
+    @inlinable
+    public func updateManagedNotificationChannelAssociation(_ input: UpdateManagedNotificationChannelAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateManagedNotificationChannelAssociationResponse {
+        try await self.client.execute(
+            operation: "UpdateManagedNotificationChannelAssociation", 
+            path: "/channels/update-managed-notification-channel-association", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the isSensitiveEventsSubscribed property of a particular ManagedNotification channel association.
+    ///
+    /// Parameters:
+    ///   - channelIdentifier: The identifier of the channel association to update. You can specify one of the following:   An Account contact identifier.   A Channel ARN.
+    ///   - isSensitiveEventsSubscribed: Specifies whether the association is subscribed to sensitive events. The notifications:SubscribeSensitiveEvents permission controls access to sensitive events.
+    ///   - managedNotificationConfigurationArn: The Amazon Resource Name (ARN) of the ManagedNotificationConfiguration whose Channel association property you want to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateManagedNotificationChannelAssociation(
+        channelIdentifier: String,
+        isSensitiveEventsSubscribed: Bool? = nil,
+        managedNotificationConfigurationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateManagedNotificationChannelAssociationResponse {
+        let input = UpdateManagedNotificationChannelAssociationRequest(
+            channelIdentifier: channelIdentifier, 
+            isSensitiveEventsSubscribed: isSensitiveEventsSubscribed, 
+            managedNotificationConfigurationArn: managedNotificationConfigurationArn
+        )
+        return try await self.updateManagedNotificationChannelAssociation(input, logger: logger)
     }
 
     /// Updates a NotificationConfiguration.
@@ -1724,6 +1768,7 @@ extension Notifications {
     ///
     /// - Parameters:
     ///   - endTime: Latest time of events to return from this call.
+    ///   - includeSensitiveEvents: Specifies whether to include sensitive events in the result. By default, only non-sensitive events are returned. The notifications:AccessSensitiveEvents permission controls access to sensitive events.
     ///   - locale: The locale code of the language used for the retrieved NotificationEvent. The default locale is English (en_US).
     ///   - maxResults: The maximum number of results to be returned in this call. Defaults to 20.
     ///   - organizationalUnitId: The Organizational Unit Id that an Amazon Web Services account belongs to.
@@ -1734,6 +1779,7 @@ extension Notifications {
     @inlinable
     public func listManagedNotificationEventsPaginator(
         endTime: Date? = nil,
+        includeSensitiveEvents: Bool? = nil,
         locale: LocaleCode? = nil,
         maxResults: Int? = nil,
         organizationalUnitId: String? = nil,
@@ -1744,6 +1790,7 @@ extension Notifications {
     ) -> AWSClient.PaginatorSequence<ListManagedNotificationEventsRequest, ListManagedNotificationEventsResponse> {
         let input = ListManagedNotificationEventsRequest(
             endTime: endTime, 
+            includeSensitiveEvents: includeSensitiveEvents, 
             locale: locale, 
             maxResults: maxResults, 
             organizationalUnitId: organizationalUnitId, 
@@ -2038,6 +2085,7 @@ extension Notifications.ListManagedNotificationEventsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Notifications.ListManagedNotificationEventsRequest {
         return .init(
             endTime: self.endTime,
+            includeSensitiveEvents: self.includeSensitiveEvents,
             locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token,

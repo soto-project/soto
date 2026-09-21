@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS NetworkFirewall service.
 ///
-/// This is the API Reference for Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.  The REST API requires you to handle connection details, such as calculating signatures, handling request retries, and error handling. For general information about using the Amazon Web Services REST APIs, see Amazon Web Services APIs.  To view the complete list of Amazon Web Services Regions where Network Firewall is available, see Service endpoints and quotas in the Amazon Web Services General Reference.  To access Network Firewall using the IPv4 REST API endpoint: https://network-firewall..amazonaws.com   To access Network Firewall using the Dualstack (IPv4 and IPv6) REST API endpoint: https://network-firewall..aws.api   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the Network Firewall Developer Guide. Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 7.0.3. For information about Suricata, see the Suricata website and the  Suricata User Guide.  You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:    Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.   Use custom lists of known bad domains to limit the types of domain names that your applications can access.   Perform deep packet inspection on traffic entering or leaving your VPC.   Use stateful protocol detection to filter protocols like HTTPS, regardless of the port used.   To enable Network Firewall for your VPCs, you perform steps in both Amazon VPC and in Network Firewall. For information about using Amazon VPC, see Amazon VPC User Guide. To start using Network Firewall, do the following:    (Optional) If you don't already have a VPC that you want to protect, create it in Amazon VPC.    In Amazon VPC, in each Availability Zone where you want to have a firewall endpoint, create a subnet for the sole use of Network Firewall.    In Network Firewall, define the firewall behavior as follows:    Create stateless and stateful rule groups, to define the components of the network traffic filtering behavior that you want your firewall to have.    Create a firewall policy that uses your rule groups and specifies additional default traffic filtering behavior.      In Network Firewall, create a firewall and specify your new firewall policy and VPC subnets. Network Firewall creates a firewall endpoint in each subnet that you specify, with the behavior that's defined in the firewall policy.   In Amazon VPC, use ingress routing enhancements to route traffic through the new firewall endpoints.   After your firewall is established, you can add firewall endpoints for new Availability Zones by following the prior steps for the Amazon VPC setup and  firewall subnet definitions. You can also add endpoints to Availability Zones that you're using in the firewall, either for the same VPC  or for another VPC, by following the prior steps for the Amazon VPC setup, and defining the new VPC subnets as VPC endpoint associations.
+/// This is the API Reference for Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.  The REST API requires you to handle connection details, such as calculating signatures, handling request retries, and error handling. For general information about using the Amazon Web Services REST APIs, see Amazon Web Services APIs.  To view the complete list of Amazon Web Services Regions where Network Firewall is available, see Service endpoints and quotas in the Amazon Web Services General Reference.  To access Network Firewall using the IPv4 REST API endpoint: https://network-firewall..amazonaws.com   To access Network Firewall using the Dualstack (IPv4 and IPv6) REST API endpoint: https://network-firewall..aws.api   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the Network Firewall Developer Guide. Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 7.0.8. For information about Suricata, see the Suricata website and the  Suricata User Guide.  You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:    Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.   Use custom lists of known bad domains to limit the types of domain names that your applications can access.   Perform deep packet inspection on traffic entering or leaving your VPC.   Use stateful protocol detection to filter protocols like HTTPS, regardless of the port used.   To enable Network Firewall for your VPCs, you perform steps in both Amazon VPC and in Network Firewall. For information about using Amazon VPC, see Amazon VPC User Guide. To start using Network Firewall, do the following:    (Optional) If you don't already have a VPC that you want to protect, create it in Amazon VPC.    In Amazon VPC, in each Availability Zone where you want to have a firewall endpoint, create a subnet for the sole use of Network Firewall.    In Network Firewall, define the firewall behavior as follows:    Create stateless and stateful rule groups, to define the components of the network traffic filtering behavior that you want your firewall to have.    Create a firewall policy that uses your rule groups and specifies additional default traffic filtering behavior.      In Network Firewall, create a firewall and specify your new firewall policy and VPC subnets. Network Firewall creates a firewall endpoint in each subnet that you specify, with the behavior that's defined in the firewall policy.   In Amazon VPC, use ingress routing enhancements to route traffic through the new firewall endpoints.   After your firewall is established, you can add firewall endpoints for new Availability Zones by following the prior steps for the Amazon VPC setup and  firewall subnet definitions. You can also add endpoints to Availability Zones that you're using in the firewall, either for the same VPC  or for another VPC, by following the prior steps for the Amazon VPC setup, and defining the new VPC subnets as VPC endpoint associations.
 public struct NetworkFirewall: AWSService {
     // MARK: Member variables
 
@@ -273,7 +273,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.attachRuleGroupsToProxyConfiguration(input, logger: logger)
     }
 
-    /// Creates a container association for Network Firewall. A container association links container clusters (ECS or EKS) to Network Firewall, enabling dynamic IP resolution for firewall rules based on container attributes. To manage a container association's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about container associations, use ListContainerAssociations and DescribeContainerAssociation.
+    /// Creates a Network Firewall container association. The association monitors container lifecycle events in your Amazon ECS or Amazon EKS clusters and resolves running container addresses for use in firewall rules.
     @Sendable
     @inlinable
     public func createContainerAssociation(_ input: CreateContainerAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContainerAssociationResponse {
@@ -286,14 +286,14 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Creates a container association for Network Firewall. A container association links container clusters (ECS or EKS) to Network Firewall, enabling dynamic IP resolution for firewall rules based on container attributes. To manage a container association's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about container associations, use ListContainerAssociations and DescribeContainerAssociation.
+    /// Creates a Network Firewall container association. The association monitors container lifecycle events in your Amazon ECS or Amazon EKS clusters and resolves running container addresses for use in firewall rules.
     ///
     /// Parameters:
     ///   - containerAssociationName: The descriptive name of the container association. You can't change the name of a container association after you create it.
-    ///   - containerMonitoringConfigurations: The list of container monitoring configurations that define which clusters and container attributes to monitor.
+    ///   - containerMonitoringConfigurations: The monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and optional attribute filters to narrow which containers are tracked.
     ///   - description: A description of the container association.
     ///   - tags: The key:value pairs to associate with the resource.
-    ///   - type: The type of container orchestration platform for the clusters in this association. Valid values are ECS and EKS. You can't change the type after creation.
+    ///   - type: The type of containers to monitor. You can't change the container type after creation. Valid values:    ECS - Amazon Elastic Container Service    EKS - Amazon Elastic Kubernetes Service
     ///   - logger: Logger use during operation
     @inlinable
     public func createContainerAssociation(
@@ -339,10 +339,14 @@ public struct NetworkFirewall: AWSService {
     ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it.
     ///   - firewallPolicyArn: The Amazon Resource Name (ARN) of the FirewallPolicy that you want to use for the firewall.
     ///   - firewallPolicyChangeProtection: A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
+    ///   - natGatewayMappings: The NAT gateways that the firewall uses to proxy traffic when NoSourcePreservation is TRUE. Network Firewall attaches the firewall to each NAT gateway that you specify, so that egress traffic is proxied through the NAT gateway.
+    ///   - noSourcePreservation: Optional. Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When set to TRUE, the firewall proxies traffic through a NAT gateway and the traffic reaching the destination uses the NAT gateway's IP address as the source.  When you set this to TRUE, you must specify NatGatewayMappings and VpcEndpoint instead of a top-level VpcId and SubnetMappings.  You can't change this setting after you create the firewall.  Default value: FALSE
+    ///   - proxySettings: The listener configuration for a proxy mode firewall, used when NoSourcePreservation is TRUE. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
     ///   - subnetChangeProtection: A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     ///   - subnetMappings: The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet.
     ///   - tags: The key:value pairs to associate with the resource.
     ///   - transitGatewayId: Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager.  After creating the firewall, you cannot change the transit gateway association. To use a different transit gateway, you must create a new firewall.  For information about creating firewalls, see CreateFirewall. For specific guidance about transit gateway-attached firewalls, see Considerations for transit gateway-attached firewalls in the Network Firewall Developer Guide.
+    ///   - vpcEndpoint: The VPC and subnets for the firewall endpoint, used when NoSourcePreservation is TRUE. Network Firewall creates the firewall endpoint in the subnets that you specify here.  For proxy mode firewalls, provide the firewall's VPC and endpoint subnets through this parameter instead of the top-level VpcId and SubnetMappings.
     ///   - vpcId: The unique identifier of the VPC where Network Firewall should create the firewall.  You can't change this setting after you create the firewall.
     ///   - logger: Logger use during operation
     @inlinable
@@ -356,10 +360,14 @@ public struct NetworkFirewall: AWSService {
         firewallName: String,
         firewallPolicyArn: String,
         firewallPolicyChangeProtection: Bool? = nil,
+        natGatewayMappings: [NatGatewayMapping]? = nil,
+        noSourcePreservation: Bool? = nil,
+        proxySettings: ProxySettings? = nil,
         subnetChangeProtection: Bool? = nil,
         subnetMappings: [SubnetMapping]? = nil,
         tags: [Tag]? = nil,
         transitGatewayId: String? = nil,
+        vpcEndpoint: VpcEndpoint? = nil,
         vpcId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateFirewallResponse {
@@ -373,10 +381,14 @@ public struct NetworkFirewall: AWSService {
             firewallName: firewallName, 
             firewallPolicyArn: firewallPolicyArn, 
             firewallPolicyChangeProtection: firewallPolicyChangeProtection, 
+            natGatewayMappings: natGatewayMappings, 
+            noSourcePreservation: noSourcePreservation, 
+            proxySettings: proxySettings, 
             subnetChangeProtection: subnetChangeProtection, 
             subnetMappings: subnetMappings, 
             tags: tags, 
             transitGatewayId: transitGatewayId, 
+            vpcEndpoint: vpcEndpoint, 
             vpcId: vpcId
         )
         return try await self.createFirewall(input, logger: logger)
@@ -736,7 +748,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.createVpcEndpointAssociation(input, logger: logger)
     }
 
-    /// Deletes the specified container association. When you delete a container association, Network Firewall stops monitoring the associated container clusters and removes the resolved IP addresses from firewall rules.
+    /// Deletes a container association. The resource transitions to a DELETING state. Deletion is asynchronous - Network Firewall returns immediately while cleanup proceeds in the background. You can't delete a container association while a rule group references it.
     @Sendable
     @inlinable
     public func deleteContainerAssociation(_ input: DeleteContainerAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContainerAssociationResponse {
@@ -749,7 +761,7 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified container association. When you delete a container association, Network Firewall stops monitoring the associated container clusters and removes the resolved IP addresses from firewall rules.
+    /// Deletes a container association. The resource transitions to a DELETING state. Deletion is asynchronous - Network Firewall returns immediately while cleanup proceeds in the background. You can't delete a container association while a rule group references it.
     ///
     /// Parameters:
     ///   - containerAssociationArn: The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
@@ -1120,7 +1132,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.deleteVpcEndpointAssociation(input, logger: logger)
     }
 
-    /// Returns the properties of a container association.
+    /// Retrieves the configuration and status of a container association.
     @Sendable
     @inlinable
     public func describeContainerAssociation(_ input: DescribeContainerAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContainerAssociationResponse {
@@ -1133,7 +1145,7 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Returns the properties of a container association.
+    /// Retrieves the configuration and status of a container association.
     ///
     /// Parameters:
     ///   - containerAssociationArn: The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
@@ -1843,7 +1855,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.listAnalysisReports(input, logger: logger)
     }
 
-    /// Retrieves the metadata for the container associations that you have defined. You can optionally page through results.
+    /// Lists the container associations in your account and Region. Use the NextToken parameter in subsequent requests to retrieve additional results.
     @Sendable
     @inlinable
     public func listContainerAssociations(_ input: ListContainerAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContainerAssociationsResponse {
@@ -1856,7 +1868,7 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the metadata for the container associations that you have defined. You can optionally page through results.
+    /// Lists the container associations in your account and Region. Use the NextToken parameter in subsequent requests to retrieve additional results.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
@@ -2570,7 +2582,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.updateAvailabilityZoneChangeProtection(input, logger: logger)
     }
 
-    /// Updates the properties of an existing container association. Use this to modify the container monitoring configurations or description.
+    /// Updates the monitoring configurations and description of a container association. You can't change the container type after creation. Provide an update token to enable optimistic concurrency control.
     @Sendable
     @inlinable
     public func updateContainerAssociation(_ input: UpdateContainerAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContainerAssociationResponse {
@@ -2583,16 +2595,16 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Updates the properties of an existing container association. Use this to modify the container monitoring configurations or description.
+    /// Updates the monitoring configurations and description of a container association. You can't change the container type after creation. Provide an update token to enable optimistic concurrency control.
     ///
     /// Parameters:
     ///   - containerAssociationArn: The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
     ///   - containerAssociationName: The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
-    ///   - containerMonitoringConfigurations: The updated list of container monitoring configurations that define which clusters and container attributes to monitor.
-    ///   - description: A description of the container association.
-    ///   - tags: The key:value pairs associated with the resource.
-    ///   - type: The type of container orchestration platform. This must match the type specified when the container association was created.
-    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make an update to the container association, provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    ///   - containerMonitoringConfigurations: The updated monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and optional attribute filters.
+    ///   - description: A description of the container association. When omitted, the existing description remains unchanged. To clear the description, pass an empty string.
+    ///   - tags: The key:value pairs to associate with the resource.
+    ///   - type: The container type. This value must match the existing type and can't be changed. Valid values:    ECS - Amazon Elastic Container Service    EKS - Amazon Elastic Kubernetes Service
+    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateContainerAssociation(
@@ -3104,6 +3116,44 @@ public struct NetworkFirewall: AWSService {
             updateToken: updateToken
         )
         return try await self.updateProxyRulePriorities(input, logger: logger)
+    }
+
+    /// Modifies the proxy listener configuration of a proxy mode firewall. Proxy mode firewalls are created with NoSourcePreservation set to TRUE. Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic.
+    @Sendable
+    @inlinable
+    public func updateProxySettings(_ input: UpdateProxySettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProxySettingsResponse {
+        try await self.client.execute(
+            operation: "UpdateProxySettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the proxy listener configuration of a proxy mode firewall. Proxy mode firewalls are created with NoSourcePreservation set to TRUE. Use this operation to change the ports and protocols on which the firewall's proxy listens for traffic.
+    ///
+    /// Parameters:
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - proxySettings: The proxy listener configuration to set on the firewall. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+    ///   - updateToken: An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateProxySettings(
+        firewallArn: String? = nil,
+        firewallName: String? = nil,
+        proxySettings: ProxySettings? = nil,
+        updateToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateProxySettingsResponse {
+        let input = UpdateProxySettingsRequest(
+            firewallArn: firewallArn, 
+            firewallName: firewallName, 
+            proxySettings: proxySettings, 
+            updateToken: updateToken
+        )
+        return try await self.updateProxySettings(input, logger: logger)
     }
 
     /// Updates the rule settings for the specified rule group. You use a rule group by reference in one or more firewall policies. When you modify a rule group, you modify all firewall policies that use the rule group.  To update a rule group, first call DescribeRuleGroup to retrieve the current RuleGroup object, update the object as needed, and then provide the updated object to this call.

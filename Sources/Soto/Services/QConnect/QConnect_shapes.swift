@@ -285,6 +285,12 @@ extension QConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum InteractionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delegate = "DELEGATE"
+        case handoff = "HANDOFF"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KnowledgeBaseSearchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hybrid = "HYBRID"
         case semantic = "SEMANTIC"
@@ -337,6 +343,7 @@ extension QConnect {
     }
 
     public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case data = "DATA"
         case text = "TEXT"
         case toolUseResult = "TOOL_USE_RESULT"
         public var description: String { return self.rawValue }
@@ -496,6 +503,14 @@ extension QConnect {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReturnReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case completeWithError = "COMPLETE_WITH_ERROR"
+        case escalate = "ESCALATE"
+        case outOfDomain = "OUT_OF_DOMAIN"
         public var description: String { return self.rawValue }
     }
 
@@ -701,6 +716,58 @@ extension QConnect {
         }
     }
 
+    public enum AgentTarget: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The identifier of an Amazon Connect AI Agent to use as the collaborator agent.
+        case aiAgentId(String)
+        /// The identifier of a third-party agent to use as the collaborator agent.
+        case applicationId(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .aiAgentId:
+                let value = try container.decode(String.self, forKey: .aiAgentId)
+                self = .aiAgentId(value)
+            case .applicationId:
+                let value = try container.decode(String.self, forKey: .applicationId)
+                self = .applicationId(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .aiAgentId(let value):
+                try container.encode(value, forKey: .aiAgentId)
+            case .applicationId(let value):
+                try container.encode(value, forKey: .applicationId)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .aiAgentId(let value):
+                try self.validate(value, name: "aiAgentId", parent: name, max: 4096)
+                try self.validate(value, name: "aiAgentId", parent: name, min: 1)
+            case .applicationId(let value):
+                try self.validate(value, name: "applicationId", parent: name, max: 4096)
+                try self.validate(value, name: "applicationId", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentId = "aiAgentId"
+            case applicationId = "applicationId"
+        }
+    }
+
     public enum AssistantAssociationInputData: AWSEncodableShape, Sendable {
         /// The configuration for an external Bedrock knowledge base association.
         case externalBedrockKnowledgeBaseConfig(ExternalBedrockKnowledgeBaseConfig)
@@ -891,6 +958,8 @@ extension QConnect {
     }
 
     public enum MessageData: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The message data as a structured JSON document. This is the payload for a message of type DATA, and must be a JSON object at the root level.
+        case data(AWSDocument)
         /// The message data in text type.
         case text(TextMessage)
         /// The result of tool usage in the message.
@@ -906,6 +975,9 @@ extension QConnect {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .data:
+                let value = try container.decode(AWSDocument.self, forKey: .data)
+                self = .data(value)
             case .text:
                 let value = try container.decode(TextMessage.self, forKey: .text)
                 self = .text(value)
@@ -918,6 +990,8 @@ extension QConnect {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .data(let value):
+                try container.encode(value, forKey: .data)
             case .text(let value):
                 try container.encode(value, forKey: .text)
             case .toolUseResult(let value):
@@ -931,10 +1005,13 @@ extension QConnect {
                 try value.validate(name: "\(name).text")
             case .toolUseResult(let value):
                 try value.validate(name: "\(name).toolUseResult")
+            default:
+                break
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case data = "data"
             case text = "text"
             case toolUseResult = "toolUseResult"
         }
@@ -1006,6 +1083,56 @@ extension QConnect {
             case push = "push"
             case sms = "sms"
             case whatsApp = "whatsApp"
+        }
+    }
+
+    public enum MultiAgentConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Configures the collaborator agent as a delegate that the Orchestration AI Agent invokes while retaining control of the conversation.
+        case delegateAgentConfiguration(DelegateAgentConfiguration)
+        /// Configures the collaborator agent as a handoff target that the Orchestration AI Agent transfers control of the conversation to.
+        case handoffAgentConfiguration(HandoffAgentConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .delegateAgentConfiguration:
+                let value = try container.decode(DelegateAgentConfiguration.self, forKey: .delegateAgentConfiguration)
+                self = .delegateAgentConfiguration(value)
+            case .handoffAgentConfiguration:
+                let value = try container.decode(HandoffAgentConfiguration.self, forKey: .handoffAgentConfiguration)
+                self = .handoffAgentConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .delegateAgentConfiguration(let value):
+                try container.encode(value, forKey: .delegateAgentConfiguration)
+            case .handoffAgentConfiguration(let value):
+                try container.encode(value, forKey: .handoffAgentConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .delegateAgentConfiguration(let value):
+                try value.validate(name: "\(name).delegateAgentConfiguration")
+            case .handoffAgentConfiguration(let value):
+                try value.validate(name: "\(name).handoffAgentConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegateAgentConfiguration = "delegateAgentConfiguration"
+            case handoffAgentConfiguration = "handoffAgentConfiguration"
         }
     }
 
@@ -2088,7 +2215,7 @@ extension QConnect {
     }
 
     public struct AmazonConnectGuideAssociationData: AWSEncodableShape & AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of an Amazon Connect flow. Step-by-step guides are a type of flow.
+        ///  The Amazon Resource Name (ARN) of an Connect Customer flow. Step-by-step guides are a type of flow.
         public let flowId: String?
 
         @inlinable
@@ -2633,7 +2760,7 @@ extension QConnect {
     }
 
     public struct ConnectConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String?
 
         @inlinable
@@ -4055,7 +4182,7 @@ extension QConnect {
     }
 
     public struct CreateQuickResponseRequest: AWSEncodableShape {
-        /// The Amazon Connect channels this quick response applies to.
+        /// The Connect Customer channels this quick response applies to.
         public let channels: [String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
@@ -4177,7 +4304,7 @@ extension QConnect {
         public let assistantId: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the email contact in Amazon Connect. Used to retrieve email content and establish session context for AI-powered email assistance.
+        /// The Amazon Resource Name (ARN) of the email contact in Connect Customer. Used to retrieve email content and establish session context for AI-powered email assistance.
         public let contactArn: String?
         /// The description.
         public let description: String?
@@ -4713,6 +4840,28 @@ extension QConnect {
             case messageTemplateArn = "messageTemplateArn"
             case messageTemplateId = "messageTemplateId"
             case versionNumber = "versionNumber"
+        }
+    }
+
+    public struct DelegateAgentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The collaborator agent to delegate to.
+        public let agentTarget: AgentTarget
+        /// The instruction that tells the Orchestration AI Agent when and how to delegate to this collaborator agent.
+        public let instruction: MultiAgentInstruction?
+
+        @inlinable
+        public init(agentTarget: AgentTarget, instruction: MultiAgentInstruction? = nil) {
+            self.agentTarget = agentTarget
+            self.instruction = instruction
+        }
+
+        public func validate(name: String) throws {
+            try self.agentTarget.validate(name: "\(name).agentTarget")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentTarget = "agentTarget"
+            case instruction = "instruction"
         }
     }
 
@@ -6442,7 +6591,7 @@ extension QConnect {
     public struct GroupingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The criteria used for grouping Amazon Q in Connect users. The following is the list of supported criteria values.    RoutingProfileArn: Grouping the users by their Amazon Connect routing profile ARN. User should have SearchRoutingProfile and DescribeRoutingProfile permissions when setting criteria to this value.
         public let criteria: String?
-        /// The list of values that define different groups of Amazon Q in Connect users.   When setting criteria to RoutingProfileArn, you need to provide a list of ARNs of Amazon Connect routing profiles as values of this parameter.
+        /// The list of values that define different groups of Amazon Q in Connect users.   When setting criteria to RoutingProfileArn, you need to provide a list of ARNs of Connect Customer routing profiles as values of this parameter.
         public let values: [String]?
 
         @inlinable
@@ -6527,7 +6676,7 @@ extension QConnect {
     public struct GuardrailPiiEntityConfig: AWSEncodableShape & AWSDecodableShape {
         /// Configure AI Guardrail's action when the PII entity is detected.
         public let action: GuardrailSensitiveInformationAction
-        /// Configure AI Guardrail type when the PII entity is detected. The following PIIs are used to block or mask sensitive information:    General     ADDRESS  A physical address, such as "100 Main Street, Anytown, USA" or "Suite #12, Building 123". An address can include information such as the street, building, location, city, state, country, county, zip code, precinct, and neighborhood.     AGE  An individual's age, including the quantity and unit of time. For example, in the phrase "I am 40 years old," Guarrails recognizes "40 years" as an age.     NAME  An individual's name. This entity type does not include titles, such as Dr., Mr., Mrs., or Miss. AI Guardrail doesn't apply this entity type to names that are part of organizations or addresses. For example, AI Guardrail recognizes the "John Doe Organization" as an organization, and it recognizes "Jane Doe Street" as an address.     EMAIL  An email address, such as marymajor@email.com.    PHONE  A phone number. This entity type also includes fax and pager numbers.     USERNAME  A user name that identifies an account, such as a login name, screen name, nick name, or handle.     PASSWORD  An alphanumeric string that is used as a password, such as "* very20special#pass*".     DRIVER_ID  The number assigned to a driver's license, which is an official document permitting an individual to operate one or more motorized vehicles on a public road. A driver's license number consists of alphanumeric characters.     LICENSE_PLATE  A license plate for a vehicle is issued by the state or country where the vehicle is registered. The format for passenger vehicles is typically five to eight digits, consisting of upper-case letters and numbers. The format varies depending on the location of the issuing state or country.     VEHICLE_IDENTIFICATION_NUMBER  A Vehicle Identification Number (VIN) uniquely identifies a vehicle. VIN content and format are defined in the ISO 3779 specification. Each country has specific codes and formats for VINs.       Finance     CREDIT_DEBIT_CARD_CVV  A three-digit card verification code (CVV) that is present on VISA, MasterCard, and Discover credit and debit cards. For American Express credit or debit cards, the CVV is a four-digit numeric code.     CREDIT_DEBIT_CARD_EXPIRY  The expiration date for a credit or debit card. This number is usually four digits long and is often formatted as month/year or MM/YY. AI Guardrail recognizes expiration dates such as 01/21, 01/2021, and Jan 2021.     CREDIT_DEBIT_CARD_NUMBER  The number for a credit or debit card. These numbers can vary from 13 to 16 digits in length. However, Amazon Comprehend also recognizes credit or debit card numbers when only the last four digits are present.     PIN  A four-digit personal identification number (PIN) with which you can access your bank account.     INTERNATIONAL_BANK_ACCOUNT_NUMBER  An International Bank Account Number has specific formats in each country. For more information, see  www.iban.com/structure.    SWIFT_CODE  A SWIFT code is a standard format of Bank Identifier Code (BIC) used to specify a particular bank or branch. Banks use these codes for money transfers such as international wire transfers. SWIFT codes consist of eight or 11 characters. The 11-digit codes refer to specific branches, while eight-digit codes (or 11-digit codes ending in 'XXX') refer to the head or primary office.      IT     IP_ADDRESS  An IPv4 address, such as 198.51.100.0.     MAC_ADDRESS  A media access control (MAC) address is a unique identifier assigned to a network interface controller (NIC).     URL  A web address, such as www.example.com.     AWS_ACCESS_KEY  A unique identifier that's associated with a secret access key; you use the access key ID and secret access key to sign programmatic Amazon Web Services requests cryptographically.     AWS_SECRET_KEY  A unique identifier that's associated with an access key. You use the access key ID and secret access key to sign programmatic Amazon Web Services requests cryptographically.       USA specific     US_BANK_ACCOUNT_NUMBER  A US bank account number, which is typically 10 to 12 digits long.     US_BANK_ROUTING_NUMBER  A US bank account routing number. These are typically nine digits long,     US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER  A US Individual Taxpayer Identification Number (ITIN) is a nine-digit number that starts with a "9" and contain a "7" or "8" as the fourth digit. An ITIN can be formatted with a space or a dash after the third and forth digits.     US_PASSPORT_NUMBER  A US passport number. Passport numbers range from six to nine alphanumeric characters.     US_SOCIAL_SECURITY_NUMBER  A US Social Security Number (SSN) is a nine-digit number that is issued to US citizens, permanent residents, and temporary working residents.       Canada specific     CA_HEALTH_NUMBER  A Canadian Health Service Number is a 10-digit unique identifier, required for individuals to access healthcare benefits.     CA_SOCIAL_INSURANCE_NUMBER  A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier, required for individuals to access government programs and benefits. The SIN is formatted as three groups of three digits, such as  123-456-789. A SIN can be validated through a simple check-digit process called the Luhn algorithm .      UK Specific     UK_NATIONAL_HEALTH_SERVICE_NUMBER  A UK National Health Service Number is a 10-17 digit number, such as 485 555 3456. The current system formats the 10-digit number with spaces after the third and sixth digits. The final digit is an error-detecting checksum.    UK_NATIONAL_INSURANCE_NUMBER  A UK National Insurance Number (NINO) provides individuals with access to National Insurance (social security) benefits. It is also used for some purposes in the UK tax system. The number is nine digits long and starts with two letters, followed by six numbers and one letter. A NINO can be formatted with a space or a dash after the two letters and after the second, forth, and sixth digits.    UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER  A UK Unique Taxpayer Reference (UTR) is a 10-digit number that identifies a taxpayer or a business.       Custom     Regex filter - You can use a regular expressions to define patterns for an AI Guardrail to recognize and act upon such as serial number, booking ID etc..
+        /// Configure AI Guardrail type when the PII entity is detected. The following PIIs are used to block or mask sensitive information:    General     ADDRESS  A physical address, such as "100 Main Street, Anytown, USA" or "Suite #12, Building 123". An address can include information such as the street, building, location, city, state, country, county, zip code, precinct, and neighborhood.     AGE  An individual's age, including the quantity and unit of time. For example, in the phrase "I am 40 years old," Guarrails recognizes "40 years" as an age.     NAME  An individual's name. This entity type does not include titles, such as Dr., Mr., Mrs., or Miss. AI Guardrail doesn't apply this entity type to names that are part of organizations or addresses. For example, AI Guardrail recognizes the "John Doe Organization" as an organization, and it recognizes "Jane Doe Street" as an address.     EMAIL  An email address, such as marymajor@email.com.    PHONE  A phone number. This entity type also includes fax and pager numbers.     USERNAME  A user name that identifies an account, such as a login name, screen name, nick name, or handle.     PASSWORD  An alphanumeric string that is used as a password, such as "* very20special#pass*".     DRIVER_ID  The number assigned to a driver's license, which is an official document permitting an individual to operate one or more motorized vehicles on a public road. A driver's license number consists of alphanumeric characters.     LICENSE_PLATE  A license plate for a vehicle is issued by the state or country where the vehicle is registered. The format for passenger vehicles is typically five to eight digits, consisting of upper-case letters and numbers. The format varies depending on the location of the issuing state or country.     VEHICLE_IDENTIFICATION_NUMBER  A Vehicle Identification Number (VIN) uniquely identifies a vehicle. VIN content and format are defined in the ISO 3779 specification. Each country has specific codes and formats for VINs.       Finance     CREDIT_DEBIT_CARD_CVV  A three-digit card verification code (CVV) that is present on VISA, MasterCard, and Discover credit and debit cards. For American Express credit or debit cards, the CVV is a four-digit numeric code.     CREDIT_DEBIT_CARD_EXPIRY  The expiration date for a credit or debit card. This number is usually four digits long and is often formatted as month/year or MM/YY. AI Guardrail recognizes expiration dates such as 01/21, 01/2021, and Jan 2021.     CREDIT_DEBIT_CARD_NUMBER  The number for a credit or debit card. These numbers can vary from 13 to 16 digits in length. However, Amazon Comprehend also recognizes credit or debit card numbers when only the last four digits are present.     PIN  A four-digit personal identification number (PIN) with which you can access your bank account.     INTERNATIONAL_BANK_ACCOUNT_NUMBER  An International Bank Account Number has specific formats in each country. For more information, see  www.iban.com/structure.    SWIFT_CODE  A SWIFT code is a standard format of Bank Identifier Code (BIC) used to specify a particular bank or branch. Banks use these codes for money transfers such as international wire transfers. SWIFT codes consist of eight or 11 characters. The 11-digit codes refer to specific branches, while eight-digit codes (or 11-digit codes ending in 'XXX') refer to the head or primary office.      IT     IP_ADDRESS  An IPv4 address, such as 198.51.100.0.     MAC_ADDRESS  A media access control (MAC) address is a unique identifier assigned to a network interface controller (NIC).     URL  A web address, such as www.example.com.     AWS_ACCESS_KEY  A unique identifier that's associated with a secret access key; you use the access key ID and secret access key to sign programmatic Amazon Web Services requests cryptographically.     AWS_SECRET_KEY  A unique identifier that's associated with an access key. You use the access key ID and secret access key to sign programmatic Amazon Web Services requests cryptographically.       USA specific     US_BANK_ACCOUNT_NUMBER  A US bank account number, which is typically 10 to 12 digits long.     US_BANK_ROUTING_NUMBER  A US bank account routing number. These are typically nine digits long,     US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER  A US Individual Taxpayer Identification Number (ITIN) is a nine-digit number that starts with a "9" and contain a "7" or "8" as the fourth digit. An ITIN can be formatted with a space or a dash after the third and forth digits.     US_PASSPORT_NUMBER  A US passport number. Passport numbers range from six to nine alphanumeric characters.     US_SOCIAL_SECURITY_NUMBER  A US Social Security Number (SSN) is a nine-digit number that is issued to US citizens, permanent residents, and temporary working residents.       Canada specific     CA_HEALTH_NUMBER  A Canadian Health Service Number is a 10-digit unique identifier, required for individuals to access healthcare benefits.     CA_SOCIAL_INSURANCE_NUMBER  A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier, required for individuals to access government programs and benefits. The SIN is formatted as three groups of three digits, such as  123-456-789. A SIN can be validated through a simple check-digit process called the Luhn algorithm. For more information, see Luhn algorithm on the Wikipedia website.      UK Specific     UK_NATIONAL_HEALTH_SERVICE_NUMBER  A UK National Health Service Number is a 10-17 digit number, such as 485 555 3456. The current system formats the 10-digit number with spaces after the third and sixth digits. The final digit is an error-detecting checksum.    UK_NATIONAL_INSURANCE_NUMBER  A UK National Insurance Number (NINO) provides individuals with access to National Insurance (social security) benefits. It is also used for some purposes in the UK tax system. The number is nine digits long and starts with two letters, followed by six numbers and one letter. A NINO can be formatted with a space or a dash after the two letters and after the second, forth, and sixth digits.    UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER  A UK Unique Taxpayer Reference (UTR) is a 10-digit number that identifies a taxpayer or a business.       Custom     Regex filter - You can use a regular expressions to define patterns for an AI Guardrail to recognize and act upon such as serial number, booking ID etc..
         public let type: GuardrailPiiEntityType
 
         @inlinable
@@ -6651,6 +6800,36 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case text = "text"
+        }
+    }
+
+    public struct HandoffAgentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The collaborator agent to hand off to.
+        public let agentTarget: AgentTarget
+        /// Specifies whether the caller's audio is streamed directly to the collaborator agent and the collaborator's audio response is played back during the handoff. This applies only to voice handoffs.
+        public let audioStreamingEnabled: Bool?
+        /// Specifies whether the conversation is handed off to this collaborator agent immediately on the first turn, without any orchestration reasoning. At most one handoff in an AI Agent's configuration can set this to true.
+        public let immediateHandoff: Bool?
+        /// The instruction that tells the Orchestration AI Agent when and how to hand off to this collaborator agent.
+        public let instruction: MultiAgentInstruction?
+
+        @inlinable
+        public init(agentTarget: AgentTarget, audioStreamingEnabled: Bool? = nil, immediateHandoff: Bool? = nil, instruction: MultiAgentInstruction? = nil) {
+            self.agentTarget = agentTarget
+            self.audioStreamingEnabled = audioStreamingEnabled
+            self.immediateHandoff = immediateHandoff
+            self.instruction = instruction
+        }
+
+        public func validate(name: String) throws {
+            try self.agentTarget.validate(name: "\(name).agentTarget")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentTarget = "agentTarget"
+            case audioStreamingEnabled = "audioStreamingEnabled"
+            case immediateHandoff = "immediateHandoff"
+            case instruction = "instruction"
         }
     }
 
@@ -8670,6 +8849,24 @@ extension QConnect {
         }
     }
 
+    public struct MultiAgentInstruction: AWSEncodableShape & AWSDecodableShape {
+        /// Example interactions that illustrate when the Orchestration AI Agent should engage the collaborator agent.
+        public let examples: [String]?
+        /// The natural-language instruction that tells the Orchestration AI Agent when and how to engage the collaborator agent.
+        public let instruction: String?
+
+        @inlinable
+        public init(examples: [String]? = nil, instruction: String? = nil) {
+            self.examples = examples
+            self.instruction = instruction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case examples = "examples"
+            case instruction = "instruction"
+        }
+    }
+
     public struct NoteTakingAIAgentConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The locale setting for language-specific case summarization generation (for example, en_US, es_ES).
         public let locale: String?
@@ -8808,21 +9005,30 @@ extension QConnect {
     public struct OrchestrationAIAgentConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Connect instance used by the Orchestration AI Agent.
         public let connectInstanceArn: String?
+        /// The JSON schemas that define the structure of the structured data input accepted by the Orchestration AI Agent. The data in a DATA message sent to the agent is validated against these schemas. You can specify at most one schema.
+        public let inputSchemas: [AWSDocument]?
         /// The locale setting for the Orchestration AI Agent.
         public let locale: String?
+        /// The collaborator agents that the Orchestration AI Agent can work with. Each entry defines another agent that the orchestrator either delegates to or hands the conversation off to.
+        public let multiAgentConfigurations: [MultiAgentConfiguration]?
         /// The AI Guardrail identifier used by the Orchestration AI Agent.
         public let orchestrationAIGuardrailId: String?
         /// The AI Prompt identifier used by the Orchestration AI Agent.
-        public let orchestrationAIPromptId: String
+        public let orchestrationAIPromptId: String?
+        /// The JSON schemas that define the structure of the structured output generated by the Orchestration AI Agent. You can specify at most one schema.
+        public let outputSchemas: [AWSDocument]?
         /// The tool configurations used by the Orchestration AI Agent.
         public let toolConfigurations: [ToolConfiguration]?
 
         @inlinable
-        public init(connectInstanceArn: String? = nil, locale: String? = nil, orchestrationAIGuardrailId: String? = nil, orchestrationAIPromptId: String, toolConfigurations: [ToolConfiguration]? = nil) {
+        public init(connectInstanceArn: String? = nil, inputSchemas: [AWSDocument]? = nil, locale: String? = nil, multiAgentConfigurations: [MultiAgentConfiguration]? = nil, orchestrationAIGuardrailId: String? = nil, orchestrationAIPromptId: String? = nil, outputSchemas: [AWSDocument]? = nil, toolConfigurations: [ToolConfiguration]? = nil) {
             self.connectInstanceArn = connectInstanceArn
+            self.inputSchemas = inputSchemas
             self.locale = locale
+            self.multiAgentConfigurations = multiAgentConfigurations
             self.orchestrationAIGuardrailId = orchestrationAIGuardrailId
             self.orchestrationAIPromptId = orchestrationAIPromptId
+            self.outputSchemas = outputSchemas
             self.toolConfigurations = toolConfigurations
         }
 
@@ -8832,6 +9038,9 @@ extension QConnect {
             try self.validate(self.connectInstanceArn, name: "connectInstanceArn", parent: name, pattern: "^arn:[a-z-]+?:[a-z-]+?:[a-z0-9-]*?:([0-9]{12})?:[a-zA-Z0-9-:/]+$")
             try self.validate(self.locale, name: "locale", parent: name, max: 4096)
             try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.multiAgentConfigurations?.forEach {
+                try $0.validate(name: "\(name).multiAgentConfigurations[]")
+            }
             try self.validate(self.orchestrationAIGuardrailId, name: "orchestrationAIGuardrailId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
             try self.validate(self.orchestrationAIPromptId, name: "orchestrationAIPromptId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(:[A-Z0-9_$]+){0,1}$")
             try self.toolConfigurations?.forEach {
@@ -8841,9 +9050,12 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case connectInstanceArn = "connectInstanceArn"
+            case inputSchemas = "inputSchemas"
             case locale = "locale"
+            case multiAgentConfigurations = "multiAgentConfigurations"
             case orchestrationAIGuardrailId = "orchestrationAIGuardrailId"
             case orchestrationAIPromptId = "orchestrationAIPromptId"
+            case outputSchemas = "outputSchemas"
             case toolConfigurations = "toolConfigurations"
         }
     }
@@ -9396,7 +9608,7 @@ extension QConnect {
     }
 
     public struct QuickResponseData: AWSDecodableShape {
-        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        /// The Connect Customer contact channels this quick response applies to. The supported contact channel types include Chat.
         public let channels: [String]?
         /// The contents of the quick response.
         public let contents: QuickResponseContents?
@@ -9617,7 +9829,7 @@ extension QConnect {
         public let attributesInterpolated: [String]?
         /// The user defined contact attributes that are not resolved when the search result is returned.
         public let attributesNotInterpolated: [String]?
-        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        /// The Connect Customer contact channels this quick response applies to. The supported contact channel types include Chat.
         public let channels: [String]?
         /// The contents of the quick response.
         public let contents: QuickResponseContents
@@ -9703,7 +9915,7 @@ extension QConnect {
     }
 
     public struct QuickResponseSummary: AWSDecodableShape {
-        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        /// The Connect Customer contact channels this quick response applies to. The supported contact channel types include Chat.
         public let channels: [String]?
         /// The media type of the quick response content.   Use application/x.quickresponse;format=plain for quick response written in plain text.   Use application/x.quickresponse;format=markdown for quick response written in richtext.
         public let contentType: String
@@ -10344,7 +10556,7 @@ extension QConnect {
     }
 
     public struct SearchQuickResponsesRequest: AWSEncodableShape {
-        /// The user-defined Amazon Connect contact attributes to be resolved when search results are returned.
+        /// The user-defined Connect Customer contact attributes to be resolved when search results are returned.
         public let attributes: [String: String]?
         /// The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
@@ -10911,6 +11123,8 @@ extension QConnect {
         public let inputMessages: [SpanMessage]?
         /// Amazon Connect instance ARN
         public let instanceArn: String?
+        /// How the orchestrator engaged the collaborator agent. Present on spans that invoke a collaborator agent.
+        public let interactionMode: InteractionMode?
         /// Action being performed
         public let operationName: String?
         /// Output message collection received from LLM
@@ -10935,10 +11149,14 @@ extension QConnect {
         public let responseFinishReasons: [String]?
         /// Actual model used for response (usually matches requestModel)
         public let responseModel: String?
+        /// Reason a sub-agent returned control to the calling agent. Present on return_to_agent spans.
+        public let returnReason: ReturnReason?
         /// Session name
         public let sessionName: String?
         /// System prompt instructions
         public let systemInstructions: [SpanMessageValue]?
+        /// Identifier of the collaborator agent being invoked. For first-party collaborators this is the Amazon Connect AI agent ID; for third-party collaborators this is the external application ID.
+        public let targetAgentId: String?
         /// Sampling temperature for generation
         public let temperature: Float?
         /// Time to first token in milliseconds, measured from when Amazon Bedrock was invoked to when the first token was returned
@@ -10953,7 +11171,7 @@ extension QConnect {
         public let usageTotalTokens: Int?
 
         @inlinable
-        public init(agentId: String? = nil, aiAgentArn: String? = nil, aiAgentId: String? = nil, aiAgentInvoker: String? = nil, aiAgentName: String? = nil, aiAgentOrchestratorUseCase: String? = nil, aiAgentType: AIAgentType? = nil, aiAgentVersion: Int? = nil, cacheReadInputTokens: Int? = nil, cacheWriteInputTokens: Int? = nil, contactId: String? = nil, errorType: String? = nil, guardrailAssessments: [SpanGuardrailAssessment]? = nil, initialContactId: String? = nil, inputMessages: [SpanMessage]? = nil, instanceArn: String? = nil, operationName: String? = nil, outputMessages: [SpanMessage]? = nil, promptArn: String? = nil, promptId: String? = nil, promptName: String? = nil, promptType: AIPromptType? = nil, promptVersion: Int? = nil, providerName: String? = nil, requestMaxTokens: Int? = nil, requestModel: String? = nil, responseFinishReasons: [String]? = nil, responseModel: String? = nil, sessionName: String? = nil, systemInstructions: [SpanMessageValue]? = nil, temperature: Float? = nil, timeToFirstTokenMs: Int? = nil, topP: Float? = nil, usageInputTokens: Int? = nil, usageOutputTokens: Int? = nil, usageTotalTokens: Int? = nil) {
+        public init(agentId: String? = nil, aiAgentArn: String? = nil, aiAgentId: String? = nil, aiAgentInvoker: String? = nil, aiAgentName: String? = nil, aiAgentOrchestratorUseCase: String? = nil, aiAgentType: AIAgentType? = nil, aiAgentVersion: Int? = nil, cacheReadInputTokens: Int? = nil, cacheWriteInputTokens: Int? = nil, contactId: String? = nil, errorType: String? = nil, guardrailAssessments: [SpanGuardrailAssessment]? = nil, initialContactId: String? = nil, inputMessages: [SpanMessage]? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, operationName: String? = nil, outputMessages: [SpanMessage]? = nil, promptArn: String? = nil, promptId: String? = nil, promptName: String? = nil, promptType: AIPromptType? = nil, promptVersion: Int? = nil, providerName: String? = nil, requestMaxTokens: Int? = nil, requestModel: String? = nil, responseFinishReasons: [String]? = nil, responseModel: String? = nil, returnReason: ReturnReason? = nil, sessionName: String? = nil, systemInstructions: [SpanMessageValue]? = nil, targetAgentId: String? = nil, temperature: Float? = nil, timeToFirstTokenMs: Int? = nil, topP: Float? = nil, usageInputTokens: Int? = nil, usageOutputTokens: Int? = nil, usageTotalTokens: Int? = nil) {
             self.agentId = agentId
             self.aiAgentArn = aiAgentArn
             self.aiAgentId = aiAgentId
@@ -10970,6 +11188,7 @@ extension QConnect {
             self.initialContactId = initialContactId
             self.inputMessages = inputMessages
             self.instanceArn = instanceArn
+            self.interactionMode = interactionMode
             self.operationName = operationName
             self.outputMessages = outputMessages
             self.promptArn = promptArn
@@ -10982,8 +11201,10 @@ extension QConnect {
             self.requestModel = requestModel
             self.responseFinishReasons = responseFinishReasons
             self.responseModel = responseModel
+            self.returnReason = returnReason
             self.sessionName = sessionName
             self.systemInstructions = systemInstructions
+            self.targetAgentId = targetAgentId
             self.temperature = temperature
             self.timeToFirstTokenMs = timeToFirstTokenMs
             self.topP = topP
@@ -11009,6 +11230,7 @@ extension QConnect {
             case initialContactId = "initialContactId"
             case inputMessages = "inputMessages"
             case instanceArn = "instanceArn"
+            case interactionMode = "interactionMode"
             case operationName = "operationName"
             case outputMessages = "outputMessages"
             case promptArn = "promptArn"
@@ -11021,8 +11243,10 @@ extension QConnect {
             case requestModel = "requestModel"
             case responseFinishReasons = "responseFinishReasons"
             case responseModel = "responseModel"
+            case returnReason = "returnReason"
             case sessionName = "sessionName"
             case systemInstructions = "systemInstructions"
+            case targetAgentId = "targetAgentId"
             case temperature = "temperature"
             case timeToFirstTokenMs = "timeToFirstTokenMs"
             case topP = "topP"
@@ -12384,7 +12608,7 @@ extension QConnect {
     }
 
     public struct UpdateQuickResponseRequest: AWSEncodableShape {
-        /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+        /// The Connect Customer contact channels this quick response applies to. The supported contact channel types include Chat.
         public let channels: [String]?
         /// The updated content of the quick response.
         public let content: QuickResponseDataProvider?
@@ -12892,7 +13116,7 @@ extension QConnect {
     }
 
     public struct Configuration: AWSEncodableShape & AWSDecodableShape {
-        /// The configuration information of the Amazon Connect data source.
+        /// The configuration information of the Connect Customer data source.
         public let connectConfiguration: ConnectConfiguration?
 
         @inlinable

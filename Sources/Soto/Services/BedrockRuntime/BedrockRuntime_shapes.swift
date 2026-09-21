@@ -541,6 +541,8 @@ extension BedrockRuntime {
         case searchResult(SearchResultBlock)
         /// Text to include in the message.
         case text(String)
+        case toolAddition(ToolAdditionBlock)
+        case toolRemoval(ToolRemovalBlock)
         /// The result for a tool request that a model makes.
         case toolResult(ToolResultBlock)
         /// Information about a tool use request from a model.
@@ -585,6 +587,12 @@ extension BedrockRuntime {
             case .text:
                 let value = try container.decode(String.self, forKey: .text)
                 self = .text(value)
+            case .toolAddition:
+                let value = try container.decode(ToolAdditionBlock.self, forKey: .toolAddition)
+                self = .toolAddition(value)
+            case .toolRemoval:
+                let value = try container.decode(ToolRemovalBlock.self, forKey: .toolRemoval)
+                self = .toolRemoval(value)
             case .toolResult:
                 let value = try container.decode(ToolResultBlock.self, forKey: .toolResult)
                 self = .toolResult(value)
@@ -618,6 +626,10 @@ extension BedrockRuntime {
                 try container.encode(value, forKey: .searchResult)
             case .text(let value):
                 try container.encode(value, forKey: .text)
+            case .toolAddition(let value):
+                try container.encode(value, forKey: .toolAddition)
+            case .toolRemoval(let value):
+                try container.encode(value, forKey: .toolRemoval)
             case .toolResult(let value):
                 try container.encode(value, forKey: .toolResult)
             case .toolUse(let value):
@@ -656,6 +668,8 @@ extension BedrockRuntime {
             case reasoningContent = "reasoningContent"
             case searchResult = "searchResult"
             case text = "text"
+            case toolAddition = "toolAddition"
+            case toolRemoval = "toolRemoval"
             case toolResult = "toolResult"
             case toolUse = "toolUse"
             case video = "video"
@@ -4474,15 +4488,19 @@ extension BedrockRuntime {
     }
 
     public struct OutputConfig: AWSEncodableShape {
+        /// The effort level for the model to use when generating a response. Higher effort levels allow the model to spend more time reasoning before responding. Supported values are low, medium, high, xhigh, and max.  When extended thinking is disabled, the effort level is capped at high. Use effort high or below, or enable thinking to use higher effort levels.
+        public let effort: String?
         /// Structured output parameters to control the model's text response.
         public let textFormat: OutputFormat?
 
         @inlinable
-        public init(textFormat: OutputFormat? = nil) {
+        public init(effort: String? = nil, textFormat: OutputFormat? = nil) {
+            self.effort = effort
             self.textFormat = textFormat
         }
 
         private enum CodingKeys: String, CodingKey {
+            case effort = "effort"
             case textFormat = "textFormat"
         }
     }
@@ -4850,6 +4868,20 @@ extension BedrockRuntime {
         }
     }
 
+    public struct ToolAdditionBlock: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to the tool to add to the available tool set.
+        public let tool: ToolReference
+
+        @inlinable
+        public init(tool: ToolReference) {
+            self.tool = tool
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tool = "tool"
+        }
+    }
+
     public struct ToolConfiguration: AWSEncodableShape {
         /// If supported by model, forces the model to request a tool.
         public let toolChoice: ToolChoice?
@@ -4872,6 +4904,42 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case toolChoice = "toolChoice"
             case tools = "tools"
+        }
+    }
+
+    public struct ToolReference: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the tool. Must match the name of a tool declared in the top-level tool configuration.
+        public let name: String?
+        /// The name of the MCP server that provides the tool. Required when referencing an MCP tool.
+        public let serverName: String?
+        /// The type of tool reference.
+        public let type: String?
+
+        @inlinable
+        public init(name: String? = nil, serverName: String? = nil, type: String? = nil) {
+            self.name = name
+            self.serverName = serverName
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case serverName = "serverName"
+            case type = "type"
+        }
+    }
+
+    public struct ToolRemovalBlock: AWSEncodableShape & AWSDecodableShape {
+        /// A reference to the tool to remove from the available tool set.
+        public let tool: ToolReference
+
+        @inlinable
+        public init(tool: ToolReference) {
+            self.tool = tool
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tool = "tool"
         }
     }
 

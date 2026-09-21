@@ -195,6 +195,85 @@ public struct GuardDuty: AWSService {
         return try await self.archiveFindings(input, logger: logger)
     }
 
+    /// Enables a custom detection rule for your account by creating an association. You specify the rule and the mode in which it operates.
+    @Sendable
+    @inlinable
+    public func createCustomDetectionRuleAssociation(_ input: CreateCustomDetectionRuleAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomDetectionRuleAssociationResponse {
+        try await self.client.execute(
+            operation: "CreateCustomDetectionRuleAssociation", 
+            path: "/custom-detection-rule/association", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables a custom detection rule for your account by creating an association. You specify the rule and the mode in which it operates.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. Maximum 64 characters.
+    ///   - mode: The rule execution mode. Valid values: LIVE | DRY_RUN.
+    ///   - ruleId: The unique identifier for the custom detection rule.
+    ///   - tags: The tags to be added to the new custom detection rule association resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCustomDetectionRuleAssociation(
+        clientToken: String? = CreateCustomDetectionRuleAssociationRequest.idempotencyToken(),
+        mode: AssociationMode? = nil,
+        ruleId: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCustomDetectionRuleAssociationResponse {
+        let input = CreateCustomDetectionRuleAssociationRequest(
+            clientToken: clientToken, 
+            mode: mode, 
+            ruleId: ruleId, 
+            tags: tags
+        )
+        return try await self.createCustomDetectionRuleAssociation(input, logger: logger)
+    }
+
+    /// Creates an organization-level configuration that enables a custom detection rule across your organization. This operation is available only to the delegated administrator account.
+    @Sendable
+    @inlinable
+    public func createCustomDetectionRuleOrgConfiguration(_ input: CreateCustomDetectionRuleOrgConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCustomDetectionRuleOrgConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateCustomDetectionRuleOrgConfiguration", 
+            path: "/custom-detection-rule/org-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an organization-level configuration that enables a custom detection rule across your organization. This operation is available only to the delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time.
+    ///   - excludeAccountIds: The account IDs to exclude from the organization configuration. Mutually exclusive with IncludeAccountIds.
+    ///   - includeAccountIds: The account IDs to include in the organization configuration. Mutually exclusive with ExcludeAccountIds.
+    ///   - mode: The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN.
+    ///   - ruleId: The unique identifier for the custom detection rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCustomDetectionRuleOrgConfiguration(
+        clientToken: String? = CreateCustomDetectionRuleOrgConfigurationRequest.idempotencyToken(),
+        excludeAccountIds: [String]? = nil,
+        includeAccountIds: [String]? = nil,
+        mode: AssociationMode? = nil,
+        ruleId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCustomDetectionRuleOrgConfigurationResponse {
+        let input = CreateCustomDetectionRuleOrgConfigurationRequest(
+            clientToken: clientToken, 
+            excludeAccountIds: excludeAccountIds, 
+            includeAccountIds: includeAccountIds, 
+            mode: mode, 
+            ruleId: ruleId
+        )
+        return try await self.createCustomDetectionRuleOrgConfiguration(input, logger: logger)
+    }
+
     /// Creates a single GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.   When you don't specify any features, with an exception to RUNTIME_MONITORING, all the optional features are enabled by default.   When you specify some of the features, any feature that is not specified in the API call gets enabled by default, with an exception to RUNTIME_MONITORING.    Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see Runtime Monitoring. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
     @Sendable
     @inlinable
@@ -694,6 +773,70 @@ public struct GuardDuty: AWSService {
             accountIds: accountIds
         )
         return try await self.declineInvitations(input, logger: logger)
+    }
+
+    /// Disables a custom detection rule by deleting its association. This operation is idempotent.
+    @Sendable
+    @inlinable
+    public func deleteCustomDetectionRuleAssociation(_ input: DeleteCustomDetectionRuleAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomDetectionRuleAssociationResponse {
+        try await self.client.execute(
+            operation: "DeleteCustomDetectionRuleAssociation", 
+            path: "/custom-detection-rule/rule/{RuleId}/association/{AssociationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disables a custom detection rule by deleting its association. This operation is idempotent.
+    ///
+    /// Parameters:
+    ///   - associationId: The unique identifier for the association to delete.
+    ///   - ruleId: The unique identifier for the custom detection rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCustomDetectionRuleAssociation(
+        associationId: String,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCustomDetectionRuleAssociationResponse {
+        let input = DeleteCustomDetectionRuleAssociationRequest(
+            associationId: associationId, 
+            ruleId: ruleId
+        )
+        return try await self.deleteCustomDetectionRuleAssociation(input, logger: logger)
+    }
+
+    /// Deletes the organization-level configuration for a custom detection rule. This operation is available only to the delegated administrator account.
+    @Sendable
+    @inlinable
+    public func deleteCustomDetectionRuleOrgConfiguration(_ input: DeleteCustomDetectionRuleOrgConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCustomDetectionRuleOrgConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteCustomDetectionRuleOrgConfiguration", 
+            path: "/custom-detection-rule/org-configuration/{RuleId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the organization-level configuration for a custom detection rule. This operation is available only to the delegated administrator account.
+    ///
+    /// Parameters:
+    ///   - mode: The execution mode of the organization configuration to delete. Valid values: LIVE | DRY_RUN.
+    ///   - ruleId: The unique identifier for the custom detection rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCustomDetectionRuleOrgConfiguration(
+        mode: AssociationMode? = nil,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCustomDetectionRuleOrgConfigurationResponse {
+        let input = DeleteCustomDetectionRuleOrgConfigurationRequest(
+            mode: mode, 
+            ruleId: ruleId
+        )
+        return try await self.deleteCustomDetectionRuleOrgConfiguration(input, logger: logger)
     }
 
     /// Deletes an Amazon GuardDuty detector that is specified by the detector ID.
@@ -1327,6 +1470,99 @@ public struct GuardDuty: AWSService {
             statisticsType: statisticsType
         )
         return try await self.getCoverageStatistics(input, logger: logger)
+    }
+
+    /// Returns details for a custom detection rule in GuardDuty, including its detection logic.
+    @Sendable
+    @inlinable
+    public func getCustomDetectionRule(_ input: GetCustomDetectionRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomDetectionRuleResponse {
+        try await self.client.execute(
+            operation: "GetCustomDetectionRule", 
+            path: "/custom-detection-rule/rule/{RuleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns details for a custom detection rule in GuardDuty, including its detection logic.
+    ///
+    /// Parameters:
+    ///   - ruleId: The unique identifier for the custom detection rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCustomDetectionRule(
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCustomDetectionRuleResponse {
+        let input = GetCustomDetectionRuleRequest(
+            ruleId: ruleId
+        )
+        return try await self.getCustomDetectionRule(input, logger: logger)
+    }
+
+    /// Returns details for a custom detection rule association.
+    @Sendable
+    @inlinable
+    public func getCustomDetectionRuleAssociation(_ input: GetCustomDetectionRuleAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomDetectionRuleAssociationResponse {
+        try await self.client.execute(
+            operation: "GetCustomDetectionRuleAssociation", 
+            path: "/custom-detection-rule/rule/{RuleId}/association/{AssociationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns details for a custom detection rule association.
+    ///
+    /// Parameters:
+    ///   - associationId: The unique identifier for the association.
+    ///   - ruleId: The unique identifier for the custom detection rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCustomDetectionRuleAssociation(
+        associationId: String,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCustomDetectionRuleAssociationResponse {
+        let input = GetCustomDetectionRuleAssociationRequest(
+            associationId: associationId, 
+            ruleId: ruleId
+        )
+        return try await self.getCustomDetectionRuleAssociation(input, logger: logger)
+    }
+
+    /// Returns the organization-level configuration for a custom detection rule.
+    @Sendable
+    @inlinable
+    public func getCustomDetectionRuleOrgConfiguration(_ input: GetCustomDetectionRuleOrgConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCustomDetectionRuleOrgConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetCustomDetectionRuleOrgConfiguration", 
+            path: "/custom-detection-rule/org-configuration/{RuleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the organization-level configuration for a custom detection rule.
+    ///
+    /// Parameters:
+    ///   - mode: The execution mode of the organization configuration to retrieve. Valid values: LIVE | DRY_RUN.
+    ///   - ruleId: The unique identifier for the custom detection rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCustomDetectionRuleOrgConfiguration(
+        mode: AssociationMode? = nil,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCustomDetectionRuleOrgConfigurationResponse {
+        let input = GetCustomDetectionRuleOrgConfigurationRequest(
+            mode: mode, 
+            ruleId: ruleId
+        )
+        return try await self.getCustomDetectionRuleOrgConfiguration(input, logger: logger)
     }
 
     /// Retrieves a GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
@@ -2000,6 +2236,114 @@ public struct GuardDuty: AWSService {
             sortCriteria: sortCriteria
         )
         return try await self.listCoverage(input, logger: logger)
+    }
+
+    /// Returns all custom detection rule associations for your account. You can filter by rule ID and mode.
+    @Sendable
+    @inlinable
+    public func listCustomDetectionRuleAssociations(_ input: ListCustomDetectionRuleAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomDetectionRuleAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListCustomDetectionRuleAssociations", 
+            path: "/custom-detection-rule/association", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns all custom detection rule associations for your account. You can filter by rule ID and mode.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+    ///   - mode: The rule execution mode to filter associations by.
+    ///   - nextToken: A pagination token from a previous response. Use this token to retrieve the next page of results.
+    ///   - ruleId: The unique identifier for the custom detection rule to filter associations by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCustomDetectionRuleAssociations(
+        maxResults: Int? = nil,
+        mode: AssociationMode? = nil,
+        nextToken: String? = nil,
+        ruleId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCustomDetectionRuleAssociationsResponse {
+        let input = ListCustomDetectionRuleAssociationsRequest(
+            maxResults: maxResults, 
+            mode: mode, 
+            nextToken: nextToken, 
+            ruleId: ruleId
+        )
+        return try await self.listCustomDetectionRuleAssociations(input, logger: logger)
+    }
+
+    /// Returns all organization-level configurations for custom detection rules. You can filter the results by status.
+    @Sendable
+    @inlinable
+    public func listCustomDetectionRuleOrgConfigurations(_ input: ListCustomDetectionRuleOrgConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomDetectionRuleOrgConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListCustomDetectionRuleOrgConfigurations", 
+            path: "/custom-detection-rule/org-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns all organization-level configurations for custom detection rules. You can filter the results by status.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+    ///   - nextToken: A pagination token from a previous response. Use this token to retrieve the next page of results.
+    ///   - status: The configuration status to filter by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCustomDetectionRuleOrgConfigurations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: DetectionRuleConfigurationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCustomDetectionRuleOrgConfigurationsResponse {
+        let input = ListCustomDetectionRuleOrgConfigurationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listCustomDetectionRuleOrgConfigurations(input, logger: logger)
+    }
+
+    /// Returns all available custom detection rules in GuardDuty. You can filter the results by data source, severity, tactic, technique, and service.
+    @Sendable
+    @inlinable
+    public func listCustomDetectionRules(_ input: ListCustomDetectionRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomDetectionRulesResponse {
+        try await self.client.execute(
+            operation: "ListCustomDetectionRules", 
+            path: "/custom-detection-rule/rule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns all available custom detection rules in GuardDuty. You can filter the results by data source, severity, tactic, technique, and service.
+    ///
+    /// Parameters:
+    ///   - filters: A list of filter criteria to apply when listing custom detection rules.
+    ///   - maxResults: The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+    ///   - nextToken: A pagination token from a previous response. Use this token to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCustomDetectionRules(
+        filters: [DetectionRuleFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCustomDetectionRulesResponse {
+        let input = ListCustomDetectionRulesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCustomDetectionRules(input, logger: logger)
     }
 
     /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
@@ -2745,6 +3089,79 @@ public struct GuardDuty: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates the mode of an existing custom detection rule association.
+    @Sendable
+    @inlinable
+    public func updateCustomDetectionRuleAssociation(_ input: UpdateCustomDetectionRuleAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCustomDetectionRuleAssociationResponse {
+        try await self.client.execute(
+            operation: "UpdateCustomDetectionRuleAssociation", 
+            path: "/custom-detection-rule/rule/{RuleId}/association/{AssociationId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the mode of an existing custom detection rule association.
+    ///
+    /// Parameters:
+    ///   - associationId: The unique identifier for the association to update.
+    ///   - mode: The rule execution mode. Valid values: LIVE | DRY_RUN.
+    ///   - ruleId: The unique identifier for the custom detection rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCustomDetectionRuleAssociation(
+        associationId: String,
+        mode: AssociationMode? = nil,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCustomDetectionRuleAssociationResponse {
+        let input = UpdateCustomDetectionRuleAssociationRequest(
+            associationId: associationId, 
+            mode: mode, 
+            ruleId: ruleId
+        )
+        return try await self.updateCustomDetectionRuleAssociation(input, logger: logger)
+    }
+
+    /// Updates the organization-level configuration for a custom detection rule, including the mode and include/exclude account lists.
+    @Sendable
+    @inlinable
+    public func updateCustomDetectionRuleOrgConfiguration(_ input: UpdateCustomDetectionRuleOrgConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCustomDetectionRuleOrgConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateCustomDetectionRuleOrgConfiguration", 
+            path: "/custom-detection-rule/org-configuration/{RuleId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the organization-level configuration for a custom detection rule, including the mode and include/exclude account lists.
+    ///
+    /// Parameters:
+    ///   - excludeAccountIds: The account IDs to exclude from the organization configuration. Mutually exclusive with IncludeAccountIds.
+    ///   - includeAccountIds: The account IDs to include in the organization configuration. Mutually exclusive with ExcludeAccountIds.
+    ///   - mode: The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN.
+    ///   - ruleId: The unique identifier for the custom detection rule.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCustomDetectionRuleOrgConfiguration(
+        excludeAccountIds: [String]? = nil,
+        includeAccountIds: [String]? = nil,
+        mode: AssociationMode? = nil,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCustomDetectionRuleOrgConfigurationResponse {
+        let input = UpdateCustomDetectionRuleOrgConfigurationRequest(
+            excludeAccountIds: excludeAccountIds, 
+            includeAccountIds: includeAccountIds, 
+            mode: mode, 
+            ruleId: ruleId
+        )
+        return try await self.updateCustomDetectionRuleOrgConfiguration(input, logger: logger)
+    }
+
     /// Updates the GuardDuty detector specified by the detector ID. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see Runtime Monitoring. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see Regions and endpoints.
     @Sendable
     @inlinable
@@ -3402,6 +3819,120 @@ extension GuardDuty {
         return self.listCoveragePaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCustomDetectionRuleAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomDetectionRuleAssociationsPaginator(
+        _ input: ListCustomDetectionRuleAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCustomDetectionRuleAssociationsRequest, ListCustomDetectionRuleAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listCustomDetectionRuleAssociations,
+            inputKey: \ListCustomDetectionRuleAssociationsRequest.nextToken,
+            outputKey: \ListCustomDetectionRuleAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCustomDetectionRuleAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+    ///   - mode: The rule execution mode to filter associations by.
+    ///   - ruleId: The unique identifier for the custom detection rule to filter associations by.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomDetectionRuleAssociationsPaginator(
+        maxResults: Int? = nil,
+        mode: AssociationMode? = nil,
+        ruleId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCustomDetectionRuleAssociationsRequest, ListCustomDetectionRuleAssociationsResponse> {
+        let input = ListCustomDetectionRuleAssociationsRequest(
+            maxResults: maxResults, 
+            mode: mode, 
+            ruleId: ruleId
+        )
+        return self.listCustomDetectionRuleAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCustomDetectionRuleOrgConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomDetectionRuleOrgConfigurationsPaginator(
+        _ input: ListCustomDetectionRuleOrgConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCustomDetectionRuleOrgConfigurationsRequest, ListCustomDetectionRuleOrgConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listCustomDetectionRuleOrgConfigurations,
+            inputKey: \ListCustomDetectionRuleOrgConfigurationsRequest.nextToken,
+            outputKey: \ListCustomDetectionRuleOrgConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCustomDetectionRuleOrgConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+    ///   - status: The configuration status to filter by.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomDetectionRuleOrgConfigurationsPaginator(
+        maxResults: Int? = nil,
+        status: DetectionRuleConfigurationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCustomDetectionRuleOrgConfigurationsRequest, ListCustomDetectionRuleOrgConfigurationsResponse> {
+        let input = ListCustomDetectionRuleOrgConfigurationsRequest(
+            maxResults: maxResults, 
+            status: status
+        )
+        return self.listCustomDetectionRuleOrgConfigurationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCustomDetectionRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomDetectionRulesPaginator(
+        _ input: ListCustomDetectionRulesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCustomDetectionRulesRequest, ListCustomDetectionRulesResponse> {
+        return .init(
+            input: input,
+            command: self.listCustomDetectionRules,
+            inputKey: \ListCustomDetectionRulesRequest.nextToken,
+            outputKey: \ListCustomDetectionRulesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCustomDetectionRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: A list of filter criteria to apply when listing custom detection rules.
+    ///   - maxResults: The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCustomDetectionRulesPaginator(
+        filters: [DetectionRuleFilter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCustomDetectionRulesRequest, ListCustomDetectionRulesResponse> {
+        let input = ListCustomDetectionRulesRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listCustomDetectionRulesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDetectors(_:logger:)``.
     ///
     /// - Parameters:
@@ -3937,6 +4468,40 @@ extension GuardDuty.ListCoverageRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sortCriteria: self.sortCriteria
+        )
+    }
+}
+
+extension GuardDuty.ListCustomDetectionRuleAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListCustomDetectionRuleAssociationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            mode: self.mode,
+            nextToken: token,
+            ruleId: self.ruleId
+        )
+    }
+}
+
+extension GuardDuty.ListCustomDetectionRuleOrgConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListCustomDetectionRuleOrgConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension GuardDuty.ListCustomDetectionRulesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListCustomDetectionRulesRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

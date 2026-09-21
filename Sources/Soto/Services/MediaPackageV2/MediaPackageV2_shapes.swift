@@ -147,6 +147,7 @@ extension MediaPackageV2 {
     public enum InputType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmaf = "CMAF"
         case hls = "HLS"
+        case multiview = "MULTIVIEW"
         public var description: String { return self.rawValue }
     }
 
@@ -158,6 +159,16 @@ extension MediaPackageV2 {
     public enum MssManifestLayout: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compact = "COMPACT"
         case full = "FULL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MultiviewLayoutType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case layout2Eh = "LAYOUT_2EH"
+        case layout2Pl = "LAYOUT_2PL"
+        case layout3El = "LAYOUT_3EL"
+        case layout3Pl = "LAYOUT_3PL"
+        case layout4E = "LAYOUT_4E"
+        case layout4Pl = "LAYOUT_4PL"
         public var description: String { return self.rawValue }
     }
 
@@ -237,6 +248,12 @@ extension MediaPackageV2 {
         case all = "ALL"
         case matchesFilter = "MATCHES_FILTER"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamNameOutputMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case index = "INDEX"
+        case passthroughName = "PASSTHROUGH_NAME"
         public var description: String { return self.rawValue }
     }
 
@@ -325,6 +342,30 @@ extension MediaPackageV2 {
         case memberMinValue = "MEMBER_MIN_VALUE"
         case memberMissing = "MEMBER_MISSING"
         case missingCertificateDomainName = "MISSING_CERTIFICATE_DOMAIN_NAME"
+        case multiviewChannelPolicyNotAllowed = "MULTIVIEW_CHANNEL_POLICY_NOT_ALLOWED"
+        case multiviewConfigurationNotAllowed = "MULTIVIEW_CONFIGURATION_NOT_ALLOWED"
+        case multiviewConfigurationRequired = "MULTIVIEW_CONFIGURATION_REQUIRED"
+        case multiviewDuplicateLayout = "MULTIVIEW_DUPLICATE_LAYOUT"
+        case multiviewDuplicateSource = "MULTIVIEW_DUPLICATE_SOURCE"
+        case multiviewInputSwitchNotAllowed = "MULTIVIEW_INPUT_SWITCH_NOT_ALLOWED"
+        case multiviewInputTypeWithFilterConfiguration = "MULTIVIEW_INPUT_TYPE_WITH_FILTER_CONFIGURATION"
+        case multiviewInputTypeWithHarvestJob = "MULTIVIEW_INPUT_TYPE_WITH_HARVEST_JOB"
+        case multiviewInputTypeWithIframeOnlyStreams = "MULTIVIEW_INPUT_TYPE_WITH_IFRAME_ONLY_STREAMS"
+        case multiviewInputTypeWithIsmContainer = "MULTIVIEW_INPUT_TYPE_WITH_ISM_CONTAINER"
+        case multiviewInputTypeWithLlHlsManifest = "MULTIVIEW_INPUT_TYPE_WITH_LL_HLS_MANIFEST"
+        case multiviewInputTypeWithMssManifest = "MULTIVIEW_INPUT_TYPE_WITH_MSS_MANIFEST"
+        case multiviewInputTypeWithNonEpochLocked = "MULTIVIEW_INPUT_TYPE_WITH_NON_EPOCH_LOCKED"
+        case multiviewInputTypeWithSegmentDuration = "MULTIVIEW_INPUT_TYPE_WITH_SEGMENT_DURATION"
+        case multiviewInputTypeWithStartTag = "MULTIVIEW_INPUT_TYPE_WITH_START_TAG"
+        case multiviewInvalidTimeDelaySeconds = "MULTIVIEW_INVALID_TIME_DELAY_SECONDS"
+        case multiviewManifestWindowTooLong = "MULTIVIEW_MANIFEST_WINDOW_TOO_LONG"
+        case multiviewOutputHeaderNotAllowed = "MULTIVIEW_OUTPUT_HEADER_NOT_ALLOWED"
+        case multiviewResetNotAllowed = "MULTIVIEW_RESET_NOT_ALLOWED"
+        case multiviewScteRequiresAvailsPeriodTrigger = "MULTIVIEW_SCTE_REQUIRES_AVAILS_PERIOD_TRIGGER"
+        case multiviewSourceInvalidInputType = "MULTIVIEW_SOURCE_INVALID_INPUT_TYPE"
+        case multiviewSourceNonEpochLocked = "MULTIVIEW_SOURCE_NON_EPOCH_LOCKED"
+        case multiviewSourceNotFound = "MULTIVIEW_SOURCE_NOT_FOUND"
+        case multiviewStartoverWindowNotAllowed = "MULTIVIEW_STARTOVER_WINDOW_NOT_ALLOWED"
         case nonEpochLockedWithForceEndpointErrorConfiguration = "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION"
         case noneModeWithTimingSource = "NONE_MODE_WITH_TIMING_SOURCE"
         case numManifestsHigh = "NUM_MANIFESTS_HIGH"
@@ -334,6 +375,7 @@ extension MediaPackageV2 {
         case onlyCmafInputTypeAllowMqcsOutputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
         case onlyCmafInputTypeAllowOutputLockingMode = "ONLY_CMAF_INPUT_TYPE_ALLOW_OUTPUT_LOCKING_MODE"
         case onlyCmafInputTypeAllowPreferredInputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
+        case onlyHlsInputTypeAllowStreamNameOutputMode = "ONLY_HLS_INPUT_TYPE_ALLOW_STREAM_NAME_OUTPUT_MODE"
         case onlyNonEpochLockedAllowOutputTimestampMode = "ONLY_NON_EPOCH_LOCKED_ALLOW_OUTPUT_TIMESTAMP_MODE"
         case outputTimestampModeImmutable = "OUTPUT_TIMESTAMP_MODE_IMMUTABLE"
         case periodTriggersNoneSpecifiedWithAdditionalValues = "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
@@ -348,6 +390,7 @@ extension MediaPackageV2 {
         case secretIsNotOneKeyValuePair = "SECRET_IS_NOT_ONE_KEY_VALUE_PAIR"
         case sourceDisruptionsEnabledIncorrectly = "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
         case startTagTimeOffsetInvalid = "START_TAG_TIME_OFFSET_INVALID"
+        case streamNameOutputModeImmutable = "STREAM_NAME_OUTPUT_MODE_IMMUTABLE"
         case timingSourceMissing = "TIMING_SOURCE_MISSING"
         case tooManyInProgressHarvestJobs = "TOO_MANY_IN_PROGRESS_HARVEST_JOBS"
         case tooManySecrets = "TOO_MANY_SECRETS"
@@ -484,6 +527,8 @@ extension MediaPackageV2 {
     public struct ChannelListConfiguration: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) associated with the resource.
         public let arn: String
+        /// The multiview channels, in the same channel group, that list this channel as an available source. This is a read-only field.
+        public let attachedMultiviewChannels: [String]?
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -492,33 +537,39 @@ extension MediaPackageV2 {
         public let createdAt: Date
         /// Any descriptive information that you want to add to the channel for future identification purposes.
         public let description: String?
-        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).    MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
         public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
+        /// The multiview configuration for the channel. This is present only when InputType is MULTIVIEW.
+        public let multiviewConfiguration: MultiviewConfiguration?
         /// The output locking mode configured for the channel. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
         public let outputLockingMode: OutputLockingMode?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, inputType: InputType? = nil, modifiedAt: Date, outputLockingMode: OutputLockingMode? = nil) {
+        public init(arn: String, attachedMultiviewChannels: [String]? = nil, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, inputType: InputType? = nil, modifiedAt: Date, multiviewConfiguration: MultiviewConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil) {
             self.arn = arn
+            self.attachedMultiviewChannels = attachedMultiviewChannels
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.createdAt = createdAt
             self.description = description
             self.inputType = inputType
             self.modifiedAt = modifiedAt
+            self.multiviewConfiguration = multiviewConfiguration
             self.outputLockingMode = outputLockingMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case attachedMultiviewChannels = "AttachedMultiviewChannels"
             case channelGroupName = "ChannelGroupName"
             case channelName = "ChannelName"
             case createdAt = "CreatedAt"
             case description = "Description"
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
+            case multiviewConfiguration = "MultiviewConfiguration"
             case outputLockingMode = "OutputLockingMode"
         }
     }
@@ -637,8 +688,10 @@ extension MediaPackageV2 {
         public let description: String?
         /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
         public let inputSwitchConfiguration: InputSwitchConfiguration?
-        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).    MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
         public let inputType: InputType?
+        /// The multiview configuration for the channel. This setting is required when InputType is MULTIVIEW, and can't be set for any other input type.
+        public let multiviewConfiguration: MultiviewConfiguration?
         /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
         public let outputHeaderConfiguration: OutputHeaderConfiguration?
         /// The output locking mode for the channel. This setting is only valid when InputType is CMAF. This value is immutable after channel creation. If you don't specify a value, the default is EPOCH_LOCKED. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time. This mode supports cross-region synchronization and failover.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0. This mode does not support cross-region synchronization or failover.
@@ -647,13 +700,14 @@ extension MediaPackageV2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateChannelRequest.idempotencyToken(), description: String? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, tags: [String: String]? = nil) {
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateChannelRequest.idempotencyToken(), description: String? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, multiviewConfiguration: MultiviewConfiguration? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, tags: [String: String]? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.clientToken = clientToken
             self.description = description
             self.inputSwitchConfiguration = inputSwitchConfiguration
             self.inputType = inputType
+            self.multiviewConfiguration = multiviewConfiguration
             self.outputHeaderConfiguration = outputHeaderConfiguration
             self.outputLockingMode = outputLockingMode
             self.tags = tags
@@ -668,6 +722,7 @@ extension MediaPackageV2 {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.inputSwitchConfiguration, forKey: .inputSwitchConfiguration)
             try container.encodeIfPresent(self.inputType, forKey: .inputType)
+            try container.encodeIfPresent(self.multiviewConfiguration, forKey: .multiviewConfiguration)
             try container.encodeIfPresent(self.outputHeaderConfiguration, forKey: .outputHeaderConfiguration)
             try container.encodeIfPresent(self.outputLockingMode, forKey: .outputLockingMode)
             try container.encodeIfPresent(self.tags, forKey: .tags)
@@ -684,6 +739,7 @@ extension MediaPackageV2 {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\S]+$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.multiviewConfiguration?.validate(name: "\(name).multiviewConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -691,6 +747,7 @@ extension MediaPackageV2 {
             case description = "Description"
             case inputSwitchConfiguration = "InputSwitchConfiguration"
             case inputType = "InputType"
+            case multiviewConfiguration = "MultiviewConfiguration"
             case outputHeaderConfiguration = "OutputHeaderConfiguration"
             case outputLockingMode = "OutputLockingMode"
             case tags = "tags"
@@ -700,6 +757,8 @@ extension MediaPackageV2 {
     public struct CreateChannelResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) associated with the resource.
         public let arn: String
+        /// The multiview channels, in the same channel group, that list this channel as an available source. This is a read-only field. You can't delete a channel while any multiview channel still lists it as a source. Use this field to find the multiview channels that you need to update first.
+        public let attachedMultiviewChannels: [String]?
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -713,10 +772,12 @@ extension MediaPackageV2 {
         public let ingestEndpoints: [IngestEndpoint]?
         /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
         public let inputSwitchConfiguration: InputSwitchConfiguration?
-        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).    MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
         public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
+        /// The multiview configuration for the channel. This is present only when InputType is MULTIVIEW.
+        public let multiviewConfiguration: MultiviewConfiguration?
         /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
         public let outputHeaderConfiguration: OutputHeaderConfiguration?
         /// The output locking mode configured for the channel. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
@@ -725,8 +786,9 @@ extension MediaPackageV2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, attachedMultiviewChannels: [String]? = nil, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, multiviewConfiguration: MultiviewConfiguration? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.attachedMultiviewChannels = attachedMultiviewChannels
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.createdAt = createdAt
@@ -736,6 +798,7 @@ extension MediaPackageV2 {
             self.inputSwitchConfiguration = inputSwitchConfiguration
             self.inputType = inputType
             self.modifiedAt = modifiedAt
+            self.multiviewConfiguration = multiviewConfiguration
             self.outputHeaderConfiguration = outputHeaderConfiguration
             self.outputLockingMode = outputLockingMode
             self.tags = tags
@@ -743,6 +806,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case attachedMultiviewChannels = "AttachedMultiviewChannels"
             case channelGroupName = "ChannelGroupName"
             case channelName = "ChannelName"
             case createdAt = "CreatedAt"
@@ -752,6 +816,7 @@ extension MediaPackageV2 {
             case inputSwitchConfiguration = "InputSwitchConfiguration"
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
+            case multiviewConfiguration = "MultiviewConfiguration"
             case outputHeaderConfiguration = "OutputHeaderConfiguration"
             case outputLockingMode = "OutputLockingMode"
             case tags = "Tags"
@@ -1171,13 +1236,15 @@ extension MediaPackageV2 {
         public let segment: Segment?
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
         public let startoverWindowSeconds: Int?
+        /// The output mode for stream names in egress manifests. This setting is valid only when the associated channel's InputType is HLS. You can't change the stream name output mode after you create the endpoint.  INDEX uses numeric indices for stream names (for example, 1, 2, 3). PASSTHROUGH_NAME uses the stream names from the input manifest. If you don't specify a value, the default is INDEX.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
         /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value, the default is UNDERSCORE.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, streamNameOutputMode: StreamNameOutputMode? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.clientToken = clientToken
@@ -1191,6 +1258,7 @@ extension MediaPackageV2 {
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.streamNameOutputMode = streamNameOutputMode
             self.tags = tags
             self.uriSeparator = uriSeparator
         }
@@ -1211,6 +1279,7 @@ extension MediaPackageV2 {
             try container.encode(self.originEndpointName, forKey: .originEndpointName)
             try container.encodeIfPresent(self.segment, forKey: .segment)
             try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
+            try container.encodeIfPresent(self.streamNameOutputMode, forKey: .streamNameOutputMode)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encodeIfPresent(self.uriSeparator, forKey: .uriSeparator)
         }
@@ -1255,6 +1324,7 @@ extension MediaPackageV2 {
             case originEndpointName = "OriginEndpointName"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case tags = "Tags"
             case uriSeparator = "UriSeparator"
         }
@@ -1293,13 +1363,15 @@ extension MediaPackageV2 {
         public let segment: Segment
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.
         public let startoverWindowSeconds: Int?
+        /// The output mode for stream names in egress manifests for this origin endpoint.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
         /// The separator character used in generated URIs for this origin endpoint.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, streamNameOutputMode: StreamNameOutputMode? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1316,6 +1388,7 @@ extension MediaPackageV2 {
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.streamNameOutputMode = streamNameOutputMode
             self.tags = tags
             self.uriSeparator = uriSeparator
         }
@@ -1337,6 +1410,7 @@ extension MediaPackageV2 {
             case originEndpointName = "OriginEndpointName"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case tags = "Tags"
             case uriSeparator = "UriSeparator"
         }
@@ -1977,6 +2051,8 @@ extension MediaPackageV2 {
     public struct GetChannelResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) associated with the resource.
         public let arn: String
+        /// The multiview channels, in the same channel group, that list this channel as an available source. This is a read-only field. You can't delete a channel while any multiview channel still lists it as a source. Use this field to find the multiview channels that you need to update first.
+        public let attachedMultiviewChannels: [String]?
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -1990,10 +2066,12 @@ extension MediaPackageV2 {
         public let ingestEndpoints: [IngestEndpoint]?
         /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
         public let inputSwitchConfiguration: InputSwitchConfiguration?
-        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).    MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
         public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
+        /// The multiview configuration for the channel. This is present only when InputType is MULTIVIEW.
+        public let multiviewConfiguration: MultiviewConfiguration?
         /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
         public let outputHeaderConfiguration: OutputHeaderConfiguration?
         /// The output locking mode configured for the channel. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
@@ -2004,8 +2082,9 @@ extension MediaPackageV2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, resetAt: Date? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, attachedMultiviewChannels: [String]? = nil, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, multiviewConfiguration: MultiviewConfiguration? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, resetAt: Date? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.attachedMultiviewChannels = attachedMultiviewChannels
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.createdAt = createdAt
@@ -2015,6 +2094,7 @@ extension MediaPackageV2 {
             self.inputSwitchConfiguration = inputSwitchConfiguration
             self.inputType = inputType
             self.modifiedAt = modifiedAt
+            self.multiviewConfiguration = multiviewConfiguration
             self.outputHeaderConfiguration = outputHeaderConfiguration
             self.outputLockingMode = outputLockingMode
             self.resetAt = resetAt
@@ -2023,6 +2103,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case attachedMultiviewChannels = "AttachedMultiviewChannels"
             case channelGroupName = "ChannelGroupName"
             case channelName = "ChannelName"
             case createdAt = "CreatedAt"
@@ -2032,6 +2113,7 @@ extension MediaPackageV2 {
             case inputSwitchConfiguration = "InputSwitchConfiguration"
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
+            case multiviewConfiguration = "MultiviewConfiguration"
             case outputHeaderConfiguration = "OutputHeaderConfiguration"
             case outputLockingMode = "OutputLockingMode"
             case resetAt = "ResetAt"
@@ -2510,13 +2592,15 @@ extension MediaPackageV2 {
         public let segment: Segment
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.
         public let startoverWindowSeconds: Int?
+        /// The output mode for stream names in egress manifests for this origin endpoint.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
         /// The separator character used in generated URIs for this origin endpoint.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, resetAt: Date? = nil, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, resetAt: Date? = nil, segment: Segment, startoverWindowSeconds: Int? = nil, streamNameOutputMode: StreamNameOutputMode? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2534,6 +2618,7 @@ extension MediaPackageV2 {
             self.resetAt = resetAt
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.streamNameOutputMode = streamNameOutputMode
             self.tags = tags
             self.uriSeparator = uriSeparator
         }
@@ -2556,6 +2641,7 @@ extension MediaPackageV2 {
             case resetAt = "ResetAt"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case tags = "Tags"
             case uriSeparator = "UriSeparator"
         }
@@ -3113,6 +3199,36 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct MultiviewConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The tile layouts that players can request from this multiview channel's origin endpoints. Only the layouts that you list here are available. Each layout must appear at most once.
+        public let availableLayouts: [MultiviewLayoutType]
+        /// The channels that players can use as tiles in this multiview channel's output. Each source channel must be in the same channel group as the multiview channel, and must have an InputType of CMAF. Only the channels that you list here are available as tiles.
+        public let availableSources: [String]
+
+        @inlinable
+        public init(availableLayouts: [MultiviewLayoutType], availableSources: [String]) {
+            self.availableLayouts = availableLayouts
+            self.availableSources = availableSources
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.availableLayouts, name: "availableLayouts", parent: name, max: 6)
+            try self.validate(self.availableLayouts, name: "availableLayouts", parent: name, min: 1)
+            try self.availableSources.forEach {
+                try validate($0, name: "availableSources[]", parent: name, max: 256)
+                try validate($0, name: "availableSources[]", parent: name, min: 1)
+                try validate($0, name: "availableSources[]", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            }
+            try self.validate(self.availableSources, name: "availableSources", parent: name, max: 10)
+            try self.validate(self.availableSources, name: "availableSources", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableLayouts = "AvailableLayouts"
+            case availableSources = "AvailableSources"
+        }
+    }
+
     public struct OriginEndpointListConfiguration: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) associated with the resource.
         public let arn: String
@@ -3140,11 +3256,13 @@ extension MediaPackageV2 {
         public let mssManifests: [ListMssManifestConfiguration]?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
+        /// The output mode for stream names in egress manifests for this origin endpoint.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// The separator character used in generated URIs for this origin endpoint.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, mssManifests: [ListMssManifestConfiguration]? = nil, originEndpointName: String, uriSeparator: UriSeparator? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, mssManifests: [ListMssManifestConfiguration]? = nil, originEndpointName: String, streamNameOutputMode: StreamNameOutputMode? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -3158,6 +3276,7 @@ extension MediaPackageV2 {
             self.modifiedAt = modifiedAt
             self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
+            self.streamNameOutputMode = streamNameOutputMode
             self.uriSeparator = uriSeparator
         }
 
@@ -3175,6 +3294,7 @@ extension MediaPackageV2 {
             case modifiedAt = "ModifiedAt"
             case mssManifests = "MssManifests"
             case originEndpointName = "OriginEndpointName"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case uriSeparator = "UriSeparator"
         }
     }
@@ -3755,16 +3875,19 @@ extension MediaPackageV2 {
         public let eTag: String?
         /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
         public let inputSwitchConfiguration: InputSwitchConfiguration?
+        /// The multiview configuration for the channel. This setting is required when the channel's InputType is MULTIVIEW, and can't be set for any other input type. Because InputType is immutable, you can change a multiview channel's sources and layouts. You can't add or remove the multiview configuration itself.
+        public let multiviewConfiguration: MultiviewConfiguration?
         /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
         public let outputHeaderConfiguration: OutputHeaderConfiguration?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, description: String? = nil, eTag: String? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil) {
+        public init(channelGroupName: String, channelName: String, description: String? = nil, eTag: String? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, multiviewConfiguration: MultiviewConfiguration? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.description = description
             self.eTag = eTag
             self.inputSwitchConfiguration = inputSwitchConfiguration
+            self.multiviewConfiguration = multiviewConfiguration
             self.outputHeaderConfiguration = outputHeaderConfiguration
         }
 
@@ -3776,6 +3899,7 @@ extension MediaPackageV2 {
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodeHeader(self.eTag, key: "x-amzn-update-if-match")
             try container.encodeIfPresent(self.inputSwitchConfiguration, forKey: .inputSwitchConfiguration)
+            try container.encodeIfPresent(self.multiviewConfiguration, forKey: .multiviewConfiguration)
             try container.encodeIfPresent(self.outputHeaderConfiguration, forKey: .outputHeaderConfiguration)
         }
 
@@ -3790,11 +3914,13 @@ extension MediaPackageV2 {
             try self.validate(self.eTag, name: "eTag", parent: name, max: 256)
             try self.validate(self.eTag, name: "eTag", parent: name, min: 1)
             try self.validate(self.eTag, name: "eTag", parent: name, pattern: "^[\\S]+$")
+            try self.multiviewConfiguration?.validate(name: "\(name).multiviewConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case inputSwitchConfiguration = "InputSwitchConfiguration"
+            case multiviewConfiguration = "MultiviewConfiguration"
             case outputHeaderConfiguration = "OutputHeaderConfiguration"
         }
     }
@@ -3802,6 +3928,8 @@ extension MediaPackageV2 {
     public struct UpdateChannelResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) associated with the resource.
         public let arn: String
+        /// The multiview channels, in the same channel group, that list this channel as an available source. This is a read-only field. You can't delete a channel while any multiview channel still lists it as a source. Use this field to find the multiview channels that you need to update first.
+        public let attachedMultiviewChannels: [String]?
         /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
         public let channelGroupName: String
         /// The name that describes the channel. The name is the primary identifier for the channel, and must be unique for your account in the AWS Region and channel group.
@@ -3815,10 +3943,12 @@ extension MediaPackageV2 {
         public let ingestEndpoints: [IngestEndpoint]?
         /// The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
         public let inputSwitchConfiguration: InputSwitchConfiguration?
-        /// The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
+        /// The input type is an immutable field. It defines whether the channel allows CMAF ingest, HLS ingest, or server-side multiview output. Multiview channels receive no ingest of their own. If unprovided, the value defaults to HLS. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).    MULTIVIEW – Server-side multiview. The channel receives no ingest of its own. Instead, it composites video from the source channels in its MultiviewConfiguration into a single tiled output stream.
         public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
+        /// The multiview configuration for the channel. This is present only when InputType is MULTIVIEW.
+        public let multiviewConfiguration: MultiviewConfiguration?
         /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
         public let outputHeaderConfiguration: OutputHeaderConfiguration?
         /// The output locking mode configured for the channel. This value is immutable after channel creation. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
@@ -3827,8 +3957,9 @@ extension MediaPackageV2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, attachedMultiviewChannels: [String]? = nil, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, multiviewConfiguration: MultiviewConfiguration? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.attachedMultiviewChannels = attachedMultiviewChannels
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.createdAt = createdAt
@@ -3838,6 +3969,7 @@ extension MediaPackageV2 {
             self.inputSwitchConfiguration = inputSwitchConfiguration
             self.inputType = inputType
             self.modifiedAt = modifiedAt
+            self.multiviewConfiguration = multiviewConfiguration
             self.outputHeaderConfiguration = outputHeaderConfiguration
             self.outputLockingMode = outputLockingMode
             self.tags = tags
@@ -3845,6 +3977,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case attachedMultiviewChannels = "AttachedMultiviewChannels"
             case channelGroupName = "ChannelGroupName"
             case channelName = "ChannelName"
             case createdAt = "CreatedAt"
@@ -3854,6 +3987,7 @@ extension MediaPackageV2 {
             case inputSwitchConfiguration = "InputSwitchConfiguration"
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
+            case multiviewConfiguration = "MultiviewConfiguration"
             case outputHeaderConfiguration = "OutputHeaderConfiguration"
             case outputLockingMode = "OutputLockingMode"
             case tags = "tags"
@@ -3887,11 +4021,13 @@ extension MediaPackageV2 {
         public let segment: Segment?
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
         public let startoverWindowSeconds: Int?
+        /// The output mode for stream names in egress manifests. If you provide a value, it must match the current value. You can't change the stream name output mode after you create the endpoint.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value in the update request, the current value is preserved.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, uriSeparator: UriSeparator? = nil) {
+        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, streamNameOutputMode: StreamNameOutputMode? = nil, uriSeparator: UriSeparator? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.containerType = containerType
@@ -3905,6 +4041,7 @@ extension MediaPackageV2 {
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.streamNameOutputMode = streamNameOutputMode
             self.uriSeparator = uriSeparator
         }
 
@@ -3924,6 +4061,7 @@ extension MediaPackageV2 {
             request.encodePath(self.originEndpointName, key: "OriginEndpointName")
             try container.encodeIfPresent(self.segment, forKey: .segment)
             try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
+            try container.encodeIfPresent(self.streamNameOutputMode, forKey: .streamNameOutputMode)
             try container.encodeIfPresent(self.uriSeparator, forKey: .uriSeparator)
         }
 
@@ -3966,6 +4104,7 @@ extension MediaPackageV2 {
             case mssManifests = "MssManifests"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case uriSeparator = "UriSeparator"
         }
     }
@@ -4003,13 +4142,15 @@ extension MediaPackageV2 {
         public let segment: Segment
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.
         public let startoverWindowSeconds: Int?
+        /// The output mode for stream names in egress manifests for this origin endpoint.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
         /// The separator character used in generated URIs for this origin endpoint.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, streamNameOutputMode: StreamNameOutputMode? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -4026,6 +4167,7 @@ extension MediaPackageV2 {
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.streamNameOutputMode = streamNameOutputMode
             self.tags = tags
             self.uriSeparator = uriSeparator
         }
@@ -4047,6 +4189,7 @@ extension MediaPackageV2 {
             case originEndpointName = "OriginEndpointName"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case tags = "tags"
             case uriSeparator = "UriSeparator"
         }

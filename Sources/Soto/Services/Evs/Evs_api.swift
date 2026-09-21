@@ -489,6 +489,32 @@ public struct Evs: AWSService {
         return try await self.disassociateEipFromVlan(input, logger: logger)
     }
 
+    /// Returns the configured EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. If no settings have been set, an empty list is returned.
+    @Sendable
+    @inlinable
+    public func getAccountSettings(_ input: GetAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResponse {
+        try await self.client.execute(
+            operation: "GetAccountSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the configured EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. If no settings have been set, an empty list is returned.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAccountSettings(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAccountSettingsResponse {
+        let input = GetAccountSettingsRequest(
+        )
+        return try await self.getAccountSettings(input, logger: logger)
+    }
+
     /// Returns a URL and authentication token for accessing the Amazon EVS Custom Addon depot. Configure the depot URL as a download source in vSphere Lifecycle Manager (vLCM) to sync and install the Amazon EVS Custom Addon. The depot URL remains active until you rotate the authentication token by calling this action with rotate set to true.
     @Sendable
     @inlinable
@@ -784,6 +810,35 @@ public struct Evs: AWSService {
             nextToken: nextToken
         )
         return try await self.listVmEntitlements(input, logger: logger)
+    }
+
+    /// Creates or updates account-level EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. EVS settings included in the request are created or overwritten. Settings omitted from the request retain their current values.
+    @Sendable
+    @inlinable
+    public func putAccountSettings(_ input: PutAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSettingsResponse {
+        try await self.client.execute(
+            operation: "PutAccountSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates account-level EVS settings for your Amazon Web Services account in the specified Amazon Web Services Region. EVS settings included in the request are created or overwritten. Settings omitted from the request retain their current values.
+    ///
+    /// Parameters:
+    ///   - settings: A list of regional account-level EVS settings to create or update. Only the settings included in this list are modified.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAccountSettings(
+        settings: [AccountSetting],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAccountSettingsResponse {
+        let input = PutAccountSettingsRequest(
+            settings: settings
+        )
+        return try await self.putAccountSettings(input, logger: logger)
     }
 
     /// Associates the specified tags to an Amazon EVS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.

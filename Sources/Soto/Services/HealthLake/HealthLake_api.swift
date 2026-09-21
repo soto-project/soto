@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS HealthLake service.
 ///
-/// This is the AWS HealthLake API Reference. For an introduction to the service, see What is AWS HealthLake? in the AWS HealthLake Developer Guide.
+/// This is the HealthLake API Reference. For an introduction to the service, see What is HealthLake? in the HealthLake Developer Guide.
 public struct HealthLake: AWSService {
     // MARK: Member variables
 
@@ -97,7 +97,7 @@ public struct HealthLake: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
-    ///   - kmsKeyId: The AWS Key Management Service (AWS KMS) key identifier used to encrypt the profile content at rest.
+    ///   - kmsKeyId: The Amazon Web Services Key Management Service (Amazon Web Services KMS) key identifier used to encrypt the profile content at rest.
     ///   - profileDescription: A human-readable description of the profile's purpose.
     ///   - profileName: A name for the data transformation profile.
     ///   - source: The source for the initial profile content. Specify a built-in starter profile, an existing profile version to clone, raw profile content for CI/CD workflows, or a sample data file in Amazon S3.
@@ -144,6 +144,7 @@ public struct HealthLake: AWSService {
     ///
     /// Parameters:
     ///   - analyticsConfiguration: The analytics configuration for the data store.
+    ///   - backupConfiguration: The backup configuration for the data store.
     ///   - clientToken: An optional user-provided token to ensure API idempotency.
     ///   - datastoreName: The data store name (user-generated).
     ///   - datastoreTypeVersion: The FHIR release version supported by the data store. Current support is for version R4.
@@ -157,6 +158,7 @@ public struct HealthLake: AWSService {
     @inlinable
     public func createFHIRDatastore(
         analyticsConfiguration: AnalyticsConfiguration? = nil,
+        backupConfiguration: BackupConfiguration? = nil,
         clientToken: String? = CreateFHIRDatastoreRequest.idempotencyToken(),
         datastoreName: String? = nil,
         datastoreTypeVersion: FHIRVersion,
@@ -170,6 +172,7 @@ public struct HealthLake: AWSService {
     ) async throws -> CreateFHIRDatastoreResponse {
         let input = CreateFHIRDatastoreRequest(
             analyticsConfiguration: analyticsConfiguration, 
+            backupConfiguration: backupConfiguration, 
             clientToken: clientToken, 
             datastoreName: datastoreName, 
             datastoreTypeVersion: datastoreTypeVersion, 
@@ -229,7 +232,7 @@ public struct HealthLake: AWSService {
     /// Delete a FHIR-enabled data store.
     ///
     /// Parameters:
-    ///   - datastoreId:  The AWS-generated identifier for the data store to be deleted.
+    ///   - datastoreId:  The Amazon Web Services-generated identifier for the data store to be deleted.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteFHIRDatastore(
@@ -398,7 +401,7 @@ public struct HealthLake: AWSService {
         return try await self.getDataTransformationProfile(input, logger: logger)
     }
 
-    /// Lists data transformation jobs for your AWS account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    /// Lists data transformation jobs for your Amazon Web Services account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve additional results.
     @Sendable
     @inlinable
     public func listDataTransformationJobs(_ input: ListDataTransformationJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataTransformationJobsResponse {
@@ -412,7 +415,7 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    /// Lists data transformation jobs for your AWS account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    /// Lists data transformation jobs for your Amazon Web Services account. Results can be filtered by status, job name, and submit time window. Results are paginated. Use the NextToken parameter to retrieve additional results.
     ///
     /// Parameters:
     ///   - jobName: Filters the results to include only jobs with the specified name.
@@ -712,7 +715,63 @@ public struct HealthLake: AWSService {
         return try await self.publishDataTransformationProfile(input, logger: logger)
     }
 
-    /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or AWS HealthLake.
+    /// Restore a backup-enabled data store to a point in time. Creates a new data store from the backup.
+    @Sendable
+    @inlinable
+    public func restoreFHIRDatastore(_ input: RestoreFHIRDatastoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreFHIRDatastoreResponse {
+        try await self.client.execute(
+            operation: "RestoreFHIRDatastore", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Restore a backup-enabled data store to a point in time. Creates a new data store from the backup.
+    ///
+    /// Parameters:
+    ///   - analyticsConfiguration: The analytics configuration for the restored data store.
+    ///   - clientToken: An optional user-provided token to ensure API idempotency of the restore.
+    ///   - datastoreName: The name for the restored data store.
+    ///   - identityProviderConfiguration: The identity provider configuration for the restored data store.
+    ///   - nlpConfiguration: The NLP configuration for the restored data store.
+    ///   - profileConfiguration: The profile configuration for the restored data store.
+    ///   - restoreConfiguration: The restore configuration specifying the type and parameters for the restore.
+    ///   - sourceDatastoreId: The identifier of the source data store to restore from.
+    ///   - sseConfiguration: The server-side encryption key configuration for the restored data store.
+    ///   - tags: The resource tags applied to the restored data store.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func restoreFHIRDatastore(
+        analyticsConfiguration: AnalyticsConfiguration? = nil,
+        clientToken: String? = RestoreFHIRDatastoreRequest.idempotencyToken(),
+        datastoreName: String? = nil,
+        identityProviderConfiguration: IdentityProviderConfiguration? = nil,
+        nlpConfiguration: NlpConfiguration? = nil,
+        profileConfiguration: ProfileConfiguration? = nil,
+        restoreConfiguration: RestoreConfiguration,
+        sourceDatastoreId: String,
+        sseConfiguration: SseConfiguration? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RestoreFHIRDatastoreResponse {
+        let input = RestoreFHIRDatastoreRequest(
+            analyticsConfiguration: analyticsConfiguration, 
+            clientToken: clientToken, 
+            datastoreName: datastoreName, 
+            identityProviderConfiguration: identityProviderConfiguration, 
+            nlpConfiguration: nlpConfiguration, 
+            profileConfiguration: profileConfiguration, 
+            restoreConfiguration: restoreConfiguration, 
+            sourceDatastoreId: sourceDatastoreId, 
+            sseConfiguration: sseConfiguration, 
+            tags: tags
+        )
+        return try await self.restoreFHIRDatastore(input, logger: logger)
+    }
+
+    /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or HealthLake.
     @Sendable
     @inlinable
     public func startDataTransformationJob(_ input: StartDataTransformationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDataTransformationJobResponse {
@@ -726,15 +785,15 @@ public struct HealthLake: AWSService {
             logger: logger
         )
     }
-    /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or AWS HealthLake.
+    /// Starts an asynchronous data transformation job that converts source files from Amazon Simple Storage Service (Amazon S3) and writes the output to Amazon S3 or HealthLake.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
-    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that AWS HealthLake assumes to read from and write to the specified Amazon S3 locations.
-    ///   - driftDetectionEnabled: Specifies whether drift detection is enabled for this job. When enabled, AWS HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
+    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that HealthLake assumes to read from and write to the specified Amazon S3 locations.
+    ///   - driftDetectionEnabled: Specifies whether drift detection is enabled for this job. When enabled, HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
     ///   - inputDataConfig: The Amazon S3 location and format of the source files to transform.
     ///   - jobName: A descriptive name for the data transformation job.
-    ///   - outputDataConfig: The Amazon S3 output location and AWS Key Management Service (AWS KMS) encryption configuration.
+    ///   - outputDataConfig: The Amazon S3 output location and Amazon Web Services Key Management Service (Amazon Web Services KMS) encryption configuration.
     ///   - profileId: The unique identifier of the data transformation profile to use for conversion.
     ///   - provenanceEnabled: Specifies whether FHIR R4 Provenance resource generation is enabled for this transformation job. When provenance is enabled, the service also generates related DocumentReference and Device resources. If you don't specify a value, the default is true. To disable provenance output, set this parameter to false.
     ///   - logger: Logger use during operation
@@ -821,14 +880,15 @@ public struct HealthLake: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: The optional user-provided token used for ensuring API idempotency.
-    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) that grants access permission to AWS HealthLake.
+    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) that grants access permission to HealthLake.
     ///   - datastoreId: The data store identifier.
-    ///   - driftDetectionEnabled: 
+    ///   - driftDetectionEnabled: Specifies whether to enable drift detection for the import job.
     ///   - inputDataConfig: The input properties for the import job request.
-    ///   - inputFormat: 
+    ///   - inputFormat: The input format of the data to be imported.
     ///   - jobName: The import job name.
     ///   - jobOutputDataConfig: 
-    ///   - profileId: 
+    ///   - profileId: The data transformation profile identifier to use for the import job.
+    ///   - provenanceEnabled: Specifies whether to enable provenance for the import job.
     ///   - validationLevel: The validation level of the import job.
     ///   - logger: Logger use during operation
     @inlinable
@@ -842,6 +902,7 @@ public struct HealthLake: AWSService {
         jobName: String? = nil,
         jobOutputDataConfig: OutputDataConfig,
         profileId: String? = nil,
+        provenanceEnabled: Bool? = nil,
         validationLevel: ValidationLevel? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartFHIRImportJobResponse {
@@ -855,6 +916,7 @@ public struct HealthLake: AWSService {
             jobName: jobName, 
             jobOutputDataConfig: jobOutputDataConfig, 
             profileId: profileId, 
+            provenanceEnabled: provenanceEnabled, 
             validationLevel: validationLevel
         )
         return try await self.startFHIRImportJob(input, logger: logger)
@@ -977,6 +1039,7 @@ public struct HealthLake: AWSService {
     ///
     /// Parameters:
     ///   - analyticsConfiguration: The analytics configuration for the data store.
+    ///   - backupConfiguration: The backup configuration for the data store.
     ///   - datastoreId: The data store identifier.
     ///   - datastoreName: The data store name.
     ///   - identityProviderConfiguration: The identity provider configuration for the data store.
@@ -986,6 +1049,7 @@ public struct HealthLake: AWSService {
     @inlinable
     public func updateFHIRDatastore(
         analyticsConfiguration: AnalyticsConfiguration? = nil,
+        backupConfiguration: BackupConfiguration? = nil,
         datastoreId: String,
         datastoreName: String? = nil,
         identityProviderConfiguration: IdentityProviderConfiguration? = nil,
@@ -995,6 +1059,7 @@ public struct HealthLake: AWSService {
     ) async throws -> UpdateFHIRDatastoreResponse {
         let input = UpdateFHIRDatastoreRequest(
             analyticsConfiguration: analyticsConfiguration, 
+            backupConfiguration: backupConfiguration, 
             datastoreId: datastoreId, 
             datastoreName: datastoreName, 
             identityProviderConfiguration: identityProviderConfiguration, 

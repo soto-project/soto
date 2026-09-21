@@ -139,6 +139,7 @@ public struct DevOpsAgent: AWSService {
     ///   - kmsKeyArn: The ARN of the AWS Key Management Service (AWS KMS) customer managed key that's used to encrypt resources.
     ///   - locale: The locale for the AgentSpace, which determines the language used in agent responses.
     ///   - name: The name of the AgentSpace.
+    ///   - preferences: The preferences to configure on the agent space. Preferences not provided take their default values.
     ///   - tags: Tags to add to the AgentSpace at creation time.
     ///   - logger: Logger use during operation
     @inlinable
@@ -148,6 +149,7 @@ public struct DevOpsAgent: AWSService {
         kmsKeyArn: String? = nil,
         locale: String? = nil,
         name: String,
+        preferences: [AgentSpacePreferenceKey: Bool]? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAgentSpaceOutput {
@@ -157,6 +159,7 @@ public struct DevOpsAgent: AWSService {
             kmsKeyArn: kmsKeyArn, 
             locale: locale, 
             name: name, 
+            preferences: preferences, 
             tags: tags
         )
         return try await self.createAgentSpace(input, logger: logger)
@@ -314,7 +317,7 @@ public struct DevOpsAgent: AWSService {
     /// Creates a new chat execution in the specified agent space
     ///
     /// Parameters:
-    ///   - agentSpaceId: 
+    ///   - agentSpaceId: The unique identifier for the agent space where the chat will be created.
     ///   - userType: The authentication type of the user
     ///   - logger: Logger use during operation
     @inlinable
@@ -1406,7 +1409,7 @@ public struct DevOpsAgent: AWSService {
     /// Retrieves a paginated list of the user's recent chat executions
     ///
     /// Parameters:
-    ///   - agentSpaceId: 
+    ///   - agentSpaceId: The unique identifier for the agent space to list chats from.
     ///   - maxResults: Maximum number of results to return
     ///   - nextToken: Token for pagination
     ///   - logger: Logger use during operation
@@ -1870,6 +1873,7 @@ public struct DevOpsAgent: AWSService {
     ///   - content: The user message content
     ///   - context: Optional context for the message
     ///   - executionId: The execution identifier for the chat session
+    ///   - modelTier: Optional model tier selection. Valid values: smart, balanced, fast. Absent or unrecognized values default to balanced.
     ///   - logger: Logger use during operation
     @inlinable
     public func sendMessage(
@@ -1878,6 +1882,7 @@ public struct DevOpsAgent: AWSService {
         content: String,
         context: SendMessageContext? = nil,
         executionId: String,
+        modelTier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SendMessageResponse {
         let input = SendMessageRequest(
@@ -1885,7 +1890,8 @@ public struct DevOpsAgent: AWSService {
             assetIds: assetIds, 
             content: content, 
             context: context, 
-            executionId: executionId
+            executionId: executionId, 
+            modelTier: modelTier
         )
         return try await self.sendMessage(input, logger: logger)
     }
@@ -1977,6 +1983,7 @@ public struct DevOpsAgent: AWSService {
     ///   - description: The updated description of the AgentSpace.
     ///   - locale: The updated locale for the AgentSpace, which determines the language used in agent responses.
     ///   - name: The updated name of the AgentSpace.
+    ///   - preferences: The preferences to configure on the agent space. When provided, this replaces the full set of configured preferences; preferences not included revert to their default values. When omitted, the current preferences are left unchanged.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAgentSpace(
@@ -1984,15 +1991,65 @@ public struct DevOpsAgent: AWSService {
         description: String? = nil,
         locale: String? = nil,
         name: String? = nil,
+        preferences: [AgentSpacePreferenceKey: Bool]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateAgentSpaceOutput {
         let input = UpdateAgentSpaceInput(
             agentSpaceId: agentSpaceId, 
             description: description, 
             locale: locale, 
-            name: name
+            name: name, 
+            preferences: preferences
         )
         return try await self.updateAgentSpace(input, logger: logger)
+    }
+
+    /// Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum.
+    @Sendable
+    @inlinable
+    public func updateApprovalAction(_ input: UpdateApprovalActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApprovalActionResponse {
+        try await self.client.execute(
+            operation: "UpdateApprovalAction", 
+            path: "/agents/agent-space/{agentSpaceId}/approvals/{approvalId}/update-action", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "dp.", 
+            logger: logger
+        )
+    }
+    /// Updates an approval request with the terminal decision (APPROVED or REJECTED). A single operation handles both verbs via the action enum.
+    ///
+    /// Parameters:
+    ///   - action: The action to take on the approval request — APPROVED or REJECTED.
+    ///   - agentSpaceId: The agent space identifier — multi-tenant workspace scope. Bound from the request URI.
+    ///   - approvalId: Identifier of the approval request being resolved. A UUID. Bound from the request URI.
+    ///   - finalPattern: The finalized pattern (tool + argumentPins) that scopes the approval. Required when `action` is APPROVED; must be absent when `action` is REJECTED. The pattern narrows, and must not widen, the invocation originally requested by the agent. This cross-field invariant is enforced by service-side validation.
+    ///   - reason: Optional free-text rationale for the decision. Permitted when `action` is REJECTED; ignored when `action` is APPROVED.
+    ///   - singleUse: Whether the approved action backs a single executed tool call (true) or is reusable within ttlSeconds (false). Required when `action` is APPROVED; must be absent when `action` is REJECTED. When true, ttlSeconds must be absent (the redemption window collapses to the single use). When false, ttlSeconds is required and bounds the reuse window. Cross-field invariants are enforced by service-side validation.
+    ///   - ttlSeconds: Approval lifetime in seconds, starting from when the decision is submitted. Required when `action` is APPROVED AND `singleUse` is false; must be absent when `action` is REJECTED or when `singleUse` is true (a single-use approval backs one executed action and the redemption window collapses). Cross-field invariants are enforced by service-side validation; the @range bound here is the operation-boundary check that always applies (a maximum of 4 hours).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateApprovalAction(
+        action: ApprovalActionType,
+        agentSpaceId: String,
+        approvalId: String,
+        finalPattern: ApprovalPattern? = nil,
+        reason: String? = nil,
+        singleUse: Bool? = nil,
+        ttlSeconds: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateApprovalActionResponse {
+        let input = UpdateApprovalActionRequest(
+            action: action, 
+            agentSpaceId: agentSpaceId, 
+            approvalId: approvalId, 
+            finalPattern: finalPattern, 
+            reason: reason, 
+            singleUse: singleUse, 
+            ttlSeconds: ttlSeconds
+        )
+        return try await self.updateApprovalAction(input, logger: logger)
     }
 
     /// Updates an asset in the specified agent space

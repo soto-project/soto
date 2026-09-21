@@ -198,6 +198,7 @@ extension CloudFormation {
 
     public enum DriftIgnoredReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case managedByAws = "MANAGED_BY_AWS"
+        case sensitiveProperty = "SENSITIVE_PROPERTY"
         case writeOnlyProperty = "WRITE_ONLY_PROPERTY"
         public var description: String { return self.rawValue }
     }
@@ -5957,7 +5958,7 @@ extension CloudFormation {
     public struct ResourceDriftIgnoredAttribute: AWSDecodableShape {
         /// Path of the resource attribute for which drift was ignored.
         public let path: String?
-        /// Reason why drift was ignored for the attribute, can have 2 possible values:    WRITE_ONLY_PROPERTY - Property is not included in read response for the resource’s live state.    MANAGED_BY_AWS - Property is managed by an Amazon Web Services service and is expected to be dynamically modified.
+        /// Reason why drift was ignored for the attribute, can have 3 possible values:    WRITE_ONLY_PROPERTY – Property is not included in read response for the resource’s live state.    MANAGED_BY_AWS – Property is managed by an Amazon Web Services service and is expected to be dynamically modified.    SENSITIVE_PROPERTY – Property has a sensitive value, such as an Amazon Web Services Secrets Manager value.
         public let reason: DriftIgnoredReason?
 
         @inlinable

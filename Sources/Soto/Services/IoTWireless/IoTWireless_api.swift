@@ -1788,9 +1788,10 @@ public struct IoTWireless: AWSService {
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
     ///
     /// Parameters:
-    ///   - advancedConfiguration: Optional configuration to customize position estimates. If not provided, defaults are applied.
+    ///   - advancedConfiguration: Optional configuration for customizing position measurement data.
     ///   - cellTowers: Retrieves an estimated device position by resolving measurement data from cellular radio towers. The position is resolved using HERE's cellular-based solver.
-    ///   - gnss: Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud.
+    ///   - gnss: Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud. This field is mutually exclusive with the GnssMultiFrame field.
+    ///   - gnssMultiFrame: Retrieves an estimated device position by resolving multiple global navigation satellite system (GNSS) scan captures. The position is resolved using the multi-frame GNSS solver powered by LoRa Cloud. This field is mutually exclusive with the Gnss field.
     ///   - ip: Retrieves an estimated device position by resolving the IP address information from the device. The position is resolved using MaxMind's IP-based solver.
     ///   - timestamp: Optional information that specifies the time when the position information will be resolved. It uses the Unix timestamp format. If not specified, the time at which the request was received will be used.
     ///   - wiFiAccessPoints: Retrieves an estimated device position by resolving WLAN measurement data. The position is resolved using HERE's Wi-Fi based solver.
@@ -1800,6 +1801,7 @@ public struct IoTWireless: AWSService {
         advancedConfiguration: AdvancedConfiguration? = nil,
         cellTowers: CellTowers? = nil,
         gnss: Gnss? = nil,
+        gnssMultiFrame: GnssMultiFrame? = nil,
         ip: Ip? = nil,
         timestamp: Date? = nil,
         wiFiAccessPoints: [WiFiAccessPoint]? = nil,
@@ -1809,6 +1811,7 @@ public struct IoTWireless: AWSService {
             advancedConfiguration: advancedConfiguration, 
             cellTowers: cellTowers, 
             gnss: gnss, 
+            gnssMultiFrame: gnssMultiFrame, 
             ip: ip, 
             timestamp: timestamp, 
             wiFiAccessPoints: wiFiAccessPoints

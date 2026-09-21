@@ -428,6 +428,7 @@ public struct CodeDeploy: AWSService {
     ///   - autoRollbackConfiguration: Configuration information for an automatic rollback that is added when a deployment is created.
     ///   - deploymentConfigName: The name of a deployment configuration associated with the user or Amazon Web Services account. If not specified, the value configured in the deployment group is used as the default. If the deployment group does not have a deployment configuration associated with it, CodeDeployDefault.OneAtATime is used by default.
     ///   - deploymentGroupName: The name of the deployment group.
+    ///   - deploymentMode: The type of deployment to create. Valid values are:    STANDARD: Deploys the specified revision. This is the default behavior if deploymentMode is not specified.    RESTART: Restarts the application on the target instances using the revision from the deployment group's last successful deployment, without downloading a new revision. RESTART is supported only for EC2/On-premises in-place deployments. When deploymentMode is RESTART, the following apply:   The call is rejected for Amazon ECS and Lambda deployments.   The revision parameter (including its s3Location and gitHubLocation) must not be specified, and is rejected if provided. The revision is resolved by the service from the deployment group's last successful deployment.   The updateOutdatedInstancesOnly parameter must not be set to true, and is rejected if provided.
     ///   - description: A comment about the deployment.
     ///   - fileExistsBehavior: Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
     ///   - ignoreApplicationStopFailures:  If true, then if an ApplicationStop, BeforeBlockTraffic, or AfterBlockTraffic deployment lifecycle event to an instance fails, then the deployment continues to the next deployment lifecycle event. For example, if ApplicationStop fails, the deployment continues with DownloadBundle. If BeforeBlockTraffic fails, the deployment continues with BlockTraffic. If AfterBlockTraffic fails, the deployment continues with ApplicationStop.  If false or not specified, then if a lifecycle event fails during a deployment to an instance, that deployment fails. If deployment to that instance is part of an overall deployment and the number of healthy hosts is not less than the minimum number of healthy hosts, then a deployment to the next instance is attempted.  During a deployment, the CodeDeploy agent runs the scripts specified for ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic in the AppSpec file from the previous successful deployment. (All other scripts are run from the AppSpec file in the current deployment.) If one of these scripts contains an error and does not run successfully, the deployment can fail.  If the cause of the failure is a script from the last successful deployment that will never run successfully, create a new deployment and use ignoreApplicationStopFailures to specify that the ApplicationStop, BeforeBlockTraffic, and AfterBlockTraffic failures should be ignored.
@@ -442,6 +443,7 @@ public struct CodeDeploy: AWSService {
         autoRollbackConfiguration: AutoRollbackConfiguration? = nil,
         deploymentConfigName: String? = nil,
         deploymentGroupName: String? = nil,
+        deploymentMode: DeploymentMode? = nil,
         description: String? = nil,
         fileExistsBehavior: FileExistsBehavior? = nil,
         ignoreApplicationStopFailures: Bool? = nil,
@@ -456,6 +458,7 @@ public struct CodeDeploy: AWSService {
             autoRollbackConfiguration: autoRollbackConfiguration, 
             deploymentConfigName: deploymentConfigName, 
             deploymentGroupName: deploymentGroupName, 
+            deploymentMode: deploymentMode, 
             description: description, 
             fileExistsBehavior: fileExistsBehavior, 
             ignoreApplicationStopFailures: ignoreApplicationStopFailures, 

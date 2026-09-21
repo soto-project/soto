@@ -291,6 +291,18 @@ extension ACM {
         public var description: String { return self.rawValue }
     }
 
+    public enum UpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case pendingDomainValidation = "PENDING_DOMAIN_VALIDATION"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case domainValidationMethod = "DOMAIN_VALIDATION_METHOD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dns = "DNS"
         case email = "EMAIL"
@@ -530,6 +542,35 @@ extension ACM {
             case registeredId = "RegisteredId"
             case rfc822Name = "Rfc822Name"
             case uniformResourceIdentifier = "UniformResourceIdentifier"
+        }
+    }
+
+    public enum ValidationChallenge: AWSDecodableShape, Sendable {
+        case dnsValidationChallenge(DnsValidationChallenge)
+        case emailValidationChallenge(EmailValidationChallenge)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .dnsValidationChallenge:
+                let value = try container.decode(DnsValidationChallenge.self, forKey: .dnsValidationChallenge)
+                self = .dnsValidationChallenge(value)
+            case .emailValidationChallenge:
+                let value = try container.decode(EmailValidationChallenge.self, forKey: .emailValidationChallenge)
+                self = .emailValidationChallenge(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsValidationChallenge = "DnsValidationChallenge"
+            case emailValidationChallenge = "EmailValidationChallenge"
         }
     }
 
@@ -1110,9 +1151,11 @@ extension ACM {
         public let subjectAlternativeNames: [String]?
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the Certificate Manager User Guide.
         public let type: CertificateType?
+        /// Contains information about the most recent update to the certificate. This field exists only when the certificate type is AMAZON_ISSUED and a certificate update has been requested.
+        public let updateSummary: UpdateSummary?
 
         @inlinable
-        public init(acmeAccountId: String? = nil, acmeEndpointArn: String? = nil, certificateArn: String? = nil, certificateAuthorityArn: String? = nil, certificateKeyPairOrigin: CertificateKeyPairOrigin? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: Date? = nil, inUseBy: [String]? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, managedBy: CertificateManagedBy? = nil, notAfter: Date? = nil, notBefore: Date? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil) {
+        public init(acmeAccountId: String? = nil, acmeEndpointArn: String? = nil, certificateArn: String? = nil, certificateAuthorityArn: String? = nil, certificateKeyPairOrigin: CertificateKeyPairOrigin? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: Date? = nil, inUseBy: [String]? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, managedBy: CertificateManagedBy? = nil, notAfter: Date? = nil, notBefore: Date? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil, updateSummary: UpdateSummary? = nil) {
             self.acmeAccountId = acmeAccountId
             self.acmeEndpointArn = acmeEndpointArn
             self.certificateArn = certificateArn
@@ -1143,6 +1186,7 @@ extension ACM {
             self.subject = subject
             self.subjectAlternativeNames = subjectAlternativeNames
             self.type = type
+            self.updateSummary = updateSummary
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1176,6 +1220,7 @@ extension ACM {
             case subject = "Subject"
             case subjectAlternativeNames = "SubjectAlternativeNames"
             case type = "Type"
+            case updateSummary = "UpdateSummary"
         }
     }
 
@@ -1184,23 +1229,28 @@ extension ACM {
         public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
         /// You can opt in to allow the export of your certificates by specifying ENABLED. You cannot update the value of Export after the the certificate is created.
         public let export: CertificateExport?
+        /// The domain validation method for the certificate. To migrate from email to DNS validation, specify DNS.
+        public let validationMethod: ValidationMethod?
 
         @inlinable
-        public init(export: CertificateExport? = nil) {
+        public init(export: CertificateExport? = nil, validationMethod: ValidationMethod? = nil) {
             self.certificateTransparencyLoggingPreference = nil
             self.export = export
+            self.validationMethod = validationMethod
         }
 
         @available(*, deprecated, message: "Members certificateTransparencyLoggingPreference have been deprecated")
         @inlinable
-        public init(certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference? = nil, export: CertificateExport? = nil) {
+        public init(certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference? = nil, export: CertificateExport? = nil, validationMethod: ValidationMethod? = nil) {
             self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
             self.export = export
+            self.validationMethod = validationMethod
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateTransparencyLoggingPreference = "CertificateTransparencyLoggingPreference"
             case export = "Export"
+            case validationMethod = "ValidationMethod"
         }
     }
 
@@ -1936,6 +1986,20 @@ extension ACM {
         }
     }
 
+    public struct DnsValidationChallenge: AWSDecodableShape {
+        /// The CNAME record that ACM creates for DNS validation. Add this record to your DNS configuration to prove that you own or control the domain.
+        public let resourceRecord: ResourceRecord?
+
+        @inlinable
+        public init(resourceRecord: ResourceRecord? = nil) {
+            self.resourceRecord = resourceRecord
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceRecord = "ResourceRecord"
+        }
+    }
+
     public struct DomainScope: AWSEncodableShape & AWSDecodableShape {
         /// Whether validation applies to the exact domain.
         public let exactDomain: DomainScopeOption?
@@ -1996,6 +2060,24 @@ extension ACM {
         }
     }
 
+    public struct DomainValidationMethodUpdateSummary: AWSDecodableShape {
+        /// The validation method that the certificate was using before the update.
+        public let from: ValidationMethod?
+        /// The target validation method for the update.
+        public let to: ValidationMethod?
+
+        @inlinable
+        public init(from: ValidationMethod? = nil, to: ValidationMethod? = nil) {
+            self.from = from
+            self.to = to
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case from = "From"
+            case to = "To"
+        }
+    }
+
     public struct DomainValidationOption: AWSEncodableShape {
         /// A fully qualified domain name (FQDN) in the certificate request.
         public let domainName: String
@@ -2020,6 +2102,46 @@ extension ACM {
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
             case validationDomain = "ValidationDomain"
+        }
+    }
+
+    public struct DomainValidationSummary: AWSDecodableShape {
+        /// The validation configuration currently in effect for this domain. This reflects the validation method that ACM is currently using to validate domain ownership (for example, email or DNS).
+        public let activeValidationConfiguration: ValidationConfiguration?
+        /// The fully qualified domain name (FQDN) in the certificate for which this validation summary applies.
+        public let domainName: String
+        /// The validation configuration for a pending validation method migration. This field is present only when a migration is in progress (for example, from email to DNS validation). It contains the target validation method, the current validation status, and the validation challenge details (such as the CNAME record to add to your DNS configuration).
+        public let requestedValidationConfiguration: ValidationConfiguration?
+
+        @inlinable
+        public init(activeValidationConfiguration: ValidationConfiguration? = nil, domainName: String, requestedValidationConfiguration: ValidationConfiguration? = nil) {
+            self.activeValidationConfiguration = activeValidationConfiguration
+            self.domainName = domainName
+            self.requestedValidationConfiguration = requestedValidationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeValidationConfiguration = "ActiveValidationConfiguration"
+            case domainName = "DomainName"
+            case requestedValidationConfiguration = "RequestedValidationConfiguration"
+        }
+    }
+
+    public struct EmailValidationChallenge: AWSDecodableShape {
+        /// The domain name that ACM uses to send validation emails.
+        public let validationDomain: String?
+        /// A list of email addresses that ACM uses to send domain validation emails.
+        public let validationEmails: [String]?
+
+        @inlinable
+        public init(validationDomain: String? = nil, validationEmails: [String]? = nil) {
+            self.validationDomain = validationDomain
+            self.validationEmails = validationEmails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validationDomain = "ValidationDomain"
+            case validationEmails = "ValidationEmails"
         }
     }
 
@@ -2526,6 +2648,57 @@ extension ACM {
 
         private enum CodingKeys: String, CodingKey {
             case externalAccountBindings = "ExternalAccountBindings"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCertificateDomainValidationsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the certificate for which to list domain validation summaries.
+        public let certificateArn: String
+        /// The maximum number of domain validation summaries to return. If you don't specify a value, the default is 1000.
+        public let maxItems: Int?
+        /// A token returned by a previous call to ListCertificateDomainValidations. If the number of results exceeds MaxItems, use this token to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(certificateArn: String, maxItems: Int? = nil, nextToken: String? = nil) {
+            self.certificateArn = certificateArn
+            self.maxItems = maxItems
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:acm:[\\w+=/,.@-]*:[0-9]+:certificate/[\\w+=,.@-]+")
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case maxItems = "MaxItems"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCertificateDomainValidationsResponse: AWSDecodableShape {
+        /// A list of DomainValidationSummary objects, one for each domain on the certificate. Each object contains the domain name and its active and requested validation configurations.
+        public let domainValidationSummaryList: [DomainValidationSummary]?
+        /// If the number of results exceeds MaxItems, this token is included in the response. Use this token in a subsequent ListCertificateDomainValidations request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainValidationSummaryList: [DomainValidationSummary]? = nil, nextToken: String? = nil) {
+            self.domainValidationSummaryList = domainValidationSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainValidationSummaryList = "DomainValidationSummaryList"
             case nextToken = "NextToken"
         }
     }
@@ -3283,7 +3456,7 @@ extension ACM {
     public struct UpdateCertificateOptionsRequest: AWSEncodableShape {
         /// ARN of the requested certificate to update. This must be of the form:  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
         public let certificateArn: String
-        /// Use to update the options for your certificate. Currently, you can specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see Certificate Transparency Logging.
+        /// Use to update the options for your certificate. Currently, you can change the domain validation method or specify whether to export your certificate. For more information about migrating from email to DNS validation, see Migrate from email to DNS validation.
         public let options: CertificateOptions
 
         @inlinable
@@ -3301,6 +3474,58 @@ extension ACM {
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
             case options = "Options"
+        }
+    }
+
+    public struct UpdateSummary: AWSDecodableShape {
+        /// Contains information about a domain validation method migration, including the previous and target validation methods.
+        public let domainValidationMethodUpdateSummary: DomainValidationMethodUpdateSummary?
+        /// The time at which the certificate update was requested.
+        public let requestedAt: Date?
+        /// The status of the certificate update. The following are valid values:    PENDING_DOMAIN_VALIDATION – The certificate update is waiting for domain ownership validation to complete.    SUCCESS – The certificate was updated successfully.    FAILED – The certificate update failed.
+        public let status: UpdateStatus?
+        /// The type of update that was requested for the certificate. The following are valid values:    DOMAIN_VALIDATION_METHOD – The update changes the domain validation method for the certificate.
+        public let type: UpdateType?
+        /// The time at which the certificate update status was last changed.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(domainValidationMethodUpdateSummary: DomainValidationMethodUpdateSummary? = nil, requestedAt: Date? = nil, status: UpdateStatus? = nil, type: UpdateType? = nil, updatedAt: Date? = nil) {
+            self.domainValidationMethodUpdateSummary = domainValidationMethodUpdateSummary
+            self.requestedAt = requestedAt
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainValidationMethodUpdateSummary = "DomainValidationMethodUpdateSummary"
+            case requestedAt = "RequestedAt"
+            case status = "Status"
+            case type = "Type"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ValidationConfiguration: AWSDecodableShape {
+        /// The validation challenge details for this configuration. The structure varies by validation method: for DNS validation, contains a DnsValidationChallenge with the CNAME record to add; for email validation, contains an EmailValidationChallenge with the validation email addresses.
+        public let validationChallenge: ValidationChallenge?
+        /// The validation method for this configuration. Valid values:    DNS – Validation using a CNAME record added to your DNS configuration.    EMAIL – Validation using an approval email sent to domain contacts.    HTTP – Validation using an HTTP resource placed on your web server.
+        public let validationMethod: ValidationMethod?
+        /// The validation status for this domain. Valid values:    PENDING_VALIDATION – The domain is waiting for validation to complete.    SUCCESS – Validation completed successfully.    FAILED – Validation failed.
+        public let validationStatus: DomainStatus?
+
+        @inlinable
+        public init(validationChallenge: ValidationChallenge? = nil, validationMethod: ValidationMethod? = nil, validationStatus: DomainStatus? = nil) {
+            self.validationChallenge = validationChallenge
+            self.validationMethod = validationMethod
+            self.validationStatus = validationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case validationChallenge = "ValidationChallenge"
+            case validationMethod = "ValidationMethod"
+            case validationStatus = "ValidationStatus"
         }
     }
 

@@ -1549,6 +1549,7 @@ public struct DataZone: AWSService {
     ///   - name: The name of the notebook. The name must be between 1 and 256 characters.
     ///   - owningProjectIdentifier: The identifier of the project that owns the notebook.
     ///   - parameters: The sensitive parameters for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    ///   - type: The type of the notebook.
     ///   - logger: Logger use during operation
     @inlinable
     public func createNotebook(
@@ -1559,6 +1560,7 @@ public struct DataZone: AWSService {
         name: String,
         owningProjectIdentifier: String,
         parameters: [String: String]? = nil,
+        type: NotebookType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateNotebookOutput {
         let input = CreateNotebookInput(
@@ -1568,7 +1570,8 @@ public struct DataZone: AWSService {
             metadata: metadata, 
             name: name, 
             owningProjectIdentifier: owningProjectIdentifier, 
-            parameters: parameters
+            parameters: parameters, 
+            type: type
         )
         return try await self.createNotebook(input, logger: logger)
     }
@@ -2242,18 +2245,21 @@ public struct DataZone: AWSService {
     /// Deletes a Amazon DataZone domain.
     ///
     /// Parameters:
+    ///   - cascadeDelete: Specifies whether to delete the domain along with all of its associated resources. When you use this parameter, Amazon DataZone deletes the domain and cleanly removes its associated resources without leaving orphaned resources behind. Amazon DataZone reports deletion progress in the deleteProgress field. Amazon DataZone reports any resources that it can't delete in the failureReasons field of the GetDomain response. You can't use this parameter together with skipDeletionCheck. If you don't specify a value, the default is false.
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     ///   - identifier: The identifier of the Amazon Web Services domain that is to be deleted.
-    ///   - skipDeletionCheck: Specifies the optional flag to delete all child entities within the domain.
+    ///   - skipDeletionCheck: Specifies whether to skip the check that prevents deletion of a domain that still contains resources. When you use this parameter, Amazon DataZone deletes the domain but might not remove its associated resources, which can leave orphaned resources behind. To delete a domain and fully clean up its associated resources, use cascadeDelete instead. You can't use this parameter together with cascadeDelete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDomain(
+        cascadeDelete: Bool? = nil,
         clientToken: String? = DeleteDomainInput.idempotencyToken(),
         identifier: String,
         skipDeletionCheck: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteDomainOutput {
         let input = DeleteDomainInput(
+            cascadeDelete: cascadeDelete, 
             clientToken: clientToken, 
             identifier: identifier, 
             skipDeletionCheck: skipDeletionCheck
@@ -5270,6 +5276,7 @@ public struct DataZone: AWSService {
     ///   - sortBy: The field to sort the results by.
     ///   - sortOrder: The sort order for the results.
     ///   - status: The status to filter notebooks by.
+    ///   - type: The type to filter notebooks by.
     ///   - logger: Logger use during operation
     @inlinable
     public func listNotebooks(
@@ -5280,6 +5287,7 @@ public struct DataZone: AWSService {
         sortBy: SortKey? = nil,
         sortOrder: SortOrder? = nil,
         status: NotebookStatus? = nil,
+        type: NotebookType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListNotebooksOutput {
         let input = ListNotebooksInput(
@@ -5289,7 +5297,8 @@ public struct DataZone: AWSService {
             owningProjectIdentifier: owningProjectIdentifier, 
             sortBy: sortBy, 
             sortOrder: sortOrder, 
-            status: status
+            status: status, 
+            type: type
         )
         return try await self.listNotebooks(input, logger: logger)
     }
@@ -7530,6 +7539,7 @@ public struct DataZone: AWSService {
     ///   - name: The updated name of the notebook.
     ///   - parameters: The updated sensitive parameters for the notebook, specified as key-value pairs.
     ///   - status: The updated status of the notebook.
+    ///   - type: The updated type of the notebook.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateNotebook(
@@ -7543,6 +7553,7 @@ public struct DataZone: AWSService {
         name: String? = nil,
         parameters: [String: String]? = nil,
         status: NotebookStatus? = nil,
+        type: NotebookType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateNotebookOutput {
         let input = UpdateNotebookInput(
@@ -7555,7 +7566,8 @@ public struct DataZone: AWSService {
             metadata: metadata, 
             name: name, 
             parameters: parameters, 
-            status: status
+            status: status, 
+            type: type
         )
         return try await self.updateNotebook(input, logger: logger)
     }
@@ -8940,6 +8952,7 @@ extension DataZone {
     ///   - sortBy: The field to sort the results by.
     ///   - sortOrder: The sort order for the results.
     ///   - status: The status to filter notebooks by.
+    ///   - type: The type to filter notebooks by.
     ///   - logger: Logger used for logging
     @inlinable
     public func listNotebooksPaginator(
@@ -8949,6 +8962,7 @@ extension DataZone {
         sortBy: SortKey? = nil,
         sortOrder: SortOrder? = nil,
         status: NotebookStatus? = nil,
+        type: NotebookType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListNotebooksInput, ListNotebooksOutput> {
         let input = ListNotebooksInput(
@@ -8957,7 +8971,8 @@ extension DataZone {
             owningProjectIdentifier: owningProjectIdentifier, 
             sortBy: sortBy, 
             sortOrder: sortOrder, 
-            status: status
+            status: status, 
+            type: type
         )
         return self.listNotebooksPaginator(input, logger: logger)
     }
@@ -10151,7 +10166,8 @@ extension DataZone.ListNotebooksInput: AWSPaginateToken {
             owningProjectIdentifier: self.owningProjectIdentifier,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
-            status: self.status
+            status: self.status,
+            type: self.type
         )
     }
 }

@@ -71,6 +71,20 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
+    public enum PayerResponsibilityPayer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The resource gateway account pays
+        case resourceGatewayAccount = "ResourceGatewayAccount"
+        /// The VPC endpoint account pays
+        case vpcEndpointAccount = "VpcEndpointAccount"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PayerResponsibilityScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Charges for the resource gateway
+        case resourceGatewayCharges = "ResourceGatewayCharges"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PrivateDnsPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allDomains = "ALL_DOMAINS"
         case specifiedDomainsOnly = "SPECIFIED_DOMAINS_ONLY"
@@ -82,6 +96,8 @@ extension VPCLattice {
     public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Resource Configuration protocol type TCP
         case tcp = "TCP"
+        /// Resource Configuration protocol type TCP_UDP
+        case tcpUdp = "TCP_UDP"
         public var description: String { return self.rawValue }
     }
 
@@ -126,6 +142,8 @@ extension VPCLattice {
         case arn = "ARN"
         /// Resource Configuration of type CHILD
         case child = "CHILD"
+        /// Resource Configuration of type CIDR
+        case cidr = "CIDR"
         /// Resource Configuration of type GROUP
         case group = "GROUP"
         /// Resource Configuration of type SINGLE
@@ -428,6 +446,8 @@ extension VPCLattice {
     public enum ResourceConfigurationDefinition: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The Amazon Resource Name (ARN) of the resource.
         case arnResource(ArnResource)
+        /// The network segment for a resource configuration of type CIDR, specified as one or more CIDR ranges (cidrRanges). Resources whose IP addresses fall within these ranges are reachable through a Tunnel VPC endpoint.
+        case cidrResource(CidrResource)
         /// The DNS name of the resource.
         case dnsResource(DnsResource)
         /// The IP resource.
@@ -446,6 +466,9 @@ extension VPCLattice {
             case .arnResource:
                 let value = try container.decode(ArnResource.self, forKey: .arnResource)
                 self = .arnResource(value)
+            case .cidrResource:
+                let value = try container.decode(CidrResource.self, forKey: .cidrResource)
+                self = .cidrResource(value)
             case .dnsResource:
                 let value = try container.decode(DnsResource.self, forKey: .dnsResource)
                 self = .dnsResource(value)
@@ -460,6 +483,8 @@ extension VPCLattice {
             switch self {
             case .arnResource(let value):
                 try container.encode(value, forKey: .arnResource)
+            case .cidrResource(let value):
+                try container.encode(value, forKey: .cidrResource)
             case .dnsResource(let value):
                 try container.encode(value, forKey: .dnsResource)
             case .ipResource(let value):
@@ -471,6 +496,8 @@ extension VPCLattice {
             switch self {
             case .arnResource(let value):
                 try value.validate(name: "\(name).arnResource")
+            case .cidrResource(let value):
+                try value.validate(name: "\(name).cidrResource")
             case .dnsResource(let value):
                 try value.validate(name: "\(name).dnsResource")
             case .ipResource(let value):
@@ -480,6 +507,7 @@ extension VPCLattice {
 
         private enum CodingKeys: String, CodingKey {
             case arnResource = "arnResource"
+            case cidrResource = "cidrResource"
             case dnsResource = "dnsResource"
             case ipResource = "ipResource"
         }
@@ -658,6 +686,29 @@ extension VPCLattice {
         private enum CodingKeys: String, CodingKey {
             case successful = "successful"
             case unsuccessful = "unsuccessful"
+        }
+    }
+
+    public struct CidrResource: AWSEncodableShape & AWSDecodableShape {
+        /// The CIDR ranges of the network segment, for example, 10.0.0.0/16.
+        public let cidrRanges: [String]?
+
+        @inlinable
+        public init(cidrRanges: [String]? = nil) {
+            self.cidrRanges = cidrRanges
+        }
+
+        public func validate(name: String) throws {
+            try self.cidrRanges?.forEach {
+                try validate($0, name: "cidrRanges[]", parent: name, max: 50)
+                try validate($0, name: "cidrRanges[]", parent: name, min: 1)
+            }
+            try self.validate(self.cidrRanges, name: "cidrRanges", parent: name, max: 10)
+            try self.validate(self.cidrRanges, name: "cidrRanges", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrRanges = "cidrRanges"
         }
     }
 
@@ -889,19 +940,19 @@ extension VPCLattice {
         public let groupDomain: String?
         /// The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
-        /// (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
+        /// (SINGLE, GROUP, CHILD, CIDR) The port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30). To resolve DNS through a CIDR resource configuration, include port 53 in the port ranges.
         public let portRanges: [String]?
-        /// (SINGLE, GROUP) The protocol accepted by the resource configuration.
+        /// (SINGLE, GROUP, CIDR) The protocol accepted by the resource configuration. The default is TCP. TCP_UDP is supported only for CIDR resource configurations; specify it for a CIDR resource configuration to allow DNS resolution, which uses UDP.
         public let `protocol`: ProtocolType?
-        /// Identifies the resource configuration in one of the following ways:    Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.    Domain name - Any domain name that is publicly resolvable.    IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
+        /// Identifies the resource configuration in one of the following ways:    Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.    Domain name - Any domain name that is publicly resolvable.    IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.    CIDR range - For a resource configuration of type CIDR, specify a cidrResource with one or more cidrRanges (for example, 10.0.0.0/16) that cover the IP addresses of the resources you want to make accessible. You can specify up to 10 ranges, using IPv4, IPv6, or both, and each range must include a prefix length. To represent your entire network, specify 0.0.0.0/0 (IPv4) or ::/0 (IPv6) as the only range. You can't use reserved ranges such as 169.254.0.0/16, 100.64.0.0/10, 224.0.0.0/4, fe80::/10, or ff00::/8.
         public let resourceConfigurationDefinition: ResourceConfigurationDefinition?
         /// (CHILD) The ID or ARN of the parent resource configuration of type GROUP. This is used to associate a child resource configuration with a group resource configuration.
         public let resourceConfigurationGroupIdentifier: String?
-        /// (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration.
+        /// (SINGLE, GROUP, ARN, CIDR) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration. For a CIDR resource configuration, the associated resource gateway must have its DNS resolution set to IN_VPC so that DNS queries resolve in the context of your VPC.
         public let resourceGatewayIdentifier: String?
         /// The tags for the resource configuration.
         public let tags: [String: String]?
-        /// The type of resource configuration. A resource configuration can be one of the following types:    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        /// The type of resource configuration. A resource configuration can be one of the following types:    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.    CIDR - A network segment, expressed as a range of IP addresses (a CIDR block). Use this type to share a portion of your network rather than an individual resource. A consumer accesses the resources within the CIDR range through a Tunnel VPC endpoint. You can't add a CIDR resource configuration to a service network. A CIDR resource configuration must be associated with a resource gateway whose DNS resolution is set to IN_VPC.
         public let type: ResourceConfigurationType
 
         @inlinable
@@ -1006,7 +1057,7 @@ extension VPCLattice {
         public let resourceGatewayId: String?
         /// The current status of the resource configuration.
         public let status: ResourceConfigurationStatus?
-        /// The type of resource configuration. A resource configuration can be one of the following types:    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        /// The type of resource configuration. A resource configuration can be one of the following types:    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.    CIDR - A network segment, expressed as a range of IP addresses (a CIDR block). A consumer accesses the resources within the CIDR range through a Tunnel VPC endpoint. A CIDR resource configuration must be associated with a resource gateway whose DNS resolution is set to IN_VPC.
         public let type: ResourceConfigurationType?
 
         @inlinable
@@ -1060,7 +1111,7 @@ extension VPCLattice {
         public let ipv4AddressesPerEni: Int?
         /// The name of the resource gateway.
         public let name: String
-        /// Indicates how DNS is resolved for resource configurations associated to this resource gateway. ResourceConfigDnsResolution is set at creation time and cannot be changed.    IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC.    PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable.
+        /// Indicates how DNS is resolved for resource configurations associated with this resource gateway. This value is set when you create the resource gateway and can't be changed afterward. The default is PUBLIC.    IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC. A CIDR resource configuration requires a resource gateway that uses IN_VPC, and an IN_VPC resource gateway can't be used for ARN resource configurations, so a single resource gateway can't serve both ARN and CIDR resource configurations.    PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable.
         public let resourceConfigDnsResolution: ResourceConfigDnsResolution?
         /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
         public let securityGroupIds: [String]?
@@ -1557,7 +1608,6 @@ extension VPCLattice {
             }
             try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, max: 2048)
             try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, min: 3)
-            try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, pattern: "^((sn-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:servicenetwork/sn-[0-9a-z]{17}))$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2921,11 +2971,11 @@ extension VPCLattice {
         public let resourceConfigurationDefinition: ResourceConfigurationDefinition?
         /// The ID of the group resource configuration.
         public let resourceConfigurationGroupId: String?
-        /// The ID of the resource gateway used to connect to the resource configuration in a given VPC. You can specify the resource gateway identifier only for resource configurations with type SINGLE, GROUP, or ARN.
+        /// The ID of the resource gateway used to connect to the resource configuration in a given VPC. You can specify the resource gateway identifier only for resource configurations with type SINGLE, GROUP, ARN, or CIDR.
         public let resourceGatewayId: String?
         /// The status of the resource configuration.
         public let status: ResourceConfigurationStatus?
-        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.    CIDR - A network segment (a range of IP addresses) accessed through a Tunnel VPC endpoint.
         public let type: ResourceConfigurationType?
 
         @inlinable
@@ -3265,7 +3315,7 @@ extension VPCLattice {
         public var lastUpdatedAt: Date?
         ///  Indicates if private DNS is enabled in the service network resource association.
         public let privateDnsEnabled: Bool?
-        /// The private DNS entry for the service.
+        /// The private DNS entry for the service. This entry includes only the domain name.
         public let privateDnsEntry: DnsEntry?
         /// The Amazon Resource Name (ARN) of the association.
         public let resourceConfigurationArn: String?
@@ -4864,6 +4914,24 @@ extension VPCLattice {
         }
     }
 
+    public struct PayerResponsibilityEntry: AWSDecodableShape {
+        /// The account that pays this category of charges. VpcEndpointAccount owns the VPC endpoint. ResourceGatewayAccount owns the resource gateway.
+        public let payerResponsibilityType: PayerResponsibilityPayer?
+        /// The category of charges that this entry applies to. ResourceGatewayCharges covers the resource gateway's data processing charge.
+        public let scope: PayerResponsibilityScope?
+
+        @inlinable
+        public init(payerResponsibilityType: PayerResponsibilityPayer? = nil, scope: PayerResponsibilityScope? = nil) {
+            self.payerResponsibilityType = payerResponsibilityType
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case payerResponsibilityType = "payerResponsibilityType"
+            case scope = "scope"
+        }
+    }
+
     public struct PutAuthPolicyRequest: AWSEncodableShape {
         /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
         public let policy: String
@@ -5028,7 +5096,7 @@ extension VPCLattice {
         public let resourceGatewayId: String?
         /// The status of the resource configuration.
         public let status: ResourceConfigurationStatus?
-        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.    CIDR - A network segment (a range of IP addresses) accessed through a Tunnel VPC endpoint.
         public let type: ResourceConfigurationType?
 
         @inlinable
@@ -5075,6 +5143,8 @@ extension VPCLattice {
         public let createdBy: String?
         /// The ID of the VPC endpoint association.
         public let id: String?
+        /// Who pays for each category of charges on the VPC endpoint association.
+        public let payerResponsibility: [PayerResponsibilityEntry]?
         /// The Amazon Resource Name (ARN) of the resource configuration.
         public let resourceConfigurationArn: String?
         /// The ID of the resource configuration.
@@ -5087,11 +5157,12 @@ extension VPCLattice {
         public let vpcEndpointOwner: String?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, id: String? = nil, resourceConfigurationArn: String? = nil, resourceConfigurationId: String? = nil, resourceConfigurationName: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, id: String? = nil, payerResponsibility: [PayerResponsibilityEntry]? = nil, resourceConfigurationArn: String? = nil, resourceConfigurationId: String? = nil, resourceConfigurationName: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.id = id
+            self.payerResponsibility = payerResponsibility
             self.resourceConfigurationArn = resourceConfigurationArn
             self.resourceConfigurationId = resourceConfigurationId
             self.resourceConfigurationName = resourceConfigurationName
@@ -5104,6 +5175,7 @@ extension VPCLattice {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case id = "id"
+            case payerResponsibility = "payerResponsibility"
             case resourceConfigurationArn = "resourceConfigurationArn"
             case resourceConfigurationId = "resourceConfigurationId"
             case resourceConfigurationName = "resourceConfigurationName"
@@ -5386,7 +5458,7 @@ extension VPCLattice {
         public let isManagedAssociation: Bool?
         ///  Indicates if private DNS is enabled for the service network resource association.
         public let privateDnsEnabled: Bool?
-        /// The private DNS entry for the service.
+        /// The private DNS entry for the service. This entry includes only the domain name.
         public let privateDnsEntry: DnsEntry?
         /// The Amazon Resource Name (ARN) of the association.
         public let resourceConfigurationArn: String?
@@ -6285,7 +6357,7 @@ extension VPCLattice {
         public let resourceGatewayId: String?
         /// The status of the resource configuration.
         public let status: ResourceConfigurationStatus?
-        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+        /// The type of resource configuration.    SINGLE - A single resource.    GROUP - A group of resources.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.    CIDR - A network segment (a range of IP addresses) accessed through a Tunnel VPC endpoint.
         public let type: ResourceConfigurationType?
 
         @inlinable
@@ -6548,13 +6620,19 @@ extension VPCLattice {
     }
 
     public struct UpdateServiceNetworkVpcAssociationRequest: AWSEncodableShape {
+        ///  DNS options for the service network VPC association.
+        public let dnsOptions: DnsOptions?
+        ///  Indicates if private DNS is enabled for the VPC association.
+        public let privateDnsEnabled: Bool?
         /// The IDs of the security groups.
-        public let securityGroupIds: [String]
+        public let securityGroupIds: [String]?
         /// The ID or ARN of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
 
         @inlinable
-        public init(securityGroupIds: [String], serviceNetworkVpcAssociationIdentifier: String) {
+        public init(dnsOptions: DnsOptions? = nil, privateDnsEnabled: Bool? = nil, securityGroupIds: [String]? = nil, serviceNetworkVpcAssociationIdentifier: String) {
+            self.dnsOptions = dnsOptions
+            self.privateDnsEnabled = privateDnsEnabled
             self.securityGroupIds = securityGroupIds
             self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
         }
@@ -6562,12 +6640,15 @@ extension VPCLattice {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.securityGroupIds, forKey: .securityGroupIds)
+            try container.encodeIfPresent(self.dnsOptions, forKey: .dnsOptions)
+            try container.encodeIfPresent(self.privateDnsEnabled, forKey: .privateDnsEnabled)
+            try container.encodeIfPresent(self.securityGroupIds, forKey: .securityGroupIds)
             request.encodePath(self.serviceNetworkVpcAssociationIdentifier, key: "serviceNetworkVpcAssociationIdentifier")
         }
 
         public func validate(name: String) throws {
-            try self.securityGroupIds.forEach {
+            try self.dnsOptions?.validate(name: "\(name).dnsOptions")
+            try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 200)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 5)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-(([0-9a-z]{8})|([0-9a-z]{17}))$")
@@ -6578,6 +6659,8 @@ extension VPCLattice {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dnsOptions = "dnsOptions"
+            case privateDnsEnabled = "privateDnsEnabled"
             case securityGroupIds = "securityGroupIds"
         }
     }
@@ -6587,18 +6670,24 @@ extension VPCLattice {
         public let arn: String?
         /// The account that created the association.
         public let createdBy: String?
+        ///  DNS options for the service network VPC association.
+        public let dnsOptions: DnsOptions?
         /// The ID of the association.
         public let id: String?
+        ///  Indicates if private DNS is enabled for the VPC association.
+        public let privateDnsEnabled: Bool?
         /// The IDs of the security groups.
         public let securityGroupIds: [String]?
         /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it while the status is DELETE_IN_PROGRESS, there is no change in the status.
         public let status: ServiceNetworkVpcAssociationStatus?
 
         @inlinable
-        public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, securityGroupIds: [String]? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
+        public init(arn: String? = nil, createdBy: String? = nil, dnsOptions: DnsOptions? = nil, id: String? = nil, privateDnsEnabled: Bool? = nil, securityGroupIds: [String]? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
             self.arn = arn
             self.createdBy = createdBy
+            self.dnsOptions = dnsOptions
             self.id = id
+            self.privateDnsEnabled = privateDnsEnabled
             self.securityGroupIds = securityGroupIds
             self.status = status
         }
@@ -6606,7 +6695,9 @@ extension VPCLattice {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdBy = "createdBy"
+            case dnsOptions = "dnsOptions"
             case id = "id"
+            case privateDnsEnabled = "privateDnsEnabled"
             case securityGroupIds = "securityGroupIds"
             case status = "status"
         }

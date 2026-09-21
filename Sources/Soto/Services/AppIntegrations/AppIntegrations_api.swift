@@ -97,6 +97,7 @@ public struct AppIntegrations: AWSService {
     ///   - applicationConfig: The configuration settings for the application.
     ///   - applicationSourceConfig: The configuration for where the application should be loaded from.
     ///   - applicationType: The type of application.
+    ///   - authConfig: The authentication settings that Connect Customer uses when calling the external application.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - description: The description of the application.
     ///   - iframeConfig: The iframe configuration for the application.
@@ -111,6 +112,7 @@ public struct AppIntegrations: AWSService {
         applicationConfig: ApplicationConfig? = nil,
         applicationSourceConfig: ApplicationSourceConfig,
         applicationType: ApplicationType? = nil,
+        authConfig: AuthConfig? = nil,
         clientToken: String? = CreateApplicationRequest.idempotencyToken(),
         description: String? = nil,
         iframeConfig: IframeConfig? = nil,
@@ -125,6 +127,7 @@ public struct AppIntegrations: AWSService {
             applicationConfig: applicationConfig, 
             applicationSourceConfig: applicationSourceConfig, 
             applicationType: applicationType, 
+            authConfig: authConfig, 
             clientToken: clientToken, 
             description: description, 
             iframeConfig: iframeConfig, 
@@ -281,7 +284,7 @@ public struct AppIntegrations: AWSService {
         return try await self.createEventIntegration(input, logger: logger)
     }
 
-    /// Deletes the Application. Only Applications that don't have any Application Associations can be deleted.
+    /// Deletes an application. If the application has associations, you must delete them first. Alternatively, use the force option to delete the application and remove its associations.
     @Sendable
     @inlinable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
@@ -294,18 +297,21 @@ public struct AppIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Deletes the Application. Only Applications that don't have any Application Associations can be deleted.
+    /// Deletes an application. If the application has associations, you must delete them first. Alternatively, use the force option to delete the application and remove its associations.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the Application.
+    ///   - force: Specifies whether to delete the application even if it still has application associations. If true, the operation removes the application and its associations. If false or absent, the delete fails when associations exist.  Setting this parameter to true permanently removes all of the application's associations. Doing so might impact other resources that rely on and reference the application. This action can't be undone.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteApplication(
         arn: String,
+        force: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteApplicationResponse {
         let input = DeleteApplicationRequest(
-            arn: arn
+            arn: arn, 
+            force: force
         )
         return try await self.deleteApplication(input, logger: logger)
     }
@@ -788,6 +794,7 @@ public struct AppIntegrations: AWSService {
     ///   - applicationSourceConfig: The configuration for where the application should be loaded from.
     ///   - applicationType: The type of application.
     ///   - arn: The Amazon Resource Name (ARN) of the Application.
+    ///   - authConfig: The authentication settings that Connect Customer uses when calling the external application.
     ///   - description: The description of the application.
     ///   - iframeConfig: The iframe configuration for the application.
     ///   - initializationTimeout: The maximum time in milliseconds allowed to establish a connection with the workspace.
@@ -800,6 +807,7 @@ public struct AppIntegrations: AWSService {
         applicationSourceConfig: ApplicationSourceConfig? = nil,
         applicationType: ApplicationType? = nil,
         arn: String,
+        authConfig: AuthConfig? = nil,
         description: String? = nil,
         iframeConfig: IframeConfig? = nil,
         initializationTimeout: Int? = nil,
@@ -812,6 +820,7 @@ public struct AppIntegrations: AWSService {
             applicationSourceConfig: applicationSourceConfig, 
             applicationType: applicationType, 
             arn: arn, 
+            authConfig: authConfig, 
             description: description, 
             iframeConfig: iframeConfig, 
             initializationTimeout: initializationTimeout, 

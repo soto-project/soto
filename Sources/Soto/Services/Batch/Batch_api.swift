@@ -121,7 +121,7 @@ public struct Batch: AWSService {
 
     // MARK: API Calls
 
-    /// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED, PENDING, or RUNNABLE state are cancelled and the job status is updated to FAILED.  A PENDING job is canceled after all dependency jobs are completed. Therefore, it may take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is canceled when all child jobs are completed.  Jobs that progressed to the STARTING or RUNNING state aren't canceled. However, the API operation still succeeds, even if no job is canceled. These jobs must be terminated with the TerminateJob operation.
+    /// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED, PENDING, or RUNNABLE state are cancelled and the job status is updated to FAILED.  A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is cancelled when all child jobs are completed.  Jobs that progressed to the STARTING or RUNNING state aren't cancelled. However, the API operation still succeeds, even if no job is cancelled. These jobs must be terminated with the TerminateJob or TerminateJobs operation.
     @Sendable
     @inlinable
     public func cancelJob(_ input: CancelJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelJobResponse {
@@ -134,11 +134,11 @@ public struct Batch: AWSService {
             logger: logger
         )
     }
-    /// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED, PENDING, or RUNNABLE state are cancelled and the job status is updated to FAILED.  A PENDING job is canceled after all dependency jobs are completed. Therefore, it may take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is canceled when all child jobs are completed.  Jobs that progressed to the STARTING or RUNNING state aren't canceled. However, the API operation still succeeds, even if no job is canceled. These jobs must be terminated with the TerminateJob operation.
+    /// Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED, PENDING, or RUNNABLE state are cancelled and the job status is updated to FAILED.  A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is cancelled when all child jobs are completed.  Jobs that progressed to the STARTING or RUNNING state aren't cancelled. However, the API operation still succeeds, even if no job is cancelled. These jobs must be terminated with the TerminateJob or TerminateJobs operation.
     ///
     /// Parameters:
     ///   - jobId: The Batch job ID of the job to cancel.
-    ///   - reason: A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has as limit of 1024 characters.
+    ///   - reason: A message to attach to the job that explains the reason for cancelling it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
     ///   - logger: Logger use during operation
     @inlinable
     public func cancelJob(
@@ -151,6 +151,38 @@ public struct Batch: AWSService {
             reason: reason
         )
         return try await self.cancelJob(input, logger: logger)
+    }
+
+    /// Cancels up to 50 jobs in an Batch job queue. This is a bulk version of CancelJob. Jobs that are in a SUBMITTED, PENDING, or RUNNABLE state are cancelled and the job status is updated to FAILED.  A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is cancelled when all child jobs are completed.  Jobs that progressed to the STARTING or RUNNING state aren't cancelled. These jobs must be terminated with the TerminateJob or TerminateJobs operation. Batch reports the result for each job individually in the response. Jobs that were processed successfully are reported in the successful list. Jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some jobs encountered errors, so check the errors list. Jobs that can't be found are treated as successfully processed.
+    @Sendable
+    @inlinable
+    public func cancelJobs(_ input: CancelJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelJobsResponse {
+        try await self.client.execute(
+            operation: "CancelJobs", 
+            path: "/v1/canceljobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels up to 50 jobs in an Batch job queue. This is a bulk version of CancelJob. Jobs that are in a SUBMITTED, PENDING, or RUNNABLE state are cancelled and the job status is updated to FAILED.  A PENDING job is cancelled after all dependency jobs are completed. Therefore, it might take longer than expected to cancel a job in PENDING status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all child jobs. The array parent job is cancelled when all child jobs are completed.  Jobs that progressed to the STARTING or RUNNING state aren't cancelled. These jobs must be terminated with the TerminateJob or TerminateJobs operation. Batch reports the result for each job individually in the response. Jobs that were processed successfully are reported in the successful list. Jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some jobs encountered errors, so check the errors list. Jobs that can't be found are treated as successfully processed.
+    ///
+    /// Parameters:
+    ///   - jobs: An array of up to 50 Batch job IDs of the jobs to cancel.
+    ///   - reason: A message to attach to the job that explains the reason for cancelling it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelJobs(
+        jobs: [String]? = nil,
+        reason: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelJobsResponse {
+        let input = CancelJobsRequest(
+            jobs: jobs, 
+            reason: reason
+        )
+        return try await self.cancelJobs(input, logger: logger)
     }
 
     /// Creates an Batch compute environment. You can create MANAGED or UNMANAGED compute environments. MANAGED compute environments can use Amazon EC2 or Fargate resources. UNMANAGED compute environments can only use EC2 resources. In a managed compute environment, Batch manages the capacity and instance types of the compute resources within the environment. This is based on the compute resource specification that you define or the launch template that you specify when you create the compute environment. Either, you can choose to use EC2 On-Demand Instances and EC2 Spot Instances. Or, you can use Fargate and Fargate Spot capacity in your managed compute environment. You can optionally set a maximum price so that Spot Instances only launch when the Spot Instance price is less than a specified percentage of the On-Demand price. In an unmanaged compute environment, you can manage your own EC2 compute resources and have flexibility with how you configure your compute resources. For example, you can use custom AMIs. However, you must verify that each of your AMIs meet the Amazon ECS container instance AMI specification. For more information, see container instance AMIs in the Amazon Elastic Container Service Developer Guide. After you created your unmanaged compute environment, you can use the DescribeComputeEnvironments operation to find the Amazon ECS cluster that's associated with it. Then, launch your container instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS container instance in the Amazon Elastic Container Service Developer Guide.  Batch doesn't automatically upgrade the AMIs in a compute environment after it's created. For more information on how to update a compute environment's AMI, see Updating compute environments in the Batch User Guide.
@@ -172,6 +204,7 @@ public struct Batch: AWSService {
     ///   - computeEnvironmentName: The name for your compute environment. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     ///   - computeResources: Details about the compute resources managed by the compute environment. This parameter is required for managed compute environments. For more information, see Compute Environments in the Batch User Guide.
     ///   - context: Reserved.
+    ///   - ecsSettings: The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
     ///   - eksConfiguration: The details for the Amazon EKS cluster that supports the compute environment.  To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.
     ///   - serviceRole: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. This automatic service-linked role creation only applies to MANAGED compute environments. For UNMANAGED compute environments, you must explicitly specify a serviceRole.  If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see Friendly names and paths in the IAM User Guide.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     ///   - state: The state of the compute environment. A compute environment must be created in the ENABLED state. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
@@ -184,6 +217,7 @@ public struct Batch: AWSService {
         computeEnvironmentName: String? = nil,
         computeResources: ComputeResource? = nil,
         context: String? = nil,
+        ecsSettings: EcsSettings? = nil,
         eksConfiguration: EksConfiguration? = nil,
         serviceRole: String? = nil,
         state: CEState? = nil,
@@ -196,6 +230,7 @@ public struct Batch: AWSService {
             computeEnvironmentName: computeEnvironmentName, 
             computeResources: computeResources, 
             context: context, 
+            ecsSettings: ecsSettings, 
             eksConfiguration: eksConfiguration, 
             serviceRole: serviceRole, 
             state: state, 
@@ -1226,7 +1261,7 @@ public struct Batch: AWSService {
     ///   - jobDefinitionName: The name of the job definition to register. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     ///   - nodeProperties: An object with properties specific to multi-node parallel jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For more information, see Multi-node Parallel Jobs in the Batch User Guide.  If the job runs on Fargate resources, then you must not specify nodeProperties; use containerProperties instead.   If the job runs on Amazon EKS resources, then you must not specify nodeProperties.
     ///   - parameters: Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
-    ///   - platformCapabilities: The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. To run the job on Fargate resources, specify FARGATE.  If the job runs on Amazon EKS resources, then you must not specify platformCapabilities.
+    ///   - platformCapabilities: The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. To run the job on Fargate resources, specify FARGATE. To run the job on Amazon ECS Managed Instances, specify MANAGED_INSTANCES. Jobs with the MANAGED_INSTANCES platform capability must use ecsProperties (not containerProperties) and do not support multi-node parallel jobs.  If the job runs on Amazon EKS resources, then you must not specify platformCapabilities.
     ///   - propagateTags: Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task. If no value is specified, the tags are not propagated. Tags can only be propagated to the tasks during task creation. For tags with the same name, job tags are given priority over job definitions tags. If the total number of combined tags from the job and job definition is over 50, the job is moved to the FAILED state.  If the job runs on Amazon EKS resources, then you must not specify propagateTags.
     ///   - retryStrategy: The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that's specified during a SubmitJob operation overrides the retry strategy defined here. If a job is terminated due to a timeout, it isn't retried.
     ///   - schedulingPriority: The scheduling priority for jobs that are submitted with this job definition. This only affects jobs in job queues with a fair-share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. The minimum supported value is 0 and the maximum supported value is 9999.
@@ -1459,7 +1494,7 @@ public struct Batch: AWSService {
     ///
     /// Parameters:
     ///   - jobId: The Batch job ID of the job to terminate.
-    ///   - reason: A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has as limit of 1024 characters.
+    ///   - reason: A message to attach to the job that explains the reason for terminating it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
     ///   - logger: Logger use during operation
     @inlinable
     public func terminateJob(
@@ -1472,6 +1507,38 @@ public struct Batch: AWSService {
             reason: reason
         )
         return try await self.terminateJob(input, logger: logger)
+    }
+
+    /// Terminates up to 50 jobs in a job queue. This is a bulk version of TerminateJob. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED. Jobs that have not progressed to the STARTING state are cancelled. Batch reports the result for each job individually in the response. Jobs that were processed successfully are reported in the successful list. Jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some jobs encountered errors, so check the errors list. Jobs that can't be found are treated as successfully processed.
+    @Sendable
+    @inlinable
+    public func terminateJobs(_ input: TerminateJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateJobsResponse {
+        try await self.client.execute(
+            operation: "TerminateJobs", 
+            path: "/v1/terminatejobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Terminates up to 50 jobs in a job queue. This is a bulk version of TerminateJob. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED. Jobs that have not progressed to the STARTING state are cancelled. Batch reports the result for each job individually in the response. Jobs that were processed successfully are reported in the successful list. Jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some jobs encountered errors, so check the errors list. Jobs that can't be found are treated as successfully processed.
+    ///
+    /// Parameters:
+    ///   - jobs: An array of up to 50 Batch job IDs of the jobs to terminate.
+    ///   - reason: A message to attach to the job that explains the reason for terminating it. This message is returned by future DescribeJobs operations on the job. It is also recorded in the Batch activity logs. This parameter has a limit of 1024 characters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func terminateJobs(
+        jobs: [String]? = nil,
+        reason: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TerminateJobsResponse {
+        let input = TerminateJobsRequest(
+            jobs: jobs, 
+            reason: reason
+        )
+        return try await self.terminateJobs(input, logger: logger)
     }
 
     /// Terminates a service job in a job queue.
@@ -1491,7 +1558,7 @@ public struct Batch: AWSService {
     ///
     /// Parameters:
     ///   - jobId: The service job ID of the service job to terminate.
-    ///   - reason: A message to attach to the service job that explains the reason for canceling it. This message is returned by DescribeServiceJob operations on the service job.
+    ///   - reason: A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob operations on the service job.
     ///   - logger: Logger use during operation
     @inlinable
     public func terminateServiceJob(
@@ -1504,6 +1571,38 @@ public struct Batch: AWSService {
             reason: reason
         )
         return try await self.terminateServiceJob(input, logger: logger)
+    }
+
+    /// Terminates up to 50 service jobs in a job queue. This is a bulk version of TerminateServiceJob. Batch reports the result for each service job individually in the response. Service jobs that were processed successfully are reported in the successful list. Service jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some service jobs encountered errors, so check the errors list. Service jobs that can't be found are treated as successfully processed.
+    @Sendable
+    @inlinable
+    public func terminateServiceJobs(_ input: TerminateServiceJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateServiceJobsResponse {
+        try await self.client.execute(
+            operation: "TerminateServiceJobs", 
+            path: "/v1/terminateservicejobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Terminates up to 50 service jobs in a job queue. This is a bulk version of TerminateServiceJob. Batch reports the result for each service job individually in the response. Service jobs that were processed successfully are reported in the successful list. Service jobs that encountered errors are reported in the errors list. The response returns an HTTP status code of 200 even when some service jobs encountered errors, so check the errors list. Service jobs that can't be found are treated as successfully processed.
+    ///
+    /// Parameters:
+    ///   - jobs: An array of up to 50 service job IDs of the service jobs to terminate.
+    ///   - reason: A message to attach to the service job that explains the reason for terminating it. This message is returned by DescribeServiceJob operations on the service job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func terminateServiceJobs(
+        jobs: [String]? = nil,
+        reason: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TerminateServiceJobsResponse {
+        let input = TerminateServiceJobsRequest(
+            jobs: jobs, 
+            reason: reason
+        )
+        return try await self.terminateServiceJobs(input, logger: logger)
     }
 
     /// Deletes specified tags from an Batch resource.
@@ -1557,6 +1656,7 @@ public struct Batch: AWSService {
     ///   - computeEnvironment: The name or full Amazon Resource Name (ARN) of the compute environment to update.
     ///   - computeResources: Details of the compute resources managed by the compute environment. Required for a managed compute environment. For more information, see Compute Environments in the Batch User Guide.
     ///   - context: Reserved.
+    ///   - ecsSettings: The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
     ///   - serviceRole: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see Updating compute environments in the Batch User Guide.  If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
     ///   - state: The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
     ///   - unmanagedvCpus: The maximum number of vCPUs expected to be used for an unmanaged compute environment. Don't specify this parameter for a managed compute environment. This parameter is only used for fair-share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity is reserved.
@@ -1567,6 +1667,7 @@ public struct Batch: AWSService {
         computeEnvironment: String? = nil,
         computeResources: ComputeResourceUpdate? = nil,
         context: String? = nil,
+        ecsSettings: EcsSettings? = nil,
         serviceRole: String? = nil,
         state: CEState? = nil,
         unmanagedvCpus: Int? = nil,
@@ -1577,6 +1678,7 @@ public struct Batch: AWSService {
             computeEnvironment: computeEnvironment, 
             computeResources: computeResources, 
             context: context, 
+            ecsSettings: ecsSettings, 
             serviceRole: serviceRole, 
             state: state, 
             unmanagedvCpus: unmanagedvCpus, 

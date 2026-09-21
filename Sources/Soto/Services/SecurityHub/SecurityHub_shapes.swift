@@ -238,6 +238,18 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum FreeTrialStatusValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FreeTrialType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case securityHubV2 = "SECURITY_HUB_V2"
+        case securityHubV2MultiCloudAzure = "SECURITY_HUB_V2_MULTI_CLOUD_AZURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GranularityField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case daily = "Daily"
         case monthly = "Monthly"
@@ -1326,6 +1338,29 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case email = "Email"
+        }
+    }
+
+    public struct AccountFreeTrialStatus: AWSDecodableShape {
+        /// The Amazon Web Services account identifier that the free trial statuses apply to.
+        public let accountId: String?
+        /// The date and time at which Security Hub evaluated the free trial statuses for this account. Every status in FreeTrialStatuses reflects this point in time.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var evaluatedAt: Date?
+        /// An array of free trial statuses, one for each feature that has a free trial period for the account. The array is empty if the account has no free trial to report.
+        public let freeTrialStatuses: [FreeTrialStatus]?
+
+        @inlinable
+        public init(accountId: String? = nil, evaluatedAt: Date? = nil, freeTrialStatuses: [FreeTrialStatus]? = nil) {
+            self.accountId = accountId
+            self.evaluatedAt = evaluatedAt
+            self.freeTrialStatuses = freeTrialStatuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case evaluatedAt = "EvaluatedAt"
+            case freeTrialStatuses = "FreeTrialStatuses"
         }
     }
 
@@ -25135,6 +25170,34 @@ extension SecurityHub {
         }
     }
 
+    public struct FreeTrialStatus: AWSDecodableShape {
+        /// The date and time at which the free trial period ends.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expiresAt: Date?
+        /// The feature that the free trial period applies to. Valid values:    SECURITY_HUB_V2 specifies Security Hub.    SECURITY_HUB_V2_MULTI_CLOUD_AZURE specifies Security Hub coverage for Microsoft Azure resources.
+        public let featureType: FreeTrialType?
+        /// The date and time at which the free trial period began.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// Whether the free trial period is currently active. Valid values:    ACTIVE specifies that the free trial period is ongoing.    INACTIVE specifies that the free trial period has ended, or that it never started.   To determine whether a trial has expired, compare ExpiresAt to the current time.
+        public let status: FreeTrialStatusValue?
+
+        @inlinable
+        public init(expiresAt: Date? = nil, featureType: FreeTrialType? = nil, startedAt: Date? = nil, status: FreeTrialStatusValue? = nil) {
+            self.expiresAt = expiresAt
+            self.featureType = featureType
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiresAt = "ExpiresAt"
+            case featureType = "FeatureType"
+            case startedAt = "StartedAt"
+            case status = "Status"
+        }
+    }
+
     public struct GenerateRecommendedPolicyV2Request: AWSEncodableShape {
         /// The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding.
         public let metadataUid: String
@@ -27443,6 +27506,62 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case findingAggregators = "FindingAggregators"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFreeTrialStatusesV2Request: AWSEncodableShape {
+        /// The Amazon Web Services account identifiers to list free trial status for. You can specify accounts other than your own only if you are a delegated Security Hub administrator.
+        public let accountIds: [String]?
+        /// The maximum number of results to return. If you don't specify a value, Security Hub returns up to 100 results.
+        public let maxResults: Int?
+        /// The pagination token to request the next page of results.
+        public let nextToken: String?
+        /// The free trial statuses to filter the results by. Valid values:    ACTIVE returns only features with an ongoing free trial period.    INACTIVE returns only features whose free trial period has ended, or that never started.
+        public let statuses: [FreeTrialStatusValue]?
+
+        @inlinable
+        public init(accountIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, statuses: [FreeTrialStatusValue]? = nil) {
+            self.accountIds = accountIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.statuses = statuses
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.statuses, name: "statuses", parent: name, max: 10)
+            try self.validate(self.statuses, name: "statuses", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "AccountIds"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case statuses = "Statuses"
+        }
+    }
+
+    public struct ListFreeTrialStatusesV2Response: AWSDecodableShape {
+        /// An array of free trial statuses, one for each account in scope.
+        public let accountFreeTrialStatuses: [AccountFreeTrialStatus]?
+        /// The pagination token to use to request the next page of results. If there are no additional results, this value is null.
+        public let nextToken: String?
+
+        @inlinable
+        public init(accountFreeTrialStatuses: [AccountFreeTrialStatus]? = nil, nextToken: String? = nil) {
+            self.accountFreeTrialStatuses = accountFreeTrialStatuses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountFreeTrialStatuses = "AccountFreeTrialStatuses"
             case nextToken = "NextToken"
         }
     }
