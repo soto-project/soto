@@ -307,6 +307,12 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchSchemaElementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hash = "HASH"
+        case inlineFilter = "INLINE_FILTER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Select: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allAttributes = "ALL_ATTRIBUTES"
         case allProjectedAttributes = "ALL_PROJECTED_ATTRIBUTES"
@@ -346,6 +352,13 @@ extension DynamoDB {
         case disabling = "DISABLING"
         case enabled = "ENABLED"
         case enabling = "ENABLING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VectorDistanceFunction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cosine = "COSINE"
+        case dotProduct = "DOT_PRODUCT"
+        case euclidean = "EUCLIDEAN"
         public var description: String { return self.rawValue }
     }
 
@@ -1068,7 +1081,7 @@ extension DynamoDB {
     }
 
     public struct BatchWriteItemOutput: AWSDecodableShape {
-        /// The capacity units consumed by the entire BatchWriteItem operation. Each element consists of:    TableName - The table that consumed the provisioned throughput.    CapacityUnits - The total number of capacity units consumed.
+        /// The capacity units consumed by the entire BatchWriteItem operation. Each element consists of:    TableName - The table that consumed the provisioned throughput.    CapacityUnits - The total number of capacity units consumed.   If the table has vector indexes, each element also includes a VectorIndexes field with VectorWriteRequestBytes consumed for each affected vector index.
         public let consumedCapacity: [ConsumedCapacity]?
         /// A list of tables that were processed by BatchWriteItem and, for each table, information about any item collections that were affected by individual DeleteItem or PutItem operations. Each entry consists of the following subelements:    ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item.    SizeEstimateRangeGB - An estimate of item collection size, expressed in GB. This is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on the table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
         public let itemCollectionMetrics: [String: [ItemCollectionMetrics]]?
@@ -1255,17 +1268,20 @@ extension DynamoDB {
         public let table: Capacity?
         /// The name of the table that was affected by the operation. If you had specified the Amazon Resource Name (ARN) of a table in the input, you'll see the table ARN in the response.
         public let tableName: String?
+        /// The amount of throughput consumed on each vector index affected by the operation. Each entry contains VectorWriteRequestBytes (for write operations) or VectorSearchRequestBytes (for search operations).
+        public let vectorIndexes: [String: VectorCapacity]?
         /// The total number of write capacity units consumed by the operation.
         public let writeCapacityUnits: Double?
 
         @inlinable
-        public init(capacityUnits: Double? = nil, globalSecondaryIndexes: [String: Capacity]? = nil, localSecondaryIndexes: [String: Capacity]? = nil, readCapacityUnits: Double? = nil, table: Capacity? = nil, tableName: String? = nil, writeCapacityUnits: Double? = nil) {
+        public init(capacityUnits: Double? = nil, globalSecondaryIndexes: [String: Capacity]? = nil, localSecondaryIndexes: [String: Capacity]? = nil, readCapacityUnits: Double? = nil, table: Capacity? = nil, tableName: String? = nil, vectorIndexes: [String: VectorCapacity]? = nil, writeCapacityUnits: Double? = nil) {
             self.capacityUnits = capacityUnits
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.localSecondaryIndexes = localSecondaryIndexes
             self.readCapacityUnits = readCapacityUnits
             self.table = table
             self.tableName = tableName
+            self.vectorIndexes = vectorIndexes
             self.writeCapacityUnits = writeCapacityUnits
         }
 
@@ -1276,6 +1292,7 @@ extension DynamoDB {
             case readCapacityUnits = "ReadCapacityUnits"
             case table = "Table"
             case tableName = "TableName"
+            case vectorIndexes = "VectorIndexes"
             case writeCapacityUnits = "WriteCapacityUnits"
         }
     }
@@ -1551,11 +1568,13 @@ extension DynamoDB {
         public let tableName: String
         /// A list of key-value pairs to label the table. For more information, see Tagging for DynamoDB.
         public let tags: [Tag]?
+        /// One or more vector indexes to be created on the table. Each vector index enables similarity search on a vector attribute. Each element in the list consists of:    IndexName - The name of the vector index. Must be unique within the table.    VectorAttribute - The attribute that contains vector embeddings. If multiple vector indexes reference the same attribute, they must all use the same number of dimensions.    Dimensions - The number of dimensions in each vector.    DistanceFunction - The distance function used to calculate similarity. Valid values: COSINE, EUCLIDEAN, DOT_PRODUCT.    Projection - Specifies attributes that are copied (projected) from the table into the vector index. The total number of projected non-key attributes is shared across the vector attribute (counts as 1) and INLINE_FILTER search schema elements (each counts as 1). HASH search schema elements do not count toward this limit.    SearchSchema - (Optional) Defines the partition key (HASH) and inline filter (INLINE_FILTER) attributes for the vector index.
+        public let vectorIndexes: [VectorIndex]?
         /// Represents the warm throughput (in read units per second and write units per second) for creating a table.
         public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableSourceArn: String? = nil, keySchema: [KeySchemaElement]? = nil, localSecondaryIndexes: [LocalSecondaryIndex]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, resourcePolicy: String? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, tags: [Tag]? = nil, warmThroughput: WarmThroughput? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableSourceArn: String? = nil, keySchema: [KeySchemaElement]? = nil, localSecondaryIndexes: [LocalSecondaryIndex]? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, resourcePolicy: String? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, tags: [Tag]? = nil, vectorIndexes: [VectorIndex]? = nil, warmThroughput: WarmThroughput? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -1572,6 +1591,7 @@ extension DynamoDB {
             self.tableClass = tableClass
             self.tableName = tableName
             self.tags = tags
+            self.vectorIndexes = vectorIndexes
             self.warmThroughput = warmThroughput
         }
 
@@ -1597,6 +1617,9 @@ extension DynamoDB {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.vectorIndexes?.forEach {
+                try $0.validate(name: "\(name).vectorIndexes[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1616,6 +1639,7 @@ extension DynamoDB {
             case tableClass = "TableClass"
             case tableName = "TableName"
             case tags = "Tags"
+            case vectorIndexes = "VectorIndexes"
             case warmThroughput = "WarmThroughput"
         }
     }
@@ -1631,6 +1655,53 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case tableDescription = "TableDescription"
+        }
+    }
+
+    public struct CreateVectorIndexAction: AWSEncodableShape {
+        /// The number of dimensions in each vector.
+        public let dimensions: Int64
+        /// The distance function used to calculate similarity. Valid values: COSINE, EUCLIDEAN, DOT_PRODUCT.
+        public let distanceFunction: VectorDistanceFunction
+        /// The name of the vector index. Must be unique within the table.
+        public let indexName: String
+        /// Specifies attributes that are copied (projected) from the table into the vector index.
+        public let projection: Projection
+        /// The partition key and inline filter attribute definitions for the vector index.
+        public let searchSchema: [SearchSchemaElement]?
+        /// The attribute that contains vector embeddings. If multiple vector indexes reference the same attribute, they must all use the same number of dimensions.
+        public let vectorAttribute: VectorAttributeDefinition
+
+        @inlinable
+        public init(dimensions: Int64, distanceFunction: VectorDistanceFunction, indexName: String, projection: Projection, searchSchema: [SearchSchemaElement]? = nil, vectorAttribute: VectorAttributeDefinition) {
+            self.dimensions = dimensions
+            self.distanceFunction = distanceFunction
+            self.indexName = indexName
+            self.projection = projection
+            self.searchSchema = searchSchema
+            self.vectorAttribute = vectorAttribute
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.projection.validate(name: "\(name).projection")
+            try self.searchSchema?.forEach {
+                try $0.validate(name: "\(name).searchSchema[]")
+            }
+            try self.validate(self.searchSchema, name: "searchSchema", parent: name, min: 1)
+            try self.vectorAttribute.validate(name: "\(name).vectorAttribute")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case distanceFunction = "DistanceFunction"
+            case indexName = "IndexName"
+            case projection = "Projection"
+            case searchSchema = "SearchSchema"
+            case vectorAttribute = "VectorAttribute"
         }
     }
 
@@ -1856,7 +1927,7 @@ extension DynamoDB {
     public struct DeleteItemOutput: AWSDecodableShape {
         /// A map of attribute names to AttributeValue objects, representing the item as it appeared before the DeleteItem operation. This map appears in the response only if ReturnValues was specified as ALL_OLD in the request.
         public let attributes: [String: AttributeValue]?
-        /// The capacity units consumed by the DeleteItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned capacity mode in the Amazon DynamoDB Developer Guide.
+        /// The capacity units consumed by the DeleteItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Provisioned capacity mode in the Amazon DynamoDB Developer Guide. If the table has vector indexes, the response includes a VectorIndexes field with VectorWriteRequestBytes consumed for each affected vector index.
         public let consumedCapacity: ConsumedCapacity?
         /// Information about item collections, if any, that were affected by the DeleteItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:    ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.    SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
         public let itemCollectionMetrics: ItemCollectionMetrics?
@@ -1993,6 +2064,26 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case tableDescription = "TableDescription"
+        }
+    }
+
+    public struct DeleteVectorIndexAction: AWSEncodableShape {
+        /// The name of the vector index to delete.
+        public let indexName: String
+
+        @inlinable
+        public init(indexName: String) {
+            self.indexName = indexName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
         }
     }
 
@@ -3316,7 +3407,7 @@ extension DynamoDB {
     public struct ImportSummary: AWSDecodableShape {
         ///  The Amazon Resource Number (ARN) of the Cloudwatch Log Group associated with this import task.
         public let cloudWatchLogGroupArn: String?
-        ///  The time at which this import task ended. (Does this include the successful complete creation of the table it was imported to?)
+        ///  The time at which this import task ended.
         public let endTime: Date?
         ///  The Amazon Resource Number (ARN) corresponding to the import request.
         public let importArn: String?
@@ -3501,7 +3592,7 @@ extension DynamoDB {
         public let exportFromTime: Date?
         /// Time in the past which provides the exclusive end range for the export table's data, counted in seconds from the start of the Unix epoch. The incremental export will reflect the table's state just prior to this point in time. If this is not provided, the latest time with data available will be used.
         public let exportToTime: Date?
-        /// The view type that was chosen for the export. Valid values are NEW_AND_OLD_IMAGES and NEW_IMAGES. The default value is NEW_AND_OLD_IMAGES.
+        /// The view type that was chosen for the export. Valid values are NEW_AND_OLD_IMAGES and NEW_IMAGES. The default value is NEW_AND_OLD_IMAGES.  NEW_AND_OLD_IMAGES exports both the new and old images of each changed item, while NEW_IMAGES exports only the new (latest) image. The view type you choose determines the structure of each item in the output for insert, update, and delete operations. For details and examples of how each view type shapes the export output, see DynamoDB table export output format in the Amazon DynamoDB Developer Guide.
         public let exportViewType: ExportViewType?
 
         @inlinable
@@ -4308,9 +4399,9 @@ extension DynamoDB {
         public let lastIncreaseDateTime: Date?
         /// The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let numberOfDecreasesToday: Int64?
-        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
+        /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second. For a table or global secondary index that uses on-demand capacity mode (PAY_PER_REQUEST), this value is 0, because on-demand mode does not use provisioned throughput.
         public let readCapacityUnits: Int64?
-        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException.
+        /// The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException. For a table or global secondary index that uses on-demand capacity mode (PAY_PER_REQUEST), this value is 0, because on-demand mode does not use provisioned throughput.
         public let writeCapacityUnits: Int64?
 
         @inlinable
@@ -4427,7 +4518,7 @@ extension DynamoDB {
         public let expressionAttributeNames: [String: String]?
         /// One or more values that can be substituted in an expression. Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:   Available | Backordered | Discontinued  You would first need to specify ExpressionAttributeValues as follows:  { ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }  You could then use these values in an expression, such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression attribute values, see Condition Expressions in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeValues: [String: AttributeValue]?
-        /// A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide. Each element in the Item map is an AttributeValue object.
+        /// A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. If the table has vector indexes, the following validations apply to write operations. A violation of any of these constraints results in a ValidationException:   The vector attribute must be a list of numbers with dimensions matching the index configuration.   Vector values must fit in 32-bit IEEE-754 floating point format (f32).   Partition key and inline filter attributes defined in the search schema must have data types matching the index schema definition.   Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide. Each element in the Item map is an AttributeValue object.
         public let item: [String: AttributeValue]
         public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// Determines whether item collection metrics are returned. If set to SIZE, the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
@@ -4491,7 +4582,7 @@ extension DynamoDB {
     public struct PutItemOutput: AWSDecodableShape {
         /// The attribute values as they appeared before the PutItem operation, but only if ReturnValues is specified as ALL_OLD in the request. Each element consists of an attribute name and an attribute value.
         public let attributes: [String: AttributeValue]?
-        /// The capacity units consumed by the PutItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Capacity unity consumption for write operations in the Amazon DynamoDB Developer Guide.
+        /// The capacity units consumed by the PutItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Capacity unity consumption for write operations in the Amazon DynamoDB Developer Guide. If the table has vector indexes, the response includes a VectorIndexes field with VectorWriteRequestBytes consumed for each affected vector index.
         public let consumedCapacity: ConsumedCapacity?
         /// Information about item collections, if any, that were affected by the PutItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:    ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.    SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
         public let itemCollectionMetrics: ItemCollectionMetrics?
@@ -5211,9 +5302,11 @@ extension DynamoDB {
         public let sseSpecificationOverride: SSESpecification?
         /// The name of the new table to which the backup must be restored.
         public let targetTableName: String
+        /// The vector indexes for the restored table. If not specified, all vector indexes from the backup are restored. The indexes provided must match existing vector indexes from the backup. You can choose to exclude some or all of the vector indexes at the time of restore.
+        public let vectorIndexOverride: [VectorIndex]?
 
         @inlinable
-        public init(backupArn: String, billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, onDemandThroughputOverride: OnDemandThroughput? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String) {
+        public init(backupArn: String, billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, onDemandThroughputOverride: OnDemandThroughput? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String, vectorIndexOverride: [VectorIndex]? = nil) {
             self.backupArn = backupArn
             self.billingModeOverride = billingModeOverride
             self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
@@ -5222,6 +5315,7 @@ extension DynamoDB {
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.sseSpecificationOverride = sseSpecificationOverride
             self.targetTableName = targetTableName
+            self.vectorIndexOverride = vectorIndexOverride
         }
 
         public func validate(name: String) throws {
@@ -5237,6 +5331,9 @@ extension DynamoDB {
             try self.validate(self.targetTableName, name: "targetTableName", parent: name, max: 255)
             try self.validate(self.targetTableName, name: "targetTableName", parent: name, min: 3)
             try self.validate(self.targetTableName, name: "targetTableName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.vectorIndexOverride?.forEach {
+                try $0.validate(name: "\(name).vectorIndexOverride[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5248,6 +5345,7 @@ extension DynamoDB {
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case sseSpecificationOverride = "SSESpecificationOverride"
             case targetTableName = "TargetTableName"
+            case vectorIndexOverride = "VectorIndexOverride"
         }
     }
 
@@ -5268,7 +5366,7 @@ extension DynamoDB {
     public struct RestoreTableToPointInTimeInput: AWSEncodableShape {
         /// The billing mode of the restored table.
         public let billingModeOverride: BillingMode?
-        /// List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
+        /// List of global secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore. The WarmThroughput setting is not supported on global secondary indexes when you use RestoreTableToPointInTime. Although WarmThroughput appears in the shared index definition, including it in a GlobalSecondaryIndexOverride entry causes the request to fail with a validation error.
         public let globalSecondaryIndexOverride: [GlobalSecondaryIndex]?
         /// List of local secondary indexes for the restored table. The indexes provided should match existing secondary indexes. You can choose to exclude some or all of the indexes at the time of restore.
         public let localSecondaryIndexOverride: [LocalSecondaryIndex]?
@@ -5287,9 +5385,11 @@ extension DynamoDB {
         public let targetTableName: String
         /// Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
         public let useLatestRestorableTime: Bool?
+        /// The vector indexes for the restored table. If not specified, all vector indexes from the source table are restored. The indexes provided must match existing vector indexes from the source table. You can choose to exclude some or all of the vector indexes at the time of restore.
+        public let vectorIndexOverride: [VectorIndex]?
 
         @inlinable
-        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, onDemandThroughputOverride: OnDemandThroughput? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: Date? = nil, sourceTableArn: String? = nil, sourceTableName: String? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String, useLatestRestorableTime: Bool? = nil) {
+        public init(billingModeOverride: BillingMode? = nil, globalSecondaryIndexOverride: [GlobalSecondaryIndex]? = nil, localSecondaryIndexOverride: [LocalSecondaryIndex]? = nil, onDemandThroughputOverride: OnDemandThroughput? = nil, provisionedThroughputOverride: ProvisionedThroughput? = nil, restoreDateTime: Date? = nil, sourceTableArn: String? = nil, sourceTableName: String? = nil, sseSpecificationOverride: SSESpecification? = nil, targetTableName: String, useLatestRestorableTime: Bool? = nil, vectorIndexOverride: [VectorIndex]? = nil) {
             self.billingModeOverride = billingModeOverride
             self.globalSecondaryIndexOverride = globalSecondaryIndexOverride
             self.localSecondaryIndexOverride = localSecondaryIndexOverride
@@ -5301,6 +5401,7 @@ extension DynamoDB {
             self.sseSpecificationOverride = sseSpecificationOverride
             self.targetTableName = targetTableName
             self.useLatestRestorableTime = useLatestRestorableTime
+            self.vectorIndexOverride = vectorIndexOverride
         }
 
         public func validate(name: String) throws {
@@ -5319,6 +5420,9 @@ extension DynamoDB {
             try self.validate(self.targetTableName, name: "targetTableName", parent: name, max: 255)
             try self.validate(self.targetTableName, name: "targetTableName", parent: name, min: 3)
             try self.validate(self.targetTableName, name: "targetTableName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.vectorIndexOverride?.forEach {
+                try $0.validate(name: "\(name).vectorIndexOverride[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5333,6 +5437,7 @@ extension DynamoDB {
             case sseSpecificationOverride = "SSESpecificationOverride"
             case targetTableName = "TargetTableName"
             case useLatestRestorableTime = "UseLatestRestorableTime"
+            case vectorIndexOverride = "VectorIndexOverride"
         }
     }
 
@@ -5561,6 +5666,129 @@ extension DynamoDB {
         }
     }
 
+    public struct SearchResultItem: AWSDecodableShape {
+        /// A map of attribute names to AttributeValue objects, representing the projected attributes of the item returned by the vector search.
+        public let item: [String: AttributeValue]?
+        /// The similarity score for this item relative to the search vector. The interpretation depends on the distance function configured for the vector index.
+        public let score: Double?
+
+        @inlinable
+        public init(item: [String: AttributeValue]? = nil, score: Double? = nil) {
+            self.item = item
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case item = "Item"
+            case score = "Score"
+        }
+    }
+
+    public struct SearchSchemaElement: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the attribute.
+        public let attributeName: String
+        /// The role of the attribute in the search schema. Valid values:    HASH - A partition key that partitions the vector index for independent scaling. When specified, you must provide this attribute's value in the SearchConditionExpression.    INLINE_FILTER - An attribute projected into the vector index for filtering at the storage layer during search. Inline filters are optional in the SearchConditionExpression.
+        public let searchSchemaElementType: SearchSchemaElementType
+
+        @inlinable
+        public init(attributeName: String, searchSchemaElementType: SearchSchemaElementType) {
+            self.attributeName = attributeName
+            self.searchSchemaElementType = searchSchemaElementType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 65535)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case searchSchemaElementType = "SearchSchemaElementType"
+        }
+    }
+
+    public struct SearchVectorsInput: AWSEncodableShape {
+        /// One or more substitution tokens for attribute names in an expression. Use the # character in an expression to dereference an attribute name.
+        public let expressionAttributeNames: [String: String]?
+        /// One or more values that can be substituted in an expression. Use the : character in an expression to dereference an attribute value.
+        public let expressionAttributeValues: [String: AttributeValue]?
+        /// The name of the vector index to search. The index must be in the ACTIVE state.
+        public let indexName: String
+        /// A string that identifies one or more attributes to retrieve from the index. Separate attribute names with commas. If not specified, the operation returns all attributes projected into the vector index. Only attributes projected into the vector index can be retrieved.
+        public let projectionExpression: String?
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
+        /// A condition expression used to filter the vector search results. The expression can reference attributes defined in the vector index search schema, including HASH and INLINE_FILTER key elements. Only the equality operator (=) is supported for HASH attributes. Comparison and range operators are supported for INLINE_FILTER attributes. Only top-level attributes from the search schema can be referenced.
+        public let searchConditionExpression: String?
+        /// The search vector to compare against the indexed vectors. Each element is a 32-bit IEEE-754 floating point number, provided in DynamoDB list format. The number of dimensions must match the number of dimensions configured for the vector index.
+        public let searchVector: [AttributeValue]
+        /// The name or Amazon Resource Name (ARN) of the table containing the vector index.
+        public let tableName: String
+        /// The number of most similar results to return.
+        public let topK: Int
+
+        @inlinable
+        public init(expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, indexName: String, projectionExpression: String? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, searchConditionExpression: String? = nil, searchVector: [AttributeValue], tableName: String, topK: Int) {
+            self.expressionAttributeNames = expressionAttributeNames
+            self.expressionAttributeValues = expressionAttributeValues
+            self.indexName = indexName
+            self.projectionExpression = projectionExpression
+            self.returnConsumedCapacity = returnConsumedCapacity
+            self.searchConditionExpression = searchConditionExpression
+            self.searchVector = searchVector
+            self.tableName = tableName
+            self.topK = topK
+        }
+
+        public func validate(name: String) throws {
+            try self.expressionAttributeNames?.forEach {
+                try validate($0.value, name: "expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
+            }
+            try self.expressionAttributeValues?.forEach {
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
+            }
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.searchVector.forEach {
+                try $0.validate(name: "\(name).searchVector[]")
+            }
+            try self.validate(self.searchVector, name: "searchVector", parent: name, max: 4096)
+            try self.validate(self.searchVector, name: "searchVector", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 1024)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.topK, name: "topK", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case expressionAttributeValues = "ExpressionAttributeValues"
+            case indexName = "IndexName"
+            case projectionExpression = "ProjectionExpression"
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
+            case searchConditionExpression = "SearchConditionExpression"
+            case searchVector = "SearchVector"
+            case tableName = "TableName"
+            case topK = "TopK"
+        }
+    }
+
+    public struct SearchVectorsOutput: AWSDecodableShape {
+        /// The capacity units consumed by the SearchVectors operation. Contains VectorSearchRequestBytes, which represents the vector search capacity consumed.
+        public let consumedCapacity: VectorCapacity?
+        /// A list of items returned by the vector similarity search, sorted by similarity with the most similar item first. Each item contains the projected attributes and a similarity score.
+        public let searchResults: [SearchResultItem]?
+
+        @inlinable
+        public init(consumedCapacity: VectorCapacity? = nil, searchResults: [SearchResultItem]? = nil) {
+            self.consumedCapacity = consumedCapacity
+            self.searchResults = searchResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumedCapacity = "ConsumedCapacity"
+            case searchResults = "SearchResults"
+        }
+    }
+
     public struct SourceTableDetails: AWSDecodableShape {
         /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.    PROVISIONED - Sets the read/write capacity mode to PROVISIONED. We recommend using PROVISIONED for predictable workloads.    PAY_PER_REQUEST - Sets the read/write capacity mode to PAY_PER_REQUEST. We recommend using PAY_PER_REQUEST for unpredictable workloads.
         public let billingMode: BillingMode?
@@ -5621,14 +5849,17 @@ extension DynamoDB {
         public let streamDescription: StreamSpecification?
         /// Time to Live settings on the table when the backup was created.
         public let timeToLiveDescription: TimeToLiveDescription?
+        /// The vector index properties for the table at the time the backup was created, including the index name, vector attribute, dimensions, distance function, search schema, and projection.
+        public let vectorIndexes: [VectorIndexInfo]?
 
         @inlinable
-        public init(globalSecondaryIndexes: [GlobalSecondaryIndexInfo]? = nil, localSecondaryIndexes: [LocalSecondaryIndexInfo]? = nil, sseDescription: SSEDescription? = nil, streamDescription: StreamSpecification? = nil, timeToLiveDescription: TimeToLiveDescription? = nil) {
+        public init(globalSecondaryIndexes: [GlobalSecondaryIndexInfo]? = nil, localSecondaryIndexes: [LocalSecondaryIndexInfo]? = nil, sseDescription: SSEDescription? = nil, streamDescription: StreamSpecification? = nil, timeToLiveDescription: TimeToLiveDescription? = nil, vectorIndexes: [VectorIndexInfo]? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.localSecondaryIndexes = localSecondaryIndexes
             self.sseDescription = sseDescription
             self.streamDescription = streamDescription
             self.timeToLiveDescription = timeToLiveDescription
+            self.vectorIndexes = vectorIndexes
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5637,6 +5868,7 @@ extension DynamoDB {
             case sseDescription = "SSEDescription"
             case streamDescription = "StreamDescription"
             case timeToLiveDescription = "TimeToLiveDescription"
+            case vectorIndexes = "VectorIndexes"
         }
     }
 
@@ -5712,9 +5944,11 @@ extension DynamoDB {
         public let sseSpecification: SSESpecification?
         ///  The name of the table created as part of the import operation.
         public let tableName: String
+        /// The vector indexes of the table to be created as part of the import operation.
+        public let vectorIndexes: [VectorIndex]?
 
         @inlinable
-        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, sseSpecification: SSESpecification? = nil, tableName: String) {
+        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, sseSpecification: SSESpecification? = nil, tableName: String, vectorIndexes: [VectorIndex]? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.globalSecondaryIndexes = globalSecondaryIndexes
@@ -5723,6 +5957,7 @@ extension DynamoDB {
             self.provisionedThroughput = provisionedThroughput
             self.sseSpecification = sseSpecification
             self.tableName = tableName
+            self.vectorIndexes = vectorIndexes
         }
 
         public func validate(name: String) throws {
@@ -5740,6 +5975,9 @@ extension DynamoDB {
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.vectorIndexes?.forEach {
+                try $0.validate(name: "\(name).vectorIndexes[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5751,6 +5989,7 @@ extension DynamoDB {
             case provisionedThroughput = "ProvisionedThroughput"
             case sseSpecification = "SSESpecification"
             case tableName = "TableName"
+            case vectorIndexes = "VectorIndexes"
         }
     }
 
@@ -5801,7 +6040,7 @@ extension DynamoDB {
         public let tableArn: String?
         /// Contains details of the table class.
         public let tableClassSummary: TableClassSummary?
-        /// Unique identifier for the table for which the backup was created.
+        /// A unique identifier for the table, in UUID format, generated by DynamoDB when the table is created.
         public let tableId: String?
         /// The name of the table.
         public let tableName: String?
@@ -5809,11 +6048,13 @@ extension DynamoDB {
         public let tableSizeBytes: Int64?
         /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table/index configuration is being updated. The table/index remains available for data operations when UPDATING.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the KMS key. DynamoDB will initiate the table archival process when a table's KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public let tableStatus: TableStatus?
+        /// The vector indexes, if any, on the table. Each element is composed of:    IndexName - The name of the vector index.    IndexStatus - The current status of the vector index: CREATING, ACTIVE, or DELETING.    Backfilling - Specifies whether the index is currently backfilling. During backfill, SearchVectors operations might return incomplete results.    VectorAttribute - The attribute that contains vector embeddings.    Dimensions - The number of dimensions in each vector.    DistanceFunction - The distance function used to calculate similarity (COSINE, EUCLIDEAN, or DOT_PRODUCT).    SearchSchema - The partition key and inline filter attributes for the vector index.    Projection - Specifies attributes that are copied (projected) from the table into the vector index.    IndexArn - The Amazon Resource Name (ARN) that uniquely identifies the index.    IndexSizeBytes - The total size of the vector index, in bytes. Amazon DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.    ItemCount - The number of items indexed in the vector index. Amazon DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
+        public let vectorIndexes: [VectorIndexDescription]?
         /// Describes the warm throughput value of the base table.
         public let warmThroughput: TableWarmThroughputDescription?
 
         @inlinable
-        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableVersion: String? = nil, globalTableWitnesses: [GlobalTableWitnessDescription]? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableVersion: String? = nil, globalTableWitnesses: [GlobalTableWitnessDescription]? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil, vectorIndexes: [VectorIndexDescription]? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
@@ -5841,6 +6082,7 @@ extension DynamoDB {
             self.tableName = tableName
             self.tableSizeBytes = tableSizeBytes
             self.tableStatus = tableStatus
+            self.vectorIndexes = vectorIndexes
             self.warmThroughput = warmThroughput
         }
 
@@ -5872,6 +6114,7 @@ extension DynamoDB {
             case tableName = "TableName"
             case tableSizeBytes = "TableSizeBytes"
             case tableStatus = "TableStatus"
+            case vectorIndexes = "VectorIndexes"
             case warmThroughput = "WarmThroughput"
         }
     }
@@ -6122,7 +6365,7 @@ extension DynamoDB {
     }
 
     public struct TransactWriteItemsOutput: AWSDecodableShape {
-        /// The capacity units consumed by the entire TransactWriteItems operation. The values of the list are ordered according to the ordering of the TransactItems request parameter.
+        /// The capacity units consumed by the entire TransactWriteItems operation. The values of the list are ordered according to the ordering of the TransactItems request parameter.  If the table has vector indexes, each element also includes a VectorIndexes field with VectorWriteRequestBytes consumed for each affected vector index.
         public let consumedCapacity: [ConsumedCapacity]?
         /// A list of tables that were processed by TransactWriteItems and, for each table, information about any item collections that were affected by individual UpdateItem, PutItem, or DeleteItem operations.
         public let itemCollectionMetrics: [String: [ItemCollectionMetrics]]?
@@ -6562,7 +6805,7 @@ extension DynamoDB {
     public struct UpdateItemOutput: AWSDecodableShape {
         /// A map of attribute values as they appear before or after the UpdateItem operation, as determined by the ReturnValues parameter. The Attributes map is only present if the update was successful and ReturnValues was specified as something other than NONE in the request. Each element represents one attribute.
         public let attributes: [String: AttributeValue]?
-        /// The capacity units consumed by the UpdateItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Capacity unity consumption for write operations in the Amazon DynamoDB Developer Guide.
+        /// The capacity units consumed by the UpdateItem operation. The data returned includes the total provisioned throughput consumed, along with statistics for the table and any indexes involved in the operation. ConsumedCapacity is only returned if the ReturnConsumedCapacity parameter was specified. For more information, see Capacity unity consumption for write operations in the Amazon DynamoDB Developer Guide. If the table has vector indexes, the response includes a VectorIndexes field with VectorWriteRequestBytes consumed for each affected vector index.
         public let consumedCapacity: ConsumedCapacity?
         /// Information about item collections, if any, that were affected by the UpdateItem operation. ItemCollectionMetrics is only returned if the ReturnItemCollectionMetrics parameter was specified. If the table does not have any local secondary indexes, this information is not returned in the response. Each ItemCollectionMetrics element consists of:    ItemCollectionKey - The partition key value of the item collection. This is the same as the partition key value of the item itself.    SizeEstimateRangeGB - An estimate of item collection size, in gigabytes. This value is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on that table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
         public let itemCollectionMetrics: ItemCollectionMetrics?
@@ -6721,11 +6964,13 @@ extension DynamoDB {
         public let tableClass: TableClass?
         /// The name of the table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         public let tableName: String
+        /// A list of vector indexes to be added to or removed from the table. You can add or remove one vector index for each UpdateTable operation. To add a vector index, specify IndexName, VectorAttribute, Dimensions, DistanceFunction, and Projection. To remove a vector index, specify only the IndexName.
+        public let vectorIndexUpdates: [VectorIndexUpdate]?
         /// Represents the warm throughput (in read units per second and write units per second) for updating a table.
         public let warmThroughput: WarmThroughput?
 
         @inlinable
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, warmThroughput: WarmThroughput? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, deletionProtectionEnabled: Bool? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, globalTableWitnessUpdates: [GlobalTableWitnessGroupUpdate]? = nil, multiRegionConsistency: MultiRegionConsistency? = nil, onDemandThroughput: OnDemandThroughput? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, vectorIndexUpdates: [VectorIndexUpdate]? = nil, warmThroughput: WarmThroughput? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -6740,6 +6985,7 @@ extension DynamoDB {
             self.streamSpecification = streamSpecification
             self.tableClass = tableClass
             self.tableName = tableName
+            self.vectorIndexUpdates = vectorIndexUpdates
             self.warmThroughput = warmThroughput
         }
 
@@ -6759,6 +7005,9 @@ extension DynamoDB {
             try self.validate(self.replicaUpdates, name: "replicaUpdates", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, max: 1024)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.vectorIndexUpdates?.forEach {
+                try $0.validate(name: "\(name).vectorIndexUpdates[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6776,6 +7025,7 @@ extension DynamoDB {
             case streamSpecification = "StreamSpecification"
             case tableClass = "TableClass"
             case tableName = "TableName"
+            case vectorIndexUpdates = "VectorIndexUpdates"
             case warmThroughput = "WarmThroughput"
         }
     }
@@ -6882,6 +7132,201 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case timeToLiveSpecification = "TimeToLiveSpecification"
+        }
+    }
+
+    public struct VectorAttributeDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the vector attribute.
+        public let attributeName: String
+
+        @inlinable
+        public init(attributeName: String) {
+            self.attributeName = attributeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 255)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+        }
+    }
+
+    public struct VectorCapacity: AWSDecodableShape {
+        /// The number of vector search request bytes consumed by a SearchVectors operation.
+        public let vectorSearchRequestBytes: Double?
+        /// The number of vector write request bytes consumed when writing to a vector index. Reported for write operations that modify attributes indexed by a vector index.
+        public let vectorWriteRequestBytes: Double?
+
+        @inlinable
+        public init(vectorSearchRequestBytes: Double? = nil, vectorWriteRequestBytes: Double? = nil) {
+            self.vectorSearchRequestBytes = vectorSearchRequestBytes
+            self.vectorWriteRequestBytes = vectorWriteRequestBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vectorSearchRequestBytes = "VectorSearchRequestBytes"
+            case vectorWriteRequestBytes = "VectorWriteRequestBytes"
+        }
+    }
+
+    public struct VectorIndex: AWSEncodableShape & AWSDecodableShape {
+        /// The number of dimensions in each vector.
+        public let dimensions: Int64
+        /// The distance function used to calculate similarity between vectors. Valid values: COSINE, EUCLIDEAN, DOT_PRODUCT.
+        public let distanceFunction: VectorDistanceFunction
+        /// The name of the vector index.
+        public let indexName: String
+        /// Specifies attributes that are copied (projected) from the table into the vector index.
+        public let projection: Projection
+        /// The search schema that defines partition key and inline filter attributes for the vector index.
+        public let searchSchema: [SearchSchemaElement]?
+        /// The vector attribute configuration for the index.
+        public let vectorAttribute: VectorAttributeDefinition
+
+        @inlinable
+        public init(dimensions: Int64, distanceFunction: VectorDistanceFunction, indexName: String, projection: Projection, searchSchema: [SearchSchemaElement]? = nil, vectorAttribute: VectorAttributeDefinition) {
+            self.dimensions = dimensions
+            self.distanceFunction = distanceFunction
+            self.indexName = indexName
+            self.projection = projection
+            self.searchSchema = searchSchema
+            self.vectorAttribute = vectorAttribute
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.projection.validate(name: "\(name).projection")
+            try self.searchSchema?.forEach {
+                try $0.validate(name: "\(name).searchSchema[]")
+            }
+            try self.validate(self.searchSchema, name: "searchSchema", parent: name, min: 1)
+            try self.vectorAttribute.validate(name: "\(name).vectorAttribute")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case distanceFunction = "DistanceFunction"
+            case indexName = "IndexName"
+            case projection = "Projection"
+            case searchSchema = "SearchSchema"
+            case vectorAttribute = "VectorAttribute"
+        }
+    }
+
+    public struct VectorIndexDescription: AWSDecodableShape {
+        /// Specifies whether the index is currently backfilling. During backfill, SearchVectors operations might return incomplete results.
+        public let backfilling: Bool?
+        /// The number of dimensions in each vector.
+        public let dimensions: Int64?
+        /// The distance function used to calculate similarity between vectors.
+        public let distanceFunction: VectorDistanceFunction?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the vector index.
+        public let indexArn: String?
+        /// The name of the vector index.
+        public let indexName: String?
+        /// The total size of the vector index, in bytes. Amazon DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
+        public let indexSizeBytes: Int64?
+        /// The current state of the vector index:    CREATING - The index is being created.    ACTIVE - The index is ready for use.    DELETING - The index is being deleted.
+        public let indexStatus: IndexStatus?
+        /// The number of items indexed in the vector index. Amazon DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
+        public let itemCount: Int64?
+        /// Specifies attributes that are copied (projected) from the table into the vector index.
+        public let projection: Projection?
+        /// The search schema that defines partition key and inline filter attributes for the vector index.
+        public let searchSchema: [SearchSchemaElement]?
+        /// The vector attribute configuration for the index.
+        public let vectorAttribute: VectorAttributeDefinition?
+
+        @inlinable
+        public init(backfilling: Bool? = nil, dimensions: Int64? = nil, distanceFunction: VectorDistanceFunction? = nil, indexArn: String? = nil, indexName: String? = nil, indexSizeBytes: Int64? = nil, indexStatus: IndexStatus? = nil, itemCount: Int64? = nil, projection: Projection? = nil, searchSchema: [SearchSchemaElement]? = nil, vectorAttribute: VectorAttributeDefinition? = nil) {
+            self.backfilling = backfilling
+            self.dimensions = dimensions
+            self.distanceFunction = distanceFunction
+            self.indexArn = indexArn
+            self.indexName = indexName
+            self.indexSizeBytes = indexSizeBytes
+            self.indexStatus = indexStatus
+            self.itemCount = itemCount
+            self.projection = projection
+            self.searchSchema = searchSchema
+            self.vectorAttribute = vectorAttribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backfilling = "Backfilling"
+            case dimensions = "Dimensions"
+            case distanceFunction = "DistanceFunction"
+            case indexArn = "IndexArn"
+            case indexName = "IndexName"
+            case indexSizeBytes = "IndexSizeBytes"
+            case indexStatus = "IndexStatus"
+            case itemCount = "ItemCount"
+            case projection = "Projection"
+            case searchSchema = "SearchSchema"
+            case vectorAttribute = "VectorAttribute"
+        }
+    }
+
+    public struct VectorIndexInfo: AWSDecodableShape {
+        /// The number of dimensions in each vector.
+        public let dimensions: Int64?
+        /// The distance function used to calculate similarity between vectors.
+        public let distanceFunction: VectorDistanceFunction?
+        /// The name of the vector index.
+        public let indexName: String?
+        /// Specifies attributes that are copied (projected) from the table into the vector index.
+        public let projection: Projection?
+        /// The search schema that defines partition key and inline filter attributes for the vector index.
+        public let searchSchema: [SearchSchemaElement]?
+        /// The vector attribute configuration for the index.
+        public let vectorAttribute: VectorAttributeDefinition?
+
+        @inlinable
+        public init(dimensions: Int64? = nil, distanceFunction: VectorDistanceFunction? = nil, indexName: String? = nil, projection: Projection? = nil, searchSchema: [SearchSchemaElement]? = nil, vectorAttribute: VectorAttributeDefinition? = nil) {
+            self.dimensions = dimensions
+            self.distanceFunction = distanceFunction
+            self.indexName = indexName
+            self.projection = projection
+            self.searchSchema = searchSchema
+            self.vectorAttribute = vectorAttribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case distanceFunction = "DistanceFunction"
+            case indexName = "IndexName"
+            case projection = "Projection"
+            case searchSchema = "SearchSchema"
+            case vectorAttribute = "VectorAttribute"
+        }
+    }
+
+    public struct VectorIndexUpdate: AWSEncodableShape {
+        /// The configuration for creating a new vector index on the table.
+        public let create: CreateVectorIndexAction?
+        /// The configuration for deleting an existing vector index from the table.
+        public let delete: DeleteVectorIndexAction?
+
+        @inlinable
+        public init(create: CreateVectorIndexAction? = nil, delete: DeleteVectorIndexAction? = nil) {
+            self.create = create
+            self.delete = delete
+        }
+
+        public func validate(name: String) throws {
+            try self.create?.validate(name: "\(name).create")
+            try self.delete?.validate(name: "\(name).delete")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case create = "Create"
+            case delete = "Delete"
         }
     }
 
@@ -7050,7 +7495,7 @@ public struct DynamoDBErrorType: AWSErrorType {
     public static var tableNotFoundException: Self { .init(.tableNotFoundException) }
     /// The request was denied due to request throttling. For detailed information about why the request was throttled and the ARN of the impacted resource, find the ThrottlingReason field in the returned exception.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The entire transaction request was canceled. DynamoDB cancels a TransactWriteItems request under the following circumstances:   A condition in one of the condition expressions is not met.   A table in the TransactWriteItems request is in a different account or region.   More than one action in the TransactWriteItems operation targets the same item.   There is insufficient provisioned capacity for the transaction to be completed.   An item size becomes too large (larger than 400 KB), or a local secondary index (LSI) becomes too large, or a similar validation error occurs because of changes made by the transaction.   There is a user error, such as an invalid data format.   There is an ongoing TransactWriteItems operation that conflicts with a concurrent TransactWriteItems request. In this case the TransactWriteItems operation fails with a TransactionCanceledException.    DynamoDB cancels a TransactGetItems request under the following circumstances:   There is an ongoing TransactGetItems operation that conflicts with a concurrent PutItem, UpdateItem, DeleteItem or TransactWriteItems request. In this case the TransactGetItems operation fails with a TransactionCanceledException.   A table in the TransactGetItems request is in a different account or region.   There is insufficient provisioned capacity for the transaction to be completed.   There is a user error, such as an invalid data format.    DynamoDB lists the cancellation reasons on the CancellationReasons property. Transaction cancellation reasons are ordered in the order of requested items, if an item has no error it will have None code and Null message.  Cancellation reason codes and possible error messages:   No Errors:   Code: None    Message: null      Conditional Check Failed:   Code: ConditionalCheckFailed    Message: The conditional request failed.      Item Collection Size Limit Exceeded:   Code: ItemCollectionSizeLimitExceeded    Message: Collection size exceeded.     Transaction Conflict:   Code: TransactionConflict    Message: Transaction is ongoing for the item.     Provisioned Throughput Exceeded:   Code: ProvisionedThroughputExceeded    Messages:   The level of configured provisioned throughput for the table was exceeded. Consider increasing your provisioning level with the UpdateTable API.  This Message is received when provisioned throughput is exceeded is on a provisioned DynamoDB table.    The level of configured provisioned throughput for one or more global secondary indexes of the table was exceeded. Consider increasing your provisioning level for the under-provisioned global secondary indexes with the UpdateTable API.  This message is returned when provisioned throughput is exceeded is on a provisioned GSI.        Throttling Error:   Code: ThrottlingError    Messages:    Throughput exceeds the current capacity of your table or index. DynamoDB is automatically scaling your table or index so please try again shortly. If exceptions persist, check if you have a hot key: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html.  This message is returned when writes get throttled on an On-Demand table as DynamoDB is automatically scaling the table.    Throughput exceeds the current capacity for one or more global secondary indexes. DynamoDB is automatically scaling your index so please try again shortly.  This message is returned when writes get throttled on an On-Demand GSI as DynamoDB is automatically scaling the GSI.        Validation Error:   Code: ValidationError    Messages:    One or more parameter values were invalid.   The update expression attempted to update the secondary index key beyond allowed size limits.   The update expression attempted to update the secondary index key to unsupported type.   An operand in the update expression has an incorrect data type.   Item size to update has exceeded the maximum allowed size.   Number overflow. Attempting to store a number with magnitude larger than supported range.   Type mismatch for attribute to update.   Nesting Levels have exceeded supported limits.   The document path provided in the update expression is invalid for update.   The provided expression refers to an attribute that does not exist in the item.
+    /// The entire transaction request was canceled. DynamoDB cancels a TransactWriteItems request under the following circumstances:   A condition in one of the condition expressions is not met.   A table in the TransactWriteItems request is in a different account or region.   More than one action in the TransactWriteItems operation targets the same item.   There is insufficient provisioned capacity for the transaction to be completed.   An item size becomes too large (larger than 400 KB), or a local secondary index (LSI) becomes too large, or a similar validation error occurs because of changes made by the transaction.   There is a user error, such as an invalid data format.   There is an ongoing TransactWriteItems operation that conflicts with a concurrent TransactWriteItems request. In this case the TransactWriteItems operation fails with a TransactionCanceledException.    DynamoDB cancels a TransactGetItems request under the following circumstances:   There is an ongoing TransactGetItems operation that conflicts with a concurrent PutItem, UpdateItem, DeleteItem or TransactWriteItems request. In this case the TransactGetItems operation fails with a TransactionCanceledException.   A table in the TransactGetItems request is in a different account or region.   There is insufficient provisioned capacity for the transaction to be completed.   There is a user error, such as an invalid data format.    DynamoDB lists the cancellation reasons on the CancellationReasons property. Transaction cancellation reasons are ordered in the order of requested items, if an item has no error it will have None code and Null message. The None code is returned as the literal string "None", not a null or absent value; the message field is omitted entirely for an item that has no error. This is important to note when using an SDK that surfaces the code as an optional or nullable type.  Cancellation reason codes and possible error messages:   No Errors:   Code: None    Message: null      Conditional Check Failed:   Code: ConditionalCheckFailed    Message: The conditional request failed.      Item Collection Size Limit Exceeded:   Code: ItemCollectionSizeLimitExceeded    Message: Collection size exceeded.     Transaction Conflict:   Code: TransactionConflict    Message: Transaction is ongoing for the item.     Provisioned Throughput Exceeded:   Code: ProvisionedThroughputExceeded    Messages:   The level of configured provisioned throughput for the table was exceeded. Consider increasing your provisioning level with the UpdateTable API.  This Message is received when provisioned throughput is exceeded is on a provisioned DynamoDB table.    The level of configured provisioned throughput for one or more global secondary indexes of the table was exceeded. Consider increasing your provisioning level for the under-provisioned global secondary indexes with the UpdateTable API.  This message is returned when provisioned throughput is exceeded is on a provisioned GSI.        Throttling Error:   Code: ThrottlingError    Messages:    Throughput exceeds the current capacity of your table or index. DynamoDB is automatically scaling your table or index so please try again shortly. If exceptions persist, check if you have a hot key: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html.  This message is returned when writes get throttled on an On-Demand table as DynamoDB is automatically scaling the table.    Throughput exceeds the current capacity for one or more global secondary indexes. DynamoDB is automatically scaling your index so please try again shortly.  This message is returned when writes get throttled on an On-Demand GSI as DynamoDB is automatically scaling the GSI.        Validation Error:   Code: ValidationError    Messages:    One or more parameter values were invalid.   The update expression attempted to update the secondary index key beyond allowed size limits.   The update expression attempted to update the secondary index key to unsupported type.   An operand in the update expression has an incorrect data type.   Item size to update has exceeded the maximum allowed size.   Number overflow. Attempting to store a number with magnitude larger than supported range.   Type mismatch for attribute to update.   Nesting Levels have exceeded supported limits.   The document path provided in the update expression is invalid for update.   The provided expression refers to an attribute that does not exist in the item.
     public static var transactionCanceledException: Self { .init(.transactionCanceledException) }
     /// Operation was rejected because there is an ongoing transaction for the item.
     public static var transactionConflictException: Self { .init(.transactionConflictException) }

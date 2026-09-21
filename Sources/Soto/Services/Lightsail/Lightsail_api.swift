@@ -779,8 +779,11 @@ public struct Lightsail: AWSService {
     ///   - cacheBehaviors: An array of objects that describe the per-path cache behavior for the distribution.
     ///   - cacheBehaviorSettings: An object that describes the cache behavior settings for the distribution.
     ///   - certificateName: The name of the SSL/TLS certificate that you want to attach to the distribution. Use the GetCertificates action to get a list of certificate names that you can specify.
+    ///   - customErrorResponses: An array of objects that describe the custom error responses for the distribution. With a custom error response, you can specify the page to return when the origin responds with a given HTTP error code. You can also specify the HTTP status code to send to the viewer.
     ///   - defaultCacheBehavior: An object that describes the default cache behavior for the distribution.
+    ///   - defaultRootObject: The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object. The object that you specify must be available from the origin.
     ///   - distributionName: The name for the distribution.
+    ///   - enablePrivateOriginAccess: Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint.  You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
     ///   - ipAddressType: The IP address type for the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
     ///   - origin: An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
     ///   - tags: The tag keys and optional values to add to the distribution during create. Use the TagResource action to tag a resource after it's created.
@@ -792,8 +795,11 @@ public struct Lightsail: AWSService {
         cacheBehaviors: [CacheBehaviorPerPath]? = nil,
         cacheBehaviorSettings: CacheSettings? = nil,
         certificateName: String? = nil,
+        customErrorResponses: [DistributionCustomErrorResponse]? = nil,
         defaultCacheBehavior: CacheBehavior,
+        defaultRootObject: String? = nil,
         distributionName: String,
+        enablePrivateOriginAccess: Bool? = nil,
         ipAddressType: IpAddressType? = nil,
         origin: InputOrigin,
         tags: [Tag]? = nil,
@@ -805,8 +811,11 @@ public struct Lightsail: AWSService {
             cacheBehaviors: cacheBehaviors, 
             cacheBehaviorSettings: cacheBehaviorSettings, 
             certificateName: certificateName, 
+            customErrorResponses: customErrorResponses, 
             defaultCacheBehavior: defaultCacheBehavior, 
+            defaultRootObject: defaultRootObject, 
             distributionName: distributionName, 
+            enablePrivateOriginAccess: enablePrivateOriginAccess, 
             ipAddressType: ipAddressType, 
             origin: origin, 
             tags: tags, 
@@ -3785,6 +3794,32 @@ public struct Lightsail: AWSService {
         return try await self.getOperationsForResource(input, logger: logger)
     }
 
+    /// Returns information about the profile of the Amazon Lightsail account that makes the request. The response includes the profile type and, for accounts enrolled in the Lightsail partner program, the partner membership details.
+    @Sendable
+    @inlinable
+    public func getProfile(_ input: GetProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileResult {
+        try await self.client.execute(
+            operation: "GetProfile", 
+            path: "/ls/api/2016-11-28/GetProfile", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the profile of the Amazon Lightsail account that makes the request. The response includes the profile type and, for accounts enrolled in the Lightsail partner program, the partner membership details.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProfile(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProfileResult {
+        let input = GetProfileRequest(
+        )
+        return try await self.getProfile(input, logger: logger)
+    }
+
     /// Returns a list of all valid regions for Amazon Lightsail. Use the include availability zones parameter to also return the Availability Zones in a region.
     @Sendable
     @inlinable
@@ -5251,8 +5286,11 @@ public struct Lightsail: AWSService {
     ///   - cacheBehaviors: An array of objects that describe the per-path cache behavior for the distribution.
     ///   - cacheBehaviorSettings: An object that describes the cache behavior settings for the distribution.  The cacheBehaviorSettings specified in your UpdateDistributionRequest will replace your distribution's existing settings.
     ///   - certificateName: The name of the SSL/TLS certificate that you want to attach to the distribution. Only certificates with a status of ISSUED can be attached to a distribution. Use the GetCertificates action to get a list of certificate names that you can specify.
+    ///   - customErrorResponses: An array of objects that describe the custom error responses for the distribution. With a custom error response, you can specify the page to return when the origin responds with a given HTTP error code. You can also specify the HTTP status code to send to the viewer.
     ///   - defaultCacheBehavior: An object that describes the default cache behavior for the distribution.
+    ///   - defaultRootObject: The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object. The object that you specify must be available from the origin.
     ///   - distributionName: The name of the distribution to update. Use the GetDistributions action to get a list of distribution names that you can specify.
+    ///   - enablePrivateOriginAccess: Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint.  When you include this parameter, you must also include the origin parameter with the resource name, even if the origin is not changing. You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
     ///   - isEnabled: Indicates whether to enable the distribution.
     ///   - origin: An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
     ///   - useDefaultCertificate: Indicates whether the default SSL/TLS certificate is attached to the distribution. The default value is true. When true, the distribution uses the default domain name such as d111111abcdef8.cloudfront.net. Set this value to false to attach a new certificate to the distribution.
@@ -5263,8 +5301,11 @@ public struct Lightsail: AWSService {
         cacheBehaviors: [CacheBehaviorPerPath]? = nil,
         cacheBehaviorSettings: CacheSettings? = nil,
         certificateName: String? = nil,
+        customErrorResponses: [DistributionCustomErrorResponse]? = nil,
         defaultCacheBehavior: CacheBehavior? = nil,
+        defaultRootObject: String? = nil,
         distributionName: String,
+        enablePrivateOriginAccess: Bool? = nil,
         isEnabled: Bool? = nil,
         origin: InputOrigin? = nil,
         useDefaultCertificate: Bool? = nil,
@@ -5275,8 +5316,11 @@ public struct Lightsail: AWSService {
             cacheBehaviors: cacheBehaviors, 
             cacheBehaviorSettings: cacheBehaviorSettings, 
             certificateName: certificateName, 
+            customErrorResponses: customErrorResponses, 
             defaultCacheBehavior: defaultCacheBehavior, 
+            defaultRootObject: defaultRootObject, 
             distributionName: distributionName, 
+            enablePrivateOriginAccess: enablePrivateOriginAccess, 
             isEnabled: isEnabled, 
             origin: origin, 
             useDefaultCertificate: useDefaultCertificate, 

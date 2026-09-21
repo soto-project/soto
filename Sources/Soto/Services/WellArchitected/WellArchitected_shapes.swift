@@ -46,6 +46,13 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApplicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case desktopApplication = "DESKTOP_APPLICATION"
+        case other = "OTHER"
+        case sas = "SAS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CheckFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case assumeRoleError = "ASSUME_ROLE_ERROR"
@@ -84,6 +91,19 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case application = "APPLICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Criticality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case businessCritical = "BUSINESS_CRITICAL"
+        case missionCritical = "MISSION_CRITICAL"
+        case nonCritical = "NON_CRITICAL"
+        case testDevelopment = "TEST_DEVELOPMENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DefinitionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case appRegistry = "APP_REGISTRY"
         case workloadMetadata = "WORKLOAD_METADATA"
@@ -100,6 +120,37 @@ extension WellArchitected {
     public enum DiscoveryIntegrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Effort: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case large = "LARGE"
+        case medium = "MEDIUM"
+        case small = "SMALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeedbackCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case other = "OTHER"
+        case recommendationIncorrect = "RECOMMENDATION_INCORRECT"
+        case recommendationNotRelevant = "RECOMMENDATION_NOT_RELEVANT"
+        case resourceNotImportant = "RESOURCE_NOT_IMPORTANT"
+        case resourceTypeNotImportant = "RESOURCE_TYPE_NOT_IMPORTANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GenerationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case error = "ERROR"
+        case inProgress = "IN_PROGRESS"
+        case queued = "QUEUED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImpactCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
@@ -178,6 +229,22 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
+    public enum Pillar: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case costOptimization = "COST_OPTIMIZATION"
+        case operationalExcellence = "OPERATIONAL_EXCELLENCE"
+        case performance = "PERFORMANCE"
+        case resilience = "RESILIENCE"
+        case security = "SECURITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Priority: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProfileNotificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case profileAnswersUpdated = "PROFILE_ANSWERS_UPDATED"
         case profileDeleted = "PROFILE_DELETED"
@@ -208,6 +275,58 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecommendationFeedbackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notUseful = "NOT_USEFUL"
+        case useful = "USEFUL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsResource = "AWS_RESOURCE"
+        case recommendation = "RECOMMENDATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudwatch = "CLOUDWATCH"
+        case costExplorer = "COST_EXPLORER"
+        case customerIac = "CUSTOMER_IAC"
+        case trustedAdvisor = "TRUSTED_ADVISOR"
+        case wellArchitectedAgent = "WELL_ARCHITECTED_AGENT"
+        case wellArchitectedTool = "WELL_ARCHITECTED_TOOL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case closed = "CLOSED"
+        case open = "OPEN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case completed = "COMPLETED"
+        case suppressed = "SUPPRESSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case application = "APPLICATION"
+        case architecture = "ARCHITECTURE"
+        case resource = "RESOURCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RemediationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autoRemediation = "AUTO_REMEDIATION"
+        case cli = "CLI"
+        case console = "CONSOLE"
+        case iac = "IAC"
+        case mcp = "MCP"
+        case sdk = "SDK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReportFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "JSON"
         case pdf = "PDF"
@@ -232,6 +351,13 @@ extension WellArchitected {
         case none = "NONE"
         case notApplicable = "NOT_APPLICABLE"
         case unanswered = "UNANSWERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RiskRating: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
@@ -380,6 +506,341 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case type = "Type"
+        }
+    }
+
+    public struct AgentProfileSummary: AWSDecodableShape {
+        /// The aggregation configuration that defines which Amazon Web Services accounts and Regions to analyze.
+        public let aggregationConfiguration: [AggregationConfiguration]
+        /// The Amazon Resource Name (ARN) of the optimization profile.
+        public let arn: String
+        /// The business overview for this profile.
+        public let businessOverview: String?
+        /// The timestamp when the profile was created.
+        public let createdAt: Date
+        /// The identifier of the user or system that created this profile.
+        public let createdBy: String
+        /// Indicates whether deletion protection is enabled for the profile.
+        public let deletionProtection: Bool?
+        /// A description of the profile.
+        public let description: String?
+        /// The display name of the profile shown to users.
+        public let displayName: String?
+        /// Indicates whether the profile is valid for manual architecture generation.
+        public let eligibleForArchitectureGeneration: Bool?
+        /// Indicates whether the profile is valid for scheduled recommendation generation.
+        public let eligibleForScheduledGeneration: Bool?
+        /// The ARN of the IAM execution role used for recommendation actions.
+        public let executionRoleArn: String
+        /// A map of field paths to error messages for invalid or missing input fields.
+        public let fieldErrors: [String: String]?
+        /// The timestamp when the profile was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this profile.
+        public let lastModifiedBy: String?
+        /// The system name of the profile.
+        public let name: String
+        /// The Well-Architected Tool Framework pillars associated with this profile.
+        public let pillars: [Pillar]
+        /// The tags associated with the profile.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(aggregationConfiguration: [AggregationConfiguration], arn: String, businessOverview: String? = nil, createdAt: Date, createdBy: String, deletionProtection: Bool? = nil, description: String? = nil, displayName: String? = nil, eligibleForArchitectureGeneration: Bool? = nil, eligibleForScheduledGeneration: Bool? = nil, executionRoleArn: String, fieldErrors: [String: String]? = nil, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, name: String, pillars: [Pillar], tags: [Tag]? = nil) {
+            self.aggregationConfiguration = aggregationConfiguration
+            self.arn = arn
+            self.businessOverview = businessOverview
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.displayName = displayName
+            self.eligibleForArchitectureGeneration = eligibleForArchitectureGeneration
+            self.eligibleForScheduledGeneration = eligibleForScheduledGeneration
+            self.executionRoleArn = executionRoleArn
+            self.fieldErrors = fieldErrors
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.name = name
+            self.pillars = pillars
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationConfiguration = "aggregationConfiguration"
+            case arn = "arn"
+            case businessOverview = "businessOverview"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case displayName = "displayName"
+            case eligibleForArchitectureGeneration = "eligibleForArchitectureGeneration"
+            case eligibleForScheduledGeneration = "eligibleForScheduledGeneration"
+            case executionRoleArn = "executionRoleArn"
+            case fieldErrors = "fieldErrors"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case name = "name"
+            case pillars = "pillars"
+            case tags = "tags"
+        }
+    }
+
+    public struct AgentRecommendationGenerationSummary: AWSDecodableShape {
+        /// The timestamp when the generation was started.
+        public let createdAt: Date
+        /// The identifier of the user or system that started this generation.
+        public let createdBy: String
+        /// The estimated time for the generation to complete.
+        public let estimatedCompletionTime: Date?
+        /// The unique identifier of the recommendation generation.
+        public let id: String
+        /// The timestamp when the generation was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this generation.
+        public let lastModifiedBy: String?
+        /// The name of the recommendation generation.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the profile used for this generation.
+        public let profileArn: String
+        /// The current status of the recommendation generation.
+        public let status: GenerationStatus
+
+        @inlinable
+        public init(createdAt: Date, createdBy: String, estimatedCompletionTime: Date? = nil, id: String, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, name: String? = nil, profileArn: String, status: GenerationStatus) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.estimatedCompletionTime = estimatedCompletionTime
+            self.id = id
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.name = name
+            self.profileArn = profileArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case estimatedCompletionTime = "estimatedCompletionTime"
+            case id = "id"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case name = "name"
+            case profileArn = "profileArn"
+            case status = "status"
+        }
+    }
+
+    public struct AgentRecommendationItemSummary: AWSDecodableShape {
+        /// The timestamp when the recommendation item was created.
+        public let createdAt: Date
+        /// The identifier of the user or system that created this recommendation item.
+        public let createdBy: String
+        /// The unique identifier of the recommendation item.
+        public let id: String
+        /// The timestamp when the recommendation item was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this recommendation item.
+        public let lastModifiedBy: String?
+        /// Metadata containing a snapshot of the resource or recommendation at the time of generation.
+        public let metadata: AWSDocument
+        /// The Amazon Resource Name (ARN) of the associated recommendation.
+        public let recommendationArn: String
+        /// The type of the recommendation item.
+        public let type: RecommendationItemType
+
+        @inlinable
+        public init(createdAt: Date, createdBy: String, id: String, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, metadata: AWSDocument, recommendationArn: String, type: RecommendationItemType) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.id = id
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.metadata = metadata
+            self.recommendationArn = recommendationArn
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case id = "id"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case metadata = "metadata"
+            case recommendationArn = "recommendationArn"
+            case type = "type"
+        }
+    }
+
+    public struct AgentRecommendationRemediation: AWSDecodableShape {
+        /// The timestamp when the remediation was created.
+        public let createdAt: Date
+        /// The identifier of the user or system that created this remediation.
+        public let createdBy: String
+        /// The timestamp when the remediation was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this remediation.
+        public let lastModifiedBy: String?
+        /// The ARN of the recommendation that this remediation belongs to.
+        public let recommendationArn: String
+        /// External references associated with the steps.
+        public let resourceLinks: [ResourceLink]?
+        /// The procedural steps to perform the remediation.
+        public let steps: [RemediationStep]
+        /// The remediation method.
+        public let type: RemediationType
+
+        @inlinable
+        public init(createdAt: Date, createdBy: String, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, recommendationArn: String, resourceLinks: [ResourceLink]? = nil, steps: [RemediationStep], type: RemediationType) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.recommendationArn = recommendationArn
+            self.resourceLinks = resourceLinks
+            self.steps = steps
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case recommendationArn = "recommendationArn"
+            case resourceLinks = "resourceLinks"
+            case steps = "steps"
+            case type = "type"
+        }
+    }
+
+    public struct AgentRecommendationSummary: AWSDecodableShape {
+        /// The applications that the recommendation targets.
+        public let applications: [String]?
+        /// The Amazon Web Services services that the recommendation applies to.
+        public let awsServices: [String]?
+        /// The business units that own the affected resources.
+        public let businessUnits: [String]?
+        /// The timestamp when the recommendation was created.
+        public let createdAt: Date
+        /// The identifier of the user or system that created this recommendation.
+        public let createdBy: String
+        /// A description of the recommendation.
+        public let description: String
+        /// The effort required to implement the recommendation.
+        public let effort: Effort
+        /// The severity of the recommendation's impact.
+        public let impact: ImpactCategory
+        /// The timestamp when the recommendation was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this recommendation.
+        public let lastModifiedBy: String?
+        /// The number of Amazon Web Services resources this recommendation affects.
+        public let numberOfResources: Int?
+        /// The Well-Architected Tool Framework pillar that the recommendation addresses.
+        public let pillar: Pillar
+        /// The priority of the recommendation.
+        public let priority: Priority
+        /// The Amazon Resource Name (ARN) of the associated profile.
+        public let profileArn: String
+        /// The Amazon Resource Name (ARN) of the recommendation.
+        public let recommendationArn: String
+        /// The return on investment estimate for the recommendation.
+        public let roi: Roi
+        /// The current state of the recommendation.
+        public let state: RecommendationState
+        /// The current status of the recommendation.
+        public let status: RecommendationStatus
+        /// The title of the recommendation.
+        public let title: String
+        /// The type of the recommendation.
+        public let type: RecommendationType
+        /// The free-text reason associated with the recommendation's most recent status update.
+        public let updateReason: String?
+
+        @inlinable
+        public init(applications: [String]? = nil, awsServices: [String]? = nil, businessUnits: [String]? = nil, createdAt: Date, createdBy: String, description: String, effort: Effort, impact: ImpactCategory, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, numberOfResources: Int? = nil, pillar: Pillar, priority: Priority, profileArn: String, recommendationArn: String, roi: Roi, state: RecommendationState, status: RecommendationStatus, title: String, type: RecommendationType, updateReason: String? = nil) {
+            self.applications = applications
+            self.awsServices = awsServices
+            self.businessUnits = businessUnits
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.effort = effort
+            self.impact = impact
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.numberOfResources = numberOfResources
+            self.pillar = pillar
+            self.priority = priority
+            self.profileArn = profileArn
+            self.recommendationArn = recommendationArn
+            self.roi = roi
+            self.state = state
+            self.status = status
+            self.title = title
+            self.type = type
+            self.updateReason = updateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "applications"
+            case awsServices = "awsServices"
+            case businessUnits = "businessUnits"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case effort = "effort"
+            case impact = "impact"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case numberOfResources = "numberOfResources"
+            case pillar = "pillar"
+            case priority = "priority"
+            case profileArn = "profileArn"
+            case recommendationArn = "recommendationArn"
+            case roi = "roi"
+            case state = "state"
+            case status = "status"
+            case title = "title"
+            case type = "type"
+            case updateReason = "updateReason"
+        }
+    }
+
+    public struct AggregationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of an IAM role to assume for resource analysis in this account.
+        public let accessRoleArn: String
+        /// The Amazon Web Services account ID to analyze.
+        public let accountId: String
+        /// A list of Amazon Web Services Regions to include in the analysis.
+        public let regions: [String]
+
+        @inlinable
+        public init(accessRoleArn: String, accountId: String, regions: [String]) {
+            self.accessRoleArn = accessRoleArn
+            self.accountId = accountId
+            self.regions = regions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, max: 2048)
+            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, pattern: "^arn:([a-z\\-]+):iam::\\d{12}:role/(service-role/)?[a-zA-Z0-9+=,.@\\-_]+$")
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.regions.forEach {
+                try validate($0, name: "regions[]", parent: name, max: 64)
+                try validate($0, name: "regions[]", parent: name, pattern: "^[a-z]{2}-[a-z]+-\\d{1}$")
+            }
+            try self.validate(self.regions, name: "regions", parent: name, max: 25)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRoleArn = "accessRoleArn"
+            case accountId = "accountId"
+            case regions = "regions"
         }
     }
 
@@ -593,6 +1054,7 @@ extension WellArchitected {
         public let reason: CheckFailureReason?
         /// Status associated to the check.
         public let status: CheckStatus?
+        /// The date and time when the check was last updated.
         public let updatedAt: Date?
 
         @inlinable
@@ -647,6 +1109,7 @@ extension WellArchitected {
         public let questionId: String?
         /// Status associated to the check.
         public let status: CheckStatus?
+        /// The date and time when the check summary was last updated.
         public let updatedAt: Date?
 
         @inlinable
@@ -680,7 +1143,7 @@ extension WellArchitected {
     }
 
     public struct Choice: AWSDecodableShape {
-        /// The additional resources for a choice in a custom lens. A choice can have up to two additional resources: one of type HELPFUL_RESOURCE,  one of type IMPROVEMENT_PLAN, or both.
+        /// The additional resources for a choice in a custom lens. A choice can have up to two additional resources: one of type HELPFUL_RESOURCE, one of type IMPROVEMENT_PLAN, or both.
         public let additionalResources: [AdditionalResources]?
         public let choiceId: String?
         public let description: String?
@@ -847,6 +1310,7 @@ extension WellArchitected {
         /// The metric type of a metric in the consolidated report. Currently only WORKLOAD metric types are supported.
         public let metricType: MetricType?
         public let riskCounts: [Risk: Int]?
+        /// The date and time when the consolidated report metric was last updated.
         public let updatedAt: Date?
         public let workloadArn: String?
         public let workloadId: String?
@@ -876,6 +1340,389 @@ extension WellArchitected {
         }
     }
 
+    public struct ContextContent: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Web Services account IDs associated with this application context.
+        public let accountIds: [String]?
+        /// Additional context not captured by other fields.
+        public let additionalContext: String?
+        /// A free-form overview of the application.
+        public let applicationOverview: String?
+        /// The type of the application.
+        public let applicationType: ApplicationType?
+        /// A free-form description of the application architecture.
+        public let architectureOverview: String?
+        /// The Amazon Web Services services used by this application.
+        public let awsServices: [String]?
+        /// The business criticality of the application.
+        public let criticality: Criticality?
+        /// The industry vertical for this application.
+        public let industry: String?
+        /// The Amazon Web Services Regions where this application operates.
+        public let regions: [String]?
+        /// Resource tags used to scope this application context.
+        public let resourceTags: [ContextResourceTag]?
+        /// The Amazon Web Services resource types relevant to this application.
+        public let resourceTypes: [String]?
+
+        @inlinable
+        public init(accountIds: [String]? = nil, additionalContext: String? = nil, applicationOverview: String? = nil, applicationType: ApplicationType? = nil, architectureOverview: String? = nil, awsServices: [String]? = nil, criticality: Criticality? = nil, industry: String? = nil, regions: [String]? = nil, resourceTags: [ContextResourceTag]? = nil, resourceTypes: [String]? = nil) {
+            self.accountIds = accountIds
+            self.additionalContext = additionalContext
+            self.applicationOverview = applicationOverview
+            self.applicationType = applicationType
+            self.architectureOverview = architectureOverview
+            self.awsServices = awsServices
+            self.criticality = criticality
+            self.industry = industry
+            self.regions = regions
+            self.resourceTags = resourceTags
+            self.resourceTypes = resourceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds = "accountIds"
+            case additionalContext = "additionalContext"
+            case applicationOverview = "applicationOverview"
+            case applicationType = "applicationType"
+            case architectureOverview = "architectureOverview"
+            case awsServices = "awsServices"
+            case criticality = "criticality"
+            case industry = "industry"
+            case regions = "regions"
+            case resourceTags = "resourceTags"
+            case resourceTypes = "resourceTypes"
+        }
+    }
+
+    public struct ContextResourceTag: AWSEncodableShape & AWSDecodableShape {
+        /// The tag key.
+        public let key: String
+        /// The tag value.
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct ContextSummary: AWSDecodableShape {
+        /// The type of application described by this context.
+        public let applicationType: ApplicationType?
+        /// The typed content of the context, containing application-specific fields such as account IDs, Regions, services, and resource types.
+        public let content: ContextContent
+        /// The type of the context.
+        public let contextType: ContextType
+        /// The timestamp when the context was created.
+        public let createdAt: Date
+        /// The identifier of the user or system that created this context.
+        public let createdBy: String
+        /// The business criticality of the application described by this context.
+        public let criticality: Criticality?
+        /// The unique identifier of the context.
+        public let id: String
+        /// The timestamp when the context was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this context.
+        public let lastModifiedBy: String?
+        /// The Amazon Resource Name (ARN) of the associated profile.
+        public let profileArn: String
+        /// The title of the context.
+        public let title: String
+
+        @inlinable
+        public init(applicationType: ApplicationType? = nil, content: ContextContent, contextType: ContextType, createdAt: Date, createdBy: String, criticality: Criticality? = nil, id: String, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, profileArn: String, title: String) {
+            self.applicationType = applicationType
+            self.content = content
+            self.contextType = contextType
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.criticality = criticality
+            self.id = id
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.profileArn = profileArn
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationType = "applicationType"
+            case content = "content"
+            case contextType = "contextType"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case criticality = "criticality"
+            case id = "id"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case profileArn = "profileArn"
+            case title = "title"
+        }
+    }
+
+    public struct CreateAgentContextRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The typed content of the context. The structure contains application-specific fields such as account IDs, Regions, services, and resource types.
+        public let content: ContextContent
+        /// The type of the context.
+        public let contextType: ContextType
+        /// The Amazon Resource Name (ARN) of the profile to associate the context with.
+        public let profileArn: String
+        /// The title of the context.
+        public let title: String
+
+        @inlinable
+        public init(clientToken: String? = CreateAgentContextRequest.idempotencyToken(), content: ContextContent, contextType: ContextType, profileArn: String, title: String) {
+            self.clientToken = clientToken
+            self.content = content
+            self.contextType = contextType
+            self.profileArn = profileArn
+            self.title = title
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.content, forKey: .content)
+            try container.encode(self.contextType, forKey: .contextType)
+            request.encodePath(self.profileArn, key: "profileArn")
+            try container.encode(self.title, forKey: .title)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case content = "content"
+            case contextType = "contextType"
+            case title = "title"
+        }
+    }
+
+    public struct CreateAgentContextResponse: AWSDecodableShape {
+        /// The created context summary.
+        public let context: ContextSummary
+
+        @inlinable
+        public init(context: ContextSummary) {
+            self.context = context
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "context"
+        }
+    }
+
+    public struct CreateAgentGoalRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// A description of the goal.
+        public let description: String?
+        /// The Well-Architected Tool Framework pillars to associate with this goal.
+        public let pillars: [Pillar]
+        /// The Amazon Resource Name (ARN) of the profile to associate the goal with.
+        public let profileArn: String
+        /// The title of the goal.
+        public let title: String
+
+        @inlinable
+        public init(clientToken: String? = CreateAgentGoalRequest.idempotencyToken(), description: String? = nil, pillars: [Pillar], profileArn: String, title: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.pillars = pillars
+            self.profileArn = profileArn
+            self.title = title
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.pillars, forKey: .pillars)
+            request.encodePath(self.profileArn, key: "profileArn")
+            try container.encode(self.title, forKey: .title)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pillars, name: "pillars", parent: name, max: 5)
+            try self.validate(self.pillars, name: "pillars", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case pillars = "pillars"
+            case title = "title"
+        }
+    }
+
+    public struct CreateAgentGoalResponse: AWSDecodableShape {
+        /// The created goal summary.
+        public let goal: GoalSummary
+
+        @inlinable
+        public init(goal: GoalSummary) {
+            self.goal = goal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case goal = "goal"
+        }
+    }
+
+    public struct CreateAgentProfileRequest: AWSEncodableShape {
+        /// The aggregation configuration that defines which Amazon Web Services accounts and Regions to analyze.
+        public let aggregationConfiguration: [AggregationConfiguration]
+        /// The business overview for this profile.
+        public let businessOverview: String?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Indicates whether deletion protection is enabled for the profile.
+        public let deletionProtection: Bool?
+        /// A description of the profile.
+        public let description: String?
+        /// The display name of the profile shown to users.
+        public let displayName: String?
+        /// The ARN of the IAM execution role used for recommendation actions.
+        public let executionRoleArn: String
+        /// The system name of the profile.
+        public let name: String
+        /// The Well-Architected Tool Framework pillars to associate with this profile.
+        public let pillars: [Pillar]
+        /// The tags to associate with the profile.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(aggregationConfiguration: [AggregationConfiguration], businessOverview: String? = nil, clientToken: String? = CreateAgentProfileRequest.idempotencyToken(), deletionProtection: Bool? = nil, description: String? = nil, displayName: String? = nil, executionRoleArn: String, name: String, pillars: [Pillar], tags: [Tag]? = nil) {
+            self.aggregationConfiguration = aggregationConfiguration
+            self.businessOverview = businessOverview
+            self.clientToken = clientToken
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.displayName = displayName
+            self.executionRoleArn = executionRoleArn
+            self.name = name
+            self.pillars = pillars
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregationConfiguration.forEach {
+                try $0.validate(name: "\(name).aggregationConfiguration[]")
+            }
+            try self.validate(self.aggregationConfiguration, name: "aggregationConfiguration", parent: name, max: 100)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:([a-z\\-]+):iam::\\d{12}:role/(service-role/)?[a-zA-Z0-9+=,.@\\-_]+$")
+            try self.validate(self.pillars, name: "pillars", parent: name, max: 5)
+            try self.validate(self.pillars, name: "pillars", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationConfiguration = "aggregationConfiguration"
+            case businessOverview = "businessOverview"
+            case clientToken = "clientToken"
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case displayName = "displayName"
+            case executionRoleArn = "executionRoleArn"
+            case name = "name"
+            case pillars = "pillars"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateAgentProfileResponse: AWSDecodableShape {
+        /// The aggregation configuration.
+        public let aggregationConfiguration: [AggregationConfiguration]
+        /// The Amazon Resource Name (ARN) of the created profile.
+        public let arn: String
+        /// The business overview of the created profile.
+        public let businessOverview: String?
+        /// The timestamp when the profile was created.
+        public let createdAt: Date
+        /// The identifier of the user or system that created this profile.
+        public let createdBy: String
+        /// Indicates whether deletion protection is enabled.
+        public let deletionProtection: Bool?
+        /// A description of the created profile.
+        public let description: String?
+        /// The display name of the created profile.
+        public let displayName: String?
+        /// Indicates whether the profile is valid for manual architecture generation.
+        public let eligibleForArchitectureGeneration: Bool?
+        /// Indicates whether the profile is valid for scheduled recommendation generation.
+        public let eligibleForScheduledGeneration: Bool?
+        /// The ARN of the IAM execution role.
+        public let executionRoleArn: String
+        /// A map of field paths to error messages for invalid or missing input fields.
+        public let fieldErrors: [String: String]?
+        /// The timestamp when the profile was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this profile.
+        public let lastModifiedBy: String?
+        /// The system name of the created profile.
+        public let name: String
+        /// The Well-Architected Tool Framework pillars associated with the created profile.
+        public let pillars: [Pillar]
+        /// The tags associated with the created profile.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(aggregationConfiguration: [AggregationConfiguration], arn: String, businessOverview: String? = nil, createdAt: Date, createdBy: String, deletionProtection: Bool? = nil, description: String? = nil, displayName: String? = nil, eligibleForArchitectureGeneration: Bool? = nil, eligibleForScheduledGeneration: Bool? = nil, executionRoleArn: String, fieldErrors: [String: String]? = nil, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, name: String, pillars: [Pillar], tags: [Tag]? = nil) {
+            self.aggregationConfiguration = aggregationConfiguration
+            self.arn = arn
+            self.businessOverview = businessOverview
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.displayName = displayName
+            self.eligibleForArchitectureGeneration = eligibleForArchitectureGeneration
+            self.eligibleForScheduledGeneration = eligibleForScheduledGeneration
+            self.executionRoleArn = executionRoleArn
+            self.fieldErrors = fieldErrors
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.name = name
+            self.pillars = pillars
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationConfiguration = "aggregationConfiguration"
+            case arn = "arn"
+            case businessOverview = "businessOverview"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case displayName = "displayName"
+            case eligibleForArchitectureGeneration = "eligibleForArchitectureGeneration"
+            case eligibleForScheduledGeneration = "eligibleForScheduledGeneration"
+            case executionRoleArn = "executionRoleArn"
+            case fieldErrors = "fieldErrors"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case name = "name"
+            case pillars = "pillars"
+            case tags = "tags"
+        }
+    }
+
     public struct CreateLensShareInput: AWSEncodableShape {
         public let clientRequestToken: String?
         public let lensAlias: String
@@ -899,6 +1746,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
@@ -952,6 +1800,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.lensVersion, name: "lensVersion", parent: name, max: 32)
@@ -1006,6 +1855,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
@@ -1058,6 +1908,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.profileDescription, name: "profileDescription", parent: name, max: 100)
             try self.validate(self.profileDescription, name: "profileDescription", parent: name, min: 3)
             try self.validate(self.profileName, name: "profileName", parent: name, max: 100)
@@ -1068,6 +1919,7 @@ extension WellArchitected {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{N}\\p{Z}_.:/=+@-]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -1125,6 +1977,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
             try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
@@ -1179,6 +2032,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 3)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
@@ -1190,6 +2044,7 @@ extension WellArchitected {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{N}\\p{Z}_.:/=+@-]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -1247,6 +2102,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, min: 12)
             try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
@@ -1349,6 +2205,7 @@ extension WellArchitected {
             try self.validate(self.awsRegions, name: "awsRegions", parent: name, max: 50)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.description, name: "description", parent: name, max: 250)
             try self.validate(self.description, name: "description", parent: name, min: 3)
             try self.validate(self.industry, name: "industry", parent: name, max: 100)
@@ -1384,6 +2241,7 @@ extension WellArchitected {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{N}\\p{Z}_.:/=+@-]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -1458,6 +2316,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
             try self.validate(self.sharedWith, name: "sharedWith", parent: name, min: 12)
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
@@ -1488,6 +2347,123 @@ extension WellArchitected {
         }
     }
 
+    public struct CrossPillarBenefit: AWSDecodableShape {
+        /// A description of what changes and why it matters.
+        public let description: String
+        /// The severity of the benefit.
+        public let impact: ImpactCategory
+        /// The pillar that would be positively impacted.
+        public let pillar: Pillar
+        /// A short phrase describing the outcome.
+        public let title: String
+
+        @inlinable
+        public init(description: String, impact: ImpactCategory, pillar: Pillar, title: String) {
+            self.description = description
+            self.impact = impact
+            self.pillar = pillar
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case impact = "impact"
+            case pillar = "pillar"
+            case title = "title"
+        }
+    }
+
+    public struct DeleteAgentContextRequest: AWSEncodableShape {
+        /// The unique identifier of the context to delete.
+        public let id: String
+        /// The Amazon Resource Name (ARN) of the profile containing the context.
+        public let profileArn: String
+
+        @inlinable
+        public init(id: String, profileArn: String) {
+            self.id = id
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.profileArn, key: "profileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAgentContextResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAgentGoalRequest: AWSEncodableShape {
+        /// The unique identifier of the goal to delete.
+        public let id: String
+        /// The Amazon Resource Name (ARN) of the profile containing the goal.
+        public let profileArn: String
+
+        @inlinable
+        public init(id: String, profileArn: String) {
+            self.id = id
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.profileArn, key: "profileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAgentGoalResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteAgentProfileRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the profile to delete.
+        public let profileArn: String
+
+        @inlinable
+        public init(profileArn: String) {
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileArn, key: "profileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAgentProfileResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteLensInput: AWSEncodableShape {
         public let clientRequestToken: String?
         public let lensAlias: String
@@ -1512,6 +2488,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
         }
@@ -1542,6 +2519,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
@@ -1571,6 +2549,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
             try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
         }
@@ -1602,6 +2581,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
             try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
@@ -1631,6 +2611,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
             try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
             try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
@@ -1663,6 +2644,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
             try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
             try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
@@ -1692,6 +2674,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
@@ -1723,6 +2706,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
@@ -1799,6 +2783,24 @@ extension WellArchitected {
         }
     }
 
+    public struct ErrorDetails: AWSDecodableShape {
+        /// The status code identifying the type of error.
+        public let code: String
+        /// A human-readable description of the error.
+        public let message: String
+
+        @inlinable
+        public init(code: String, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct ExportLensInput: AWSEncodableShape {
         public let lensAlias: String
         /// The lens version to be exported.
@@ -1838,6 +2840,450 @@ extension WellArchitected {
 
         private enum CodingKeys: String, CodingKey {
             case lensJSON = "LensJSON"
+        }
+    }
+
+    public struct GetAgentContextRequest: AWSEncodableShape {
+        /// The unique identifier of the context to retrieve.
+        public let id: String
+        /// The Amazon Resource Name (ARN) of the profile containing the context.
+        public let profileArn: String
+
+        @inlinable
+        public init(id: String, profileArn: String) {
+            self.id = id
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.profileArn, key: "profileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAgentContextResponse: AWSDecodableShape {
+        /// The retrieved context summary.
+        public let context: ContextSummary
+
+        @inlinable
+        public init(context: ContextSummary) {
+            self.context = context
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "context"
+        }
+    }
+
+    public struct GetAgentGoalRequest: AWSEncodableShape {
+        /// The unique identifier of the goal to retrieve.
+        public let id: String
+        /// The Amazon Resource Name (ARN) of the profile containing the goal.
+        public let profileArn: String
+
+        @inlinable
+        public init(id: String, profileArn: String) {
+            self.id = id
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.profileArn, key: "profileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAgentGoalResponse: AWSDecodableShape {
+        /// The retrieved goal summary.
+        public let goal: GoalSummary
+
+        @inlinable
+        public init(goal: GoalSummary) {
+            self.goal = goal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case goal = "goal"
+        }
+    }
+
+    public struct GetAgentProfileRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the optimization profile to retrieve.
+        public let profileArn: String
+
+        @inlinable
+        public init(profileArn: String) {
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileArn, key: "profileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAgentProfileResponse: AWSDecodableShape {
+        /// The aggregation configuration.
+        public let aggregationConfiguration: [AggregationConfiguration]
+        /// The Amazon Resource Name (ARN) of the profile.
+        public let arn: String
+        /// The business overview of the profile.
+        public let businessOverview: String?
+        /// The timestamp when the profile was created.
+        public let createdAt: Date
+        /// The identifier of the user or system that created this profile.
+        public let createdBy: String
+        /// Indicates whether deletion protection is enabled.
+        public let deletionProtection: Bool?
+        /// A description of the profile.
+        public let description: String?
+        /// The display name of the profile.
+        public let displayName: String?
+        /// Indicates whether the profile is valid for manual architecture generation.
+        public let eligibleForArchitectureGeneration: Bool?
+        /// Indicates whether the profile is valid for scheduled recommendation generation.
+        public let eligibleForScheduledGeneration: Bool?
+        /// The ARN of the IAM execution role.
+        public let executionRoleArn: String
+        /// A map of field paths to error messages for invalid or missing input fields.
+        public let fieldErrors: [String: String]?
+        /// The timestamp when the profile was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this profile.
+        public let lastModifiedBy: String?
+        /// The system name of the profile.
+        public let name: String
+        /// The Well-Architected Tool Framework pillars associated with the profile.
+        public let pillars: [Pillar]
+        /// The tags associated with the profile.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(aggregationConfiguration: [AggregationConfiguration], arn: String, businessOverview: String? = nil, createdAt: Date, createdBy: String, deletionProtection: Bool? = nil, description: String? = nil, displayName: String? = nil, eligibleForArchitectureGeneration: Bool? = nil, eligibleForScheduledGeneration: Bool? = nil, executionRoleArn: String, fieldErrors: [String: String]? = nil, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, name: String, pillars: [Pillar], tags: [Tag]? = nil) {
+            self.aggregationConfiguration = aggregationConfiguration
+            self.arn = arn
+            self.businessOverview = businessOverview
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.displayName = displayName
+            self.eligibleForArchitectureGeneration = eligibleForArchitectureGeneration
+            self.eligibleForScheduledGeneration = eligibleForScheduledGeneration
+            self.executionRoleArn = executionRoleArn
+            self.fieldErrors = fieldErrors
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.name = name
+            self.pillars = pillars
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationConfiguration = "aggregationConfiguration"
+            case arn = "arn"
+            case businessOverview = "businessOverview"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case displayName = "displayName"
+            case eligibleForArchitectureGeneration = "eligibleForArchitectureGeneration"
+            case eligibleForScheduledGeneration = "eligibleForScheduledGeneration"
+            case executionRoleArn = "executionRoleArn"
+            case fieldErrors = "fieldErrors"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case name = "name"
+            case pillars = "pillars"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetAgentRecommendationGenerationRequest: AWSEncodableShape {
+        /// The unique identifier of the recommendation generation to retrieve.
+        public let generationId: String
+        /// The ARN of the optimization profile associated with this generation.
+        public let profileArn: String
+
+        @inlinable
+        public init(generationId: String, profileArn: String) {
+            self.generationId = generationId
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.generationId, key: "generationId")
+            request.encodePath(self.profileArn, key: "profileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.generationId, name: "generationId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAgentRecommendationGenerationResponse: AWSDecodableShape {
+        /// Additional context information provided to guide the recommendation generation process.
+        public let additionalContext: AWSDocument?
+        /// The timestamp when the generation was started.
+        public let createdAt: Date
+        /// The identifier of the user or system that started this generation.
+        public let createdBy: String
+        /// The timestamp when the recommendation generation process completed.
+        public let endedAt: Date?
+        /// Details about the error if the generation status is ERROR.
+        public let errorDetails: ErrorDetails?
+        /// The estimated time for the generation to complete.
+        public let estimatedCompletionTime: Date?
+        /// The unique identifier of the recommendation generation.
+        public let id: String
+        /// The timestamp when the generation was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this generation.
+        public let lastModifiedBy: String?
+        /// The name of the recommendation generation.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the profile used for this generation.
+        public let profileArn: String
+        /// Current progress information including steps completed and completion percentage.
+        public let progress: Progress?
+        /// The scope configuration that defines which pillars and goals to focus on during generation.
+        public let scope: Scope?
+        /// The timestamp when the recommendation generation process started.
+        public let startedAt: Date?
+        /// The current status of the recommendation generation.
+        public let status: GenerationStatus
+
+        @inlinable
+        public init(additionalContext: AWSDocument? = nil, createdAt: Date, createdBy: String, endedAt: Date? = nil, errorDetails: ErrorDetails? = nil, estimatedCompletionTime: Date? = nil, id: String, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, name: String? = nil, profileArn: String, progress: Progress? = nil, scope: Scope? = nil, startedAt: Date? = nil, status: GenerationStatus) {
+            self.additionalContext = additionalContext
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.endedAt = endedAt
+            self.errorDetails = errorDetails
+            self.estimatedCompletionTime = estimatedCompletionTime
+            self.id = id
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.name = name
+            self.profileArn = profileArn
+            self.progress = progress
+            self.scope = scope
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalContext = "additionalContext"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case endedAt = "endedAt"
+            case errorDetails = "errorDetails"
+            case estimatedCompletionTime = "estimatedCompletionTime"
+            case id = "id"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case name = "name"
+            case profileArn = "profileArn"
+            case progress = "progress"
+            case scope = "scope"
+            case startedAt = "startedAt"
+            case status = "status"
+        }
+    }
+
+    public struct GetAgentRecommendationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the recommendation to retrieve.
+        public let recommendationArn: String
+        /// Optional filter on remediation type.
+        public let remediationType: RemediationType?
+
+        @inlinable
+        public init(recommendationArn: String, remediationType: RemediationType? = nil) {
+            self.recommendationArn = recommendationArn
+            self.remediationType = remediationType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.recommendationArn, key: "recommendationArn")
+            request.encodeQuery(self.remediationType, key: "remediationType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recommendationArn, name: "recommendationArn", parent: name, max: 2048)
+            try self.validate(self.recommendationArn, name: "recommendationArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-recommendation/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAgentRecommendationResponse: AWSDecodableShape {
+        /// The applications that the recommendation targets.
+        public let applications: [String]?
+        /// The Amazon Web Services services that the recommendation applies to.
+        public let awsServices: [String]?
+        /// The business units that own the affected resources.
+        public let businessUnits: [String]?
+        /// The timestamp when the recommendation was created.
+        public let createdAt: Date
+        /// The identifier of the user or system that created this recommendation.
+        public let createdBy: String
+        /// Cross-pillar benefits of acting on the recommendation.
+        public let crossPillarBenefits: [CrossPillarBenefit]?
+        /// A description of the recommendation.
+        public let description: String
+        /// The effort required to implement the recommendation.
+        public let effort: Effort
+        /// Goals that this recommendation targets.
+        public let goals: [RecommendationGoal]?
+        /// Highlights describing what was detected.
+        public let highlights: [String]
+        /// The severity of the recommendation's impact.
+        public let impact: ImpactCategory
+        /// Detailed impact information for the recommendation.
+        public let impactDetails: [String]
+        /// A list of insights about the recommendation.
+        public let insights: [Insight]
+        /// The timestamp when the recommendation was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this recommendation.
+        public let lastModifiedBy: String?
+        /// The number of Amazon Web Services resources this recommendation affects.
+        public let numberOfResources: Int?
+        /// The Well-Architected Tool Framework pillar that the recommendation addresses.
+        public let pillar: Pillar
+        /// The priority of the recommendation.
+        public let priority: Priority
+        /// The Amazon Resource Name (ARN) of the associated profile.
+        public let profileArn: String
+        /// The Amazon Resource Name (ARN) of the recommendation.
+        public let recommendationArn: String
+        /// A list of remediations for the recommendation.
+        public let remediations: [AgentRecommendationRemediation]?
+        /// A high-level summary of the recommended remediation.
+        public let remediationSummary: RemediationSummary
+        /// The return on investment estimate for the recommendation.
+        public let roi: Roi
+        /// Sources that generated this recommendation.
+        public let sources: [RecommendationSource]?
+        /// The current state of the recommendation.
+        public let state: RecommendationState
+        /// The current status of the recommendation.
+        public let status: RecommendationStatus
+        /// A set of key-value pairs associated with the recommendation, used for cost allocation and access control.
+        public let tags: [Tag]?
+        /// The title of the recommendation.
+        public let title: String
+        /// Trade-offs of acting on the recommendation.
+        public let tradeOffs: [TradeOff]?
+        /// The type of the recommendation.
+        public let type: RecommendationType
+        /// The free-text reason associated with the recommendation's most recent status update.
+        public let updateReason: String?
+
+        @inlinable
+        public init(applications: [String]? = nil, awsServices: [String]? = nil, businessUnits: [String]? = nil, createdAt: Date, createdBy: String, crossPillarBenefits: [CrossPillarBenefit]? = nil, description: String, effort: Effort, goals: [RecommendationGoal]? = nil, highlights: [String], impact: ImpactCategory, impactDetails: [String], insights: [Insight], lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, numberOfResources: Int? = nil, pillar: Pillar, priority: Priority, profileArn: String, recommendationArn: String, remediations: [AgentRecommendationRemediation]? = nil, remediationSummary: RemediationSummary, roi: Roi, sources: [RecommendationSource]? = nil, state: RecommendationState, status: RecommendationStatus, tags: [Tag]? = nil, title: String, tradeOffs: [TradeOff]? = nil, type: RecommendationType, updateReason: String? = nil) {
+            self.applications = applications
+            self.awsServices = awsServices
+            self.businessUnits = businessUnits
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.crossPillarBenefits = crossPillarBenefits
+            self.description = description
+            self.effort = effort
+            self.goals = goals
+            self.highlights = highlights
+            self.impact = impact
+            self.impactDetails = impactDetails
+            self.insights = insights
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.numberOfResources = numberOfResources
+            self.pillar = pillar
+            self.priority = priority
+            self.profileArn = profileArn
+            self.recommendationArn = recommendationArn
+            self.remediations = remediations
+            self.remediationSummary = remediationSummary
+            self.roi = roi
+            self.sources = sources
+            self.state = state
+            self.status = status
+            self.tags = tags
+            self.title = title
+            self.tradeOffs = tradeOffs
+            self.type = type
+            self.updateReason = updateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applications = "applications"
+            case awsServices = "awsServices"
+            case businessUnits = "businessUnits"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case crossPillarBenefits = "crossPillarBenefits"
+            case description = "description"
+            case effort = "effort"
+            case goals = "goals"
+            case highlights = "highlights"
+            case impact = "impact"
+            case impactDetails = "impactDetails"
+            case insights = "insights"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case numberOfResources = "numberOfResources"
+            case pillar = "pillar"
+            case priority = "priority"
+            case profileArn = "profileArn"
+            case recommendationArn = "recommendationArn"
+            case remediations = "remediations"
+            case remediationSummary = "remediationSummary"
+            case roi = "roi"
+            case sources = "sources"
+            case state = "state"
+            case status = "status"
+            case tags = "tags"
+            case title = "title"
+            case tradeOffs = "tradeOffs"
+            case type = "type"
+            case updateReason = "updateReason"
         }
     }
 
@@ -1906,7 +3352,7 @@ extension WellArchitected {
     }
 
     public struct GetConsolidatedReportInput: AWSEncodableShape {
-        /// The format of the consolidated report. For PDF, Base64String is returned. For JSON,  Metrics is returned.
+        /// The format of the consolidated report. For PDF, Base64String is returned. For JSON, Metrics is returned.
         public let format: ReportFormat?
         /// Set to true to have shared resources included in the report.
         public let includeSharedResources: Bool?
@@ -1932,8 +3378,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 15)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2475,6 +3920,52 @@ extension WellArchitected {
         }
     }
 
+    public struct GoalSummary: AWSDecodableShape {
+        /// The timestamp when the goal was created.
+        public let createdAt: Date
+        /// The identifier of the user or system that created this goal.
+        public let createdBy: String
+        /// A description of the goal.
+        public let description: String?
+        /// The unique identifier of the goal.
+        public let id: String
+        /// The timestamp when the goal was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this goal.
+        public let lastModifiedBy: String?
+        /// The Well-Architected Tool Framework pillars associated with this goal.
+        public let pillars: [Pillar]
+        /// The Amazon Resource Name (ARN) of the associated profile.
+        public let profileArn: String
+        /// The title of the goal.
+        public let title: String
+
+        @inlinable
+        public init(createdAt: Date, createdBy: String, description: String? = nil, id: String, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, pillars: [Pillar], profileArn: String, title: String) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.id = id
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.pillars = pillars
+            self.profileArn = profileArn
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case id = "id"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case pillars = "pillars"
+            case profileArn = "profileArn"
+            case title = "title"
+        }
+    }
+
     public struct ImportLensInput: AWSEncodableShape {
         public let clientRequestToken: String?
         /// The JSON representation of a lens.
@@ -2494,6 +3985,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.jsonString, name: "jsonString", parent: name, max: 500000)
             try self.validate(self.jsonString, name: "jsonString", parent: name, min: 2)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
@@ -2501,6 +3993,7 @@ extension WellArchitected {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{N}\\p{Z}_.:/=+@-]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -2534,7 +4027,7 @@ extension WellArchitected {
     }
 
     public struct ImprovementSummary: AWSDecodableShape {
-        /// The improvement plan details.
+        /// The improvement plan details. This value is only applicable to custom lenses.
         public let improvementPlans: [ChoiceImprovementPlan]?
         public let improvementPlanUrl: String?
         /// Configuration of the Jira integration.
@@ -2566,9 +4059,28 @@ extension WellArchitected {
         }
     }
 
+    public struct Insight: AWSDecodableShape {
+        /// A description of the signals detected.
+        public let signalsDetected: String?
+        /// A description of the usage pattern.
+        public let usagePattern: String
+
+        @inlinable
+        public init(signalsDetected: String? = nil, usagePattern: String) {
+            self.signalsDetected = signalsDetected
+            self.usagePattern = usagePattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signalsDetected = "signalsDetected"
+            case usagePattern = "usagePattern"
+        }
+    }
+
     public struct JiraConfiguration: AWSDecodableShape {
         /// The URL of the associated Jira issue.
         public let jiraIssueUrl: String?
+        /// The date and time when the Jira configuration was last synced.
         public let lastSyncedTime: Date?
 
         @inlinable
@@ -2678,6 +4190,7 @@ extension WellArchitected {
         /// The profiles associated with the workload.
         public let profiles: [WorkloadProfile]?
         public let riskCounts: [Risk: Int]?
+        /// The date and time when the lens review was last updated.
         public let updatedAt: Date?
 
         @inlinable
@@ -2747,6 +4260,7 @@ extension WellArchitected {
         /// The profiles associated with the workload.
         public let profiles: [WorkloadProfile]?
         public let riskCounts: [Risk: Int]?
+        /// The date and time when the lens review was last updated.
         public let updatedAt: Date?
 
         @inlinable
@@ -2799,6 +4313,7 @@ extension WellArchitected {
     }
 
     public struct LensSummary: AWSDecodableShape {
+        /// The date and time when the lens was created.
         public let createdAt: Date?
         public let description: String?
         public let lensAlias: String?
@@ -2812,6 +4327,7 @@ extension WellArchitected {
         /// The version of the lens.
         public let lensVersion: String?
         public let owner: String?
+        /// The date and time when the lens was last updated.
         public let updatedAt: Date?
 
         @inlinable
@@ -2880,6 +4396,313 @@ extension WellArchitected {
         }
     }
 
+    public struct ListAgentContextsRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the profile to list contexts for.
+        public let profileArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.profileArn, key: "profileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAgentContextsResponse: AWSDecodableShape {
+        /// A list of context summaries associated with the profile.
+        public let items: [ContextSummary]
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ContextSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgentGoalsRequest: AWSEncodableShape {
+        /// The maximum number of goals to return in a single response.
+        public let maxResults: Int?
+        /// A pagination token returned from a previous call to continue retrieving results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the optimization profile to list goals for.
+        public let profileArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.profileArn, key: "profileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAgentGoalsResponse: AWSDecodableShape {
+        /// A list of goal summaries associated with the profile.
+        public let items: [GoalSummary]
+        /// A pagination token to retrieve the next set of results, if available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [GoalSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgentProfilesRequest: AWSEncodableShape {
+        /// The maximum number of profiles to return in a single call. Default is 100.
+        public let maxResults: Int?
+        /// A pagination token returned from a previous call to continue retrieving results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAgentProfilesResponse: AWSDecodableShape {
+        /// A list of profile summaries.
+        public let items: [AgentProfileSummary]
+        /// A pagination token to retrieve the next set of results, if available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [AgentProfileSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgentRecommendationGenerationsRequest: AWSEncodableShape {
+        /// The maximum number of generation processes to return in a single response.
+        public let maxResults: Int?
+        /// A pagination token returned from a previous call to continue retrieving results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the optimization profile to list generation processes for.
+        public let profileArn: String
+        /// Optional filter by recommendation type.
+        public let recommendationType: RecommendationType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileArn: String, recommendationType: RecommendationType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileArn = profileArn
+            self.recommendationType = recommendationType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.profileArn, key: "profileArn")
+            request.encodeQuery(self.recommendationType, key: "RecommendationType")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAgentRecommendationGenerationsResponse: AWSDecodableShape {
+        /// A list of recommendation generation summaries.
+        public let items: [AgentRecommendationGenerationSummary]
+        /// A pagination token to retrieve the next set of results, if available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [AgentRecommendationGenerationSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgentRecommendationItemsRequest: AWSEncodableShape {
+        /// The maximum number of recommendation items to return in a single response.
+        public let maxResults: Int?
+        /// A pagination token returned from a previous call to continue retrieving results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the recommendation to list items for.
+        public let recommendationArn: String
+        /// Optional filter to return only recommendation items of the specified type.
+        public let type: RecommendationItemType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, recommendationArn: String, type: RecommendationItemType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.recommendationArn = recommendationArn
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.recommendationArn, key: "recommendationArn")
+            request.encodeQuery(self.type, key: "type")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
+            try self.validate(self.recommendationArn, name: "recommendationArn", parent: name, max: 2048)
+            try self.validate(self.recommendationArn, name: "recommendationArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-recommendation/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAgentRecommendationItemsResponse: AWSDecodableShape {
+        /// A list of recommendation items with their detailed metadata and configuration information.
+        public let items: [AgentRecommendationItemSummary]
+        /// A pagination token to retrieve the next set of results, if available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [AgentRecommendationItemSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgentRecommendationsRequest: AWSEncodableShape {
+        /// The maximum number of recommendations to return in a single response.
+        public let maxResults: Int?
+        /// A pagination token returned from a previous call to continue retrieving results.
+        public let nextToken: String?
+        /// Optional filter to return only recommendations for the specified pillar.
+        public let pillar: Pillar?
+        /// The Amazon Resource Name (ARN) of the optimization profile to list recommendations for.
+        public let profileArn: String
+        /// Optional filter to return only recommendations with the specified state (OPEN or CLOSED).
+        public let state: RecommendationState?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, pillar: Pillar? = nil, profileArn: String, state: RecommendationState? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pillar = pillar
+            self.profileArn = profileArn
+            self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.pillar, key: "pillar")
+            request.encodePath(self.profileArn, key: "profileArn")
+            request.encodeQuery(self.state, key: "state")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAgentRecommendationsResponse: AWSDecodableShape {
+        /// A list of recommendation summaries.
+        public let items: [AgentRecommendationSummary]
+        /// A pagination token to retrieve the next set of results, if available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [AgentRecommendationSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListAnswersInput: AWSEncodableShape {
         public let lensAlias: String
         /// The maximum number of results to return for this request.
@@ -2917,10 +4740,9 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
@@ -2996,8 +4818,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.choiceId, name: "choiceId", parent: name, max: 64)
             try self.validate(self.choiceId, name: "choiceId", parent: name, min: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
@@ -3070,8 +4891,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.choiceId, name: "choiceId", parent: name, max: 64)
             try self.validate(self.choiceId, name: "choiceId", parent: name, min: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
@@ -3145,10 +4965,9 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
@@ -3212,10 +5031,9 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
@@ -3277,8 +5095,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
         }
 
@@ -3333,8 +5150,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.lensName, name: "lensName", parent: name, max: 128)
             try self.validate(self.lensName, name: "lensName", parent: name, min: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3377,8 +5193,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
@@ -3426,8 +5241,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 250)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 50)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-us-gov|-iso(-[a-z])?|-cn)?:wellarchitected:[a-z]{2}(-gov|-iso([a-z])?)?-[a-z]+-\\d:\\d{12}:(review-template)/[a-f0-9]{32}$")
@@ -3482,8 +5296,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
@@ -3539,8 +5352,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
             try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws[-a-z]*:wellarchitected:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:profile/[a-z0-9]+$")
             try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
@@ -3592,8 +5404,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, max: 100)
         }
 
@@ -3648,8 +5459,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.pillarId, name: "pillarId", parent: name, max: 64)
             try self.validate(self.pillarId, name: "pillarId", parent: name, min: 1)
             try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
@@ -3702,8 +5512,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3765,8 +5574,7 @@ extension WellArchitected {
 
         public func validate(name: String) throws {
             try self.validate(self.lensNamePrefix, name: "lensNamePrefix", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.profileNamePrefix, name: "profileNamePrefix", parent: name, max: 100)
             try self.validate(self.templateNamePrefix, name: "templateNamePrefix", parent: name, max: 100)
             try self.validate(self.templateNamePrefix, name: "templateNamePrefix", parent: name, pattern: "^[A-Za-z0-9-_.,:/()@!&?#+'’\\s]+$")
@@ -3854,8 +5662,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
             try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
             try self.validate(self.templateArn, name: "templateArn", parent: name, min: 50)
@@ -3915,8 +5722,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
@@ -3959,8 +5765,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+\\/=_-]+$")
             try self.validate(self.workloadNamePrefix, name: "workloadNamePrefix", parent: name, max: 100)
         }
 
@@ -3990,6 +5795,7 @@ extension WellArchitected {
     public struct Milestone: AWSDecodableShape {
         public let milestoneName: String?
         public let milestoneNumber: Int?
+        /// The date and time when the milestone was recorded.
         public let recordedAt: Date?
         public let workload: Workload?
 
@@ -4012,6 +5818,7 @@ extension WellArchitected {
     public struct MilestoneSummary: AWSDecodableShape {
         public let milestoneName: String?
         public let milestoneNumber: Int?
+        /// The date and time when the milestone was recorded.
         public let recordedAt: Date?
         public let workloadSummary: WorkloadSummary?
 
@@ -4073,6 +5880,32 @@ extension WellArchitected {
         }
     }
 
+    public struct PillarItem: AWSEncodableShape & AWSDecodableShape {
+        /// A list of item IDs to process for this pillar, such as best practice IDs, Amazon Web Services service names, or resource ARNs.
+        public let ids: [String]
+        /// The pillar this item configuration applies to.
+        public let pillar: Pillar
+
+        @inlinable
+        public init(ids: [String], pillar: Pillar) {
+            self.ids = ids
+            self.pillar = pillar
+        }
+
+        public func validate(name: String) throws {
+            try self.ids.forEach {
+                try validate($0, name: "ids[]", parent: name, max: 2048)
+                try validate($0, name: "ids[]", parent: name, min: 1)
+            }
+            try self.validate(self.ids, name: "ids", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+            case pillar = "pillar"
+        }
+    }
+
     public struct PillarMetric: AWSDecodableShape {
         public let pillarId: String?
         /// The questions that have been identified as risks in the pillar.
@@ -4119,6 +5952,7 @@ extension WellArchitected {
     }
 
     public struct Profile: AWSDecodableShape {
+        /// The date and time when the profile was created.
         public let createdAt: Date?
         public let owner: String?
         /// The profile ARN.
@@ -4135,6 +5969,7 @@ extension WellArchitected {
         public let shareInvitationId: String?
         /// The tags assigned to the profile.
         public let tags: [String: String]?
+        /// The date and time when the profile was last updated.
         public let updatedAt: Date?
 
         @inlinable
@@ -4305,6 +6140,7 @@ extension WellArchitected {
     }
 
     public struct ProfileSummary: AWSDecodableShape {
+        /// The date and time when the profile was created.
         public let createdAt: Date?
         public let owner: String?
         /// The profile ARN.
@@ -4315,6 +6151,7 @@ extension WellArchitected {
         public let profileName: String?
         /// The profile version.
         public let profileVersion: String?
+        /// The date and time when the profile was last updated.
         public let updatedAt: Date?
 
         @inlinable
@@ -4340,11 +6177,13 @@ extension WellArchitected {
     }
 
     public struct ProfileTemplate: AWSDecodableShape {
+        /// The date and time when the profile template was created.
         public let createdAt: Date?
         /// The name of the profile template.
         public let templateName: String?
         /// Profile template questions.
         public let templateQuestions: [ProfileTemplateQuestion]?
+        /// The date and time when the profile template was last updated.
         public let updatedAt: Date?
 
         @inlinable
@@ -4413,6 +6252,71 @@ extension WellArchitected {
         }
     }
 
+    public struct Progress: AWSDecodableShape {
+        /// The completion percentage of the generation process (0-100).
+        public let completionPercentage: Double
+        /// The number of generation steps that have been completed.
+        public let stepsCompleted: Int
+        /// The total number of steps in the generation process.
+        public let totalSteps: Int
+
+        @inlinable
+        public init(completionPercentage: Double, stepsCompleted: Int, totalSteps: Int) {
+            self.completionPercentage = completionPercentage
+            self.stepsCompleted = stepsCompleted
+            self.totalSteps = totalSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionPercentage = "completionPercentage"
+            case stepsCompleted = "stepsCompleted"
+            case totalSteps = "totalSteps"
+        }
+    }
+
+    public struct PutAgentRecommendationFeedbackRequest: AWSEncodableShape {
+        /// Optional comments providing additional context about the feedback.
+        public let comments: String?
+        /// Optional category classifying the nature of the feedback.
+        public let feedbackCategory: FeedbackCategory?
+        /// The Amazon Resource Name (ARN) of the recommendation to provide feedback for.
+        public let recommendationArn: String
+        /// The type of feedback being provided.
+        public let type: RecommendationFeedbackType
+
+        @inlinable
+        public init(comments: String? = nil, feedbackCategory: FeedbackCategory? = nil, recommendationArn: String, type: RecommendationFeedbackType) {
+            self.comments = comments
+            self.feedbackCategory = feedbackCategory
+            self.recommendationArn = recommendationArn
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.comments, forKey: .comments)
+            try container.encodeIfPresent(self.feedbackCategory, forKey: .feedbackCategory)
+            request.encodePath(self.recommendationArn, key: "recommendationArn")
+            try container.encode(self.type, forKey: .type)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recommendationArn, name: "recommendationArn", parent: name, max: 2048)
+            try self.validate(self.recommendationArn, name: "recommendationArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-recommendation/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comments = "comments"
+            case feedbackCategory = "feedbackCategory"
+            case type = "type"
+        }
+    }
+
+    public struct PutAgentRecommendationFeedbackResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct QuestionDifference: AWSDecodableShape {
         /// Indicates the type of change to the question.
         public let differenceStatus: DifferenceStatus?
@@ -4453,6 +6357,74 @@ extension WellArchitected {
         }
     }
 
+    public struct RecommendationGoal: AWSDecodableShape {
+        /// The title of the goal associated with the recommendation.
+        public let title: String
+
+        @inlinable
+        public init(title: String) {
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case title = "title"
+        }
+    }
+
+    public struct RemediationStep: AWSDecodableShape {
+        /// The content describing the step, which can include code examples and verification checklists.
+        public let content: String
+        /// An optional short label for the step.
+        public let title: String?
+
+        @inlinable
+        public init(content: String, title: String? = nil) {
+            self.content = content
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case title = "title"
+        }
+    }
+
+    public struct RemediationSummary: AWSDecodableShape {
+        /// A short imperative statement of the recommended action.
+        public let recommendation: String
+        /// High-level steps to implement the fix.
+        public let steps: [String]
+
+        @inlinable
+        public init(recommendation: String, steps: [String]) {
+            self.recommendation = recommendation
+            self.steps = steps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendation = "recommendation"
+            case steps = "steps"
+        }
+    }
+
+    public struct ResourceLink: AWSDecodableShape {
+        /// An optional human-readable title for the link.
+        public let title: String?
+        /// The URL of the external reference.
+        public let url: String
+
+        @inlinable
+        public init(title: String? = nil, url: String) {
+            self.title = title
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case title = "title"
+            case url = "url"
+        }
+    }
+
     public struct ResourceNotFoundException: AWSErrorShape {
         public let message: String?
         public let resourceId: String?
@@ -4489,6 +6461,7 @@ extension WellArchitected {
         public let templateArn: String?
         /// The name of the review template.
         public let templateName: String?
+        /// The date and time when the review template was last updated.
         public let updatedAt: Date?
         /// The latest status of a review template.
         public let updateStatus: ReviewTemplateUpdateStatus?
@@ -4638,6 +6611,7 @@ extension WellArchitected {
         public let pillarReviewSummaries: [ReviewTemplatePillarReviewSummary]?
         /// A count of how many questions are answered and unanswered in the lens review.
         public let questionCounts: [Question: Int]?
+        /// The date and time when the review template lens review was last updated.
         public let updatedAt: Date?
 
         @inlinable
@@ -4701,6 +6675,7 @@ extension WellArchitected {
         public let templateArn: String?
         /// The name of the review template.
         public let templateName: String?
+        /// The date and time when the review template was last updated.
         public let updatedAt: Date?
         /// The latest status of a review template.
         public let updateStatus: ReviewTemplateUpdateStatus?
@@ -4724,6 +6699,59 @@ extension WellArchitected {
             case templateName = "TemplateName"
             case updatedAt = "UpdatedAt"
             case updateStatus = "UpdateStatus"
+        }
+    }
+
+    public struct Roi: AWSDecodableShape {
+        /// A sentence providing context for the estimate.
+        public let detail: String
+        /// A short statistic or key metric. Optional when there is no quantifiable figure.
+        public let estimate: String?
+
+        @inlinable
+        public init(detail: String, estimate: String? = nil) {
+            self.detail = detail
+            self.estimate = estimate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detail = "detail"
+            case estimate = "estimate"
+        }
+    }
+
+    public struct Scope: AWSEncodableShape & AWSDecodableShape {
+        /// Specific goal IDs to focus on during recommendation generation.
+        public let goalIds: [String]?
+        /// Optional per-pillar item filtering configuration.
+        public let items: [PillarItem]?
+        /// The Well-Architected Tool Framework pillars to include in the generation scope.
+        public let pillars: [Pillar]
+
+        @inlinable
+        public init(goalIds: [String]? = nil, items: [PillarItem]? = nil, pillars: [Pillar]) {
+            self.goalIds = goalIds
+            self.items = items
+            self.pillars = pillars
+        }
+
+        public func validate(name: String) throws {
+            try self.goalIds?.forEach {
+                try validate($0, name: "goalIds[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.goalIds, name: "goalIds", parent: name, max: 10)
+            try self.validate(self.goalIds, name: "goalIds", parent: name, min: 1)
+            try self.items?.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
+            try self.validate(self.pillars, name: "pillars", parent: name, max: 5)
+            try self.validate(self.pillars, name: "pillars", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case goalIds = "goalIds"
+            case items = "items"
+            case pillars = "pillars"
         }
     }
 
@@ -4866,6 +6894,117 @@ extension WellArchitected {
         }
     }
 
+    public struct StartAgentRecommendationGenerationRequest: AWSEncodableShape {
+        /// Optional additional context to guide the recommendation generation, such as specific business requirements or constraints.
+        public let additionalContext: AWSDocument?
+        /// An optional name for this generation process to help identify it in lists and logs.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the optimization profile to use for generating recommendations.
+        public let profileArn: String
+        /// Scope configuration to focus the generation on specific pillars or goals.
+        public let scope: Scope
+        /// The types of recommendations to generate.
+        public let types: [RecommendationType]
+
+        @inlinable
+        public init(additionalContext: AWSDocument? = nil, name: String? = nil, profileArn: String, scope: Scope, types: [RecommendationType]) {
+            self.additionalContext = additionalContext
+            self.name = name
+            self.profileArn = profileArn
+            self.scope = scope
+            self.types = types
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalContext, forKey: .additionalContext)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.profileArn, key: "profileArn")
+            try container.encode(self.scope, forKey: .scope)
+            try container.encode(self.types, forKey: .types)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+            try self.scope.validate(name: "\(name).scope")
+            try self.validate(self.types, name: "types", parent: name, max: 1)
+            try self.validate(self.types, name: "types", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalContext = "additionalContext"
+            case name = "name"
+            case scope = "scope"
+            case types = "types"
+        }
+    }
+
+    public struct StartAgentRecommendationGenerationResponse: AWSDecodableShape {
+        /// The timestamp when the generation was started.
+        public let createdAt: Date
+        /// The identifier of the user or system that started this generation.
+        public let createdBy: String
+        /// The estimated time for the generation to complete.
+        public let estimatedCompletionTime: Date?
+        /// The unique identifier of the recommendation generation.
+        public let id: String
+        /// The timestamp when the generation was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this generation.
+        public let lastModifiedBy: String?
+        /// The name of the recommendation generation.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of the profile used for this generation.
+        public let profileArn: String
+        /// The current status of the recommendation generation.
+        public let status: GenerationStatus
+
+        @inlinable
+        public init(createdAt: Date, createdBy: String, estimatedCompletionTime: Date? = nil, id: String, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, name: String? = nil, profileArn: String, status: GenerationStatus) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.estimatedCompletionTime = estimatedCompletionTime
+            self.id = id
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.name = name
+            self.profileArn = profileArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case estimatedCompletionTime = "estimatedCompletionTime"
+            case id = "id"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case name = "name"
+            case profileArn = "profileArn"
+            case status = "status"
+        }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the tag.
+        public let key: String
+        /// The value of the tag.
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
     public struct TagResourceInput: AWSEncodableShape {
         /// The tags for the resource.
         public let tags: [String: String]?
@@ -4888,6 +7027,7 @@ extension WellArchitected {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{N}\\p{Z}_.:/=+@-]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
@@ -4945,8 +7085,42 @@ extension WellArchitected {
         }
     }
 
+    public struct TradeOff: AWSDecodableShape {
+        /// A description of the specific risk and the condition that triggers it.
+        public let description: String
+        /// A specific action to mitigate the trade-off and when to take it.
+        public let mitigation: String
+        /// The pillar that could be negatively impacted.
+        public let pillar: Pillar
+        /// The risk rating for the trade-off.
+        public let risk: RiskRating
+        /// An optional explanation providing additional context for the risk rating.
+        public let riskExplanation: String?
+        /// A short phrase describing what is lost or degraded.
+        public let title: String
+
+        @inlinable
+        public init(description: String, mitigation: String, pillar: Pillar, risk: RiskRating, riskExplanation: String? = nil, title: String) {
+            self.description = description
+            self.mitigation = mitigation
+            self.pillar = pillar
+            self.risk = risk
+            self.riskExplanation = riskExplanation
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case mitigation = "mitigation"
+            case pillar = "pillar"
+            case risk = "risk"
+            case riskExplanation = "riskExplanation"
+            case title = "title"
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
-        /// A list of tag keys. Existing tags of the resource  whose keys are members of this list are removed from the resource.
+        /// A list of tag keys. Existing tags of the resource whose keys are members of this list are removed from the resource.
         public let tagKeys: [String]?
         public let workloadArn: String
 
@@ -4967,6 +7141,7 @@ extension WellArchitected {
             try self.tagKeys?.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{N}\\p{Z}_.:/=+@-]+$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
@@ -4979,8 +7154,319 @@ extension WellArchitected {
         public init() {}
     }
 
+    public struct UpdateAgentContextRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The updated typed content of the context. The structure contains application-specific fields such as account IDs, Regions, services, and resource types.
+        public let content: ContextContent?
+        /// The unique identifier of the context to update.
+        public let id: String
+        /// The Amazon Resource Name (ARN) of the profile containing the context.
+        public let profileArn: String
+        /// The updated title of the context.
+        public let title: String?
+
+        @inlinable
+        public init(clientToken: String? = UpdateAgentContextRequest.idempotencyToken(), content: ContextContent? = nil, id: String, profileArn: String, title: String? = nil) {
+            self.clientToken = clientToken
+            self.content = content
+            self.id = id
+            self.profileArn = profileArn
+            self.title = title
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.content, forKey: .content)
+            request.encodePath(self.id, key: "id")
+            request.encodePath(self.profileArn, key: "profileArn")
+            try container.encodeIfPresent(self.title, forKey: .title)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case content = "content"
+            case title = "title"
+        }
+    }
+
+    public struct UpdateAgentContextResponse: AWSDecodableShape {
+        /// The updated context summary.
+        public let context: ContextSummary
+
+        @inlinable
+        public init(context: ContextSummary) {
+            self.context = context
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "context"
+        }
+    }
+
+    public struct UpdateAgentGoalRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// A description of the goal.
+        public let description: String?
+        /// The unique identifier of the goal to update.
+        public let id: String
+        /// The updated pillars for the goal. Pillars define the optimization focus areas such as cost, performance, resilience, and operational excellence.
+        public let pillars: [Pillar]?
+        /// The Amazon Resource Name (ARN) of the profile containing the goal to update.
+        public let profileArn: String
+        /// The updated title for the goal. Maximum length of 1000 characters.
+        public let title: String?
+
+        @inlinable
+        public init(clientToken: String? = UpdateAgentGoalRequest.idempotencyToken(), description: String? = nil, id: String, pillars: [Pillar]? = nil, profileArn: String, title: String? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.id = id
+            self.pillars = pillars
+            self.profileArn = profileArn
+            self.title = title
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.pillars, forKey: .pillars)
+            request.encodePath(self.profileArn, key: "profileArn")
+            try container.encodeIfPresent(self.title, forKey: .title)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.pillars, name: "pillars", parent: name, max: 5)
+            try self.validate(self.pillars, name: "pillars", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case pillars = "pillars"
+            case title = "title"
+        }
+    }
+
+    public struct UpdateAgentGoalResponse: AWSDecodableShape {
+        /// The updated goal summary.
+        public let goal: GoalSummary
+
+        @inlinable
+        public init(goal: GoalSummary) {
+            self.goal = goal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case goal = "goal"
+        }
+    }
+
+    public struct UpdateAgentProfileRequest: AWSEncodableShape {
+        /// The updated aggregation configuration.
+        public let aggregationConfiguration: [AggregationConfiguration]?
+        /// The updated business overview for the profile.
+        public let businessOverview: String?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Indicates whether deletion protection is enabled for the profile.
+        public let deletionProtection: Bool?
+        /// The updated description of the profile.
+        public let description: String?
+        /// The updated display name of the profile.
+        public let displayName: String?
+        /// The updated ARN of the IAM execution role.
+        public let executionRoleArn: String?
+        /// The updated Well-Architected Tool Framework pillars for the profile.
+        public let pillars: [Pillar]?
+        /// The Amazon Resource Name (ARN) of the profile to update.
+        public let profileArn: String
+
+        @inlinable
+        public init(aggregationConfiguration: [AggregationConfiguration]? = nil, businessOverview: String? = nil, clientToken: String? = UpdateAgentProfileRequest.idempotencyToken(), deletionProtection: Bool? = nil, description: String? = nil, displayName: String? = nil, executionRoleArn: String? = nil, pillars: [Pillar]? = nil, profileArn: String) {
+            self.aggregationConfiguration = aggregationConfiguration
+            self.businessOverview = businessOverview
+            self.clientToken = clientToken
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.displayName = displayName
+            self.executionRoleArn = executionRoleArn
+            self.pillars = pillars
+            self.profileArn = profileArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.aggregationConfiguration, forKey: .aggregationConfiguration)
+            try container.encodeIfPresent(self.businessOverview, forKey: .businessOverview)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.deletionProtection, forKey: .deletionProtection)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            try container.encodeIfPresent(self.executionRoleArn, forKey: .executionRoleArn)
+            try container.encodeIfPresent(self.pillars, forKey: .pillars)
+            request.encodePath(self.profileArn, key: "profileArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregationConfiguration?.forEach {
+                try $0.validate(name: "\(name).aggregationConfiguration[]")
+            }
+            try self.validate(self.aggregationConfiguration, name: "aggregationConfiguration", parent: name, max: 100)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:([a-z\\-]+):iam::\\d{12}:role/(service-role/)?[a-zA-Z0-9+=,.@\\-_]+$")
+            try self.validate(self.pillars, name: "pillars", parent: name, max: 5)
+            try self.validate(self.pillars, name: "pillars", parent: name, min: 1)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2048)
+            try self.validate(self.profileArn, name: "profileArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-profile/([a-zA-Z0-9_-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationConfiguration = "aggregationConfiguration"
+            case businessOverview = "businessOverview"
+            case clientToken = "clientToken"
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case displayName = "displayName"
+            case executionRoleArn = "executionRoleArn"
+            case pillars = "pillars"
+        }
+    }
+
+    public struct UpdateAgentProfileResponse: AWSDecodableShape {
+        /// The aggregation configuration.
+        public let aggregationConfiguration: [AggregationConfiguration]
+        /// The Amazon Resource Name (ARN) of the updated profile.
+        public let arn: String
+        /// The business overview of the updated profile.
+        public let businessOverview: String?
+        /// The timestamp when the profile was created.
+        public let createdAt: Date
+        /// The identifier of the user or system that created this profile.
+        public let createdBy: String
+        /// Indicates whether deletion protection is enabled.
+        public let deletionProtection: Bool?
+        /// A description of the updated profile.
+        public let description: String?
+        /// The display name of the updated profile.
+        public let displayName: String?
+        /// Indicates whether the profile is valid for manual architecture generation.
+        public let eligibleForArchitectureGeneration: Bool?
+        /// Indicates whether the profile is valid for scheduled recommendation generation.
+        public let eligibleForScheduledGeneration: Bool?
+        /// The ARN of the IAM execution role.
+        public let executionRoleArn: String
+        /// A map of field paths to error messages for invalid or missing input fields.
+        public let fieldErrors: [String: String]?
+        /// The timestamp when the profile was last modified.
+        public let lastModifiedAt: Date?
+        /// The identifier of the user or system that last modified this profile.
+        public let lastModifiedBy: String?
+        /// The system name of the updated profile.
+        public let name: String
+        /// The Well-Architected Tool Framework pillars associated with the updated profile.
+        public let pillars: [Pillar]
+        /// The tags associated with the updated profile.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(aggregationConfiguration: [AggregationConfiguration], arn: String, businessOverview: String? = nil, createdAt: Date, createdBy: String, deletionProtection: Bool? = nil, description: String? = nil, displayName: String? = nil, eligibleForArchitectureGeneration: Bool? = nil, eligibleForScheduledGeneration: Bool? = nil, executionRoleArn: String, fieldErrors: [String: String]? = nil, lastModifiedAt: Date? = nil, lastModifiedBy: String? = nil, name: String, pillars: [Pillar], tags: [Tag]? = nil) {
+            self.aggregationConfiguration = aggregationConfiguration
+            self.arn = arn
+            self.businessOverview = businessOverview
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.displayName = displayName
+            self.eligibleForArchitectureGeneration = eligibleForArchitectureGeneration
+            self.eligibleForScheduledGeneration = eligibleForScheduledGeneration
+            self.executionRoleArn = executionRoleArn
+            self.fieldErrors = fieldErrors
+            self.lastModifiedAt = lastModifiedAt
+            self.lastModifiedBy = lastModifiedBy
+            self.name = name
+            self.pillars = pillars
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationConfiguration = "aggregationConfiguration"
+            case arn = "arn"
+            case businessOverview = "businessOverview"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case deletionProtection = "deletionProtection"
+            case description = "description"
+            case displayName = "displayName"
+            case eligibleForArchitectureGeneration = "eligibleForArchitectureGeneration"
+            case eligibleForScheduledGeneration = "eligibleForScheduledGeneration"
+            case executionRoleArn = "executionRoleArn"
+            case fieldErrors = "fieldErrors"
+            case lastModifiedAt = "lastModifiedAt"
+            case lastModifiedBy = "lastModifiedBy"
+            case name = "name"
+            case pillars = "pillars"
+            case tags = "tags"
+        }
+    }
+
+    public struct UpdateAgentRecommendationStatusRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the recommendation to update.
+        public let recommendationArn: String
+        /// The new status to assign to the recommendation.
+        public let status: RecommendationStatus
+        /// A free-text reason explaining this status update.
+        public let updateReason: String?
+
+        @inlinable
+        public init(recommendationArn: String, status: RecommendationStatus, updateReason: String? = nil) {
+            self.recommendationArn = recommendationArn
+            self.status = status
+            self.updateReason = updateReason
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.recommendationArn, key: "recommendationArn")
+            try container.encode(self.status, forKey: .status)
+            try container.encodeIfPresent(self.updateReason, forKey: .updateReason)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recommendationArn, name: "recommendationArn", parent: name, max: 2048)
+            try self.validate(self.recommendationArn, name: "recommendationArn", parent: name, pattern: "^arn:aws([a-z0-9-]+)?:wellarchitected:[a-z0-9-]{6,64}:\\d{12}:agent-recommendation/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case updateReason = "updateReason"
+        }
+    }
+
+    public struct UpdateAgentRecommendationStatusResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateAnswerInput: AWSEncodableShape {
-        /// A list of choices to update on a question in your workload.  The String key  corresponds to the choice ID to be updated.
+        /// A list of choices to update on a question in your workload. The String key corresponds to the choice ID to be updated.
         public let choiceUpdates: [String: ChoiceUpdate]?
         public let isApplicable: Bool?
         public let lensAlias: String
@@ -5118,6 +7604,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.workloadId, name: "workloadId", parent: name, max: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, min: 32)
             try self.validate(self.workloadId, name: "workloadId", parent: name, pattern: "^[0-9a-f]{32}$")
@@ -5739,6 +8226,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
@@ -5781,6 +8269,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)
             try self.validate(self.profileArn, name: "profileArn", parent: name, max: 2084)
@@ -5820,6 +8309,7 @@ extension WellArchitected {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 2048)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[\\x00-\\x7F]*$")
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.templateArn, name: "templateArn", parent: name, max: 250)
@@ -5907,12 +8397,14 @@ extension WellArchitected {
         /// Profile associated with a workload.
         public let profiles: [WorkloadProfile]?
         public let reviewOwner: String?
+        /// The review restriction date for the workload.
         public let reviewRestrictionDate: Date?
         public let riskCounts: [Risk: Int]?
         /// The ID assigned to the share invitation.
         public let shareInvitationId: String?
         /// The tags associated with the workload.
         public let tags: [String: String]?
+        /// The date and time when the workload was last updated.
         public let updatedAt: Date?
         public let workloadArn: String?
         public let workloadId: String?
@@ -6137,6 +8629,7 @@ extension WellArchitected {
         /// Profile associated with a workload.
         public let profiles: [WorkloadProfile]?
         public let riskCounts: [Risk: Int]?
+        /// The date and time when the workload was last updated.
         public let updatedAt: Date?
         public let workloadArn: String?
         public let workloadId: String?

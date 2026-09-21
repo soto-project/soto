@@ -256,17 +256,35 @@ extension Transcribe {
 
     public enum PiiEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case address = "ADDRESS"
+        case age = "AGE"
         case all = "ALL"
+        case awsAccessKey = "AWS_ACCESS_KEY"
+        case awsSecretKey = "AWS_SECRET_KEY"
         case bankAccountNumber = "BANK_ACCOUNT_NUMBER"
         case bankRouting = "BANK_ROUTING"
+        case caHealthNumber = "CA_HEALTH_NUMBER"
+        case caSocialInsuranceNumber = "CA_SOCIAL_INSURANCE_NUMBER"
         case creditDebitCvv = "CREDIT_DEBIT_CVV"
         case creditDebitExpiry = "CREDIT_DEBIT_EXPIRY"
         case creditDebitNumber = "CREDIT_DEBIT_NUMBER"
+        case dateTime = "DATE_TIME"
+        case driverId = "DRIVER_ID"
         case email = "EMAIL"
+        case internationalBankAccountNumber = "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+        case ipAddress = "IP_ADDRESS"
+        case licensePlate = "LICENSE_PLATE"
+        case macAddress = "MAC_ADDRESS"
         case name = "NAME"
+        case passportNumber = "PASSPORT_NUMBER"
+        case password = "PASSWORD"
         case phone = "PHONE"
         case pin = "PIN"
         case ssn = "SSN"
+        case swiftCode = "SWIFT_CODE"
+        case url = "URL"
+        case usIndividualTaxIdentificationNumber = "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+        case username = "USERNAME"
+        case vehicleIdentificationNumber = "VEHICLE_IDENTIFICATION_NUMBER"
         public var description: String { return self.rawValue }
     }
 
@@ -757,7 +775,7 @@ extension Transcribe {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, max: 11)
+            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, max: 29)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -834,6 +852,8 @@ extension Transcribe {
     public struct CreateLanguageModelRequest: AWSEncodableShape {
         /// The Amazon Transcribe standard language model, or base model, used to create your custom language model. Amazon Transcribe offers two options for base models: Wideband and Narrowband. If the audio you want to transcribe has a sample rate of 16,000 Hz or greater, choose WideBand. To transcribe audio with a sample rate less than 16,000 Hz, choose NarrowBand.
         public let baseModelName: BaseModelName
+        /// Specifies the encryption configuration for your custom language model. Your model artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// Contains the Amazon S3 location of the training data you want to use to create a new custom language model, and permissions to access this location. When using InputDataConfig, you must include these sub-parameters: S3Uri, which is the Amazon S3 location of your training data, and DataAccessRoleArn, which is the Amazon Resource Name (ARN) of the role that has permission to access your specified Amazon S3 location. You can optionally include TuningDataS3Uri, which is the Amazon S3 location of your tuning data. If you specify different Amazon S3 locations for training and tuning data, the ARN you use must have permissions to access both locations.
         public let inputDataConfig: InputDataConfig
         /// The language code that represents the language of your model. Each custom language model must contain terms in only one language, and the language you select for your custom language model must match the language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the Supported languages table. Note that US English (en-US) is the  only language supported with Amazon Transcribe Medical. A custom language model can only be used to transcribe files in the same language as the model. For example, if you create a custom language model using US English (en-US), you can only apply this model to files that contain English audio.
@@ -844,8 +864,9 @@ extension Transcribe {
         public let tags: [Tag]?
 
         @inlinable
-        public init(baseModelName: BaseModelName, inputDataConfig: InputDataConfig, languageCode: CLMLanguageCode, modelName: String, tags: [Tag]? = nil) {
+        public init(baseModelName: BaseModelName, encryptionConfiguration: EncryptionConfiguration? = nil, inputDataConfig: InputDataConfig, languageCode: CLMLanguageCode, modelName: String, tags: [Tag]? = nil) {
             self.baseModelName = baseModelName
+            self.encryptionConfiguration = encryptionConfiguration
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
             self.modelName = modelName
@@ -856,6 +877,7 @@ extension Transcribe {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.baseModelName, forKey: .baseModelName)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
             try container.encode(self.inputDataConfig, forKey: .inputDataConfig)
             try container.encode(self.languageCode, forKey: .languageCode)
             request.encodePath(self.modelName, key: "ModelName")
@@ -863,6 +885,7 @@ extension Transcribe {
         }
 
         public func validate(name: String) throws {
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
             try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
@@ -876,6 +899,7 @@ extension Transcribe {
 
         private enum CodingKeys: String, CodingKey {
             case baseModelName = "BaseModelName"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case inputDataConfig = "InputDataConfig"
             case languageCode = "LanguageCode"
             case tags = "Tags"
@@ -991,8 +1015,10 @@ extension Transcribe {
     }
 
     public struct CreateVocabularyFilterRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
         public let dataAccessRoleArn: String?
+        /// Specifies the encryption configuration for your custom vocabulary filter. Your vocabulary filter artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The language code that represents the language of the entries in your vocabulary filter. Each custom vocabulary filter must contain terms in only one language. A custom vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a custom vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table.
         public let languageCode: LanguageCode
         /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom vocabulary filter at the time you create this new vocabulary filter. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
@@ -1005,8 +1031,9 @@ extension Transcribe {
         public let words: [String]?
 
         @inlinable
-        public init(dataAccessRoleArn: String? = nil, languageCode: LanguageCode, tags: [Tag]? = nil, vocabularyFilterFileUri: String? = nil, vocabularyFilterName: String, words: [String]? = nil) {
+        public init(dataAccessRoleArn: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, languageCode: LanguageCode, tags: [Tag]? = nil, vocabularyFilterFileUri: String? = nil, vocabularyFilterName: String, words: [String]? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
+            self.encryptionConfiguration = encryptionConfiguration
             self.languageCode = languageCode
             self.tags = tags
             self.vocabularyFilterFileUri = vocabularyFilterFileUri
@@ -1018,6 +1045,7 @@ extension Transcribe {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
             try container.encode(self.languageCode, forKey: .languageCode)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encodeIfPresent(self.vocabularyFilterFileUri, forKey: .vocabularyFilterFileUri)
@@ -1029,6 +1057,7 @@ extension Transcribe {
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1049,6 +1078,7 @@ extension Transcribe {
 
         private enum CodingKeys: String, CodingKey {
             case dataAccessRoleArn = "DataAccessRoleArn"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case languageCode = "LanguageCode"
             case tags = "Tags"
             case vocabularyFilterFileUri = "VocabularyFilterFileUri"
@@ -1079,8 +1109,10 @@ extension Transcribe {
     }
 
     public struct CreateVocabularyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
         public let dataAccessRoleArn: String?
+        /// Specifies the encryption configuration for your custom vocabulary. Your vocabulary artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The language code that represents the language of the entries in your custom vocabulary. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table.
         public let languageCode: LanguageCode
         /// Use this parameter if you want to create your custom vocabulary by including all desired terms, as comma-separated values, within your request. The other option for creating your custom vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri parameter. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language.
@@ -1093,8 +1125,9 @@ extension Transcribe {
         public let vocabularyName: String
 
         @inlinable
-        public init(dataAccessRoleArn: String? = nil, languageCode: LanguageCode, phrases: [String]? = nil, tags: [Tag]? = nil, vocabularyFileUri: String? = nil, vocabularyName: String) {
+        public init(dataAccessRoleArn: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, languageCode: LanguageCode, phrases: [String]? = nil, tags: [Tag]? = nil, vocabularyFileUri: String? = nil, vocabularyName: String) {
             self.dataAccessRoleArn = dataAccessRoleArn
+            self.encryptionConfiguration = encryptionConfiguration
             self.languageCode = languageCode
             self.phrases = phrases
             self.tags = tags
@@ -1106,6 +1139,7 @@ extension Transcribe {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
             try container.encode(self.languageCode, forKey: .languageCode)
             try container.encodeIfPresent(self.phrases, forKey: .phrases)
             try container.encodeIfPresent(self.tags, forKey: .tags)
@@ -1117,6 +1151,7 @@ extension Transcribe {
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.phrases?.forEach {
                 try validate($0, name: "phrases[]", parent: name, max: 256)
                 try validate($0, name: "phrases[]", parent: name, pattern: "^.+$")
@@ -1136,6 +1171,7 @@ extension Transcribe {
 
         private enum CodingKeys: String, CodingKey {
             case dataAccessRoleArn = "DataAccessRoleArn"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case languageCode = "LanguageCode"
             case phrases = "Phrases"
             case tags = "Tags"
@@ -1435,6 +1471,40 @@ extension Transcribe {
         }
     }
 
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context.
+        public let kmsEncryptionContext: [String: String]?
+        /// The Amazon Resource Name (ARN) of the KMS key you want to use to encrypt your resource artifacts. Only full KMS key ARN format is supported. KMS key ARNs have the format arn:partition:kms:region:account:key/key-id. For example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab. For more information, see KMS key ARNs.
+        public let kmsKey: String
+
+        @inlinable
+        public init(kmsEncryptionContext: [String: String]? = nil, kmsKey: String) {
+            self.kmsEncryptionContext = kmsEncryptionContext
+            self.kmsKey = kmsKey
+        }
+
+        public func validate(name: String) throws {
+            try self.kmsEncryptionContext?.forEach {
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, max: 2000)
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, min: 1)
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "^[\\x20-\\x7E]+$")
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "^[\\x20-\\x7E]+$")
+            }
+            try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, max: 10)
+            try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsEncryptionContext = "KMSEncryptionContext"
+            case kmsKey = "KMSKey"
+        }
+    }
+
     public struct GetCallAnalyticsCategoryRequest: AWSEncodableShape {
         /// The name of the Call Analytics category you want information about. Category names are case sensitive.
         public let categoryName: String
@@ -1708,8 +1778,12 @@ extension Transcribe {
     }
 
     public struct GetVocabularyFilterResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM role used to access the Amazon S3 bucket that contains your input files and, if applicable, the KMS key specified in EncryptionConfiguration.
+        public let dataAccessRoleArn: String?
         /// The Amazon S3 location where the custom vocabulary filter is stored; use this URI to view or download the custom vocabulary filter.
         public let downloadUri: String?
+        /// The encryption configuration used for your custom vocabulary filter.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The language code you selected for your custom vocabulary filter.
         public let languageCode: LanguageCode?
         /// The date and time the specified custom vocabulary filter was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
@@ -1718,15 +1792,19 @@ extension Transcribe {
         public let vocabularyFilterName: String?
 
         @inlinable
-        public init(downloadUri: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
+        public init(dataAccessRoleArn: String? = nil, downloadUri: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
             self.downloadUri = downloadUri
+            self.encryptionConfiguration = encryptionConfiguration
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
             self.vocabularyFilterName = vocabularyFilterName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
             case downloadUri = "DownloadUri"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case languageCode = "LanguageCode"
             case lastModifiedTime = "LastModifiedTime"
             case vocabularyFilterName = "VocabularyFilterName"
@@ -1758,8 +1836,12 @@ extension Transcribe {
     }
 
     public struct GetVocabularyResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM role used to access the Amazon S3 bucket that contains your input files and, if applicable, the KMS key specified in EncryptionConfiguration.
+        public let dataAccessRoleArn: String?
         /// The Amazon S3 location where the custom vocabulary is stored; use this URI to view or download the custom vocabulary.
         public let downloadUri: String?
+        /// The encryption configuration used for your custom vocabulary.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// If VocabularyState is FAILED, FailureReason contains information about why the custom vocabulary request failed. See also: Common Errors.
         public let failureReason: String?
         /// The language code you selected for your custom vocabulary.
@@ -1772,8 +1854,10 @@ extension Transcribe {
         public let vocabularyState: VocabularyState?
 
         @inlinable
-        public init(downloadUri: String? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
+        public init(dataAccessRoleArn: String? = nil, downloadUri: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
             self.downloadUri = downloadUri
+            self.encryptionConfiguration = encryptionConfiguration
             self.failureReason = failureReason
             self.languageCode = languageCode
             self.lastModifiedTime = lastModifiedTime
@@ -1782,7 +1866,9 @@ extension Transcribe {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
             case downloadUri = "DownloadUri"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case failureReason = "FailureReason"
             case languageCode = "LanguageCode"
             case lastModifiedTime = "LastModifiedTime"
@@ -1943,6 +2029,8 @@ extension Transcribe {
         public let baseModelName: BaseModelName?
         /// The date and time the specified custom language model was created. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7 on May 4, 2022.
         public let createTime: Date?
+        /// The encryption configuration used for your custom language model.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// If ModelStatus is FAILED, FailureReason contains information about why the custom language model request failed. See also: Common Errors.
         public let failureReason: String?
         /// The Amazon S3 location of the input files used to train and tune your custom language model, in addition to the data access role ARN (Amazon Resource Name) that has permissions to access these data.
@@ -1959,9 +2047,10 @@ extension Transcribe {
         public let upgradeAvailability: Bool?
 
         @inlinable
-        public init(baseModelName: BaseModelName? = nil, createTime: Date? = nil, failureReason: String? = nil, inputDataConfig: InputDataConfig? = nil, languageCode: CLMLanguageCode? = nil, lastModifiedTime: Date? = nil, modelName: String? = nil, modelStatus: ModelStatus? = nil, upgradeAvailability: Bool? = nil) {
+        public init(baseModelName: BaseModelName? = nil, createTime: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, failureReason: String? = nil, inputDataConfig: InputDataConfig? = nil, languageCode: CLMLanguageCode? = nil, lastModifiedTime: Date? = nil, modelName: String? = nil, modelStatus: ModelStatus? = nil, upgradeAvailability: Bool? = nil) {
             self.baseModelName = baseModelName
             self.createTime = createTime
+            self.encryptionConfiguration = encryptionConfiguration
             self.failureReason = failureReason
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
@@ -1974,6 +2063,7 @@ extension Transcribe {
         private enum CodingKeys: String, CodingKey {
             case baseModelName = "BaseModelName"
             case createTime = "CreateTime"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case failureReason = "FailureReason"
             case inputDataConfig = "InputDataConfig"
             case languageCode = "LanguageCode"
@@ -3334,10 +3424,10 @@ extension Transcribe {
             try self.kmsEncryptionContext?.forEach {
                 try validate($0.key, name: "kmsEncryptionContext.key", parent: name, max: 2000)
                 try validate($0.key, name: "kmsEncryptionContext.key", parent: name, min: 1)
-                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "\\S")
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "^[\\x20-\\x7E]+$")
                 try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
                 try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "\\S")
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "^[\\x20-\\x7E]+$")
             }
             try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, max: 10)
             try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, min: 1)
@@ -3456,10 +3546,10 @@ extension Transcribe {
             try self.kmsEncryptionContext?.forEach {
                 try validate($0.key, name: "kmsEncryptionContext.key", parent: name, max: 2000)
                 try validate($0.key, name: "kmsEncryptionContext.key", parent: name, min: 1)
-                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "\\S")
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "^[\\x20-\\x7E]+$")
                 try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
                 try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "\\S")
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "^[\\x20-\\x7E]+$")
             }
             try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, max: 10)
             try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, min: 1)
@@ -3615,10 +3705,10 @@ extension Transcribe {
             try self.kmsEncryptionContext?.forEach {
                 try validate($0.key, name: "kmsEncryptionContext.key", parent: name, max: 2000)
                 try validate($0.key, name: "kmsEncryptionContext.key", parent: name, min: 1)
-                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "\\S")
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "^[\\x20-\\x7E]+$")
                 try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
                 try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "\\S")
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "^[\\x20-\\x7E]+$")
             }
             try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, max: 10)
             try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, min: 1)
@@ -4167,6 +4257,67 @@ extension Transcribe {
         }
     }
 
+    public struct UpdateLanguageModelRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of an IAM role. If you include EncryptionConfiguration in your request, this role must have permissions to access the specified KMS key. If the role that you specify doesn't have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+        public let dataAccessRoleArn: String?
+        /// Specifies the new encryption configuration for your custom language model. The model artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The name of the custom language model you want to update. Model names are case sensitive.
+        public let modelName: String
+
+        @inlinable
+        public init(dataAccessRoleArn: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, modelName: String) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.encryptionConfiguration = encryptionConfiguration
+            self.modelName = modelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
+            request.encodePath(self.modelName, key: "ModelName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 200)
+            try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case encryptionConfiguration = "EncryptionConfiguration"
+        }
+    }
+
+    public struct UpdateLanguageModelResponse: AWSDecodableShape {
+        /// The date and time the specified custom language model was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the custom language model that was updated.
+        public let modelName: String?
+        /// The status of the specified custom language model.
+        public let modelStatus: ModelStatus?
+
+        @inlinable
+        public init(lastModifiedTime: Date? = nil, modelName: String? = nil, modelStatus: ModelStatus? = nil) {
+            self.lastModifiedTime = lastModifiedTime
+            self.modelName = modelName
+            self.modelStatus = modelStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedTime = "LastModifiedTime"
+            case modelName = "ModelName"
+            case modelStatus = "ModelStatus"
+        }
+    }
+
     public struct UpdateMedicalVocabularyRequest: AWSEncodableShape {
         /// The language code that represents the language of the entries in the custom vocabulary you want to update. US English (en-US) is the only language supported with Amazon Transcribe Medical.
         public let languageCode: LanguageCode
@@ -4232,8 +4383,10 @@ extension Transcribe {
     }
 
     public struct UpdateVocabularyFilterRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
         public let dataAccessRoleArn: String?
+        /// Specifies the new encryption configuration for your custom vocabulary filter. The vocabulary filter artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The Amazon S3 location of the text file that contains your custom vocabulary filter terms. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt  Note that if you include VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the other.
         public let vocabularyFilterFileUri: String?
         /// The name of the custom vocabulary filter you want to update. Custom vocabulary filter names are case sensitive.
@@ -4242,8 +4395,9 @@ extension Transcribe {
         public let words: [String]?
 
         @inlinable
-        public init(dataAccessRoleArn: String? = nil, vocabularyFilterFileUri: String? = nil, vocabularyFilterName: String, words: [String]? = nil) {
+        public init(dataAccessRoleArn: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, vocabularyFilterFileUri: String? = nil, vocabularyFilterName: String, words: [String]? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
+            self.encryptionConfiguration = encryptionConfiguration
             self.vocabularyFilterFileUri = vocabularyFilterFileUri
             self.vocabularyFilterName = vocabularyFilterName
             self.words = words
@@ -4253,6 +4407,7 @@ extension Transcribe {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
             try container.encodeIfPresent(self.vocabularyFilterFileUri, forKey: .vocabularyFilterFileUri)
             request.encodePath(self.vocabularyFilterName, key: "VocabularyFilterName")
             try container.encodeIfPresent(self.words, forKey: .words)
@@ -4262,6 +4417,7 @@ extension Transcribe {
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.vocabularyFilterFileUri, name: "vocabularyFilterFileUri", parent: name, max: 2000)
             try self.validate(self.vocabularyFilterFileUri, name: "vocabularyFilterFileUri", parent: name, min: 1)
             try self.validate(self.vocabularyFilterFileUri, name: "vocabularyFilterFileUri", parent: name, pattern: "^(s3://|http(s*)://).+$")
@@ -4277,6 +4433,7 @@ extension Transcribe {
 
         private enum CodingKeys: String, CodingKey {
             case dataAccessRoleArn = "DataAccessRoleArn"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case vocabularyFilterFileUri = "VocabularyFilterFileUri"
             case words = "Words"
         }
@@ -4305,8 +4462,10 @@ extension Transcribe {
     }
 
     public struct UpdateVocabularyRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
         public let dataAccessRoleArn: String?
+        /// Specifies the new encryption configuration for your custom vocabulary. The vocabulary artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The language code that represents the language of the entries in the custom vocabulary you want to update. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table.
         public let languageCode: LanguageCode
         /// Use this parameter if you want to update your custom vocabulary by including all desired terms, as comma-separated values, within your request. The other option for updating your custom vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri parameter. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language.
@@ -4317,8 +4476,9 @@ extension Transcribe {
         public let vocabularyName: String
 
         @inlinable
-        public init(dataAccessRoleArn: String? = nil, languageCode: LanguageCode, phrases: [String]? = nil, vocabularyFileUri: String? = nil, vocabularyName: String) {
+        public init(dataAccessRoleArn: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, languageCode: LanguageCode, phrases: [String]? = nil, vocabularyFileUri: String? = nil, vocabularyName: String) {
             self.dataAccessRoleArn = dataAccessRoleArn
+            self.encryptionConfiguration = encryptionConfiguration
             self.languageCode = languageCode
             self.phrases = phrases
             self.vocabularyFileUri = vocabularyFileUri
@@ -4329,6 +4489,7 @@ extension Transcribe {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
             try container.encode(self.languageCode, forKey: .languageCode)
             try container.encodeIfPresent(self.phrases, forKey: .phrases)
             try container.encodeIfPresent(self.vocabularyFileUri, forKey: .vocabularyFileUri)
@@ -4339,6 +4500,7 @@ extension Transcribe {
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.phrases?.forEach {
                 try validate($0, name: "phrases[]", parent: name, max: 256)
                 try validate($0, name: "phrases[]", parent: name, pattern: "^.+$")
@@ -4353,6 +4515,7 @@ extension Transcribe {
 
         private enum CodingKeys: String, CodingKey {
             case dataAccessRoleArn = "DataAccessRoleArn"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case languageCode = "LanguageCode"
             case phrases = "Phrases"
             case vocabularyFileUri = "VocabularyFileUri"

@@ -573,6 +573,60 @@ extension SageMakerFeatureStoreRuntime {
             case value = "Value"
         }
     }
+
+    public struct UpdateRecordRequest: AWSEncodableShape {
+        /// The identifier for the feature group that contains the record to update. You can specify one of the following:   The feature group name.   The feature group Amazon Resource Name (ARN).
+        public let featureGroupName: String
+        /// The feature values to write to the record.
+        public let features: [FeatureValue]?
+        /// The value that uniquely identifies the record in the feature group. This must match the value defined by the feature group's record identifier feature.
+        public let recordIdentifierValueAsString: String?
+        /// The target stores for the record update. By default, Amazon SageMaker Feature Store updates the record in all stores associated with the FeatureGroup.
+        public let targetStores: [TargetStore]?
+        /// The time-to-live (TTL) duration for the record. Amazon SageMaker Feature Store deletes the record when EventTime + TtlDuration elapses. If you omit this parameter, the record's existing TTL setting remains unchanged. For information about HardDelete, see the DeleteRecord operation in the Amazon SageMaker API Reference.
+        public let ttlDuration: TtlDuration?
+
+        @inlinable
+        public init(featureGroupName: String, features: [FeatureValue]? = nil, recordIdentifierValueAsString: String? = nil, targetStores: [TargetStore]? = nil, ttlDuration: TtlDuration? = nil) {
+            self.featureGroupName = featureGroupName
+            self.features = features
+            self.recordIdentifierValueAsString = recordIdentifierValueAsString
+            self.targetStores = targetStores
+            self.ttlDuration = ttlDuration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.featureGroupName, key: "FeatureGroupName")
+            try container.encodeIfPresent(self.features, forKey: .features)
+            try container.encodeIfPresent(self.recordIdentifierValueAsString, forKey: .recordIdentifierValueAsString)
+            try container.encodeIfPresent(self.targetStores, forKey: .targetStores)
+            try container.encodeIfPresent(self.ttlDuration, forKey: .ttlDuration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, max: 150)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, min: 1)
+            try self.validate(self.featureGroupName, name: "featureGroupName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:feature-group/)?([a-zA-Z0-9]([-_]*[a-zA-Z0-9]){0,63})$")
+            try self.features?.forEach {
+                try $0.validate(name: "\(name).features[]")
+            }
+            try self.validate(self.features, name: "features", parent: name, min: 1)
+            try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, max: 358400)
+            try self.validate(self.recordIdentifierValueAsString, name: "recordIdentifierValueAsString", parent: name, pattern: ".*")
+            try self.validate(self.targetStores, name: "targetStores", parent: name, max: 2)
+            try self.validate(self.targetStores, name: "targetStores", parent: name, min: 1)
+            try self.ttlDuration?.validate(name: "\(name).ttlDuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case features = "Features"
+            case recordIdentifierValueAsString = "RecordIdentifierValueAsString"
+            case targetStores = "TargetStores"
+            case ttlDuration = "TtlDuration"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -581,6 +635,7 @@ extension SageMakerFeatureStoreRuntime {
 public struct SageMakerFeatureStoreRuntimeErrorType: AWSErrorType {
     enum Code: String {
         case accessForbidden = "AccessForbidden"
+        case conflictException = "ConflictException"
         case internalFailure = "InternalFailure"
         case resourceNotFound = "ResourceNotFound"
         case serviceUnavailable = "ServiceUnavailable"
@@ -607,6 +662,8 @@ public struct SageMakerFeatureStoreRuntimeErrorType: AWSErrorType {
 
     /// You do not have permission to perform an action.
     public static var accessForbidden: Self { .init(.accessForbidden) }
+    /// The service rejected the update because the provided EventTime is older than the record's current EventTime. To persist the update, retrieve the record's latest EventTime and resubmit the request with an EventTime that is equal to or newer than the current value.
+    public static var conflictException: Self { .init(.conflictException) }
     /// An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
     public static var internalFailure: Self { .init(.internalFailure) }
     /// A resource that is required to perform an action was not found.

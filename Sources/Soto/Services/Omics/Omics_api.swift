@@ -733,7 +733,7 @@ public struct Omics: AWSService {
         return try await self.createSequenceStore(input, logger: logger)
     }
 
-    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:   HealthOmics variant stores   HealthOmics annotation stores   Private workflows
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing:   HealthOmics variant stores   HealthOmics annotation stores   Private workflows
     @Sendable
     @inlinable
     public func createShare(_ input: CreateShareRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateShareResponse {
@@ -747,7 +747,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an AWS user with a different account than the resource owner). The following resources support cross-account sharing:   HealthOmics variant stores   HealthOmics annotation stores   Private workflows
+    /// Creates a cross-account shared resource. The resource owner makes an offer to share the resource with the principal subscriber (an Amazon Web Services user with a different account than the resource owner). The following resources support cross-account sharing:   HealthOmics variant stores   HealthOmics annotation stores   Private workflows
     ///
     /// Parameters:
     ///   - principalSubscriber: The principal subscriber is the account being offered shared access to the resource.
@@ -1057,7 +1057,7 @@ public struct Omics: AWSService {
         return try await self.deleteAnnotationStoreVersions(input, logger: logger)
     }
 
-    /// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch.  DeleteBatch requires the batch to be in a terminal state: PROCESSED, FAILED, CANCELLED, or RUNS_DELETED. After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch, ListRunsInBatch, DeleteRunBatch, or CancelRunBatch on a deleted batch.
+    /// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch.  DeleteBatch requires the batch to be in a terminal state: PROCESSED, FAILED, CANCELLED, RUNS_DELETE_FAILED, or RUNS_DELETED. After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch, ListRunsInBatch, DeleteRunBatch, or CancelRunBatch on a deleted batch.
     @Sendable
     @inlinable
     public func deleteBatch(_ input: DeleteBatchRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1071,7 +1071,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch.  DeleteBatch requires the batch to be in a terminal state: PROCESSED, FAILED, CANCELLED, or RUNS_DELETED. After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch, ListRunsInBatch, DeleteRunBatch, or CancelRunBatch on a deleted batch.
+    /// Deletes a run batch resource and its associated metadata. This operation does not delete the individual workflow runs. To delete the runs, call DeleteRunBatch before calling DeleteBatch.  DeleteBatch requires the batch to be in a terminal state: PROCESSED, FAILED, CANCELLED, RUNS_DELETE_FAILED, or RUNS_DELETED. After DeleteBatch completes, the batch metadata is no longer accessible. You cannot call GetBatch, ListRunsInBatch, DeleteRunBatch, or CancelRunBatch on a deleted batch.
     ///
     /// Parameters:
     ///   - batchId: The identifier portion of the run batch ARN.
@@ -3391,7 +3391,7 @@ public struct Omics: AWSService {
         return try await self.startAnnotationImportJob(input, logger: logger)
     }
 
-    /// Activates an archived read set and returns its metadata in a JSON formatted output. AWS HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide.
+    /// Activates an archived read set and returns its metadata in a JSON formatted output. Amazon Web Services HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide.
     @Sendable
     @inlinable
     public func startReadSetActivationJob(_ input: StartReadSetActivationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReadSetActivationJobResponse {
@@ -3405,7 +3405,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Activates an archived read set and returns its metadata in a JSON formatted output. AWS HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide.
+    /// Activates an archived read set and returns its metadata in a JSON formatted output. Amazon Web Services HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see Activating read sets in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
     ///   - clientToken: To ensure that jobs don't run multiple times, specify a unique token for each job.
@@ -3576,10 +3576,11 @@ public struct Omics: AWSService {
     ///   - priority: Use the run priority (highest: 1) to establish the order of runs in a run group when you start a run. If multiple runs share the same priority, the run that was initiated first will have the higher priority. Runs that do not belong to a run group can be assigned a priority. The priorities of these runs are ranked among other runs that are not in a run group. For more information, see Run priority in the Amazon Web Services HealthOmics User Guide.
     ///   - requestId: An idempotency token used to dedupe retry requests so that duplicate runs are not created.
     ///   - retentionMode: The retention mode for the run. The default value is RETAIN.  Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, Amazon Web Services HealthOmics automatically removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run retention mode in the Amazon Web Services HealthOmics User Guide.
-    ///   - roleArn: A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ. In this example, the AWS account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ.
+    ///   - roleArn: A service role for the run. The roleArn requires access to Amazon Web Services HealthOmics, S3, Cloudwatch logs, and EC2. An example roleArn is arn:aws:iam::123456789012:role/omics-service-role-serviceRole-W8O1XMPL7QZ. In this example, the Amazon Web Services account ID is 123456789012 and the role name is omics-service-role-serviceRole-W8O1XMPL7QZ.
     ///   - runGroupId: The run's group ID. Use a run group to cap the compute resources (and number of concurrent runs) for the runs that you add to the run group.
     ///   - runId: The ID of a run to duplicate.
     ///   - scratchStorageMode: Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
+    ///   - sessionPolicy: Optional inline policy json for scoping down permissions via a session policy on the IAM role provided in the roleArn parameter.
     ///   - storageCapacity: The STATIC storage capacity (in gibibytes, GiB) for this run. The default run storage capacity is 1200 GiB. If your requested storage capacity is unavailable, the system rounds up the value to the nearest 1200 GiB multiple. If the requested storage capacity is still unavailable, the system rounds up the value to the nearest 2400 GiB multiple. This field is not required if the storage type is DYNAMIC (the system ignores any value that you enter).
     ///   - storageType: The storage type for the run. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. For more information about DYNAMIC and STATIC storage, see Run storage types in the Amazon Web Services HealthOmics User Guide.
     ///   - tags: Tags for the run. You can add up to 50 tags per run. For more information, see Adding a tag in the Amazon Web Services HealthOmics User Guide.
@@ -3606,6 +3607,7 @@ public struct Omics: AWSService {
         runGroupId: String? = nil,
         runId: String? = nil,
         scratchStorageMode: ScratchStorageMode? = nil,
+        sessionPolicy: String? = nil,
         storageCapacity: Int? = nil,
         storageType: StorageType? = nil,
         tags: [String: String]? = nil,
@@ -3632,6 +3634,7 @@ public struct Omics: AWSService {
             runGroupId: runGroupId, 
             runId: runId, 
             scratchStorageMode: scratchStorageMode, 
+            sessionPolicy: sessionPolicy, 
             storageCapacity: storageCapacity, 
             storageType: storageType, 
             tags: tags, 
@@ -3664,7 +3667,7 @@ public struct Omics: AWSService {
     ///   - batchRunSettings: The individual run configurations. Specify exactly one of inlineSettings or s3UriSettings. See BatchRunSettings.
     ///   - defaultRunSetting: Shared configuration applied to all runs in the batch. See DefaultRunSetting.
     ///   - requestId: A client token used to deduplicate retry requests and prevent duplicate batches from being created.
-    ///   - tags: AWS tags to associate with the batch resource. These tags are not inherited by individual runs. To tag individual runs, use defaultRunSetting.runTags.
+    ///   - tags: Amazon Web Services tags to associate with the batch resource. These tags are not inherited by individual runs. To tag individual runs, use defaultRunSetting.runTags.
     ///   - logger: Logger use during operation
     @inlinable
     public func startRunBatch(

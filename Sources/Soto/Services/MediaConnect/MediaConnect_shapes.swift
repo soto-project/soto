@@ -126,6 +126,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum FabricLatencyMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case balanced = "BALANCED"
+        case lowLatency = "LOW_LATENCY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FailoverInputSourcePriorityMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noPriority = "NO_PRIORITY"
         case primarySecondary = "PRIMARY_SECONDARY"
@@ -2645,6 +2651,8 @@ extension MediaConnect {
         public let clientToken: String?
         /// The configuration settings for the router output.
         public let configuration: RouterOutputConfiguration
+        /// The fabric configuration settings for the router output.
+        public let fabricConfiguration: FabricConfiguration?
         /// The maintenance configuration settings for the router output, including preferred maintenance windows and schedules.
         public let maintenanceConfiguration: MaintenanceConfiguration?
         /// The maximum bitrate for the router output.
@@ -2661,10 +2669,11 @@ extension MediaConnect {
         public let tier: RouterOutputTier
 
         @inlinable
-        public init(availabilityZone: String? = nil, clientToken: String? = CreateRouterOutputRequest.idempotencyToken(), configuration: RouterOutputConfiguration, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64, name: String, regionName: String? = nil, routingScope: RoutingScope, tags: [String: String]? = nil, tier: RouterOutputTier) {
+        public init(availabilityZone: String? = nil, clientToken: String? = CreateRouterOutputRequest.idempotencyToken(), configuration: RouterOutputConfiguration, fabricConfiguration: FabricConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64, name: String, regionName: String? = nil, routingScope: RoutingScope, tags: [String: String]? = nil, tier: RouterOutputTier) {
             self.availabilityZone = availabilityZone
             self.clientToken = clientToken
             self.configuration = configuration
+            self.fabricConfiguration = fabricConfiguration
             self.maintenanceConfiguration = maintenanceConfiguration
             self.maximumBitrate = maximumBitrate
             self.name = name
@@ -2684,6 +2693,7 @@ extension MediaConnect {
             case availabilityZone = "availabilityZone"
             case clientToken = "clientToken"
             case configuration = "configuration"
+            case fabricConfiguration = "fabricConfiguration"
             case maintenanceConfiguration = "maintenanceConfiguration"
             case maximumBitrate = "maximumBitrate"
             case name = "name"
@@ -3477,6 +3487,20 @@ extension MediaConnect {
             case entitlementStatus = "entitlementStatus"
             case name = "name"
             case subscribers = "subscribers"
+        }
+    }
+
+    public struct FabricConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The recovery latency mode for the router fabric connection. Valid values include the following:    BALANCED (default) – Optimizes for stream quality.    LOW_LATENCY – Reduces latency at the potential cost of stream quality under adverse network conditions.
+        public let recoveryLatencyMode: FabricLatencyMode
+
+        @inlinable
+        public init(recoveryLatencyMode: FabricLatencyMode) {
+            self.recoveryLatencyMode = recoveryLatencyMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryLatencyMode = "recoveryLatencyMode"
         }
     }
 
@@ -6809,6 +6833,8 @@ extension MediaConnect {
         public let configuration: RouterOutputConfiguration
         /// The timestamp when the router output was created.
         public let createdAt: Date
+        /// The fabric configuration settings for the router output.
+        public let fabricConfiguration: FabricConfiguration?
         /// The unique identifier of the router output.
         public let id: String
         /// The IP address of the router output.
@@ -6848,11 +6874,12 @@ extension MediaConnect {
         public let updatedAt: Date
 
         @inlinable
-        public init(arn: String, availabilityZone: String, configuration: RouterOutputConfiguration, createdAt: Date, id: String, ipAddress: String? = nil, maintenanceConfiguration: MaintenanceConfiguration, maintenanceSchedule: MaintenanceSchedule? = nil, maintenanceScheduleType: MaintenanceScheduleType? = nil, maintenanceType: MaintenanceType, maximumBitrate: Int64, messages: [RouterOutputMessage], name: String, outputType: RouterOutputType, regionName: String, routedInputArn: String? = nil, routedState: RouterOutputRoutedState, routingScope: RoutingScope, state: RouterOutputState, streamDetails: RouterOutputStreamDetails, tags: [String: String], tier: RouterOutputTier, updatedAt: Date) {
+        public init(arn: String, availabilityZone: String, configuration: RouterOutputConfiguration, createdAt: Date, fabricConfiguration: FabricConfiguration? = nil, id: String, ipAddress: String? = nil, maintenanceConfiguration: MaintenanceConfiguration, maintenanceSchedule: MaintenanceSchedule? = nil, maintenanceScheduleType: MaintenanceScheduleType? = nil, maintenanceType: MaintenanceType, maximumBitrate: Int64, messages: [RouterOutputMessage], name: String, outputType: RouterOutputType, regionName: String, routedInputArn: String? = nil, routedState: RouterOutputRoutedState, routingScope: RoutingScope, state: RouterOutputState, streamDetails: RouterOutputStreamDetails, tags: [String: String], tier: RouterOutputTier, updatedAt: Date) {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.configuration = configuration
             self.createdAt = createdAt
+            self.fabricConfiguration = fabricConfiguration
             self.id = id
             self.ipAddress = ipAddress
             self.maintenanceConfiguration = maintenanceConfiguration
@@ -6879,6 +6906,7 @@ extension MediaConnect {
             case availabilityZone = "availabilityZone"
             case configuration = "configuration"
             case createdAt = "createdAt"
+            case fabricConfiguration = "fabricConfiguration"
             case id = "id"
             case ipAddress = "ipAddress"
             case maintenanceConfiguration = "maintenanceConfiguration"
@@ -9187,6 +9215,8 @@ extension MediaConnect {
         public let arn: String
         /// The updated configuration settings for the router output. Changing the type of the configuration is not supported.
         public let configuration: RouterOutputConfiguration?
+        /// The updated fabric configuration settings for the router output. You cannot update the fabric configuration while the output has an active route. You must unroute the output before updating the fabric configuration.
+        public let fabricConfiguration: FabricConfiguration?
         /// The updated maintenance configuration settings for the router output, including any changes to preferred maintenance windows and schedules.
         public let maintenanceConfiguration: MaintenanceConfiguration?
         /// The updated maximum bitrate for the router output.
@@ -9199,9 +9229,10 @@ extension MediaConnect {
         public let tier: RouterOutputTier?
 
         @inlinable
-        public init(arn: String, configuration: RouterOutputConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64? = nil, name: String? = nil, routingScope: RoutingScope? = nil, tier: RouterOutputTier? = nil) {
+        public init(arn: String, configuration: RouterOutputConfiguration? = nil, fabricConfiguration: FabricConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64? = nil, name: String? = nil, routingScope: RoutingScope? = nil, tier: RouterOutputTier? = nil) {
             self.arn = arn
             self.configuration = configuration
+            self.fabricConfiguration = fabricConfiguration
             self.maintenanceConfiguration = maintenanceConfiguration
             self.maximumBitrate = maximumBitrate
             self.name = name
@@ -9214,6 +9245,7 @@ extension MediaConnect {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.arn, key: "Arn")
             try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.fabricConfiguration, forKey: .fabricConfiguration)
             try container.encodeIfPresent(self.maintenanceConfiguration, forKey: .maintenanceConfiguration)
             try container.encodeIfPresent(self.maximumBitrate, forKey: .maximumBitrate)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -9228,6 +9260,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case fabricConfiguration = "fabricConfiguration"
             case maintenanceConfiguration = "maintenanceConfiguration"
             case maximumBitrate = "maximumBitrate"
             case name = "name"

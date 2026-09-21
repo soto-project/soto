@@ -234,6 +234,7 @@ public struct ECS: AWSService {
     ///   - capacityProviderArns: The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon. The daemon deploys tasks on container instances managed by these capacity providers.
     ///   - clientToken: An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
     ///   - clusterArn: The Amazon Resource Name (ARN) of the cluster to create the daemon in.
+    ///   - critical: If the critical parameter of a daemon is true, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false, the daemon task failure doesn't affect the other tasks on the instance. The default value is true. A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
     ///   - daemonName: The name of the daemon. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
     ///   - daemonTaskDefinitionArn: The Amazon Resource Name (ARN) of the daemon task definition to use for the daemon.
     ///   - deploymentConfiguration: Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time.
@@ -247,6 +248,7 @@ public struct ECS: AWSService {
         capacityProviderArns: [String],
         clientToken: String? = nil,
         clusterArn: String? = nil,
+        critical: Bool? = nil,
         daemonName: String,
         daemonTaskDefinitionArn: String,
         deploymentConfiguration: DaemonDeploymentConfiguration? = nil,
@@ -260,6 +262,7 @@ public struct ECS: AWSService {
             capacityProviderArns: capacityProviderArns, 
             clientToken: clientToken, 
             clusterArn: clusterArn, 
+            critical: critical, 
             daemonName: daemonName, 
             daemonTaskDefinitionArn: daemonTaskDefinitionArn, 
             deploymentConfiguration: deploymentConfiguration, 
@@ -289,6 +292,7 @@ public struct ECS: AWSService {
     /// Parameters:
     ///   - cluster: The short name or full Amazon Resource Name (ARN) of the cluster on which to create the Express service. If you do not specify a cluster, the default cluster is assumed.
     ///   - cpu: The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
+    ///   - cpuArchitecture: The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the default is X86_64. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Make sure that the container image that you specify supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
     ///   - healthCheckPath: The path on the container that the Application Load Balancer uses for health checks. This should be a valid HTTP endpoint that returns a successful response (HTTP 200) when the application is healthy. If not specified, the default health check path is /ping. The health check path must start with a forward slash and can include query parameters. Examples: /health, /api/status, /ping?format=json.
     ///   - infrastructureRoleArn: The Amazon Resource Name (ARN) of the infrastructure role that grants Amazon ECS permission to create and manage Amazon Web Services resources on your behalf for the Express service. This role is used to provision and manage Application Load Balancers, target groups, security groups, auto-scaling policies, and other Amazon Web Services infrastructure components. The infrastructure role must include permissions for Elastic Load Balancing, Application Auto Scaling, Amazon EC2 (for security groups), and other services required for managed infrastructure. This role is only used during Express service creation, updates, and deletion operations.
@@ -298,13 +302,14 @@ public struct ECS: AWSService {
     ///   - scalingTarget: The auto-scaling configuration for the Express service. This defines how the service automatically adjusts the number of running tasks based on demand. You can specify the minimum and maximum number of tasks, the scaling metric (CPU utilization, memory utilization, or request count per target), and the target value for the metric. If not specified, the default target value for an Express service is 60.
     ///   - serviceName: The name of the Express service. This name must be unique within the specified cluster and can contain up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens. The name is used to identify the service in the Amazon ECS console and API operations. If you don't specify a service name, Amazon ECS generates a unique name for the service. The service name becomes part of the service ARN and cannot be changed after the service is created.
     ///   - tags: The metadata that you apply to the Express service to help categorize and organize it. Each tag consists of a key and an optional value. You can apply up to 50 tags to a service.
-    ///   - taskDefinitionArn: The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
+    ///   - taskDefinitionArn: The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, memory, or cpuArchitecture.
     ///   - taskRoleArn: The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. This role allows your application code to access other Amazon Web Services services securely. The task role is different from the execution role. While the execution role is used by the Amazon ECS agent to set up the task, the task role is used by your application code running inside the container to make Amazon Web Services API calls. If your application doesn't need to access Amazon Web Services services, you can omit this parameter.
     ///   - logger: Logger use during operation
     @inlinable
     public func createExpressGatewayService(
         cluster: String? = nil,
         cpu: String? = nil,
+        cpuArchitecture: ExpressCpuArchitecture? = nil,
         executionRoleArn: String? = nil,
         healthCheckPath: String? = nil,
         infrastructureRoleArn: String,
@@ -321,6 +326,7 @@ public struct ECS: AWSService {
         let input = CreateExpressGatewayServiceRequest(
             cluster: cluster, 
             cpu: cpu, 
+            cpuArchitecture: cpuArchitecture, 
             executionRoleArn: executionRoleArn, 
             healthCheckPath: healthCheckPath, 
             infrastructureRoleArn: infrastructureRoleArn, 
@@ -2948,6 +2954,7 @@ public struct ECS: AWSService {
     ///
     /// Parameters:
     ///   - capacityProviderArns: The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon.
+    ///   - critical: If the critical parameter of a daemon is true, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false, the daemon task failure doesn't affect the other tasks on the instance. The default value is true. A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
     ///   - daemonArn: The Amazon Resource Name (ARN) of the daemon to update.
     ///   - daemonTaskDefinitionArn: The Amazon Resource Name (ARN) of the daemon task definition to use for the updated daemon.
     ///   - deploymentConfiguration: Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time.
@@ -2958,6 +2965,7 @@ public struct ECS: AWSService {
     @inlinable
     public func updateDaemon(
         capacityProviderArns: [String],
+        critical: Bool? = nil,
         daemonArn: String,
         daemonTaskDefinitionArn: String,
         deploymentConfiguration: DaemonDeploymentConfiguration? = nil,
@@ -2968,6 +2976,7 @@ public struct ECS: AWSService {
     ) async throws -> UpdateDaemonResponse {
         let input = UpdateDaemonRequest(
             capacityProviderArns: capacityProviderArns, 
+            critical: critical, 
             daemonArn: daemonArn, 
             daemonTaskDefinitionArn: daemonTaskDefinitionArn, 
             deploymentConfiguration: deploymentConfiguration, 
@@ -2995,6 +3004,7 @@ public struct ECS: AWSService {
     ///
     /// Parameters:
     ///   - cpu: The number of CPU units used by the task.
+    ///   - cpuArchitecture: The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the service keeps the architecture that it currently runs on. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Changing the architecture starts a new deployment that replaces the running tasks. Make sure that the container image that the service uses supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the task execution role for the Express service.
     ///   - healthCheckPath: The path on the container for Application Load Balancer health checks.
     ///   - memory: The amount of memory (in MiB) used by the task.
@@ -3002,12 +3012,13 @@ public struct ECS: AWSService {
     ///   - primaryContainer: The primary container configuration for the Express service.
     ///   - scalingTarget: The auto-scaling configuration for the Express service.
     ///   - serviceArn: The Amazon Resource Name (ARN) of the Express service to update.
-    ///   - taskDefinitionArn: The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
+    ///   - taskDefinitionArn: The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, memory, or cpuArchitecture.
     ///   - taskRoleArn: The Amazon Resource Name (ARN) of the IAM role for containers in this task.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateExpressGatewayService(
         cpu: String? = nil,
+        cpuArchitecture: ExpressCpuArchitecture? = nil,
         executionRoleArn: String? = nil,
         healthCheckPath: String? = nil,
         memory: String? = nil,
@@ -3021,6 +3032,7 @@ public struct ECS: AWSService {
     ) async throws -> UpdateExpressGatewayServiceResponse {
         let input = UpdateExpressGatewayServiceRequest(
             cpu: cpu, 
+            cpuArchitecture: cpuArchitecture, 
             executionRoleArn: executionRoleArn, 
             healthCheckPath: healthCheckPath, 
             memory: memory, 

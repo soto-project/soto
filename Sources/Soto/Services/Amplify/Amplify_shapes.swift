@@ -656,7 +656,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 255)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
             try self.validate(self.accessToken, name: "accessToken", parent: name, min: 1)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^(?s).+$")
             try self.autoBranchCreationConfig?.validate(name: "\(name).autoBranchCreationConfig")
@@ -690,7 +690,7 @@ extension Amplify {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?s).+$")
-            try self.validate(self.oauthToken, name: "oauthToken", parent: name, max: 1000)
+            try self.validate(self.oauthToken, name: "oauthToken", parent: name, max: 4096)
             try self.validate(self.oauthToken, name: "oauthToken", parent: name, pattern: "^(?s)")
             try self.validate(self.repository, name: "repository", parent: name, max: 1000)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^(?s)")
@@ -2933,7 +2933,7 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 255)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 4096)
             try self.validate(self.accessToken, name: "accessToken", parent: name, min: 1)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^(?s).+$")
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
@@ -2970,7 +2970,7 @@ extension Amplify {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?s).+$")
-            try self.validate(self.oauthToken, name: "oauthToken", parent: name, max: 1000)
+            try self.validate(self.oauthToken, name: "oauthToken", parent: name, max: 4096)
             try self.validate(self.oauthToken, name: "oauthToken", parent: name, pattern: "^(?s)")
             try self.validate(self.repository, name: "repository", parent: name, max: 1000)
             try self.validate(self.repository, name: "repository", parent: name, pattern: "^(?s)")

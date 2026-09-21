@@ -185,6 +185,17 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case friday = "FRIDAY"
+        case monday = "MONDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        case thursday = "THURSDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DocumentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleteInProgress = "DELETE_IN_PROGRESS"
         case deleting = "DELETING"
@@ -439,6 +450,7 @@ extension BedrockAgent {
     public enum ParsingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bedrockDataAutomation = "BEDROCK_DATA_AUTOMATION"
         case bedrockFoundationModel = "BEDROCK_FOUNDATION_MODEL"
+        case multiModalEmbeddings = "MULTI_MODAL_EMBEDDINGS"
         case smartParsing = "SMART_PARSING"
         public var description: String { return self.rawValue }
     }
@@ -714,6 +726,57 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case cachePoint = "cachePoint"
             case text = "text"
+        }
+    }
+
+    public enum DayOfMonth: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A specific day of the month, from 1 to 28. Values are capped at 28, so a monthly sync runs in every month, including February.
+        case dayNumber(Int)
+        /// Set this option to run the monthly sync on the last calendar day of each month.
+        case lastDayOfMonth(LastDayOfMonth)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .dayNumber:
+                let value = try container.decode(Int.self, forKey: .dayNumber)
+                self = .dayNumber(value)
+            case .lastDayOfMonth:
+                let value = try container.decode(LastDayOfMonth.self, forKey: .lastDayOfMonth)
+                self = .lastDayOfMonth(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .dayNumber(let value):
+                try container.encode(value, forKey: .dayNumber)
+            case .lastDayOfMonth(let value):
+                try container.encode(value, forKey: .lastDayOfMonth)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .dayNumber(let value):
+                try self.validate(value, name: "dayNumber", parent: name, max: 28)
+                try self.validate(value, name: "dayNumber", parent: name, min: 1)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayNumber = "dayNumber"
+            case lastDayOfMonth = "lastDayOfMonth"
         }
     }
 
@@ -1315,6 +1378,64 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case fieldsToExclude = "fieldsToExclude"
             case fieldsToInclude = "fieldsToInclude"
+        }
+    }
+
+    public enum SyncSchedule: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A daily sync that runs once a day at a system-chosen off-peak time. The run time is not configurable.
+        case daily(DailySchedule)
+        /// A monthly sync that runs once a month on the specified day of the month.
+        case monthly(MonthlySchedule)
+        /// A weekly sync that runs once a week on the specified day of the week.
+        case weekly(WeeklySchedule)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .daily:
+                let value = try container.decode(DailySchedule.self, forKey: .daily)
+                self = .daily(value)
+            case .monthly:
+                let value = try container.decode(MonthlySchedule.self, forKey: .monthly)
+                self = .monthly(value)
+            case .weekly:
+                let value = try container.decode(WeeklySchedule.self, forKey: .weekly)
+                self = .weekly(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .daily(let value):
+                try container.encode(value, forKey: .daily)
+            case .monthly(let value):
+                try container.encode(value, forKey: .monthly)
+            case .weekly(let value):
+                try container.encode(value, forKey: .weekly)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .monthly(let value):
+                try value.validate(name: "\(name).monthly")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daily = "daily"
+            case monthly = "monthly"
+            case weekly = "weekly"
         }
     }
 
@@ -2416,20 +2537,33 @@ extension BedrockAgent {
     }
 
     public struct BedrockEmbeddingModelConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Configuration settings for processing audio content in multimodal knowledge bases.
+        /// Configuration settings for processing audio content in multimodal knowledge bases.  This field is deprecated. Use modelConfiguration instead.
         public let audio: [AudioConfiguration]?
         /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
         public let dimensions: Int?
         /// The data type for the vectors when using a model to convert text into vector embeddings. The model must support the specified data type for vector embeddings. Floating-point (float32) is the default data type, and is supported by most models for vector embeddings. See Supported embeddings models for information on the available models and their vector data types.
         public let embeddingDataType: EmbeddingDataType?
-        /// Configuration settings for processing video content in multimodal knowledge bases.
+        /// Model-specific configuration for the embedding model, provided as a JSON object. Use this field to specify settings that apply to the embedding model that you selected, such as how audio and video files are divided into segments. The fields that this object accepts depend on the embedding model. For the settings that each model accepts, see the documentation for that model.
+        public let modelConfiguration: AWSDocument?
+        /// Configuration settings for processing video content in multimodal knowledge bases.  This field is deprecated. Use modelConfiguration instead.
         public let video: [VideoConfiguration]?
 
         @inlinable
-        public init(audio: [AudioConfiguration]? = nil, dimensions: Int? = nil, embeddingDataType: EmbeddingDataType? = nil, video: [VideoConfiguration]? = nil) {
+        public init(dimensions: Int? = nil, embeddingDataType: EmbeddingDataType? = nil, modelConfiguration: AWSDocument? = nil) {
+            self.audio = nil
+            self.dimensions = dimensions
+            self.embeddingDataType = embeddingDataType
+            self.modelConfiguration = modelConfiguration
+            self.video = nil
+        }
+
+        @available(*, deprecated, message: "Members audio, video have been deprecated")
+        @inlinable
+        public init(audio: [AudioConfiguration]? = nil, dimensions: Int? = nil, embeddingDataType: EmbeddingDataType? = nil, modelConfiguration: AWSDocument? = nil, video: [VideoConfiguration]? = nil) {
             self.audio = audio
             self.dimensions = dimensions
             self.embeddingDataType = embeddingDataType
+            self.modelConfiguration = modelConfiguration
             self.video = video
         }
 
@@ -2446,6 +2580,7 @@ extension BedrockAgent {
             case audio = "audio"
             case dimensions = "dimensions"
             case embeddingDataType = "embeddingDataType"
+            case modelConfiguration = "modelConfiguration"
             case video = "video"
         }
     }
@@ -3891,6 +4026,10 @@ extension BedrockAgent {
         }
     }
 
+    public struct DailySchedule: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DataSource: AWSDecodableShape {
         /// The time at which the data source was created.
         @CustomCoding<ISO8601DateCoder>
@@ -3980,6 +4119,7 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.confluenceConfiguration?.validate(name: "\(name).confluenceConfiguration")
+            try self.managedKnowledgeBaseConnectorConfiguration?.validate(name: "\(name).managedKnowledgeBaseConnectorConfiguration")
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
             try self.salesforceConfiguration?.validate(name: "\(name).salesforceConfiguration")
             try self.sharePointConfiguration?.validate(name: "\(name).sharePointConfiguration")
@@ -6711,6 +6851,7 @@ extension BedrockAgent {
     public struct KnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Settings for an Amazon Kendra knowledge base.
         public let kendraKnowledgeBaseConfiguration: KendraKnowledgeBaseConfiguration?
+        /// Contains configuration details for a knowledge base that uses a vector store fully managed by Amazon Bedrock. Specify this object when the knowledge base type is MANAGED.
         public let managedKnowledgeBaseConfiguration: ManagedKnowledgeBaseConfiguration?
         /// Specifies configurations for a knowledge base connected to an SQL database.
         public let sqlKnowledgeBaseConfiguration: SqlKnowledgeBaseConfiguration?
@@ -6959,6 +7100,10 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case lambdaArn = "lambdaArn"
         }
+    }
+
+    public struct LastDayOfMonth: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct LexFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -7925,16 +8070,22 @@ extension BedrockAgent {
     public struct ManagedKnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The ARN for the embeddings model.
         public let embeddingModelArn: String?
+        /// The configuration details for the embeddings model. Not required when choosing the MANAGED embeddingModelType.
         public let embeddingModelConfiguration: EmbeddingModelConfiguration?
+        /// Choose CUSTOM to provide your own Bedrock embedding model ARN. Choose MANAGED to use a service-managed embedding model.
         public let embeddingModelType: EmbeddingModelType?
+        /// Contains the configuration for server-side encryption for your managed knowledge base.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
+        /// Use this object to specify the Amazon S3 location that the knowledge base uses to process and ingest multimodal content. This field is required when you use a native multimodal embedding model.
+        public let supplementalDataStorageConfiguration: SupplementalDataStorageConfiguration?
 
         @inlinable
-        public init(embeddingModelArn: String? = nil, embeddingModelConfiguration: EmbeddingModelConfiguration? = nil, embeddingModelType: EmbeddingModelType? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil) {
+        public init(embeddingModelArn: String? = nil, embeddingModelConfiguration: EmbeddingModelConfiguration? = nil, embeddingModelType: EmbeddingModelType? = nil, serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration? = nil, supplementalDataStorageConfiguration: SupplementalDataStorageConfiguration? = nil) {
             self.embeddingModelArn = embeddingModelArn
             self.embeddingModelConfiguration = embeddingModelConfiguration
             self.embeddingModelType = embeddingModelType
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
+            self.supplementalDataStorageConfiguration = supplementalDataStorageConfiguration
         }
 
         public func validate(name: String) throws {
@@ -7943,6 +8094,7 @@ extension BedrockAgent {
             try self.validate(self.embeddingModelArn, name: "embeddingModelArn", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.embeddingModelConfiguration?.validate(name: "\(name).embeddingModelConfiguration")
             try self.serverSideEncryptionConfiguration?.validate(name: "\(name).serverSideEncryptionConfiguration")
+            try self.supplementalDataStorageConfiguration?.validate(name: "\(name).supplementalDataStorageConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7950,6 +8102,7 @@ extension BedrockAgent {
             case embeddingModelConfiguration = "embeddingModelConfiguration"
             case embeddingModelType = "embeddingModelType"
             case serverSideEncryptionConfiguration = "serverSideEncryptionConfiguration"
+            case supplementalDataStorageConfiguration = "supplementalDataStorageConfiguration"
         }
     }
 
@@ -7960,18 +8113,26 @@ extension BedrockAgent {
         public let deletionProtectionConfiguration: DeletionProtectionConfiguration?
         /// Configuration for extracting media (images, audio, video) from data source files.
         public let mediaExtractionConfiguration: MediaExtractionConfiguration?
+        /// The recurring schedule on which the connector automatically syncs this data source. If not specified, the data source is not synced automatically and you start each sync yourself. Not supported for the Custom connector.
+        public let syncSchedule: SyncSchedule?
 
         @inlinable
-        public init(connectorParameters: AWSDocument? = nil, deletionProtectionConfiguration: DeletionProtectionConfiguration? = nil, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil) {
+        public init(connectorParameters: AWSDocument? = nil, deletionProtectionConfiguration: DeletionProtectionConfiguration? = nil, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, syncSchedule: SyncSchedule? = nil) {
             self.connectorParameters = connectorParameters
             self.deletionProtectionConfiguration = deletionProtectionConfiguration
             self.mediaExtractionConfiguration = mediaExtractionConfiguration
+            self.syncSchedule = syncSchedule
+        }
+
+        public func validate(name: String) throws {
+            try self.syncSchedule?.validate(name: "\(name).syncSchedule")
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectorParameters = "connectorParameters"
             case deletionProtectionConfiguration = "deletionProtectionConfiguration"
             case mediaExtractionConfiguration = "mediaExtractionConfiguration"
+            case syncSchedule = "syncSchedule"
         }
     }
 
@@ -8379,6 +8540,24 @@ extension BedrockAgent {
         }
     }
 
+    public struct MonthlySchedule: AWSEncodableShape & AWSDecodableShape {
+        /// The day of the month on which the monthly sync runs.
+        public let dayOfMonth: DayOfMonth
+
+        @inlinable
+        public init(dayOfMonth: DayOfMonth) {
+            self.dayOfMonth = dayOfMonth
+        }
+
+        public func validate(name: String) throws {
+            try self.dayOfMonth.validate(name: "\(name).dayOfMonth")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfMonth = "dayOfMonth"
+        }
+    }
+
     public struct MultipleLoopControllerNodesFlowValidationDetails: AWSDecodableShape {
         /// The DoWhile loop in a flow that contains multiple LoopController nodes.
         public let loopNode: String
@@ -8640,7 +8819,7 @@ extension BedrockAgent {
         public let bedrockDataAutomationConfiguration: BedrockDataAutomationConfiguration?
         /// If you specify BEDROCK_FOUNDATION_MODEL as the parsing strategy for ingesting your data source, use this object to modify configurations for using a foundation model to parse documents.
         public let bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration?
-        /// The parsing strategy for the data source. Only SMART_PARSING can be selected for managed knowledge bases. For more information, see Customize ingestion for managed knowledge bases.
+        /// The parsing strategy for the data source. For managed knowledge bases, the strategy that you can select depends on the embedding model that your knowledge base uses:   If your knowledge base uses a native multimodal embedding model, specify MULTI_MODAL_EMBEDDINGS. With this strategy, files are sent directly to the embedding model instead of being parsed into text. This is the only strategy that is supported for these knowledge bases.   Otherwise, specify SMART_PARSING.   For more information, see Customize ingestion for managed knowledge bases.
         public let parsingStrategy: ParsingStrategy
 
         @inlinable
@@ -10608,7 +10787,7 @@ extension BedrockAgent {
         public let inputSchema: ToolInputSchema
         /// The name of the tool.
         public let name: String
-        /// Whether to enforce strict JSON schema adherence for the tool input
+        /// Whether the tool schema is strictly enforced.
         public let strict: Bool?
 
         @inlinable
@@ -12163,6 +12342,20 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case urlConfiguration = "urlConfiguration"
+        }
+    }
+
+    public struct WeeklySchedule: AWSEncodableShape & AWSDecodableShape {
+        /// The day of the week on which the weekly sync runs.
+        public let dayOfWeek: DayOfWeek
+
+        @inlinable
+        public init(dayOfWeek: DayOfWeek) {
+            self.dayOfWeek = dayOfWeek
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfWeek = "dayOfWeek"
         }
     }
 

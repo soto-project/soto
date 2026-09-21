@@ -263,7 +263,7 @@ extension LicenseManagerUserSubscriptions {
         public let identityProvider: IdentityProvider?
         /// The Amazon Resource Name (ARN) that identifies the identity provider to deregister.
         public let identityProviderArn: String?
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
         public let product: String?
 
         @inlinable
@@ -731,7 +731,7 @@ extension LicenseManagerUserSubscriptions {
         public let maxResults: Int?
         /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
         public let nextToken: String?
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
         public let product: String?
 
         @inlinable
@@ -867,6 +867,8 @@ extension LicenseManagerUserSubscriptions {
         public let domain: String?
         /// An object that specifies details for the identity provider.
         public let identityProvider: IdentityProvider
+        /// The expiration date of the license associated with this subscription, in ISO 8601 UTC format (for example, 2025-03-15T00:00:00Z). This field applies only to subscriptions that use license server endpoints, such as Remote Desktop Services (RDS) Subscriber Access License (SAL). It returns null for products that don't use license-based subscriptions.
+        public let licenseExpirationDate: String?
         /// The name of the user-based subscription product.
         public let product: String
         /// The Amazon Resource Name (ARN) for this product user.
@@ -883,9 +885,10 @@ extension LicenseManagerUserSubscriptions {
         public let username: String
 
         @inlinable
-        public init(domain: String? = nil, identityProvider: IdentityProvider, product: String, productUserArn: String? = nil, status: String, statusMessage: String? = nil, subscriptionEndDate: String? = nil, subscriptionStartDate: String? = nil, username: String) {
+        public init(domain: String? = nil, identityProvider: IdentityProvider, licenseExpirationDate: String? = nil, product: String, productUserArn: String? = nil, status: String, statusMessage: String? = nil, subscriptionEndDate: String? = nil, subscriptionStartDate: String? = nil, username: String) {
             self.domain = domain
             self.identityProvider = identityProvider
+            self.licenseExpirationDate = licenseExpirationDate
             self.product = product
             self.productUserArn = productUserArn
             self.status = status
@@ -898,6 +901,7 @@ extension LicenseManagerUserSubscriptions {
         private enum CodingKeys: String, CodingKey {
             case domain = "Domain"
             case identityProvider = "IdentityProvider"
+            case licenseExpirationDate = "LicenseExpirationDate"
             case product = "Product"
             case productUserArn = "ProductUserArn"
             case status = "Status"
@@ -925,7 +929,7 @@ extension LicenseManagerUserSubscriptions {
     public struct RegisterIdentityProviderRequest: AWSEncodableShape {
         /// An object that specifies details for the identity provider to register.
         public let identityProvider: IdentityProvider
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
         public let product: String
         /// The registered identity provider’s product related configuration settings such as the subnets to provision VPC endpoints.
         public let settings: Settings?
@@ -1028,7 +1032,7 @@ extension LicenseManagerUserSubscriptions {
         public let domain: String?
         /// An object that specifies details for the identity provider.
         public let identityProvider: IdentityProvider
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
         public let product: String
         /// The tags that apply to the product subscription.
         public let tags: [String: String]?
@@ -1077,7 +1081,7 @@ extension LicenseManagerUserSubscriptions {
         public let domain: String?
         /// An object that specifies details for the identity provider.
         public let identityProvider: IdentityProvider?
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
         public let product: String?
         /// The Amazon Resource Name (ARN) of the product user.
         public let productUserArn: String?
@@ -1189,7 +1193,7 @@ extension LicenseManagerUserSubscriptions {
         public let identityProvider: IdentityProvider?
         /// The Amazon Resource Name (ARN) of the identity provider to update.
         public let identityProviderArn: String?
-        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | REMOTE_DESKTOP_SERVICES
+        /// The name of the user-based subscription product. Valid values: VISUAL_STUDIO_ENTERPRISE | VISUAL_STUDIO_PROFESSIONAL | OFFICE_PROFESSIONAL_PLUS | OFFICE_STANDARD | REMOTE_DESKTOP_SERVICES
         public let product: String?
         /// Updates the registered identity provider’s product related configuration settings. You can update any combination of settings in a single operation such as the:   Subnets which you want to add to provision VPC endpoints.   Subnets which you want to remove the VPC endpoints from.   Security group ID which permits traffic to the VPC endpoints.
         public let updateSettings: UpdateSettings

@@ -26,9 +26,15 @@ extension AppIntegrations {
     // MARK: Enums
 
     public enum ApplicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case a2aServer = "A2A_SERVER"
         case mcpServer = "MCP_SERVER"
         case service = "SERVICE"
         case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apiKey = "API_KEY"
         public var description: String { return self.rawValue }
     }
 
@@ -162,6 +168,30 @@ extension AppIntegrations {
         }
     }
 
+    public struct AuthConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The type of authentication used when calling the external application.
+        public let authType: AuthType?
+        /// The ARN of the Secrets Manager secret that stores the credentials. The secret must be accessible to Connect Customer.
+        public let credentialProviderIdentifier: String?
+
+        @inlinable
+        public init(authType: AuthType? = nil, credentialProviderIdentifier: String? = nil) {
+            self.authType = authType
+            self.credentialProviderIdentifier = credentialProviderIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentialProviderIdentifier, name: "credentialProviderIdentifier", parent: name, max: 2048)
+            try self.validate(self.credentialProviderIdentifier, name: "credentialProviderIdentifier", parent: name, min: 1)
+            try self.validate(self.credentialProviderIdentifier, name: "credentialProviderIdentifier", parent: name, pattern: "^arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+            case credentialProviderIdentifier = "CredentialProviderIdentifier"
+        }
+    }
+
     public struct ContactHandling: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether the application refreshes for each contact or refreshes only with each new browser session.
         public let scope: ContactHandlingScope?
@@ -183,6 +213,8 @@ extension AppIntegrations {
         public let applicationSourceConfig: ApplicationSourceConfig
         /// The type of application.
         public let applicationType: ApplicationType?
+        /// The authentication settings that Connect Customer uses when calling the external application.
+        public let authConfig: AuthConfig?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The description of the application.
@@ -207,10 +239,11 @@ extension AppIntegrations {
         public let tags: [String: String]?
 
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig, applicationType: ApplicationType? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, name: String, namespace: String, permissions: [String]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig, applicationType: ApplicationType? = nil, authConfig: AuthConfig? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, name: String, namespace: String, permissions: [String]? = nil, tags: [String: String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.applicationType = applicationType
+            self.authConfig = authConfig
             self.clientToken = clientToken
             self.description = description
             self.iframeConfig = iframeConfig
@@ -226,10 +259,11 @@ extension AppIntegrations {
 
         @available(*, deprecated, message: "Members isService, publications, subscriptions have been deprecated")
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig, applicationType: ApplicationType? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String, namespace: String, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig, applicationType: ApplicationType? = nil, authConfig: AuthConfig? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String, namespace: String, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.applicationType = applicationType
+            self.authConfig = authConfig
             self.clientToken = clientToken
             self.description = description
             self.iframeConfig = iframeConfig
@@ -245,6 +279,7 @@ extension AppIntegrations {
 
         public func validate(name: String) throws {
             try self.applicationSourceConfig.validate(name: "\(name).applicationSourceConfig")
+            try self.authConfig?.validate(name: "\(name).authConfig")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 2048)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: ".*")
@@ -287,6 +322,7 @@ extension AppIntegrations {
             case applicationConfig = "ApplicationConfig"
             case applicationSourceConfig = "ApplicationSourceConfig"
             case applicationType = "ApplicationType"
+            case authConfig = "AuthConfig"
             case clientToken = "ClientToken"
             case description = "Description"
             case iframeConfig = "IframeConfig"
@@ -675,16 +711,20 @@ extension AppIntegrations {
     public struct DeleteApplicationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Application.
         public let arn: String
+        /// Specifies whether to delete the application even if it still has application associations. If true, the operation removes the application and its associations. If false or absent, the delete fails when associations exist.  Setting this parameter to true permanently removes all of the application's associations. Doing so might impact other resources that rely on and reference the application. This action can't be undone.
+        public let force: Bool?
 
         @inlinable
-        public init(arn: String) {
+        public init(arn: String, force: Bool? = nil) {
             self.arn = arn
+            self.force = force
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.arn, key: "Arn")
+            request.encodeQuery(self.force, key: "force")
         }
 
         public func validate(name: String) throws {
@@ -968,6 +1008,8 @@ extension AppIntegrations {
         public let applicationType: ApplicationType?
         /// The Amazon Resource Name (ARN) of the Application.
         public let arn: String?
+        /// The authentication settings that Connect Customer uses when calling the external application.
+        public let authConfig: AuthConfig?
         /// The created time of the Application.
         public let createdTime: Date?
         /// The description of the application.
@@ -996,11 +1038,12 @@ extension AppIntegrations {
         public let tags: [String: String]?
 
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String? = nil, authConfig: AuthConfig? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, tags: [String: String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.applicationType = applicationType
             self.arn = arn
+            self.authConfig = authConfig
             self.createdTime = createdTime
             self.description = description
             self.id = id
@@ -1018,11 +1061,12 @@ extension AppIntegrations {
 
         @available(*, deprecated, message: "Members isService, publications, subscriptions have been deprecated")
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String? = nil, authConfig: AuthConfig? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.applicationType = applicationType
             self.arn = arn
+            self.authConfig = authConfig
             self.createdTime = createdTime
             self.description = description
             self.id = id
@@ -1043,6 +1087,7 @@ extension AppIntegrations {
             case applicationSourceConfig = "ApplicationSourceConfig"
             case applicationType = "ApplicationType"
             case arn = "Arn"
+            case authConfig = "AuthConfig"
             case createdTime = "CreatedTime"
             case description = "Description"
             case id = "Id"
@@ -1809,6 +1854,8 @@ extension AppIntegrations {
         public let applicationType: ApplicationType?
         /// The Amazon Resource Name (ARN) of the Application.
         public let arn: String
+        /// The authentication settings that Connect Customer uses when calling the external application.
+        public let authConfig: AuthConfig?
         /// The description of the application.
         public let description: String?
         /// The iframe configuration for the application.
@@ -1827,11 +1874,12 @@ extension AppIntegrations {
         public let subscriptions: [Subscription]?
 
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String, description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, name: String? = nil, permissions: [String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String, authConfig: AuthConfig? = nil, description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, name: String? = nil, permissions: [String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.applicationType = applicationType
             self.arn = arn
+            self.authConfig = authConfig
             self.description = description
             self.iframeConfig = iframeConfig
             self.initializationTimeout = initializationTimeout
@@ -1844,11 +1892,12 @@ extension AppIntegrations {
 
         @available(*, deprecated, message: "Members isService, publications, subscriptions have been deprecated")
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String, description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String, authConfig: AuthConfig? = nil, description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
             self.applicationType = applicationType
             self.arn = arn
+            self.authConfig = authConfig
             self.description = description
             self.iframeConfig = iframeConfig
             self.initializationTimeout = initializationTimeout
@@ -1866,6 +1915,7 @@ extension AppIntegrations {
             try container.encodeIfPresent(self.applicationSourceConfig, forKey: .applicationSourceConfig)
             try container.encodeIfPresent(self.applicationType, forKey: .applicationType)
             request.encodePath(self.arn, key: "Arn")
+            try container.encodeIfPresent(self.authConfig, forKey: .authConfig)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.iframeConfig, forKey: .iframeConfig)
             try container.encodeIfPresent(self.initializationTimeout, forKey: .initializationTimeout)
@@ -1881,6 +1931,7 @@ extension AppIntegrations {
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})(:[\\w\\$]+)?$")
+            try self.authConfig?.validate(name: "\(name).authConfig")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.iframeConfig?.validate(name: "\(name).iframeConfig")
@@ -1909,6 +1960,7 @@ extension AppIntegrations {
             case applicationConfig = "ApplicationConfig"
             case applicationSourceConfig = "ApplicationSourceConfig"
             case applicationType = "ApplicationType"
+            case authConfig = "AuthConfig"
             case description = "Description"
             case iframeConfig = "IframeConfig"
             case initializationTimeout = "InitializationTimeout"
@@ -2053,6 +2105,7 @@ extension AppIntegrations {
 public struct AppIntegrationsErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case duplicateResourceException = "DuplicateResourceException"
         case internalServiceError = "InternalServiceError"
         case invalidRequestException = "InvalidRequestException"
@@ -2082,6 +2135,8 @@ public struct AppIntegrationsErrorType: AWSErrorType {
 
     /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request conflicts with the current state of the resource. Verify the application's current state and retry the request.
+    public static var conflictException: Self { .init(.conflictException) }
     /// A resource with the specified name already exists.
     public static var duplicateResourceException: Self { .init(.duplicateResourceException) }
     /// Request processing failed due to an error or failure with the service.

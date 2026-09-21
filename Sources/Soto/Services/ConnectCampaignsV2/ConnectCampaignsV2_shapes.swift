@@ -78,6 +78,16 @@ extension ConnectCampaignsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectionStartPoint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Threshold measured from when the contact connects to the telephony system.
+        case connectedToSystem = "CONNECTED_TO_SYSTEM"
+        /// Threshold measured from when the customer-side greeting ends.
+        case greetingEnd = "GREETING_END"
+        /// Threshold measured from when the customer-side greeting begins.
+        case greetingStart = "GREETING_START"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case friday = "FRIDAY"
         case monday = "MONDAY"
@@ -447,6 +457,38 @@ extension ConnectCampaignsV2 {
     }
 
     // MARK: Shapes
+
+    public struct AbandonmentRatePacingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Event from which connectionThresholdSeconds is measured.
+        public let connectionStartPoint: ConnectionStartPoint
+        /// Seconds after connectionStartPoint before a contact counts as abandoned.
+        public let connectionThresholdSeconds: Int
+        /// Rolling window over which abandonmentRate is computed.
+        public let evaluationWindow: String
+        public let targetRate: Double
+
+        @inlinable
+        public init(connectionStartPoint: ConnectionStartPoint, connectionThresholdSeconds: Int, evaluationWindow: String, targetRate: Double) {
+            self.connectionStartPoint = connectionStartPoint
+            self.connectionThresholdSeconds = connectionThresholdSeconds
+            self.evaluationWindow = evaluationWindow
+            self.targetRate = targetRate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.evaluationWindow, name: "evaluationWindow", parent: name, max: 5)
+            try self.validate(self.evaluationWindow, name: "evaluationWindow", parent: name, pattern: "^PT([1-9]|1[0-9]|2[0-4])H$")
+            try self.validate(self.targetRate, name: "targetRate", parent: name, max: 1.0)
+            try self.validate(self.targetRate, name: "targetRate", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionStartPoint = "connectionStartPoint"
+            case connectionThresholdSeconds = "connectionThresholdSeconds"
+            case evaluationWindow = "evaluationWindow"
+            case targetRate = "targetRate"
+        }
+    }
 
     public struct AccessDeniedException: AWSErrorShape {
         public let message: String
@@ -1935,19 +1977,28 @@ extension ConnectCampaignsV2 {
 
     public struct PredictiveConfig: AWSEncodableShape & AWSDecodableShape {
         public let bandwidthAllocation: Double
+        /// Pacing strategies the dialer enforces simultaneously.
+        public let pacingStrategies: [PacingStrategy]?
 
         @inlinable
-        public init(bandwidthAllocation: Double) {
+        public init(bandwidthAllocation: Double, pacingStrategies: [PacingStrategy]? = nil) {
             self.bandwidthAllocation = bandwidthAllocation
+            self.pacingStrategies = pacingStrategies
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, max: 1.0)
+            try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, max: 2.0)
             try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, min: 0.0)
+            try self.pacingStrategies?.forEach {
+                try $0.validate(name: "\(name).pacingStrategies[]")
+            }
+            try self.validate(self.pacingStrategies, name: "pacingStrategies", parent: name, max: 1)
+            try self.validate(self.pacingStrategies, name: "pacingStrategies", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case bandwidthAllocation = "bandwidthAllocation"
+            case pacingStrategies = "pacingStrategies"
         }
     }
 
@@ -1964,7 +2015,7 @@ extension ConnectCampaignsV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, max: 1.0)
+            try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, max: 2.0)
             try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, min: 0.0)
             try self.timeoutConfig.validate(name: "\(name).timeoutConfig")
         }
@@ -2015,7 +2066,7 @@ extension ConnectCampaignsV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, max: 1.0)
+            try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, max: 2.0)
             try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, min: 0.0)
         }
 
@@ -3229,6 +3280,23 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case dailyHours = "dailyHours"
+        }
+    }
+
+    public struct PacingStrategy: AWSEncodableShape & AWSDecodableShape {
+        public let abandonmentRate: AbandonmentRatePacingConfig?
+
+        @inlinable
+        public init(abandonmentRate: AbandonmentRatePacingConfig? = nil) {
+            self.abandonmentRate = abandonmentRate
+        }
+
+        public func validate(name: String) throws {
+            try self.abandonmentRate?.validate(name: "\(name).abandonmentRate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case abandonmentRate = "abandonmentRate"
         }
     }
 

@@ -24,13 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS IVSRealTime service.
 ///
-/// The Amazon Interactive Video Service (IVS) real-time API is REST compatible, using a standard HTTP
-/// 	  API and an AWS EventBridge event stream for responses. JSON is used for both requests and responses,
-/// 	  including errors.   Key Concepts     Stage — A virtual space where participants can exchange video in real time.    Participant token — A token that authenticates a participant when they join a stage.    Participant object — Represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID. There is a 1:1 mapping between participant tokens and participants.   For server-side composition:    Composition process — Composites participants of a stage into a single video and forwards it to a set of outputs (e.g., IVS channels). Composition operations support this process.    Composition — Controls the look of the outputs, including how participants are positioned in the video.   For participant replication:    Source stage — The stage where the participant originally joined, which is used as the source for
-/// 			replication.    Destination stage — The stage to which the participant is replicated.
-/// 				    Replicated participant — A participant in a stage that is replicated to one or more destination stages.
-/// 				    Replica participant — A participant in a destination stage that is replicated from another stage
-/// 			(the source stage).   For more information about your IVS live stream, also see Getting Started with Amazon IVS Real-Time Streaming.  Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS real-time API has these tag-related operations: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.
+/// The Amazon Interactive Video Service (IVS) real-time API is REST compatible, using a standard HTTP API and an AWS EventBridge event stream for responses. JSON is used for both requests and responses, including errors.   Key Concepts     Stage — A virtual space where participants can exchange video in real time.    Participant token — A token that authenticates a participant when they join a stage.    Participant object — Represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID. There is a 1:1 mapping between participant tokens and participants.   For server-side composition:    Composition process — Composites participants of a stage into a single video and forwards it to a set of outputs (e.g., IVS channels). Composition operations support this process.    Composition — Controls the look of the outputs, including how participants are positioned in the video.   For participant replication:    Source stage — The stage where the participant originally joined, which is used as the source for replication.    Destination stage — The stage to which the participant is replicated.     Replicated participant — A participant in a stage that is replicated to one or more destination stages.     Replica participant — A participant in a destination stage that is replicated from another stage (the source stage).   For more information about your IVS live stream, also see Getting Started with Amazon IVS Real-Time Streaming.  Tagging  A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see Access Tags). The Amazon IVS real-time API has these tag-related operations: TagResource, UntagResource, and ListTagsForResource. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource.
 public struct IVSRealTime: AWSService {
     // MARK: Member variables
 
@@ -142,7 +136,7 @@ public struct IVSRealTime: AWSService {
     ///   - name: Optional name that can be specified for the IngestConfiguration being created.
     ///   - redundantIngest: Indicates whether redundant ingest is enabled for the ingest configuration. Default: false.
     ///   - stageArn: ARN of the stage with which the IngestConfiguration is associated.
-    ///   - tags: Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented
+    ///   - tags: Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
     ///   - userId: Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
     ///   - logger: Logger use during operation
     @inlinable
@@ -249,9 +243,7 @@ public struct IVSRealTime: AWSService {
         return try await self.createStage(input, logger: logger)
     }
 
-    /// Creates a new storage configuration, used to enable recording to Amazon S3.
-    /// 	  When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket.
-    /// 	  This will ensure that IVS has sufficient permissions to write content to the provided bucket.
+    /// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has sufficient permissions to write content to the provided bucket.
     @Sendable
     @inlinable
     public func createStorageConfiguration(_ input: CreateStorageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStorageConfigurationResponse {
@@ -264,14 +256,12 @@ public struct IVSRealTime: AWSService {
             logger: logger
         )
     }
-    /// Creates a new storage configuration, used to enable recording to Amazon S3.
-    /// 	  When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket.
-    /// 	  This will ensure that IVS has sufficient permissions to write content to the provided bucket.
+    /// Creates a new storage configuration, used to enable recording to Amazon S3. When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket. This will ensure that IVS has sufficient permissions to write content to the provided bucket.
     ///
     /// Parameters:
     ///   - name: Storage configuration name. The value does not need to be unique.
     ///   - s3: A complex type that contains a storage configuration for where recorded video will be stored.
-    ///   - tags: Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies
+    ///   - tags: Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
     ///   - logger: Logger use during operation
     @inlinable
     public func createStorageConfiguration(
@@ -349,8 +339,7 @@ public struct IVSRealTime: AWSService {
         return try await self.deleteIngestConfiguration(input, logger: logger)
     }
 
-    /// Deletes the specified public key used to sign stage participant tokens.
-    /// 	  This invalidates future participant tokens generated using the key pair’s private key.
+    /// Deletes the specified public key used to sign stage participant tokens. This invalidates future participant tokens generated using the key pair’s private key.
     @Sendable
     @inlinable
     public func deletePublicKey(_ input: DeletePublicKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePublicKeyResponse {
@@ -363,8 +352,7 @@ public struct IVSRealTime: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified public key used to sign stage participant tokens.
-    /// 	  This invalidates future participant tokens generated using the key pair’s private key.
+    /// Deletes the specified public key used to sign stage participant tokens. This invalidates future participant tokens generated using the key pair’s private key.
     ///
     /// Parameters:
     ///   - arn: ARN of the public key to be deleted.
@@ -380,8 +368,7 @@ public struct IVSRealTime: AWSService {
         return try await self.deletePublicKey(input, logger: logger)
     }
 
-    /// Shuts down and deletes the specified stage (disconnecting all participants). This operation also removes the stageArn from the associated IngestConfiguration, if there are participants
-    /// 	    using the IngestConfiguration to publish to the stage.
+    /// Shuts down and deletes the specified stage (disconnecting all participants). This operation also removes the stageArn from the associated IngestConfiguration, if there are participants using the IngestConfiguration to publish to the stage.
     @Sendable
     @inlinable
     public func deleteStage(_ input: DeleteStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStageResponse {
@@ -394,8 +381,7 @@ public struct IVSRealTime: AWSService {
             logger: logger
         )
     }
-    /// Shuts down and deletes the specified stage (disconnecting all participants). This operation also removes the stageArn from the associated IngestConfiguration, if there are participants
-    /// 	    using the IngestConfiguration to publish to the stage.
+    /// Shuts down and deletes the specified stage (disconnecting all participants). This operation also removes the stageArn from the associated IngestConfiguration, if there are participants using the IngestConfiguration to publish to the stage.
     ///
     /// Parameters:
     ///   - arn: ARN of the stage to be deleted.
@@ -411,9 +397,7 @@ public struct IVSRealTime: AWSService {
         return try await self.deleteStage(input, logger: logger)
     }
 
-    /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException).
-    /// 	  To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete,
-    /// 	  then use DeleteStorageConfiguration.
+    /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException). To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete, then use DeleteStorageConfiguration.
     @Sendable
     @inlinable
     public func deleteStorageConfiguration(_ input: DeleteStorageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStorageConfigurationResponse {
@@ -426,9 +410,7 @@ public struct IVSRealTime: AWSService {
             logger: logger
         )
     }
-    /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException).
-    /// 	  To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete,
-    /// 	  then use DeleteStorageConfiguration.
+    /// Deletes the storage configuration for the specified ARN. If you try to delete a storage configuration that is used by a Composition, you will get an error (409 ConflictException). To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete, then use DeleteStorageConfiguration.
     ///
     /// Parameters:
     ///   - arn: ARN of the storage configuration to be deleted.
@@ -444,8 +426,7 @@ public struct IVSRealTime: AWSService {
         return try await self.deleteStorageConfiguration(input, logger: logger)
     }
 
-    /// Disconnects a specified participant from a specified stage. If the participant is publishing using an IngestConfiguration, DisconnectParticipant also updates the stageArn
-    /// 	    in the IngestConfiguration to be an empty string.
+    /// Disconnects a specified participant from a specified stage. If the participant is publishing using an IngestConfiguration, DisconnectParticipant also updates the stageArn in the IngestConfiguration to be an empty string.
     @Sendable
     @inlinable
     public func disconnectParticipant(_ input: DisconnectParticipantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisconnectParticipantResponse {
@@ -458,11 +439,10 @@ public struct IVSRealTime: AWSService {
             logger: logger
         )
     }
-    /// Disconnects a specified participant from a specified stage. If the participant is publishing using an IngestConfiguration, DisconnectParticipant also updates the stageArn
-    /// 	    in the IngestConfiguration to be an empty string.
+    /// Disconnects a specified participant from a specified stage. If the participant is publishing using an IngestConfiguration, DisconnectParticipant also updates the stageArn in the IngestConfiguration to be an empty string.
     ///
     /// Parameters:
-    ///   - participantId: Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for
+    ///   - participantId: Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for streams using RTMP ingest).
     ///   - reason: Description of why this participant is being disconnected.
     ///   - stageArn: ARN of the stage to which the participant is attached.
     ///   - logger: Logger use during operation
@@ -924,7 +904,7 @@ public struct IVSRealTime: AWSService {
     /// Parameters:
     ///   - maxResults: Maximum number of results to return. Default: 50.
     ///   - nextToken: The first participant to retrieve. This is used for pagination; see the nextToken response field.
-    ///   - participantId: Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by
+    ///   - participantId: Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token.
     ///   - sourceStageArn: ARN of the stage where the participant is publishing.
     ///   - logger: Logger use during operation
     @inlinable
@@ -960,10 +940,10 @@ public struct IVSRealTime: AWSService {
     /// Lists all participants in a specified stage session.
     ///
     /// Parameters:
-    ///   - filterByPublished: Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
-    ///   - filterByRecordingState: Filters the response list to only show participants with the specified recording state. Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
-    ///   - filterByState: Filters the response list to only show participants in the specified state.  Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
-    ///   - filterByUserId: Filters the response list to match the specified user ID.  Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
+    ///   - filterByPublished: Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
+    ///   - filterByRecordingState: Filters the response list to only show participants with the specified recording state. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
+    ///   - filterByState: Filters the response list to only show participants in the specified state. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
+    ///   - filterByUserId: Filters the response list to match the specified user ID. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request. A userId is a customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems.
     ///   - maxResults: Maximum number of results to return. Default: 50.
     ///   - nextToken: The first participant to retrieve. This is used for pagination; see the nextToken response field.
     ///   - sessionId: ID of the session within the stage.
@@ -1093,8 +1073,7 @@ public struct IVSRealTime: AWSService {
         return try await self.listStages(input, logger: logger)
     }
 
-    /// Gets summary information about all storage configurations in your account,
-    /// 	  in the AWS region where the API request is processed.
+    /// Gets summary information about all storage configurations in your account, in the AWS region where the API request is processed.
     @Sendable
     @inlinable
     public func listStorageConfigurations(_ input: ListStorageConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStorageConfigurationsResponse {
@@ -1107,12 +1086,11 @@ public struct IVSRealTime: AWSService {
             logger: logger
         )
     }
-    /// Gets summary information about all storage configurations in your account,
-    /// 	  in the AWS region where the API request is processed.
+    /// Gets summary information about all storage configurations in your account, in the AWS region where the API request is processed.
     ///
     /// Parameters:
-    ///   - maxResults: Maximum number of storage configurations to return. Default: your service quota or 100,
-    ///   - nextToken: The first storage configuration to retrieve. This is used for pagination;
+    ///   - maxResults: Maximum number of storage configurations to return. Default: your service quota or 100, whichever is smaller.
+    ///   - nextToken: The first storage configuration to retrieve. This is used for pagination; see the nextToken response field.
     ///   - logger: Logger use during operation
     @inlinable
     public func listStorageConfigurations(
@@ -1213,10 +1191,10 @@ public struct IVSRealTime: AWSService {
     /// Starts replicating a publishing participant from a source stage to a destination stage.
     ///
     /// Parameters:
-    ///   - attributes: Application-provided attributes to set on the replicated participant in the destination stage.
+    ///   - attributes: Application-provided attributes to set on the replicated participant in the destination stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.  These attributes are merged with any attributes set for this participant when creating the token. If there is overlap in keys, the values in these attributes are replaced.
     ///   - destinationStageArn: ARN of the stage to which the participant will be replicated.
-    ///   - participantId: Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by
-    ///   - reconnectWindowSeconds: If the participant disconnects and then reconnects within the specified interval, replication will continue to be ACTIVE.
+    ///   - participantId: Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token.
+    ///   - reconnectWindowSeconds: If the participant disconnects and then reconnects within the specified interval, replication will continue to be ACTIVE. Default: 0.
     ///   - sourceStageArn: ARN of the stage where the participant is publishing.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1284,7 +1262,7 @@ public struct IVSRealTime: AWSService {
     ///
     /// Parameters:
     ///   - destinationStageArn: ARN of the stage where the participant has been replicated.
-    ///   - participantId: Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by
+    ///   - participantId: Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to  create a self signed token.
     ///   - sourceStageArn: ARN of the stage where the participant is publishing.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1629,7 +1607,7 @@ extension IVSRealTime {
     ///
     /// - Parameters:
     ///   - maxResults: Maximum number of results to return. Default: 50.
-    ///   - participantId: Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by
+    ///   - participantId: Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token.
     ///   - sourceStageArn: ARN of the stage where the participant is publishing.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1668,10 +1646,10 @@ extension IVSRealTime {
     /// Return PaginatorSequence for operation ``listParticipants(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filterByPublished: Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
-    ///   - filterByRecordingState: Filters the response list to only show participants with the specified recording state. Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
-    ///   - filterByState: Filters the response list to only show participants in the specified state.  Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
-    ///   - filterByUserId: Filters the response list to match the specified user ID.  Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
+    ///   - filterByPublished: Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
+    ///   - filterByRecordingState: Filters the response list to only show participants with the specified recording state. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
+    ///   - filterByState: Filters the response list to only show participants in the specified state. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
+    ///   - filterByUserId: Filters the response list to match the specified user ID. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request. A userId is a customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems.
     ///   - maxResults: Maximum number of results to return. Default: 50.
     ///   - sessionId: ID of the session within the stage.
     ///   - stageArn: Stage ARN.
@@ -1825,7 +1803,7 @@ extension IVSRealTime {
     /// Return PaginatorSequence for operation ``listStorageConfigurations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Maximum number of storage configurations to return. Default: your service quota or 100,
+    ///   - maxResults: Maximum number of storage configurations to return. Default: your service quota or 100, whichever is smaller.
     ///   - logger: Logger used for logging
     @inlinable
     public func listStorageConfigurationsPaginator(

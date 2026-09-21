@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS QConnect service.
 ///
-///    Amazon Q actions     Amazon Q data types      Powered by Amazon Bedrock: Amazon Web Services implements automated abuse detection. Because Amazon Q in Connect is built on Amazon Bedrock, users can take full advantage of the controls implemented in Amazon Bedrock to enforce safety, security, and the responsible use of artificial intelligence (AI).  Amazon Q in Connect is a generative AI customer service assistant. It is an LLM-enhanced evolution of Amazon Connect Wisdom that delivers real-time recommendations to help contact center agents resolve customer issues quickly and accurately. Amazon Q in Connect automatically detects customer intent during calls and chats using conversational analytics and natural language understanding (NLU). It then provides agents with immediate, real-time generative responses and suggested actions, and links to relevant documents and articles. Agents can also query Amazon Q in Connect directly using natural language or keywords to answer customer requests. Use the Amazon Q in Connect APIs to create an assistant and a knowledge base, for example, or manage content by uploading custom files. For more information, see Use Amazon Q in Connect for generative AI powered agent assistance in real-time in the Amazon Connect Administrator Guide.
+///    Amazon Q actions     Amazon Q data types      Powered by Amazon Bedrock: Amazon Web Services implements automated abuse detection. Because Amazon Q in Connect is built on Amazon Bedrock, users can take full advantage of the controls implemented in Amazon Bedrock to enforce safety, security, and the responsible use of artificial intelligence (AI).  Amazon Q in Connect is a generative AI customer service assistant. It is an LLM-enhanced evolution of Connect Customer Wisdom that delivers real-time recommendations to help contact center agents resolve customer issues quickly and accurately. Amazon Q in Connect automatically detects customer intent during calls and chats using conversational analytics and natural language understanding (NLU). It then provides agents with immediate, real-time generative responses and suggested actions, and links to relevant documents and articles. Agents can also query Amazon Q in Connect directly using natural language or keywords to answer customer requests. Use the Amazon Q in Connect APIs to create an assistant and a knowledge base, for example, or manage content by uploading custom files. For more information, see Use Amazon Q in Connect for generative AI powered agent assistance in real-time in the Connect Customer Administrator Guide.
 public struct QConnect: AWSService {
     // MARK: Member variables
 
@@ -548,7 +548,7 @@ public struct QConnect: AWSService {
         return try await self.createContent(input, logger: logger)
     }
 
-    /// Creates an association between a content resource in a knowledge base and step-by-step guides. Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content association to integrate Amazon Q in Connect and step-by-step guides.  After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a recommendation to an agent based on the intent that it's detected, it also provides them with the option to start the step-by-step guide that you have associated with the content. Note the following limitations:   You can create only one content association for each content resource in a knowledge base.   You can associate a step-by-step guide with multiple content resources.   For more information, see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    /// Creates an association between a content resource in a knowledge base and step-by-step guides. Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content association to integrate Amazon Q in Connect and step-by-step guides.  After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a recommendation to an agent based on the intent that it's detected, it also provides them with the option to start the step-by-step guide that you have associated with the content. Note the following limitations:   You can create only one content association for each content resource in a knowledge base.   You can associate a step-by-step guide with multiple content resources.   For more information, see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func createContentAssociation(_ input: CreateContentAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContentAssociationResponse {
@@ -561,7 +561,7 @@ public struct QConnect: AWSService {
             logger: logger
         )
     }
-    /// Creates an association between a content resource in a knowledge base and step-by-step guides. Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content association to integrate Amazon Q in Connect and step-by-step guides.  After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a recommendation to an agent based on the intent that it's detected, it also provides them with the option to start the step-by-step guide that you have associated with the content. Note the following limitations:   You can create only one content association for each content resource in a knowledge base.   You can associate a step-by-step guide with multiple content resources.   For more information, see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    /// Creates an association between a content resource in a knowledge base and step-by-step guides. Step-by-step guides offer instructions to agents for resolving common customer issues. You create a content association to integrate Amazon Q in Connect and step-by-step guides.  After you integrate Amazon Q and step-by-step guides, when Amazon Q provides a recommendation to an agent based on the intent that it's detected, it also provides them with the option to start the step-by-step guide that you have associated with the content. Note the following limitations:   You can create only one content association for each content resource in a knowledge base.   You can associate a step-by-step guide with multiple content resources.   For more information, see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - association: The identifier of the associated resource.
@@ -799,7 +799,7 @@ public struct QConnect: AWSService {
     /// Creates an Amazon Q in Connect quick response.
     ///
     /// Parameters:
-    ///   - channels: The Amazon Connect channels this quick response applies to.
+    ///   - channels: The Connect Customer channels this quick response applies to.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - content: The content of the quick response.
     ///   - contentType: The media type of the quick response content.   Use application/x.quickresponse;format=plain for a quick response written in plain text.   Use application/x.quickresponse;format=markdown for a quick response written in richtext.
@@ -845,7 +845,7 @@ public struct QConnect: AWSService {
         return try await self.createQuickResponse(input, logger: logger)
     }
 
-    /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+    /// Creates a session. A session is a contextual container used for generating recommendations. Connect Customer creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     @Sendable
     @inlinable
     public func createSession(_ input: CreateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSessionResponse {
@@ -858,13 +858,13 @@ public struct QConnect: AWSService {
             logger: logger
         )
     }
-    /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+    /// Creates a session. A session is a contextual container used for generating recommendations. Connect Customer creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
     /// Parameters:
     ///   - aiAgentConfiguration: The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - contactArn: The Amazon Resource Name (ARN) of the email contact in Amazon Connect. Used to retrieve email content and establish session context for AI-powered email assistance.
+    ///   - contactArn: The Amazon Resource Name (ARN) of the email contact in Connect Customer. Used to retrieve email content and establish session context for AI-powered email assistance.
     ///   - description: The description.
     ///   - name: The name of the session.
     ///   - orchestratorConfigurationList: The list of orchestrator configurations for the session being created.
@@ -1230,7 +1230,7 @@ public struct QConnect: AWSService {
         return try await self.deleteContent(input, logger: logger)
     }
 
-    /// Deletes the content association.  For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    /// Deletes the content association.  For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func deleteContentAssociation(_ input: DeleteContentAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContentAssociationResponse {
@@ -1243,7 +1243,7 @@ public struct QConnect: AWSService {
             logger: logger
         )
     }
-    /// Deletes the content association.  For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    /// Deletes the content association.  For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - contentAssociationId: The identifier of the content association. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1614,7 +1614,7 @@ public struct QConnect: AWSService {
         return try await self.getContent(input, logger: logger)
     }
 
-    /// Returns the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    /// Returns the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func getContentAssociation(_ input: GetContentAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContentAssociationResponse {
@@ -1627,7 +1627,7 @@ public struct QConnect: AWSService {
             logger: logger
         )
     }
-    /// Returns the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    /// Returns the content association. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - contentAssociationId: The identifier of the content association. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1841,7 +1841,7 @@ public struct QConnect: AWSService {
         return try await self.getQuickResponse(input, logger: logger)
     }
 
-    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
+    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Connect Customer console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     @Sendable
     @inlinable
@@ -1855,7 +1855,7 @@ public struct QConnect: AWSService {
             logger: logger
         )
     }
-    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
+    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Connect Customer console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use QueryAssistant.
     ///
     /// Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -2217,7 +2217,7 @@ public struct QConnect: AWSService {
         return try await self.listAssistants(input, logger: logger)
     }
 
-    /// Lists the content associations. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    /// Lists the content associations. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func listContentAssociations(_ input: ListContentAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContentAssociationsResponse {
@@ -2230,7 +2230,7 @@ public struct QConnect: AWSService {
             logger: logger
         )
     }
-    /// Lists the content associations. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Amazon Connect Administrator Guide.
+    /// Lists the content associations. For more information about content associations--what they are and when they are used--see Integrate Amazon Q in Connect with step-by-step guides in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - contentId: The identifier of the content.
@@ -2687,7 +2687,7 @@ public struct QConnect: AWSService {
         return try await self.putFeedback(input, logger: logger)
     }
 
-    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
+    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Connect Customer console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     @Sendable
     @inlinable
@@ -2701,7 +2701,7 @@ public struct QConnect: AWSService {
             logger: logger
         )
     }
-    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
+    ///  This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Connect Customer console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.  Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use GetRecommendations.
     ///
     /// Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -2965,7 +2965,7 @@ public struct QConnect: AWSService {
     /// Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
     ///
     /// Parameters:
-    ///   - attributes: The user-defined Amazon Connect contact attributes to be resolved when search results are returned.
+    ///   - attributes: The user-defined Connect Customer contact attributes to be resolved when search results are returned.
     ///   - knowledgeBaseId: The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -3607,7 +3607,7 @@ public struct QConnect: AWSService {
     /// Updates an existing Amazon Q in Connect quick response.
     ///
     /// Parameters:
-    ///   - channels: The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
+    ///   - channels: The Connect Customer contact channels this quick response applies to. The supported contact channel types include Chat.
     ///   - content: The updated content of the quick response.
     ///   - contentType: The media type of the quick response content.   Use application/x.quickresponse;format=plain for quick response written in plain text.   Use application/x.quickresponse;format=markdown for quick response written in richtext.
     ///   - description: The updated description of the quick response.
@@ -3659,7 +3659,7 @@ public struct QConnect: AWSService {
         return try await self.updateQuickResponse(input, logger: logger)
     }
 
-    /// Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+    /// Updates a session. A session is a contextual container used for generating recommendations. Connect Customer updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     @Sendable
     @inlinable
     public func updateSession(_ input: UpdateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSessionResponse {
@@ -3672,7 +3672,7 @@ public struct QConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+    /// Updates a session. A session is a contextual container used for generating recommendations. Connect Customer updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
     /// Parameters:
     ///   - aiAgentConfiguration: The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
@@ -4615,7 +4615,7 @@ extension QConnect {
     /// Return PaginatorSequence for operation ``searchQuickResponses(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - attributes: The user-defined Amazon Connect contact attributes to be resolved when search results are returned.
+    ///   - attributes: The user-defined Connect Customer contact attributes to be resolved when search results are returned.
     ///   - knowledgeBaseId: The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchExpression: The search expression for querying the quick response.

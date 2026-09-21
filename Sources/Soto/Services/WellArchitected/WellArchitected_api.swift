@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS WellArchitected service.
 ///
-/// Well-Architected Tool This is the Well-Architected Tool API Reference. The WA Tool API provides programmatic access to the  Well-Architected Tool in the  Amazon Web Services Management Console. For information  about the Well-Architected Tool, see the  Well-Architected Tool User Guide.
+/// Amazon Web Services Well-Architected Amazon Web Services Well-Architected helps you evaluate your architectures against Amazon Web Services best practices across operational excellence, security, reliability, performance efficiency, cost optimization, and sustainability. The service includes the Amazon Web Services Well-Architected Agent for AI-powered recommendations tailored to your specific environment, and the Well-Architected Tool for conducting reviews and tracking improvements. This is the Amazon Web Services Well-Architected API Reference. Through this API, you can programmatically access personalized recommendations and automation scripts from the Amazon Web Services Well-Architected Agent, and create and manage workloads, conduct lens reviews, track milestones, manage custom lenses, share workloads across accounts, and manage profiles with the Well-Architected Tool. For more information about the service, see the Amazon Web Services Well-Architected User Guide.
 public struct WellArchitected: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,7 @@ public struct WellArchitected: AWSService {
 
     // MARK: API Calls
 
-    /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API operation. A  maximum of 20 lenses can be associated with a workload.   Disclaimer  By accessing and/or applying custom lenses created by another Amazon Web Services user or account,  you acknowledge that custom lenses created by other users and shared with you are  Third Party Content as defined in the Amazon Web Services Customer Agreement.
+    /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API operation. A maximum of 20 lenses can be associated with a workload.   Disclaimer  By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
     @Sendable
     @inlinable
     public func associateLenses(_ input: AssociateLensesInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -91,7 +91,7 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API operation. A  maximum of 20 lenses can be associated with a workload.   Disclaimer  By accessing and/or applying custom lenses created by another Amazon Web Services user or account,  you acknowledge that custom lenses created by other users and shared with you are  Third Party Content as defined in the Amazon Web Services Customer Agreement.
+    /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API operation. A maximum of 20 lenses can be associated with a workload.   Disclaimer  By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
     ///
     /// Parameters:
     ///   - lensAliases: 
@@ -142,7 +142,145 @@ public struct WellArchitected: AWSService {
         return try await self.associateProfiles(input, logger: logger)
     }
 
-    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.  Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see Sharing a custom lens in the Well-Architected Tool User Guide.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Creates a context associated with an optimization profile. Contexts provide application and environment information used during recommendation generation.
+    @Sendable
+    @inlinable
+    public func createAgentContext(_ input: CreateAgentContextRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentContextResponse {
+        try await self.client.execute(
+            operation: "CreateAgentContext", 
+            path: "/api/v1/agent-profiles/{profileArn}/contexts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a context associated with an optimization profile. Contexts provide application and environment information used during recommendation generation.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - content: The typed content of the context. The structure contains application-specific fields such as account IDs, Regions, services, and resource types.
+    ///   - contextType: The type of the context.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile to associate the context with.
+    ///   - title: The title of the context.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAgentContext(
+        clientToken: String? = CreateAgentContextRequest.idempotencyToken(),
+        content: ContextContent,
+        contextType: ContextType,
+        profileArn: String,
+        title: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAgentContextResponse {
+        let input = CreateAgentContextRequest(
+            clientToken: clientToken, 
+            content: content, 
+            contextType: contextType, 
+            profileArn: profileArn, 
+            title: title
+        )
+        return try await self.createAgentContext(input, logger: logger)
+    }
+
+    /// Creates an optimization goal associated with a profile. Goals define specific targets and objectives for the optimization process.
+    @Sendable
+    @inlinable
+    public func createAgentGoal(_ input: CreateAgentGoalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentGoalResponse {
+        try await self.client.execute(
+            operation: "CreateAgentGoal", 
+            path: "/api/v1/agent-profiles/{profileArn}/goals", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an optimization goal associated with a profile. Goals define specific targets and objectives for the optimization process.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: A description of the goal.
+    ///   - pillars: The Well-Architected Tool Framework pillars to associate with this goal.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile to associate the goal with.
+    ///   - title: The title of the goal.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAgentGoal(
+        clientToken: String? = CreateAgentGoalRequest.idempotencyToken(),
+        description: String? = nil,
+        pillars: [Pillar],
+        profileArn: String,
+        title: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAgentGoalResponse {
+        let input = CreateAgentGoalRequest(
+            clientToken: clientToken, 
+            description: description, 
+            pillars: pillars, 
+            profileArn: profileArn, 
+            title: title
+        )
+        return try await self.createAgentGoal(input, logger: logger)
+    }
+
+    /// Creates an optimization profile that defines the scope and configuration for generating recommendations. A profile specifies the execution role, target pillars, and aggregation settings for analyzing your Amazon Web Services resources.
+    @Sendable
+    @inlinable
+    public func createAgentProfile(_ input: CreateAgentProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentProfileResponse {
+        try await self.client.execute(
+            operation: "CreateAgentProfile", 
+            path: "/api/v1/agent-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an optimization profile that defines the scope and configuration for generating recommendations. A profile specifies the execution role, target pillars, and aggregation settings for analyzing your Amazon Web Services resources.
+    ///
+    /// Parameters:
+    ///   - aggregationConfiguration: The aggregation configuration that defines which Amazon Web Services accounts and Regions to analyze.
+    ///   - businessOverview: The business overview for this profile.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - deletionProtection: Indicates whether deletion protection is enabled for the profile.
+    ///   - description: A description of the profile.
+    ///   - displayName: The display name of the profile shown to users.
+    ///   - executionRoleArn: The ARN of the IAM execution role used for recommendation actions.
+    ///   - name: The system name of the profile.
+    ///   - pillars: The Well-Architected Tool Framework pillars to associate with this profile.
+    ///   - tags: The tags to associate with the profile.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAgentProfile(
+        aggregationConfiguration: [AggregationConfiguration],
+        businessOverview: String? = nil,
+        clientToken: String? = CreateAgentProfileRequest.idempotencyToken(),
+        deletionProtection: Bool? = nil,
+        description: String? = nil,
+        displayName: String? = nil,
+        executionRoleArn: String,
+        name: String,
+        pillars: [Pillar],
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAgentProfileResponse {
+        let input = CreateAgentProfileRequest(
+            aggregationConfiguration: aggregationConfiguration, 
+            businessOverview: businessOverview, 
+            clientToken: clientToken, 
+            deletionProtection: deletionProtection, 
+            description: description, 
+            displayName: displayName, 
+            executionRoleArn: executionRoleArn, 
+            name: name, 
+            pillars: pillars, 
+            tags: tags
+        )
+        return try await self.createAgentProfile(input, logger: logger)
+    }
+
+    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.  Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see Sharing a custom lens in the Well-Architected Tool User Guide.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     @Sendable
     @inlinable
     public func createLensShare(_ input: CreateLensShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLensShareOutput {
@@ -155,7 +293,7 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.  Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see Sharing a custom lens in the Well-Architected Tool User Guide.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.  Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see Sharing a custom lens in the Well-Architected Tool User Guide.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
     /// Parameters:
     ///   - clientRequestToken: 
@@ -177,7 +315,7 @@ public struct WellArchitected: AWSService {
         return try await self.createLensShare(input, logger: logger)
     }
 
-    /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias  is used to identify the lens to be published.  The owner of a lens can share the lens with other  Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
+    /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
     @Sendable
     @inlinable
     public func createLensVersion(_ input: CreateLensVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLensVersionOutput {
@@ -190,7 +328,7 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias  is used to identify the lens to be published.  The owner of a lens can share the lens with other  Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
+    /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
     ///
     /// Parameters:
     ///   - clientRequestToken: 
@@ -370,7 +508,7 @@ public struct WellArchitected: AWSService {
         return try await self.createReviewTemplate(input, logger: logger)
     }
 
-    /// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region.  Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template.   Disclaimer  By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
+    /// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region.   Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template.   Disclaimer  By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
     @Sendable
     @inlinable
     public func createTemplateShare(_ input: CreateTemplateShareInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTemplateShareOutput {
@@ -383,7 +521,7 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region.  Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template.   Disclaimer  By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
+    /// Create a review template share. The owner of a review template can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region.   Shared access to a review template is not removed until the review template share invitation is deleted. If you share a review template with an organization or OU, all accounts in the organization or OU are granted access to the review template.   Disclaimer  By sharing your review template with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your review template available to those other accounts.
     ///
     /// Parameters:
     ///   - clientRequestToken: 
@@ -405,7 +543,7 @@ public struct WellArchitected: AWSService {
         return try await self.createTemplateShare(input, logger: logger)
     }
 
-    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs)  in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.  Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.   When creating a workload using a review template, you must have the following IAM permissions:    wellarchitected:GetReviewTemplate     wellarchitected:GetReviewTemplateAnswer     wellarchitected:ListReviewTemplateAnswers     wellarchitected:GetReviewTemplateLensReview
+    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.  Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.   When creating a workload using a review template, you must have the following IAM permissions:    wellarchitected:GetReviewTemplate     wellarchitected:GetReviewTemplateAnswer     wellarchitected:ListReviewTemplateAnswers     wellarchitected:GetReviewTemplateLensReview
     @Sendable
     @inlinable
     public func createWorkload(_ input: CreateWorkloadInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkloadOutput {
@@ -418,7 +556,7 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs)  in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.  Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.   When creating a workload using a review template, you must have the following IAM permissions:    wellarchitected:GetReviewTemplate     wellarchitected:GetReviewTemplateAnswer     wellarchitected:ListReviewTemplateAnswers     wellarchitected:GetReviewTemplateLensReview
+    /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see Defining a Workload in the Well-Architected Tool User Guide.  Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.   When creating a workload using a review template, you must have the following IAM permissions:    wellarchitected:GetReviewTemplate     wellarchitected:GetReviewTemplateAnswer     wellarchitected:ListReviewTemplateAnswers     wellarchitected:GetReviewTemplateLensReview
     ///
     /// Parameters:
     ///   - accountIds: 
@@ -529,7 +667,100 @@ public struct WellArchitected: AWSService {
         return try await self.createWorkloadShare(input, logger: logger)
     }
 
-    /// Delete an existing lens. Only the owner of a lens can delete it.  After the lens is deleted,  Amazon Web Services accounts and users  that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.    Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Deletes a context associated with a profile.
+    @Sendable
+    @inlinable
+    public func deleteAgentContext(_ input: DeleteAgentContextRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentContextResponse {
+        try await self.client.execute(
+            operation: "DeleteAgentContext", 
+            path: "/api/v1/agent-profiles/{profileArn}/contexts/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a context associated with a profile.
+    ///
+    /// Parameters:
+    ///   - id: The unique identifier of the context to delete.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile containing the context.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAgentContext(
+        id: String,
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAgentContextResponse {
+        let input = DeleteAgentContextRequest(
+            id: id, 
+            profileArn: profileArn
+        )
+        return try await self.deleteAgentContext(input, logger: logger)
+    }
+
+    /// Deletes an optimization goal from a profile.
+    @Sendable
+    @inlinable
+    public func deleteAgentGoal(_ input: DeleteAgentGoalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentGoalResponse {
+        try await self.client.execute(
+            operation: "DeleteAgentGoal", 
+            path: "/api/v1/agent-profiles/{profileArn}/goals/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an optimization goal from a profile.
+    ///
+    /// Parameters:
+    ///   - id: The unique identifier of the goal to delete.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile containing the goal.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAgentGoal(
+        id: String,
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAgentGoalResponse {
+        let input = DeleteAgentGoalRequest(
+            id: id, 
+            profileArn: profileArn
+        )
+        return try await self.deleteAgentGoal(input, logger: logger)
+    }
+
+    /// Deletes an optimization profile and its associated configuration. This action cannot be undone.
+    @Sendable
+    @inlinable
+    public func deleteAgentProfile(_ input: DeleteAgentProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAgentProfileResponse {
+        try await self.client.execute(
+            operation: "DeleteAgentProfile", 
+            path: "/api/v1/agent-profiles/{profileArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an optimization profile and its associated configuration. This action cannot be undone.
+    ///
+    /// Parameters:
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAgentProfile(
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAgentProfileResponse {
+        let input = DeleteAgentProfileRequest(
+            profileArn: profileArn
+        )
+        return try await self.deleteAgentProfile(input, logger: logger)
+    }
+
+    /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.    Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     @Sendable
     @inlinable
     public func deleteLens(_ input: DeleteLensInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -542,7 +773,7 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Delete an existing lens. Only the owner of a lens can delete it.  After the lens is deleted,  Amazon Web Services accounts and users  that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.    Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.    Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
     /// Parameters:
     ///   - clientRequestToken: 
@@ -564,7 +795,7 @@ public struct WellArchitected: AWSService {
         return try await self.deleteLens(input, logger: logger)
     }
 
-    /// Delete a lens share. After the lens share is deleted,  Amazon Web Services accounts, users, organizations, and organizational units (OUs)  that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     @Sendable
     @inlinable
     public func deleteLensShare(_ input: DeleteLensShareInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -577,7 +808,7 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Delete a lens share. After the lens share is deleted,  Amazon Web Services accounts, users, organizations, and organizational units (OUs)  that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your custom lenses available to those  other accounts. Those other accounts may continue to access and use your  shared custom lenses even if you delete the custom lenses  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads.   Disclaimer  By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
     /// Parameters:
     ///   - clientRequestToken: 
@@ -599,7 +830,7 @@ public struct WellArchitected: AWSService {
         return try await self.deleteLensShare(input, logger: logger)
     }
 
-    /// Delete a profile.   Disclaimer  By sharing your profile with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your profile available to those  other accounts. Those other accounts may continue to access and use your  shared profile even if you delete the profile  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Delete a profile.   Disclaimer  By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile available to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account.
     @Sendable
     @inlinable
     public func deleteProfile(_ input: DeleteProfileInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -612,7 +843,7 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Delete a profile.   Disclaimer  By sharing your profile with other Amazon Web Services accounts,  you acknowledge that Amazon Web Services will make your profile available to those  other accounts. Those other accounts may continue to access and use your  shared profile even if you delete the profile  from your own Amazon Web Services account or terminate  your Amazon Web Services account.
+    /// Delete a profile.   Disclaimer  By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile available to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account.
     ///
     /// Parameters:
     ///   - clientRequestToken: 
@@ -864,7 +1095,7 @@ public struct WellArchitected: AWSService {
         return try await self.disassociateProfiles(input, logger: logger)
     }
 
-    /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content)  cannot be exported. Lenses are defined in JSON. For more information, see JSON format specification  in the Well-Architected Tool User Guide.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or  other identifiable individuals in or via your custom lenses. If your custom  lens or those shared with you and used in your account do include or collect  PII you are responsible for: ensuring that the included PII is processed in accordance  with applicable law, providing adequate privacy notices, and obtaining necessary  consents for processing such data.
+    /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see JSON format specification in the Well-Architected Tool User Guide.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     @Sendable
     @inlinable
     public func exportLens(_ input: ExportLensInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportLensOutput {
@@ -877,7 +1108,7 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content)  cannot be exported. Lenses are defined in JSON. For more information, see JSON format specification  in the Well-Architected Tool User Guide.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or  other identifiable individuals in or via your custom lenses. If your custom  lens or those shared with you and used in your account do include or collect  PII you are responsible for: ensuring that the included PII is processed in accordance  with applicable law, providing adequate privacy notices, and obtaining necessary  consents for processing such data.
+    /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see JSON format specification in the Well-Architected Tool User Guide.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
     /// Parameters:
     ///   - lensAlias: 
@@ -894,6 +1125,163 @@ public struct WellArchitected: AWSService {
             lensVersion: lensVersion
         )
         return try await self.exportLens(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific context associated with a profile.
+    @Sendable
+    @inlinable
+    public func getAgentContext(_ input: GetAgentContextRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentContextResponse {
+        try await self.client.execute(
+            operation: "GetAgentContext", 
+            path: "/api/v1/agent-profiles/{profileArn}/contexts/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific context associated with a profile.
+    ///
+    /// Parameters:
+    ///   - id: The unique identifier of the context to retrieve.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile containing the context.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgentContext(
+        id: String,
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgentContextResponse {
+        let input = GetAgentContextRequest(
+            id: id, 
+            profileArn: profileArn
+        )
+        return try await self.getAgentContext(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific optimization goal.
+    @Sendable
+    @inlinable
+    public func getAgentGoal(_ input: GetAgentGoalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentGoalResponse {
+        try await self.client.execute(
+            operation: "GetAgentGoal", 
+            path: "/api/v1/agent-profiles/{profileArn}/goals/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific optimization goal.
+    ///
+    /// Parameters:
+    ///   - id: The unique identifier of the goal to retrieve.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile containing the goal.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgentGoal(
+        id: String,
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgentGoalResponse {
+        let input = GetAgentGoalRequest(
+            id: id, 
+            profileArn: profileArn
+        )
+        return try await self.getAgentGoal(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about an optimization profile, including its configuration and metadata.
+    @Sendable
+    @inlinable
+    public func getAgentProfile(_ input: GetAgentProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentProfileResponse {
+        try await self.client.execute(
+            operation: "GetAgentProfile", 
+            path: "/api/v1/agent-profiles/{profileArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about an optimization profile, including its configuration and metadata.
+    ///
+    /// Parameters:
+    ///   - profileArn: The Amazon Resource Name (ARN) of the optimization profile to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgentProfile(
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgentProfileResponse {
+        let input = GetAgentProfileRequest(
+            profileArn: profileArn
+        )
+        return try await self.getAgentProfile(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance.
+    @Sendable
+    @inlinable
+    public func getAgentRecommendation(_ input: GetAgentRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentRecommendationResponse {
+        try await self.client.execute(
+            operation: "GetAgentRecommendation", 
+            path: "/api/v1/agent-recommendations/{recommendationArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific optimization recommendation, including its impact analysis, content, and implementation guidance.
+    ///
+    /// Parameters:
+    ///   - recommendationArn: The Amazon Resource Name (ARN) of the recommendation to retrieve.
+    ///   - remediationType: Optional filter on remediation type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgentRecommendation(
+        recommendationArn: String,
+        remediationType: RemediationType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgentRecommendationResponse {
+        let input = GetAgentRecommendationRequest(
+            recommendationArn: recommendationArn, 
+            remediationType: remediationType
+        )
+        return try await self.getAgentRecommendation(input, logger: logger)
+    }
+
+    /// Retrieves information about a recommendation generation process, including its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Intermediate values are QUEUED and IN_PROGRESS.
+    @Sendable
+    @inlinable
+    public func getAgentRecommendationGeneration(_ input: GetAgentRecommendationGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentRecommendationGenerationResponse {
+        try await self.client.execute(
+            operation: "GetAgentRecommendationGeneration", 
+            path: "/api/v1/agent-profiles/{profileArn}/generations/{generationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a recommendation generation process, including its status, progress, and results. Recommendation generation is asynchronous: poll this operation until status reaches a terminal value of COMPLETED (results are ready) or ERROR (see errorDetails). Intermediate values are QUEUED and IN_PROGRESS.
+    ///
+    /// Parameters:
+    ///   - generationId: The unique identifier of the recommendation generation to retrieve.
+    ///   - profileArn: The ARN of the optimization profile associated with this generation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgentRecommendationGeneration(
+        generationId: String,
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgentRecommendationGenerationResponse {
+        let input = GetAgentRecommendationGenerationRequest(
+            generationId: generationId, 
+            profileArn: profileArn
+        )
+        return try await self.getAgentRecommendationGeneration(input, logger: logger)
     }
 
     /// Get the answer to a specific question in a workload review.
@@ -950,7 +1338,7 @@ public struct WellArchitected: AWSService {
     /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you.
     ///
     /// Parameters:
-    ///   - format: The format of the consolidated report. For PDF, Base64String is returned. For JSON,  Metrics is returned.
+    ///   - format: The format of the consolidated report. For PDF, Base64String is returned. For JSON, Metrics is returned.
     ///   - includeSharedResources: Set to true to have shared resources included in the report.
     ///   - maxResults: The maximum number of results to return for this request.
     ///   - nextToken: 
@@ -1337,7 +1725,7 @@ public struct WellArchitected: AWSService {
         return try await self.getWorkload(input, logger: logger)
     }
 
-    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the  LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with CreateLensVersion. Lenses are defined in JSON. For more information, see JSON format specification  in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or  other identifiable individuals in or via your custom lenses. If your custom  lens or those shared with you and used in your account do include or collect  PII you are responsible for: ensuring that the included PII is processed in accordance  with applicable law, providing adequate privacy notices, and obtaining necessary  consents for processing such data.
+    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with CreateLensVersion. Lenses are defined in JSON. For more information, see JSON format specification in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     @Sendable
     @inlinable
     public func importLens(_ input: ImportLensInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportLensOutput {
@@ -1350,7 +1738,7 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the  LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with CreateLensVersion. Lenses are defined in JSON. For more information, see JSON format specification  in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or  other identifiable individuals in or via your custom lenses. If your custom  lens or those shared with you and used in your account do include or collect  PII you are responsible for: ensuring that the included PII is processed in accordance  with applicable law, providing adequate privacy notices, and obtaining necessary  consents for processing such data.
+    /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with CreateLensVersion. Lenses are defined in JSON. For more information, see JSON format specification in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size.   Disclaimer  Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
     ///
     /// Parameters:
     ///   - clientRequestToken: 
@@ -1373,6 +1761,225 @@ public struct WellArchitected: AWSService {
             tags: tags
         )
         return try await self.importLens(input, logger: logger)
+    }
+
+    /// Lists contexts associated with a profile.
+    @Sendable
+    @inlinable
+    public func listAgentContexts(_ input: ListAgentContextsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentContextsResponse {
+        try await self.client.execute(
+            operation: "ListAgentContexts", 
+            path: "/api/v1/agent-profiles/{profileArn}/contexts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists contexts associated with a profile.
+    ///
+    /// Parameters:
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile to list contexts for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgentContexts(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgentContextsResponse {
+        let input = ListAgentContextsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            profileArn: profileArn
+        )
+        return try await self.listAgentContexts(input, logger: logger)
+    }
+
+    /// Lists optimization goals associated with a specified profile. Goals define specific targets and objectives for the optimization process.
+    @Sendable
+    @inlinable
+    public func listAgentGoals(_ input: ListAgentGoalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentGoalsResponse {
+        try await self.client.execute(
+            operation: "ListAgentGoals", 
+            path: "/api/v1/agent-profiles/{profileArn}/goals", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists optimization goals associated with a specified profile. Goals define specific targets and objectives for the optimization process.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of goals to return in a single response.
+    ///   - nextToken: A pagination token returned from a previous call to continue retrieving results.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the optimization profile to list goals for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgentGoals(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgentGoalsResponse {
+        let input = ListAgentGoalsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            profileArn: profileArn
+        )
+        return try await self.listAgentGoals(input, logger: logger)
+    }
+
+    /// Lists optimization profiles in your account. Profiles define the scope and configuration for generating optimization recommendations.
+    @Sendable
+    @inlinable
+    public func listAgentProfiles(_ input: ListAgentProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentProfilesResponse {
+        try await self.client.execute(
+            operation: "ListAgentProfiles", 
+            path: "/api/v1/agent-profiles", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists optimization profiles in your account. Profiles define the scope and configuration for generating optimization recommendations.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of profiles to return in a single call. Default is 100.
+    ///   - nextToken: A pagination token returned from a previous call to continue retrieving results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgentProfiles(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgentProfilesResponse {
+        let input = ListAgentProfilesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAgentProfiles(input, logger: logger)
+    }
+
+    /// Lists recommendation generation processes for a specified profile.
+    @Sendable
+    @inlinable
+    public func listAgentRecommendationGenerations(_ input: ListAgentRecommendationGenerationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentRecommendationGenerationsResponse {
+        try await self.client.execute(
+            operation: "ListAgentRecommendationGenerations", 
+            path: "/api/v1/agent-profiles/{profileArn}/generations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists recommendation generation processes for a specified profile.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of generation processes to return in a single response.
+    ///   - nextToken: A pagination token returned from a previous call to continue retrieving results.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the optimization profile to list generation processes for.
+    ///   - recommendationType: Optional filter by recommendation type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgentRecommendationGenerations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        profileArn: String,
+        recommendationType: RecommendationType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgentRecommendationGenerationsResponse {
+        let input = ListAgentRecommendationGenerationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            profileArn: profileArn, 
+            recommendationType: recommendationType
+        )
+        return try await self.listAgentRecommendationGenerations(input, logger: logger)
+    }
+
+    /// Lists recommendation items for a specific recommendation. Recommendation items provide detailed information about individual optimization opportunities.
+    @Sendable
+    @inlinable
+    public func listAgentRecommendationItems(_ input: ListAgentRecommendationItemsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentRecommendationItemsResponse {
+        try await self.client.execute(
+            operation: "ListAgentRecommendationItems", 
+            path: "/api/v1/agent-recommendations/{recommendationArn}/items", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists recommendation items for a specific recommendation. Recommendation items provide detailed information about individual optimization opportunities.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of recommendation items to return in a single response.
+    ///   - nextToken: A pagination token returned from a previous call to continue retrieving results.
+    ///   - recommendationArn: The Amazon Resource Name (ARN) of the recommendation to list items for.
+    ///   - type: Optional filter to return only recommendation items of the specified type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgentRecommendationItems(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        recommendationArn: String,
+        type: RecommendationItemType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgentRecommendationItemsResponse {
+        let input = ListAgentRecommendationItemsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            recommendationArn: recommendationArn, 
+            type: type
+        )
+        return try await self.listAgentRecommendationItems(input, logger: logger)
+    }
+
+    /// Lists active optimization recommendations for a specified profile with optional filtering by state.
+    @Sendable
+    @inlinable
+    public func listAgentRecommendations(_ input: ListAgentRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgentRecommendationsResponse {
+        try await self.client.execute(
+            operation: "ListAgentRecommendations", 
+            path: "/api/v1/agent-profiles/{profileArn}/recommendations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists active optimization recommendations for a specified profile with optional filtering by state.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of recommendations to return in a single response.
+    ///   - nextToken: A pagination token returned from a previous call to continue retrieving results.
+    ///   - pillar: Optional filter to return only recommendations for the specified pillar.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the optimization profile to list recommendations for.
+    ///   - state: Optional filter to return only recommendations with the specified state (OPEN or CLOSED).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgentRecommendations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        pillar: Pillar? = nil,
+        profileArn: String,
+        state: RecommendationState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgentRecommendationsResponse {
+        let input = ListAgentRecommendationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            pillar: pillar, 
+            profileArn: profileArn, 
+            state: state
+        )
+        return try await self.listAgentRecommendations(input, logger: logger)
     }
 
     /// List of answers for a particular workload and lens.
@@ -2136,6 +2743,85 @@ public struct WellArchitected: AWSService {
         return try await self.listWorkloads(input, logger: logger)
     }
 
+    /// Submits user feedback on a recommendation to help improve future optimization suggestions and track implementation outcomes.
+    @Sendable
+    @inlinable
+    public func putAgentRecommendationFeedback(_ input: PutAgentRecommendationFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAgentRecommendationFeedbackResponse {
+        try await self.client.execute(
+            operation: "PutAgentRecommendationFeedback", 
+            path: "/api/v1/agent-recommendations/{recommendationArn}/feedback", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Submits user feedback on a recommendation to help improve future optimization suggestions and track implementation outcomes.
+    ///
+    /// Parameters:
+    ///   - comments: Optional comments providing additional context about the feedback.
+    ///   - feedbackCategory: Optional category classifying the nature of the feedback.
+    ///   - recommendationArn: The Amazon Resource Name (ARN) of the recommendation to provide feedback for.
+    ///   - type: The type of feedback being provided.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAgentRecommendationFeedback(
+        comments: String? = nil,
+        feedbackCategory: FeedbackCategory? = nil,
+        recommendationArn: String,
+        type: RecommendationFeedbackType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAgentRecommendationFeedbackResponse {
+        let input = PutAgentRecommendationFeedbackRequest(
+            comments: comments, 
+            feedbackCategory: feedbackCategory, 
+            recommendationArn: recommendationArn, 
+            type: type
+        )
+        return try await self.putAgentRecommendationFeedback(input, logger: logger)
+    }
+
+    /// Initiates a new recommendation generation process for the specified optimization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGeneration to check status.
+    @Sendable
+    @inlinable
+    public func startAgentRecommendationGeneration(_ input: StartAgentRecommendationGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAgentRecommendationGenerationResponse {
+        try await self.client.execute(
+            operation: "StartAgentRecommendationGeneration", 
+            path: "/api/v1/agent-profiles/{profileArn}/generations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates a new recommendation generation process for the specified optimization profile. This asynchronous operation analyzes your Amazon Web Services resources and generates optimization recommendations based on the configured pillars and scope. Use GetAgentRecommendationGeneration to check status.
+    ///
+    /// Parameters:
+    ///   - additionalContext: Optional additional context to guide the recommendation generation, such as specific business requirements or constraints.
+    ///   - name: An optional name for this generation process to help identify it in lists and logs.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the optimization profile to use for generating recommendations.
+    ///   - scope: Scope configuration to focus the generation on specific pillars or goals.
+    ///   - types: The types of recommendations to generate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAgentRecommendationGeneration(
+        additionalContext: AWSDocument? = nil,
+        name: String? = nil,
+        profileArn: String,
+        scope: Scope,
+        types: [RecommendationType],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAgentRecommendationGenerationResponse {
+        let input = StartAgentRecommendationGenerationRequest(
+            additionalContext: additionalContext, 
+            name: name, 
+            profileArn: profileArn, 
+            scope: scope, 
+            types: types
+        )
+        return try await self.startAgentRecommendationGeneration(input, logger: logger)
+    }
+
     /// Adds one or more tags to the specified resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
     @Sendable
     @inlinable
@@ -2168,7 +2854,7 @@ public struct WellArchitected: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.  To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
+    /// Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.  To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
@@ -2181,10 +2867,10 @@ public struct WellArchitected: AWSService {
             logger: logger
         )
     }
-    /// Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.  To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
+    /// Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.  To specify multiple tags, use separate tagKeys parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
     ///
     /// Parameters:
-    ///   - tagKeys: A list of tag keys. Existing tags of the resource  whose keys are members of this list are removed from the resource.
+    ///   - tagKeys: A list of tag keys. Existing tags of the resource whose keys are members of this list are removed from the resource.
     ///   - workloadArn: 
     ///   - logger: Logger use during operation
     @inlinable
@@ -2198,6 +2884,179 @@ public struct WellArchitected: AWSService {
             workloadArn: workloadArn
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates an existing context associated with a profile.
+    @Sendable
+    @inlinable
+    public func updateAgentContext(_ input: UpdateAgentContextRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentContextResponse {
+        try await self.client.execute(
+            operation: "UpdateAgentContext", 
+            path: "/api/v1/agent-profiles/{profileArn}/contexts/{id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing context associated with a profile.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - content: The updated typed content of the context. The structure contains application-specific fields such as account IDs, Regions, services, and resource types.
+    ///   - id: The unique identifier of the context to update.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile containing the context.
+    ///   - title: The updated title of the context.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAgentContext(
+        clientToken: String? = UpdateAgentContextRequest.idempotencyToken(),
+        content: ContextContent? = nil,
+        id: String,
+        profileArn: String,
+        title: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAgentContextResponse {
+        let input = UpdateAgentContextRequest(
+            clientToken: clientToken, 
+            content: content, 
+            id: id, 
+            profileArn: profileArn, 
+            title: title
+        )
+        return try await self.updateAgentContext(input, logger: logger)
+    }
+
+    /// Updates the pillars and title of an existing goal associated with a profile.
+    @Sendable
+    @inlinable
+    public func updateAgentGoal(_ input: UpdateAgentGoalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentGoalResponse {
+        try await self.client.execute(
+            operation: "UpdateAgentGoal", 
+            path: "/api/v1/agent-profiles/{profileArn}/goals/{id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the pillars and title of an existing goal associated with a profile.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: A description of the goal.
+    ///   - id: The unique identifier of the goal to update.
+    ///   - pillars: The updated pillars for the goal. Pillars define the optimization focus areas such as cost, performance, resilience, and operational excellence.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile containing the goal to update.
+    ///   - title: The updated title for the goal. Maximum length of 1000 characters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAgentGoal(
+        clientToken: String? = UpdateAgentGoalRequest.idempotencyToken(),
+        description: String? = nil,
+        id: String,
+        pillars: [Pillar]? = nil,
+        profileArn: String,
+        title: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAgentGoalResponse {
+        let input = UpdateAgentGoalRequest(
+            clientToken: clientToken, 
+            description: description, 
+            id: id, 
+            pillars: pillars, 
+            profileArn: profileArn, 
+            title: title
+        )
+        return try await self.updateAgentGoal(input, logger: logger)
+    }
+
+    /// Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings.
+    @Sendable
+    @inlinable
+    public func updateAgentProfile(_ input: UpdateAgentProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentProfileResponse {
+        try await self.client.execute(
+            operation: "UpdateAgentProfile", 
+            path: "/api/v1/agent-profiles/{profileArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing optimization profile's configuration, including its pillars, execution role, and aggregation settings.
+    ///
+    /// Parameters:
+    ///   - aggregationConfiguration: The updated aggregation configuration.
+    ///   - businessOverview: The updated business overview for the profile.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - deletionProtection: Indicates whether deletion protection is enabled for the profile.
+    ///   - description: The updated description of the profile.
+    ///   - displayName: The updated display name of the profile.
+    ///   - executionRoleArn: The updated ARN of the IAM execution role.
+    ///   - pillars: The updated Well-Architected Tool Framework pillars for the profile.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAgentProfile(
+        aggregationConfiguration: [AggregationConfiguration]? = nil,
+        businessOverview: String? = nil,
+        clientToken: String? = UpdateAgentProfileRequest.idempotencyToken(),
+        deletionProtection: Bool? = nil,
+        description: String? = nil,
+        displayName: String? = nil,
+        executionRoleArn: String? = nil,
+        pillars: [Pillar]? = nil,
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAgentProfileResponse {
+        let input = UpdateAgentProfileRequest(
+            aggregationConfiguration: aggregationConfiguration, 
+            businessOverview: businessOverview, 
+            clientToken: clientToken, 
+            deletionProtection: deletionProtection, 
+            description: description, 
+            displayName: displayName, 
+            executionRoleArn: executionRoleArn, 
+            pillars: pillars, 
+            profileArn: profileArn
+        )
+        return try await self.updateAgentProfile(input, logger: logger)
+    }
+
+    /// Updates the status of a recommendation to track its progress through the implementation lifecycle.
+    @Sendable
+    @inlinable
+    public func updateAgentRecommendationStatus(_ input: UpdateAgentRecommendationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentRecommendationStatusResponse {
+        try await self.client.execute(
+            operation: "UpdateAgentRecommendationStatus", 
+            path: "/api/v1/agent-recommendations/{recommendationArn}/status", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the status of a recommendation to track its progress through the implementation lifecycle.
+    ///
+    /// Parameters:
+    ///   - recommendationArn: The Amazon Resource Name (ARN) of the recommendation to update.
+    ///   - status: The new status to assign to the recommendation.
+    ///   - updateReason: A free-text reason explaining this status update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAgentRecommendationStatus(
+        recommendationArn: String,
+        status: RecommendationStatus,
+        updateReason: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAgentRecommendationStatusResponse {
+        let input = UpdateAgentRecommendationStatusRequest(
+            recommendationArn: recommendationArn, 
+            status: status, 
+            updateReason: updateReason
+        )
+        return try await self.updateAgentRecommendationStatus(input, logger: logger)
     }
 
     /// Update the answer to a specific question in a workload review.
@@ -2216,7 +3075,7 @@ public struct WellArchitected: AWSService {
     /// Update the answer to a specific question in a workload review.
     ///
     /// Parameters:
-    ///   - choiceUpdates: A list of choices to update on a question in your workload.  The String key  corresponds to the choice ID to be updated.
+    ///   - choiceUpdates: A list of choices to update on a question in your workload. The String key corresponds to the choice ID to be updated.
     ///   - isApplicable: 
     ///   - lensAlias: 
     ///   - notes: 
@@ -2821,7 +3680,7 @@ extension WellArchitected {
     /// Return PaginatorSequence for operation ``getConsolidatedReport(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - format: The format of the consolidated report. For PDF, Base64String is returned. For JSON,  Metrics is returned.
+    ///   - format: The format of the consolidated report. For PDF, Base64String is returned. For JSON, Metrics is returned.
     ///   - includeSharedResources: Set to true to have shared resources included in the report.
     ///   - maxResults: The maximum number of results to return for this request.
     ///   - logger: Logger used for logging
@@ -2838,6 +3697,237 @@ extension WellArchitected {
             maxResults: maxResults
         )
         return self.getConsolidatedReportPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgentContexts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentContextsPaginator(
+        _ input: ListAgentContextsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgentContextsRequest, ListAgentContextsResponse> {
+        return .init(
+            input: input,
+            command: self.listAgentContexts,
+            inputKey: \ListAgentContextsRequest.nextToken,
+            outputKey: \ListAgentContextsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgentContexts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: 
+    ///   - profileArn: The Amazon Resource Name (ARN) of the profile to list contexts for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentContextsPaginator(
+        maxResults: Int? = nil,
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgentContextsRequest, ListAgentContextsResponse> {
+        let input = ListAgentContextsRequest(
+            maxResults: maxResults, 
+            profileArn: profileArn
+        )
+        return self.listAgentContextsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgentGoals(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentGoalsPaginator(
+        _ input: ListAgentGoalsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgentGoalsRequest, ListAgentGoalsResponse> {
+        return .init(
+            input: input,
+            command: self.listAgentGoals,
+            inputKey: \ListAgentGoalsRequest.nextToken,
+            outputKey: \ListAgentGoalsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgentGoals(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of goals to return in a single response.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the optimization profile to list goals for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentGoalsPaginator(
+        maxResults: Int? = nil,
+        profileArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgentGoalsRequest, ListAgentGoalsResponse> {
+        let input = ListAgentGoalsRequest(
+            maxResults: maxResults, 
+            profileArn: profileArn
+        )
+        return self.listAgentGoalsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgentProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentProfilesPaginator(
+        _ input: ListAgentProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgentProfilesRequest, ListAgentProfilesResponse> {
+        return .init(
+            input: input,
+            command: self.listAgentProfiles,
+            inputKey: \ListAgentProfilesRequest.nextToken,
+            outputKey: \ListAgentProfilesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgentProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of profiles to return in a single call. Default is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentProfilesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgentProfilesRequest, ListAgentProfilesResponse> {
+        let input = ListAgentProfilesRequest(
+            maxResults: maxResults
+        )
+        return self.listAgentProfilesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgentRecommendationGenerations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentRecommendationGenerationsPaginator(
+        _ input: ListAgentRecommendationGenerationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgentRecommendationGenerationsRequest, ListAgentRecommendationGenerationsResponse> {
+        return .init(
+            input: input,
+            command: self.listAgentRecommendationGenerations,
+            inputKey: \ListAgentRecommendationGenerationsRequest.nextToken,
+            outputKey: \ListAgentRecommendationGenerationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgentRecommendationGenerations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of generation processes to return in a single response.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the optimization profile to list generation processes for.
+    ///   - recommendationType: Optional filter by recommendation type.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentRecommendationGenerationsPaginator(
+        maxResults: Int? = nil,
+        profileArn: String,
+        recommendationType: RecommendationType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgentRecommendationGenerationsRequest, ListAgentRecommendationGenerationsResponse> {
+        let input = ListAgentRecommendationGenerationsRequest(
+            maxResults: maxResults, 
+            profileArn: profileArn, 
+            recommendationType: recommendationType
+        )
+        return self.listAgentRecommendationGenerationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgentRecommendationItems(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentRecommendationItemsPaginator(
+        _ input: ListAgentRecommendationItemsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgentRecommendationItemsRequest, ListAgentRecommendationItemsResponse> {
+        return .init(
+            input: input,
+            command: self.listAgentRecommendationItems,
+            inputKey: \ListAgentRecommendationItemsRequest.nextToken,
+            outputKey: \ListAgentRecommendationItemsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgentRecommendationItems(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of recommendation items to return in a single response.
+    ///   - recommendationArn: The Amazon Resource Name (ARN) of the recommendation to list items for.
+    ///   - type: Optional filter to return only recommendation items of the specified type.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentRecommendationItemsPaginator(
+        maxResults: Int? = nil,
+        recommendationArn: String,
+        type: RecommendationItemType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgentRecommendationItemsRequest, ListAgentRecommendationItemsResponse> {
+        let input = ListAgentRecommendationItemsRequest(
+            maxResults: maxResults, 
+            recommendationArn: recommendationArn, 
+            type: type
+        )
+        return self.listAgentRecommendationItemsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgentRecommendations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentRecommendationsPaginator(
+        _ input: ListAgentRecommendationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgentRecommendationsRequest, ListAgentRecommendationsResponse> {
+        return .init(
+            input: input,
+            command: self.listAgentRecommendations,
+            inputKey: \ListAgentRecommendationsRequest.nextToken,
+            outputKey: \ListAgentRecommendationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgentRecommendations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of recommendations to return in a single response.
+    ///   - pillar: Optional filter to return only recommendations for the specified pillar.
+    ///   - profileArn: The Amazon Resource Name (ARN) of the optimization profile to list recommendations for.
+    ///   - state: Optional filter to return only recommendations with the specified state (OPEN or CLOSED).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgentRecommendationsPaginator(
+        maxResults: Int? = nil,
+        pillar: Pillar? = nil,
+        profileArn: String,
+        state: RecommendationState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgentRecommendationsRequest, ListAgentRecommendationsResponse> {
+        let input = ListAgentRecommendationsRequest(
+            maxResults: maxResults, 
+            pillar: pillar, 
+            profileArn: profileArn, 
+            state: state
+        )
+        return self.listAgentRecommendationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listAnswers(_:logger:)``.
@@ -3617,6 +4707,75 @@ extension WellArchitected.GetConsolidatedReportInput: AWSPaginateToken {
             includeSharedResources: self.includeSharedResources,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension WellArchitected.ListAgentContextsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListAgentContextsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            profileArn: self.profileArn
+        )
+    }
+}
+
+extension WellArchitected.ListAgentGoalsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListAgentGoalsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            profileArn: self.profileArn
+        )
+    }
+}
+
+extension WellArchitected.ListAgentProfilesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListAgentProfilesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension WellArchitected.ListAgentRecommendationGenerationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListAgentRecommendationGenerationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            profileArn: self.profileArn,
+            recommendationType: self.recommendationType
+        )
+    }
+}
+
+extension WellArchitected.ListAgentRecommendationItemsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListAgentRecommendationItemsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            recommendationArn: self.recommendationArn,
+            type: self.type
+        )
+    }
+}
+
+extension WellArchitected.ListAgentRecommendationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListAgentRecommendationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            pillar: self.pillar,
+            profileArn: self.profileArn,
+            state: self.state
         )
     }
 }

@@ -802,6 +802,41 @@ public struct ACM: AWSService {
         return try await self.listAcmeExternalAccountBindings(input, logger: logger)
     }
 
+    /// Returns per-domain validation summaries for an ACM certificate. Each summary includes the domain name, the active validation configuration, and the requested validation configuration when a validation method migration is in progress. You can use the results to monitor the progress of an email-to-DNS validation migration and to retrieve the CNAME records required for DNS validation.
+    @Sendable
+    @inlinable
+    public func listCertificateDomainValidations(_ input: ListCertificateDomainValidationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCertificateDomainValidationsResponse {
+        try await self.client.execute(
+            operation: "ListCertificateDomainValidations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns per-domain validation summaries for an ACM certificate. Each summary includes the domain name, the active validation configuration, and the requested validation configuration when a validation method migration is in progress. You can use the results to monitor the progress of an email-to-DNS validation migration and to retrieve the CNAME records required for DNS validation.
+    ///
+    /// Parameters:
+    ///   - certificateArn: The Amazon Resource Name (ARN) of the certificate for which to list domain validation summaries.
+    ///   - maxItems: The maximum number of domain validation summaries to return. If you don't specify a value, the default is 1000.
+    ///   - nextToken: A token returned by a previous call to ListCertificateDomainValidations. If the number of results exceeds MaxItems, use this token to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCertificateDomainValidations(
+        certificateArn: String,
+        maxItems: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCertificateDomainValidationsResponse {
+        let input = ListCertificateDomainValidationsRequest(
+            certificateArn: certificateArn, 
+            maxItems: maxItems, 
+            nextToken: nextToken
+        )
+        return try await self.listCertificateDomainValidations(input, logger: logger)
+    }
+
     /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see Filters.  By default, this action does not return certificates with a CertificateKeyPairOrigin of ACME. To include ACME certificates, specify ACME in the CertificateKeyPairOrigins filter.
     @Sendable
     @inlinable
@@ -1359,7 +1394,7 @@ public struct ACM: AWSService {
         return try await self.updateAcmeEndpoint(input, logger: logger)
     }
 
-    /// Updates a certificate. You can use this function to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. For more information, see Certificate Transparency Logging and Certificate Manager Exportable Managed Certificates.
+    /// Updates certificate options. You can use this operation to change the domain validation method or specify whether to export your certificate. For more information, see Migrate from email to DNS validation and Certificate Manager Exportable Managed Certificates.
     @Sendable
     @inlinable
     public func updateCertificateOptions(_ input: UpdateCertificateOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1372,11 +1407,11 @@ public struct ACM: AWSService {
             logger: logger
         )
     }
-    /// Updates a certificate. You can use this function to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. For more information, see Certificate Transparency Logging and Certificate Manager Exportable Managed Certificates.
+    /// Updates certificate options. You can use this operation to change the domain validation method or specify whether to export your certificate. For more information, see Migrate from email to DNS validation and Certificate Manager Exportable Managed Certificates.
     ///
     /// Parameters:
     ///   - certificateArn: ARN of the requested certificate to update. This must be of the form:  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
-    ///   - options: Use to update the options for your certificate. Currently, you can specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see Certificate Transparency Logging.
+    ///   - options: Use to update the options for your certificate. Currently, you can change the domain validation method or specify whether to export your certificate. For more information about migrating from email to DNS validation, see Migrate from email to DNS validation.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCertificateOptions(
@@ -1550,6 +1585,43 @@ extension ACM {
         return self.listAcmeExternalAccountBindingsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCertificateDomainValidations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCertificateDomainValidationsPaginator(
+        _ input: ListCertificateDomainValidationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCertificateDomainValidationsRequest, ListCertificateDomainValidationsResponse> {
+        return .init(
+            input: input,
+            command: self.listCertificateDomainValidations,
+            inputKey: \ListCertificateDomainValidationsRequest.nextToken,
+            outputKey: \ListCertificateDomainValidationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCertificateDomainValidations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - certificateArn: The Amazon Resource Name (ARN) of the certificate for which to list domain validation summaries.
+    ///   - maxItems: The maximum number of domain validation summaries to return. If you don't specify a value, the default is 1000.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCertificateDomainValidationsPaginator(
+        certificateArn: String,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCertificateDomainValidationsRequest, ListCertificateDomainValidationsResponse> {
+        let input = ListCertificateDomainValidationsRequest(
+            certificateArn: certificateArn, 
+            maxItems: maxItems
+        )
+        return self.listCertificateDomainValidationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCertificates(_:logger:)``.
     ///
     /// - Parameters:
@@ -1681,6 +1753,17 @@ extension ACM.ListAcmeExternalAccountBindingsRequest: AWSPaginateToken {
         return .init(
             acmeEndpointArn: self.acmeEndpointArn,
             maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ACM.ListCertificateDomainValidationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ACM.ListCertificateDomainValidationsRequest {
+        return .init(
+            certificateArn: self.certificateArn,
+            maxItems: self.maxItems,
             nextToken: token
         )
     }

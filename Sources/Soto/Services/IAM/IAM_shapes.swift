@@ -44,6 +44,13 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum AttachmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case group = "group"
+        case role = "role"
+        case user = "user"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binary = "binary"
         case binaryList = "binaryList"
@@ -102,6 +109,21 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagedByTypeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case service = "Service"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterTypeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case arn = "Arn"
+        case arnList = "ArnList"
+        case number = "Number"
+        case numberList = "NumberList"
+        case string = "String"
+        case stringList = "StringList"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PermissionCheckResultType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowed = "ALLOWED"
         case denied = "DENIED"
@@ -125,6 +147,16 @@ extension IAM {
         case allowed = "allowed"
         case explicitDeny = "explicitDeny"
         case implicitDeny = "implicitDeny"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyIdentifierPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsManaged = "aws-managed"
+        case inline = "inline"
+        case permissionBoundary = "permission-boundary"
+        case rcp = "rcp"
+        case scp = "scp"
+        case userManaged = "user-managed"
         public var description: String { return self.rawValue }
     }
 
@@ -254,6 +286,45 @@ extension IAM {
         case notAvailable = "NOT_AVAILABLE"
         case notSupported = "NOT_SUPPORTED"
         public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyIdentifier: AWSEncodableShape, Sendable {
+        /// An inline policy identifier consisting of a policy name and the entity it is attached to. Wildcard characters (* and ?) in the entity name can match multiple entities.
+        case inlinePolicyIdentifier(InlinePolicyIdentifierType)
+        /// The Amazon Resource Name (ARN) of an Amazon Web Services managed policy or a customer managed policy that is attached to an IAM user, group, or role. Wildcard characters are supported in the resource name portion of the ARN to match multiple managed policies: use at most one * (matches any sequence of characters, including none), and any number of ? (each matches exactly one character). For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+        case policyArn(String)
+        /// The policy type to identify. All policies of the specified type are matched.
+        case policyType(PolicyIdentifierPolicyType)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .inlinePolicyIdentifier(let value):
+                try container.encode(value, forKey: .inlinePolicyIdentifier)
+            case .policyArn(let value):
+                try container.encode(value, forKey: .policyArn)
+            case .policyType(let value):
+                try container.encode(value, forKey: .policyType)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .inlinePolicyIdentifier(let value):
+                try value.validate(name: "\(name).inlinePolicyIdentifier")
+            case .policyArn(let value):
+                try self.validate(value, name: "policyArn", parent: name, max: 2048)
+                try self.validate(value, name: "policyArn", parent: name, min: 20)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlinePolicyIdentifier = "InlinePolicyIdentifier"
+            case policyArn = "PolicyArn"
+            case policyType = "PolicyType"
+        }
     }
 
     // MARK: Shapes
@@ -387,6 +458,52 @@ extension IAM {
             case createDate = "CreateDate"
             case status = "Status"
             case userName = "UserName"
+        }
+    }
+
+    public struct AcquireRoleRequest: AWSEncodableShape {
+        /// A map of values to substitute for the parameters that are defined in the role template version. Each key is a parameter name from the template, and each value is a structure that contains the replacement values for that parameter.
+        @OptionalCustomCoding<StandardDictionaryCoder<String, ReplacementValueEntry>>
+        public var replacementValues: [String: ReplacementValueEntry]?
+        /// The Amazon Resource Name (ARN) of the role template to create the role from. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+        public let templateArn: String
+        /// The minor version of the role template to use. If you do not specify a minor version, the service uses the template's default minor version.
+        public let templateMinorVersion: Int?
+
+        @inlinable
+        public init(replacementValues: [String: ReplacementValueEntry]? = nil, templateArn: String, templateMinorVersion: Int? = nil) {
+            self.replacementValues = replacementValues
+            self.templateArn = templateArn
+            self.templateMinorVersion = templateMinorVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.replacementValues?.forEach {
+                try $0.value.validate(name: "\(name).replacementValues[\"\($0.key)\"]")
+            }
+            try self.validate(self.replacementValues, name: "replacementValues", parent: name, max: 30)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 2048)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replacementValues = "ReplacementValues"
+            case templateArn = "TemplateArn"
+            case templateMinorVersion = "TemplateMinorVersion"
+        }
+    }
+
+    public struct AcquireRoleResponse: AWSDecodableShape {
+        /// A structure that contains details about the IAM role that was created.
+        public let role: Role
+
+        @inlinable
+        public init(role: Role) {
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "Role"
         }
     }
 
@@ -2400,18 +2517,18 @@ extension IAM {
         public let evalActionName: String
         /// The result of the simulation.
         public let evalDecision: PolicyEvaluationDecisionType
-        /// Additional details about the results of the cross-account evaluation decision. This parameter is populated for only cross-account simulations. It contains a brief summary of how each policy type contributes to the final evaluation decision. If the simulation evaluates policies within the same account and includes a resource ARN, then the parameter is present but the response is empty. If the simulation evaluates policies within the same account and specifies all resources (*), then the parameter is not returned. When you make a cross-account request, Amazon Web Services evaluates the request in the trusting account and the trusted account. The request is allowed only if both evaluations return true. For more information about how policies are evaluated, see Evaluating policies within a single account. If an Organizations SCP included in the evaluation denies access, the simulation ends. In this case, policy evaluation does not proceed any further and this parameter is not returned.
+        /// Additional details about the results of the cross-account evaluation decision. This parameter is populated for only cross-account simulations. It contains a brief summary of how each policy type contributes to the final evaluation decision. In the top-level result, this map reports the most restrictive decision per policy type across all requested resources. If the simulation evaluates policies within the same account and includes a resource ARN, then the parameter is present but the response is empty. If the simulation evaluates policies within the same account and specifies all resources (*), then the parameter is not returned. When you make a cross-account request, Amazon Web Services evaluates the request in the trusting account and the trusted account. The request is allowed only if both evaluations return true. For more information about how policies are evaluated, see Evaluating policies within a single account. If an Organizations SCP included in the evaluation denies access, the simulation ends. In this case, policy evaluation does not proceed any further and this parameter is not returned.
         @OptionalCustomCoding<StandardDictionaryCoder<String, PolicyEvaluationDecisionType>>
         public var evalDecisionDetails: [String: PolicyEvaluationDecisionType]?
-        /// The ARN of the resource that the indicated API operation was tested on.
+        /// The ARN template for the simulated resource type (for example, arn:${Partition}:s3:::${BucketName}/${KeyName}), or * if no ARN format is defined for the action. This is not a specific customer-provided resource ARN. To find the decision for a specific resource, use ResourceSpecificResults.  If you previously relied on EvalResourceName to identify which specific resource a result applies to, you must now use the EvalResourceName field within individual entries in ResourceSpecificResults instead.
         public let evalResourceName: String?
-        /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the operation on the resource, if only one statement denies that operation, then the explicit deny overrides any allow. In addition, the deny statement is the only entry included in the result.
+        /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the operation on the resource, if only one statement denies that operation, then the explicit deny overrides any allow. In addition, the deny statement is the only entry included in the result. In the top-level result, this field contains the union of matched statements across all requested resources. Only statements that contributed to the reported decision are included. For per-resource matched statements, see ResourceSpecificResults. This field doesn't include statements from service control policies (SCPs). Only statements from identity-based and resource-based policies appear here.
         @OptionalCustomCoding<StandardArrayCoder<Statement>>
         public var matchedStatements: [Statement]?
-        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
+        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy. In the top-level result, this field contains the deduplicated set of missing context values across all requested resources. This field doesn't include context keys referenced by service control policies (SCPs). Only context keys referenced by identity-based and resource-based policies appear here.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var missingContextValues: [String]?
-        /// A structure that details how Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization.
+        /// A structure that details how Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization. For resources that don't support organization-level evaluation, this field is omitted from the top-level result. For per-resource details, see ResourceSpecificResults.
         public let organizationsDecisionDetail: OrganizationsDecisionDetail?
         /// Contains information about the effect that a permissions boundary has on a policy simulation when the boundary is applied to an IAM entity.
         public let permissionsBoundaryDecisionDetail: PermissionsBoundaryDecisionDetail?
@@ -2657,6 +2774,25 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case passwordPolicy = "PasswordPolicy"
+        }
+    }
+
+    public struct GetAccountPropertiesRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetAccountPropertiesResponse: AWSDecodableShape {
+        /// A map of account property key-value pairs. Keys are in the format Namespace/PropertyName.
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
+        public var properties: [String: String]?
+
+        @inlinable
+        public init(properties: [String: String]? = nil) {
+            self.properties = properties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case properties = "Properties"
         }
     }
 
@@ -3394,6 +3530,43 @@ extension IAM {
         }
     }
 
+    public struct GetRoleTemplateVersionRequest: AWSEncodableShape {
+        /// The minor version of the role template to retrieve. If you do not specify a minor version, the service returns the template's default minor version.
+        public let minorVersion: Int?
+        /// The Amazon Resource Name (ARN) of the role template whose version you want to retrieve. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+        public let templateArn: String
+
+        @inlinable
+        public init(minorVersion: Int? = nil, templateArn: String) {
+            self.minorVersion = minorVersion
+            self.templateArn = templateArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 2048)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minorVersion = "MinorVersion"
+            case templateArn = "TemplateArn"
+        }
+    }
+
+    public struct GetRoleTemplateVersionResponse: AWSDecodableShape {
+        /// A structure that contains details about the requested role template version.
+        public let roleTemplateVersion: RoleTemplateVersion
+
+        @inlinable
+        public init(roleTemplateVersion: RoleTemplateVersion) {
+            self.roleTemplateVersion = roleTemplateVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleTemplateVersion = "RoleTemplateVersion"
+        }
+    }
+
     public struct GetSAMLProviderRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let samlProviderArn: String
@@ -3871,6 +4044,55 @@ extension IAM {
             case groupName = "GroupName"
             case groupPolicyList = "GroupPolicyList"
             case path = "Path"
+        }
+    }
+
+    public struct InlinePolicy: AWSDecodableShape {
+        /// The inline policy document.
+        public let policyDocument: String
+        /// The name of the inline policy.
+        public let policyName: String
+
+        @inlinable
+        public init(policyDocument: String, policyName: String) {
+            self.policyDocument = policyDocument
+            self.policyName = policyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct InlinePolicyIdentifierType: AWSEncodableShape {
+        /// The name of the IAM user, group, or role that the inline policy is attached to. Wildcard characters are supported to match multiple entities: use at most one * (matches any sequence of characters, including none), and any number of ? (each matches exactly one character).
+        public let attachmentName: String
+        /// The type of IAM entity that the inline policy is attached to.
+        public let attachmentType: AttachmentType
+        /// The name of the inline policy.
+        public let policyName: String
+
+        @inlinable
+        public init(attachmentName: String, attachmentType: AttachmentType, policyName: String) {
+            self.attachmentName = attachmentName
+            self.attachmentType = attachmentType
+            self.policyName = policyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, max: 128)
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, min: 1)
+            try self.validate(self.attachmentName, name: "attachmentName", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[\\w+=,.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentName = "AttachmentName"
+            case attachmentType = "AttachmentType"
+            case policyName = "PolicyName"
         }
     }
 
@@ -6013,6 +6235,29 @@ extension IAM {
         }
     }
 
+    public struct OrderedOrganizationPolicyType: AWSEncodableShape {
+        /// A list of SCP documents that apply at this level of the Organizations hierarchy. Each document is specified as a string containing the complete, valid JSON text of an SCP.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var serviceControlPolicyInputList: [String]?
+
+        @inlinable
+        public init(serviceControlPolicyInputList: [String]? = nil) {
+            self.serviceControlPolicyInputList = serviceControlPolicyInputList
+        }
+
+        public func validate(name: String) throws {
+            try self.serviceControlPolicyInputList?.forEach {
+                try validate($0, name: "serviceControlPolicyInputList[]", parent: name, max: 131072)
+                try validate($0, name: "serviceControlPolicyInputList[]", parent: name, min: 1)
+                try validate($0, name: "serviceControlPolicyInputList[]", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceControlPolicyInputList = "ServiceControlPolicyInputList"
+        }
+    }
+
     public struct OrganizationsDecisionDetail: AWSDecodableShape {
         /// Specifies whether the simulated operation is allowed by the Organizations service control policies that impact the simulated user's account.
         public let allowedByOrganizations: Bool?
@@ -6024,6 +6269,44 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case allowedByOrganizations = "AllowedByOrganizations"
+        }
+    }
+
+    public struct ParameterDefinition: AWSDecodableShape {
+        /// The value that the service uses for the parameter when you do not supply one.
+        public let defaultValue: String?
+        /// A description of the parameter.
+        public let description: String?
+        /// Specifies whether you can change the parameter value after you create the role.
+        public let immutable: Bool?
+        /// Specifies whether you must supply a value for the parameter when you create a role from the template.
+        public let isRequired: Bool?
+        /// The name of the parameter.
+        public let name: String
+        /// An optional subtype that further constrains the values that are allowed for the parameter.
+        public let subType: String?
+        /// The data type of the parameter. Valid values are String, StringList, Number, NumberList, Arn, and ArnList.
+        public let type: ParameterTypeType
+
+        @inlinable
+        public init(defaultValue: String? = nil, description: String? = nil, immutable: Bool? = nil, isRequired: Bool? = nil, name: String, subType: String? = nil, type: ParameterTypeType) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.immutable = immutable
+            self.isRequired = isRequired
+            self.name = name
+            self.subType = subType
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "DefaultValue"
+            case description = "Description"
+            case immutable = "Immutable"
+            case isRequired = "IsRequired"
+            case name = "Name"
+            case subType = "SubType"
+            case type = "Type"
         }
     }
 
@@ -6326,6 +6609,35 @@ extension IAM {
         }
     }
 
+    public struct PutAccountPropertiesRequest: AWSEncodableShape {
+        /// A map of property key-value pairs to set. All keys must belong to the same namespace. Each key uses the format Namespace/PropertyName. The key must contain exactly one / separating the namespace from the property name, and cannot start or end with /. The service validates each value based on the property key's expected type. For example, boolean properties expect true or false.
+        @CustomCoding<StandardDictionaryCoder<String, String>>
+        public var properties: [String: String]
+
+        @inlinable
+        public init(properties: [String: String]) {
+            self.properties = properties
+        }
+
+        public func validate(name: String) throws {
+            try self.properties.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 50)
+                try validate($0.key, name: "properties.key", parent: name, min: 1)
+                try validate($0.key, name: "properties.key", parent: name, pattern: "^[A-Za-z][A-Za-z0-9/_-]*$")
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case properties = "Properties"
+        }
+    }
+
+    public struct PutAccountPropertiesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct PutGroupPolicyRequest: AWSEncodableShape {
         /// The name of the group to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-.
         public let groupName: String
@@ -6585,6 +6897,26 @@ extension IAM {
         }
     }
 
+    public struct ReplacementValueEntry: AWSEncodableShape {
+        /// The list of replacement values for the template parameter.
+        @CustomCoding<StandardArrayCoder<String>>
+        public var values: [String]
+
+        @inlinable
+        public init(values: [String]) {
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
     public struct ResetServiceSpecificCredentialRequest: AWSEncodableShape {
         /// The unique identifier of the service-specific credential. This parameter allows (through its regex pattern) a string of characters that can  consist of any upper or lowercased letter or digit.
         public let serviceSpecificCredentialId: String
@@ -6725,12 +7057,14 @@ extension IAM {
         public let roleLastUsed: RoleLastUsed?
         /// The friendly name that identifies the role.
         public let roleName: String
+        /// Contains information about the role template that this role was created from. This member is present only for roles created with AcquireRole.
+        public let sourceRoleTemplate: SourceRoleTemplate?
         /// A list of tags that are attached to the role. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
 
         @inlinable
-        public init(arn: String, assumeRolePolicyDocument: String? = nil, createDate: Date, description: String? = nil, maxSessionDuration: Int? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String, roleLastUsed: RoleLastUsed? = nil, roleName: String, tags: [Tag]? = nil) {
+        public init(arn: String, assumeRolePolicyDocument: String? = nil, createDate: Date, description: String? = nil, maxSessionDuration: Int? = nil, path: String, permissionsBoundary: AttachedPermissionsBoundary? = nil, roleId: String, roleLastUsed: RoleLastUsed? = nil, roleName: String, sourceRoleTemplate: SourceRoleTemplate? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
             self.createDate = createDate
@@ -6741,6 +7075,7 @@ extension IAM {
             self.roleId = roleId
             self.roleLastUsed = roleLastUsed
             self.roleName = roleName
+            self.sourceRoleTemplate = sourceRoleTemplate
             self.tags = tags
         }
 
@@ -6755,6 +7090,7 @@ extension IAM {
             case roleId = "RoleId"
             case roleLastUsed = "RoleLastUsed"
             case roleName = "RoleName"
+            case sourceRoleTemplate = "SourceRoleTemplate"
             case tags = "Tags"
         }
     }
@@ -6835,6 +7171,112 @@ extension IAM {
         private enum CodingKeys: String, CodingKey {
             case lastUsedDate = "LastUsedDate"
             case region = "Region"
+        }
+    }
+
+    public struct RoleTemplateVersion: AWSDecodableShape {
+        /// The trust policy template that grants an entity permission to assume roles that you create from this template.
+        public let assumeRolePolicyDocumentTemplate: String?
+        /// The date and time, in ISO 8601 date-time format, when the role template version was created.
+        public let createTimestamp: Date?
+        /// The minor version that the service uses by default when you create a role from this template without specifying a minor version.
+        public let defaultMinorVersion: Int?
+        /// The description of the role template.
+        public let description: String?
+        /// Specifies whether the role template is enabled. When a template is disabled, you cannot create roles from it.
+        public let enabled: Bool?
+        /// A list of inline policy templates that the service embeds in roles that you create from this template.
+        @OptionalCustomCoding<StandardArrayCoder<InlinePolicy>>
+        public var inlinePolicyTemplates: [InlinePolicy]?
+        /// The major version number of the role template.
+        public let majorVersion: Int?
+        /// Indicates that the role template is managed by an Amazon Web Services service.
+        public let managedByType: ManagedByTypeType?
+        /// The identifier of the Amazon Web Services service that manages the role template.
+        public let managedByValue: String?
+        /// A list of the ARNs of the managed policies that the service attaches to roles that you create from this template.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var managedPolicyArns: [String]?
+        /// The maximum session duration (in seconds) for roles that are created from this template.
+        public let maxSessionDuration: Int?
+        /// The minor version number of this role template version.
+        public let minorVersion: Int?
+        /// A list of the parameters that are defined for this role template version. You supply values for these parameters when you create a role with AcquireRole.
+        @OptionalCustomCoding<StandardArrayCoder<ParameterDefinition>>
+        public var parametersDefinition: [ParameterDefinition]?
+        /// The ARN of the policy that sets the permissions boundary for roles that you create from this template. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+        public let permissionBoundaryArn: String?
+        /// The pattern that is used to generate the description of a role that is created from this template.
+        public let roleDescriptionPattern: String?
+        /// The pattern that is used to generate the name of a role that is created from this template. The pattern can include @{parameter} placeholders that are replaced with the values you supply in the ReplacementValues parameter of AcquireRole.
+        public let roleNamePattern: String?
+        /// The pattern that is used to generate the path of a role that is created from this template.
+        public let rolePathPattern: String?
+        /// A list of tag templates that are applied to roles that are created from this template.
+        @OptionalCustomCoding<StandardArrayCoder<TagTemplate>>
+        public var roleTagsTemplate: [TagTemplate]?
+        /// The Amazon Resource Name (ARN) that identifies the role template. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+        public let templateArn: String?
+        /// The friendly name that identifies the role template.
+        public let templateName: String?
+        /// The identifier of the role template version.
+        public let templateVersionId: String?
+        /// The date and time, in ISO 8601 date-time format, when the role template version was last updated.
+        public let updateTimestamp: Date?
+        /// Specifies whether this specific minor version of the role template is enabled.
+        public let versionEnabled: Bool?
+
+        @inlinable
+        public init(assumeRolePolicyDocumentTemplate: String? = nil, createTimestamp: Date? = nil, defaultMinorVersion: Int? = nil, description: String? = nil, enabled: Bool? = nil, inlinePolicyTemplates: [InlinePolicy]? = nil, majorVersion: Int? = nil, managedByType: ManagedByTypeType? = nil, managedByValue: String? = nil, managedPolicyArns: [String]? = nil, maxSessionDuration: Int? = nil, minorVersion: Int? = nil, parametersDefinition: [ParameterDefinition]? = nil, permissionBoundaryArn: String? = nil, roleDescriptionPattern: String? = nil, roleNamePattern: String? = nil, rolePathPattern: String? = nil, roleTagsTemplate: [TagTemplate]? = nil, templateArn: String? = nil, templateName: String? = nil, templateVersionId: String? = nil, updateTimestamp: Date? = nil, versionEnabled: Bool? = nil) {
+            self.assumeRolePolicyDocumentTemplate = assumeRolePolicyDocumentTemplate
+            self.createTimestamp = createTimestamp
+            self.defaultMinorVersion = defaultMinorVersion
+            self.description = description
+            self.enabled = enabled
+            self.inlinePolicyTemplates = inlinePolicyTemplates
+            self.majorVersion = majorVersion
+            self.managedByType = managedByType
+            self.managedByValue = managedByValue
+            self.managedPolicyArns = managedPolicyArns
+            self.maxSessionDuration = maxSessionDuration
+            self.minorVersion = minorVersion
+            self.parametersDefinition = parametersDefinition
+            self.permissionBoundaryArn = permissionBoundaryArn
+            self.roleDescriptionPattern = roleDescriptionPattern
+            self.roleNamePattern = roleNamePattern
+            self.rolePathPattern = rolePathPattern
+            self.roleTagsTemplate = roleTagsTemplate
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.templateVersionId = templateVersionId
+            self.updateTimestamp = updateTimestamp
+            self.versionEnabled = versionEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assumeRolePolicyDocumentTemplate = "AssumeRolePolicyDocumentTemplate"
+            case createTimestamp = "CreateTimestamp"
+            case defaultMinorVersion = "DefaultMinorVersion"
+            case description = "Description"
+            case enabled = "Enabled"
+            case inlinePolicyTemplates = "InlinePolicyTemplates"
+            case majorVersion = "MajorVersion"
+            case managedByType = "ManagedByType"
+            case managedByValue = "ManagedByValue"
+            case managedPolicyArns = "ManagedPolicyArns"
+            case maxSessionDuration = "MaxSessionDuration"
+            case minorVersion = "MinorVersion"
+            case parametersDefinition = "ParametersDefinition"
+            case permissionBoundaryArn = "PermissionBoundaryArn"
+            case roleDescriptionPattern = "RoleDescriptionPattern"
+            case roleNamePattern = "RoleNamePattern"
+            case rolePathPattern = "RolePathPattern"
+            case roleTagsTemplate = "RoleTagsTemplate"
+            case templateArn = "TemplateArn"
+            case templateName = "TemplateName"
+            case templateVersionId = "TemplateVersionId"
+            case updateTimestamp = "UpdateTimestamp"
+            case versionEnabled = "VersionEnabled"
         }
     }
 
@@ -7241,7 +7683,7 @@ extension IAM {
         /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser. This operation does not support using wildcards (*) in an action name.
         @CustomCoding<StandardArrayCoder<String>>
         public var actionNames: [String]
-        /// The ARN of the IAM user that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.
+        /// The ARN of the IAM user, group, or role that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy. You cannot specify the ARN of an assumed role, federated user, or a service principal.
         public let callerArn: String?
         /// A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
         @OptionalCustomCoding<StandardArrayCoder<ContextEntry>>
@@ -7250,6 +7692,9 @@ extension IAM {
         public let marker: String?
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
+        /// An ordered list of service control policies (SCPs) to include in the simulation. Each element represents one level of an Organizations hierarchy, from the organization root to the account. The simulator evaluates SCPs in the order that you provide, consistent with how Organizations enforces SCPs. The first element must represent the organization root, and the last element must represent the account. Any elements between them represent organizational units (OUs) in descending order. Use this parameter to simulate the effect of an SCP hierarchy without calling SimulatePrincipalPolicy.
+        @OptionalCustomCoding<StandardArrayCoder<OrderedOrganizationPolicyType>>
+        public var orderedOrganizationPolicyInputList: [OrderedOrganizationPolicyType]?
         /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions boundaries, see Permissions boundaries for IAM entities in the IAM User Guide. The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var permissionsBoundaryPolicyInputList: [String]?
@@ -7267,12 +7712,13 @@ extension IAM {
         public let resourcePolicy: String?
 
         @inlinable
-        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, permissionsBoundaryPolicyInputList: [String]? = nil, policyInputList: [String], resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
+        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, orderedOrganizationPolicyInputList: [OrderedOrganizationPolicyType]? = nil, permissionsBoundaryPolicyInputList: [String]? = nil, policyInputList: [String], resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
             self.actionNames = actionNames
             self.callerArn = callerArn
             self.contextEntries = contextEntries
             self.marker = marker
             self.maxItems = maxItems
+            self.orderedOrganizationPolicyInputList = orderedOrganizationPolicyInputList
             self.permissionsBoundaryPolicyInputList = permissionsBoundaryPolicyInputList
             self.policyInputList = policyInputList
             self.resourceArns = resourceArns
@@ -7296,6 +7742,10 @@ extension IAM {
             try self.validate(self.marker, name: "marker", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+            try self.orderedOrganizationPolicyInputList?.forEach {
+                try $0.validate(name: "\(name).orderedOrganizationPolicyInputList[]")
+            }
+            try self.validate(self.orderedOrganizationPolicyInputList, name: "orderedOrganizationPolicyInputList", parent: name, max: 7)
             try self.permissionsBoundaryPolicyInputList?.forEach {
                 try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, max: 131072)
                 try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, min: 1)
@@ -7325,6 +7775,7 @@ extension IAM {
             case contextEntries = "ContextEntries"
             case marker = "Marker"
             case maxItems = "MaxItems"
+            case orderedOrganizationPolicyInputList = "OrderedOrganizationPolicyInputList"
             case permissionsBoundaryPolicyInputList = "PermissionsBoundaryPolicyInputList"
             case policyInputList = "PolicyInputList"
             case resourceArns = "ResourceArns"
@@ -7361,7 +7812,7 @@ extension IAM {
         /// A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser.
         @CustomCoding<StandardArrayCoder<String>>
         public var actionNames: [String]
-        /// The ARN of the IAM user that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user that you specify in PolicySourceArn, if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+        /// The ARN of the IAM user, group, or role that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user, group, or role that you specify in PolicySourceArn. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify the ARN of an IAM user, group, or role. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user, group, or role. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let callerArn: String?
         /// A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
         @OptionalCustomCoding<StandardArrayCoder<ContextEntry>>
@@ -7373,6 +7824,9 @@ extension IAM {
         /// The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that the entity can have. You can input only one permissions boundary when you pass a policy to this operation. An IAM entity can only have one permissions boundary in effect at a time. For example, if a permissions boundary is attached to an entity and you pass in a different permissions boundary policy using this parameter, then the new permissions boundary policy is used for the simulation. For more information about permissions boundaries, see Permissions boundaries for IAM entities in the IAM User Guide. The policy input is specified as a string containing the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var permissionsBoundaryPolicyInputList: [String]?
+        /// A list of policies to exclude from the simulation. Use this parameter to test what the simulation result would be if a policy were removed, without changing which policies are actually attached to the principal identified by PolicySourceArn. Each entry is a PolicyIdentifier that identifies one or more policies to exclude by policy type, by Amazon Resource Name (ARN), or by the name of an inline policy and the entity it is attached to. Syntactically invalid identifiers, such as malformed ARNs or wildcards in disallowed positions, cause the request to fail with an InvalidInput error. Syntactically valid identifiers that don't match any attached policy are ignored. Resource control policies (RCPs) are not supported in this release; identifiers that target RCPs are also ignored.
+        @OptionalCustomCoding<StandardArrayCoder<PolicyIdentifier>>
+        public var policyExclusionList: [PolicyIdentifier]?
         /// An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var policyInputList: [String]?
@@ -7389,13 +7843,14 @@ extension IAM {
         public let resourcePolicy: String?
 
         @inlinable
-        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, permissionsBoundaryPolicyInputList: [String]? = nil, policyInputList: [String]? = nil, policySourceArn: String, resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
+        public init(actionNames: [String], callerArn: String? = nil, contextEntries: [ContextEntry]? = nil, marker: String? = nil, maxItems: Int? = nil, permissionsBoundaryPolicyInputList: [String]? = nil, policyExclusionList: [PolicyIdentifier]? = nil, policyInputList: [String]? = nil, policySourceArn: String, resourceArns: [String]? = nil, resourceHandlingOption: String? = nil, resourceOwner: String? = nil, resourcePolicy: String? = nil) {
             self.actionNames = actionNames
             self.callerArn = callerArn
             self.contextEntries = contextEntries
             self.marker = marker
             self.maxItems = maxItems
             self.permissionsBoundaryPolicyInputList = permissionsBoundaryPolicyInputList
+            self.policyExclusionList = policyExclusionList
             self.policyInputList = policyInputList
             self.policySourceArn = policySourceArn
             self.resourceArns = resourceArns
@@ -7424,6 +7879,10 @@ extension IAM {
                 try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, min: 1)
                 try validate($0, name: "permissionsBoundaryPolicyInputList[]", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             }
+            try self.policyExclusionList?.forEach {
+                try $0.validate(name: "\(name).policyExclusionList[]")
+            }
+            try self.validate(self.policyExclusionList, name: "policyExclusionList", parent: name, max: 256)
             try self.policyInputList?.forEach {
                 try validate($0, name: "policyInputList[]", parent: name, max: 131072)
                 try validate($0, name: "policyInputList[]", parent: name, min: 1)
@@ -7451,12 +7910,31 @@ extension IAM {
             case marker = "Marker"
             case maxItems = "MaxItems"
             case permissionsBoundaryPolicyInputList = "PermissionsBoundaryPolicyInputList"
+            case policyExclusionList = "PolicyExclusionList"
             case policyInputList = "PolicyInputList"
             case policySourceArn = "PolicySourceArn"
             case resourceArns = "ResourceArns"
             case resourceHandlingOption = "ResourceHandlingOption"
             case resourceOwner = "ResourceOwner"
             case resourcePolicy = "ResourcePolicy"
+        }
+    }
+
+    public struct SourceRoleTemplate: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the role template that the role was created from.
+        public let templateArn: String
+        /// The minor version of the role template that was used to create the role.
+        public let templateMinorVersion: Int
+
+        @inlinable
+        public init(templateArn: String, templateMinorVersion: Int) {
+            self.templateArn = templateArn
+            self.templateMinorVersion = templateMinorVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateArn = "TemplateArn"
+            case templateMinorVersion = "TemplateMinorVersion"
         }
     }
 
@@ -7709,6 +8187,24 @@ extension IAM {
         private enum CodingKeys: String, CodingKey {
             case serverCertificateName = "ServerCertificateName"
             case tags = "Tags"
+        }
+    }
+
+    public struct TagTemplate: AWSDecodableShape {
+        /// The key name of the tag.
+        public let key: String
+        /// The value associated with the tag key.
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
         }
     }
 
@@ -8854,6 +9350,7 @@ public struct IAMErrorType: AWSErrorType {
         case limitExceededException = "LimitExceeded"
         case malformedCertificateException = "MalformedCertificate"
         case malformedPolicyDocumentException = "MalformedPolicyDocument"
+        case nameConflictException = "NameConflict"
         case noSuchEntityException = "NoSuchEntity"
         case openIdIdpCommunicationErrorException = "OpenIdIdpCommunicationError"
         case organizationNotFoundException = "OrganizationNotFoundException"
@@ -8862,6 +9359,8 @@ public struct IAMErrorType: AWSErrorType {
         case policyEvaluationException = "PolicyEvaluation"
         case policyNotAttachableException = "PolicyNotAttachable"
         case reportGenerationLimitExceededException = "ReportGenerationLimitExceeded"
+        case roleModifiedException = "RoleModified"
+        case roleTemplateDisabledException = "RoleTemplateDisabled"
         case serviceAccessNotEnabledException = "ServiceAccessNotEnabledException"
         case serviceFailureException = "ServiceFailure"
         case serviceNotSupportedException = "NotSupportedService"
@@ -8931,6 +9430,8 @@ public struct IAMErrorType: AWSErrorType {
     public static var malformedCertificateException: Self { .init(.malformedCertificateException) }
     /// The request was rejected because the policy document was malformed. The error message describes the specific error.
     public static var malformedPolicyDocumentException: Self { .init(.malformedPolicyDocumentException) }
+    /// The request was rejected because the resulting role name conflicts with an existing role in the account.
+    public static var nameConflictException: Self { .init(.nameConflictException) }
     /// The request was rejected because it referenced a resource entity that does not exist. The error message describes the resource.
     public static var noSuchEntityException: Self { .init(.noSuchEntityException) }
     /// The request failed because IAM cannot connect to the OpenID Connect identity provider URL.
@@ -8947,6 +9448,10 @@ public struct IAMErrorType: AWSErrorType {
     public static var policyNotAttachableException: Self { .init(.policyNotAttachableException) }
     /// The request failed because the maximum number of concurrent requests for this account are already running.
     public static var reportGenerationLimitExceededException: Self { .init(.reportGenerationLimitExceededException) }
+    /// The request was rejected because someone modified the role template while the service was creating the role. Wait a few minutes and try the request again.
+    public static var roleModifiedException: Self { .init(.roleModifiedException) }
+    /// The request was rejected because the specified role template is disabled. A disabled role template cannot be used to create new roles. Contact your administrator to enable the role template, or use a different role template.
+    public static var roleTemplateDisabledException: Self { .init(.roleTemplateDisabledException) }
     /// The request was rejected because trusted access is not enabled for IAM in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
     public static var serviceAccessNotEnabledException: Self { .init(.serviceAccessNotEnabledException) }
     /// The request processing has failed because of an unknown error, exception or failure.

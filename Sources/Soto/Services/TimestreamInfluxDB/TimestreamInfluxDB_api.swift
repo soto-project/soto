@@ -79,6 +79,44 @@ public struct TimestreamInfluxDB: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a new on-demand backup of a Timestream for InfluxDB resource.
+    @Sendable
+    @inlinable
+    public func createDbBackup(_ input: CreateDbBackupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDbBackupOutput {
+        try await self.client.execute(
+            operation: "CreateDbBackup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new on-demand backup of a Timestream for InfluxDB resource.
+    ///
+    /// Parameters:
+    ///   - dbResourceId: The id of the DB instance or DB cluster to back up.
+    ///   - name: The name of the backup. Must be unique within the account and region.
+    ///   - retentionDays: The number of days to retain the backup. Valid values are 1 to 3650.
+    ///   - tags: A list of key-value pairs to associate with the backup.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDbBackup(
+        dbResourceId: String,
+        name: String,
+        retentionDays: Int? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDbBackupOutput {
+        let input = CreateDbBackupInput(
+            dbResourceId: dbResourceId, 
+            name: name, 
+            retentionDays: retentionDays, 
+            tags: tags
+        )
+        return try await self.createDbBackup(input, logger: logger)
+    }
+
     /// Creates a new Timestream for InfluxDB cluster.
     @Sendable
     @inlinable
@@ -97,11 +135,13 @@ public struct TimestreamInfluxDB: AWSService {
     /// Parameters:
     ///   - allocatedStorage: The amount of storage to allocate for your DB storage type in GiB (gibibytes).
     ///   - bucket: The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
+    ///   - dbBackupConfigurations: A list of backup configurations to enable automated backups for the DB cluster.
     ///   - dbInstanceType: The Timestream for InfluxDB DB instance type to run InfluxDB on.
     ///   - dbParameterGroupIdentifier: The ID of the DB parameter group to assign to your DB cluster. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
     ///   - dbStorageType: The Timestream for InfluxDB DB storage type to read and write InfluxDB data. You can choose between three different types of provisioned Influx IOPS Included storage according to your workload requirements:   Influx I/O Included 3000 IOPS   Influx I/O Included 12000 IOPS   Influx I/O Included 16000 IOPS
     ///   - deploymentType: Specifies the type of cluster to create.
     ///   - failoverMode: Specifies the behavior of failure recovery when the primary node of the cluster fails.
+    ///   - kmsKeyId: The Amazon Web Services KMS key identifier to use for encryption of the DB cluster. Can be a key ID, key ARN, alias name, or alias ARN.
     ///   - logDeliveryConfiguration: Configuration for sending InfluxDB engine logs to a specified S3 bucket.
     ///   - maintenanceSchedule: Specifies the maintenance schedule for the DB cluster, including the preferred maintenance window and timezone.
     ///   - name: The name that uniquely identifies the DB cluster when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB cluster names must be unique per customer and per region.
@@ -119,11 +159,13 @@ public struct TimestreamInfluxDB: AWSService {
     public func createDbCluster(
         allocatedStorage: Int? = nil,
         bucket: String? = nil,
+        dbBackupConfigurations: [DbBackupConfiguration]? = nil,
         dbInstanceType: DbInstanceType,
         dbParameterGroupIdentifier: String? = nil,
         dbStorageType: DbStorageType? = nil,
         deploymentType: ClusterDeploymentType? = nil,
         failoverMode: FailoverMode? = nil,
+        kmsKeyId: String? = nil,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
         maintenanceSchedule: MaintenanceSchedule? = nil,
         name: String,
@@ -141,11 +183,13 @@ public struct TimestreamInfluxDB: AWSService {
         let input = CreateDbClusterInput(
             allocatedStorage: allocatedStorage, 
             bucket: bucket, 
+            dbBackupConfigurations: dbBackupConfigurations, 
             dbInstanceType: dbInstanceType, 
             dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
             dbStorageType: dbStorageType, 
             deploymentType: deploymentType, 
             failoverMode: failoverMode, 
+            kmsKeyId: kmsKeyId, 
             logDeliveryConfiguration: logDeliveryConfiguration, 
             maintenanceSchedule: maintenanceSchedule, 
             name: name, 
@@ -180,10 +224,12 @@ public struct TimestreamInfluxDB: AWSService {
     /// Parameters:
     ///   - allocatedStorage: The amount of storage to allocate for your DB storage type in GiB (gibibytes).
     ///   - bucket: The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
+    ///   - dbBackupConfigurations: A list of backup configurations to enable automated backups for the DB instance.
     ///   - dbInstanceType: The Timestream for InfluxDB DB instance type to run InfluxDB on.
     ///   - dbParameterGroupIdentifier: The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
     ///   - dbStorageType: The Timestream for InfluxDB DB storage type to read and write InfluxDB data. You can choose between 3 different types of provisioned Influx IOPS included storage according to your workloads requirements:   Influx IO Included 3000 IOPS   Influx IO Included 12000 IOPS   Influx IO Included 16000 IOPS
     ///   - deploymentType: Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
+    ///   - kmsKeyId: The Amazon Web Services KMS key identifier to use for encryption of the DB instance. Can be a key ID, key ARN, alias name, or alias ARN.
     ///   - logDeliveryConfiguration: Configuration for sending InfluxDB engine logs to a specified S3 bucket.
     ///   - maintenanceSchedule: Specifies the maintenance schedule for the DB instance, including the preferred maintenance window and timezone.
     ///   - name: The name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB instance names must be unique per customer and per region.
@@ -201,10 +247,12 @@ public struct TimestreamInfluxDB: AWSService {
     public func createDbInstance(
         allocatedStorage: Int,
         bucket: String? = nil,
+        dbBackupConfigurations: [DbBackupConfiguration]? = nil,
         dbInstanceType: DbInstanceType,
         dbParameterGroupIdentifier: String? = nil,
         dbStorageType: DbStorageType? = nil,
         deploymentType: DeploymentType? = nil,
+        kmsKeyId: String? = nil,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
         maintenanceSchedule: MaintenanceSchedule? = nil,
         name: String,
@@ -222,10 +270,12 @@ public struct TimestreamInfluxDB: AWSService {
         let input = CreateDbInstanceInput(
             allocatedStorage: allocatedStorage, 
             bucket: bucket, 
+            dbBackupConfigurations: dbBackupConfigurations, 
             dbInstanceType: dbInstanceType, 
             dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
             dbStorageType: dbStorageType, 
             deploymentType: deploymentType, 
+            kmsKeyId: kmsKeyId, 
             logDeliveryConfiguration: logDeliveryConfiguration, 
             maintenanceSchedule: maintenanceSchedule, 
             name: name, 
@@ -280,6 +330,35 @@ public struct TimestreamInfluxDB: AWSService {
         return try await self.createDbParameterGroup(input, logger: logger)
     }
 
+    /// Deletes a Timestream for InfluxDB backup.
+    @Sendable
+    @inlinable
+    public func deleteDbBackup(_ input: DeleteDbBackupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDbBackupOutput {
+        try await self.client.execute(
+            operation: "DeleteDbBackup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a Timestream for InfluxDB backup.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the backup to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDbBackup(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDbBackupOutput {
+        let input = DeleteDbBackupInput(
+            identifier: identifier
+        )
+        return try await self.deleteDbBackup(input, logger: logger)
+    }
+
     /// Deletes a Timestream for InfluxDB cluster.
     @Sendable
     @inlinable
@@ -297,14 +376,17 @@ public struct TimestreamInfluxDB: AWSService {
     ///
     /// Parameters:
     ///   - dbClusterId: Service-generated unique identifier of the DB cluster.
+    ///   - retainAutomatedBackups: Specifies whether to retain automated backups after the DB cluster is deleted. If set to true, automated backups are not deleted and can be restored later.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDbCluster(
         dbClusterId: String,
+        retainAutomatedBackups: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteDbClusterOutput {
         let input = DeleteDbClusterInput(
-            dbClusterId: dbClusterId
+            dbClusterId: dbClusterId, 
+            retainAutomatedBackups: retainAutomatedBackups
         )
         return try await self.deleteDbCluster(input, logger: logger)
     }
@@ -326,16 +408,48 @@ public struct TimestreamInfluxDB: AWSService {
     ///
     /// Parameters:
     ///   - identifier: The id of the DB instance.
+    ///   - retainAutomatedBackups: Specifies whether to retain automated backups after the DB instance is deleted. If set to true, automated backups are not deleted and can be restored later.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDbInstance(
         identifier: String,
+        retainAutomatedBackups: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteDbInstanceOutput {
         let input = DeleteDbInstanceInput(
-            identifier: identifier
+            identifier: identifier, 
+            retainAutomatedBackups: retainAutomatedBackups
         )
         return try await self.deleteDbInstance(input, logger: logger)
+    }
+
+    /// Returns information about a specific Timestream for InfluxDB backup.
+    @Sendable
+    @inlinable
+    public func getDbBackup(_ input: GetDbBackupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDbBackupOutput {
+        try await self.client.execute(
+            operation: "GetDbBackup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a specific Timestream for InfluxDB backup.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the backup to retrieve information for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDbBackup(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDbBackupOutput {
+        let input = GetDbBackupInput(
+            identifier: identifier
+        )
+        return try await self.getDbBackup(input, logger: logger)
     }
 
     /// Retrieves information about a Timestream for InfluxDB cluster.
@@ -423,6 +537,41 @@ public struct TimestreamInfluxDB: AWSService {
             identifier: identifier
         )
         return try await self.getDbParameterGroup(input, logger: logger)
+    }
+
+    /// Returns a list of Timestream for InfluxDB backups.
+    @Sendable
+    @inlinable
+    public func listDbBackups(_ input: ListDbBackupsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDbBackupsOutput {
+        try await self.client.execute(
+            operation: "ListDbBackups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of Timestream for InfluxDB backups.
+    ///
+    /// Parameters:
+    ///   - dbResourceId: The identifier of the DB instance or DB cluster to list backups for. If not specified, returns all backups in the account and region.
+    ///   - maxResults: The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    ///   - nextToken: The pagination token. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDbBackups(
+        dbResourceId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDbBackupsOutput {
+        let input = ListDbBackupsInput(
+            dbResourceId: dbResourceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDbBackups(input, logger: logger)
     }
 
     /// Returns a list of Timestream for InfluxDB DB clusters.
@@ -646,6 +795,77 @@ public struct TimestreamInfluxDB: AWSService {
         return try await self.rebootDbInstance(input, logger: logger)
     }
 
+    /// Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same resource using the REPLACE_EXISTING restore mode.
+    @Sendable
+    @inlinable
+    public func restoreFromDbBackup(_ input: RestoreFromDbBackupInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RestoreFromDbBackupOutput {
+        try await self.client.execute(
+            operation: "RestoreFromDbBackup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Restores a Timestream for InfluxDB resource from a backup. By default, a new resource is created. You can optionally restore to the same resource using the REPLACE_EXISTING restore mode.
+    ///
+    /// Parameters:
+    ///   - dbBackupConfigurations: A list of backup configurations to apply to the restored resource.
+    ///   - dbBackupId: The identifier of the backup to restore from.
+    ///   - deploymentType: Specifies the deployment type of the restored resource. Valid values are SINGLE_AZ, WITH_MULTIAZ_STANDBY, and MULTI_NODE_READ_REPLICAS.
+    ///   - kmsKeyId: The Amazon Web Services KMS key identifier to use for encryption of the restored resource. Can be a key ID, key ARN, alias name, or alias ARN.
+    ///   - logDeliveryConfiguration: Configuration for sending InfluxDB engine logs to the specified S3 bucket for the restored resource.
+    ///   - maintenanceSchedule: The maintenance schedule for the restored resource.
+    ///   - name: The name of the new resource to create from the restore. If restoring to an existing resource, the name must match the existing resource name.
+    ///   - networkType: Specifies the network type of the restored resource. Valid values are IPV4 and DUAL.
+    ///   - port: The port number on which the restored InfluxDB resource accepts connections.
+    ///   - publiclyAccessible: Specifies whether the restored resource is publicly accessible.
+    ///   - restoreMode: Specifies whether to restore to a new resource or replace the existing resource. Valid values are NEW_RESOURCE (default) and REPLACE_EXISTING.
+    ///   - restoreToTime: The point in time to restore to, for continuous backups. Must be within the backup's retention window.
+    ///   - tags: A list of key-value pairs to associate with the restored resource.
+    ///   - vpcSecurityGroupIds: A list of VPC security group IDs for the restored resource. If not specified, the restored resource uses the same security groups as the backup.
+    ///   - vpcSubnetIds: A list of VPC subnet IDs for the restored resource. If not specified, the restored resource uses the same subnets as the backup.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func restoreFromDbBackup(
+        dbBackupConfigurations: [DbBackupConfiguration]? = nil,
+        dbBackupId: String,
+        deploymentType: ResourceDeploymentType? = nil,
+        kmsKeyId: String? = nil,
+        logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
+        maintenanceSchedule: MaintenanceSchedule? = nil,
+        name: String,
+        networkType: NetworkType? = nil,
+        port: Int? = nil,
+        publiclyAccessible: Bool? = nil,
+        restoreMode: RestoreMode? = nil,
+        restoreToTime: Date? = nil,
+        tags: [String: String]? = nil,
+        vpcSecurityGroupIds: [String]? = nil,
+        vpcSubnetIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RestoreFromDbBackupOutput {
+        let input = RestoreFromDbBackupInput(
+            dbBackupConfigurations: dbBackupConfigurations, 
+            dbBackupId: dbBackupId, 
+            deploymentType: deploymentType, 
+            kmsKeyId: kmsKeyId, 
+            logDeliveryConfiguration: logDeliveryConfiguration, 
+            maintenanceSchedule: maintenanceSchedule, 
+            name: name, 
+            networkType: networkType, 
+            port: port, 
+            publiclyAccessible: publiclyAccessible, 
+            restoreMode: restoreMode, 
+            restoreToTime: restoreToTime, 
+            tags: tags, 
+            vpcSecurityGroupIds: vpcSecurityGroupIds, 
+            vpcSubnetIds: vpcSubnetIds
+        )
+        return try await self.restoreFromDbBackup(input, logger: logger)
+    }
+
     /// Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
     @Sendable
     @inlinable
@@ -726,6 +946,7 @@ public struct TimestreamInfluxDB: AWSService {
     /// Updates a Timestream for InfluxDB cluster.
     ///
     /// Parameters:
+    ///   - dbBackupConfigurations: A list of backup configurations to update for the DB cluster.
     ///   - dbClusterId: Service-generated unique identifier of the DB cluster to update.
     ///   - dbInstanceType: Update the DB cluster to use the specified DB instance Type.
     ///   - dbParameterGroupIdentifier: Update the DB cluster to use the specified DB parameter group.
@@ -736,6 +957,7 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDbCluster(
+        dbBackupConfigurations: [DbBackupConfiguration]? = nil,
         dbClusterId: String,
         dbInstanceType: DbInstanceType? = nil,
         dbParameterGroupIdentifier: String? = nil,
@@ -746,6 +968,7 @@ public struct TimestreamInfluxDB: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDbClusterOutput {
         let input = UpdateDbClusterInput(
+            dbBackupConfigurations: dbBackupConfigurations, 
             dbClusterId: dbClusterId, 
             dbInstanceType: dbInstanceType, 
             dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
@@ -774,6 +997,7 @@ public struct TimestreamInfluxDB: AWSService {
     ///
     /// Parameters:
     ///   - allocatedStorage: The amount of storage to allocate for your DB storage type (in gibibytes).
+    ///   - dbBackupConfigurations: A list of backup configurations to update for the DB instance.
     ///   - dbInstanceType: The Timestream for InfluxDB DB instance type to run InfluxDB on.
     ///   - dbParameterGroupIdentifier: The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
     ///   - dbStorageType: The Timestream for InfluxDB DB storage type that InfluxDB stores data on.
@@ -786,6 +1010,7 @@ public struct TimestreamInfluxDB: AWSService {
     @inlinable
     public func updateDbInstance(
         allocatedStorage: Int? = nil,
+        dbBackupConfigurations: [DbBackupConfiguration]? = nil,
         dbInstanceType: DbInstanceType? = nil,
         dbParameterGroupIdentifier: String? = nil,
         dbStorageType: DbStorageType? = nil,
@@ -798,6 +1023,7 @@ public struct TimestreamInfluxDB: AWSService {
     ) async throws -> UpdateDbInstanceOutput {
         let input = UpdateDbInstanceInput(
             allocatedStorage: allocatedStorage, 
+            dbBackupConfigurations: dbBackupConfigurations, 
             dbInstanceType: dbInstanceType, 
             dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
             dbStorageType: dbStorageType, 
@@ -824,6 +1050,43 @@ extension TimestreamInfluxDB {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension TimestreamInfluxDB {
+    /// Return PaginatorSequence for operation ``listDbBackups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDbBackupsPaginator(
+        _ input: ListDbBackupsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDbBackupsInput, ListDbBackupsOutput> {
+        return .init(
+            input: input,
+            command: self.listDbBackups,
+            inputKey: \ListDbBackupsInput.nextToken,
+            outputKey: \ListDbBackupsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDbBackups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dbResourceId: The identifier of the DB instance or DB cluster to list backups for. If not specified, returns all backups in the account and region.
+    ///   - maxResults: The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDbBackupsPaginator(
+        dbResourceId: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDbBackupsInput, ListDbBackupsOutput> {
+        let input = ListDbBackupsInput(
+            dbResourceId: dbResourceId, 
+            maxResults: maxResults
+        )
+        return self.listDbBackupsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDbClusters(_:logger:)``.
     ///
     /// - Parameters:
@@ -961,6 +1224,17 @@ extension TimestreamInfluxDB {
             maxResults: maxResults
         )
         return self.listDbParameterGroupsPaginator(input, logger: logger)
+    }
+}
+
+extension TimestreamInfluxDB.ListDbBackupsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> TimestreamInfluxDB.ListDbBackupsInput {
+        return .init(
+            dbResourceId: self.dbResourceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

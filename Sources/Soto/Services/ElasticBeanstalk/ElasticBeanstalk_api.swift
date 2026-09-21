@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS ElasticBeanstalk service.
 ///
-/// AWS Elastic Beanstalk AWS Elastic Beanstalk makes it easy for you to create, deploy, and manage scalable, fault-tolerant applications running on the Amazon Web Services cloud. For more information about this product, go to the AWS Elastic Beanstalk details page. The location of the latest AWS Elastic Beanstalk WSDL is https://elasticbeanstalk.s3.amazonaws.com/doc/2010-12-01/AWSElasticBeanstalk.wsdl. To install the Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools that enable you to access the API, go to Tools for Amazon Web Services.  Endpoints  For a list of region-specific endpoints that AWS Elastic Beanstalk supports, go to Regions and Endpoints in the Amazon Web Services Glossary.
+/// Elastic Beanstalk Elastic Beanstalk makes it easy for you to create, deploy, and manage scalable, fault-tolerant applications running on the Amazon Web Services Cloud. For more information about this product, go to the Elastic Beanstalk details page. The location of the latest Elastic Beanstalk WSDL is https://elasticbeanstalk.s3.amazonaws.com/doc/2010-12-01/AWSElasticBeanstalk.wsdl. To install the Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools that enable you to access the API, go to Tools for Amazon Web Services.  Endpoints  For a list of region-specific endpoints that Elastic Beanstalk supports, go to Regions and Endpoints in the Amazon Web Services Glossary.
 public struct ElasticBeanstalk: AWSService {
     // MARK: Member variables
 
@@ -199,7 +199,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.applyEnvironmentManagedAction(input, logger: logger)
     }
 
-    /// Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
+    ///  The operations role feature of Elastic Beanstalk is in beta release and is subject to change.  Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment.
     @Sendable
     @inlinable
     public func associateEnvironmentOperationsRole(_ input: AssociateEnvironmentOperationsRoleMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -212,7 +212,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
+    ///  The operations role feature of Elastic Beanstalk is in beta release and is subject to change.  Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment.
     ///
     /// Parameters:
     ///   - environmentName: The name of the environment to which to set the operations role.
@@ -333,7 +333,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.createApplication(input, logger: logger)
     }
 
-    /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an AWS CodeBuild build as follows: Specify a commit in an AWS CodeCommit repository with SourceBuildInformation. Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in S3 with SourceBundle  Omit both SourceBuildInformation and SourceBundle to use the default sample application.  After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
+    /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in CodeCommit, or the output of an CodeBuild build as follows: Specify a commit in an CodeCommit repository with SourceBuildInformation. Specify a build in an CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in Amazon S3 with SourceBundle  Omit both SourceBuildInformation and SourceBundle to use the default sample application.  After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
     @Sendable
     @inlinable
     public func createApplicationVersion(_ input: CreateApplicationVersionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ApplicationVersionDescriptionMessage {
@@ -346,18 +346,19 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an AWS CodeBuild build as follows: Specify a commit in an AWS CodeCommit repository with SourceBuildInformation. Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in S3 with SourceBundle  Omit both SourceBuildInformation and SourceBundle to use the default sample application.  After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
+    /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in CodeCommit, or the output of an CodeBuild build as follows: Specify a commit in an CodeCommit repository with SourceBuildInformation. Specify a build in an CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in Amazon S3 with SourceBundle  Omit both SourceBuildInformation and SourceBundle to use the default sample application.  After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
     ///
     /// Parameters:
     ///   - applicationName:  The name of the application. If no application is found with this name, and AutoCreateApplication is false, returns an InvalidParameterValue error.
     ///   - autoCreateApplication: Set to true to create an application with the specified name if it doesn't already exist.
-    ///   - buildConfiguration: Settings for an AWS CodeBuild build.
+    ///   - buildConfiguration: Settings for an CodeBuild build. Don't specify BuildConfiguration together with ImageConfiguration, which configures a container image build instead.
     ///   - description: A description of this application version.
-    ///   - process: Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using AWS CodeBuild or AWS CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional.  The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration.
-    ///   - sourceBuildInformation: Specify a commit in an AWS CodeCommit Git repository to use as the source code for the application version.
-    ///   - sourceBundle: The Amazon S3 bucket and key that identify the location of the source bundle for this version.  The Amazon S3 bucket must be in the same region as the environment.  Specify a source bundle in S3 or a commit in an AWS CodeCommit repository (with SourceBuildInformation), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
+    ///   - imageConfiguration: The source of the container image for this application version. You can specify an image that you built and pushed to a container registry yourself, or settings for Elastic Beanstalk to build one from your source bundle. Specify exactly one of the Source and Build members. Don't specify ImageConfiguration together with BuildConfiguration, which configures an CodeBuild build instead.
+    ///   - process: Pre-processes and validates the environment manifest (env.yaml) and configuration files (*.config files in the .ebextensions folder) in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment. You must turn processing on for application versions that you create using CodeBuild or CodeCommit. For application versions built from a source bundle in Amazon S3, processing is optional.  The Process option validates Elastic Beanstalk configuration files. It doesn't validate your application's configuration files, like proxy server or Docker configuration.
+    ///   - sourceBuildInformation: Specify a commit in an CodeCommit Git repository to use as the source code for the application version.
+    ///   - sourceBundle: The Amazon S3 bucket and key that identify the location of the source bundle for this version.  The Amazon S3 bucket must be in the same region as the environment. Unless you're specifying a source bundle in the bucket that Elastic Beanstalk manages in your account, you must assign a custom policy to your user, and grant Allow permission to the s3:Get* actions on your S3 object resource, for example, arn:aws:s3:::your-bucket/your-source-bundle-object.  Specify a source bundle in Amazon S3 or a commit in an CodeCommit repository (with SourceBuildInformation), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
     ///   - tags: Specifies the tags applied to the application version. Elastic Beanstalk applies these tags only to the application version. Environments that use the application version don't inherit the tags.
-    ///   - versionLabel: A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, AWS Elastic Beanstalk returns an InvalidParameterValue error.
+    ///   - versionLabel: A label identifying this version. Constraint: Must be unique per application. If an application version already exists with this label for the specified application, Elastic Beanstalk returns an InvalidParameterValue error.
     ///   - logger: Logger use during operation
     @inlinable
     public func createApplicationVersion(
@@ -365,6 +366,7 @@ public struct ElasticBeanstalk: AWSService {
         autoCreateApplication: Bool? = nil,
         buildConfiguration: BuildConfiguration? = nil,
         description: String? = nil,
+        imageConfiguration: ImageConfiguration? = nil,
         process: Bool? = nil,
         sourceBuildInformation: SourceBuildInformation? = nil,
         sourceBundle: S3Location? = nil,
@@ -377,6 +379,7 @@ public struct ElasticBeanstalk: AWSService {
             autoCreateApplication: autoCreateApplication, 
             buildConfiguration: buildConfiguration, 
             description: description, 
+            imageConfiguration: imageConfiguration, 
             process: process, 
             sourceBuildInformation: sourceBuildInformation, 
             sourceBundle: sourceBundle, 
@@ -386,7 +389,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.createApplicationVersion(input, logger: logger)
     }
 
-    /// Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null. Related Topics    DescribeConfigurationOptions     DescribeConfigurationSettings     ListAvailableSolutionStacks
+    /// Creates an Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null. Related Topics    DescribeConfigurationOptions     DescribeConfigurationSettings     ListAvailableSolutionStacks
     @Sendable
     @inlinable
     public func createConfigurationTemplate(_ input: CreateConfigurationTemplateMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationSettingsDescription {
@@ -399,15 +402,15 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Creates an AWS Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null. Related Topics    DescribeConfigurationOptions     DescribeConfigurationSettings     ListAvailableSolutionStacks
+    /// Creates an Elastic Beanstalk configuration template, associated with a specific Elastic Beanstalk application. You define application configuration settings in a configuration template. You can then use the configuration template to deploy different versions of the application with the same configuration settings. Templates aren't associated with any environment. The EnvironmentName response element is always null. Related Topics    DescribeConfigurationOptions     DescribeConfigurationSettings     ListAvailableSolutionStacks
     ///
     /// Parameters:
     ///   - applicationName: The name of the Elastic Beanstalk application to associate with this configuration template.
     ///   - description: An optional description for this configuration.
     ///   - environmentId: The ID of an environment whose settings you want to use to create the configuration template. You must specify EnvironmentId if you don't specify PlatformArn, SolutionStackName, or SourceConfiguration.
-    ///   - optionSettings: Option values for the Elastic Beanstalk configuration, such as the instance type. If specified, these values override the values obtained from the solution stack or the source configuration template. For a complete list of Elastic Beanstalk configuration options, see Option Values in the AWS Elastic Beanstalk Developer Guide.
-    ///   - platformArn: The Amazon Resource Name (ARN) of the custom platform. For more information, see  Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, then don't specify SolutionStackName.
-    ///   - solutionStackName: The name of an Elastic Beanstalk solution stack (platform version) that this configuration uses. For example, 64bit Amazon Linux 2013.09 running Tomcat 7 Java 7. A solution stack specifies the operating system, runtime, and application server for a configuration template. It also determines the set of configuration options as well as the possible and default values. For more information, see Supported Platforms in the AWS Elastic Beanstalk Developer Guide. You must specify SolutionStackName if you don't specify PlatformArn, EnvironmentId, or SourceConfiguration. Use the  ListAvailableSolutionStacks API to obtain a list of available solution stacks.
+    ///   - optionSettings: Option values for the Elastic Beanstalk configuration, such as the instance type. If specified, these values override the values obtained from the solution stack or the source configuration template. For a complete list of Elastic Beanstalk configuration options, see Option Values in the Elastic Beanstalk Developer Guide.
+    ///   - platformArn: The Amazon Resource Name (ARN) of the custom platform. For more information, see  Custom Platforms in the Elastic Beanstalk Developer Guide.  If you specify PlatformArn, then don't specify SolutionStackName.
+    ///   - solutionStackName: The name of an Elastic Beanstalk solution stack (platform version) that this configuration uses. For example, 64bit Amazon Linux 2013.09 running Tomcat 7 Java 7. A solution stack specifies the operating system, runtime, and application server for a configuration template. It also determines the set of configuration options as well as the possible and default values. For more information, see Supported Platforms in the Elastic Beanstalk Developer Guide. You must specify SolutionStackName if you don't specify PlatformArn, EnvironmentId, or SourceConfiguration. Use the  ListAvailableSolutionStacks API to obtain a list of available solution stacks.
     ///   - sourceConfiguration: An Elastic Beanstalk configuration template to base this one on. If specified, Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration. Values specified in OptionSettings override any values obtained from the SourceConfiguration. You must specify SourceConfiguration if you don't specify PlatformArn, EnvironmentId, or SolutionStackName. Constraint: If both solution stack name and source configuration are specified, the solution stack of the source configuration template must match the specified solution stack name.
     ///   - tags: Specifies the tags applied to the configuration template.
     ///   - templateName: The name of the configuration template. Constraint: This name must be unique per application.
@@ -439,7 +442,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.createConfigurationTemplate(input, logger: logger)
     }
 
-    /// Launches an AWS Elastic Beanstalk environment for the specified application using the specified configuration.
+    /// Launches an Elastic Beanstalk environment for the specified application using the specified configuration.
     @Sendable
     @inlinable
     public func createEnvironment(_ input: CreateEnvironmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> EnvironmentDescription {
@@ -452,7 +455,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Launches an AWS Elastic Beanstalk environment for the specified application using the specified configuration.
+    /// Launches an Elastic Beanstalk environment for the specified application using the specified configuration.
     ///
     /// Parameters:
     ///   - applicationName: The name of the application that is associated with this environment.
@@ -460,14 +463,14 @@ public struct ElasticBeanstalk: AWSService {
     ///   - description: Your description for this environment.
     ///   - environmentName: A unique name for the environment. Constraint: Must be from 4 to 40 characters in length. The name can contain only letters, numbers, and hyphens. It can't start or end with a hyphen. This name must be unique within a region in your account. If the specified name already exists in the region, Elastic Beanstalk returns an InvalidParameterValue error.  If you don't specify the CNAMEPrefix parameter, the environment name becomes part of the CNAME, and therefore part of the visible URL for your application.
     ///   - groupName: The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See Environment Manifest (env.yaml) for details.
-    ///   - operationsRole: The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. If specified, Elastic Beanstalk uses the operations role for permissions to downstream services during this call and during subsequent calls acting on this environment. To specify an operations role, you must have the iam:PassRole permission for the role. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
-    ///   - optionSettings: If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
+    ///   - operationsRole:  The operations role feature of Elastic Beanstalk is in beta release and is subject to change.  The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. If specified, Elastic Beanstalk uses the operations role for permissions to downstream services during this call and during subsequent calls acting on this environment. To specify an operations role, you must have the iam:PassRole permission for the role.
+    ///   - optionSettings: If specified, Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
     ///   - optionsToRemove: A list of custom user-defined configuration options to remove from the configuration set for this new environment.
-    ///   - platformArn: The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, don't specify SolutionStackName.
-    ///   - solutionStackName: The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms in the AWS Elastic Beanstalk Platforms guide.  If you specify SolutionStackName, don't specify PlatformArn or TemplateName.
+    ///   - platformArn: The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see Custom Platforms in the Elastic Beanstalk Developer Guide.  If you specify PlatformArn, don't specify SolutionStackName.
+    ///   - solutionStackName: The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms in the Elastic Beanstalk Platforms guide.  If you specify SolutionStackName, don't specify PlatformArn or TemplateName.
     ///   - tags: Specifies the tags applied to resources in the environment.
-    ///   - templateName: The name of the Elastic Beanstalk configuration template to use with the environment.  If you specify TemplateName, then don't specify  SolutionStackName.
-    ///   - tier: Specifies the tier to use in creating this environment. The environment tier that you choose determines whether Elastic Beanstalk provisions resources to support a web application that handles HTTP(S) requests or a web application that handles background-processing tasks.
+    ///   - templateName: The name of the Elastic Beanstalk configuration template to use with the environment.  If you specify TemplateName, then don't specify SolutionStackName.
+    ///   - tier: Specifies the tier to use in creating this environment. The environment tier that you choose determines whether Elastic Beanstalk provisions resources on Amazon EC2 instances or on an Amazon EKS cluster, and, for Amazon EC2, whether the environment serves HTTP(S) requests or processes background tasks from a queue.
     ///   - versionLabel: The name of the application version to deploy. Default: If not specified, Elastic Beanstalk attempts to deploy the sample application.
     ///   - logger: Logger use during operation
     @inlinable
@@ -724,7 +727,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.deletePlatformVersion(input, logger: logger)
     }
 
-    /// Returns attributes related to AWS Elastic Beanstalk that are associated with the calling AWS account. The result currently has one set of attributes—resource quotas.
+    /// Returns attributes related to Elastic Beanstalk that are associated with the calling Amazon Web Services account. The result currently has one set of attributes—resource quotas. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func describeAccountAttributes(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountAttributesResult {
@@ -737,7 +740,7 @@ public struct ElasticBeanstalk: AWSService {
         )
     }
 
-    /// Retrieve a list of application versions.
+    /// Retrieve a list of application versions. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func describeApplicationVersions(_ input: DescribeApplicationVersionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ApplicationVersionDescriptionsMessage {
@@ -750,7 +753,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Retrieve a list of application versions.
+    /// Retrieve a list of application versions. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
     ///   - applicationName: Specify an application name to show only application versions for that application.
@@ -775,7 +778,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describeApplicationVersions(input, logger: logger)
     }
 
-    /// Returns the descriptions of existing applications.
+    /// Returns the descriptions of existing applications. This action only returns information about applications that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access two of three applications. When the user calls the DescribeApplications action, the response will only include the two applications that the user has permission to access instead of all three applications. If the user doesn’t have access to any of the applications an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func describeApplications(_ input: DescribeApplicationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ApplicationDescriptionsMessage {
@@ -788,10 +791,10 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Returns the descriptions of existing applications.
+    /// Returns the descriptions of existing applications. This action only returns information about applications that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access two of three applications. When the user calls the DescribeApplications action, the response will only include the two applications that the user has permission to access instead of all three applications. If the user doesn’t have access to any of the applications an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
-    ///   - applicationNames: If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
+    ///   - applicationNames: If specified, Elastic Beanstalk restricts the returned descriptions to only include those with the specified names.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeApplications(
@@ -804,7 +807,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describeApplications(input, logger: logger)
     }
 
-    /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed.
+    /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func describeConfigurationOptions(_ input: DescribeConfigurationOptionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationOptionsDescription {
@@ -817,7 +820,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed.
+    /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
     ///   - applicationName: The name of the application associated with the configuration template or environment. Only needed if you want to describe the configuration options associated with either the configuration template or environment.
@@ -848,7 +851,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describeConfigurationOptions(input, logger: logger)
     }
 
-    /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. Related Topics    DeleteEnvironmentConfiguration
+    /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.  Related Topics    DeleteEnvironmentConfiguration
     @Sendable
     @inlinable
     public func describeConfigurationSettings(_ input: DescribeConfigurationSettingsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ConfigurationSettingsDescriptions {
@@ -861,12 +864,12 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. Related Topics    DeleteEnvironmentConfiguration
+    /// Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment. When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.  Related Topics    DeleteEnvironmentConfiguration
     ///
     /// Parameters:
     ///   - applicationName: The application for the environment or configuration template.
-    ///   - environmentName: The name of the environment to describe. Condition: You must specify either this or a TemplateName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-    ///   - templateName: The name of the configuration template to describe. Conditional: You must specify either this parameter or an EnvironmentName, but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error.
+    ///   - environmentName: The name of the environment to describe. Condition: You must specify either this or a TemplateName, but not both. If you specify both, Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - templateName: The name of the configuration template to describe. Conditional: You must specify either this parameter or an EnvironmentName, but not both. If you specify both, Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, Elastic Beanstalk returns a MissingRequiredParameter error.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeConfigurationSettings(
@@ -883,7 +886,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describeConfigurationSettings(input, logger: logger)
     }
 
-    /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with AWS Elastic Beanstalk Enhanced Health.
+    /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with Elastic Beanstalk Enhanced Health. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func describeEnvironmentHealth(_ input: DescribeEnvironmentHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEnvironmentHealthResult {
@@ -896,7 +899,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with AWS Elastic Beanstalk Enhanced Health.
+    /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with Elastic Beanstalk Enhanced Health. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
     ///   - attributeNames: Specify the response elements to return. To retrieve all attributes, set to All. If no attribute names are specified, returns the name of the environment.
@@ -956,7 +959,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describeEnvironmentManagedActionHistory(input, logger: logger)
     }
 
-    /// Lists an environment's upcoming and in-progress managed actions.
+    /// Lists an environment's upcoming and in-progress managed actions. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func describeEnvironmentManagedActions(_ input: DescribeEnvironmentManagedActionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEnvironmentManagedActionsResult {
@@ -969,7 +972,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Lists an environment's upcoming and in-progress managed actions.
+    /// Lists an environment's upcoming and in-progress managed actions. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
     ///   - environmentId: The environment ID of the target environment.
@@ -991,7 +994,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describeEnvironmentManagedActions(input, logger: logger)
     }
 
-    /// Returns AWS resources for this environment.
+    /// Returns Amazon Web Services resources for this environment.
     @Sendable
     @inlinable
     public func describeEnvironmentResources(_ input: DescribeEnvironmentResourcesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> EnvironmentResourceDescriptionsMessage {
@@ -1004,11 +1007,11 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Returns AWS resources for this environment.
+    /// Returns Amazon Web Services resources for this environment.
     ///
     /// Parameters:
-    ///   - environmentId: The ID of the environment to retrieve AWS resource usage data. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-    ///   - environmentName: The name of the environment to retrieve AWS resource usage data. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentId: The ID of the environment to retrieve Amazon Web Services resource usage data. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentName: The name of the environment to retrieve Amazon Web Services resource usage data. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeEnvironmentResources(
@@ -1023,7 +1026,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describeEnvironmentResources(input, logger: logger)
     }
 
-    /// Returns descriptions for existing environments.
+    /// Returns descriptions for existing environments. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls the DescribeEnvironments action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func describeEnvironments(_ input: DescribeEnvironmentsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> EnvironmentDescriptionsMessage {
@@ -1036,17 +1039,17 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Returns descriptions for existing environments.
+    /// Returns descriptions for existing environments. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls the DescribeEnvironments action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
-    ///   - applicationName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
-    ///   - environmentIds: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
-    ///   - environmentNames: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
+    ///   - applicationName: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
+    ///   - environmentIds: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
+    ///   - environmentNames: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
     ///   - includedDeletedBackTo:  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed.
     ///   - includeDeleted: Indicates whether to include deleted environments:  true: Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include deleted environments.
     ///   - maxRecords: For a paginated request. Specify a maximum number of environments to include in each response. If no MaxRecords is specified, all available environments are retrieved in a single response.
     ///   - nextToken: For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
-    ///   - versionLabel: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
+    ///   - versionLabel: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeEnvironments(
@@ -1073,7 +1076,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describeEnvironments(input, logger: logger)
     }
 
-    /// Returns list of event descriptions matching criteria up to the last 6 weeks.  This action returns the most recent 1,000 events from the specified NextToken.
+    /// Returns list of event descriptions matching criteria up to the last 6 weeks. This action returns the most recent 1,000 events from the specified NextToken. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func describeEvents(_ input: DescribeEventsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> EventDescriptionsMessage {
@@ -1086,21 +1089,21 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Returns list of event descriptions matching criteria up to the last 6 weeks.  This action returns the most recent 1,000 events from the specified NextToken.
+    /// Returns list of event descriptions matching criteria up to the last 6 weeks. This action returns the most recent 1,000 events from the specified NextToken. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
-    ///   - applicationName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
-    ///   - endTime:  If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime.
-    ///   - environmentId: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
-    ///   - environmentName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
+    ///   - applicationName: If specified, Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
+    ///   - endTime:  If specified, Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime.
+    ///   - environmentId: If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
+    ///   - environmentName: If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
     ///   - maxRecords: Specifies the maximum number of events that can be returned, beginning with the most recent event.
     ///   - nextToken: Pagination token. If specified, the events return the next batch of results.
-    ///   - platformArn: The ARN of a custom platform version. If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this custom platform version.
-    ///   - requestId: If specified, AWS Elastic Beanstalk restricts the described events to include only those associated with this request ID.
+    ///   - platformArn: The ARN of a custom platform version. If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this custom platform version.
+    ///   - requestId: If specified, Elastic Beanstalk restricts the described events to include only those associated with this request ID.
     ///   - severity: If specified, limits the events returned from this call to include only those with the specified severity or higher.
-    ///   - startTime: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
-    ///   - templateName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
-    ///   - versionLabel: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
+    ///   - startTime: If specified, Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
+    ///   - templateName: If specified, Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
+    ///   - versionLabel: If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeEvents(
@@ -1135,7 +1138,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describeEvents(input, logger: logger)
     }
 
-    /// Retrieves detailed information about the health of instances in your AWS Elastic Beanstalk. This operation requires enhanced health reporting.
+    /// Retrieves detailed information about the health of instances in your Elastic Beanstalk environments. This operation requires enhanced health reporting. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func describeInstancesHealth(_ input: DescribeInstancesHealthRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstancesHealthResult {
@@ -1148,12 +1151,12 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Retrieves detailed information about the health of instances in your AWS Elastic Beanstalk. This operation requires enhanced health reporting.
+    /// Retrieves detailed information about the health of instances in your Elastic Beanstalk environments. This operation requires enhanced health reporting. This action only returns information about environments that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three environments. When the user calls this action, the response will only include the one environment that the user has permission to access instead of all three environments. If the user doesn’t have access to any of the environments an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
     ///   - attributeNames: Specifies the response elements you wish to receive. To retrieve all attributes, set to All. If no attribute names are specified, returns a list of instances.
-    ///   - environmentId: Specify the AWS Elastic Beanstalk environment by ID.
-    ///   - environmentName: Specify the AWS Elastic Beanstalk environment by name.
+    ///   - environmentId: Specify the Elastic Beanstalk environment by ID.
+    ///   - environmentName: Specify the Elastic Beanstalk environment by name.
     ///   - nextToken: Specify the pagination token returned by a previous call.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1173,7 +1176,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describeInstancesHealth(input, logger: logger)
     }
 
-    /// Describes a platform version. Provides full details. Compare to ListPlatformVersions, which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
+    /// Describes a platform version. Provides full details. Compare to ListPlatformVersions, which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func describePlatformVersion(_ input: DescribePlatformVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePlatformVersionResult {
@@ -1186,7 +1189,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Describes a platform version. Provides full details. Compare to ListPlatformVersions, which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
+    /// Describes a platform version. Provides full details. Compare to ListPlatformVersions, which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
     ///   - platformArn: The ARN of the platform version.
@@ -1202,7 +1205,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.describePlatformVersion(input, logger: logger)
     }
 
-    /// Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
+    ///  The operations role feature of Elastic Beanstalk is in beta release and is subject to change.  Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment.
     @Sendable
     @inlinable
     public func disassociateEnvironmentOperationsRole(_ input: DisassociateEnvironmentOperationsRoleMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1215,7 +1218,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
+    ///  The operations role feature of Elastic Beanstalk is in beta release and is subject to change.  Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment.
     ///
     /// Parameters:
     ///   - environmentName: The name of the environment from which to disassociate the operations role.
@@ -1231,7 +1234,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.disassociateEnvironmentOperationsRole(input, logger: logger)
     }
 
-    /// Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.
+    /// Returns a list of the available solution stack names, with the public version first and then in reverse chronological order. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func listAvailableSolutionStacks(logger: Logger = AWSClient.loggingDisabled) async throws -> ListAvailableSolutionStacksResultMessage {
@@ -1244,7 +1247,7 @@ public struct ElasticBeanstalk: AWSService {
         )
     }
 
-    /// Lists the platform branches available for your account in an AWS Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
+    /// Lists the platform branches available for your account in an Amazon Web Services Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see Elastic Beanstalk Platforms Glossary. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func listPlatformBranches(_ input: ListPlatformBranchesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPlatformBranchesResult {
@@ -1257,7 +1260,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Lists the platform branches available for your account in an AWS Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
+    /// Lists the platform branches available for your account in an Amazon Web Services Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see Elastic Beanstalk Platforms Glossary. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
     ///   - filters: Criteria for restricting the resulting list of platform branches. The filter is evaluated as a logical conjunction (AND) of the separate SearchFilter terms. The following list shows valid attribute values for each of the SearchFilter terms. Most operators take a single value. The in and not_in operators can take multiple values.    Attribute = BranchName:    Operator: = | != | begins_with | ends_with | contains | in | not_in       Attribute = LifecycleState:    Operator: = | != | in | not_in     Values: beta | supported | deprecated | retired       Attribute = PlatformName:    Operator: = | != | begins_with | ends_with | contains | in | not_in       Attribute = TierType:    Operator: = | !=     Values: WebServer/Standard | Worker/SQS/HTTP      Array size: limited to 10 SearchFilter objects. Within each SearchFilter item, the Values array is limited to 10 items.
@@ -1279,7 +1282,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.listPlatformBranches(input, logger: logger)
     }
 
-    /// Lists the platform versions available for your account in an AWS Region. Provides summary information about each platform version. Compare to DescribePlatformVersion, which provides full details about a single platform version. For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
+    /// Lists the platform versions available for your account in an Amazon Web Services Region. Provides summary information about each platform version. Compare to DescribePlatformVersion, which provides full details about a single platform version. This action only returns information about platform versions that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of ten platform versions. When the user calls the ListPlatformVersions action, the response will only include the one platform version that the user has permission to access instead of all ten platform versions. If the user doesn’t have access to any of the platform versions an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.  For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary.
     @Sendable
     @inlinable
     public func listPlatformVersions(_ input: ListPlatformVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPlatformVersionsResult {
@@ -1292,7 +1295,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Lists the platform versions available for your account in an AWS Region. Provides summary information about each platform version. Compare to DescribePlatformVersion, which provides full details about a single platform version. For definitions of platform version and other platform-related terms, see AWS Elastic Beanstalk Platforms Glossary.
+    /// Lists the platform versions available for your account in an Amazon Web Services Region. Provides summary information about each platform version. Compare to DescribePlatformVersion, which provides full details about a single platform version. This action only returns information about platform versions that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of ten platform versions. When the user calls the ListPlatformVersions action, the response will only include the one platform version that the user has permission to access instead of all ten platform versions. If the user doesn’t have access to any of the platform versions an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk environments. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.  For definitions of platform version and other platform-related terms, see Elastic Beanstalk Platforms Glossary.
     ///
     /// Parameters:
     ///   - filters: Criteria for restricting the resulting list of platform versions. The filter is interpreted as a logical conjunction (AND) of the separate PlatformFilter terms.
@@ -1314,7 +1317,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.listPlatformVersions(input, logger: logger)
     }
 
-    /// Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources.
+    /// Return the tags applied to an Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ResourceTagsDescriptionMessage {
@@ -1327,7 +1330,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources.
+    /// Return the tags applied to an Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources. This action only returns information about resources that the calling principle has IAM permissions to access. For example, consider a case where a user only has permission to access one of three resources. When the user calls the this action, the response will only include the one resource that the user has permission to access instead of all three resources. If the user doesn’t have access to any of the resources an empty result is returned.  The AWSElasticBeanstalkReadOnly managed policy allows operators to view information about resources related to Elastic Beanstalk. For more information, see  Managing Elastic Beanstalk user policies in the Elastic Beanstalk Developer Guide. For detailed instructions to attach a policy to a user or group, see the section  Controlling access with managed policies in the same topic.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resouce for which a tag list is requested. Must be the ARN of an Elastic Beanstalk resource.
@@ -1343,7 +1346,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
+    /// Deletes and recreates all of the Amazon Web Services resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
     @Sendable
     @inlinable
     public func rebuildEnvironment(_ input: RebuildEnvironmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1356,11 +1359,11 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
+    /// Deletes and recreates all of the Amazon Web Services resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
     ///
     /// Parameters:
-    ///   - environmentId: The ID of the environment to rebuild. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-    ///   - environmentName: The name of the environment to rebuild. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentId: The ID of the environment to rebuild. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentName: The name of the environment to rebuild. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     ///   - logger: Logger use during operation
     @inlinable
     public func rebuildEnvironment(
@@ -1391,8 +1394,8 @@ public struct ElasticBeanstalk: AWSService {
     /// Initiates a request to compile the specified type of information of the deployed environment. Setting the InfoType to tail compiles the last lines from the application server log files of every Amazon EC2 instance in your environment.  Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs.  Setting the InfoType to analyze collects recent events, instance health, and logs from your environment and sends them to Amazon Bedrock in your account to generate diagnostic insights and recommended next steps.  Use RetrieveEnvironmentInfo to obtain the set of logs.  Related Topics    RetrieveEnvironmentInfo
     ///
     /// Parameters:
-    ///   - environmentId: The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-    ///   - environmentName: The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentId: The ID of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentName: The name of the environment of the requested data. If no such environment is found, RequestEnvironmentInfo returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     ///   - infoType: The type of information to request.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1426,8 +1429,8 @@ public struct ElasticBeanstalk: AWSService {
     /// Causes the environment to restart the application container server running on each Amazon EC2 instance.
     ///
     /// Parameters:
-    ///   - environmentId: The ID of the environment to restart the server for. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-    ///   - environmentName: The name of the environment to restart the server for. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentId: The ID of the environment to restart the server for. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentName: The name of the environment to restart the server for. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     ///   - logger: Logger use during operation
     @inlinable
     public func restartAppServer(
@@ -1458,8 +1461,8 @@ public struct ElasticBeanstalk: AWSService {
     /// Retrieves the compiled information from a RequestEnvironmentInfo request. Related Topics    RequestEnvironmentInfo
     ///
     /// Parameters:
-    ///   - environmentId: The ID of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-    ///   - environmentName: The name of the data's environment. If no such environment is found, returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentId: The ID of the data's environment. If no such environment is found, returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentName: The name of the data's environment. If no such environment is found, returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     ///   - infoType: The type of information to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1531,10 +1534,10 @@ public struct ElasticBeanstalk: AWSService {
     /// Terminates the specified environment.
     ///
     /// Parameters:
-    ///   - environmentId: The ID of the environment to terminate. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-    ///   - environmentName: The name of the environment to terminate. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentId: The ID of the environment to terminate. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentName: The name of the environment to terminate. Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     ///   - forceTerminate: Terminates the target environment even if another environment in the same group is dependent on it.
-    ///   - terminateResources: Indicates whether the associated AWS resources should shut down when the environment is terminated:    true: The specified environment as well as the associated AWS resources, such as Auto Scaling group and LoadBalancer, are terminated.    false: AWS Elastic Beanstalk resource management is removed from the environment, but the AWS resources continue to operate.   For more information, see the  AWS Elastic Beanstalk User Guide.   Default: true  Valid Values: true | false
+    ///   - terminateResources: Indicates whether the associated Amazon Web Services resources should shut down when the environment is terminated:    true: The specified environment as well as the associated Amazon Web Services resources, such as Auto Scaling group and LoadBalancer, are terminated.    false: Elastic Beanstalk resource management is removed from the environment, but the Amazon Web Services resources continue to operate.   For more information, see the  Elastic Beanstalk User Guide.   Default: true  Valid Values: true | false
     ///   - logger: Logger use during operation
     @inlinable
     public func terminateEnvironment(
@@ -1570,7 +1573,7 @@ public struct ElasticBeanstalk: AWSService {
     ///
     /// Parameters:
     ///   - applicationName: The name of the application to update. If no such application is found, UpdateApplication returns an InvalidParameterValue error.
-    ///   - description: A new description for the application. Default: If not specified, AWS Elastic Beanstalk does not update the description.
+    ///   - description: A new description for the application. Default: If not specified, Elastic Beanstalk does not update the description.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateApplication(
@@ -1693,7 +1696,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.updateConfigurationTemplate(input, logger: logger)
     }
 
-    /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and AWS Elastic Beanstalk returns an InvalidParameterCombination error.  When updating the configuration settings to a new template or individual settings, a draft configuration is created and DescribeConfigurationSettings for this environment returns two setting descriptions with different DeploymentStatus values.
+    /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and Elastic Beanstalk returns an InvalidParameterCombination error.  When updating the configuration settings to a new template or individual settings, a draft configuration is created and DescribeConfigurationSettings for this environment returns two setting descriptions with different DeploymentStatus values.
     @Sendable
     @inlinable
     public func updateEnvironment(_ input: UpdateEnvironmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> EnvironmentDescription {
@@ -1706,21 +1709,21 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and AWS Elastic Beanstalk returns an InvalidParameterCombination error.  When updating the configuration settings to a new template or individual settings, a draft configuration is created and DescribeConfigurationSettings for this environment returns two setting descriptions with different DeploymentStatus values.
+    /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and Elastic Beanstalk returns an InvalidParameterCombination error.  When updating the configuration settings to a new template or individual settings, a draft configuration is created and DescribeConfigurationSettings for this environment returns two setting descriptions with different DeploymentStatus values.
     ///
     /// Parameters:
     ///   - applicationName: The name of the application with which the environment is associated.
-    ///   - description: If this parameter is specified, AWS Elastic Beanstalk updates the description of this environment.
-    ///   - environmentId: The ID of the environment to update. If no environment with this ID exists, AWS Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
-    ///   - environmentName: The name of the environment to update. If no environment with this name exists, AWS Elastic Beanstalk returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - description: If this parameter is specified, Elastic Beanstalk updates the description of this environment.
+    ///   - environmentId: The ID of the environment to update. If no environment with this ID exists, Elastic Beanstalk returns an InvalidParameterValue error. Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
+    ///   - environmentName: The name of the environment to update. If no environment with this name exists, Elastic Beanstalk returns an InvalidParameterValue error.  Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, Elastic Beanstalk returns MissingRequiredParameter error.
     ///   - groupName: The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name or environment ID parameters. See Environment Manifest (env.yaml) for details.
-    ///   - optionSettings: If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
+    ///   - optionSettings: If specified, Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
     ///   - optionsToRemove: A list of custom user-defined configuration options to remove from the configuration set for this environment.
     ///   - platformArn: The ARN of the platform, if used.
     ///   - solutionStackName: This specifies the platform version that the environment will run after the environment is updated.
-    ///   - templateName: If this parameter is specified, AWS Elastic Beanstalk deploys this configuration template to the environment. If no such configuration template is found, AWS Elastic Beanstalk returns an InvalidParameterValue error.
-    ///   - tier: This specifies the tier to use to update the environment. Condition: At this time, if you change the tier version, name, or type, AWS Elastic Beanstalk returns InvalidParameterValue error.
-    ///   - versionLabel: If this parameter is specified, AWS Elastic Beanstalk deploys the named application version to the environment. If no such application version is found, returns an InvalidParameterValue error.
+    ///   - templateName: If this parameter is specified, Elastic Beanstalk deploys this configuration template to the environment. If no such configuration template is found, Elastic Beanstalk returns an InvalidParameterValue error.
+    ///   - tier: This specifies the tier to use to update the environment. Condition: At this time, if you change the tier version, name, or type, Elastic Beanstalk returns InvalidParameterValue error.
+    ///   - versionLabel: If this parameter is specified, Elastic Beanstalk deploys the named application version to the environment. If no such application version is found, returns an InvalidParameterValue error.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateEnvironment(
@@ -1755,7 +1758,7 @@ public struct ElasticBeanstalk: AWSService {
         return try await self.updateEnvironment(input, logger: logger)
     }
 
-    /// Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources. If you create a custom IAM user policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name:  elasticbeanstalk:AddTags  Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter.  elasticbeanstalk:RemoveTags  Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter.   For details about creating a custom user policy, see Creating a Custom User Policy.
+    /// Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources. If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name:  elasticbeanstalk:AddTags  Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter.  elasticbeanstalk:RemoveTags  Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter.   For details about creating a custom user policy, see Creating a Custom User Policy.
     @Sendable
     @inlinable
     public func updateTagsForResource(_ input: UpdateTagsForResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1768,7 +1771,7 @@ public struct ElasticBeanstalk: AWSService {
             logger: logger
         )
     }
-    /// Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources. If you create a custom IAM user policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name:  elasticbeanstalk:AddTags  Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter.  elasticbeanstalk:RemoveTags  Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter.   For details about creating a custom user policy, see Creating a Custom User Policy.
+    /// Update the list of tags applied to an Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see Tagging Application Resources. If you create a custom policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name:  elasticbeanstalk:AddTags  Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter.  elasticbeanstalk:RemoveTags  Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter.   For details about creating a custom user policy, see Creating a Custom User Policy.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resouce to be updated. Must be the ARN of an Elastic Beanstalk resource.
@@ -1903,17 +1906,17 @@ extension ElasticBeanstalk {
     /// Return PaginatorSequence for operation ``describeEvents(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - applicationName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
-    ///   - endTime:  If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime.
-    ///   - environmentId: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
-    ///   - environmentName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
+    ///   - applicationName: If specified, Elastic Beanstalk restricts the returned descriptions to include only those associated with this application.
+    ///   - endTime:  If specified, Elastic Beanstalk restricts the returned descriptions to those that occur up to, but not including, the EndTime.
+    ///   - environmentId: If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
+    ///   - environmentName: If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
     ///   - maxRecords: Specifies the maximum number of events that can be returned, beginning with the most recent event.
-    ///   - platformArn: The ARN of a custom platform version. If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this custom platform version.
-    ///   - requestId: If specified, AWS Elastic Beanstalk restricts the described events to include only those associated with this request ID.
+    ///   - platformArn: The ARN of a custom platform version. If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this custom platform version.
+    ///   - requestId: If specified, Elastic Beanstalk restricts the described events to include only those associated with this request ID.
     ///   - severity: If specified, limits the events returned from this call to include only those with the specified severity or higher.
-    ///   - startTime: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
-    ///   - templateName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
-    ///   - versionLabel: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
+    ///   - startTime: If specified, Elastic Beanstalk restricts the returned descriptions to those that occur on or after this time.
+    ///   - templateName: If specified, Elastic Beanstalk restricts the returned descriptions to those that are associated with this environment configuration.
+    ///   - versionLabel: If specified, Elastic Beanstalk restricts the returned descriptions to those associated with this application version.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeEventsPaginator(
@@ -2103,14 +2106,14 @@ extension ElasticBeanstalk {
     /// Waiter for operation ``describeEnvironments(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - applicationName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
-    ///   - environmentIds: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
-    ///   - environmentNames: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
+    ///   - applicationName: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
+    ///   - environmentIds: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
+    ///   - environmentNames: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
     ///   - includedDeletedBackTo:  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed.
     ///   - includeDeleted: Indicates whether to include deleted environments:  true: Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include deleted environments.
     ///   - maxRecords: For a paginated request. Specify a maximum number of environments to include in each response. If no MaxRecords is specified, all available environments are retrieved in a single response.
     ///   - nextToken: For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
-    ///   - versionLabel: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
+    ///   - versionLabel: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilEnvironmentExists(
@@ -2161,14 +2164,14 @@ extension ElasticBeanstalk {
     /// Waiter for operation ``describeEnvironments(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - applicationName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
-    ///   - environmentIds: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
-    ///   - environmentNames: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
+    ///   - applicationName: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
+    ///   - environmentIds: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
+    ///   - environmentNames: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
     ///   - includedDeletedBackTo:  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed.
     ///   - includeDeleted: Indicates whether to include deleted environments:  true: Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include deleted environments.
     ///   - maxRecords: For a paginated request. Specify a maximum number of environments to include in each response. If no MaxRecords is specified, all available environments are retrieved in a single response.
     ///   - nextToken: For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
-    ///   - versionLabel: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
+    ///   - versionLabel: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilEnvironmentTerminated(
@@ -2219,14 +2222,14 @@ extension ElasticBeanstalk {
     /// Waiter for operation ``describeEnvironments(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - applicationName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
-    ///   - environmentIds: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
-    ///   - environmentNames: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
+    ///   - applicationName: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application.
+    ///   - environmentIds: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified IDs.
+    ///   - environmentNames: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that have the specified names.
     ///   - includedDeletedBackTo:  If specified when IncludeDeleted is set to true, then environments deleted after this date are displayed.
     ///   - includeDeleted: Indicates whether to include deleted environments:  true: Environments that have been deleted after IncludedDeletedBackTo are displayed.  false: Do not include deleted environments.
     ///   - maxRecords: For a paginated request. Specify a maximum number of environments to include in each response. If no MaxRecords is specified, all available environments are retrieved in a single response.
     ///   - nextToken: For a paginated request. Specify a token from a previous response page to retrieve the next response page. All other parameter values must be identical to the ones specified in the initial request. If no NextToken is specified, the first page is retrieved.
-    ///   - versionLabel: If specified, AWS Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
+    ///   - versionLabel: If specified, Elastic Beanstalk restricts the returned descriptions to include only those that are associated with this application version.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilEnvironmentUpdated(

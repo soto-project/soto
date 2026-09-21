@@ -148,6 +148,33 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum CertificateAuthorityActivatedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customer = "CUSTOMER"
+        case eks = "EKS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateAuthorityCreatedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customer = "CUSTOMER"
+        case eks = "EKS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateAuthorityDistributionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CertificateAuthoritySigningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activating = "ACTIVATING"
+        case inUse = "IN_USE"
+        case notUsed = "NOT_USED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterIssueCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "AccessDenied"
         case clusterUnreachable = "ClusterUnreachable"
@@ -383,6 +410,12 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScoringStrategyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case leastAllocated = "LeastAllocated"
+        case mostAllocated = "MostAllocated"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SpreadLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case host = "host"
         case rack = "rack"
@@ -409,8 +442,10 @@ extension EKS {
     }
 
     public enum UpdateParamType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activeCertificateAuthority = "ActiveCertificateAuthority"
         case addonVersion = "AddonVersion"
         case authenticationMode = "AuthenticationMode"
+        case certificateAuthorityId = "CertificateAuthorityId"
         case clusterLogging = "ClusterLogging"
         case computeConfig = "ComputeConfig"
         case configurationValues = "ConfigurationValues"
@@ -421,6 +456,9 @@ extension EKS {
         case endpointPrivateAccess = "EndpointPrivateAccess"
         case endpointPublicAccess = "EndpointPublicAccess"
         case identityProviderConfig = "IdentityProviderConfig"
+        case kubeApiServerConfig = "KubeApiServerConfig"
+        case kubeControllerManagerConfig = "KubeControllerManagerConfig"
+        case kubeSchedulerConfig = "KubeSchedulerConfig"
         case kubernetesNetworkConfig = "KubernetesNetworkConfig"
         case labelsToAdd = "LabelsToAdd"
         case labelsToRemove = "LabelsToRemove"
@@ -445,10 +483,12 @@ extension EKS {
         case roleMappingsToRemove = "RoleMappingsToRemove"
         case securityGroups = "SecurityGroups"
         case serviceAccountRoleArn = "ServiceAccountRoleArn"
+        case signingStatus = "SigningStatus"
         case storageConfig = "StorageConfig"
         case subnets = "Subnets"
         case taintsToAdd = "TaintsToAdd"
         case taintsToRemove = "TaintsToRemove"
+        case trustedCertificateAuthorities = "TrustedCertificateAuthorities"
         case updateStrategy = "UpdateStrategy"
         case updatedTier = "UpdatedTier"
         case upgradePolicy = "UpgradePolicy"
@@ -478,7 +518,9 @@ extension EKS {
         case associateIdentityProviderConfig = "AssociateIdentityProviderConfig"
         case autoModeUpdate = "AutoModeUpdate"
         case capabilityUpdate = "CapabilityUpdate"
+        case certificateAuthorityUpdate = "CertificateAuthorityUpdate"
         case configUpdate = "ConfigUpdate"
+        case controlPlaneComponentConfigUpdate = "ControlPlaneComponentConfigUpdate"
         case controlPlaneEgressUpdate = "ControlPlaneEgressUpdate"
         case controlPlaneScalingConfigUpdate = "ControlPlaneScalingConfigUpdate"
         case deletionProtectionUpdate = "DeletionProtectionUpdate"
@@ -608,6 +650,71 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case namespaces = "namespaces"
             case type = "type"
+        }
+    }
+
+    public struct ActivateCertificateAuthorityRequest: AWSEncodableShape {
+        /// The ID of the certificate authority to activate as the cluster's signing certificate authority. This certificate authority must already exist on the cluster and have a distributionStatus of COMPLETE.
+        public let certificateAuthorityId: String
+        /// A unique, case-sensitive identifier that you provide to ensure
+        /// the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of your cluster.
+        public let clusterName: String
+
+        @inlinable
+        public init(certificateAuthorityId: String, clientRequestToken: String? = ActivateCertificateAuthorityRequest.idempotencyToken(), clusterName: String) {
+            self.certificateAuthorityId = certificateAuthorityId
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateAuthorityId, key: "certificateAuthorityId")
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+        }
+    }
+
+    public struct ActivateCertificateAuthorityResponse: AWSDecodableShape {
+        /// Summary information about the certificate authority that is being activated.
+        public let certificateAuthority: CertificateAuthoritySummary?
+        /// An object representing the asynchronous update that promotes the certificate authority to be the cluster's signer.
+        public let update: Update?
+
+        @inlinable
+        public init(certificateAuthority: CertificateAuthoritySummary? = nil, update: Update? = nil) {
+            self.certificateAuthority = certificateAuthority
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthority = "certificateAuthority"
+            case update = "update"
+        }
+    }
+
+    public struct ActiveCertificateAuthority: AWSDecodableShape {
+        /// The entity that activated the current signing certificate authority, either CUSTOMER or EKS.
+        public let activatedBy: CertificateAuthorityActivatedBy?
+        /// The unique identifier of the certificate authority that is currently signing certificates for the cluster.
+        public let id: String?
+
+        @inlinable
+        public init(activatedBy: CertificateAuthorityActivatedBy? = nil, id: String? = nil) {
+            self.activatedBy = activatedBy
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activatedBy = "activatedBy"
+            case id = "id"
         }
     }
 
@@ -877,6 +984,20 @@ extension EKS {
             case computeTypes = "computeTypes"
             case requiresConfiguration = "requiresConfiguration"
             case requiresIamPermissions = "requiresIamPermissions"
+        }
+    }
+
+    public struct AllowedValuesConstraint: AWSDecodableShape {
+        /// The list of allowed values.
+        public let allowedValues: [String]?
+
+        @inlinable
+        public init(allowedValues: [String]? = nil) {
+            self.allowedValues = allowedValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "allowedValues"
         }
     }
 
@@ -1462,16 +1583,148 @@ extension EKS {
     }
 
     public struct Certificate: AWSDecodableShape {
+        /// An object identifying the certificate authority that is currently signing certificates for the cluster.
+        public let active: ActiveCertificateAuthority?
         /// The Base64-encoded certificate data required to communicate with your cluster. Add this to the certificate-authority-data section of the kubeconfig file for your cluster.
         public let data: String?
 
         @inlinable
-        public init(data: String? = nil) {
+        public init(active: ActiveCertificateAuthority? = nil, data: String? = nil) {
+            self.active = active
             self.data = data
         }
 
         private enum CodingKeys: String, CodingKey {
+            case active = "active"
             case data = "data"
+        }
+    }
+
+    public struct CertificateAuthority: AWSDecodableShape {
+        /// The Unix epoch timestamp in seconds for when the certificate authority was last activated as the cluster's signer. This value is absent if the certificate authority has never been activated.
+        public let activatedAt: Date?
+        /// The entity that most recently activated the certificate authority. A value of EKS indicates that Amazon EKS activated it automatically; CUSTOMER indicates that you activated it.
+        public let activatedBy: CertificateAuthorityActivatedBy?
+        /// The Unix epoch timestamp in seconds for when the certificate authority was created.
+        public let createdAt: Date?
+        /// The entity that created the certificate authority. Certificate authorities that you create are CUSTOMER; those that Amazon EKS provisions on your behalf, such as a cluster's initial certificate authority, are EKS.
+        public let createdBy: CertificateAuthorityCreatedBy?
+        /// The Base64-encoded public certificate of the certificate authority.
+        public let data: String?
+        /// The distribution status of the certificate authority, which tracks whether Amazon EKS has distributed its trust to the Amazon Web Services managed components in your cluster (the control plane, Amazon EKS Auto Mode instances, and Amazon Web Services Fargate nodes). Valid values are IN_PROGRESS, COMPLETE, FAILED, and DELETING. A successor CA can only be activated after its distribution status is COMPLETE.
+        public let distributionStatus: CertificateAuthorityDistributionStatus?
+        /// The unique identifier of the certificate authority.
+        public let id: String?
+        /// Indicates whether CA rollback is still available for this certificate authority. After you activate a successor CA, rollback lets you revert to the outgoing CA for a limited period while you finish updating any worker nodes or clients that were missed.
+        public let rollbackAvailable: Bool?
+        /// The scheduled auto-activation events for the certificate authority, computed from its validity period.
+        public let scheduledEvents: CertificateAuthorityScheduledEvents?
+        /// The signing status of the certificate authority. IN_USE means the certificate authority is currently signing certificates for the cluster, ACTIVATING means it's being promoted to the signer, and NOT_USED means it's trusted by the cluster (for example, a successor CA during a rotation, or a retired outgoing CA) but isn't the signer.
+        public let signingStatus: CertificateAuthoritySigningStatus?
+        /// The validity period of the certificate authority's certificate.
+        public let validity: CertificateAuthorityValidity?
+
+        @inlinable
+        public init(activatedAt: Date? = nil, activatedBy: CertificateAuthorityActivatedBy? = nil, createdAt: Date? = nil, createdBy: CertificateAuthorityCreatedBy? = nil, data: String? = nil, distributionStatus: CertificateAuthorityDistributionStatus? = nil, id: String? = nil, rollbackAvailable: Bool? = nil, scheduledEvents: CertificateAuthorityScheduledEvents? = nil, signingStatus: CertificateAuthoritySigningStatus? = nil, validity: CertificateAuthorityValidity? = nil) {
+            self.activatedAt = activatedAt
+            self.activatedBy = activatedBy
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.data = data
+            self.distributionStatus = distributionStatus
+            self.id = id
+            self.rollbackAvailable = rollbackAvailable
+            self.scheduledEvents = scheduledEvents
+            self.signingStatus = signingStatus
+            self.validity = validity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activatedAt = "activatedAt"
+            case activatedBy = "activatedBy"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case data = "data"
+            case distributionStatus = "distributionStatus"
+            case id = "id"
+            case rollbackAvailable = "rollbackAvailable"
+            case scheduledEvents = "scheduledEvents"
+            case signingStatus = "signingStatus"
+            case validity = "validity"
+        }
+    }
+
+    public struct CertificateAuthorityScheduledEvents: AWSDecodableShape {
+        /// The Unix epoch timestamp in seconds by which Amazon EKS will automatically activate this certificate authority if you haven't already activated it.
+        public let finalAutoActivation: Date?
+        /// The earliest Unix epoch timestamp in seconds at which Amazon EKS may automatically activate this certificate authority.
+        public let firstAutoActivation: Date?
+
+        @inlinable
+        public init(finalAutoActivation: Date? = nil, firstAutoActivation: Date? = nil) {
+            self.finalAutoActivation = finalAutoActivation
+            self.firstAutoActivation = firstAutoActivation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case finalAutoActivation = "finalAutoActivation"
+            case firstAutoActivation = "firstAutoActivation"
+        }
+    }
+
+    public struct CertificateAuthoritySummary: AWSDecodableShape {
+        /// The Unix epoch timestamp in seconds for when the certificate authority was last activated. This value is absent if the certificate authority has never been activated.
+        public let activatedAt: Date?
+        /// The entity that most recently activated the certificate authority, either CUSTOMER or EKS.
+        public let activatedBy: CertificateAuthorityActivatedBy?
+        /// The Unix epoch timestamp in seconds for when the certificate authority was created.
+        public let createdAt: Date?
+        /// The entity that created the certificate authority, either CUSTOMER or EKS.
+        public let createdBy: CertificateAuthorityCreatedBy?
+        /// The distribution status of the certificate authority: IN_PROGRESS, COMPLETE, FAILED, or DELETING.
+        public let distributionStatus: CertificateAuthorityDistributionStatus?
+        /// The unique identifier of the certificate authority.
+        public let id: String?
+        /// The signing status of the certificate authority: IN_USE, ACTIVATING, or NOT_USED.
+        public let signingStatus: CertificateAuthoritySigningStatus?
+
+        @inlinable
+        public init(activatedAt: Date? = nil, activatedBy: CertificateAuthorityActivatedBy? = nil, createdAt: Date? = nil, createdBy: CertificateAuthorityCreatedBy? = nil, distributionStatus: CertificateAuthorityDistributionStatus? = nil, id: String? = nil, signingStatus: CertificateAuthoritySigningStatus? = nil) {
+            self.activatedAt = activatedAt
+            self.activatedBy = activatedBy
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.distributionStatus = distributionStatus
+            self.id = id
+            self.signingStatus = signingStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activatedAt = "activatedAt"
+            case activatedBy = "activatedBy"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case distributionStatus = "distributionStatus"
+            case id = "id"
+            case signingStatus = "signingStatus"
+        }
+    }
+
+    public struct CertificateAuthorityValidity: AWSDecodableShape {
+        /// The Unix epoch timestamp in seconds for the end of the certificate authority's validity period.
+        public let notAfter: Date?
+        /// The Unix epoch timestamp in seconds for the start of the certificate authority's validity period.
+        public let notBefore: Date?
+
+        @inlinable
+        public init(notAfter: Date? = nil, notBefore: Date? = nil) {
+            self.notAfter = notAfter
+            self.notBefore = notBefore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notAfter = "notAfter"
+            case notBefore = "notBefore"
         }
     }
 
@@ -1557,8 +1810,14 @@ extension EKS {
         public let id: String?
         /// The identity provider information for the cluster.
         public let identity: Identity?
+        /// The Kubernetes API server configuration for the cluster.
+        public let kubeApiServerConfig: KubeApiServerConfigResponse?
+        /// The Kubernetes controller manager configuration for the cluster.
+        public let kubeControllerManagerConfig: KubeControllerManagerConfigResponse?
         /// The Kubernetes network configuration for the cluster.
         public let kubernetesNetworkConfig: KubernetesNetworkConfigResponse?
+        /// The Kubernetes scheduler configuration for the cluster.
+        public let kubeSchedulerConfig: KubeSchedulerConfigResponse?
         /// The logging configuration for your cluster.
         public let logging: Logging?
         /// The name of your cluster.
@@ -1587,7 +1846,7 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigResponse?
 
         @inlinable
-        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, computeConfig: ComputeConfigResponse? = nil, connectorConfig: ConnectorConfigResponse? = nil, controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil, createdAt: Date? = nil, deletionProtection: Bool? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, remoteNetworkConfig: RemoteNetworkConfigResponse? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, storageConfig: StorageConfigResponse? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigResponse? = nil) {
+        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, computeConfig: ComputeConfigResponse? = nil, connectorConfig: ConnectorConfigResponse? = nil, controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil, createdAt: Date? = nil, deletionProtection: Bool? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubeApiServerConfig: KubeApiServerConfigResponse? = nil, kubeControllerManagerConfig: KubeControllerManagerConfigResponse? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, kubeSchedulerConfig: KubeSchedulerConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, remoteNetworkConfig: RemoteNetworkConfigResponse? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, storageConfig: StorageConfigResponse? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigResponse? = nil) {
             self.accessConfig = accessConfig
             self.arn = arn
             self.certificateAuthority = certificateAuthority
@@ -1602,7 +1861,10 @@ extension EKS {
             self.health = health
             self.id = id
             self.identity = identity
+            self.kubeApiServerConfig = kubeApiServerConfig
+            self.kubeControllerManagerConfig = kubeControllerManagerConfig
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
+            self.kubeSchedulerConfig = kubeSchedulerConfig
             self.logging = logging
             self.name = name
             self.outpostConfig = outpostConfig
@@ -1633,7 +1895,10 @@ extension EKS {
             case health = "health"
             case id = "id"
             case identity = "identity"
+            case kubeApiServerConfig = "kubeApiServerConfig"
+            case kubeControllerManagerConfig = "kubeControllerManagerConfig"
             case kubernetesNetworkConfig = "kubernetesNetworkConfig"
+            case kubeSchedulerConfig = "kubeSchedulerConfig"
             case logging = "logging"
             case name = "name"
             case outpostConfig = "outpostConfig"
@@ -1691,6 +1956,10 @@ extension EKS {
         public let clusterType: String?
         /// The Kubernetes version for the cluster.
         public let clusterVersion: String?
+        /// The default control plane component configuration and constraints for this Kubernetes version.
+        public let controlPlaneComponentConfig: ControlPlaneConfigInfo?
+        /// The available provisioned control plane scaling tiers and their capabilities for this Kubernetes version.
+        public let controlPlaneScalingTiers: [ControlPlaneScalingTierInfo]?
         /// Default platform version for this Kubernetes version.
         public let defaultPlatformVersion: String?
         /// Indicates if this is a default version.
@@ -1709,9 +1978,11 @@ extension EKS {
         public let versionStatus: VersionStatus?
 
         @inlinable
-        public init(clusterType: String? = nil, clusterVersion: String? = nil, defaultPlatformVersion: String? = nil, defaultVersion: Bool? = nil, endOfExtendedSupportDate: Date? = nil, endOfStandardSupportDate: Date? = nil, kubernetesPatchVersion: String? = nil, releaseDate: Date? = nil, status: ClusterVersionStatus? = nil, versionStatus: VersionStatus? = nil) {
+        public init(clusterType: String? = nil, clusterVersion: String? = nil, controlPlaneComponentConfig: ControlPlaneConfigInfo? = nil, controlPlaneScalingTiers: [ControlPlaneScalingTierInfo]? = nil, defaultPlatformVersion: String? = nil, defaultVersion: Bool? = nil, endOfExtendedSupportDate: Date? = nil, endOfStandardSupportDate: Date? = nil, kubernetesPatchVersion: String? = nil, releaseDate: Date? = nil, status: ClusterVersionStatus? = nil, versionStatus: VersionStatus? = nil) {
             self.clusterType = clusterType
             self.clusterVersion = clusterVersion
+            self.controlPlaneComponentConfig = controlPlaneComponentConfig
+            self.controlPlaneScalingTiers = controlPlaneScalingTiers
             self.defaultPlatformVersion = defaultPlatformVersion
             self.defaultVersion = defaultVersion
             self.endOfExtendedSupportDate = endOfExtendedSupportDate
@@ -1725,6 +1996,8 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case clusterType = "clusterType"
             case clusterVersion = "clusterVersion"
+            case controlPlaneComponentConfig = "controlPlaneComponentConfig"
+            case controlPlaneScalingTiers = "controlPlaneScalingTiers"
             case defaultPlatformVersion = "defaultPlatformVersion"
             case defaultVersion = "defaultVersion"
             case endOfExtendedSupportDate = "endOfExtendedSupportDate"
@@ -1850,6 +2123,28 @@ extension EKS {
         }
     }
 
+    public struct ControlPlaneConfigInfo: AWSDecodableShape {
+        /// The Kubernetes API server configuration defaults and constraints.
+        public let kubeApiServerConfig: KubeApiServerVersionConfig?
+        /// The Kubernetes controller manager configuration defaults and constraints.
+        public let kubeControllerManagerConfig: KubeControllerManagerVersionConfig?
+        /// The Kubernetes scheduler configuration defaults and constraints.
+        public let kubeSchedulerConfig: KubeSchedulerVersionConfig?
+
+        @inlinable
+        public init(kubeApiServerConfig: KubeApiServerVersionConfig? = nil, kubeControllerManagerConfig: KubeControllerManagerVersionConfig? = nil, kubeSchedulerConfig: KubeSchedulerVersionConfig? = nil) {
+            self.kubeApiServerConfig = kubeApiServerConfig
+            self.kubeControllerManagerConfig = kubeControllerManagerConfig
+            self.kubeSchedulerConfig = kubeSchedulerConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kubeApiServerConfig = "kubeApiServerConfig"
+            case kubeControllerManagerConfig = "kubeControllerManagerConfig"
+            case kubeSchedulerConfig = "kubeSchedulerConfig"
+        }
+    }
+
     public struct ControlPlanePlacementRequest: AWSEncodableShape {
         /// The name of the placement group for the Kubernetes control plane instances. This setting can't be changed after cluster creation.
         public let groupName: String?
@@ -1897,6 +2192,36 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case tier = "tier"
+        }
+    }
+
+    public struct ControlPlaneScalingTierInfo: AWSDecodableShape {
+        /// The maximum API request concurrency supported by this tier.
+        public let apiRequestConcurrency: Int?
+        /// The maximum cluster database size in GB supported by this tier.
+        public let clusterDatabaseSizeGb: Int?
+        /// The control plane component configuration overrides specific to this scaling tier.
+        public let controlPlaneComponentConfigOverrides: ControlPlaneConfigInfo?
+        /// The maximum pod scheduling rate per second supported by this tier.
+        public let podSchedulingRatePerSecond: Int?
+        /// The name of the scaling tier.
+        public let tierName: String?
+
+        @inlinable
+        public init(apiRequestConcurrency: Int? = nil, clusterDatabaseSizeGb: Int? = nil, controlPlaneComponentConfigOverrides: ControlPlaneConfigInfo? = nil, podSchedulingRatePerSecond: Int? = nil, tierName: String? = nil) {
+            self.apiRequestConcurrency = apiRequestConcurrency
+            self.clusterDatabaseSizeGb = clusterDatabaseSizeGb
+            self.controlPlaneComponentConfigOverrides = controlPlaneComponentConfigOverrides
+            self.podSchedulingRatePerSecond = podSchedulingRatePerSecond
+            self.tierName = tierName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiRequestConcurrency = "apiRequestConcurrency"
+            case clusterDatabaseSizeGb = "clusterDatabaseSizeGb"
+            case controlPlaneComponentConfigOverrides = "controlPlaneComponentConfigOverrides"
+            case podSchedulingRatePerSecond = "podSchedulingRatePerSecond"
+            case tierName = "tierName"
         }
     }
 
@@ -2162,6 +2487,49 @@ extension EKS {
         }
     }
 
+    public struct CreateCertificateAuthorityRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure
+        /// the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of your cluster.
+        public let clusterName: String
+
+        @inlinable
+        public init(clientRequestToken: String? = CreateCertificateAuthorityRequest.idempotencyToken(), clusterName: String) {
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+        }
+    }
+
+    public struct CreateCertificateAuthorityResponse: AWSDecodableShape {
+        /// Summary information about the certificate authority that was created, including its ID and initial signing and distribution status.
+        public let certificateAuthority: CertificateAuthoritySummary?
+        /// An object representing the asynchronous update that adds the certificate authority to the cluster's trust bundle.
+        public let update: Update?
+
+        @inlinable
+        public init(certificateAuthority: CertificateAuthoritySummary? = nil, update: Update? = nil) {
+            self.certificateAuthority = certificateAuthority
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthority = "certificateAuthority"
+            case update = "update"
+        }
+    }
+
     public struct CreateClusterRequest: AWSEncodableShape {
         /// The access configuration for the cluster.
         public let accessConfig: CreateAccessConfigRequest?
@@ -2178,8 +2546,14 @@ extension EKS {
         public let deletionProtection: Bool?
         /// The encryption configuration for the cluster.
         public let encryptionConfig: [EncryptionConfig]?
+        /// The Kubernetes API server configuration for the new cluster.
+        public let kubeApiServerConfig: KubeApiServerConfigRequest?
+        /// The Kubernetes controller manager configuration for the new cluster.
+        public let kubeControllerManagerConfig: KubeControllerManagerConfigRequest?
         /// The Kubernetes network configuration for the cluster.
         public let kubernetesNetworkConfig: KubernetesNetworkConfigRequest?
+        /// The Kubernetes scheduler configuration for the new cluster.
+        public let kubeSchedulerConfig: KubeSchedulerConfigRequest?
         /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
         public let logging: Logging?
         /// The unique name to give to your cluster. The name can contain only alphanumeric characters (case-sensitive),
@@ -2207,7 +2581,7 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil, deletionProtection: Bool? = nil, encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, storageConfig: StorageConfigRequest? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
+        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil, deletionProtection: Bool? = nil, encryptionConfig: [EncryptionConfig]? = nil, kubeApiServerConfig: KubeApiServerConfigRequest? = nil, kubeControllerManagerConfig: KubeControllerManagerConfigRequest? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, kubeSchedulerConfig: KubeSchedulerConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, storageConfig: StorageConfigRequest? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
             self.clientRequestToken = clientRequestToken
@@ -2215,7 +2589,10 @@ extension EKS {
             self.controlPlaneScalingConfig = controlPlaneScalingConfig
             self.deletionProtection = deletionProtection
             self.encryptionConfig = encryptionConfig
+            self.kubeApiServerConfig = kubeApiServerConfig
+            self.kubeControllerManagerConfig = kubeControllerManagerConfig
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
+            self.kubeSchedulerConfig = kubeSchedulerConfig
             self.logging = logging
             self.name = name
             self.outpostConfig = outpostConfig
@@ -2231,6 +2608,8 @@ extension EKS {
 
         public func validate(name: String) throws {
             try self.validate(self.encryptionConfig, name: "encryptionConfig", parent: name, max: 1)
+            try self.kubeControllerManagerConfig?.validate(name: "\(name).kubeControllerManagerConfig")
+            try self.kubeSchedulerConfig?.validate(name: "\(name).kubeSchedulerConfig")
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z][A-Za-z0-9\\-_]*$")
@@ -2252,7 +2631,10 @@ extension EKS {
             case controlPlaneScalingConfig = "controlPlaneScalingConfig"
             case deletionProtection = "deletionProtection"
             case encryptionConfig = "encryptionConfig"
+            case kubeApiServerConfig = "kubeApiServerConfig"
+            case kubeControllerManagerConfig = "kubeControllerManagerConfig"
             case kubernetesNetworkConfig = "kubernetesNetworkConfig"
+            case kubeSchedulerConfig = "kubeSchedulerConfig"
             case logging = "logging"
             case name = "name"
             case outpostConfig = "outpostConfig"
@@ -2764,6 +3146,51 @@ extension EKS {
         }
     }
 
+    public struct DeleteCertificateAuthorityRequest: AWSEncodableShape {
+        /// The ID of the certificate authority to delete. You can't delete the certificate authority that's currently signing certificates for the cluster.
+        public let certificateAuthorityId: String
+        /// A unique, case-sensitive identifier that you provide to ensure
+        /// the idempotency of the request.
+        public let clientRequestToken: String?
+        /// The name of your cluster.
+        public let clusterName: String
+
+        @inlinable
+        public init(certificateAuthorityId: String, clientRequestToken: String? = DeleteCertificateAuthorityRequest.idempotencyToken(), clusterName: String) {
+            self.certificateAuthorityId = certificateAuthorityId
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateAuthorityId, key: "certificateAuthorityId")
+            request.encodeQuery(self.clientRequestToken, key: "clientRequestToken")
+            request.encodePath(self.clusterName, key: "clusterName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCertificateAuthorityResponse: AWSDecodableShape {
+        /// Summary information about the certificate authority that is being deleted.
+        public let certificateAuthority: CertificateAuthoritySummary?
+        /// An object representing the asynchronous update that removes the certificate authority from the cluster's trust bundle.
+        public let update: Update?
+
+        @inlinable
+        public init(certificateAuthority: CertificateAuthoritySummary? = nil, update: Update? = nil) {
+            self.certificateAuthority = certificateAuthority
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthority = "certificateAuthority"
+            case update = "update"
+        }
+    }
+
     public struct DeleteClusterRequest: AWSEncodableShape {
         /// The name of the cluster to delete.
         public let name: String
@@ -3220,6 +3647,42 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case capability = "capability"
+        }
+    }
+
+    public struct DescribeCertificateAuthorityRequest: AWSEncodableShape {
+        /// The ID of the certificate authority to describe.
+        public let certificateAuthorityId: String
+        /// The name of your cluster.
+        public let clusterName: String
+
+        @inlinable
+        public init(certificateAuthorityId: String, clusterName: String) {
+            self.certificateAuthorityId = certificateAuthorityId
+            self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.certificateAuthorityId, key: "certificateAuthorityId")
+            request.encodePath(self.clusterName, key: "clusterName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeCertificateAuthorityResponse: AWSDecodableShape {
+        /// An object containing detailed information about the certificate authority.
+        public let certificateAuthority: CertificateAuthority?
+
+        @inlinable
+        public init(certificateAuthority: CertificateAuthority? = nil) {
+            self.certificateAuthority = certificateAuthority
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthority = "certificateAuthority"
         }
     }
 
@@ -3716,6 +4179,42 @@ extension EKS {
         }
     }
 
+    public struct DurationConstraints: AWSDecodableShape {
+        /// The maximum allowed duration value.
+        public let max: String?
+        /// The minimum allowed duration value.
+        public let min: String?
+
+        @inlinable
+        public init(max: String? = nil, min: String? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
+
+    public struct DurationParameterConfig: AWSDecodableShape {
+        /// The constraints for the duration parameter.
+        public let constraints: DurationConstraints?
+        /// The default value for the duration parameter.
+        public let defaultValue: String?
+
+        @inlinable
+        public init(constraints: DurationConstraints? = nil, defaultValue: String? = nil) {
+            self.constraints = constraints
+            self.defaultValue = defaultValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraints = "constraints"
+            case defaultValue = "defaultValue"
+        }
+    }
+
     public struct EksAnywhereSubscription: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the subscription.
         public let arn: String?
@@ -3813,9 +4312,16 @@ extension EKS {
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         /// Key Management Service (KMS) key. Either the ARN or the alias can be used.
         public let provider: Provider?
-        /// Specifies the resources to be encrypted. The only supported value is secrets.
+        ///  Amazon EKS encrypts all Kubernetes API data with envelope encryption by default for clusters running Kubernetes version 1.28 or higher, so this field no longer affects which resources are encrypted.  Specifies the resources to be encrypted. The only supported value is secrets.
         public let resources: [String]?
 
+        @inlinable
+        public init(provider: Provider? = nil) {
+            self.provider = provider
+            self.resources = nil
+        }
+
+        @available(*, deprecated, message: "Members resources have been deprecated")
         @inlinable
         public init(provider: Provider? = nil, resources: [String]? = nil) {
             self.provider = provider
@@ -3979,6 +4485,48 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case labels = "labels"
             case namespace = "namespace"
+        }
+    }
+
+    public struct HorizontalPodAutoscalerControllerConfigRequest: AWSEncodableShape {
+        /// The interval between each sync of the horizontal pod autoscaler. Valid values are single-unit durations such as 15s or 1m.
+        public let horizontalPodAutoscalerSyncPeriod: String?
+
+        @inlinable
+        public init(horizontalPodAutoscalerSyncPeriod: String? = nil) {
+            self.horizontalPodAutoscalerSyncPeriod = horizontalPodAutoscalerSyncPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case horizontalPodAutoscalerSyncPeriod = "horizontalPodAutoscalerSyncPeriod"
+        }
+    }
+
+    public struct HorizontalPodAutoscalerControllerConfigResponse: AWSDecodableShape {
+        /// The interval between each sync of the horizontal pod autoscaler.
+        public let horizontalPodAutoscalerSyncPeriod: String?
+
+        @inlinable
+        public init(horizontalPodAutoscalerSyncPeriod: String? = nil) {
+            self.horizontalPodAutoscalerSyncPeriod = horizontalPodAutoscalerSyncPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case horizontalPodAutoscalerSyncPeriod = "horizontalPodAutoscalerSyncPeriod"
+        }
+    }
+
+    public struct HorizontalPodAutoscalerControllerVersionConfig: AWSDecodableShape {
+        /// The HPA sync period configuration with default value and constraints.
+        public let horizontalPodAutoscalerSyncPeriod: DurationParameterConfig?
+
+        @inlinable
+        public init(horizontalPodAutoscalerSyncPeriod: DurationParameterConfig? = nil) {
+            self.horizontalPodAutoscalerSyncPeriod = horizontalPodAutoscalerSyncPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case horizontalPodAutoscalerSyncPeriod = "horizontalPodAutoscalerSyncPeriod"
         }
     }
 
@@ -4208,6 +4756,60 @@ extension EKS {
         }
     }
 
+    public struct IntegerConstraints: AWSDecodableShape {
+        /// The maximum allowed value.
+        public let max: Int?
+        /// The minimum allowed value.
+        public let min: Int?
+
+        @inlinable
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
+
+    public struct IntegerParameterConfig: AWSDecodableShape {
+        /// The constraints for the integer parameter.
+        public let constraints: IntegerConstraints?
+        /// The default value for the integer parameter.
+        public let defaultValue: Int?
+
+        @inlinable
+        public init(constraints: IntegerConstraints? = nil, defaultValue: Int? = nil) {
+            self.constraints = constraints
+            self.defaultValue = defaultValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraints = "constraints"
+            case defaultValue = "defaultValue"
+        }
+    }
+
+    public struct IntegerRangeConstraint: AWSDecodableShape {
+        /// The maximum allowed value.
+        public let max: Int?
+        /// The minimum allowed value.
+        public let min: Int?
+
+        @inlinable
+        public init(max: Int? = nil, min: Int? = nil) {
+            self.max = max
+            self.min = min
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
+
     public struct InvalidParameterException: AWSErrorShape {
         /// The specified parameter for the add-on name is invalid. Review the available parameters for the API request
         public let addonName: String?
@@ -4308,6 +4910,164 @@ extension EKS {
             case code = "code"
             case message = "message"
             case resourceIds = "resourceIds"
+        }
+    }
+
+    public struct KubeApiServerConfigRequest: AWSEncodableShape {
+        /// The duration that Kubernetes events are retained. Valid values are single-unit durations such as 30m or 1h.
+        public let eventTtl: String?
+        /// The port range for NodePort services.
+        public let serviceNodePortRange: ServiceNodePortRange?
+
+        @inlinable
+        public init(eventTtl: String? = nil, serviceNodePortRange: ServiceNodePortRange? = nil) {
+            self.eventTtl = eventTtl
+            self.serviceNodePortRange = serviceNodePortRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventTtl = "eventTtl"
+            case serviceNodePortRange = "serviceNodePortRange"
+        }
+    }
+
+    public struct KubeApiServerConfigResponse: AWSDecodableShape {
+        /// The duration that Kubernetes events are retained.
+        public let eventTtl: String?
+        /// The port range for NodePort services.
+        public let serviceNodePortRange: ServiceNodePortRange?
+
+        @inlinable
+        public init(eventTtl: String? = nil, serviceNodePortRange: ServiceNodePortRange? = nil) {
+            self.eventTtl = eventTtl
+            self.serviceNodePortRange = serviceNodePortRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventTtl = "eventTtl"
+            case serviceNodePortRange = "serviceNodePortRange"
+        }
+    }
+
+    public struct KubeApiServerVersionConfig: AWSDecodableShape {
+        /// The event TTL configuration with default value and constraints.
+        public let eventTtl: DurationParameterConfig?
+        /// The service node port range configuration with default value and constraints.
+        public let serviceNodePortRange: PortRangeParameterConfig?
+
+        @inlinable
+        public init(eventTtl: DurationParameterConfig? = nil, serviceNodePortRange: PortRangeParameterConfig? = nil) {
+            self.eventTtl = eventTtl
+            self.serviceNodePortRange = serviceNodePortRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventTtl = "eventTtl"
+            case serviceNodePortRange = "serviceNodePortRange"
+        }
+    }
+
+    public struct KubeControllerManagerConfigRequest: AWSEncodableShape {
+        /// The horizontal pod autoscaler controller configuration.
+        public let horizontalPodAutoscalerControllerConfig: HorizontalPodAutoscalerControllerConfigRequest?
+        /// The pod garbage collection controller configuration.
+        public let podGcControllerConfig: PodGcControllerConfigRequest?
+
+        @inlinable
+        public init(horizontalPodAutoscalerControllerConfig: HorizontalPodAutoscalerControllerConfigRequest? = nil, podGcControllerConfig: PodGcControllerConfigRequest? = nil) {
+            self.horizontalPodAutoscalerControllerConfig = horizontalPodAutoscalerControllerConfig
+            self.podGcControllerConfig = podGcControllerConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.podGcControllerConfig?.validate(name: "\(name).podGcControllerConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case horizontalPodAutoscalerControllerConfig = "horizontalPodAutoscalerControllerConfig"
+            case podGcControllerConfig = "podGcControllerConfig"
+        }
+    }
+
+    public struct KubeControllerManagerConfigResponse: AWSDecodableShape {
+        /// The horizontal pod autoscaler controller configuration.
+        public let horizontalPodAutoscalerControllerConfig: HorizontalPodAutoscalerControllerConfigResponse?
+        /// The pod garbage collection controller configuration.
+        public let podGcControllerConfig: PodGcControllerConfigResponse?
+
+        @inlinable
+        public init(horizontalPodAutoscalerControllerConfig: HorizontalPodAutoscalerControllerConfigResponse? = nil, podGcControllerConfig: PodGcControllerConfigResponse? = nil) {
+            self.horizontalPodAutoscalerControllerConfig = horizontalPodAutoscalerControllerConfig
+            self.podGcControllerConfig = podGcControllerConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case horizontalPodAutoscalerControllerConfig = "horizontalPodAutoscalerControllerConfig"
+            case podGcControllerConfig = "podGcControllerConfig"
+        }
+    }
+
+    public struct KubeControllerManagerVersionConfig: AWSDecodableShape {
+        /// The horizontal pod autoscaler controller configuration with default value and constraints.
+        public let horizontalPodAutoscalerControllerConfig: HorizontalPodAutoscalerControllerVersionConfig?
+        /// The pod garbage collection controller configuration with default value and constraints.
+        public let podGcControllerConfig: PodGcControllerVersionConfig?
+
+        @inlinable
+        public init(horizontalPodAutoscalerControllerConfig: HorizontalPodAutoscalerControllerVersionConfig? = nil, podGcControllerConfig: PodGcControllerVersionConfig? = nil) {
+            self.horizontalPodAutoscalerControllerConfig = horizontalPodAutoscalerControllerConfig
+            self.podGcControllerConfig = podGcControllerConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case horizontalPodAutoscalerControllerConfig = "horizontalPodAutoscalerControllerConfig"
+            case podGcControllerConfig = "podGcControllerConfig"
+        }
+    }
+
+    public struct KubeSchedulerConfigRequest: AWSEncodableShape {
+        /// The node resource fit scoring configuration for the scheduler.
+        public let nodeResourcesFit: NodeResourcesFitConfig?
+
+        @inlinable
+        public init(nodeResourcesFit: NodeResourcesFitConfig? = nil) {
+            self.nodeResourcesFit = nodeResourcesFit
+        }
+
+        public func validate(name: String) throws {
+            try self.nodeResourcesFit?.validate(name: "\(name).nodeResourcesFit")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeResourcesFit = "nodeResourcesFit"
+        }
+    }
+
+    public struct KubeSchedulerConfigResponse: AWSDecodableShape {
+        /// The node resource fit scoring configuration for the scheduler.
+        public let nodeResourcesFit: NodeResourcesFitConfig?
+
+        @inlinable
+        public init(nodeResourcesFit: NodeResourcesFitConfig? = nil) {
+            self.nodeResourcesFit = nodeResourcesFit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeResourcesFit = "nodeResourcesFit"
+        }
+    }
+
+    public struct KubeSchedulerVersionConfig: AWSDecodableShape {
+        /// The NodeResourcesFit configuration with default value and constraints.
+        public let nodeResourcesFit: NodeResourcesFitVersionConfig?
+
+        @inlinable
+        public init(nodeResourcesFit: NodeResourcesFitVersionConfig? = nil) {
+            self.nodeResourcesFit = nodeResourcesFit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeResourcesFit = "nodeResourcesFit"
         }
     }
 
@@ -4655,6 +5415,55 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case capabilities = "capabilities"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCertificateAuthoritiesRequest: AWSEncodableShape {
+        /// The name of your cluster.
+        public let clusterName: String
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you don't specify a value, the default is 100 results.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterName = clusterName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCertificateAuthoritiesResponse: AWSDecodableShape {
+        /// A list of certificate authority summary objects, each containing basic information about a certificate authority, including its ID, signing status, and distribution status.
+        public let certificateAuthorities: [CertificateAuthoritySummary]?
+        /// The nextToken value to include in a future ListCertificateAuthorities request. When the results of a ListCertificateAuthorities request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(certificateAuthorities: [CertificateAuthoritySummary]? = nil, nextToken: String? = nil) {
+            self.certificateAuthorities = certificateAuthorities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorities = "certificateAuthorities"
             case nextToken = "nextToken"
         }
     }
@@ -5237,6 +6046,38 @@ extension EKS {
         }
     }
 
+    public struct NodeResourcesFitConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The scoring strategy used to rank nodes during scheduling.
+        public let scoringStrategy: ScoringStrategy?
+
+        @inlinable
+        public init(scoringStrategy: ScoringStrategy? = nil) {
+            self.scoringStrategy = scoringStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.scoringStrategy?.validate(name: "\(name).scoringStrategy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scoringStrategy = "scoringStrategy"
+        }
+    }
+
+    public struct NodeResourcesFitVersionConfig: AWSDecodableShape {
+        /// The scoring strategy configuration with default value and constraints.
+        public let scoringStrategy: ScoringStrategyConfig?
+
+        @inlinable
+        public init(scoringStrategy: ScoringStrategyConfig? = nil) {
+            self.scoringStrategy = scoringStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scoringStrategy = "scoringStrategy"
+        }
+    }
+
     public struct Nodegroup: AWSDecodableShape {
         /// If the node group was deployed using a launch template with a custom AMI, then this is CUSTOM. For node groups that weren't deployed using a launch template, this is the AMI type that was specified in the node group configuration.
         public let amiType: AMITypes?
@@ -5618,6 +6459,53 @@ extension EKS {
         }
     }
 
+    public struct PodGcControllerConfigRequest: AWSEncodableShape {
+        /// The number of terminated pods that can exist before the garbage collector starts deleting them.
+        public let terminatedPodGcThreshold: Int?
+
+        @inlinable
+        public init(terminatedPodGcThreshold: Int? = nil) {
+            self.terminatedPodGcThreshold = terminatedPodGcThreshold
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.terminatedPodGcThreshold, name: "terminatedPodGcThreshold", parent: name, max: 1000000)
+            try self.validate(self.terminatedPodGcThreshold, name: "terminatedPodGcThreshold", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terminatedPodGcThreshold = "terminatedPodGcThreshold"
+        }
+    }
+
+    public struct PodGcControllerConfigResponse: AWSDecodableShape {
+        /// The number of terminated pods that can exist before the garbage collector starts deleting them.
+        public let terminatedPodGcThreshold: Int?
+
+        @inlinable
+        public init(terminatedPodGcThreshold: Int? = nil) {
+            self.terminatedPodGcThreshold = terminatedPodGcThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terminatedPodGcThreshold = "terminatedPodGcThreshold"
+        }
+    }
+
+    public struct PodGcControllerVersionConfig: AWSDecodableShape {
+        /// The terminated pod garbage collection threshold configuration with default value and constraints.
+        public let terminatedPodGcThreshold: IntegerParameterConfig?
+
+        @inlinable
+        public init(terminatedPodGcThreshold: IntegerParameterConfig? = nil) {
+            self.terminatedPodGcThreshold = terminatedPodGcThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terminatedPodGcThreshold = "terminatedPodGcThreshold"
+        }
+    }
+
     public struct PodIdentityAssociation: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the association.
         public let associationArn: String?
@@ -5715,6 +6603,42 @@ extension EKS {
             case namespace = "namespace"
             case ownerArn = "ownerArn"
             case serviceAccount = "serviceAccount"
+        }
+    }
+
+    public struct PortRangeConstraints: AWSDecodableShape {
+        /// The constraints for the maximum port value.
+        public let maxPort: IntegerRangeConstraint?
+        /// The constraints for the minimum port value.
+        public let minPort: IntegerRangeConstraint?
+
+        @inlinable
+        public init(maxPort: IntegerRangeConstraint? = nil, minPort: IntegerRangeConstraint? = nil) {
+            self.maxPort = maxPort
+            self.minPort = minPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxPort = "maxPort"
+            case minPort = "minPort"
+        }
+    }
+
+    public struct PortRangeParameterConfig: AWSDecodableShape {
+        /// The constraints for the port range parameter.
+        public let constraints: PortRangeConstraints?
+        /// The default port range value.
+        public let defaultValue: ServiceNodePortRange?
+
+        @inlinable
+        public init(constraints: PortRangeConstraints? = nil, defaultValue: ServiceNodePortRange? = nil) {
+            self.constraints = constraints
+            self.defaultValue = defaultValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraints = "constraints"
+            case defaultValue = "defaultValue"
         }
     }
 
@@ -5872,6 +6796,24 @@ extension EKS {
         }
     }
 
+    public struct ResourceConstraints: AWSDecodableShape {
+        /// The allowed values for resource names.
+        public let name: AllowedValuesConstraint?
+        /// The allowed range for resource weight values.
+        public let weight: IntegerRangeConstraint?
+
+        @inlinable
+        public init(name: AllowedValuesConstraint? = nil, weight: IntegerRangeConstraint? = nil) {
+            self.name = name
+            self.weight = weight
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case weight = "weight"
+        }
+    }
+
     public struct ResourceInUseException: AWSErrorShape {
         /// The specified add-on name is in use.
         public let addonName: String?
@@ -5958,6 +6900,31 @@ extension EKS {
         }
     }
 
+    public struct ResourceWeight: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the resource (for example, cpu or memory).
+        public let name: String?
+        /// The weight assigned to the resource for scoring. Must be between 1 and 100.
+        public let weight: Int?
+
+        @inlinable
+        public init(name: String? = nil, weight: Int? = nil) {
+            self.name = name
+            self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 253)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.weight, name: "weight", parent: name, max: 100)
+            try self.validate(self.weight, name: "weight", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case weight = "weight"
+        }
+    }
+
     public struct RollbackConfig: AWSEncodableShape {
         /// The length of time in minutes to wait before cancelling the update. Timeout is a minimum-bound property, meaning the timeout occurs no sooner than the time you specify, but can occur shortly thereafter. This value can be between 120 (2 hours) and 10080 (7 days). Default: 720 (12 hours) if not specified.
         public let timeoutMinutes: Int?
@@ -5969,6 +6936,67 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case timeoutMinutes = "timeoutMinutes"
+        }
+    }
+
+    public struct ScoringStrategy: AWSEncodableShape & AWSDecodableShape {
+        /// The resource weights used for scoring nodes.
+        public let resources: [ResourceWeight]?
+        /// The scoring strategy type. Valid values are LeastAllocated or MostAllocated.
+        public let type: ScoringStrategyType?
+
+        @inlinable
+        public init(resources: [ResourceWeight]? = nil, type: ScoringStrategyType? = nil) {
+            self.resources = resources
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.resources?.forEach {
+                try $0.validate(name: "\(name).resources[]")
+            }
+            try self.validate(self.resources, name: "resources", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resources = "resources"
+            case type = "type"
+        }
+    }
+
+    public struct ScoringStrategyConfig: AWSDecodableShape {
+        /// The constraints for the scoring strategy.
+        public let constraints: ScoringStrategyConstraints?
+        /// The default scoring strategy.
+        public let defaultValue: ScoringStrategy?
+
+        @inlinable
+        public init(constraints: ScoringStrategyConstraints? = nil, defaultValue: ScoringStrategy? = nil) {
+            self.constraints = constraints
+            self.defaultValue = defaultValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraints = "constraints"
+            case defaultValue = "defaultValue"
+        }
+    }
+
+    public struct ScoringStrategyConstraints: AWSDecodableShape {
+        /// The constraints for resource weights.
+        public let resources: ResourceConstraints?
+        /// The allowed values for the scoring strategy type.
+        public let scoringStrategy: AllowedValuesConstraint?
+
+        @inlinable
+        public init(resources: ResourceConstraints? = nil, scoringStrategy: AllowedValuesConstraint? = nil) {
+            self.resources = resources
+            self.scoringStrategy = scoringStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resources = "resources"
+            case scoringStrategy = "scoringStrategy"
         }
     }
 
@@ -5999,6 +7027,24 @@ extension EKS {
             case message = "message"
             case nodegroupName = "nodegroupName"
             case subscriptionId = "subscriptionId"
+        }
+    }
+
+    public struct ServiceNodePortRange: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum port number in the range.
+        public let maxPort: Int?
+        /// The minimum port number in the range.
+        public let minPort: Int?
+
+        @inlinable
+        public init(maxPort: Int? = nil, minPort: Int? = nil) {
+            self.maxPort = maxPort
+            self.minPort = minPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxPort = "maxPort"
+            case minPort = "minPort"
         }
     }
 
@@ -6508,7 +7554,13 @@ extension EKS {
         public let controlPlaneScalingConfig: ControlPlaneScalingConfig?
         /// Specifies whether to enable or disable deletion protection for the cluster. When  enabled (true), the cluster cannot be deleted until deletion protection is  explicitly disabled. When disabled (false), the cluster can be deleted  normally.
         public let deletionProtection: Bool?
+        /// The Kubernetes API server configuration for the updated cluster.
+        public let kubeApiServerConfig: KubeApiServerConfigRequest?
+        /// The Kubernetes controller manager configuration for the updated cluster.
+        public let kubeControllerManagerConfig: KubeControllerManagerConfigRequest?
         public let kubernetesNetworkConfig: KubernetesNetworkConfigRequest?
+        /// The Kubernetes scheduler configuration for the updated cluster.
+        public let kubeSchedulerConfig: KubeSchedulerConfigRequest?
         /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
         public let logging: Logging?
         /// The name of the Amazon EKS cluster to update.
@@ -6524,13 +7576,16 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil, deletionProtection: Bool? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest? = nil, storageConfig: StorageConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
+        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil, deletionProtection: Bool? = nil, kubeApiServerConfig: KubeApiServerConfigRequest? = nil, kubeControllerManagerConfig: KubeControllerManagerConfigRequest? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, kubeSchedulerConfig: KubeSchedulerConfigRequest? = nil, logging: Logging? = nil, name: String, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest? = nil, storageConfig: StorageConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.clientRequestToken = clientRequestToken
             self.computeConfig = computeConfig
             self.controlPlaneScalingConfig = controlPlaneScalingConfig
             self.deletionProtection = deletionProtection
+            self.kubeApiServerConfig = kubeApiServerConfig
+            self.kubeControllerManagerConfig = kubeControllerManagerConfig
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
+            self.kubeSchedulerConfig = kubeSchedulerConfig
             self.logging = logging
             self.name = name
             self.remoteNetworkConfig = remoteNetworkConfig
@@ -6548,7 +7603,10 @@ extension EKS {
             try container.encodeIfPresent(self.computeConfig, forKey: .computeConfig)
             try container.encodeIfPresent(self.controlPlaneScalingConfig, forKey: .controlPlaneScalingConfig)
             try container.encodeIfPresent(self.deletionProtection, forKey: .deletionProtection)
+            try container.encodeIfPresent(self.kubeApiServerConfig, forKey: .kubeApiServerConfig)
+            try container.encodeIfPresent(self.kubeControllerManagerConfig, forKey: .kubeControllerManagerConfig)
             try container.encodeIfPresent(self.kubernetesNetworkConfig, forKey: .kubernetesNetworkConfig)
+            try container.encodeIfPresent(self.kubeSchedulerConfig, forKey: .kubeSchedulerConfig)
             try container.encodeIfPresent(self.logging, forKey: .logging)
             request.encodePath(self.name, key: "name")
             try container.encodeIfPresent(self.remoteNetworkConfig, forKey: .remoteNetworkConfig)
@@ -6559,6 +7617,8 @@ extension EKS {
         }
 
         public func validate(name: String) throws {
+            try self.kubeControllerManagerConfig?.validate(name: "\(name).kubeControllerManagerConfig")
+            try self.kubeSchedulerConfig?.validate(name: "\(name).kubeSchedulerConfig")
             try self.remoteNetworkConfig?.validate(name: "\(name).remoteNetworkConfig")
         }
 
@@ -6568,7 +7628,10 @@ extension EKS {
             case computeConfig = "computeConfig"
             case controlPlaneScalingConfig = "controlPlaneScalingConfig"
             case deletionProtection = "deletionProtection"
+            case kubeApiServerConfig = "kubeApiServerConfig"
+            case kubeControllerManagerConfig = "kubeControllerManagerConfig"
             case kubernetesNetworkConfig = "kubernetesNetworkConfig"
+            case kubeSchedulerConfig = "kubeSchedulerConfig"
             case logging = "logging"
             case remoteNetworkConfig = "remoteNetworkConfig"
             case resourcesVpcConfig = "resourcesVpcConfig"

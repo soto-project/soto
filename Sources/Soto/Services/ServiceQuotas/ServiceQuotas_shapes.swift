@@ -25,6 +25,13 @@ import Foundation
 extension ServiceQuotas {
     // MARK: Enums
 
+    public enum AdjustableAtLevelEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "ACCOUNT"
+        case all = "ALL"
+        case perResource = "PER_RESOURCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AppliedLevelEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case all = "ALL"
@@ -945,6 +952,8 @@ extension ServiceQuotas {
     }
 
     public struct QuotaContextInfo: AWSDecodableShape {
+        /// Specifies the level at which you can request an increase for this quota:    ACCOUNT – You can request an increase only at the account level.    PER_RESOURCE – You can request an increase only for an individual resource.    ALL – You can request an increase at either the account level or for an individual resource.
+        public let adjustableAtLevel: AdjustableAtLevelEnum?
         /// Specifies the resource, or resources, to which the quota applies. The value for this field is either an Amazon Resource Name (ARN) or *. If the value is an ARN, the quota value applies to that resource. If the value is *, then the quota value applies to all resources listed in the ContextScopeType field. The quota value applies to all resources for which you haven’t previously applied a quota value, and any new resources you create in your Amazon Web Services account.
         public let contextId: String?
         /// Specifies the scope to which the quota value is applied. If the scope is RESOURCE, the quota value is applied to each resource in the Amazon Web Services account. If the scope is ACCOUNT, the quota value is applied to the Amazon Web Services account.
@@ -953,13 +962,15 @@ extension ServiceQuotas {
         public let contextScopeType: String?
 
         @inlinable
-        public init(contextId: String? = nil, contextScope: QuotaContextScope? = nil, contextScopeType: String? = nil) {
+        public init(adjustableAtLevel: AdjustableAtLevelEnum? = nil, contextId: String? = nil, contextScope: QuotaContextScope? = nil, contextScopeType: String? = nil) {
+            self.adjustableAtLevel = adjustableAtLevel
             self.contextId = contextId
             self.contextScope = contextScope
             self.contextScopeType = contextScopeType
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adjustableAtLevel = "AdjustableAtLevel"
             case contextId = "ContextId"
             case contextScope = "ContextScope"
             case contextScopeType = "ContextScopeType"

@@ -137,6 +137,41 @@ public struct IAM: AWSService {
         return try await self.acceptDelegationRequest(input, logger: logger)
     }
 
+    /// Creates an IAM role from the specified role template. The new role takes its configuration—including its name, path, trust policy, inline and managed policies, permissions boundary, tags, and maximum session duration—from the role template version that you specify. For more information about roles, see IAM roles in the IAM User Guide. If the template version defines parameters, use the ReplacementValues parameter to supply the values that the service substitutes into the role during creation.
+    @Sendable
+    @inlinable
+    public func acquireRole(_ input: AcquireRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcquireRoleResponse {
+        try await self.client.execute(
+            operation: "AcquireRole", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an IAM role from the specified role template. The new role takes its configuration—including its name, path, trust policy, inline and managed policies, permissions boundary, tags, and maximum session duration—from the role template version that you specify. For more information about roles, see IAM roles in the IAM User Guide. If the template version defines parameters, use the ReplacementValues parameter to supply the values that the service substitutes into the role during creation.
+    ///
+    /// Parameters:
+    ///   - replacementValues: A map of values to substitute for the parameters that are defined in the role template version. Each key is a parameter name from the template, and each value is a structure that contains the replacement values for that parameter.
+    ///   - templateArn: The Amazon Resource Name (ARN) of the role template to create the role from. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+    ///   - templateMinorVersion: The minor version of the role template to use. If you do not specify a minor version, the service uses the template's default minor version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func acquireRole(
+        replacementValues: [String: ReplacementValueEntry]? = nil,
+        templateArn: String,
+        templateMinorVersion: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AcquireRoleResponse {
+        let input = AcquireRoleRequest(
+            replacementValues: replacementValues, 
+            templateArn: templateArn, 
+            templateMinorVersion: templateMinorVersion
+        )
+        return try await self.acquireRole(input, logger: logger)
+    }
+
     /// Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
     @Sendable
     @inlinable
@@ -2073,6 +2108,32 @@ public struct IAM: AWSService {
         )
     }
 
+    /// Retrieves the account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. The service returns properties as key-value pairs in Namespace/PropertyName format. Each namespace groups related configuration settings. Use PutAccountProperties to modify these properties.
+    @Sendable
+    @inlinable
+    public func getAccountProperties(_ input: GetAccountPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountPropertiesResponse {
+        try await self.client.execute(
+            operation: "GetAccountProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. The service returns properties as key-value pairs in Namespace/PropertyName format. Each namespace groups related configuration settings. Use PutAccountProperties to modify these properties.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAccountProperties(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAccountPropertiesResponse {
+        let input = GetAccountPropertiesRequest(
+        )
+        return try await self.getAccountProperties(input, logger: logger)
+    }
+
     /// Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Services account. For information about IAM quotas, see IAM and STS quotas in the IAM User Guide.
     @Sendable
     @inlinable
@@ -2115,7 +2176,7 @@ public struct IAM: AWSService {
         return try await self.getContextKeysForCustomPolicy(input, logger: logger)
     }
 
-    /// Gets a list of all of the context keys referenced in all the IAM policies that are attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of. You can optionally include a list of one or more additional policies, specified as strings. If you want to include only a list of policies by string, use GetContextKeysForCustomPolicy instead.  Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use GetContextKeysForCustomPolicy instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names and values you must supply when you call SimulatePrincipalPolicy.
+    /// Gets a list of all of the context keys referenced in all the IAM policies that are attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of. You can optionally include a list of one or more additional policies, specified as strings. If you want to include only a list of policies by string, use GetContextKeysForCustomPolicy instead.  Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use GetContextKeysForCustomPolicy instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names and values you must supply when you call SimulatePrincipalPolicy. This operation doesn't return context keys referenced by service control policies (SCPs). Only context keys referenced by the identity-based policies attached to the specified entity, and any additional policies that you provide, are included.
     @Sendable
     @inlinable
     public func getContextKeysForPrincipalPolicy(_ input: GetContextKeysForPrincipalPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContextKeysForPolicyResponse {
@@ -2128,7 +2189,7 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of all of the context keys referenced in all the IAM policies that are attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of. You can optionally include a list of one or more additional policies, specified as strings. If you want to include only a list of policies by string, use GetContextKeysForCustomPolicy instead.  Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use GetContextKeysForCustomPolicy instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names and values you must supply when you call SimulatePrincipalPolicy.
+    /// Gets a list of all of the context keys referenced in all the IAM policies that are attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of. You can optionally include a list of one or more additional policies, specified as strings. If you want to include only a list of policies by string, use GetContextKeysForCustomPolicy instead.  Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use GetContextKeysForCustomPolicy instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names and values you must supply when you call SimulatePrincipalPolicy. This operation doesn't return context keys referenced by service control policies (SCPs). Only context keys referenced by the identity-based policies attached to the specified entity, and any additional policies that you provide, are included.
     ///
     /// Parameters:
     ///   - policyInputList: An optional list of additional policies for which you want the list of context keys that are referenced. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
@@ -2581,6 +2642,38 @@ public struct IAM: AWSService {
             roleName: roleName
         )
         return try await self.getRolePolicy(input, logger: logger)
+    }
+
+    /// Retrieves information about a version of the specified role template. Role templates define a reusable configuration—including role name and path patterns, trust policy, inline and managed policies, permissions boundary, tags, and maximum session duration—that you use to create IAM roles with AcquireRole. If you do not specify a minor version, the service returns the template's default minor version.
+    @Sendable
+    @inlinable
+    public func getRoleTemplateVersion(_ input: GetRoleTemplateVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRoleTemplateVersionResponse {
+        try await self.client.execute(
+            operation: "GetRoleTemplateVersion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a version of the specified role template. Role templates define a reusable configuration—including role name and path patterns, trust policy, inline and managed policies, permissions boundary, tags, and maximum session duration—that you use to create IAM roles with AcquireRole. If you do not specify a minor version, the service returns the template's default minor version.
+    ///
+    /// Parameters:
+    ///   - minorVersion: The minor version of the role template to retrieve. If you do not specify a minor version, the service returns the template's default minor version.
+    ///   - templateArn: The Amazon Resource Name (ARN) of the role template whose version you want to retrieve. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRoleTemplateVersion(
+        minorVersion: Int? = nil,
+        templateArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRoleTemplateVersionResponse {
+        let input = GetRoleTemplateVersionRequest(
+            minorVersion: minorVersion, 
+            templateArn: templateArn
+        )
+        return try await self.getRoleTemplateVersion(input, logger: logger)
     }
 
     /// Returns the SAML provider metadocument that was uploaded when the IAM SAML provider resource object was created or updated.  This operation requires Signature Version 4.
@@ -4102,6 +4195,35 @@ public struct IAM: AWSService {
         return try await self.listVirtualMFADevices(input, logger: logger)
     }
 
+    /// Sets account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. Specify properties as key-value pairs in Namespace/PropertyName format. All properties in a single request must belong to the same namespace. Use GetAccountProperties to view the current properties.
+    @Sendable
+    @inlinable
+    public func putAccountProperties(_ input: PutAccountPropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountPropertiesResponse {
+        try await self.client.execute(
+            operation: "PutAccountProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets account-level properties for the caller's Amazon Web Services account. Account properties are configuration settings that control account-wide IAM features such as Role Manager. Specify properties as key-value pairs in Namespace/PropertyName format. All properties in a single request must belong to the same namespace. Use GetAccountProperties to view the current properties.
+    ///
+    /// Parameters:
+    ///   - properties: A map of property key-value pairs to set. All keys must belong to the same namespace. Each key uses the format Namespace/PropertyName. The key must contain exactly one / separating the namespace from the property name, and cannot start or end with /. The service validates each value based on the property key's expected type. For example, boolean properties expect true or false.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAccountProperties(
+        properties: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAccountPropertiesResponse {
+        let input = PutAccountPropertiesRequest(
+            properties: properties
+        )
+        return try await self.putAccountProperties(input, logger: logger)
+    }
+
     /// Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use  AttachGroupPolicy . To create a new managed policy, use  CreatePolicy . For information about policies, see Managed policies and inline policies in the IAM User Guide. For information about the maximum number of inline policies that you can embed in a group, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, see Making query requests in the IAM User Guide.
     @Sendable
     @inlinable
@@ -4559,7 +4681,7 @@ public struct IAM: AWSService {
         return try await self.setSecurityTokenServicePreferences(input, logger: logger)
     }
 
-    /// Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. You can simulate resources that don't exist in your account. If you want to simulate existing policies that are attached to an IAM user, group, or role, use SimulatePrincipalPolicy instead. Context keys are variables that are maintained by Amazon Web Services and its services and which provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker parameters to paginate the results.  The IAM policy simulator evaluates statements in the identity-based policy and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
+    /// Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. You can simulate resources that don't exist in your account. If you want to simulate existing policies that are attached to an IAM user, group, or role, use SimulatePrincipalPolicy instead. Context keys are variables that are maintained by Amazon Web Services and its services and which provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker parameters to paginate the results.  The IAM policy simulator evaluates statements in identity-based policies, service control policies (SCPs) including their condition keys and resource scoping, and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
     @Sendable
     @inlinable
     public func simulateCustomPolicy(_ input: SimulateCustomPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SimulatePolicyResponse {
@@ -4572,14 +4694,15 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. You can simulate resources that don't exist in your account. If you want to simulate existing policies that are attached to an IAM user, group, or role, use SimulatePrincipalPolicy instead. Context keys are variables that are maintained by Amazon Web Services and its services and which provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker parameters to paginate the results.  The IAM policy simulator evaluates statements in the identity-based policy and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
+    /// Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. You can simulate resources that don't exist in your account. If you want to simulate existing policies that are attached to an IAM user, group, or role, use SimulatePrincipalPolicy instead. Context keys are variables that are maintained by Amazon Web Services and its services and which provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker parameters to paginate the results.  The IAM policy simulator evaluates statements in identity-based policies, service control policies (SCPs) including their condition keys and resource scoping, and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
     ///
     /// Parameters:
     ///   - actionNames: A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser. This operation does not support using wildcards (*) in an action name.
-    ///   - callerArn: The ARN of the IAM user that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.
+    ///   - callerArn: The ARN of the IAM user, group, or role that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy. You cannot specify the ARN of an assumed role, federated user, or a service principal.
     ///   - contextEntries: A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
     ///   - marker: Use this parameter only when paginating results and only after  you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call  should start.
     ///   - maxItems: Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
+    ///   - orderedOrganizationPolicyInputList: An ordered list of service control policies (SCPs) to include in the simulation. Each element represents one level of an Organizations hierarchy, from the organization root to the account. The simulator evaluates SCPs in the order that you provide, consistent with how Organizations enforces SCPs. The first element must represent the organization root, and the last element must represent the account. Any elements between them represent organizational units (OUs) in descending order. Use this parameter to simulate the effect of an SCP hierarchy without calling SimulatePrincipalPolicy.
     ///   - permissionsBoundaryPolicyInputList: The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions boundaries, see Permissions boundaries for IAM entities in the IAM User Guide. The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
     ///   - policyInputList: A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" policies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
     ///   - resourceArns: A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.  Simulation of resource-based policies isn't supported for IAM roles.
@@ -4594,6 +4717,7 @@ public struct IAM: AWSService {
         contextEntries: [ContextEntry]? = nil,
         marker: String? = nil,
         maxItems: Int? = nil,
+        orderedOrganizationPolicyInputList: [OrderedOrganizationPolicyType]? = nil,
         permissionsBoundaryPolicyInputList: [String]? = nil,
         policyInputList: [String],
         resourceArns: [String]? = nil,
@@ -4608,6 +4732,7 @@ public struct IAM: AWSService {
             contextEntries: contextEntries, 
             marker: marker, 
             maxItems: maxItems, 
+            orderedOrganizationPolicyInputList: orderedOrganizationPolicyInputList, 
             permissionsBoundaryPolicyInputList: permissionsBoundaryPolicyInputList, 
             policyInputList: policyInputList, 
             resourceArns: resourceArns, 
@@ -4618,7 +4743,7 @@ public struct IAM: AWSService {
         return try await self.simulateCustomPolicy(input, logger: logger)
     }
 
-    /// Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to. You can simulate resources that don't exist in your account. You can optionally include a list of one or more additional policies specified as strings to include in the simulation. If you want to simulate only policies specified as strings, use SimulateCustomPolicy instead. You can also optionally include one resource-based policy to be evaluated with each of the resources included in the simulation for IAM users only. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations.  Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use SimulateCustomPolicy instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForPrincipalPolicy. If the output is long, you can use the MaxItems and Marker parameters to paginate the results.  The IAM policy simulator evaluates statements in the identity-based policy and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
+    /// Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to. You can simulate resources that don't exist in your account. You can optionally include a list of one or more additional policies specified as strings to include in the simulation. If you want to simulate only policies specified as strings, use SimulateCustomPolicy instead. You can also optionally include one resource-based policy to be evaluated with each of the resources included in the simulation for IAM users only. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. For cross-account simulations, EvalDecisionDetails returns the decision for each policy type (identity-based policy, resource-based policy, and permissions boundary). This helps you identify which policy type is responsible for an allow or deny decision when policies span multiple accounts.  Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use SimulateCustomPolicy instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForPrincipalPolicy. If the output is long, you can use the MaxItems and Marker parameters to paginate the results.  The IAM policy simulator evaluates statements in identity-based policies, service control policies (SCPs) including their condition keys and resource scoping, and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
     @Sendable
     @inlinable
     public func simulatePrincipalPolicy(_ input: SimulatePrincipalPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SimulatePolicyResponse {
@@ -4631,15 +4756,16 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to. You can simulate resources that don't exist in your account. You can optionally include a list of one or more additional policies specified as strings to include in the simulation. If you want to simulate only policies specified as strings, use SimulateCustomPolicy instead. You can also optionally include one resource-based policy to be evaluated with each of the resources included in the simulation for IAM users only. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations.  Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use SimulateCustomPolicy instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForPrincipalPolicy. If the output is long, you can use the MaxItems and Marker parameters to paginate the results.  The IAM policy simulator evaluates statements in the identity-based policy and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
+    /// Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and Amazon Web Services resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to. You can simulate resources that don't exist in your account. You can optionally include a list of one or more additional policies specified as strings to include in the simulation. If you want to simulate only policies specified as strings, use SimulateCustomPolicy instead. You can also optionally include one resource-based policy to be evaluated with each of the resources included in the simulation for IAM users only. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. For cross-account simulations, EvalDecisionDetails returns the decision for each policy type (identity-based policy, resource-based policy, and permissions boundary). This helps you identify which policy type is responsible for an allow or deny decision when policies span multiple accounts.  Note: This operation discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use SimulateCustomPolicy instead. Context keys are variables maintained by Amazon Web Services and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForPrincipalPolicy. If the output is long, you can use the MaxItems and Marker parameters to paginate the results.  The IAM policy simulator evaluates statements in identity-based policies, service control policies (SCPs) including their condition keys and resource scoping, and the inputs that you provide during simulation. The policy simulator results can differ from your live Amazon Web Services environment. We recommend that you check your policies against your live Amazon Web Services environment after testing using the policy simulator to confirm that you have the desired results. For more information about using the policy simulator, see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
     ///
     /// Parameters:
     ///   - actionNames: A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser.
-    ///   - callerArn: The ARN of the IAM user that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user that you specify in PolicySourceArn, if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+    ///   - callerArn: The ARN of the IAM user, group, or role that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user, group, or role that you specify in PolicySourceArn. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify the ARN of an IAM user, group, or role. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user, group, or role. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
     ///   - contextEntries: A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
     ///   - marker: Use this parameter only when paginating results and only after  you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call  should start.
     ///   - maxItems: Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
     ///   - permissionsBoundaryPolicyInputList: The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that the entity can have. You can input only one permissions boundary when you pass a policy to this operation. An IAM entity can only have one permissions boundary in effect at a time. For example, if a permissions boundary is attached to an entity and you pass in a different permissions boundary policy using this parameter, then the new permissions boundary policy is used for the simulation. For more information about permissions boundaries, see Permissions boundaries for IAM entities in the IAM User Guide. The policy input is specified as a string containing the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
+    ///   - policyExclusionList: A list of policies to exclude from the simulation. Use this parameter to test what the simulation result would be if a policy were removed, without changing which policies are actually attached to the principal identified by PolicySourceArn. Each entry is a PolicyIdentifier that identifies one or more policies to exclude by policy type, by Amazon Resource Name (ARN), or by the name of an inline policy and the entity it is attached to. Syntactically invalid identifiers, such as malformed ARNs or wildcards in disallowed positions, cause the request to fail with an InvalidInput error. Syntactically valid identifiers that don't match any attached policy are ignored. Resource control policies (RCPs) are not supported in this release; identifiers that target RCPs are also ignored.
     ///   - policyInputList: An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
     ///   - policySourceArn: The Amazon Resource Name (ARN) of a user, group, or role whose policies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are associated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user belongs to. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
     ///   - resourceArns: A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.  Simulation of resource-based policies isn't supported for IAM roles.
@@ -4655,6 +4781,7 @@ public struct IAM: AWSService {
         marker: String? = nil,
         maxItems: Int? = nil,
         permissionsBoundaryPolicyInputList: [String]? = nil,
+        policyExclusionList: [PolicyIdentifier]? = nil,
         policyInputList: [String]? = nil,
         policySourceArn: String,
         resourceArns: [String]? = nil,
@@ -4670,6 +4797,7 @@ public struct IAM: AWSService {
             marker: marker, 
             maxItems: maxItems, 
             permissionsBoundaryPolicyInputList: permissionsBoundaryPolicyInputList, 
+            policyExclusionList: policyExclusionList, 
             policyInputList: policyInputList, 
             policySourceArn: policySourceArn, 
             resourceArns: resourceArns, 
@@ -7081,9 +7209,10 @@ extension IAM {
     ///
     /// - Parameters:
     ///   - actionNames: A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser. This operation does not support using wildcards (*) in an action name.
-    ///   - callerArn: The ARN of the IAM user that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.
+    ///   - callerArn: The ARN of the IAM user, group, or role that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy. You cannot specify the ARN of an assumed role, federated user, or a service principal.
     ///   - contextEntries: A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
     ///   - maxItems: Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
+    ///   - orderedOrganizationPolicyInputList: An ordered list of service control policies (SCPs) to include in the simulation. Each element represents one level of an Organizations hierarchy, from the organization root to the account. The simulator evaluates SCPs in the order that you provide, consistent with how Organizations enforces SCPs. The first element must represent the organization root, and the last element must represent the account. Any elements between them represent organizational units (OUs) in descending order. Use this parameter to simulate the effect of an SCP hierarchy without calling SimulatePrincipalPolicy.
     ///   - permissionsBoundaryPolicyInputList: The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions boundaries, see Permissions boundaries for IAM entities in the IAM User Guide. The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
     ///   - policyInputList: A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be "scope-down" policies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
     ///   - resourceArns: A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.  Simulation of resource-based policies isn't supported for IAM roles.
@@ -7097,6 +7226,7 @@ extension IAM {
         callerArn: String? = nil,
         contextEntries: [ContextEntry]? = nil,
         maxItems: Int? = nil,
+        orderedOrganizationPolicyInputList: [OrderedOrganizationPolicyType]? = nil,
         permissionsBoundaryPolicyInputList: [String]? = nil,
         policyInputList: [String],
         resourceArns: [String]? = nil,
@@ -7110,6 +7240,7 @@ extension IAM {
             callerArn: callerArn, 
             contextEntries: contextEntries, 
             maxItems: maxItems, 
+            orderedOrganizationPolicyInputList: orderedOrganizationPolicyInputList, 
             permissionsBoundaryPolicyInputList: permissionsBoundaryPolicyInputList, 
             policyInputList: policyInputList, 
             resourceArns: resourceArns, 
@@ -7142,10 +7273,11 @@ extension IAM {
     ///
     /// - Parameters:
     ///   - actionNames: A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser.
-    ///   - callerArn: The ARN of the IAM user that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user that you specify in PolicySourceArn, if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+    ///   - callerArn: The ARN of the IAM user, group, or role that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user, group, or role that you specify in PolicySourceArn. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify the ARN of an IAM user, group, or role. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user, group, or role. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
     ///   - contextEntries: A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
     ///   - maxItems: Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
     ///   - permissionsBoundaryPolicyInputList: The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that the entity can have. You can input only one permissions boundary when you pass a policy to this operation. An IAM entity can only have one permissions boundary in effect at a time. For example, if a permissions boundary is attached to an entity and you pass in a different permissions boundary policy using this parameter, then the new permissions boundary policy is used for the simulation. For more information about permissions boundaries, see Permissions boundaries for IAM entities in the IAM User Guide. The policy input is specified as a string containing the complete, valid JSON text of a permissions boundary policy. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
+    ///   - policyExclusionList: A list of policies to exclude from the simulation. Use this parameter to test what the simulation result would be if a policy were removed, without changing which policies are actually attached to the principal identified by PolicySourceArn. Each entry is a PolicyIdentifier that identifies one or more policies to exclude by policy type, by Amazon Resource Name (ARN), or by the name of an inline policy and the entity it is attached to. Syntactically invalid identifiers, such as malformed ARNs or wildcards in disallowed positions, cause the request to fail with an InvalidInput error. Syntactically valid identifiers that don't match any attached policy are ignored. Resource control policies (RCPs) are not supported in this release; identifiers that target RCPs are also ignored.
     ///   - policyInputList: An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
     ///   - policySourceArn: The Amazon Resource Name (ARN) of a user, group, or role whose policies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are associated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user belongs to. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see IAM and STS character quotas. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
     ///   - resourceArns: A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.  Simulation of resource-based policies isn't supported for IAM roles.
@@ -7160,6 +7292,7 @@ extension IAM {
         contextEntries: [ContextEntry]? = nil,
         maxItems: Int? = nil,
         permissionsBoundaryPolicyInputList: [String]? = nil,
+        policyExclusionList: [PolicyIdentifier]? = nil,
         policyInputList: [String]? = nil,
         policySourceArn: String,
         resourceArns: [String]? = nil,
@@ -7174,6 +7307,7 @@ extension IAM {
             contextEntries: contextEntries, 
             maxItems: maxItems, 
             permissionsBoundaryPolicyInputList: permissionsBoundaryPolicyInputList, 
+            policyExclusionList: policyExclusionList, 
             policyInputList: policyInputList, 
             policySourceArn: policySourceArn, 
             resourceArns: resourceArns, 
@@ -7554,6 +7688,7 @@ extension IAM.SimulateCustomPolicyRequest: AWSPaginateToken {
             contextEntries: self.contextEntries,
             marker: token,
             maxItems: self.maxItems,
+            orderedOrganizationPolicyInputList: self.orderedOrganizationPolicyInputList,
             permissionsBoundaryPolicyInputList: self.permissionsBoundaryPolicyInputList,
             policyInputList: self.policyInputList,
             resourceArns: self.resourceArns,
@@ -7574,6 +7709,7 @@ extension IAM.SimulatePrincipalPolicyRequest: AWSPaginateToken {
             marker: token,
             maxItems: self.maxItems,
             permissionsBoundaryPolicyInputList: self.permissionsBoundaryPolicyInputList,
+            policyExclusionList: self.policyExclusionList,
             policyInputList: self.policyInputList,
             policySourceArn: self.policySourceArn,
             resourceArns: self.resourceArns,

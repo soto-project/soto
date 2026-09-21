@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS STS service.
 ///
-/// Security Token Service Security Token Service (STS) enables you to request temporary, limited-privilege  credentials for users. This guide provides descriptions of the STS API. For  more information about using this service, see Temporary Security Credentials.
+/// Security Token Service Amazon Web Services provides Security Token Service (STS) as a web service that enables you to request temporary, limited-privilege credentials for users. This guide describes the STS API. For more information, see Temporary Security Credentials in the IAM User Guide.  As an alternative to using the API, you can use one of the Amazon Web Services SDKs, which consist of libraries and sample code for various programming languages and platforms such as Java, Ruby, .NET, iOS, Android, and others. The SDKs provide a convenient way to create programmatic access to STS. For example, the SDKs can cryptographically sign requests, manage errors, and retry requests automatically. For information about the Amazon Web Services SDKs, see Tools to Build on Amazon Web Services.  For information about setting up signatures and authorization through the API, see Signing Amazon Web Services API Requests in the Amazon Web Services General Reference. For general information about the Query API, see Making Query Requests in the IAM User Guide. For information about using security tokens with other Amazon Web Services products, see Amazon Web Services Services That Work with IAM in the IAM User Guide. For information about STS endpoints, see STS Regions and endpoints in the IAM User Guide. For information about logging STS API calls, see Logging IAM and STS API calls with CloudTrail in the IAM User Guide.
 public struct STS: AWSService {
     // MARK: Member variables
 
@@ -153,6 +153,7 @@ public struct STS: AWSService {
     /// Parameters:
     ///   - durationSeconds: The duration, in seconds, of the role session. The value specified can range from 900 seconds (15 minutes) up to the maximum session duration set for the role. The maximum session duration setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting or the administrator setting (whichever is lower), the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails.  Role chaining limits your Amazon Web Services CLI or Amazon Web Services API role session to a maximum of one hour. When you use the AssumeRole API operation to assume a role, you can specify the duration of your role session with the DurationSeconds parameter. You can specify a parameter value of up to 43200 seconds (12 hours), depending on the maximum session duration setting for your role. However, if you assume a role using role chaining and provide a DurationSeconds parameter value greater than one hour, the operation fails. To learn how to view the maximum value for your role, see Update the maximum session duration for a role. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console in the IAM User Guide.
     ///   - externalId: A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see How to Use an External ID When Granting Access to Your Amazon Web Services Resources to a Third Party in the IAM User Guide. The regex used to validate this parameter is a string of  characters consisting of upper- and lower-case alphanumeric characters with no spaces.  You can also include underscores or any of the following characters: +=,.@:\/-
+    ///   - minimumSessionTokenSize: 
     ///   - policy: An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new  temporary credentials. The resulting session's permissions are the intersection of the  role's identity-based policy and the session policies. You can use the role's temporary  credentials in subsequent Amazon Web Services API calls to access resources in the account that owns  the role. You cannot use session policies to grant more permissions than those allowed  by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.  An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.  For more information about role session permissions, see Session policies.
     ///   - policyArns: The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.  An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.  Passing policies to this operation returns new  temporary credentials. The resulting session's permissions are the intersection of the  role's identity-based policy and the session policies. You can use the role's temporary  credentials in subsequent Amazon Web Services API calls to access resources in the account that owns  the role. You cannot use session policies to grant more permissions than those allowed  by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide.
     ///   - providedContexts: A list of previously acquired trusted context assertions in the format of a JSON array. The trusted context assertion is signed and encrypted by Amazon Web Services STS. The following is an example of a ProvidedContext value that includes a single trusted context assertion and the ARN of the context provider from which the trusted context assertion was generated.  [{"ProviderArn":"arn:aws:iam::aws:contextProvider/IdentityCenter","ContextAssertion":"trusted-context-assertion"}]
@@ -168,6 +169,7 @@ public struct STS: AWSService {
     public func assumeRole(
         durationSeconds: Int? = nil,
         externalId: String? = nil,
+        minimumSessionTokenSize: Int? = nil,
         policy: String? = nil,
         policyArns: [PolicyDescriptorType]? = nil,
         providedContexts: [ProvidedContext]? = nil,
@@ -183,6 +185,7 @@ public struct STS: AWSService {
         let input = AssumeRoleRequest(
             durationSeconds: durationSeconds, 
             externalId: externalId, 
+            minimumSessionTokenSize: minimumSessionTokenSize, 
             policy: policy, 
             policyArns: policyArns, 
             providedContexts: providedContexts, 
@@ -214,6 +217,7 @@ public struct STS: AWSService {
     ///
     /// Parameters:
     ///   - durationSeconds: The duration, in seconds, of the role session. Your role session lasts for the duration that you specify for the DurationSeconds parameter, or until the time specified in the SAML authentication response's SessionNotOnOrAfter value, whichever is shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console in the IAM User Guide.
+    ///   - minimumSessionTokenSize: 
     ///   - policy: An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new  temporary credentials. The resulting session's permissions are the intersection of the  role's identity-based policy and the session policies. You can use the role's temporary  credentials in subsequent Amazon Web Services API calls to access resources in the account that owns  the role. You cannot use session policies to grant more permissions than those allowed  by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide.  The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. For more information about role session permissions, see Session policies.  An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
     ///   - policyArns: The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.  An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.  Passing policies to this operation returns new  temporary credentials. The resulting session's permissions are the intersection of the  role's identity-based policy and the session policies. You can use the role's temporary  credentials in subsequent Amazon Web Services API calls to access resources in the account that owns  the role. You cannot use session policies to grant more permissions than those allowed  by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide.
     ///   - principalArn: The Amazon Resource Name (ARN) of the SAML provider in IAM that describes the IdP.
@@ -223,6 +227,7 @@ public struct STS: AWSService {
     @inlinable
     public func assumeRoleWithSAML(
         durationSeconds: Int? = nil,
+        minimumSessionTokenSize: Int? = nil,
         policy: String? = nil,
         policyArns: [PolicyDescriptorType]? = nil,
         principalArn: String,
@@ -232,6 +237,7 @@ public struct STS: AWSService {
     ) async throws -> AssumeRoleWithSAMLResponse {
         let input = AssumeRoleWithSAMLRequest(
             durationSeconds: durationSeconds, 
+            minimumSessionTokenSize: minimumSessionTokenSize, 
             policy: policy, 
             policyArns: policyArns, 
             principalArn: principalArn, 
@@ -258,6 +264,7 @@ public struct STS: AWSService {
     ///
     /// Parameters:
     ///   - durationSeconds: The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see View the Maximum Session Duration Setting for a Role in the IAM User Guide. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console in the IAM User Guide.
+    ///   - minimumSessionTokenSize: 
     ///   - policy: An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new  temporary credentials. The resulting session's permissions are the intersection of the  role's identity-based policy and the session policies. You can use the role's temporary  credentials in subsequent Amazon Web Services API calls to access resources in the account that owns  the role. You cannot use session policies to grant more permissions than those allowed  by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. For more information about role session permissions, see Session policies.  An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
     ///   - policyArns: The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.  An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.  Passing policies to this operation returns new  temporary credentials. The resulting session's permissions are the intersection of the  role's identity-based policy and the session policies. You can use the role's temporary  credentials in subsequent Amazon Web Services API calls to access resources in the account that owns  the role. You cannot use session policies to grant more permissions than those allowed  by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide.
     ///   - providerId: The fully qualified host component of the domain name of the OAuth 2.0 identity provider. Do not specify this value for an OpenID Connect identity provider. Currently www.amazon.com and graph.facebook.com are the only supported identity providers for OAuth 2.0 access tokens. Do not include URL schemes and port numbers. Do not specify this value for OpenID Connect ID tokens.
@@ -268,6 +275,7 @@ public struct STS: AWSService {
     @inlinable
     public func assumeRoleWithWebIdentity(
         durationSeconds: Int? = nil,
+        minimumSessionTokenSize: Int? = nil,
         policy: String? = nil,
         policyArns: [PolicyDescriptorType]? = nil,
         providerId: String? = nil,
@@ -278,6 +286,7 @@ public struct STS: AWSService {
     ) async throws -> AssumeRoleWithWebIdentityResponse {
         let input = AssumeRoleWithWebIdentityRequest(
             durationSeconds: durationSeconds, 
+            minimumSessionTokenSize: minimumSessionTokenSize, 
             policy: policy, 
             policyArns: policyArns, 
             providerId: providerId, 
@@ -305,18 +314,21 @@ public struct STS: AWSService {
     ///
     /// Parameters:
     ///   - durationSeconds: The duration, in seconds, of the privileged session. The value can range from 0 seconds up to the maximum session duration of 900 seconds (15 minutes). If you specify a value higher than this setting, the operation fails. By default, the value is set to 900 seconds.
+    ///   - minimumSessionTokenSize: 
     ///   - targetPrincipal: The member account principal ARN or account ID.
     ///   - taskPolicyArn: The identity based policy that scopes the session to the privileged tasks that can be performed. You must  use one of following Amazon Web Services managed policies to scope root session actions:    IAMAuditRootUserCredentials     IAMCreateRootUserPassword     IAMDeleteRootUserCredentials     S3UnlockBucketPolicy     SQSUnlockQueuePolicy
     ///   - logger: Logger use during operation
     @inlinable
     public func assumeRoot(
         durationSeconds: Int? = nil,
+        minimumSessionTokenSize: Int? = nil,
         targetPrincipal: String,
         taskPolicyArn: PolicyDescriptorType,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AssumeRootResponse {
         let input = AssumeRootRequest(
             durationSeconds: durationSeconds, 
+            minimumSessionTokenSize: minimumSessionTokenSize, 
             targetPrincipal: targetPrincipal, 
             taskPolicyArn: taskPolicyArn
         )
@@ -453,6 +465,7 @@ public struct STS: AWSService {
     ///
     /// Parameters:
     ///   - durationSeconds: The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
+    ///   - minimumSessionTokenSize: 
     ///   - name: The name of the federated user. The name is used as an identifier for the temporary security credentials (such as Bob). For example, you can reference the federated user name in a resource-based policy, such as in an Amazon S3 bucket policy. The regex used to validate this parameter is a string of characters  consisting of upper- and lower-case alphanumeric characters with no spaces. You can  also include underscores or any of the following characters: =,.@-
     ///   - policy: An IAM policy in JSON format that you want to use as an inline session policy. You must pass an inline or managed session policy to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. This parameter is optional. However, if you do not pass any session policies, then the resulting federated user session has no permissions. When you pass session policies, the session permissions are the intersection of the IAM user policies and the session policies that you pass. This gives you a way to further restrict the permissions for a federated user. You cannot use session policies to grant more permissions than those that are defined in the permissions policy of the IAM user. For more information, see Session Policies in the IAM User Guide. The resulting credentials can be used to access a resource that has a resource-based policy. If that policy specifically references the federated user session in the Principal element of the policy, the session has the permissions allowed by the policy. These permissions are granted in addition to the permissions that are granted by the session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.  An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
     ///   - policyArns: The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as a managed session policy. The policies must exist in the same account as the IAM user that is requesting federated access. You must pass an inline or managed session policy to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. You can provide up to 10 managed policy ARNs. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference. This parameter is optional. However, if you do not pass any session policies, then the resulting federated user session has no permissions. When you pass session policies, the session permissions are the intersection of the IAM user policies and the session policies that you pass. This gives you a way to further restrict the permissions for a federated user. You cannot use session policies to grant more permissions than those that are defined in the permissions policy of the IAM user. For more information, see Session Policies in the IAM User Guide. The resulting credentials can be used to access a resource that has a resource-based policy. If that policy specifically references the federated user session in the Principal element of the policy, the session has the permissions allowed by the policy. These permissions are granted in addition to the permissions that are granted by the session policies.  An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
@@ -461,6 +474,7 @@ public struct STS: AWSService {
     @inlinable
     public func getFederationToken(
         durationSeconds: Int? = nil,
+        minimumSessionTokenSize: Int? = nil,
         name: String,
         policy: String? = nil,
         policyArns: [PolicyDescriptorType]? = nil,
@@ -469,6 +483,7 @@ public struct STS: AWSService {
     ) async throws -> GetFederationTokenResponse {
         let input = GetFederationTokenRequest(
             durationSeconds: durationSeconds, 
+            minimumSessionTokenSize: minimumSessionTokenSize, 
             name: name, 
             policy: policy, 
             policyArns: policyArns, 
@@ -494,25 +509,28 @@ public struct STS: AWSService {
     ///
     /// Parameters:
     ///   - durationSeconds: The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions for Amazon Web Services account owners are restricted to a maximum of 3,600 seconds (one hour). If the duration is longer than one hour, the session for Amazon Web Services account owners defaults to one hour.
+    ///   - minimumSessionTokenSize: 
     ///   - serialNumber: The identification number of the MFA device that is associated with the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a policy that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). You can find the device for an IAM user by going to the Amazon Web Services Management Console and viewing the user's security credentials.  The regex used to validate this parameter is a string of  characters consisting of upper- and lower-case alphanumeric characters with no spaces.  You can also include underscores or any of the following characters: =,.@:/-
     ///   - tokenCode: The value provided by the MFA device, if MFA is required. If any policy requires the IAM user to submit an MFA code, specify this value. If MFA authentication is required, the user must provide a code when requesting a set of temporary security credentials. A user who fails to provide the code receives an "access denied" response when requesting resources that require MFA authentication. The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.
     ///   - logger: Logger use during operation
     @inlinable
     public func getSessionToken(
         durationSeconds: Int? = nil,
+        minimumSessionTokenSize: Int? = nil,
         serialNumber: String? = nil,
         tokenCode: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetSessionTokenResponse {
         let input = GetSessionTokenRequest(
             durationSeconds: durationSeconds, 
+            minimumSessionTokenSize: minimumSessionTokenSize, 
             serialNumber: serialNumber, 
             tokenCode: tokenCode
         )
         return try await self.getSessionToken(input, logger: logger)
     }
 
-    /// Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity.  The returned JWT can be used to authenticate with external services that support OIDC discovery.  The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.
+    /// Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity.  The returned JWT can be used to authenticate with external services that support OIDC discovery.  The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.  The GetWebIdentityToken API is not available on the STS Global endpoint.
     @Sendable
     @inlinable
     public func getWebIdentityToken(_ input: GetWebIdentityTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWebIdentityTokenResponse {
@@ -525,7 +543,7 @@ public struct STS: AWSService {
             logger: logger
         )
     }
-    /// Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity.  The returned JWT can be used to authenticate with external services that support OIDC discovery.  The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.
+    /// Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity.  The returned JWT can be used to authenticate with external services that support OIDC discovery.  The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.  The GetWebIdentityToken API is not available on the STS Global endpoint.
     ///
     /// Parameters:
     ///   - audience: The intended recipient of the web identity token. This value populates the aud claim in the JWT and should identify the service or application that will validate and use the token. The external service should verify this claim to ensure the token was intended for their use.

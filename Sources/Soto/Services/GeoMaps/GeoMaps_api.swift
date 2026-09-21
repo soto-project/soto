@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS GeoMaps service.
 ///
-///  Integrate high-quality base map data into your applications using MapLibre. Capabilities include:    Access to comprehensive base map data, allowing you to tailor the map display to your specific needs.   Multiple pre-designed map styles suited for various application types, such as navigation, logistics, or data visualization.   Generation of static map images for scenarios where interactive maps aren't suitable, such as:   Embedding in emails or documents   Displaying in low-bandwidth environments   Creating printable maps   Enhancing application performance by reducing client-side rendering
+///  Integrate high-quality base map data into your applications using MapLibre. Capabilities include:    Access to comprehensive base map data, allowing you to tailor the map display to your specific needs. See GetTile.   Multiple pre-designed map styles suited for various application types, such as navigation, logistics, or data visualization. See GetStyleDescriptor.   Generation of static map images for scenarios where interactive maps aren't suitable. See GetStaticMap. Use cases include:   Embedding in emails or documents   Displaying in low-bandwidth environments   Creating printable maps   Enhancing application performance by reducing client-side rendering
 public struct GeoMaps: AWSService {
     // MARK: Member variables
 
@@ -84,7 +84,7 @@ public struct GeoMaps: AWSService {
     public func getGlyphs(_ input: GetGlyphsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGlyphsResponse {
         try await self.client.execute(
             operation: "GetGlyphs", 
-            path: "/glyphs/{FontStack}/{FontUnicodeRange}", 
+            path: "/v2/glyphs/{FontStack}/{FontUnicodeRange}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -116,7 +116,7 @@ public struct GeoMaps: AWSService {
     public func getSprites(_ input: GetSpritesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSpritesResponse {
         try await self.client.execute(
             operation: "GetSprites", 
-            path: "/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}", 
+            path: "/v2/styles/{Style}/{ColorScheme}/{Variant}/sprites/{FileName}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -148,20 +148,20 @@ public struct GeoMaps: AWSService {
         return try await self.getSprites(input, logger: logger)
     }
 
-    ///  This operation is not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.    GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. For more information, see the following topics in the Amazon Location Service Developer Guide:    Static maps     Customize static maps     Overlay on the static map
+    ///  GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see the following topics in the Amazon Location Service Developer Guide:    Static maps     Customize static maps     Overlay on the static map
     @Sendable
     @inlinable
     public func getStaticMap(_ input: GetStaticMapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStaticMapResponse {
         try await self.client.execute(
             operation: "GetStaticMap", 
-            path: "/static/{FileName}", 
+            path: "/v2/static/{FileName}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
         )
     }
-    ///  This operation is not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.    GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. For more information, see the following topics in the Amazon Location Service Developer Guide:    Static maps     Customize static maps     Overlay on the static map
+    ///  GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see the following topics in the Amazon Location Service Developer Guide:    Static maps     Customize static maps     Overlay on the static map
     ///
     /// Parameters:
     ///   - boundedPositions: Takes in two or more pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], with each coordinate separated by a comma. The API will generate an image to encompass all of the provided coordinates.   Cannot be used with Zoom and or Radius   Example: 97.170451,78.039098,99.045536,27.176178
@@ -240,7 +240,7 @@ public struct GeoMaps: AWSService {
     public func getStyleDescriptor(_ input: GetStyleDescriptorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStyleDescriptorResponse {
         try await self.client.execute(
             operation: "GetStyleDescriptor", 
-            path: "/styles/{Style}/descriptor", 
+            path: "/v2/styles/{Style}/descriptor", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -254,6 +254,8 @@ public struct GeoMaps: AWSService {
     ///   - colorScheme: Sets the color tone for the map, such as dark and light. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
     ///   - contourDensity: Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. This parameter is valid for all map styles except Satellite.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
+    ///   - poiCategories: Renders only the specified categories of points of interest. When you omit this parameter, the map renders all categories. The following categories are currently supported:    FoodAndDrink     Entertainment     SightsAndMuseums     Transportation     Accommodations     LeisureAndOutdoor     Shopping     BusinessAndServices     FacilitiesAndBuildings    Specify each category as a separate poi-categories query parameter. Duplicate values are rejected.  This parameter has no effect when poi-density is set to Off, which hides all points of interest regardless of category.  This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style.
+    ///   - poiDensity: Controls how densely points of interest are rendered on the map. The density value controls the zoom level at which each category of points of interest appears, and how quickly less prominent points of interest are revealed as you zoom in. Denser values display more points of interest at lower zoom levels. Use Off to hide all points of interest. When you omit this parameter, the map renders at Default density.  The difference between density values is most noticeable at mid-range zoom levels. At high zoom levels, all density values converge on displaying every available point of interest.  This parameter is valid only for the Standard and Hybrid map styles. In ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers, this parameter is valid only for the Standard map style.
     ///   - politicalView: Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
     ///   - style: Style specifies the desired map style. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Standard and Monochrome values.
     ///   - terrain: Adjusts how physical terrain details are rendered on the map. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. The following terrain styles are currently supported:    Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.    Terrain3D: Displays physical terrain details and elevations as a three-dimensional model.    Hillshade is valid only for the Standard and Monochrome map styles.
@@ -266,6 +268,8 @@ public struct GeoMaps: AWSService {
         colorScheme: ColorScheme? = nil,
         contourDensity: ContourDensity? = nil,
         key: String? = nil,
+        poiCategories: [PoiCategory]? = nil,
+        poiDensity: PoiDensity? = nil,
         politicalView: String? = nil,
         style: MapStyle,
         terrain: Terrain? = nil,
@@ -278,6 +282,8 @@ public struct GeoMaps: AWSService {
             colorScheme: colorScheme, 
             contourDensity: contourDensity, 
             key: key, 
+            poiCategories: poiCategories, 
+            poiDensity: poiDensity, 
             politicalView: politicalView, 
             style: style, 
             terrain: terrain, 
@@ -293,7 +299,7 @@ public struct GeoMaps: AWSService {
     public func getTile(_ input: GetTileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTileResponse {
         try await self.client.execute(
             operation: "GetTile", 
-            path: "/tiles/{Tileset}/{Z}/{X}/{Y}", 
+            path: "/v2/tiles/{Tileset}/{Z}/{X}/{Y}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 

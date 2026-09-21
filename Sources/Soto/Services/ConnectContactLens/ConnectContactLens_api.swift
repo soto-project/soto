@@ -79,7 +79,7 @@ public struct ConnectContactLens: AWSService {
 
     // MARK: API Calls
 
-    /// Provides a list of analysis segments for a real-time analysis session.
+    /// Provides a list of analysis segments for a real-time analysis session for voice.  Voice data is retained for 24 hours. You must invoke this API during that time.
     @Sendable
     @inlinable
     public func listRealtimeContactAnalysisSegments(_ input: ListRealtimeContactAnalysisSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRealtimeContactAnalysisSegmentsResponse {
@@ -92,7 +92,7 @@ public struct ConnectContactLens: AWSService {
             logger: logger
         )
     }
-    /// Provides a list of analysis segments for a real-time analysis session.
+    /// Provides a list of analysis segments for a real-time analysis session for voice.  Voice data is retained for 24 hours. You must invoke this API during that time.
     ///
     /// Parameters:
     ///   - contactId: The identifier of the contact.

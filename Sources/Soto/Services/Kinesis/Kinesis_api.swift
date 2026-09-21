@@ -136,6 +136,56 @@ public struct Kinesis: AWSService {
         return try await self.addTagsToStream(input, logger: logger)
     }
 
+    /// Creates a channel that delivers records from a Kinesis data stream to a destination. A channel reads records from the specified stream and writes them to streaming tables on Apache Iceberg (Amazon S3 Tables) or to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both. To use this operation, you must have permission to pass the specified service execution IAM role to Amazon Kinesis Data Streams (the iam:PassRole permission on that role). Creating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams returns immediately with the channel in the CREATING state. After provisioning is complete, Amazon Kinesis Data Streams sets the state to ACTIVE. You can use DescribeChannel to check the current state. This operation is only supported for data streams with the on-demand capacity mode. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    @Sendable
+    @inlinable
+    public func createChannel(_ input: CreateChannelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelOutput {
+        try await self.client.execute(
+            operation: "CreateChannel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a channel that delivers records from a Kinesis data stream to a destination. A channel reads records from the specified stream and writes them to streaming tables on Apache Iceberg (Amazon S3 Tables) or to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both. To use this operation, you must have permission to pass the specified service execution IAM role to Amazon Kinesis Data Streams (the iam:PassRole permission on that role). Creating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams returns immediately with the channel in the CREATING state. After provisioning is complete, Amazon Kinesis Data Streams sets the state to ACTIVE. You can use DescribeChannel to check the current state. This operation is only supported for data streams with the on-demand capacity mode. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    ///
+    /// Parameters:
+    ///   - channelName: The name of the channel. The name is unique within your Amazon Web Services account and Amazon Web Services Region.
+    ///   - encryptionConfiguration: The server-side encryption configuration that uses an Amazon Web Services KMS key to encrypt data delivered to the destination.
+    ///   - loggingConfiguration: The Amazon CloudWatch Logs configuration for the channel.
+    ///   - s3DestinationConfiguration: The configuration for delivery to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both.
+    ///   - s3TablesDestinationConfiguration: The configuration for delivery to streaming tables on Apache Iceberg in Amazon S3 Tables. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both.
+    ///   - serviceExecutionRoleARN: The Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Data Streams assumes to write records to the destination.
+    ///   - streamConfigurationList: The source stream configuration for the channel. Currently, one stream is supported per channel.
+    ///   - tags: A set of key-value pairs to assign to the channel. A tag consists of a required key and an optional value.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createChannel(
+        channelName: String,
+        encryptionConfiguration: ChannelEncryptionConfiguration? = nil,
+        loggingConfiguration: ChannelLoggingConfiguration? = nil,
+        s3DestinationConfiguration: S3DestinationConfiguration? = nil,
+        s3TablesDestinationConfiguration: S3TablesDestinationConfiguration? = nil,
+        serviceExecutionRoleARN: String,
+        streamConfigurationList: [ChannelStreamConfiguration],
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateChannelOutput {
+        let input = CreateChannelInput(
+            channelName: channelName, 
+            encryptionConfiguration: encryptionConfiguration, 
+            loggingConfiguration: loggingConfiguration, 
+            s3DestinationConfiguration: s3DestinationConfiguration, 
+            s3TablesDestinationConfiguration: s3TablesDestinationConfiguration, 
+            serviceExecutionRoleARN: serviceExecutionRoleARN, 
+            streamConfigurationList: streamConfigurationList, 
+            tags: tags
+        )
+        return try await self.createChannel(input, logger: logger)
+    }
+
     /// Creates a Kinesis data stream. A stream captures and transports data records that are continuously emitted from different data sources or producers. Scale-out within a stream is explicitly supported by means of shards, which are uniquely identified groups of data records in a stream. You can create your data stream using either on-demand or provisioned capacity mode. Data streams with an on-demand mode require no capacity planning and automatically scale to handle gigabytes of write and read throughput per minute. With the on-demand mode, Kinesis Data Streams automatically manages the shards in order to provide the necessary throughput. If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your account. Once your account has MinimumThroughputBillingCommitment enabled, you can specify the warm throughput in MiB per second that your stream can support in writes. For the data streams with a provisioned mode, you must specify the number of shards for the data stream. Each shard can support reads up to five transactions per second, up to a maximum data read total of 2 MiB per second. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 1 MiB per second. If the amount of data input increases or decreases, you can add or remove shards. The stream name identifies the stream. The name is scoped to the Amazon Web Services account used by the application. It is also scoped by Amazon Web Services Region. That is, two streams in two different accounts can have the same name, and two streams in the same account, but in two different Regions, can have the same name.  CreateStream is an asynchronous operation. Upon receiving a CreateStream request, Kinesis Data Streams immediately returns and sets the stream status to CREATING. After the stream is created, Kinesis Data Streams sets the stream status to ACTIVE. You should perform read and write operations only on an ACTIVE stream.  You receive a LimitExceededException when making a CreateStream request when you try to do one of the following:   Have more than five streams in the CREATING state at any point in time.   Create more shards than are authorized for your account.   For the default shard or on-demand throughput limits for an Amazon Web Services account, see Amazon Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide. To increase this limit, contact Amazon Web Services Support. You can use DescribeStreamSummary to check the stream status, which is returned in StreamStatus.  CreateStream has a limit of five transactions per second per account. You can add tags to the stream when making a CreateStream request by setting the Tags parameter. If you pass the Tags parameter, in addition to having the kinesis:CreateStream permission, you must also have the kinesis:AddTagsToStream permission for the stream that will be created. The kinesis:TagResource permission won’t work to tag streams on creation. Tags will take effect from the CREATING status of the stream, but you can't make any updates to the tags until the stream is in ACTIVE state.
     @Sendable
     @inlinable
@@ -216,6 +266,35 @@ public struct Kinesis: AWSService {
             streamName: streamName
         )
         return try await self.decreaseStreamRetentionPeriod(input, logger: logger)
+    }
+
+    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. To delete the stream, first delete all channels attached to it. To find them, use ListChannels with a stream filter. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    @Sendable
+    @inlinable
+    public func deleteChannel(_ input: DeleteChannelInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteChannel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified channel. Deleting a channel stops delivery from the source stream to the destination. Data already delivered to the destination is not deleted. A stream cannot be deleted while it has active channels. To delete the stream, first delete all channels attached to it. To find them, use ListChannels with a stream filter. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    ///
+    /// Parameters:
+    ///   - channelARN: The Amazon Resource Name (ARN) of the channel to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteChannel(
+        channelARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteChannelInput(
+            channelARN: channelARN
+        )
+        return try await self.deleteChannel(input, logger: logger)
     }
 
     /// Delete a policy for the specified data stream or consumer. Request patterns can be one of the following:   Data stream pattern: arn:aws.*:kinesis:.*:\d{12}:.*stream/\S+    Consumer pattern: ^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+
@@ -350,6 +429,35 @@ public struct Kinesis: AWSService {
         let input = DescribeAccountSettingsInput(
         )
         return try await self.describeAccountSettings(input, logger: logger)
+    }
+
+    /// Describes the specified channel, including its configuration and current status. Use this operation to verify that a channel reached the ACTIVE state after creation, or to diagnose a channel in the FAILED state by reading the ChannelStatusReason. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    @Sendable
+    @inlinable
+    public func describeChannel(_ input: DescribeChannelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeChannelOutput {
+        try await self.client.execute(
+            operation: "DescribeChannel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the specified channel, including its configuration and current status. Use this operation to verify that a channel reached the ACTIVE state after creation, or to diagnose a channel in the FAILED state by reading the ChannelStatusReason. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    ///
+    /// Parameters:
+    ///   - channelARN: The Amazon Resource Name (ARN) of the channel to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeChannel(
+        channelARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeChannelOutput {
+        let input = DescribeChannelInput(
+            channelARN: channelARN
+        )
+        return try await self.describeChannel(input, logger: logger)
     }
 
     /// Describes the shard limits and usage for the account. If you update your account limits, the old limits might be returned for a few minutes. This operation has a limit of one transaction per second per account.
@@ -568,7 +676,7 @@ public struct Kinesis: AWSService {
         return try await self.enableEnhancedMonitoring(input, logger: logger)
     }
 
-    /// Gets data records from a Kinesis data stream's shard.  When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading data records sequentially. If there are no records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. It might take multiple calls to get to a portion of the shard that contains records. You can scale by provisioning multiple shards per stream while considering service limits (for more information, see Amazon Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide). Your application should have one thread per shard, each reading continuously from its stream. To read from a stream continually, call GetRecords in a loop. Use GetShardIterator to get the shard iterator to specify in the first GetRecords call. GetRecords returns a new shard iterator in NextShardIterator. Specify the shard iterator returned in NextShardIterator in subsequent calls to GetRecords. If the shard has been closed, the shard iterator can't return more data and GetRecords returns null in NextShardIterator. You can terminate the loop when the shard is closed, or when the shard iterator reaches the record with the sequence number or other attribute that marks it as the last record to process. Each data record can be up to 1 MiB in size, and each shard can read up to 2 MiB per second. You can ensure that your calls don't exceed the maximum supported size or throughput by using the Limit parameter to specify the maximum number of records that GetRecords can return. Consider your average record size when determining this limit. The maximum number of records that can be returned per call is 10,000. The size of the data returned by GetRecords varies depending on the utilization of the shard. It is recommended that consumer applications retrieve records via the GetRecords command using the 5 TPS limit to remain caught up. Retrieving records less frequently can lead to consumer applications falling behind. The maximum size of data that GetRecords can return is 10 MiB. If a call returns this amount of data, subsequent calls made within the next 5 seconds throw ProvisionedThroughputExceededException. If there is insufficient provisioned throughput on the stream, subsequent calls made within the next 1 second throw ProvisionedThroughputExceededException. GetRecords doesn't return any data when it throws an exception. For this reason, we recommend that you wait 1 second between calls to GetRecords. However, it's possible that the application will get exceptions for longer than 1 second. To detect whether the application is falling behind in processing, you can use the MillisBehindLatest response attribute. You can also monitor the stream using CloudWatch metrics and other mechanisms (see Monitoring in the Amazon Kinesis Data Streams Developer Guide). Each Amazon Kinesis record includes a value, ApproximateArrivalTimestamp, that is set when a stream successfully receives and stores a record. This is commonly referred to as a server-side time stamp, whereas a client-side time stamp is set when a data producer creates or sends the record to a stream (a data producer is any data source putting data records into a stream, for example with PutRecords). The time stamp has millisecond precision. There are no guarantees about the time stamp accuracy, or that the time stamp is always increasing. For example, records in a shard or across a stream might have time stamps that are out of order. This operation has a limit of five transactions per second per shard.
+    /// Gets data records from a Kinesis data stream's shard.  When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading data records sequentially. If there are no records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. It might take multiple calls to get to a portion of the shard that contains records. You can scale by provisioning multiple shards per stream while considering service limits (for more information, see Amazon Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide). Your application should have one thread per shard, each reading continuously from its stream. To read from a stream continually, call GetRecords in a loop. Use GetShardIterator to get the shard iterator to specify in the first GetRecords call. GetRecords returns a new shard iterator in NextShardIterator. Specify the shard iterator returned in NextShardIterator in subsequent calls to GetRecords. If the shard has been closed, the shard iterator can't return more data and GetRecords returns null in NextShardIterator. You can terminate the loop when the shard is closed, or when the shard iterator reaches the record with the sequence number or other attribute that marks it as the last record to process. Each data record can be up to 1 MiB in size by default. Amazon Kinesis Data Streams supports  large records up to 10 MiB in size, but the average throughput for your stream cannot exceed  1 MiB per second. For more information about how large records are handled, see  Large records.  Each shard can read up to 2 MiB per second. You can ensure that your calls don't exceed  the maximum supported size or throughput by using the Limit parameter to  specify the maximum number of records that GetRecords can return.  Consider your average record size when determining this limit. The maximum number of records  that can be returned per call is 10,000. The size of the data returned by GetRecords varies depending on the utilization of the shard. It is recommended that consumer applications retrieve records via the GetRecords command using the 5 TPS limit to remain caught up. Retrieving records less frequently can lead to consumer applications falling behind. The maximum size of data that GetRecords can return is 10 MiB. If a call returns this amount of data, subsequent calls made within the next 5 seconds throw ProvisionedThroughputExceededException. If there is insufficient provisioned throughput on the stream, subsequent calls made within the next 1 second throw ProvisionedThroughputExceededException. GetRecords doesn't return any data when it throws an exception. For this reason, we recommend that you wait 1 second between calls to GetRecords. However, it's possible that the application will get exceptions for longer than 1 second. To detect whether the application is falling behind in processing, you can use the MillisBehindLatest response attribute. You can also monitor the stream using CloudWatch metrics and other mechanisms (see Monitoring in the Amazon Kinesis Data Streams Developer Guide). Each Amazon Kinesis record includes a value, ApproximateArrivalTimestamp, that is set when a stream successfully receives and stores a record. This is commonly referred to as a server-side time stamp, whereas a client-side time stamp is set when a data producer creates or sends the record to a stream (a data producer is any data source putting data records into a stream, for example with PutRecords). The time stamp has millisecond precision. There are no guarantees about the time stamp accuracy, or that the time stamp is always increasing. For example, records in a shard or across a stream might have time stamps that are out of order. This operation has a limit of five transactions per second per shard.
     @Sendable
     @inlinable
     public func getRecords(_ input: GetRecordsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecordsOutput {
@@ -581,9 +689,10 @@ public struct Kinesis: AWSService {
             logger: logger
         )
     }
-    /// Gets data records from a Kinesis data stream's shard.  When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading data records sequentially. If there are no records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. It might take multiple calls to get to a portion of the shard that contains records. You can scale by provisioning multiple shards per stream while considering service limits (for more information, see Amazon Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide). Your application should have one thread per shard, each reading continuously from its stream. To read from a stream continually, call GetRecords in a loop. Use GetShardIterator to get the shard iterator to specify in the first GetRecords call. GetRecords returns a new shard iterator in NextShardIterator. Specify the shard iterator returned in NextShardIterator in subsequent calls to GetRecords. If the shard has been closed, the shard iterator can't return more data and GetRecords returns null in NextShardIterator. You can terminate the loop when the shard is closed, or when the shard iterator reaches the record with the sequence number or other attribute that marks it as the last record to process. Each data record can be up to 1 MiB in size, and each shard can read up to 2 MiB per second. You can ensure that your calls don't exceed the maximum supported size or throughput by using the Limit parameter to specify the maximum number of records that GetRecords can return. Consider your average record size when determining this limit. The maximum number of records that can be returned per call is 10,000. The size of the data returned by GetRecords varies depending on the utilization of the shard. It is recommended that consumer applications retrieve records via the GetRecords command using the 5 TPS limit to remain caught up. Retrieving records less frequently can lead to consumer applications falling behind. The maximum size of data that GetRecords can return is 10 MiB. If a call returns this amount of data, subsequent calls made within the next 5 seconds throw ProvisionedThroughputExceededException. If there is insufficient provisioned throughput on the stream, subsequent calls made within the next 1 second throw ProvisionedThroughputExceededException. GetRecords doesn't return any data when it throws an exception. For this reason, we recommend that you wait 1 second between calls to GetRecords. However, it's possible that the application will get exceptions for longer than 1 second. To detect whether the application is falling behind in processing, you can use the MillisBehindLatest response attribute. You can also monitor the stream using CloudWatch metrics and other mechanisms (see Monitoring in the Amazon Kinesis Data Streams Developer Guide). Each Amazon Kinesis record includes a value, ApproximateArrivalTimestamp, that is set when a stream successfully receives and stores a record. This is commonly referred to as a server-side time stamp, whereas a client-side time stamp is set when a data producer creates or sends the record to a stream (a data producer is any data source putting data records into a stream, for example with PutRecords). The time stamp has millisecond precision. There are no guarantees about the time stamp accuracy, or that the time stamp is always increasing. For example, records in a shard or across a stream might have time stamps that are out of order. This operation has a limit of five transactions per second per shard.
+    /// Gets data records from a Kinesis data stream's shard.  When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading data records sequentially. If there are no records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. It might take multiple calls to get to a portion of the shard that contains records. You can scale by provisioning multiple shards per stream while considering service limits (for more information, see Amazon Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide). Your application should have one thread per shard, each reading continuously from its stream. To read from a stream continually, call GetRecords in a loop. Use GetShardIterator to get the shard iterator to specify in the first GetRecords call. GetRecords returns a new shard iterator in NextShardIterator. Specify the shard iterator returned in NextShardIterator in subsequent calls to GetRecords. If the shard has been closed, the shard iterator can't return more data and GetRecords returns null in NextShardIterator. You can terminate the loop when the shard is closed, or when the shard iterator reaches the record with the sequence number or other attribute that marks it as the last record to process. Each data record can be up to 1 MiB in size by default. Amazon Kinesis Data Streams supports  large records up to 10 MiB in size, but the average throughput for your stream cannot exceed  1 MiB per second. For more information about how large records are handled, see  Large records.  Each shard can read up to 2 MiB per second. You can ensure that your calls don't exceed  the maximum supported size or throughput by using the Limit parameter to  specify the maximum number of records that GetRecords can return.  Consider your average record size when determining this limit. The maximum number of records  that can be returned per call is 10,000. The size of the data returned by GetRecords varies depending on the utilization of the shard. It is recommended that consumer applications retrieve records via the GetRecords command using the 5 TPS limit to remain caught up. Retrieving records less frequently can lead to consumer applications falling behind. The maximum size of data that GetRecords can return is 10 MiB. If a call returns this amount of data, subsequent calls made within the next 5 seconds throw ProvisionedThroughputExceededException. If there is insufficient provisioned throughput on the stream, subsequent calls made within the next 1 second throw ProvisionedThroughputExceededException. GetRecords doesn't return any data when it throws an exception. For this reason, we recommend that you wait 1 second between calls to GetRecords. However, it's possible that the application will get exceptions for longer than 1 second. To detect whether the application is falling behind in processing, you can use the MillisBehindLatest response attribute. You can also monitor the stream using CloudWatch metrics and other mechanisms (see Monitoring in the Amazon Kinesis Data Streams Developer Guide). Each Amazon Kinesis record includes a value, ApproximateArrivalTimestamp, that is set when a stream successfully receives and stores a record. This is commonly referred to as a server-side time stamp, whereas a client-side time stamp is set when a data producer creates or sends the record to a stream (a data producer is any data source putting data records into a stream, for example with PutRecords). The time stamp has millisecond precision. There are no guarantees about the time stamp accuracy, or that the time stamp is always increasing. For example, records in a shard or across a stream might have time stamps that are out of order. This operation has a limit of five transactions per second per shard.
     ///
     /// Parameters:
+    ///   - dryRun: Checks if your request will succeed. DryRun is an optional parameter.
     ///   - limit: The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException. The default value is 10,000.
     ///   - shardIterator: The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
     ///   - streamARN: The ARN of the stream.
@@ -591,6 +700,7 @@ public struct Kinesis: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getRecords(
+        dryRun: Bool? = nil,
         limit: Int? = nil,
         shardIterator: String,
         streamARN: String? = nil,
@@ -598,6 +708,7 @@ public struct Kinesis: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetRecordsOutput {
         let input = GetRecordsInput(
+            dryRun: dryRun, 
             limit: limit, 
             shardIterator: shardIterator, 
             streamARN: streamARN, 
@@ -654,6 +765,7 @@ public struct Kinesis: AWSService {
     /// Gets an Amazon Kinesis shard iterator. A shard iterator expires 5 minutes after it is returned to the requester.  When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  A shard iterator specifies the shard position from which to start reading data records sequentially. The position is specified using the sequence number of a data record in a shard. A sequence number is the identifier associated with every record ingested in the stream, and is assigned when a record is put into the stream. Each stream has one or more shards. You must specify the shard iterator type. For example, you can set the ShardIteratorType parameter to read exactly from the position denoted by a specific sequence number by using the AT_SEQUENCE_NUMBER shard iterator type. Alternatively, the parameter can read right after the sequence number by using the AFTER_SEQUENCE_NUMBER shard iterator type, using sequence numbers returned by earlier calls to PutRecord, PutRecords, GetRecords, or DescribeStream. In the request, you can specify the shard iterator type AT_TIMESTAMP to read records from an arbitrary point in time, TRIM_HORIZON to cause ShardIterator to point to the last untrimmed record in the shard in the system (the oldest data record in the shard), or LATEST so that you always read the most recent data in the shard.  When you read repeatedly from a stream, use a GetShardIterator request to get the first shard iterator for use in your first GetRecords request and for subsequent reads use the shard iterator returned by the GetRecords request in NextShardIterator. A new shard iterator is returned by every GetRecords request in NextShardIterator, which you use in the ShardIterator parameter of the next GetRecords request.  If a GetShardIterator request is made too often, you receive a ProvisionedThroughputExceededException. For more information about throughput limits, see GetRecords, and Streams Limits in the Amazon Kinesis Data Streams Developer Guide. If the shard is closed, GetShardIterator returns a valid iterator for the last sequence number of the shard. A shard can be closed as a result of using SplitShard or MergeShards.  GetShardIterator has a limit of five transactions per second per account per open shard.
     ///
     /// Parameters:
+    ///   - dryRun: Checks if your request will succeed. DryRun is an optional parameter.
     ///   - shardId: The shard ID of the Kinesis Data Streams shard to get the iterator for.
     ///   - shardIteratorType: Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types:   AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AT_TIMESTAMP - Start reading from the position denoted by a specific time stamp, provided in the value Timestamp.   TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard.   LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard.
     ///   - startingSequenceNumber: The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER.
@@ -664,6 +776,7 @@ public struct Kinesis: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getShardIterator(
+        dryRun: Bool? = nil,
         shardId: String,
         shardIteratorType: ShardIteratorType,
         startingSequenceNumber: String? = nil,
@@ -674,6 +787,7 @@ public struct Kinesis: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetShardIteratorOutput {
         let input = GetShardIteratorInput(
+            dryRun: dryRun, 
             shardId: shardId, 
             shardIteratorType: shardIteratorType, 
             startingSequenceNumber: startingSequenceNumber, 
@@ -721,6 +835,41 @@ public struct Kinesis: AWSService {
             streamName: streamName
         )
         return try await self.increaseStreamRetentionPeriod(input, logger: logger)
+    }
+
+    /// Lists the channels in your account. You can filter the results by source stream. The results are paginated. Use the NextToken value returned in the response to retrieve additional results. Use this operation to find channels before deleting a stream, or to audit the channels configured in an Amazon Web Services Region. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    @Sendable
+    @inlinable
+    public func listChannels(_ input: ListChannelsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsOutput {
+        try await self.client.execute(
+            operation: "ListChannels", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the channels in your account. You can filter the results by source stream. The results are paginated. Use the NextToken value returned in the response to retrieve additional results. Use this operation to find channels before deleting a stream, or to audit the channels configured in an Amazon Web Services Region. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of channels to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
+    ///   - nextToken: The pagination token returned by a previous call. Specify this token to retrieve the next page of results. This value is null when there are no more results to return.
+    ///   - streamFilter: Filters the results to channels associated with the specified streams.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listChannels(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        streamFilter: [StreamFilter]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListChannelsOutput {
+        let input = ListChannelsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            streamFilter: streamFilter
+        )
+        return try await self.listChannels(input, logger: logger)
     }
 
     /// Lists the shards in a stream and provides information about each shard. This operation has a limit of 1000 transactions per second per data stream.  When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  This action does not list expired shards. For information about expired shards, see Data Routing, Data Persistence, and Shard State after a Reshard.   This API is a new operation that is used by the Amazon Kinesis Client Library (KCL). If you have a fine-grained IAM policy that only allows specific operations, you must update your policy to allow calls to this API. For more information, see Controlling Access to Amazon Kinesis Data Streams Resources Using IAM.
@@ -980,6 +1129,7 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - data: The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB).
+    ///   - dryRun: Checks if your request will succeed. DryRun is an optional parameter.
     ///   - explicitHashKey: The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
     ///   - partitionKey: Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
     ///   - sequenceNumberForOrdering: Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1). If this parameter is not set, records are coarsely ordered based on arrival time.
@@ -990,6 +1140,7 @@ public struct Kinesis: AWSService {
     @inlinable
     public func putRecord(
         data: AWSBase64Data,
+        dryRun: Bool? = nil,
         explicitHashKey: String? = nil,
         partitionKey: String,
         sequenceNumberForOrdering: String? = nil,
@@ -1000,6 +1151,7 @@ public struct Kinesis: AWSService {
     ) async throws -> PutRecordOutput {
         let input = PutRecordInput(
             data: data, 
+            dryRun: dryRun, 
             explicitHashKey: explicitHashKey, 
             partitionKey: partitionKey, 
             sequenceNumberForOrdering: sequenceNumberForOrdering, 
@@ -1026,6 +1178,7 @@ public struct Kinesis: AWSService {
     /// Writes multiple data records into a Kinesis data stream in a single call (also referred to as a PutRecords request). Use this operation to send data into the stream for data ingestion and processing.   When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  Each PutRecords request can support up to 500 records. Each record in the request can be as large as 10 MiB, up to a limit of 10 MiB for the entire request, including partition keys. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 1 MB per second. You must specify the name of the stream that captures, stores, and transports the data; and an array of request Records, with each record in the array requiring a partition key and data blob. The record size limit applies to the total size of the partition key and data blob. The data blob can be any type of data; for example, a segment from a log file, geographic/location data, website clickstream data, and so on. The partition key is used by Kinesis Data Streams as input to a hash function that maps the partition key and associated data to a specific shard. An MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream. For more information, see Adding Data to a Stream in the Amazon Kinesis Data Streams Developer Guide. Each record in the Records array may include an optional parameter, ExplicitHashKey, which overrides the partition key to shard mapping. This parameter allows a data producer to determine explicitly the shard where the record is stored. For more information, see Adding Multiple Records with PutRecords in the Amazon Kinesis Data Streams Developer Guide. The PutRecords response includes an array of response Records. Each record in the response array directly correlates with a record in the request array using natural ordering, from the top to the bottom of the request and response. The response Records array always includes the same number of records as the request array. The response Records array includes both successfully and unsuccessfully processed records. Kinesis Data Streams attempts to process all records in each PutRecords request. A single record failure does not stop the processing of subsequent records. As a result, PutRecords doesn't guarantee the ordering of records. If you need to read records in the same order they are written to the stream, use PutRecord instead of PutRecords, and write to the same shard. A successfully processed record includes ShardId and SequenceNumber values. The ShardId parameter identifies the shard in the stream where the record is stored. The SequenceNumber parameter is an identifier assigned to the put record, unique to all records in the stream. An unsuccessfully processed record includes ErrorCode and ErrorMessage values. ErrorCode reflects the type of error and can be one of the following values: ProvisionedThroughputExceededException or InternalFailure. ErrorMessage provides more detailed information about the ProvisionedThroughputExceededException exception including the account ID, stream name, and shard ID of the record that was throttled. For more information about partially successful responses, see Adding Multiple Records with PutRecords in the Amazon Kinesis Data Streams Developer Guide.  After you write a record to a stream, you cannot modify that record or its order within the stream.  By default, data records are accessible for 24 hours from the time that they are added to a stream. You can use IncreaseStreamRetentionPeriod or DecreaseStreamRetentionPeriod to modify this retention period.
     ///
     /// Parameters:
+    ///   - dryRun: Checks if your request will succeed. DryRun is an optional parameter.
     ///   - records: The records associated with the request.
     ///   - streamARN: The ARN of the stream.
     ///   - streamId: Not Implemented. Reserved for future use.
@@ -1033,6 +1186,7 @@ public struct Kinesis: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func putRecords(
+        dryRun: Bool? = nil,
         records: [PutRecordsRequestEntry],
         streamARN: String? = nil,
         streamId: String? = nil,
@@ -1040,6 +1194,7 @@ public struct Kinesis: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutRecordsOutput {
         let input = PutRecordsInput(
+            dryRun: dryRun, 
             records: records, 
             streamARN: streamARN, 
             streamId: streamId, 
@@ -1299,6 +1454,7 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - consumerARN: For this parameter, use the value you obtained when you called RegisterStreamConsumer.
+    ///   - dryRun: Checks if your request will succeed. DryRun is an optional parameter.
     ///   - shardId: The ID of the shard you want to subscribe to. To see a list of all the shards for a given stream, use ListShards.
     ///   - startingPosition: The starting position in the data stream from which to start streaming.
     ///   - streamId: Not Implemented. Reserved for future use.
@@ -1306,6 +1462,7 @@ public struct Kinesis: AWSService {
     @inlinable
     public func subscribeToShard(
         consumerARN: String,
+        dryRun: Bool? = nil,
         shardId: String,
         startingPosition: StartingPosition,
         streamId: String? = nil,
@@ -1313,6 +1470,7 @@ public struct Kinesis: AWSService {
     ) async throws -> SubscribeToShardOutput {
         let input = SubscribeToShardInput(
             consumerARN: consumerARN, 
+            dryRun: dryRun, 
             shardId: shardId, 
             startingPosition: startingPosition, 
             streamId: streamId
@@ -1417,6 +1575,44 @@ public struct Kinesis: AWSService {
             minimumThroughputBillingCommitment: minimumThroughputBillingCommitment
         )
         return try await self.updateAccountSettings(input, logger: logger)
+    }
+
+    /// Updates the data freshness interval or the Amazon CloudWatch Logs configuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or service execution role of an existing channel. To change any other setting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. After the change is applied, Amazon Kinesis Data Streams sets the channel back to the ACTIVE state. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    @Sendable
+    @inlinable
+    public func updateChannel(_ input: UpdateChannelInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelOutput {
+        try await self.client.execute(
+            operation: "UpdateChannel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the data freshness interval or the Amazon CloudWatch Logs configuration of an existing channel. You cannot change the destination, source stream, record format, schema, encryption configuration, or service execution role of an existing channel. To change any other setting, delete the channel and create a new one. Updating a channel is an asynchronous operation. Upon receiving the request, Amazon Kinesis Data Streams sets the channel to the UPDATING state and returns immediately. After the change is applied, Amazon Kinesis Data Streams sets the channel back to the ACTIVE state. This operation has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. Exceeding 5 TPS results in a LimitExceededException.
+    ///
+    /// Parameters:
+    ///   - channelARN: The Amazon Resource Name (ARN) of the channel to update.
+    ///   - loggingConfiguration: The updated Amazon CloudWatch Logs configuration for the channel.
+    ///   - s3DestinationConfiguration: The updated configuration for a general purpose Amazon S3 destination. Only DataFreshnessInSeconds can be updated.
+    ///   - s3TablesDestinationConfiguration: The updated configuration for a streaming table destination. Only DataFreshnessInSeconds can be updated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateChannel(
+        channelARN: String,
+        loggingConfiguration: ChannelLoggingUpdateInput? = nil,
+        s3DestinationConfiguration: S3DestinationUpdateInput? = nil,
+        s3TablesDestinationConfiguration: S3TablesDestinationUpdateInput? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateChannelOutput {
+        let input = UpdateChannelInput(
+            channelARN: channelARN, 
+            loggingConfiguration: loggingConfiguration, 
+            s3DestinationConfiguration: s3DestinationConfiguration, 
+            s3TablesDestinationConfiguration: s3TablesDestinationConfiguration
+        )
+        return try await self.updateChannel(input, logger: logger)
     }
 
     /// This allows you to update the MaxRecordSize of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB.
@@ -1533,7 +1729,7 @@ public struct Kinesis: AWSService {
         return try await self.updateStreamMode(input, logger: logger)
     }
 
-    /// Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. This operation allows you to proactively scale your on-demand data stream to a specified throughput level, enabling better performance for sudden traffic spikes.   When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  Updating the warm throughput is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING. After the update is complete, Kinesis Data Streams sets the status of the stream back to ACTIVE. Depending on the size of the stream, the scaling action could take a few minutes to complete. You can continue to read and write data to your stream while its status is UPDATING. This operation is only supported for data streams with the on-demand capacity mode in accounts that have MinimumThroughputBillingCommitment enabled. Provisioned capacity mode streams do not support warm throughput configuration. This operation has the following default limits. By default, you cannot do the following:   Scale to more than 10 GiBps for an on-demand stream.   This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceededException.   For the default limits for an Amazon Web Services account, see Streams Limits in the Amazon Kinesis Data Streams Developer Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the limits form.
+    /// Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. Updates the warm throughput configuration for the specified on-demand data stream. Use this operation to scale your stream to a specified throughput level before anticipated traffic spikes, or to release excess capacity after traffic has decreased.   When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  Updating the warm throughput is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING. After the update is complete, Kinesis Data Streams sets the status of the stream back to ACTIVE. Depending on the size of the stream, the scaling action could take a few minutes to complete. You can continue to read and write data to your stream while its status is UPDATING. This operation is only supported for data streams with the on-demand capacity mode in accounts that have MinimumThroughputBillingCommitment enabled. Provisioned capacity mode streams do not support warm throughput configuration. To release excess capacity, call the API again and set the warm throughput to the same or a lower value. This operation has the following default limits. By default, you cannot do the following:   Scale to more than 10 GiBps for an on-demand stream.   This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceededException.   For the default limits for an Amazon Web Services account, see Streams Limits in the Amazon Kinesis Data Streams Developer Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the limits form.
     @Sendable
     @inlinable
     public func updateStreamWarmThroughput(_ input: UpdateStreamWarmThroughputInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStreamWarmThroughputOutput {
@@ -1546,7 +1742,7 @@ public struct Kinesis: AWSService {
             logger: logger
         )
     }
-    /// Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. This operation allows you to proactively scale your on-demand data stream to a specified throughput level, enabling better performance for sudden traffic spikes.   When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  Updating the warm throughput is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING. After the update is complete, Kinesis Data Streams sets the status of the stream back to ACTIVE. Depending on the size of the stream, the scaling action could take a few minutes to complete. You can continue to read and write data to your stream while its status is UPDATING. This operation is only supported for data streams with the on-demand capacity mode in accounts that have MinimumThroughputBillingCommitment enabled. Provisioned capacity mode streams do not support warm throughput configuration. This operation has the following default limits. By default, you cannot do the following:   Scale to more than 10 GiBps for an on-demand stream.   This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceededException.   For the default limits for an Amazon Web Services account, see Streams Limits in the Amazon Kinesis Data Streams Developer Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the limits form.
+    /// Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. Updates the warm throughput configuration for the specified on-demand data stream. Use this operation to scale your stream to a specified throughput level before anticipated traffic spikes, or to release excess capacity after traffic has decreased.   When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  Updating the warm throughput is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING. After the update is complete, Kinesis Data Streams sets the status of the stream back to ACTIVE. Depending on the size of the stream, the scaling action could take a few minutes to complete. You can continue to read and write data to your stream while its status is UPDATING. This operation is only supported for data streams with the on-demand capacity mode in accounts that have MinimumThroughputBillingCommitment enabled. Provisioned capacity mode streams do not support warm throughput configuration. To release excess capacity, call the API again and set the warm throughput to the same or a lower value. This operation has the following default limits. By default, you cannot do the following:   Scale to more than 10 GiBps for an on-demand stream.   This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceededException.   For the default limits for an Amazon Web Services account, see Streams Limits in the Amazon Kinesis Data Streams Developer Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the limits form.
     ///
     /// Parameters:
     ///   - streamARN: The ARN of the stream to be updated.
@@ -1585,6 +1781,43 @@ extension Kinesis {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Kinesis {
+    /// Return PaginatorSequence for operation ``listChannels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listChannelsPaginator(
+        _ input: ListChannelsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
+        return .init(
+            input: input,
+            command: self.listChannels,
+            inputKey: \ListChannelsInput.nextToken,
+            outputKey: \ListChannelsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listChannels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of channels to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
+    ///   - streamFilter: Filters the results to channels associated with the specified streams.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listChannelsPaginator(
+        maxResults: Int? = nil,
+        streamFilter: [StreamFilter]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListChannelsInput, ListChannelsOutput> {
+        let input = ListChannelsInput(
+            maxResults: maxResults, 
+            streamFilter: streamFilter
+        )
+        return self.listChannelsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listStreamConsumers(_:logger:)``.
     ///
     /// - Parameters:
@@ -1666,6 +1899,17 @@ extension Kinesis {
     }
 }
 
+extension Kinesis.ListChannelsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Kinesis.ListChannelsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            streamFilter: self.streamFilter
+        )
+    }
+}
+
 extension Kinesis.ListStreamConsumersInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Kinesis.ListStreamConsumersInput {
@@ -1694,6 +1938,46 @@ extension Kinesis.ListStreamsInput: AWSPaginateToken {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Kinesis {
+    /// Waiter for operation ``describeChannel(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilChannelActive(
+        _ input: DescribeChannelInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeChannelInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("channelDescription.channelStatus", expected: "ACTIVE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("channelDescription.channelStatus", expected: "CREATING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("channelDescription.channelStatus", expected: "UPDATING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("channelDescription.channelStatus", expected: "DELETING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("channelDescription.channelStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.describeChannel
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeChannel(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - channelARN: The Amazon Resource Name (ARN) of the channel to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilChannelActive(
+        channelARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeChannelInput(
+            channelARN: channelARN
+        )
+        try await self.waitUntilChannelActive(input, logger: logger)
+    }
+
     /// Waiter for operation ``describeStream(_:logger:)``.
     ///
     /// - Parameters:

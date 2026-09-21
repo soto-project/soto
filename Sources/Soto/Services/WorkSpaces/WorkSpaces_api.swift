@@ -647,7 +647,9 @@ public struct WorkSpaces: AWSService {
         return try await self.createWorkspaces(input, logger: logger)
     }
 
-    /// Creates a pool of WorkSpaces.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Creates a pool of WorkSpaces.
     @Sendable
     @inlinable
     public func createWorkspacesPool(_ input: CreateWorkspacesPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspacesPoolResult {
@@ -660,7 +662,9 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Creates a pool of WorkSpaces.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Creates a pool of WorkSpaces.
     ///
     /// Parameters:
     ///   - applicationSettings: Indicates the application settings of the pool.
@@ -1757,7 +1761,9 @@ public struct WorkSpaces: AWSService {
         return try await self.describeWorkspacesConnectionStatus(input, logger: logger)
     }
 
-    /// Retrieves a list that describes the streaming sessions for a specified pool.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Retrieves a list that describes the streaming sessions for a specified pool.
     @Sendable
     @inlinable
     public func describeWorkspacesPoolSessions(_ input: DescribeWorkspacesPoolSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspacesPoolSessionsResult {
@@ -1770,7 +1776,9 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list that describes the streaming sessions for a specified pool.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Retrieves a list that describes the streaming sessions for a specified pool.
     ///
     /// Parameters:
     ///   - limit: The maximum size of each page of results. The default value is 20 and the maximum value is 50.
@@ -1795,7 +1803,9 @@ public struct WorkSpaces: AWSService {
         return try await self.describeWorkspacesPoolSessions(input, logger: logger)
     }
 
-    /// Describes the specified WorkSpaces Pools.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Describes the specified WorkSpaces Pools.
     @Sendable
     @inlinable
     public func describeWorkspacesPools(_ input: DescribeWorkspacesPoolsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspacesPoolsResult {
@@ -1808,7 +1818,9 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified WorkSpaces Pools.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Describes the specified WorkSpaces Pools.
     ///
     /// Parameters:
     ///   - filters: The filter conditions for the WorkSpaces Pool to return.
@@ -2172,7 +2184,7 @@ public struct WorkSpaces: AWSService {
         return try await self.listAvailableManagementCidrRanges(input, logger: logger)
     }
 
-    /// Migrates a WorkSpace from one operating system or bundle type to another, while retaining the data on the user volume. The migration process recreates the WorkSpace by using a new root volume from the target bundle image and the user volume from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME% user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated. A new D:\Users\%USERNAME%\ folder is generated by the new OS. Certain files in the old user profile are moved to the new user profile. For available migration scenarios, details about what happens during migration, and best practices, see Migrate a WorkSpace.
+    /// Migrates a WorkSpace from one operating system or bundle type to another, while retaining the data on the user volume. The migration process recreates the WorkSpace by using a new root volume from the target bundle image and the user volume from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME% user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated. A new D:\Users\%USERNAME%\ folder is generated by the new OS. Certain files in the old user profile are moved to the new user profile. For available migration scenarios, details about what happens during migration, and best practices, see Migrate a WorkSpace.  If the source WorkSpace has nested virtualization enabled and the target bundle does not support nested virtualization, the migration fails.
     @Sendable
     @inlinable
     public func migrateWorkspace(_ input: MigrateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> MigrateWorkspaceResult {
@@ -2185,7 +2197,7 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Migrates a WorkSpace from one operating system or bundle type to another, while retaining the data on the user volume. The migration process recreates the WorkSpace by using a new root volume from the target bundle image and the user volume from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME% user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated. A new D:\Users\%USERNAME%\ folder is generated by the new OS. Certain files in the old user profile are moved to the new user profile. For available migration scenarios, details about what happens during migration, and best practices, see Migrate a WorkSpace.
+    /// Migrates a WorkSpace from one operating system or bundle type to another, while retaining the data on the user volume. The migration process recreates the WorkSpace by using a new root volume from the target bundle image and the user volume from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME% user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated. A new D:\Users\%USERNAME%\ folder is generated by the new OS. Certain files in the old user profile are moved to the new user profile. For available migration scenarios, details about what happens during migration, and best practices, see Migrate a WorkSpace.  If the source WorkSpace has nested virtualization enabled and the target bundle does not support nested virtualization, the migration fails.
     ///
     /// Parameters:
     ///   - bundleId: The identifier of the target bundle type to migrate the WorkSpace to.
@@ -2807,7 +2819,9 @@ public struct WorkSpaces: AWSService {
         return try await self.startWorkspaces(input, logger: logger)
     }
 
-    /// Starts the specified pool. You cannot start a pool unless it has a running mode of  AutoStop and a state of STOPPED.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Starts the specified pool. You cannot start a pool unless it has a running mode of  AutoStop and a state of STOPPED.
     @Sendable
     @inlinable
     public func startWorkspacesPool(_ input: StartWorkspacesPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartWorkspacesPoolResult {
@@ -2820,7 +2834,9 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Starts the specified pool. You cannot start a pool unless it has a running mode of  AutoStop and a state of STOPPED.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Starts the specified pool. You cannot start a pool unless it has a running mode of  AutoStop and a state of STOPPED.
     ///
     /// Parameters:
     ///   - poolId: The identifier of the pool.
@@ -2865,7 +2881,9 @@ public struct WorkSpaces: AWSService {
         return try await self.stopWorkspaces(input, logger: logger)
     }
 
-    /// Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop  and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop  and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     @Sendable
     @inlinable
     public func stopWorkspacesPool(_ input: StopWorkspacesPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopWorkspacesPoolResult {
@@ -2878,7 +2896,9 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop  and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop  and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     ///
     /// Parameters:
     ///   - poolId: The identifier of the pool.
@@ -2923,7 +2943,9 @@ public struct WorkSpaces: AWSService {
         return try await self.terminateWorkspaces(input, logger: logger)
     }
 
-    /// Terminates the specified pool.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Terminates the specified pool.
     @Sendable
     @inlinable
     public func terminateWorkspacesPool(_ input: TerminateWorkspacesPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateWorkspacesPoolResult {
@@ -2936,7 +2958,9 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Terminates the specified pool.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Terminates the specified pool.
     ///
     /// Parameters:
     ///   - poolId: The identifier of the pool.
@@ -2952,7 +2976,9 @@ public struct WorkSpaces: AWSService {
         return try await self.terminateWorkspacesPool(input, logger: logger)
     }
 
-    /// Terminates the pool session.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Terminates the pool session.
     @Sendable
     @inlinable
     public func terminateWorkspacesPoolSession(_ input: TerminateWorkspacesPoolSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateWorkspacesPoolSessionResult {
@@ -2965,7 +2991,9 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Terminates the pool session.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Terminates the pool session.
     ///
     /// Parameters:
     ///   - sessionId: The identifier of the pool session.
@@ -3150,7 +3178,9 @@ public struct WorkSpaces: AWSService {
         return try await self.updateWorkspaceImagePermission(input, logger: logger)
     }
 
-    /// Updates the specified pool.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Updates the specified pool.
     @Sendable
     @inlinable
     public func updateWorkspacesPool(_ input: UpdateWorkspacesPoolRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspacesPoolResult {
@@ -3163,7 +3193,9 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Updates the specified pool.
+    ///  End of support notice: On December 31, 2027, Amazon Web Services will end support for Amazon WorkSpaces Pools. After December 31, 2027,
+    /// you will no longer be able to access the Amazon WorkSpaces Pools console or Amazon WorkSpaces Pools resources. For more information, see
+    /// Amazon WorkSpaces Pools end of support.   Updates the specified pool.
     ///
     /// Parameters:
     ///   - applicationSettings: The persistent application settings for users in the pool.

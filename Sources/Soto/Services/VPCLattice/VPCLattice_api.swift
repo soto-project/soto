@@ -223,13 +223,13 @@ public struct VPCLattice: AWSService {
     ///   - domainVerificationIdentifier:  The domain verification ID of your verified custom domain name. If you don't provide an ID, you must configure the DNS settings yourself.
     ///   - groupDomain:  (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain.
     ///   - name: The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
-    ///   - portRanges: (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
-    ///   - protocol: (SINGLE, GROUP) The protocol accepted by the resource configuration.
-    ///   - resourceConfigurationDefinition: Identifies the resource configuration in one of the following ways:    Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.    Domain name - Any domain name that is publicly resolvable.    IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
+    ///   - portRanges: (SINGLE, GROUP, CHILD, CIDR) The port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30). To resolve DNS through a CIDR resource configuration, include port 53 in the port ranges.
+    ///   - protocol: (SINGLE, GROUP, CIDR) The protocol accepted by the resource configuration. The default is TCP. TCP_UDP is supported only for CIDR resource configurations; specify it for a CIDR resource configuration to allow DNS resolution, which uses UDP.
+    ///   - resourceConfigurationDefinition: Identifies the resource configuration in one of the following ways:    Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.    Domain name - Any domain name that is publicly resolvable.    IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.    CIDR range - For a resource configuration of type CIDR, specify a cidrResource with one or more cidrRanges (for example, 10.0.0.0/16) that cover the IP addresses of the resources you want to make accessible. You can specify up to 10 ranges, using IPv4, IPv6, or both, and each range must include a prefix length. To represent your entire network, specify 0.0.0.0/0 (IPv4) or ::/0 (IPv6) as the only range. You can't use reserved ranges such as 169.254.0.0/16, 100.64.0.0/10, 224.0.0.0/4, fe80::/10, or ff00::/8.
     ///   - resourceConfigurationGroupIdentifier: (CHILD) The ID or ARN of the parent resource configuration of type GROUP. This is used to associate a child resource configuration with a group resource configuration.
-    ///   - resourceGatewayIdentifier: (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration.
+    ///   - resourceGatewayIdentifier: (SINGLE, GROUP, ARN, CIDR) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration. For a CIDR resource configuration, the associated resource gateway must have its DNS resolution set to IN_VPC so that DNS queries resolve in the context of your VPC.
     ///   - tags: The tags for the resource configuration.
-    ///   - type: The type of resource configuration. A resource configuration can be one of the following types:    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.
+    ///   - type: The type of resource configuration. A resource configuration can be one of the following types:    SINGLE - A single resource.    GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.    CHILD - A single resource that is part of a group resource configuration.    ARN - An Amazon Web Services resource.    CIDR - A network segment, expressed as a range of IP addresses (a CIDR block). Use this type to share a portion of your network rather than an individual resource. A consumer accesses the resources within the CIDR range through a Tunnel VPC endpoint. You can't add a CIDR resource configuration to a service network. A CIDR resource configuration must be associated with a resource gateway whose DNS resolution is set to IN_VPC.
     ///   - logger: Logger use during operation
     @inlinable
     public func createResourceConfiguration(
@@ -286,7 +286,7 @@ public struct VPCLattice: AWSService {
     ///   - ipAddressType: A resource gateway can have IPv4, IPv6 or dualstack addresses. The IP address type of a resource gateway must be compatible with the subnets of the resource gateway and the IP address type of the resource, as described here:     IPv4Assign IPv4 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have IPv4 address ranges, and the resource also has an IPv4 address.    IPv6Assign IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets are IPv6 only subnets, and the resource also has an IPv6 address.    DualstackAssign both IPv4 and IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have both IPv4 and IPv6 address ranges, and the resource either has an IPv4 or IPv6 address.   The IP address type of the resource gateway is independent of the IP address type of the client or the VPC endpoint through which the resource is accessed.
     ///   - ipv4AddressesPerEni: The number of IPv4 addresses in each ENI for the resource gateway.
     ///   - name: The name of the resource gateway.
-    ///   - resourceConfigDnsResolution: Indicates how DNS is resolved for resource configurations associated to this resource gateway. ResourceConfigDnsResolution is set at creation time and cannot be changed.    IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC.    PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable.
+    ///   - resourceConfigDnsResolution: Indicates how DNS is resolved for resource configurations associated with this resource gateway. This value is set when you create the resource gateway and can't be changed afterward. The default is PUBLIC.    IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC. A CIDR resource configuration requires a resource gateway that uses IN_VPC, and an IN_VPC resource gateway can't be used for ARN resource configurations, so a single resource gateway can't serve both ARN and CIDR resource configurations.    PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable.
     ///   - securityGroupIds: The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
     ///   - subnetIds: The IDs of the VPC subnets in which to create the resource gateway.
     ///   - tags: The tags for the resource gateway.
@@ -2555,16 +2555,22 @@ public struct VPCLattice: AWSService {
     /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
     ///
     /// Parameters:
+    ///   - dnsOptions:  DNS options for the service network VPC association.
+    ///   - privateDnsEnabled:  Indicates if private DNS is enabled for the VPC association.
     ///   - securityGroupIds: The IDs of the security groups.
     ///   - serviceNetworkVpcAssociationIdentifier: The ID or ARN of the association.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateServiceNetworkVpcAssociation(
-        securityGroupIds: [String],
+        dnsOptions: DnsOptions? = nil,
+        privateDnsEnabled: Bool? = nil,
+        securityGroupIds: [String]? = nil,
         serviceNetworkVpcAssociationIdentifier: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateServiceNetworkVpcAssociationResponse {
         let input = UpdateServiceNetworkVpcAssociationRequest(
+            dnsOptions: dnsOptions, 
+            privateDnsEnabled: privateDnsEnabled, 
             securityGroupIds: securityGroupIds, 
             serviceNetworkVpcAssociationIdentifier: serviceNetworkVpcAssociationIdentifier
         )

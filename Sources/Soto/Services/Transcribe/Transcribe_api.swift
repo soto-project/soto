@@ -189,6 +189,7 @@ public struct Transcribe: AWSService {
     ///
     /// Parameters:
     ///   - baseModelName: The Amazon Transcribe standard language model, or base model, used to create your custom language model. Amazon Transcribe offers two options for base models: Wideband and Narrowband. If the audio you want to transcribe has a sample rate of 16,000 Hz or greater, choose WideBand. To transcribe audio with a sample rate less than 16,000 Hz, choose NarrowBand.
+    ///   - encryptionConfiguration: Specifies the encryption configuration for your custom language model. Your model artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
     ///   - inputDataConfig: Contains the Amazon S3 location of the training data you want to use to create a new custom language model, and permissions to access this location. When using InputDataConfig, you must include these sub-parameters: S3Uri, which is the Amazon S3 location of your training data, and DataAccessRoleArn, which is the Amazon Resource Name (ARN) of the role that has permission to access your specified Amazon S3 location. You can optionally include TuningDataS3Uri, which is the Amazon S3 location of your tuning data. If you specify different Amazon S3 locations for training and tuning data, the ARN you use must have permissions to access both locations.
     ///   - languageCode: The language code that represents the language of your model. Each custom language model must contain terms in only one language, and the language you select for your custom language model must match the language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the Supported languages table. Note that US English (en-US) is the  only language supported with Amazon Transcribe Medical. A custom language model can only be used to transcribe files in the same language as the model. For example, if you create a custom language model using US English (en-US), you can only apply this model to files that contain English audio.
     ///   - modelName: A unique name, chosen by you, for your custom language model. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new custom language model with the same name as an existing custom language model, you get a ConflictException error.
@@ -197,6 +198,7 @@ public struct Transcribe: AWSService {
     @inlinable
     public func createLanguageModel(
         baseModelName: BaseModelName,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         inputDataConfig: InputDataConfig,
         languageCode: CLMLanguageCode,
         modelName: String,
@@ -205,6 +207,7 @@ public struct Transcribe: AWSService {
     ) async throws -> CreateLanguageModelResponse {
         let input = CreateLanguageModelRequest(
             baseModelName: baseModelName, 
+            encryptionConfiguration: encryptionConfiguration, 
             inputDataConfig: inputDataConfig, 
             languageCode: languageCode, 
             modelName: modelName, 
@@ -267,7 +270,8 @@ public struct Transcribe: AWSService {
     /// Creates a new custom vocabulary. When creating a new custom vocabulary, you can either upload a text file that contains your new entries, phrases, and terms into an Amazon S3 bucket and include the URI in your request. Or you can include a list of terms directly in your request using the Phrases flag. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language. For more information, see Custom vocabularies.
     ///
     /// Parameters:
-    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+    ///   - encryptionConfiguration: Specifies the encryption configuration for your custom vocabulary. Your vocabulary artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
     ///   - languageCode: The language code that represents the language of the entries in your custom vocabulary. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table.
     ///   - phrases: Use this parameter if you want to create your custom vocabulary by including all desired terms, as comma-separated values, within your request. The other option for creating your custom vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri parameter. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language.
     ///   - tags: Adds one or more custom tags, each in the form of a key:value pair, to a new custom vocabulary at the time you create this new custom vocabulary. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
@@ -277,6 +281,7 @@ public struct Transcribe: AWSService {
     @inlinable
     public func createVocabulary(
         dataAccessRoleArn: String? = nil,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         languageCode: LanguageCode,
         phrases: [String]? = nil,
         tags: [Tag]? = nil,
@@ -286,6 +291,7 @@ public struct Transcribe: AWSService {
     ) async throws -> CreateVocabularyResponse {
         let input = CreateVocabularyRequest(
             dataAccessRoleArn: dataAccessRoleArn, 
+            encryptionConfiguration: encryptionConfiguration, 
             languageCode: languageCode, 
             phrases: phrases, 
             tags: tags, 
@@ -311,7 +317,8 @@ public struct Transcribe: AWSService {
     /// Creates a new custom vocabulary filter. You can use custom vocabulary filters to mask, delete, or flag specific words from your transcript. Custom vocabulary filters are commonly used to mask profanity in transcripts. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language. For more information, see Vocabulary filtering.
     ///
     /// Parameters:
-    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+    ///   - encryptionConfiguration: Specifies the encryption configuration for your custom vocabulary filter. Your vocabulary filter artifacts are encrypted with the specified KMS key or with an AWS-owned key if a key is not supplied.
     ///   - languageCode: The language code that represents the language of the entries in your vocabulary filter. Each custom vocabulary filter must contain terms in only one language. A custom vocabulary filter can only be used to transcribe files in the same language as the filter. For example, if you create a custom vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table.
     ///   - tags: Adds one or more custom tags, each in the form of a key:value pair, to a new custom vocabulary filter at the time you create this new vocabulary filter. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
     ///   - vocabularyFilterFileUri: The Amazon S3 location of the text file that contains your custom vocabulary filter terms. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt  Note that if you include VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the other.
@@ -321,6 +328,7 @@ public struct Transcribe: AWSService {
     @inlinable
     public func createVocabularyFilter(
         dataAccessRoleArn: String? = nil,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         languageCode: LanguageCode,
         tags: [Tag]? = nil,
         vocabularyFilterFileUri: String? = nil,
@@ -330,6 +338,7 @@ public struct Transcribe: AWSService {
     ) async throws -> CreateVocabularyFilterResponse {
         let input = CreateVocabularyFilterRequest(
             dataAccessRoleArn: dataAccessRoleArn, 
+            encryptionConfiguration: encryptionConfiguration, 
             languageCode: languageCode, 
             tags: tags, 
             vocabularyFilterFileUri: vocabularyFilterFileUri, 
@@ -1582,6 +1591,41 @@ public struct Transcribe: AWSService {
         return try await self.updateCallAnalyticsCategory(input, logger: logger)
     }
 
+    /// Updates the encryption configuration for an existing custom language model. You can use this operation to change the KMS key used to encrypt your model artifacts. The model artifacts are re-encrypted in place. No model training is required. Your custom language model must not be in the IN_PROGRESS state when you call this operation. You cannot submit another update while a previous update is in progress. Use  to check the current state of your model. Your custom language model remains available for transcription jobs while the update is being processed.
+    @Sendable
+    @inlinable
+    public func updateLanguageModel(_ input: UpdateLanguageModelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLanguageModelResponse {
+        try await self.client.execute(
+            operation: "UpdateLanguageModel", 
+            path: "/languagemodels/{ModelName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the encryption configuration for an existing custom language model. You can use this operation to change the KMS key used to encrypt your model artifacts. The model artifacts are re-encrypted in place. No model training is required. Your custom language model must not be in the IN_PROGRESS state when you call this operation. You cannot submit another update while a previous update is in progress. Use  to check the current state of your model. Your custom language model remains available for transcription jobs while the update is being processed.
+    ///
+    /// Parameters:
+    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role. If you include EncryptionConfiguration in your request, this role must have permissions to access the specified KMS key. If the role that you specify doesn't have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+    ///   - encryptionConfiguration: Specifies the new encryption configuration for your custom language model. The model artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
+    ///   - modelName: The name of the custom language model you want to update. Model names are case sensitive.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLanguageModel(
+        dataAccessRoleArn: String? = nil,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
+        modelName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLanguageModelResponse {
+        let input = UpdateLanguageModelRequest(
+            dataAccessRoleArn: dataAccessRoleArn, 
+            encryptionConfiguration: encryptionConfiguration, 
+            modelName: modelName
+        )
+        return try await self.updateLanguageModel(input, logger: logger)
+    }
+
     /// Updates an existing custom medical vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
     @Sendable
     @inlinable
@@ -1617,7 +1661,7 @@ public struct Transcribe: AWSService {
         return try await self.updateMedicalVocabulary(input, logger: logger)
     }
 
-    /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
+    /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. Your custom vocabulary must be in a terminal state (READY or FAILED) before you can update it. You must include either Phrases or VocabularyFileUri in your request.
     @Sendable
     @inlinable
     public func updateVocabulary(_ input: UpdateVocabularyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVocabularyResponse {
@@ -1630,10 +1674,11 @@ public struct Transcribe: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
+    /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary. Your custom vocabulary must be in a terminal state (READY or FAILED) before you can update it. You must include either Phrases or VocabularyFileUri in your request.
     ///
     /// Parameters:
-    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+    ///   - encryptionConfiguration: Specifies the new encryption configuration for your custom vocabulary. The vocabulary artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
     ///   - languageCode: The language code that represents the language of the entries in the custom vocabulary you want to update. Each custom vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the custom vocabulary. For example, if you create a custom vocabulary using US English (en-US), you can only apply this custom vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the Supported languages table.
     ///   - phrases: Use this parameter if you want to update your custom vocabulary by including all desired terms, as comma-separated values, within your request. The other option for updating your custom vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFileUri parameter. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language.
     ///   - vocabularyFileUri: The Amazon S3 location of the text file that contains your custom vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt  Note that if you include VocabularyFileUri in your request, you cannot use the Phrases flag; you must choose one or the other.
@@ -1642,6 +1687,7 @@ public struct Transcribe: AWSService {
     @inlinable
     public func updateVocabulary(
         dataAccessRoleArn: String? = nil,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         languageCode: LanguageCode,
         phrases: [String]? = nil,
         vocabularyFileUri: String? = nil,
@@ -1650,6 +1696,7 @@ public struct Transcribe: AWSService {
     ) async throws -> UpdateVocabularyResponse {
         let input = UpdateVocabularyRequest(
             dataAccessRoleArn: dataAccessRoleArn, 
+            encryptionConfiguration: encryptionConfiguration, 
             languageCode: languageCode, 
             phrases: phrases, 
             vocabularyFileUri: vocabularyFileUri, 
@@ -1658,7 +1705,7 @@ public struct Transcribe: AWSService {
         return try await self.updateVocabulary(input, logger: logger)
     }
 
-    /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter.
+    /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter. You must include either Words or VocabularyFilterFileUri in your request.
     @Sendable
     @inlinable
     public func updateVocabularyFilter(_ input: UpdateVocabularyFilterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVocabularyFilterResponse {
@@ -1671,10 +1718,11 @@ public struct Transcribe: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter.
+    /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter. You must include either Words or VocabularyFilterFileUri in your request.
     ///
     /// Parameters:
-    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If the role that you specify doesn’t have the appropriate permissions to access the specified Amazon S3 location, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+    ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files (in this case, your custom vocabulary filter). If you include EncryptionConfiguration in your request, this role must also have permissions to access the specified KMS key. If the role that you specify doesn’t have the appropriate permissions, your request fails. IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+    ///   - encryptionConfiguration: Specifies the new encryption configuration for your custom vocabulary filter. The vocabulary filter artifacts are re-encrypted in place using the specified KMS key or with an AWS-owned key if a key is not supplied.
     ///   - vocabularyFilterFileUri: The Amazon S3 location of the text file that contains your custom vocabulary filter terms. The URI must be located in the same Amazon Web Services Region as the resource you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt  Note that if you include VocabularyFilterFileUri in your request, you cannot use Words; you must choose one or the other.
     ///   - vocabularyFilterName: The name of the custom vocabulary filter you want to update. Custom vocabulary filter names are case sensitive.
     ///   - words: Use this parameter if you want to update your custom vocabulary filter by including all desired terms, as comma-separated values, within your request. The other option for updating your vocabulary filter is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFilterFileUri parameter. Note that if you include Words in your request, you cannot use VocabularyFilterFileUri; you must choose one or the other. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to Character Sets for Custom Vocabularies to get the character set for your language.
@@ -1682,6 +1730,7 @@ public struct Transcribe: AWSService {
     @inlinable
     public func updateVocabularyFilter(
         dataAccessRoleArn: String? = nil,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         vocabularyFilterFileUri: String? = nil,
         vocabularyFilterName: String,
         words: [String]? = nil,
@@ -1689,6 +1738,7 @@ public struct Transcribe: AWSService {
     ) async throws -> UpdateVocabularyFilterResponse {
         let input = UpdateVocabularyFilterRequest(
             dataAccessRoleArn: dataAccessRoleArn, 
+            encryptionConfiguration: encryptionConfiguration, 
             vocabularyFilterFileUri: vocabularyFilterFileUri, 
             vocabularyFilterName: vocabularyFilterName, 
             words: words

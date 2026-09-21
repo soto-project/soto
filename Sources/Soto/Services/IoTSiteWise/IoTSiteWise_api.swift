@@ -5341,6 +5341,7 @@ public struct IoTSiteWise: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     ///   - executionEnvironmentVariableOverrides: Runtime environment variable overrides for the execution. Includes global variables
+    ///   - executionMountOverrides: Runtime mount overrides for the execution. Overrides are merged by mount name into
     ///   - executionPriority: Scheduling priority for the execution. Lower values indicate higher priority. Defaults to 2 when not specified.
     ///   - pipelineName: The name of the pipeline to execute.
     ///   - workspaceName: The name of the workspace containing the pipeline.
@@ -5349,6 +5350,7 @@ public struct IoTSiteWise: AWSService {
     public func startPipelineExecution(
         clientToken: String? = StartPipelineExecutionRequest.idempotencyToken(),
         executionEnvironmentVariableOverrides: ExecutionEnvironmentVariables? = nil,
+        executionMountOverrides: MountOverrides? = nil,
         executionPriority: Int? = nil,
         pipelineName: String,
         workspaceName: String,
@@ -5357,6 +5359,7 @@ public struct IoTSiteWise: AWSService {
         let input = StartPipelineExecutionRequest(
             clientToken: clientToken, 
             executionEnvironmentVariableOverrides: executionEnvironmentVariableOverrides, 
+            executionMountOverrides: executionMountOverrides, 
             executionPriority: executionPriority, 
             pipelineName: pipelineName, 
             workspaceName: workspaceName

@@ -537,6 +537,7 @@ extension Deadline {
     public enum UsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compute = "COMPUTE"
         case license = "LICENSE"
+        case persistentVolume = "PERSISTENT_VOLUME"
         public var description: String { return self.rawValue }
     }
 
@@ -7909,7 +7910,7 @@ extension Deadline {
 
     public struct JobDetailsEntity: AWSDecodableShape {
         /// The job attachment settings.
-        public let jobAttachmentSettings: JobAttachmentSettings?
+        public let jobAttachmentSettings: JobDetailsJobAttachmentSettings?
         /// The job ID.
         public let jobId: String
         /// The user name and group that the job uses when run.
@@ -7926,7 +7927,7 @@ extension Deadline {
         public let schemaVersion: String
 
         @inlinable
-        public init(jobAttachmentSettings: JobAttachmentSettings? = nil, jobId: String, jobRunAsUser: JobRunAsUser? = nil, logGroupName: String, parameters: [String: JobParameter]? = nil, pathMappingRules: [PathMappingRule]? = nil, queueRoleArn: String? = nil, schemaVersion: String) {
+        public init(jobAttachmentSettings: JobDetailsJobAttachmentSettings? = nil, jobId: String, jobRunAsUser: JobRunAsUser? = nil, logGroupName: String, parameters: [String: JobParameter]? = nil, pathMappingRules: [PathMappingRule]? = nil, queueRoleArn: String? = nil, schemaVersion: String) {
             self.jobAttachmentSettings = jobAttachmentSettings
             self.jobId = jobId
             self.jobRunAsUser = jobRunAsUser
@@ -7986,6 +7987,24 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case jobId = "jobId"
+        }
+    }
+
+    public struct JobDetailsJobAttachmentSettings: AWSDecodableShape {
+        /// The root prefix.
+        public let rootPrefix: String
+        /// The Amazon S3 bucket name.
+        public let s3BucketName: String
+
+        @inlinable
+        public init(rootPrefix: String, s3BucketName: String) {
+            self.rootPrefix = rootPrefix
+            self.s3BucketName = s3BucketName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rootPrefix = "rootPrefix"
+            case s3BucketName = "s3BucketName"
         }
     }
 

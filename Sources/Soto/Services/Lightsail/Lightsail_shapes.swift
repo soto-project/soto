@@ -479,6 +479,7 @@ extension Lightsail {
         case databaseConnections = "DatabaseConnections"
         case diskQueueDepth = "DiskQueueDepth"
         case freeStorageSpace = "FreeStorageSpace"
+        case freeableMemory = "FreeableMemory"
         case healthyHostCount = "HealthyHostCount"
         case httpCodeInstance2XXCount = "HTTPCode_Instance_2XX_Count"
         case httpCodeInstance3XXCount = "HTTPCode_Instance_3XX_Count"
@@ -496,6 +497,7 @@ extension Lightsail {
         case statusCheckFailed = "StatusCheckFailed"
         case statusCheckFailedInstance = "StatusCheckFailed_Instance"
         case statusCheckFailedSystem = "StatusCheckFailed_System"
+        case swapUsage = "SwapUsage"
         case unhealthyHostCount = "UnhealthyHostCount"
         public var description: String { return self.rawValue }
     }
@@ -621,6 +623,7 @@ extension Lightsail {
         case enableAddOn = "EnableAddOn"
         case getAlarms = "GetAlarms"
         case getContactMethods = "GetContactMethods"
+        case getProfile = "GetProfile"
         case openInstancePublicPorts = "OpenInstancePublicPorts"
         case putAlarm = "PutAlarm"
         case putInstancePublicPorts = "PutInstancePublicPorts"
@@ -666,6 +669,12 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum PartnerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PortAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "Private"
         case `public` = "Public"
@@ -692,6 +701,12 @@ extension Lightsail {
         case gbMo = "GB-Mo"
         case hrs = "Hrs"
         case queries = "Queries"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lightsailPartner = "LightsailPartner"
+        case lightsailor = "Lightsailor"
         public var description: String { return self.rawValue }
     }
 
@@ -744,8 +759,10 @@ extension Lightsail {
         case databaseConnections = "DatabaseConnections"
         case diskQueueDepth = "DiskQueueDepth"
         case freeStorageSpace = "FreeStorageSpace"
+        case freeableMemory = "FreeableMemory"
         case networkReceiveThroughput = "NetworkReceiveThroughput"
         case networkTransmitThroughput = "NetworkTransmitThroughput"
+        case swapUsage = "SwapUsage"
         public var description: String { return self.rawValue }
     }
 
@@ -818,6 +835,14 @@ extension Lightsail {
     public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TierName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accelerate = "Accelerate"
+        case essential = "Essential"
+        case growth = "Growth"
+        case premier = "Premier"
         public var description: String { return self.rawValue }
     }
 
@@ -3136,10 +3161,16 @@ extension Lightsail {
         public let cacheBehaviorSettings: CacheSettings?
         /// The name of the SSL/TLS certificate that you want to attach to the distribution. Use the GetCertificates action to get a list of certificate names that you can specify.
         public let certificateName: String?
+        /// An array of objects that describe the custom error responses for the distribution. With a custom error response, you can specify the page to return when the origin responds with a given HTTP error code. You can also specify the HTTP status code to send to the viewer.
+        public let customErrorResponses: [DistributionCustomErrorResponse]?
         /// An object that describes the default cache behavior for the distribution.
         public let defaultCacheBehavior: CacheBehavior
+        /// The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object. The object that you specify must be available from the origin.
+        public let defaultRootObject: String?
         /// The name for the distribution.
         public let distributionName: String
+        /// Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint.  You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
+        public let enablePrivateOriginAccess: Bool?
         /// The IP address type for the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
         public let ipAddressType: IpAddressType?
         /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
@@ -3150,13 +3181,16 @@ extension Lightsail {
         public let viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum?
 
         @inlinable
-        public init(bundleId: String, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, defaultCacheBehavior: CacheBehavior, distributionName: String, ipAddressType: IpAddressType? = nil, origin: InputOrigin, tags: [Tag]? = nil, viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum? = nil) {
+        public init(bundleId: String, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, customErrorResponses: [DistributionCustomErrorResponse]? = nil, defaultCacheBehavior: CacheBehavior, defaultRootObject: String? = nil, distributionName: String, enablePrivateOriginAccess: Bool? = nil, ipAddressType: IpAddressType? = nil, origin: InputOrigin, tags: [Tag]? = nil, viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum? = nil) {
             self.bundleId = bundleId
             self.cacheBehaviors = cacheBehaviors
             self.cacheBehaviorSettings = cacheBehaviorSettings
             self.certificateName = certificateName
+            self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
+            self.defaultRootObject = defaultRootObject
             self.distributionName = distributionName
+            self.enablePrivateOriginAccess = enablePrivateOriginAccess
             self.ipAddressType = ipAddressType
             self.origin = origin
             self.tags = tags
@@ -3175,8 +3209,11 @@ extension Lightsail {
             case cacheBehaviors = "cacheBehaviors"
             case cacheBehaviorSettings = "cacheBehaviorSettings"
             case certificateName = "certificateName"
+            case customErrorResponses = "customErrorResponses"
             case defaultCacheBehavior = "defaultCacheBehavior"
+            case defaultRootObject = "defaultRootObject"
             case distributionName = "distributionName"
+            case enablePrivateOriginAccess = "enablePrivateOriginAccess"
             case ipAddressType = "ipAddressType"
             case origin = "origin"
             case tags = "tags"
@@ -5045,6 +5082,32 @@ extension Lightsail {
             case name = "name"
             case price = "price"
             case transferPerMonthInGb = "transferPerMonthInGb"
+        }
+    }
+
+    public struct DistributionCustomErrorResponse: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum time, in seconds, that the distribution caches the custom error response before requesting the object again from the origin. If you don't specify a value, the default is 10 seconds.
+        public let errorCachingMinTTL: Int64?
+        /// The HTTP error code from the origin that triggers the custom error response (for example, 403 or 404).
+        public let errorCode: Int?
+        /// The HTTP status code that the distribution returns to the viewer for the custom error response.
+        public let responseCode: String?
+        /// The path to the custom error page that the distribution returns to the viewer (for example, /404.html). The path must begin with a forward slash (/) and reference an object that is available from the origin.
+        public let responsePagePath: String?
+
+        @inlinable
+        public init(errorCachingMinTTL: Int64? = nil, errorCode: Int? = nil, responseCode: String? = nil, responsePagePath: String? = nil) {
+            self.errorCachingMinTTL = errorCachingMinTTL
+            self.errorCode = errorCode
+            self.responseCode = responseCode
+            self.responsePagePath = responsePagePath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCachingMinTTL = "errorCachingMinTTL"
+            case errorCode = "errorCode"
+            case responseCode = "responseCode"
+            case responsePagePath = "responsePagePath"
         }
     }
 
@@ -7249,6 +7312,28 @@ extension Lightsail {
         }
     }
 
+    public struct GetProfileRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetProfileResult: AWSDecodableShape {
+        /// An object that describes the partner membership of the account, such as the tier of the membership, its status, and when the account was enrolled. This parameter is returned only for accounts that have a profileType of LightsailPartner.
+        public let partner: PartnerInfo?
+        /// The type of the profile. The following profile types are possible:    Lightsailor – The account is not enrolled in the Lightsail partner program.    LightsailPartner – The account is enrolled in the Lightsail partner program.
+        public let profileType: ProfileType
+
+        @inlinable
+        public init(partner: PartnerInfo? = nil, profileType: ProfileType) {
+            self.partner = partner
+            self.profileType = profileType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partner = "partner"
+            case profileType = "profileType"
+        }
+    }
+
     public struct GetRegionsRequest: AWSEncodableShape {
         /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: us-east-2a.
         public let includeAvailabilityZones: Bool?
@@ -8568,8 +8653,12 @@ extension Lightsail {
         public let certificateName: String?
         /// The timestamp when the distribution was created.
         public let createdAt: Date?
+        /// An array of objects that describe the custom error responses configured for the distribution.
+        public let customErrorResponses: [DistributionCustomErrorResponse]?
         /// An object that describes the default cache behavior of the distribution.
         public let defaultCacheBehavior: CacheBehavior?
+        /// The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object.
+        public let defaultRootObject: String?
         /// The domain name of the distribution.
         public let domainName: String?
         /// The IP address type of the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
@@ -8596,7 +8685,7 @@ extension Lightsail {
         public let viewerMinimumTlsProtocolVersion: String?
 
         @inlinable
-        public init(ableToUpdateBundle: Bool? = nil, alternativeDomainNames: [String]? = nil, arn: String? = nil, bundleId: String? = nil, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, createdAt: Date? = nil, defaultCacheBehavior: CacheBehavior? = nil, domainName: String? = nil, ipAddressType: IpAddressType? = nil, isEnabled: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, origin: Origin? = nil, originPublicDNS: String? = nil, resourceType: ResourceType? = nil, status: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil, viewerMinimumTlsProtocolVersion: String? = nil) {
+        public init(ableToUpdateBundle: Bool? = nil, alternativeDomainNames: [String]? = nil, arn: String? = nil, bundleId: String? = nil, cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, createdAt: Date? = nil, customErrorResponses: [DistributionCustomErrorResponse]? = nil, defaultCacheBehavior: CacheBehavior? = nil, defaultRootObject: String? = nil, domainName: String? = nil, ipAddressType: IpAddressType? = nil, isEnabled: Bool? = nil, location: ResourceLocation? = nil, name: String? = nil, origin: Origin? = nil, originPublicDNS: String? = nil, resourceType: ResourceType? = nil, status: String? = nil, supportCode: String? = nil, tags: [Tag]? = nil, viewerMinimumTlsProtocolVersion: String? = nil) {
             self.ableToUpdateBundle = ableToUpdateBundle
             self.alternativeDomainNames = alternativeDomainNames
             self.arn = arn
@@ -8605,7 +8694,9 @@ extension Lightsail {
             self.cacheBehaviorSettings = cacheBehaviorSettings
             self.certificateName = certificateName
             self.createdAt = createdAt
+            self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
+            self.defaultRootObject = defaultRootObject
             self.domainName = domainName
             self.ipAddressType = ipAddressType
             self.isEnabled = isEnabled
@@ -8629,7 +8720,9 @@ extension Lightsail {
             case cacheBehaviorSettings = "cacheBehaviorSettings"
             case certificateName = "certificateName"
             case createdAt = "createdAt"
+            case customErrorResponses = "customErrorResponses"
             case defaultCacheBehavior = "defaultCacheBehavior"
+            case defaultRootObject = "defaultRootObject"
             case domainName = "domainName"
             case ipAddressType = "ipAddressType"
             case isEnabled = "isEnabled"
@@ -9229,6 +9322,8 @@ extension Lightsail {
     public struct Origin: AWSDecodableShape {
         /// The IP address type that the distribution uses when connecting to the origin. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
         public let ipAddressType: OriginIpAddressTypeEnum?
+        /// Specifies whether private origin access is enabled for the distribution's origin. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. This applies when you set the bucket's getObject access rule to private. It also applies when you set getObject to public but set individual objects to private.
+        public let isPrivateOriginAccessEnabled: Bool?
         /// The name of the origin resource.
         public let name: String?
         /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
@@ -9241,8 +9336,9 @@ extension Lightsail {
         public let responseTimeout: Int?
 
         @inlinable
-        public init(ipAddressType: OriginIpAddressTypeEnum? = nil, name: String? = nil, protocolPolicy: OriginProtocolPolicyEnum? = nil, regionName: RegionName? = nil, resourceType: ResourceType? = nil, responseTimeout: Int? = nil) {
+        public init(ipAddressType: OriginIpAddressTypeEnum? = nil, isPrivateOriginAccessEnabled: Bool? = nil, name: String? = nil, protocolPolicy: OriginProtocolPolicyEnum? = nil, regionName: RegionName? = nil, resourceType: ResourceType? = nil, responseTimeout: Int? = nil) {
             self.ipAddressType = ipAddressType
+            self.isPrivateOriginAccessEnabled = isPrivateOriginAccessEnabled
             self.name = name
             self.protocolPolicy = protocolPolicy
             self.regionName = regionName
@@ -9252,11 +9348,34 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case ipAddressType = "ipAddressType"
+            case isPrivateOriginAccessEnabled = "isPrivateOriginAccessEnabled"
             case name = "name"
             case protocolPolicy = "protocolPolicy"
             case regionName = "regionName"
             case resourceType = "resourceType"
             case responseTimeout = "responseTimeout"
+        }
+    }
+
+    public struct PartnerInfo: AWSDecodableShape {
+        /// The timestamp when the account was enrolled in the Lightsail partner program.
+        public let enrolledAt: Date
+        /// The status of the partner membership. The following statuses are possible:    Active – The membership is active, and the benefits of the current tier are available to the account.    Suspended – The membership is suspended, and the benefits of the tier are not available to the account.
+        public let status: PartnerStatus
+        /// The tier of the partner membership.
+        public let tierName: TierName?
+
+        @inlinable
+        public init(enrolledAt: Date, status: PartnerStatus, tierName: TierName? = nil) {
+            self.enrolledAt = enrolledAt
+            self.status = status
+            self.tierName = tierName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enrolledAt = "enrolledAt"
+            case status = "status"
+            case tierName = "tierName"
         }
     }
 
@@ -11319,10 +11438,16 @@ extension Lightsail {
         public let cacheBehaviorSettings: CacheSettings?
         /// The name of the SSL/TLS certificate that you want to attach to the distribution. Only certificates with a status of ISSUED can be attached to a distribution. Use the GetCertificates action to get a list of certificate names that you can specify.
         public let certificateName: String?
+        /// An array of objects that describe the custom error responses for the distribution. With a custom error response, you can specify the page to return when the origin responds with a given HTTP error code. You can also specify the HTTP status code to send to the viewer.
+        public let customErrorResponses: [DistributionCustomErrorResponse]?
         /// An object that describes the default cache behavior for the distribution.
         public let defaultCacheBehavior: CacheBehavior?
+        /// The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object. The object that you specify must be available from the origin.
+        public let defaultRootObject: String?
         /// The name of the distribution to update. Use the GetDistributions action to get a list of distribution names that you can specify.
         public let distributionName: String
+        /// Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint.  When you include this parameter, you must also include the origin parameter with the resource name, even if the origin is not changing. You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
+        public let enablePrivateOriginAccess: Bool?
         /// Indicates whether to enable the distribution.
         public let isEnabled: Bool?
         /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
@@ -11333,12 +11458,15 @@ extension Lightsail {
         public let viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum?
 
         @inlinable
-        public init(cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, defaultCacheBehavior: CacheBehavior? = nil, distributionName: String, isEnabled: Bool? = nil, origin: InputOrigin? = nil, useDefaultCertificate: Bool? = nil, viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum? = nil) {
+        public init(cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, certificateName: String? = nil, customErrorResponses: [DistributionCustomErrorResponse]? = nil, defaultCacheBehavior: CacheBehavior? = nil, defaultRootObject: String? = nil, distributionName: String, enablePrivateOriginAccess: Bool? = nil, isEnabled: Bool? = nil, origin: InputOrigin? = nil, useDefaultCertificate: Bool? = nil, viewerMinimumTlsProtocolVersion: ViewerMinimumTlsProtocolVersionEnum? = nil) {
             self.cacheBehaviors = cacheBehaviors
             self.cacheBehaviorSettings = cacheBehaviorSettings
             self.certificateName = certificateName
+            self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
+            self.defaultRootObject = defaultRootObject
             self.distributionName = distributionName
+            self.enablePrivateOriginAccess = enablePrivateOriginAccess
             self.isEnabled = isEnabled
             self.origin = origin
             self.useDefaultCertificate = useDefaultCertificate
@@ -11356,8 +11484,11 @@ extension Lightsail {
             case cacheBehaviors = "cacheBehaviors"
             case cacheBehaviorSettings = "cacheBehaviorSettings"
             case certificateName = "certificateName"
+            case customErrorResponses = "customErrorResponses"
             case defaultCacheBehavior = "defaultCacheBehavior"
+            case defaultRootObject = "defaultRootObject"
             case distributionName = "distributionName"
+            case enablePrivateOriginAccess = "enablePrivateOriginAccess"
             case isEnabled = "isEnabled"
             case origin = "origin"
             case useDefaultCertificate = "useDefaultCertificate"

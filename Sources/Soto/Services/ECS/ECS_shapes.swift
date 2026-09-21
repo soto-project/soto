@@ -389,6 +389,12 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExpressCpuArchitecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case arm64 = "ARM64"
+        case x8664 = "X86_64"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExpressGatewayServiceInclude: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tags = "TAGS"
         public var description: String { return self.rawValue }
@@ -437,6 +443,7 @@ extension ECS {
 
     public enum InstanceHealthCheckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case acceleratedCompute = "ACCELERATED_COMPUTE"
+        case agentConnectivity = "AGENT_CONNECTIVITY"
         case containerRuntime = "CONTAINER_RUNTIME"
         case daemon = "DAEMON"
         public var description: String { return self.rawValue }
@@ -667,6 +674,12 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceRevisionCleanup: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocking = "BLOCKING"
+        case deferred = "DEFERRED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SettingName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsvpcTrunking = "awsvpcTrunking"
         case containerInsights = "containerInsights"
@@ -755,6 +768,7 @@ extension ECS {
 
     public enum TaskStopCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case essentialContainerExited = "EssentialContainerExited"
+        case infrastructureHealth = "InfrastructureHealth"
         case serviceSchedulerInitiated = "ServiceSchedulerInitiated"
         case spotInterruption = "SpotInterruption"
         case taskFailedToStart = "TaskFailedToStart"
@@ -1979,6 +1993,8 @@ extension ECS {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the cluster to create the daemon in.
         public let clusterArn: String?
+        /// If the critical parameter of a daemon is true, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false, the daemon task failure doesn't affect the other tasks on the instance. The default value is true. A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
+        public let critical: Bool?
         /// The name of the daemon. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
         public let daemonName: String
         /// The Amazon Resource Name (ARN) of the daemon task definition to use for the daemon.
@@ -1995,10 +2011,11 @@ extension ECS {
         public let tags: [Tag]?
 
         @inlinable
-        public init(capacityProviderArns: [String], clientToken: String? = nil, clusterArn: String? = nil, daemonName: String, daemonTaskDefinitionArn: String, deploymentConfiguration: DaemonDeploymentConfiguration? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, propagateTags: DaemonPropagateTags? = nil, tags: [Tag]? = nil) {
+        public init(capacityProviderArns: [String], clientToken: String? = nil, clusterArn: String? = nil, critical: Bool? = nil, daemonName: String, daemonTaskDefinitionArn: String, deploymentConfiguration: DaemonDeploymentConfiguration? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, propagateTags: DaemonPropagateTags? = nil, tags: [Tag]? = nil) {
             self.capacityProviderArns = capacityProviderArns
             self.clientToken = clientToken
             self.clusterArn = clusterArn
+            self.critical = critical
             self.daemonName = daemonName
             self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
             self.deploymentConfiguration = deploymentConfiguration
@@ -2020,6 +2037,7 @@ extension ECS {
             case capacityProviderArns = "capacityProviderArns"
             case clientToken = "clientToken"
             case clusterArn = "clusterArn"
+            case critical = "critical"
             case daemonName = "daemonName"
             case daemonTaskDefinitionArn = "daemonTaskDefinitionArn"
             case deploymentConfiguration = "deploymentConfiguration"
@@ -2061,6 +2079,8 @@ extension ECS {
         public let cluster: String?
         /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
         public let cpu: String?
+        /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the default is X86_64. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Make sure that the container image that you specify supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+        public let cpuArchitecture: ExpressCpuArchitecture?
         /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
         public let executionRoleArn: String?
         /// The path on the container that the Application Load Balancer uses for health checks. This should be a valid HTTP endpoint that returns a successful response (HTTP 200) when the application is healthy. If not specified, the default health check path is /ping. The health check path must start with a forward slash and can include query parameters. Examples: /health, /api/status, /ping?format=json.
@@ -2079,15 +2099,16 @@ extension ECS {
         public let serviceName: String?
         /// The metadata that you apply to the Express service to help categorize and organize it. Each tag consists of a key and an optional value. You can apply up to 50 tags to a service.
         public let tags: [Tag]?
-        /// The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
+        /// The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, memory, or cpuArchitecture.
         public let taskDefinitionArn: String?
         /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. This role allows your application code to access other Amazon Web Services services securely. The task role is different from the execution role. While the execution role is used by the Amazon ECS agent to set up the task, the task role is used by your application code running inside the container to make Amazon Web Services API calls. If your application doesn't need to access Amazon Web Services services, you can omit this parameter.
         public let taskRoleArn: String?
 
         @inlinable
-        public init(cluster: String? = nil, cpu: String? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, infrastructureRoleArn: String, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceName: String? = nil, tags: [Tag]? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil) {
+        public init(cluster: String? = nil, cpu: String? = nil, cpuArchitecture: ExpressCpuArchitecture? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, infrastructureRoleArn: String, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceName: String? = nil, tags: [Tag]? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil) {
             self.cluster = cluster
             self.cpu = cpu
+            self.cpuArchitecture = cpuArchitecture
             self.executionRoleArn = executionRoleArn
             self.healthCheckPath = healthCheckPath
             self.infrastructureRoleArn = infrastructureRoleArn
@@ -2111,6 +2132,7 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
             case cpu = "cpu"
+            case cpuArchitecture = "cpuArchitecture"
             case executionRoleArn = "executionRoleArn"
             case healthCheckPath = "healthCheckPath"
             case infrastructureRoleArn = "infrastructureRoleArn"
@@ -2448,16 +2470,20 @@ extension ECS {
         public let arn: String?
         /// The number of daemon tasks running on this capacity provider.
         public let runningCount: Int?
+        /// The number of instances on this capacity provider that are running without the daemon task. This applies to daemons that aren't critical, where the instance remains available for your other tasks even if the daemon task can't start or stops. These instances aren't included in runningCount.
+        public let withoutDaemonCount: Int?
 
         @inlinable
-        public init(arn: String? = nil, runningCount: Int? = nil) {
+        public init(arn: String? = nil, runningCount: Int? = nil, withoutDaemonCount: Int? = nil) {
             self.arn = arn
             self.runningCount = runningCount
+            self.withoutDaemonCount = withoutDaemonCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case runningCount = "runningCount"
+            case withoutDaemonCount = "withoutDaemonCount"
         }
     }
 
@@ -2726,18 +2752,22 @@ extension ECS {
         public let drainingInstanceCount: Int?
         /// The number of instances running daemon tasks on this capacity provider.
         public let runningInstanceCount: Int?
+        /// The number of instances on this capacity provider that are running without the daemon task. This applies to daemons that aren't critical, where the instance remains available for your other tasks even if the daemon task can't start or stops. These instances aren't included in runningInstanceCount.
+        public let withoutDaemonInstanceCount: Int?
 
         @inlinable
-        public init(arn: String? = nil, drainingInstanceCount: Int? = nil, runningInstanceCount: Int? = nil) {
+        public init(arn: String? = nil, drainingInstanceCount: Int? = nil, runningInstanceCount: Int? = nil, withoutDaemonInstanceCount: Int? = nil) {
             self.arn = arn
             self.drainingInstanceCount = drainingInstanceCount
             self.runningInstanceCount = runningInstanceCount
+            self.withoutDaemonInstanceCount = withoutDaemonInstanceCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case drainingInstanceCount = "drainingInstanceCount"
             case runningInstanceCount = "runningInstanceCount"
+            case withoutDaemonInstanceCount = "withoutDaemonInstanceCount"
         }
     }
 
@@ -2777,13 +2807,16 @@ extension ECS {
         public let totalDrainingInstanceCount: Int?
         /// The total number of instances running daemon tasks for this revision.
         public let totalRunningInstanceCount: Int?
+        /// The total number of instances running without the daemon task for this revision, across all capacity providers. These instances aren't included in totalRunningInstanceCount.
+        public let totalWithoutDaemonInstanceCount: Int?
 
         @inlinable
-        public init(arn: String? = nil, capacityProviders: [DaemonDeploymentCapacityProvider]? = nil, totalDrainingInstanceCount: Int? = nil, totalRunningInstanceCount: Int? = nil) {
+        public init(arn: String? = nil, capacityProviders: [DaemonDeploymentCapacityProvider]? = nil, totalDrainingInstanceCount: Int? = nil, totalRunningInstanceCount: Int? = nil, totalWithoutDaemonInstanceCount: Int? = nil) {
             self.arn = arn
             self.capacityProviders = capacityProviders
             self.totalDrainingInstanceCount = totalDrainingInstanceCount
             self.totalRunningInstanceCount = totalRunningInstanceCount
+            self.totalWithoutDaemonInstanceCount = totalWithoutDaemonInstanceCount
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2791,6 +2824,7 @@ extension ECS {
             case capacityProviders = "capacityProviders"
             case totalDrainingInstanceCount = "totalDrainingInstanceCount"
             case totalRunningInstanceCount = "totalRunningInstanceCount"
+            case totalWithoutDaemonInstanceCount = "totalWithoutDaemonInstanceCount"
         }
     }
 
@@ -2915,6 +2949,8 @@ extension ECS {
         public let containerImages: [DaemonContainerImage]?
         /// The Unix timestamp for the time when the daemon revision was created.
         public let createdAt: Date?
+        /// If the critical parameter of this daemon revision is true, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the parameter is false, the daemon task failure doesn't affect the other tasks on the instance, and doesn't block instance registration. The default value is true.
+        public let critical: Bool?
         /// The Amazon Resource Name (ARN) of the daemon for this revision.
         public let daemonArn: String?
         /// The Amazon Resource Name (ARN) of the daemon revision.
@@ -2929,10 +2965,11 @@ extension ECS {
         public let propagateTags: DaemonPropagateTags?
 
         @inlinable
-        public init(clusterArn: String? = nil, containerImages: [DaemonContainerImage]? = nil, createdAt: Date? = nil, daemonArn: String? = nil, daemonRevisionArn: String? = nil, daemonTaskDefinitionArn: String? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, propagateTags: DaemonPropagateTags? = nil) {
+        public init(clusterArn: String? = nil, containerImages: [DaemonContainerImage]? = nil, createdAt: Date? = nil, critical: Bool? = nil, daemonArn: String? = nil, daemonRevisionArn: String? = nil, daemonTaskDefinitionArn: String? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, propagateTags: DaemonPropagateTags? = nil) {
             self.clusterArn = clusterArn
             self.containerImages = containerImages
             self.createdAt = createdAt
+            self.critical = critical
             self.daemonArn = daemonArn
             self.daemonRevisionArn = daemonRevisionArn
             self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
@@ -2945,6 +2982,7 @@ extension ECS {
             case clusterArn = "clusterArn"
             case containerImages = "containerImages"
             case createdAt = "createdAt"
+            case critical = "critical"
             case daemonArn = "daemonArn"
             case daemonRevisionArn = "daemonRevisionArn"
             case daemonTaskDefinitionArn = "daemonTaskDefinitionArn"
@@ -2961,18 +2999,22 @@ extension ECS {
         public let capacityProviders: [DaemonCapacityProvider]?
         /// The total number of daemon tasks running for this revision.
         public let totalRunningCount: Int?
+        /// The total number of instances running without the daemon task for this revision, across all capacity providers. These instances aren't included in totalRunningCount.
+        public let totalWithoutDaemonCount: Int?
 
         @inlinable
-        public init(arn: String? = nil, capacityProviders: [DaemonCapacityProvider]? = nil, totalRunningCount: Int? = nil) {
+        public init(arn: String? = nil, capacityProviders: [DaemonCapacityProvider]? = nil, totalRunningCount: Int? = nil, totalWithoutDaemonCount: Int? = nil) {
             self.arn = arn
             self.capacityProviders = capacityProviders
             self.totalRunningCount = totalRunningCount
+            self.totalWithoutDaemonCount = totalWithoutDaemonCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case capacityProviders = "capacityProviders"
             case totalRunningCount = "totalRunningCount"
+            case totalWithoutDaemonCount = "totalWithoutDaemonCount"
         }
     }
 
@@ -3629,6 +3671,8 @@ extension ECS {
         public let canaryConfiguration: CanaryConfiguration?
         ///  The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type.  The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If you use the deployment circuit breaker, a service deployment will transition to a failed state and stop launching new tasks. If you use the rollback option, when a service deployment fails, the service is rolled back to the last deployment that completed successfully. For more information, see Rolling update in the Amazon Elastic Container Service Developer Guide
         public let deploymentCircuitBreaker: DeploymentCircuitBreaker?
+        /// The early success criteria configuration for a rolling deployment. With early success criteria, you can configure an Amazon ECS deployment to complete faster. Amazon ECS declares a deployment successful once a target percentage of tasks are healthy, instead of waiting for the service to fully stabilize.
+        public let earlySuccessCriteria: DeploymentEarlySuccessCriteria?
         /// An array of deployment lifecycle hook objects to run custom logic or pause the deployment at specific stages of the deployment lifecycle.
         public let lifecycleHooks: [DeploymentLifecycleHook]?
         /// Configuration for linear deployment strategy. Only valid when the deployment strategy is LINEAR. This configuration enables progressive traffic shifting in equal percentage increments with configurable bake times between each step.
@@ -3641,11 +3685,12 @@ extension ECS {
         public let strategy: DeploymentStrategy?
 
         @inlinable
-        public init(alarms: DeploymentAlarms? = nil, bakeTimeInMinutes: Int? = nil, canaryConfiguration: CanaryConfiguration? = nil, deploymentCircuitBreaker: DeploymentCircuitBreaker? = nil, lifecycleHooks: [DeploymentLifecycleHook]? = nil, linearConfiguration: LinearConfiguration? = nil, maximumPercent: Int? = nil, minimumHealthyPercent: Int? = nil, strategy: DeploymentStrategy? = nil) {
+        public init(alarms: DeploymentAlarms? = nil, bakeTimeInMinutes: Int? = nil, canaryConfiguration: CanaryConfiguration? = nil, deploymentCircuitBreaker: DeploymentCircuitBreaker? = nil, earlySuccessCriteria: DeploymentEarlySuccessCriteria? = nil, lifecycleHooks: [DeploymentLifecycleHook]? = nil, linearConfiguration: LinearConfiguration? = nil, maximumPercent: Int? = nil, minimumHealthyPercent: Int? = nil, strategy: DeploymentStrategy? = nil) {
             self.alarms = alarms
             self.bakeTimeInMinutes = bakeTimeInMinutes
             self.canaryConfiguration = canaryConfiguration
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
+            self.earlySuccessCriteria = earlySuccessCriteria
             self.lifecycleHooks = lifecycleHooks
             self.linearConfiguration = linearConfiguration
             self.maximumPercent = maximumPercent
@@ -3654,6 +3699,7 @@ extension ECS {
         }
 
         public func validate(name: String) throws {
+            try self.earlySuccessCriteria?.validate(name: "\(name).earlySuccessCriteria")
             try self.lifecycleHooks?.forEach {
                 try $0.validate(name: "\(name).lifecycleHooks[]")
             }
@@ -3664,6 +3710,7 @@ extension ECS {
             case bakeTimeInMinutes = "bakeTimeInMinutes"
             case canaryConfiguration = "canaryConfiguration"
             case deploymentCircuitBreaker = "deploymentCircuitBreaker"
+            case earlySuccessCriteria = "earlySuccessCriteria"
             case lifecycleHooks = "lifecycleHooks"
             case linearConfiguration = "linearConfiguration"
             case maximumPercent = "maximumPercent"
@@ -3683,6 +3730,33 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case type = "type"
+        }
+    }
+
+    public struct DeploymentEarlySuccessCriteria: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to use the early success criteria for the service deployment. When set to false, the deployment uses the default behavior, where Amazon ECS considers the deployment successful when the target service revision fully stabilizes and the previous tasks are removed. The default value is false. When set to true, Amazon ECS monitors the deployment to meet early success criteria. You must also specify healthyPercent and sourceServiceRevisionCleanup.
+        public let enable: Bool
+        /// The percentage of healthy tasks that the target service revision must reach before Amazon ECS considers the deployment successful. This percentage is relative to the service's desiredCount and must be an integer between 0 and 100. This value must be greater than or equal to the minimumHealthyPercent value. After this percentage of tasks is healthy and the bake time elapses, Amazon ECS completes the deployment. Amazon ECS continues to scale the target service revision to 100 percent in the background.
+        public let healthyPercent: Int?
+        /// The time when Amazon ECS removes the source revisions' tasks relative to deployment completion. The valid values are:    BLOCKING—Amazon ECS removes the previous tasks before it marks the deployment as successful.    DEFERRED—Amazon ECS marks the deployment successful, and then removes the previous tasks in the background.
+        public let sourceServiceRevisionCleanup: ServiceRevisionCleanup?
+
+        @inlinable
+        public init(enable: Bool, healthyPercent: Int? = nil, sourceServiceRevisionCleanup: ServiceRevisionCleanup? = nil) {
+            self.enable = enable
+            self.healthyPercent = healthyPercent
+            self.sourceServiceRevisionCleanup = sourceServiceRevisionCleanup
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.healthyPercent, name: "healthyPercent", parent: name, max: 100)
+            try self.validate(self.healthyPercent, name: "healthyPercent", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enable = "enable"
+            case healthyPercent = "healthyPercent"
+            case sourceServiceRevisionCleanup = "sourceServiceRevisionCleanup"
         }
     }
 
@@ -4859,6 +4933,8 @@ extension ECS {
     public struct ExpressGatewayServiceConfiguration: AWSDecodableShape {
         /// The CPU allocation for tasks in this service revision.
         public let cpu: String?
+        /// The CPU architecture that the tasks in this service revision run on. This is the architecture from the task definition that the service revision uses, so it reflects the default or the previously configured architecture when the request that created the revision didn't specify one. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   This value isn't returned when the task definition for the service revision doesn't specify a runtime platform. Because the architecture comes from each service revision's own task definition, revisions of the same service can report different architectures.
+        public let cpuArchitecture: ExpressCpuArchitecture?
         /// The Unix timestamp for when this service revision was created.
         public let createdAt: Date?
         /// The ARN of the task execution role for the service revision.
@@ -4883,8 +4959,9 @@ extension ECS {
         public let taskRoleArn: String?
 
         @inlinable
-        public init(cpu: String? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, ingressPaths: [IngressPathSummary]? = nil, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceRevisionArn: String? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil) {
+        public init(cpu: String? = nil, cpuArchitecture: ExpressCpuArchitecture? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, ingressPaths: [IngressPathSummary]? = nil, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceRevisionArn: String? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil) {
             self.cpu = cpu
+            self.cpuArchitecture = cpuArchitecture
             self.createdAt = createdAt
             self.executionRoleArn = executionRoleArn
             self.healthCheckPath = healthCheckPath
@@ -4900,6 +4977,7 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case cpu = "cpu"
+            case cpuArchitecture = "cpuArchitecture"
             case createdAt = "createdAt"
             case executionRoleArn = "executionRoleArn"
             case healthCheckPath = "healthCheckPath"
@@ -7103,7 +7181,7 @@ extension ECS {
         public let hostPort: Int?
         /// The name that's used for the port mapping. This parameter is the name that you use in the serviceConnectConfiguration and the vpcLatticeConfigurations of a service. The name can include up to 64 characters. The characters can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen.
         public let name: String?
-        /// The protocol used for the port mapping. Valid values are tcp and udp. The default is tcp. protocol is immutable in a Service Connect service. Updating this field requires a service deletion and redeployment.
+        /// The protocol that's used for the port mapping. Valid values are tcp and udp (case-sensitive). The default is tcp. Amazon ECS treats any other specified value as tcp. protocol is immutable in a Service Connect service. To update this field, you must delete and redeploy the service.
         public let `protocol`: TransportProtocol?
 
         @inlinable
@@ -10068,6 +10146,8 @@ extension ECS {
     public struct UpdateDaemonRequest: AWSEncodableShape {
         /// The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon.
         public let capacityProviderArns: [String]
+        /// If the critical parameter of a daemon is true, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false, the daemon task failure doesn't affect the other tasks on the instance. The default value is true. A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
+        public let critical: Bool?
         /// The Amazon Resource Name (ARN) of the daemon to update.
         public let daemonArn: String
         /// The Amazon Resource Name (ARN) of the daemon task definition to use for the updated daemon.
@@ -10082,8 +10162,9 @@ extension ECS {
         public let propagateTags: DaemonPropagateTags?
 
         @inlinable
-        public init(capacityProviderArns: [String], daemonArn: String, daemonTaskDefinitionArn: String, deploymentConfiguration: DaemonDeploymentConfiguration? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, propagateTags: DaemonPropagateTags? = nil) {
+        public init(capacityProviderArns: [String], critical: Bool? = nil, daemonArn: String, daemonTaskDefinitionArn: String, deploymentConfiguration: DaemonDeploymentConfiguration? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, propagateTags: DaemonPropagateTags? = nil) {
             self.capacityProviderArns = capacityProviderArns
+            self.critical = critical
             self.daemonArn = daemonArn
             self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
             self.deploymentConfiguration = deploymentConfiguration
@@ -10098,6 +10179,7 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case capacityProviderArns = "capacityProviderArns"
+            case critical = "critical"
             case daemonArn = "daemonArn"
             case daemonTaskDefinitionArn = "daemonTaskDefinitionArn"
             case deploymentConfiguration = "deploymentConfiguration"
@@ -10140,6 +10222,8 @@ extension ECS {
     public struct UpdateExpressGatewayServiceRequest: AWSEncodableShape {
         /// The number of CPU units used by the task.
         public let cpu: String?
+        /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the service keeps the architecture that it currently runs on. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Changing the architecture starts a new deployment that replaces the running tasks. Make sure that the container image that the service uses supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+        public let cpuArchitecture: ExpressCpuArchitecture?
         /// The Amazon Resource Name (ARN) of the task execution role for the Express service.
         public let executionRoleArn: String?
         /// The path on the container for Application Load Balancer health checks.
@@ -10154,14 +10238,15 @@ extension ECS {
         public let scalingTarget: ExpressGatewayScalingTarget?
         /// The Amazon Resource Name (ARN) of the Express service to update.
         public let serviceArn: String
-        /// The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
+        /// The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, memory, or cpuArchitecture.
         public let taskDefinitionArn: String?
         /// The Amazon Resource Name (ARN) of the IAM role for containers in this task.
         public let taskRoleArn: String?
 
         @inlinable
-        public init(cpu: String? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceArn: String, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil) {
+        public init(cpu: String? = nil, cpuArchitecture: ExpressCpuArchitecture? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceArn: String, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil) {
             self.cpu = cpu
+            self.cpuArchitecture = cpuArchitecture
             self.executionRoleArn = executionRoleArn
             self.healthCheckPath = healthCheckPath
             self.memory = memory
@@ -10175,6 +10260,7 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case cpu = "cpu"
+            case cpuArchitecture = "cpuArchitecture"
             case executionRoleArn = "executionRoleArn"
             case healthCheckPath = "healthCheckPath"
             case memory = "memory"

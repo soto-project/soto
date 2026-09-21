@@ -285,10 +285,11 @@ public struct BedrockAgentCore: AWSService {
     ///   - branch: The branch information for this event. Branches allow for organizing events into different conversation threads or paths.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, AgentCore ignores the request, but does not return an error.
     ///   - eventTimestamp: The timestamp when the event occurred. If not specified, the current time is used.
+    ///   - extractionConfig: The extraction configuration for long-term memory records. Use this parameter to specify namespace variable keys and their values for namespace substitution during extraction.
     ///   - extractionMode: Controls long-term memory extraction for this event. When set to SKIP, the event is stored in short-term memory but is excluded from long-term memory extraction. If not specified, the event is processed for extraction as usual.
     ///   - memoryId: The identifier of the AgentCore Memory resource in which to create the event.
     ///   - metadata: The key-value metadata to attach to the event.
-    ///   - payload: The content payload of the event. This can include conversational data or binary content.
+    ///   - payload: The content payload of the event. This can include conversational data, JSON data, or binary content.
     ///   - sessionId: The identifier of the session in which this event occurs. A session represents a sequence of related events.
     ///   - logger: Logger use during operation
     @inlinable
@@ -297,6 +298,7 @@ public struct BedrockAgentCore: AWSService {
         branch: Branch? = nil,
         clientToken: String? = CreateEventInput.idempotencyToken(),
         eventTimestamp: Date,
+        extractionConfig: ExtractionConfig? = nil,
         extractionMode: ExtractionMode? = nil,
         memoryId: String,
         metadata: [String: MetadataValue]? = nil,
@@ -309,6 +311,7 @@ public struct BedrockAgentCore: AWSService {
             branch: branch, 
             clientToken: clientToken, 
             eventTimestamp: eventTimestamp, 
+            extractionConfig: extractionConfig, 
             extractionMode: extractionMode, 
             memoryId: memoryId, 
             metadata: metadata, 
@@ -467,6 +470,38 @@ public struct BedrockAgentCore: AWSService {
         return try await self.deleteBatchEvaluation(input, logger: logger)
     }
 
+    /// Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identifier and the session ID. After you delete a session, you cannot restart it.
+    @Sendable
+    @inlinable
+    public func deleteCapacityProviderSession(_ input: DeleteCapacityProviderSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCapacityProviderSessionResponse {
+        try await self.client.execute(
+            operation: "DeleteCapacityProviderSession", 
+            path: "/capacity-providers/{capacityProviderId}/sessions/{sessionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a session associated with a capacity provider in Amazon Bedrock AgentCore and makes the session unavailable for further use. To delete a capacity provider session, specify both the capacity provider identifier and the session ID. After you delete a session, you cannot restart it.
+    ///
+    /// Parameters:
+    ///   - capacityProviderId: The unique identifier of the capacity provider associated with the session.
+    ///   - sessionId: The unique identifier of the capacity provider session to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCapacityProviderSession(
+        capacityProviderId: String,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCapacityProviderSessionResponse {
+        let input = DeleteCapacityProviderSessionRequest(
+            capacityProviderId: capacityProviderId, 
+            sessionId: sessionId
+        )
+        return try await self.deleteCapacityProviderSession(input, logger: logger)
+    }
+
     /// Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteEvent permission.
     @Sendable
     @inlinable
@@ -523,16 +558,19 @@ public struct BedrockAgentCore: AWSService {
     /// Parameters:
     ///   - memoryId: The identifier of the AgentCore Memory resource from which to delete the memory record.
     ///   - memoryRecordId: The identifier of the memory record to delete.
+    ///   - namespace: The namespace of the memory record to delete. This value is used for IAM condition key authorization.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteMemoryRecord(
         memoryId: String,
         memoryRecordId: String,
+        namespace: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteMemoryRecordOutput {
         let input = DeleteMemoryRecordInput(
             memoryId: memoryId, 
-            memoryRecordId: memoryRecordId
+            memoryRecordId: memoryRecordId, 
+            namespace: namespace
         )
         return try await self.deleteMemoryRecord(input, logger: logger)
     }
@@ -890,16 +928,19 @@ public struct BedrockAgentCore: AWSService {
     /// Parameters:
     ///   - memoryId: The identifier of the AgentCore Memory resource containing the memory record.
     ///   - memoryRecordId: The identifier of the memory record to retrieve.
+    ///   - namespace: The namespace of the memory record to retrieve. This value is used for IAM condition key authorization.
     ///   - logger: Logger use during operation
     @inlinable
     public func getMemoryRecord(
         memoryId: String,
         memoryRecordId: String,
+        namespace: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetMemoryRecordOutput {
         let input = GetMemoryRecordInput(
             memoryId: memoryId, 
-            memoryRecordId: memoryRecordId
+            memoryRecordId: memoryRecordId, 
+            namespace: namespace
         )
         return try await self.getMemoryRecord(input, logger: logger)
     }
@@ -1276,6 +1317,56 @@ public struct BedrockAgentCore: AWSService {
             workloadName: workloadName
         )
         return try await self.getWorkloadAccessTokenForUserId(input, logger: logger)
+    }
+
+    /// Submits content directly for ingestion to generate long-term memory records in a AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:IngestData permission.
+    @Sendable
+    @inlinable
+    public func ingestData(_ input: IngestDataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> IngestDataOutput {
+        try await self.client.execute(
+            operation: "IngestData", 
+            path: "/memories/{memoryId}/ingest", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Submits content directly for ingestion to generate long-term memory records in a AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:IngestData permission.
+    ///
+    /// Parameters:
+    ///   - actorId: The identifier of the actor associated with this content. An actor represents an entity that participates in sessions and generates content.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, AgentCore ignores the request, but does not return an error.
+    ///   - contentTimestamp: The timestamp of when the content occurred.
+    ///   - extractionConfig: The extraction configuration for long-term memory records. Use this parameter to specify namespace variable keys and their values for namespace substitution during extraction.
+    ///   - memoryId: The identifier of the AgentCore Memory resource to ingest content into.
+    ///   - metadata: The key-value metadata to attach to the content.
+    ///   - sessionId: The identifier of the session that the content belongs to. If not provided, a session identifier is generated and returned in the response.
+    ///   - source: The content to ingest. Only inline content is supported.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func ingestData(
+        actorId: String,
+        clientToken: String? = IngestDataInput.idempotencyToken(),
+        contentTimestamp: Date,
+        extractionConfig: ExtractionConfig? = nil,
+        memoryId: String,
+        metadata: [String: MetadataValue]? = nil,
+        sessionId: String? = nil,
+        source: ContentSource,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> IngestDataOutput {
+        let input = IngestDataInput(
+            actorId: actorId, 
+            clientToken: clientToken, 
+            contentTimestamp: contentTimestamp, 
+            extractionConfig: extractionConfig, 
+            memoryId: memoryId, 
+            metadata: metadata, 
+            sessionId: sessionId, 
+            source: source
+        )
+        return try await self.ingestData(input, logger: logger)
     }
 
     /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time.  To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a qualifier to target a specific endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see Invoke an AgentCore Runtime agent.  If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see Authenticate and authorize with Inbound Auth and Outbound Auth. To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
@@ -2238,6 +2329,7 @@ public struct BedrockAgentCore: AWSService {
     ///   - evaluators: The list of evaluators to apply during the batch evaluation. Can include both built-in evaluators and custom evaluators. Maximum of 10 evaluators.
     ///   - insights: The list of insight analyses to run against sessions during the batch evaluation. Maximum of 10 insights.
     ///   - kmsKeyArn: The ARN of the KMS key used to encrypt evaluation data. If provided, customer data is encrypted at rest with the specified key.
+    ///   - outputConfig: 
     ///   - tags: A map of tag keys and values to associate with the batch evaluation.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2250,6 +2342,7 @@ public struct BedrockAgentCore: AWSService {
         evaluators: [Evaluator]? = nil,
         insights: [Insight]? = nil,
         kmsKeyArn: String? = nil,
+        outputConfig: OutputConfig? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartBatchEvaluationResponse {
@@ -2262,6 +2355,7 @@ public struct BedrockAgentCore: AWSService {
             evaluators: evaluators, 
             insights: insights, 
             kmsKeyArn: kmsKeyArn, 
+            outputConfig: outputConfig, 
             tags: tags
         )
         return try await self.startBatchEvaluation(input, logger: logger)
