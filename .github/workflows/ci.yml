@@ -56,4 +56,5 @@ jobs:
     - name: Test
       # Cannot run in parallel as APIGateway tests fail occasionally
       run: |
+        cd IntegrationTests
         swift test
