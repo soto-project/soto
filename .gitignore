@@ -9,6 +9,4 @@ node_modules
 build
 awssdkswift.json
 Package.resolved
-docs/docsets
-/CodeGenerator/.build
-/CodeGenerator/.swiftpm
+.swift-version
