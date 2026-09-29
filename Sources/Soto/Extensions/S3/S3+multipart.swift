@@ -18,6 +18,7 @@ import NIOConcurrencyHelpers
 import NIOCore
 import NIOPosix
 import SotoCore
+import _NIOFileSystem
 
 extension S3ErrorType {
     public enum MultipartError: Error {
@@ -59,7 +60,7 @@ extension S3 {
         partSize: Int = 5 * 1024 * 1024,
         concurrentDownloads: Int = 4,
         logger: Logger = AWSClient.loggingDisabled,
-        outputStream: @escaping (ByteBuffer, Int64) async throws -> Void
+        outputStream: (ByteBuffer, Int64) async throws -> Void
     ) async throws -> Int64 {
         // get object size before downloading
         let headRequest = S3.HeadObjectRequest(
@@ -84,23 +85,25 @@ extension S3 {
             /// Structure used to store downloaded buffers and then save them as and when
             /// needed
             struct DownloadedBuffers {
-                let outputStream: (ByteBuffer) async throws -> Void
                 var buffers: [ByteBuffer?]
                 var bufferSavedIndex: Int
 
-                init(numberOfBuffers: Int, outputStream: @escaping (ByteBuffer) async throws -> Void) {
-                    self.outputStream = outputStream
+                init(numberOfBuffers: Int) {
                     self.buffers = Array(repeating: nil, count: numberOfBuffers)
                     self.bufferSavedIndex = 0
                 }
 
-                mutating func saveBuffer(index: Int, buffer: ByteBuffer) async throws {
+                mutating func saveBuffer(
+                    index: Int,
+                    buffer: ByteBuffer,
+                    output: (ByteBuffer) async throws -> Void
+                ) async throws {
                     assert(index >= 0 && index < self.buffers.count)
                     self.buffers[index] = buffer
                     while self.bufferSavedIndex < self.buffers.count, let bufferToSave = self.buffers[bufferSavedIndex] {
                         self.buffers[self.bufferSavedIndex] = nil
                         self.bufferSavedIndex += 1
-                        try await self.outputStream(bufferToSave)
+                        try await output(bufferToSave)
                     }
                 }
             }
@@ -108,9 +111,7 @@ extension S3 {
             var count = 0
             var offset: Int64 = 0
             let numberOfParts: Int = numericCast((contentLength - 1) / partSize64) + 1
-            var downloadBuffers = DownloadedBuffers(numberOfBuffers: numberOfParts) { buffer in
-                try await outputStream(buffer, contentLength)
-            }
+            var downloadBuffers = DownloadedBuffers(numberOfBuffers: numberOfParts)
             // while we still have parts to download
             while count < numberOfParts {
                 if count > concurrentDownloads {
@@ -118,7 +119,9 @@ extension S3 {
                     // parts that have downloaded to save them
                     if let (index, buffer) = try await group.next() {
                         // save the buffer
-                        try await downloadBuffers.saveBuffer(index: index, buffer: buffer)
+                        try await downloadBuffers.saveBuffer(index: index, buffer: buffer) {
+                            try await outputStream($0, contentLength)
+                        }
                     }
                 }
                 let index = count
@@ -147,7 +150,9 @@ extension S3 {
             // save the remaining parts
             for try await (index, buffer) in group {
                 // save the buffer
-                try await downloadBuffers.saveBuffer(index: index, buffer: buffer)
+                try await downloadBuffers.saveBuffer(index: index, buffer: buffer) {
+                    try await outputStream($0, contentLength)
+                }
             }
         }
         return contentLength
@@ -174,9 +179,12 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         progress: @escaping @Sendable (Double) async throws -> Void = { _ in }
     ) async throws -> Int64 {
-        let fileIO = NonBlockingFileIO(threadPool: threadPool)
-        return try await fileIO.withFileHandle(path: filename, mode: .write, flags: .allowFileCreation()) { fileHandle in
-            let progressValue = ManagedAtomic(0)
+        let fileSystem = FileSystem(threadPool: threadPool)
+        return try await fileSystem.withFileHandle(
+            forWritingAt: .init(filename),
+            options: .newFile(replaceExisting: true)
+        ) { fileHandle in
+            var offset: Int64 = 0
 
             let result = try await self.multipartDownload(
                 input,
@@ -184,10 +192,9 @@ extension S3 {
                 concurrentDownloads: concurrentDownloads,
                 logger: logger
             ) { byteBuffer, fileSize in
-                let bufferSize = byteBuffer.readableBytes
-                try await fileIO.write(fileHandle: fileHandle, buffer: byteBuffer)
-                let progressIntValue = progressValue.wrappingIncrementThenLoad(by: bufferSize, ordering: .relaxed)
-                try await progress(Double(progressIntValue) / Double(fileSize))
+                try await fileHandle.write(contentsOf: byteBuffer, toAbsoluteOffset: offset)
+                offset += Int64(byteBuffer.readableBytes)
+                try await progress(Double(offset) / Double(fileSize))
             }
             return result
         }
@@ -260,14 +267,10 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         progress: @escaping @Sendable (Double) async throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
-        let fileIO = NonBlockingFileIO(threadPool: threadPool)
-        return try await fileIO.withFileRegion(path: filename) { fileRegion in
-            let fileSequence = FileByteBufferAsyncSequence(
-                fileRegion.fileHandle,
-                fileIO: fileIO,
-                chunkSize: partSize
-            )
-            let length = Double(fileRegion.readableBytes)
+        let fileSystem = FileSystem(threadPool: threadPool)
+        return try await fileSystem.withFileHandle(forReadingAt: .init(filename)) { fileHandle in
+            let fileSequence = fileHandle.readChunks(chunkLength: .bytes(Int64(partSize)))
+            let length = Double(try await fileHandle.info().size)
             @Sendable func percentProgress(_ value: Int) async throws {
                 try await progress(Double(value) / length)
             }
@@ -342,15 +345,10 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled,
         progress: @escaping @Sendable (Double) async throws -> Void = { _ in }
     ) async throws -> CompleteMultipartUploadOutput {
-        let fileIO = NonBlockingFileIO(threadPool: threadPool)
-        return try await fileIO.withFileRegion(path: filename) { fileRegion in
-            let fileSequence = FileByteBufferAsyncSequence(
-                fileRegion.fileHandle,
-                fileIO: fileIO,
-                chunkSize: partSize
-            )
-            // let chunks = fileHandle.readChunks(in: ..., chunkLength: .bytes(numericCast(partSize)))
-            let length = Double(fileRegion.readableBytes)
+        let fileSystem = FileSystem(threadPool: threadPool)
+        return try await fileSystem.withFileHandle(forReadingAt: .init(filename)) { fileHandle in
+            let fileSequence = fileHandle.readChunks(chunkLength: .bytes(Int64(partSize)))
+            let length = Double(try await fileHandle.info().size)
             @Sendable func percentProgress(_ value: Int) async throws {
                 try await progress(Double(value) / length)
             }
