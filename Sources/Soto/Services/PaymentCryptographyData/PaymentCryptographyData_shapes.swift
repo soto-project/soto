@@ -665,13 +665,18 @@ extension PaymentCryptographyData {
     }
 
     public enum ReEncryptionAttributes: AWSEncodableShape, Sendable {
+        /// Specifies the parameters required to encrypt data using an asymmetric key pair. You must specify a PaddingType.
+        case asymmetric(AsymmetricEncryptionAttributes)
+        /// Specifies the parameters required to encrypt data using DUKPT.
         case dukpt(DukptEncryptionAttributes)
-        /// Parameters that are required to encrypt data using symmetric keys.
+        /// Specifies the parameters required to encrypt data using symmetric keys.
         case symmetric(SymmetricEncryptionAttributes)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .asymmetric(let value):
+                try container.encode(value, forKey: .asymmetric)
             case .dukpt(let value):
                 try container.encode(value, forKey: .dukpt)
             case .symmetric(let value):
@@ -685,10 +690,13 @@ extension PaymentCryptographyData {
                 try value.validate(name: "\(name).dukpt")
             case .symmetric(let value):
                 try value.validate(name: "\(name).symmetric")
+            default:
+                break
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case asymmetric = "Asymmetric"
             case dukpt = "Dukpt"
             case symmetric = "Symmetric"
         }

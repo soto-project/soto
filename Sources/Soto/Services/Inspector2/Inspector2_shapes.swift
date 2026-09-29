@@ -9974,6 +9974,28 @@ extension Inspector2 {
     public struct ResourceFilterCriteria: AWSEncodableShape & AWSDecodableShape {
         /// The account IDs used as resource filter criteria.
         public let accountId: [ResourceStringFilter]?
+        /// The cloud container image tags used as resource filter criteria.
+        public let cloudContainerImageTags: [ResourceStringFilter]?
+        /// The cloud container registry names used as resource filter criteria.
+        public let cloudContainerRegistryName: [ResourceStringFilter]?
+        /// The cloud container repository names used as resource filter criteria.
+        public let cloudContainerRepositoryName: [ResourceStringFilter]?
+        /// The cloud providers used as resource filter criteria.
+        public let cloudProvider: [ResourceStringFilter]?
+        /// The cloud provider account IDs used as resource filter criteria.
+        public let cloudProviderAccountId: [ResourceStringFilter]?
+        /// The cloud provider organization IDs used as resource filter criteria.
+        public let cloudProviderOrgId: [ResourceStringFilter]?
+        /// The cloud provider regions used as resource filter criteria.
+        public let cloudProviderRegion: [ResourceStringFilter]?
+        /// The cloud serverless function names used as resource filter criteria.
+        public let cloudServerlessFunctionName: [ResourceStringFilter]?
+        /// The cloud serverless function runtimes used as resource filter criteria.
+        public let cloudServerlessFunctionRuntime: [ResourceStringFilter]?
+        /// The cloud serverless function tags used as resource filter criteria.
+        public let cloudServerlessFunctionTags: [ResourceMapFilter]?
+        /// The cloud VM instance tags used as resource filter criteria.
+        public let cloudVmInstanceTags: [ResourceMapFilter]?
         /// The EC2 instance tags used as resource filter criteria.
         public let ec2InstanceTags: [ResourceMapFilter]?
         /// The ECR image tags used as resource filter criteria.
@@ -9990,8 +10012,19 @@ extension Inspector2 {
         public let resourceType: [ResourceStringFilter]?
 
         @inlinable
-        public init(accountId: [ResourceStringFilter]? = nil, ec2InstanceTags: [ResourceMapFilter]? = nil, ecrImageTags: [ResourceStringFilter]? = nil, ecrRepositoryName: [ResourceStringFilter]? = nil, lambdaFunctionName: [ResourceStringFilter]? = nil, lambdaFunctionTags: [ResourceMapFilter]? = nil, resourceId: [ResourceStringFilter]? = nil, resourceType: [ResourceStringFilter]? = nil) {
+        public init(accountId: [ResourceStringFilter]? = nil, cloudContainerImageTags: [ResourceStringFilter]? = nil, cloudContainerRegistryName: [ResourceStringFilter]? = nil, cloudContainerRepositoryName: [ResourceStringFilter]? = nil, cloudProvider: [ResourceStringFilter]? = nil, cloudProviderAccountId: [ResourceStringFilter]? = nil, cloudProviderOrgId: [ResourceStringFilter]? = nil, cloudProviderRegion: [ResourceStringFilter]? = nil, cloudServerlessFunctionName: [ResourceStringFilter]? = nil, cloudServerlessFunctionRuntime: [ResourceStringFilter]? = nil, cloudServerlessFunctionTags: [ResourceMapFilter]? = nil, cloudVmInstanceTags: [ResourceMapFilter]? = nil, ec2InstanceTags: [ResourceMapFilter]? = nil, ecrImageTags: [ResourceStringFilter]? = nil, ecrRepositoryName: [ResourceStringFilter]? = nil, lambdaFunctionName: [ResourceStringFilter]? = nil, lambdaFunctionTags: [ResourceMapFilter]? = nil, resourceId: [ResourceStringFilter]? = nil, resourceType: [ResourceStringFilter]? = nil) {
             self.accountId = accountId
+            self.cloudContainerImageTags = cloudContainerImageTags
+            self.cloudContainerRegistryName = cloudContainerRegistryName
+            self.cloudContainerRepositoryName = cloudContainerRepositoryName
+            self.cloudProvider = cloudProvider
+            self.cloudProviderAccountId = cloudProviderAccountId
+            self.cloudProviderOrgId = cloudProviderOrgId
+            self.cloudProviderRegion = cloudProviderRegion
+            self.cloudServerlessFunctionName = cloudServerlessFunctionName
+            self.cloudServerlessFunctionRuntime = cloudServerlessFunctionRuntime
+            self.cloudServerlessFunctionTags = cloudServerlessFunctionTags
+            self.cloudVmInstanceTags = cloudVmInstanceTags
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageTags = ecrImageTags
             self.ecrRepositoryName = ecrRepositoryName
@@ -10007,6 +10040,61 @@ extension Inspector2 {
             }
             try self.validate(self.accountId, name: "accountId", parent: name, max: 10)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 1)
+            try self.cloudContainerImageTags?.forEach {
+                try $0.validate(name: "\(name).cloudContainerImageTags[]")
+            }
+            try self.validate(self.cloudContainerImageTags, name: "cloudContainerImageTags", parent: name, max: 10)
+            try self.validate(self.cloudContainerImageTags, name: "cloudContainerImageTags", parent: name, min: 1)
+            try self.cloudContainerRegistryName?.forEach {
+                try $0.validate(name: "\(name).cloudContainerRegistryName[]")
+            }
+            try self.validate(self.cloudContainerRegistryName, name: "cloudContainerRegistryName", parent: name, max: 10)
+            try self.validate(self.cloudContainerRegistryName, name: "cloudContainerRegistryName", parent: name, min: 1)
+            try self.cloudContainerRepositoryName?.forEach {
+                try $0.validate(name: "\(name).cloudContainerRepositoryName[]")
+            }
+            try self.validate(self.cloudContainerRepositoryName, name: "cloudContainerRepositoryName", parent: name, max: 10)
+            try self.validate(self.cloudContainerRepositoryName, name: "cloudContainerRepositoryName", parent: name, min: 1)
+            try self.cloudProvider?.forEach {
+                try $0.validate(name: "\(name).cloudProvider[]")
+            }
+            try self.validate(self.cloudProvider, name: "cloudProvider", parent: name, max: 10)
+            try self.validate(self.cloudProvider, name: "cloudProvider", parent: name, min: 1)
+            try self.cloudProviderAccountId?.forEach {
+                try $0.validate(name: "\(name).cloudProviderAccountId[]")
+            }
+            try self.validate(self.cloudProviderAccountId, name: "cloudProviderAccountId", parent: name, max: 10)
+            try self.validate(self.cloudProviderAccountId, name: "cloudProviderAccountId", parent: name, min: 1)
+            try self.cloudProviderOrgId?.forEach {
+                try $0.validate(name: "\(name).cloudProviderOrgId[]")
+            }
+            try self.validate(self.cloudProviderOrgId, name: "cloudProviderOrgId", parent: name, max: 10)
+            try self.validate(self.cloudProviderOrgId, name: "cloudProviderOrgId", parent: name, min: 1)
+            try self.cloudProviderRegion?.forEach {
+                try $0.validate(name: "\(name).cloudProviderRegion[]")
+            }
+            try self.validate(self.cloudProviderRegion, name: "cloudProviderRegion", parent: name, max: 10)
+            try self.validate(self.cloudProviderRegion, name: "cloudProviderRegion", parent: name, min: 1)
+            try self.cloudServerlessFunctionName?.forEach {
+                try $0.validate(name: "\(name).cloudServerlessFunctionName[]")
+            }
+            try self.validate(self.cloudServerlessFunctionName, name: "cloudServerlessFunctionName", parent: name, max: 10)
+            try self.validate(self.cloudServerlessFunctionName, name: "cloudServerlessFunctionName", parent: name, min: 1)
+            try self.cloudServerlessFunctionRuntime?.forEach {
+                try $0.validate(name: "\(name).cloudServerlessFunctionRuntime[]")
+            }
+            try self.validate(self.cloudServerlessFunctionRuntime, name: "cloudServerlessFunctionRuntime", parent: name, max: 10)
+            try self.validate(self.cloudServerlessFunctionRuntime, name: "cloudServerlessFunctionRuntime", parent: name, min: 1)
+            try self.cloudServerlessFunctionTags?.forEach {
+                try $0.validate(name: "\(name).cloudServerlessFunctionTags[]")
+            }
+            try self.validate(self.cloudServerlessFunctionTags, name: "cloudServerlessFunctionTags", parent: name, max: 10)
+            try self.validate(self.cloudServerlessFunctionTags, name: "cloudServerlessFunctionTags", parent: name, min: 1)
+            try self.cloudVmInstanceTags?.forEach {
+                try $0.validate(name: "\(name).cloudVmInstanceTags[]")
+            }
+            try self.validate(self.cloudVmInstanceTags, name: "cloudVmInstanceTags", parent: name, max: 10)
+            try self.validate(self.cloudVmInstanceTags, name: "cloudVmInstanceTags", parent: name, min: 1)
             try self.ec2InstanceTags?.forEach {
                 try $0.validate(name: "\(name).ec2InstanceTags[]")
             }
@@ -10046,6 +10134,17 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case cloudContainerImageTags = "cloudContainerImageTags"
+            case cloudContainerRegistryName = "cloudContainerRegistryName"
+            case cloudContainerRepositoryName = "cloudContainerRepositoryName"
+            case cloudProvider = "cloudProvider"
+            case cloudProviderAccountId = "cloudProviderAccountId"
+            case cloudProviderOrgId = "cloudProviderOrgId"
+            case cloudProviderRegion = "cloudProviderRegion"
+            case cloudServerlessFunctionName = "cloudServerlessFunctionName"
+            case cloudServerlessFunctionRuntime = "cloudServerlessFunctionRuntime"
+            case cloudServerlessFunctionTags = "cloudServerlessFunctionTags"
+            case cloudVmInstanceTags = "cloudVmInstanceTags"
             case ec2InstanceTags = "ec2InstanceTags"
             case ecrImageTags = "ecrImageTags"
             case ecrRepositoryName = "ecrRepositoryName"

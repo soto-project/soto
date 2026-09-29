@@ -821,6 +821,37 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct AdminDeleteSoftwareTokenRequest: AWSEncodableShape {
+        /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
+        public let username: String
+        /// The ID of the user pool where you want to delete the user's software token.
+        public let userPoolId: String
+
+        @inlinable
+        public init(username: String, userPoolId: String) {
+            self.username = username
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.username, name: "username", parent: name, max: 128)
+            try self.validate(self.username, name: "username", parent: name, min: 1)
+            try self.validate(self.username, name: "username", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+$")
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case username = "Username"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct AdminDeleteSoftwareTokenResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct AdminDeleteUserAttributesRequest: AWSEncodableShape {
         /// An array of strings representing the user attribute names you want to delete. For custom attributes, you must prepend the custom: prefix to the attribute name.
         public let userAttributeNames: [String]
@@ -1290,7 +1321,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct AdminLinkProviderForUserRequest: AWSEncodableShape {
-        /// The existing user in the user pool that you want to assign to the external IdP user account. This user can be a local (Username + Password) Amazon Cognito user pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, Amazon Cognito generates an exception. Amazon Cognito returns this user when the new user (with the linked IdP attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id. The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools.  All attributes in the DestinationUser profile must be mutable. If you have assigned the user any immutable custom attributes, the operation won't succeed.
+        /// The existing user in the user pool that you want to assign to the external IdP user account. This user can be a local (Username + Password) Amazon Cognito user pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, Amazon Cognito generates an exception. Amazon Cognito returns this user when the new user (with the linked IdP attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id. The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools.
         public let destinationUser: ProviderUserIdentifierType
         /// An external IdP account for a user who doesn't exist yet in the user pool. This user must be a federated user (for example, a SAML or Facebook user), not another native user. If the SourceUser is using a federated social IdP, such as Facebook, Google, or Login with Amazon, you must set the ProviderAttributeName to Cognito_Subject. For social IdPs, the ProviderName will be Facebook, Google, or LoginWithAmazon, and Amazon Cognito will automatically parse the Facebook, Google, and Login with Amazon tokens for id, sub, and user_id, respectively. The ProviderAttributeValue for the user must be the same value as the id, sub, or user_id value found in the social IdP token. For OIDC, the ProviderAttributeName can be any mapped value from a claim in the ID token, or that your app retrieves from the userInfo endpoint. For SAML, the ProviderAttributeName can be any mapped value from a claim in the SAML assertion. The following additional considerations apply to SourceUser for OIDC and SAML providers.   You must map the claim to a user pool attribute in your IdP configuration, and set the user pool attribute name as the value of ProviderAttributeName in your AdminLinkProviderForUser request. For example, email.   When you set ProviderAttributeName to Cognito_Subject, Amazon Cognito will automatically parse the default unique identifier found in the subject from the IdP token.
         public let sourceUser: ProviderUserIdentifierType
@@ -2287,6 +2318,28 @@ extension CognitoIdentityProvider {
 
     public struct ChangePasswordResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ClientAuthenticationResultType: AWSDecodableShape {
+        /// The access token for the requested app client. Present this token to a resource server to authorize a request, using the scopes granted in the token.
+        public let accessToken: String?
+        /// The number of seconds until the access token expires.
+        public let expiresIn: Int?
+        /// The type of the token. For example, Bearer.
+        public let tokenType: String?
+
+        @inlinable
+        public init(accessToken: String? = nil, expiresIn: Int? = nil, tokenType: String? = nil) {
+            self.accessToken = accessToken
+            self.expiresIn = expiresIn
+            self.tokenType = tokenType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken = "AccessToken"
+            case expiresIn = "ExpiresIn"
+            case tokenType = "TokenType"
+        }
     }
 
     public struct ClientSecretDescriptorType: AWSDecodableShape {
@@ -4179,6 +4232,52 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct DescribeTermsByClientRequest: AWSEncodableShape {
+        /// The ID of the app client that the terms documents are associated with.
+        public let clientId: String
+        /// The name of the terms documents that you want to describe.
+        public let termsName: String
+        /// The ID of the user pool that contains the terms documents that you want to describe.
+        public let userPoolId: String
+
+        @inlinable
+        public init(clientId: String, termsName: String, userPoolId: String) {
+            self.clientId = clientId
+            self.termsName = termsName
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[\\w+]+$")
+            try self.validate(self.termsName, name: "termsName", parent: name, pattern: "^(terms-of-use|privacy-policy)$")
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case termsName = "TermsName"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct DescribeTermsByClientResponse: AWSDecodableShape {
+        /// A summary of the requested terms documents. Includes a unique identifier for later changes to the terms documents.
+        public let terms: TermsType?
+
+        @inlinable
+        public init(terms: TermsType? = nil) {
+            self.terms = terms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terms = "Terms"
+        }
+    }
+
     public struct DescribeTermsRequest: AWSEncodableShape {
         /// The ID of the terms documents that you want to describe.
         public let termsId: String
@@ -4881,6 +4980,66 @@ extension CognitoIdentityProvider {
         private enum CodingKeys: String, CodingKey {
             case csvHeader = "CSVHeader"
             case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct GetClientTokenRequest: AWSEncodableShape {
+        /// The ID of the app client that requests the access token. The app client must have a client secret and the ALLOW_CLIENT_TOKEN_AUTH authentication flow.
+        public let clientId: String
+        /// A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see
+        /// Connecting API actions to Lambda triggers in the Amazon Cognito Developer Guide.  When you use the ClientMetadata parameter, note that Amazon Cognito won't do the following:   Store the ClientMetadata value. This data is available only to Lambda triggers that are assigned to a user pool to support custom workflows. If your user pool configuration doesn't include triggers, the ClientMetadata parameter serves no purpose.   Validate the ClientMetadata value.   Encrypt the ClientMetadata value. Don't send sensitive information in this parameter.
+        public let clientMetadata: [String: String]?
+        /// The custom scopes to authorize in the access token, in the format resource-server-identifier/scope-name. Each scope must belong to a resource server in your user pool. If you don't specify any scopes, Amazon Cognito authorizes the scopes that are configured for the app client.
+        public let scopes: [String]?
+        /// An active secret for the app client.
+        public let secret: String
+
+        @inlinable
+        public init(clientId: String, clientMetadata: [String: String]? = nil, scopes: [String]? = nil, secret: String) {
+            self.clientId = clientId
+            self.clientMetadata = clientMetadata
+            self.scopes = scopes
+            self.secret = secret
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[\\w+]+$")
+            try self.clientMetadata?.forEach {
+                try validate($0.key, name: "clientMetadata.key", parent: name, max: 131072)
+                try validate($0.value, name: "clientMetadata[\"\($0.key)\"]", parent: name, max: 131072)
+            }
+            try self.scopes?.forEach {
+                try validate($0, name: "scopes[]", parent: name, max: 256)
+                try validate($0, name: "scopes[]", parent: name, min: 1)
+                try validate($0, name: "scopes[]", parent: name, pattern: "^[\\x21\\x23-\\x5B\\x5D-\\x7E]+$")
+            }
+            try self.validate(self.scopes, name: "scopes", parent: name, max: 50)
+            try self.validate(self.secret, name: "secret", parent: name, max: 64)
+            try self.validate(self.secret, name: "secret", parent: name, min: 24)
+            try self.validate(self.secret, name: "secret", parent: name, pattern: "^[\\w+]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case clientMetadata = "ClientMetadata"
+            case scopes = "Scopes"
+            case secret = "Secret"
+        }
+    }
+
+    public struct GetClientTokenResponse: AWSDecodableShape {
+        /// The access token that Amazon Cognito issues for the app client, and its metadata.
+        public let clientAuthenticationResult: ClientAuthenticationResultType?
+
+        @inlinable
+        public init(clientAuthenticationResult: ClientAuthenticationResultType? = nil) {
+            self.clientAuthenticationResult = clientAuthenticationResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientAuthenticationResult = "ClientAuthenticationResult"
         }
     }
 

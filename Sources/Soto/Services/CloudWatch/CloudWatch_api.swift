@@ -40,7 +40,7 @@ public struct CloudWatch: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -61,6 +61,7 @@ public struct CloudWatch: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "GraniteServiceVersion20100801",
             serviceName: "CloudWatch",
+            sdkId: "CloudWatch",
             serviceIdentifier: "monitoring",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2010-08-01",
@@ -92,7 +93,7 @@ public struct CloudWatch: AWSService {
 
     // MARK: API Calls
 
-    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you do not need to create it before calling this operation. You can call AssociateDatasetKmsKey on a dataset that is already associated with a KMS key to replace the existing key with a different one. To replace a key, the caller must have kms:Decrypt permission on both the current key and the new key. The KMS key that you specify must meet all of the following requirements:   It must be a symmetric encryption KMS key (key spec SYMMETRIC_DEFAULT, key usage ENCRYPT_DECRYPT). Asymmetric keys, HMAC keys, and key material types other than SYMMETRIC_DEFAULT are not supported.   It must be enabled and not pending deletion.   Its key policy must grant the CloudWatch service principal (cloudwatch.amazonaws.com) these permissions: kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. Amazon CloudWatch requires these permissions to manage the data on your behalf.   The calling principal must have kms:Decrypt permission on the key.   It must be specified as a fully qualified key ARN. Key IDs, aliases, and alias ARNs are not accepted.   It must be in the same Amazon Web Services Region as the dataset.   Before completing the association, Amazon CloudWatch validates the key by performing a series of dry-run KMS operations. Service-principal checks run first to verify that the key policy grants the required access to Amazon CloudWatch. These checks include kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. After those succeed, a kms:Decrypt dry-run is run with the caller's credentials to verify that the calling principal can use the key. When you are replacing an existing key, the caller's kms:Decrypt dry-run is run on the current key first, and only then on the new key. If any of these checks fails, the operation fails and the existing key association (if any) remains unchanged. Common failure causes include the key being disabled, the key policy not granting the required permissions to Amazon CloudWatch, or the caller lacking kms:Decrypt permission on the key. For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
+    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you do not need to create it before calling this operation. You can call AssociateDatasetKmsKey on a dataset that is already associated with a KMS key to replace the existing key with a different one. The caller must have kms:Decrypt permission on both the current key and the new key.  If the currently associated key has been deleted, is scheduled for deletion, is pending import, is unavailable, or has been disabled, Amazon CloudWatch does not require kms:Decrypt permission on the current key and the rotation proceeds. If the key was only disabled, consider re-enabling it instead of rotating, because re-enabling allows Amazon CloudWatch to resume decrypting your existing metric data encrypted with that key.  The KMS key that you specify must meet all of the following requirements:   It must be a symmetric encryption KMS key (key spec SYMMETRIC_DEFAULT, key usage ENCRYPT_DECRYPT). Asymmetric keys, HMAC keys, and key material types other than SYMMETRIC_DEFAULT are not supported.   It must be enabled and not pending deletion.   Its key policy must grant the CloudWatch service principal (cloudwatch.amazonaws.com) these permissions: kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. Amazon CloudWatch requires these permissions to manage the data on your behalf.   The calling principal must have kms:Decrypt permission on the key.   It must be specified as a fully qualified key ARN. Key IDs, aliases, and alias ARNs are not accepted.   It must be in the same Amazon Web Services Region as the dataset.   Before completing the association, Amazon CloudWatch validates the key by performing a series of dry-run KMS operations. Service-principal checks run first to verify that the key policy grants the required access to Amazon CloudWatch. These checks include kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. After those succeed, a kms:Decrypt dry-run is run with the caller's credentials to verify that the calling principal can use the new key. When you are replacing an existing key, the caller's kms:Decrypt dry-run is also run on the current key. If any of these checks on the new key fails, the operation fails and the existing key association (if any) remains unchanged. Common failure causes include the new key being disabled, the key policy not granting the required permissions to Amazon CloudWatch, or the caller lacking kms:Decrypt permission on the new key. For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
     @Sendable
     @inlinable
     public func associateDatasetKmsKey(_ input: AssociateDatasetKmsKeyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDatasetKmsKeyOutput {
@@ -105,7 +106,7 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you do not need to create it before calling this operation. You can call AssociateDatasetKmsKey on a dataset that is already associated with a KMS key to replace the existing key with a different one. To replace a key, the caller must have kms:Decrypt permission on both the current key and the new key. The KMS key that you specify must meet all of the following requirements:   It must be a symmetric encryption KMS key (key spec SYMMETRIC_DEFAULT, key usage ENCRYPT_DECRYPT). Asymmetric keys, HMAC keys, and key material types other than SYMMETRIC_DEFAULT are not supported.   It must be enabled and not pending deletion.   Its key policy must grant the CloudWatch service principal (cloudwatch.amazonaws.com) these permissions: kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. Amazon CloudWatch requires these permissions to manage the data on your behalf.   The calling principal must have kms:Decrypt permission on the key.   It must be specified as a fully qualified key ARN. Key IDs, aliases, and alias ARNs are not accepted.   It must be in the same Amazon Web Services Region as the dataset.   Before completing the association, Amazon CloudWatch validates the key by performing a series of dry-run KMS operations. Service-principal checks run first to verify that the key policy grants the required access to Amazon CloudWatch. These checks include kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. After those succeed, a kms:Decrypt dry-run is run with the caller's credentials to verify that the calling principal can use the key. When you are replacing an existing key, the caller's kms:Decrypt dry-run is run on the current key first, and only then on the new key. If any of these checks fails, the operation fails and the existing key association (if any) remains unchanged. Common failure causes include the key being disabled, the key policy not granting the required permissions to Amazon CloudWatch, or the caller lacking kms:Decrypt permission on the key. For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
+    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you do not need to create it before calling this operation. You can call AssociateDatasetKmsKey on a dataset that is already associated with a KMS key to replace the existing key with a different one. The caller must have kms:Decrypt permission on both the current key and the new key.  If the currently associated key has been deleted, is scheduled for deletion, is pending import, is unavailable, or has been disabled, Amazon CloudWatch does not require kms:Decrypt permission on the current key and the rotation proceeds. If the key was only disabled, consider re-enabling it instead of rotating, because re-enabling allows Amazon CloudWatch to resume decrypting your existing metric data encrypted with that key.  The KMS key that you specify must meet all of the following requirements:   It must be a symmetric encryption KMS key (key spec SYMMETRIC_DEFAULT, key usage ENCRYPT_DECRYPT). Asymmetric keys, HMAC keys, and key material types other than SYMMETRIC_DEFAULT are not supported.   It must be enabled and not pending deletion.   Its key policy must grant the CloudWatch service principal (cloudwatch.amazonaws.com) these permissions: kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. Amazon CloudWatch requires these permissions to manage the data on your behalf.   The calling principal must have kms:Decrypt permission on the key.   It must be specified as a fully qualified key ARN. Key IDs, aliases, and alias ARNs are not accepted.   It must be in the same Amazon Web Services Region as the dataset.   Before completing the association, Amazon CloudWatch validates the key by performing a series of dry-run KMS operations. Service-principal checks run first to verify that the key policy grants the required access to Amazon CloudWatch. These checks include kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. After those succeed, a kms:Decrypt dry-run is run with the caller's credentials to verify that the calling principal can use the new key. When you are replacing an existing key, the caller's kms:Decrypt dry-run is also run on the current key. If any of these checks on the new key fails, the operation fails and the existing key association (if any) remains unchanged. Common failure causes include the new key being disabled, the key policy not granting the required permissions to Amazon CloudWatch, or the caller lacking kms:Decrypt permission on the new key. For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
     ///
     /// Parameters:
     ///   - datasetIdentifier: Specifies the identifier of the dataset that you want to associate the KMS key with. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
@@ -122,6 +123,38 @@ public struct CloudWatch: AWSService {
             kmsKeyArn: kmsKeyArn
         )
         return try await self.associateDatasetKmsKey(input, logger: logger)
+    }
+
+    /// Creates a resource metrics configuration for an Amazon Web Services resource. After you create a configuration, Amazon CloudWatch collects detailed metrics for that resource. Each Amazon Web Services resource can have only one resource metrics configuration. If a configuration already exists for the specified resource ARN, this operation returns a ConflictException. To modify an existing configuration, use UpdateResourceMetricsConfiguration. If the Amazon Web Services resource that you specify in ResourceArn does not exist, this operation returns a ResourceNotFoundException. Verify that the resource ARN is correct and that the resource exists before you retry the request. To create a resource metrics configuration, you must have the cloudwatch:CreateResourceMetricsConfiguration permission. For information about scoping this permission to specific resources, see Condition keys for resource metrics configuration access in the Amazon CloudWatch User Guide.
+    @Sendable
+    @inlinable
+    public func createResourceMetricsConfiguration(_ input: CreateResourceMetricsConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateResourceMetricsConfigurationOutput {
+        try await self.client.execute(
+            operation: "CreateResourceMetricsConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a resource metrics configuration for an Amazon Web Services resource. After you create a configuration, Amazon CloudWatch collects detailed metrics for that resource. Each Amazon Web Services resource can have only one resource metrics configuration. If a configuration already exists for the specified resource ARN, this operation returns a ConflictException. To modify an existing configuration, use UpdateResourceMetricsConfiguration. If the Amazon Web Services resource that you specify in ResourceArn does not exist, this operation returns a ResourceNotFoundException. Verify that the resource ARN is correct and that the resource exists before you retry the request. To create a resource metrics configuration, you must have the cloudwatch:CreateResourceMetricsConfiguration permission. For information about scoping this permission to specific resources, see Condition keys for resource metrics configuration access in the Amazon CloudWatch User Guide.
+    ///
+    /// Parameters:
+    ///   - metricSelections: Specifies which metrics Amazon CloudWatch collects for the resource. If you omit this parameter, Amazon CloudWatch collects all available detailed metrics for the resource.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon Web Services resource to enable detailed monitoring for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createResourceMetricsConfiguration(
+        metricSelections: [ResourceMetricSelection]? = nil,
+        resourceArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateResourceMetricsConfigurationOutput {
+        let input = CreateResourceMetricsConfigurationInput(
+            metricSelections: metricSelections, 
+            resourceArn: resourceArn
+        )
+        return try await self.createResourceMetricsConfiguration(input, logger: logger)
     }
 
     /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error.  Permissions  To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule permission on the alarm mute rule resource.
@@ -302,6 +335,35 @@ public struct CloudWatch: AWSService {
             name: name
         )
         return try await self.deleteMetricStream(input, logger: logger)
+    }
+
+    /// Deletes the resource metrics configuration for an Amazon Web Services resource. After you delete the configuration, Amazon CloudWatch stops collecting detailed metrics for the resource. Metric data that Amazon CloudWatch already collected for the resource is not deleted. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. Verify that the resource ARN is correct. To delete a resource metrics configuration, you must have the cloudwatch:DeleteResourceMetricsConfiguration permission. For information about scoping this permission to specific resources, see Condition keys for resource metrics configuration access in the Amazon CloudWatch User Guide.
+    @Sendable
+    @inlinable
+    public func deleteResourceMetricsConfiguration(_ input: DeleteResourceMetricsConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourceMetricsConfigurationOutput {
+        try await self.client.execute(
+            operation: "DeleteResourceMetricsConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the resource metrics configuration for an Amazon Web Services resource. After you delete the configuration, Amazon CloudWatch stops collecting detailed metrics for the resource. Metric data that Amazon CloudWatch already collected for the resource is not deleted. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. Verify that the resource ARN is correct. To delete a resource metrics configuration, you must have the cloudwatch:DeleteResourceMetricsConfiguration permission. For information about scoping this permission to specific resources, see Condition keys for resource metrics configuration access in the Amazon CloudWatch User Guide.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon Web Services resource to delete the resource metrics configuration for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourceMetricsConfiguration(
+        resourceArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourceMetricsConfigurationOutput {
+        let input = DeleteResourceMetricsConfigurationInput(
+            resourceArn: resourceArn
+        )
+        return try await self.deleteResourceMetricsConfiguration(input, logger: logger)
     }
 
     /// Returns the information of the current alarm contributors that are in ALARM state. This operation returns details about the individual time series that contribute to the alarm's state.
@@ -626,7 +688,7 @@ public struct CloudWatch: AWSService {
         return try await self.disableInsightRules(input, logger: logger)
     }
 
-    /// Removes the customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key association from the specified dataset. After this operation completes, data that you publish to the dataset is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. Only the default dataset is supported. To call this operation, the dataset must currently have a customer managed KMS key associated with it. If the dataset has no associated KMS key, the operation fails with ResourceNotFoundException. Amazon CloudWatch performs a dry-run kms:Decrypt call on the key as part of this operation. This verifies that the caller is authorized to use the currently associated key. The caller must have kms:Decrypt permission on the currently associated key, and the key must be enabled and accessible. If the key has been disabled or scheduled for deletion, you must first re-enable or restore it before you can disassociate it from the dataset.  Disassociating a KMS key from a dataset does not immediately remove the kms:Decrypt requirement on data plane operations. For up to three hours after disassociation, callers must continue to have kms:Decrypt permission on the previously associated key. Some data may still be encrypted with that key during this window. After this enforcement window elapses, the kms:Decrypt requirement is lifted.  For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
+    /// Removes the customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key association from the specified dataset. After this operation completes, data that you publish to the dataset is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. Only the default dataset is supported. To call this operation, the dataset must currently have a customer managed KMS key associated with it. If the dataset has no associated KMS key, the operation fails with ResourceNotFoundException. Amazon CloudWatch performs a dry-run kms:Decrypt call on the currently associated key as part of this operation. The caller must have kms:Decrypt permission on the currently associated key. If the key is accessible but the caller lacks kms:Decrypt permission, the operation fails with AccessDeniedException.  If the currently associated key has been deleted, is scheduled for deletion, is pending import, is unavailable, or has been disabled, Amazon CloudWatch does not require kms:Decrypt permission on that key and the disassociation proceeds. If the key was only disabled, consider re-enabling it instead of disassociating, because re-enabling allows Amazon CloudWatch to resume decrypting your existing metric data.   Disassociating a KMS key from a dataset does not immediately remove the kms:Decrypt requirement on data plane operations. For up to three hours after disassociation, callers must continue to have kms:Decrypt permission on the previously associated key. Some data might still be encrypted with that key during this window. After this enforcement window elapses, the kms:Decrypt requirement is lifted.  For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
     @Sendable
     @inlinable
     public func disassociateDatasetKmsKey(_ input: DisassociateDatasetKmsKeyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDatasetKmsKeyOutput {
@@ -639,7 +701,7 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Removes the customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key association from the specified dataset. After this operation completes, data that you publish to the dataset is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. Only the default dataset is supported. To call this operation, the dataset must currently have a customer managed KMS key associated with it. If the dataset has no associated KMS key, the operation fails with ResourceNotFoundException. Amazon CloudWatch performs a dry-run kms:Decrypt call on the key as part of this operation. This verifies that the caller is authorized to use the currently associated key. The caller must have kms:Decrypt permission on the currently associated key, and the key must be enabled and accessible. If the key has been disabled or scheduled for deletion, you must first re-enable or restore it before you can disassociate it from the dataset.  Disassociating a KMS key from a dataset does not immediately remove the kms:Decrypt requirement on data plane operations. For up to three hours after disassociation, callers must continue to have kms:Decrypt permission on the previously associated key. Some data may still be encrypted with that key during this window. After this enforcement window elapses, the kms:Decrypt requirement is lifted.  For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
+    /// Removes the customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key association from the specified dataset. After this operation completes, data that you publish to the dataset is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. Only the default dataset is supported. To call this operation, the dataset must currently have a customer managed KMS key associated with it. If the dataset has no associated KMS key, the operation fails with ResourceNotFoundException. Amazon CloudWatch performs a dry-run kms:Decrypt call on the currently associated key as part of this operation. The caller must have kms:Decrypt permission on the currently associated key. If the key is accessible but the caller lacks kms:Decrypt permission, the operation fails with AccessDeniedException.  If the currently associated key has been deleted, is scheduled for deletion, is pending import, is unavailable, or has been disabled, Amazon CloudWatch does not require kms:Decrypt permission on that key and the disassociation proceeds. If the key was only disabled, consider re-enabling it instead of disassociating, because re-enabling allows Amazon CloudWatch to resume decrypting your existing metric data.   Disassociating a KMS key from a dataset does not immediately remove the kms:Decrypt requirement on data plane operations. For up to three hours after disassociation, callers must continue to have kms:Decrypt permission on the previously associated key. Some data might still be encrypted with that key during this window. After this enforcement window elapses, the kms:Decrypt requirement is lifted.  For more information about using customer managed keys with Amazon CloudWatch, see Encryption at rest with customer managed keys in the Amazon CloudWatch User Guide.
     ///
     /// Parameters:
     ///   - datasetIdentifier: Specifies the identifier of the dataset from which to remove the KMS key association. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
@@ -742,7 +804,7 @@ public struct CloudWatch: AWSService {
         return try await self.getAlarmMuteRule(input, logger: logger)
     }
 
-    /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy.
+    /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy. You might have recently enabled an opt-in Region (Region that is disabled by default) for your account. In that Region, GetDashboard can return an access denied error for up to 24 hours after you enable the Region. This delay occurs while dashboard data propagates. The error does not indicate a problem with your permissions. Because dashboards are global, you can call GetDashboard in any other enabled Region, or retry after propagation completes.
     @Sendable
     @inlinable
     public func getDashboard(_ input: GetDashboardInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDashboardOutput {
@@ -755,7 +817,7 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy.
+    /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy. You might have recently enabled an opt-in Region (Region that is disabled by default) for your account. In that Region, GetDashboard can return an access denied error for up to 24 hours after you enable the Region. This delay occurs while dashboard data propagates. The error does not indicate a problem with your permissions. Because dashboards are global, you can call GetDashboard in any other enabled Region, or retry after propagation completes.
     ///
     /// Parameters:
     ///   - dashboardName: The name of the dashboard to be described.
@@ -847,7 +909,7 @@ public struct CloudWatch: AWSService {
         return try await self.getInsightRuleReport(input, logger: logger)
     }
 
-    /// You can use the GetMetricData API to retrieve CloudWatch metric values. The operation can also include a CloudWatch Metrics Insights query, and one or more metric math functions. A GetMetricData operation that does not include a query can retrieve as many as 500 different metrics in a single request, with a total of as many as 100,800 data points. You can also optionally perform metric math expressions on the values of the returned statistics, to create new time series that represent new insights into your data. For example, using Lambda metrics, you could divide the Errors metric by the Invocations metric to get an error rate time series. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. If you include a Metrics Insights query, each GetMetricData operation can include only one query. But the same GetMetricData operation can also retrieve other metrics. Metrics Insights queries can query only the most recent three hours of metric data. For more information about Metrics Insights, see Query your metrics with CloudWatch Metrics Insights. Calls to the GetMetricData API have a different pricing structure than calls to GetMetricStatistics. For more information about pricing, see Amazon CloudWatch Pricing. Amazon CloudWatch retains metric data as follows:   Data points with a period of less than 60 seconds are available for 3 hours. These data points are high-resolution metrics and are available only for custom metrics that have been defined with a StorageResolution of 1.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 455 days (15 months).   Data points that are initially published with a shorter period are aggregated together for long-term storage. For example, if you collect data using a period of 1 minute, the data remains available for 15 days with 1-minute resolution. After 15 days, this data is still available, but is aggregated and retrievable only with a resolution of 5 minutes. After 63 days, the data is further aggregated and is available with a resolution of 1 hour. If you omit Unit in your request, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.  Using Metrics Insights queries with metric math  You can't mix a Metric Insights query and metric math syntax in the same expression, but you can reference results from a Metrics Insights query within other Metric math expressions. A Metrics Insights query without a GROUP BY clause returns a single time-series (TS), and can be used as input for a metric math expression that expects a single time series. A Metrics Insights query with a GROUP BY clause returns an array of time-series (TS[]), and can be used as input for a metric math expression that expects an array of time series.
+    /// You can use the GetMetricData API to retrieve CloudWatch metric values. The operation can also include a CloudWatch Metrics Insights query, and one or more metric math functions. A GetMetricData operation that does not include a query can retrieve as many as 500 different metrics in a single request, with a total of as many as 100,800 data points. You can also optionally perform metric math expressions on the values of the returned statistics, to create new time series that represent new insights into your data. For example, using Lambda metrics, you could divide the Errors metric by the Invocations metric to get an error rate time series. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. If you include a Metrics Insights query, each GetMetricData operation can include only one query. But the same GetMetricData operation can also retrieve other metrics. Metrics Insights queries can query the most recent two weeks of metric data. For alarm condition evaluations, Metrics Insights queries can query only the most recent three hours of metric data. For more information about Metrics Insights, see Query your metrics with CloudWatch Metrics Insights. Calls to the GetMetricData API have a different pricing structure than calls to GetMetricStatistics. For more information about pricing, see Amazon CloudWatch Pricing. Amazon CloudWatch retains metric data as follows:   Data points with a period of less than 60 seconds are available for 3 hours. These data points are high-resolution metrics and are available only for custom metrics that have been defined with a StorageResolution of 1.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 455 days (15 months).   Data points that are initially published with a shorter period are aggregated together for long-term storage. For example, if you collect data using a period of 1 minute, the data remains available for 15 days with 1-minute resolution. After 15 days, this data is still available, but is aggregated and retrievable only with a resolution of 5 minutes. After 63 days, the data is further aggregated and is available with a resolution of 1 hour. If you omit Unit in your request, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.  Using Metrics Insights queries with metric math  You can't mix a Metric Insights query and metric math syntax in the same expression, but you can reference results from a Metrics Insights query within other Metric math expressions. A Metrics Insights query without a GROUP BY clause returns a single time-series (TS), and can be used as input for a metric math expression that expects a single time series. A Metrics Insights query with a GROUP BY clause returns an array of time-series (TS[]), and can be used as input for a metric math expression that expects an array of time series.
     @Sendable
     @inlinable
     public func getMetricData(_ input: GetMetricDataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataOutput {
@@ -860,7 +922,7 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// You can use the GetMetricData API to retrieve CloudWatch metric values. The operation can also include a CloudWatch Metrics Insights query, and one or more metric math functions. A GetMetricData operation that does not include a query can retrieve as many as 500 different metrics in a single request, with a total of as many as 100,800 data points. You can also optionally perform metric math expressions on the values of the returned statistics, to create new time series that represent new insights into your data. For example, using Lambda metrics, you could divide the Errors metric by the Invocations metric to get an error rate time series. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. If you include a Metrics Insights query, each GetMetricData operation can include only one query. But the same GetMetricData operation can also retrieve other metrics. Metrics Insights queries can query only the most recent three hours of metric data. For more information about Metrics Insights, see Query your metrics with CloudWatch Metrics Insights. Calls to the GetMetricData API have a different pricing structure than calls to GetMetricStatistics. For more information about pricing, see Amazon CloudWatch Pricing. Amazon CloudWatch retains metric data as follows:   Data points with a period of less than 60 seconds are available for 3 hours. These data points are high-resolution metrics and are available only for custom metrics that have been defined with a StorageResolution of 1.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 455 days (15 months).   Data points that are initially published with a shorter period are aggregated together for long-term storage. For example, if you collect data using a period of 1 minute, the data remains available for 15 days with 1-minute resolution. After 15 days, this data is still available, but is aggregated and retrievable only with a resolution of 5 minutes. After 63 days, the data is further aggregated and is available with a resolution of 1 hour. If you omit Unit in your request, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.  Using Metrics Insights queries with metric math  You can't mix a Metric Insights query and metric math syntax in the same expression, but you can reference results from a Metrics Insights query within other Metric math expressions. A Metrics Insights query without a GROUP BY clause returns a single time-series (TS), and can be used as input for a metric math expression that expects a single time series. A Metrics Insights query with a GROUP BY clause returns an array of time-series (TS[]), and can be used as input for a metric math expression that expects an array of time series.
+    /// You can use the GetMetricData API to retrieve CloudWatch metric values. The operation can also include a CloudWatch Metrics Insights query, and one or more metric math functions. A GetMetricData operation that does not include a query can retrieve as many as 500 different metrics in a single request, with a total of as many as 100,800 data points. You can also optionally perform metric math expressions on the values of the returned statistics, to create new time series that represent new insights into your data. For example, using Lambda metrics, you could divide the Errors metric by the Invocations metric to get an error rate time series. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. If you include a Metrics Insights query, each GetMetricData operation can include only one query. But the same GetMetricData operation can also retrieve other metrics. Metrics Insights queries can query the most recent two weeks of metric data. For alarm condition evaluations, Metrics Insights queries can query only the most recent three hours of metric data. For more information about Metrics Insights, see Query your metrics with CloudWatch Metrics Insights. Calls to the GetMetricData API have a different pricing structure than calls to GetMetricStatistics. For more information about pricing, see Amazon CloudWatch Pricing. Amazon CloudWatch retains metric data as follows:   Data points with a period of less than 60 seconds are available for 3 hours. These data points are high-resolution metrics and are available only for custom metrics that have been defined with a StorageResolution of 1.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 455 days (15 months).   Data points that are initially published with a shorter period are aggregated together for long-term storage. For example, if you collect data using a period of 1 minute, the data remains available for 15 days with 1-minute resolution. After 15 days, this data is still available, but is aggregated and retrievable only with a resolution of 5 minutes. After 63 days, the data is further aggregated and is available with a resolution of 1 hour. If you omit Unit in your request, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.  Using Metrics Insights queries with metric math  You can't mix a Metric Insights query and metric math syntax in the same expression, but you can reference results from a Metrics Insights query within other Metric math expressions. A Metrics Insights query without a GROUP BY clause returns a single time-series (TS), and can be used as input for a metric math expression that expects a single time series. A Metrics Insights query with a GROUP BY clause returns an array of time-series (TS[]), and can be used as input for a metric math expression that expects an array of time series.
     ///
     /// Parameters:
     ///   - endTime: The time stamp indicating the latest data to be returned. The value specified is exclusive; results include data points up to the specified time stamp. For better performance, specify StartTime and EndTime values that align with the value of the metric's Period and sync up with the beginning and end of an hour. For example, if the Period of a metric is 5 minutes, specifying 12:05 or 12:30 as EndTime can get a faster response from CloudWatch than setting 12:07 or 12:29 as the EndTime.
@@ -1034,6 +1096,35 @@ public struct CloudWatch: AWSService {
         return try await self.getOTelEnrichment(input, logger: logger)
     }
 
+    /// Retrieves the current resource metrics configuration for an Amazon Web Services resource. The response includes the resource ARN, any metric selections, and the times at which the configuration was created and last updated. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration. To retrieve a resource metrics configuration, you must have the cloudwatch:GetResourceMetricsConfiguration permission. For information about scoping this permission to specific resources, see Condition keys for resource metrics configuration access in the Amazon CloudWatch User Guide.
+    @Sendable
+    @inlinable
+    public func getResourceMetricsConfiguration(_ input: GetResourceMetricsConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceMetricsConfigurationOutput {
+        try await self.client.execute(
+            operation: "GetResourceMetricsConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current resource metrics configuration for an Amazon Web Services resource. The response includes the resource ARN, any metric selections, and the times at which the configuration was created and last updated. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration. To retrieve a resource metrics configuration, you must have the cloudwatch:GetResourceMetricsConfiguration permission. For information about scoping this permission to specific resources, see Condition keys for resource metrics configuration access in the Amazon CloudWatch User Guide.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon Web Services resource to retrieve the resource metrics configuration for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourceMetricsConfiguration(
+        resourceArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourceMetricsConfigurationOutput {
+        let input = GetResourceMetricsConfigurationInput(
+            resourceArn: resourceArn
+        )
+        return try await self.getResourceMetricsConfiguration(input, logger: logger)
+    }
+
     /// Lists alarm mute rules in your Amazon Web Services account and region. You can filter the results by alarm name to find all mute rules targeting a specific alarm, or by status to find rules that are scheduled, active, or expired. This operation supports pagination for accounts with many mute rules. Use the MaxRecords and NextToken parameters to retrieve results in multiple calls.  Permissions  To list mute rules, you need the cloudwatch:ListAlarmMuteRules permission.
     @Sendable
     @inlinable
@@ -1072,7 +1163,7 @@ public struct CloudWatch: AWSService {
         return try await self.listAlarmMuteRules(input, logger: logger)
     }
 
-    /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed.   ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and include the value you received for NextToken in the first call, to receive the next 1000 results.
+    /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed.   ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and include the value you received for NextToken in the first call, to receive the next 1000 results. You might have recently enabled an opt-in Region (Region that is disabled by default) for your account. In that Region, ListDashboards can return an access denied error for up to 24 hours after you enable the Region. This delay occurs while dashboard data propagates. The error does not indicate a problem with your permissions. Because dashboards are global, you can call ListDashboards in any other enabled Region, or retry after propagation completes.
     @Sendable
     @inlinable
     public func listDashboards(_ input: ListDashboardsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDashboardsOutput {
@@ -1085,7 +1176,7 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed.   ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and include the value you received for NextToken in the first call, to receive the next 1000 results.
+    /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed.   ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and include the value you received for NextToken in the first call, to receive the next 1000 results. You might have recently enabled an opt-in Region (Region that is disabled by default) for your account. In that Region, ListDashboards can return an access denied error for up to 24 hours after you enable the Region. This delay occurs while dashboard data propagates. The error does not indicate a problem with your permissions. Because dashboards are global, you can call ListDashboards in any other enabled Region, or retry after propagation completes.
     ///
     /// Parameters:
     ///   - dashboardNamePrefix: If you specify this parameter, only the dashboards with names starting with the specified string are listed. The maximum length is 255, and valid characters are A-Z, a-z, 0-9, ".", "-", and "_".
@@ -1498,6 +1589,7 @@ public struct CloudWatch: AWSService {
     ///   - tags: A list of key-value pairs to associate with the alarm. You can use tags to categorize and manage your alarms.
     ///   - threshold: The value to compare with the aggregated query result.
     ///   - treatMissingData: Sets how this alarm is to handle missing data points. Valid values are breaching, notBreaching, ignore, and missing. If this parameter is omitted, the default behavior of missing is used.
+    ///   - warmUpConfiguration: The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. The warm-up period reduces alarm noise from missing data while a new resource or service starts publishing data. For more information, see Alarm warm-up periods in the Amazon CloudWatch User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func putLogAlarm(
@@ -1516,6 +1608,7 @@ public struct CloudWatch: AWSService {
         tags: [Tag]? = nil,
         threshold: Double? = nil,
         treatMissingData: String? = nil,
+        warmUpConfiguration: WarmUpConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = PutLogAlarmInput(
@@ -1533,7 +1626,8 @@ public struct CloudWatch: AWSService {
             scheduledQueryConfiguration: scheduledQueryConfiguration, 
             tags: tags, 
             threshold: threshold, 
-            treatMissingData: treatMissingData
+            treatMissingData: treatMissingData, 
+            warmUpConfiguration: warmUpConfiguration
         )
         return try await self.putLogAlarm(input, logger: logger)
     }
@@ -1608,6 +1702,7 @@ public struct CloudWatch: AWSService {
     ///   - thresholdMetricId: If this is an alarm based on an anomaly detection model, make this value match the ID of the ANOMALY_DETECTION_BAND function. For an example of how to use this parameter, see the Anomaly Detection Model Alarm example on this page. If your alarm uses this parameter, it cannot have Auto Scaling actions.
     ///   - treatMissingData:  Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching | notBreaching | ignore | missing   Alarms that evaluate metrics in the AWS/DynamoDB namespace always ignore missing data even if you choose a different option for TreatMissingData. When an AWS/DynamoDB metric has missing data, alarms that evaluate that metric remain in their current state.   This parameter is not applicable to PromQL alarms.
     ///   - unit: The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you are creating an alarm based on a metric math expression, you can specify the unit for each metric (if needed) within the objects in the Metrics array. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves unpredictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
+    ///   - warmUpConfiguration: The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. The warm-up period reduces alarm noise from missing data while a new resource or service starts publishing metrics. For more information, see Alarm warm-up periods in the Amazon CloudWatch User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func putMetricAlarm(
@@ -1636,6 +1731,7 @@ public struct CloudWatch: AWSService {
         thresholdMetricId: String? = nil,
         treatMissingData: String? = nil,
         unit: StandardUnit? = nil,
+        warmUpConfiguration: WarmUpConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = PutMetricAlarmInput(
@@ -1663,7 +1759,8 @@ public struct CloudWatch: AWSService {
             threshold: threshold, 
             thresholdMetricId: thresholdMetricId, 
             treatMissingData: treatMissingData, 
-            unit: unit
+            unit: unit, 
+            warmUpConfiguration: warmUpConfiguration
         )
         return try await self.putMetricAlarm(input, logger: logger)
     }
@@ -1826,7 +1923,7 @@ public struct CloudWatch: AWSService {
         return try await self.startMetricStreams(input, logger: logger)
     }
 
-    /// Enables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. Once enabled, metrics that contain a resource identifier dimension (for example, EC2 CPUUtilization with an InstanceId dimension) are enriched with resource ARN and resource tag labels and become queryable using PromQL. Before calling this operation, you must enable resource tags on telemetry for your account. For more information, see Enable resource tags on telemetry.
+    /// Enables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. Once enabled, metrics that contain a resource identifier dimension (for example, EC2 CPUUtilization with an InstanceId dimension) are enriched with resource ARN and resource tag labels and become queryable using PromQL. Before calling this operation, you must enable resource tags on telemetry for your account. For more information, see Enable resource tags on telemetry. Optionally, IncludeFilters and ExcludeFilters limit enrichment to a subset of the account's metrics. These filters are stored only when this operation starts enrichment. Calling StartOTelEnrichment for an account where enrichment is already running has no effect and does not modify the filters that are applied. To change them, use UpdateOTelEnrichment.
     @Sendable
     @inlinable
     public func startOTelEnrichment(_ input: StartOTelEnrichmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOTelEnrichmentOutput {
@@ -1839,15 +1936,21 @@ public struct CloudWatch: AWSService {
             logger: logger
         )
     }
-    /// Enables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. Once enabled, metrics that contain a resource identifier dimension (for example, EC2 CPUUtilization with an InstanceId dimension) are enriched with resource ARN and resource tag labels and become queryable using PromQL. Before calling this operation, you must enable resource tags on telemetry for your account. For more information, see Enable resource tags on telemetry.
+    /// Enables enrichment and PromQL access for CloudWatch vended metrics for supported Amazon Web Services resources in the account. Once enabled, metrics that contain a resource identifier dimension (for example, EC2 CPUUtilization with an InstanceId dimension) are enriched with resource ARN and resource tag labels and become queryable using PromQL. Before calling this operation, you must enable resource tags on telemetry for your account. For more information, see Enable resource tags on telemetry. Optionally, IncludeFilters and ExcludeFilters limit enrichment to a subset of the account's metrics. These filters are stored only when this operation starts enrichment. Calling StartOTelEnrichment for an account where enrichment is already running has no effect and does not modify the filters that are applied. To change them, use UpdateOTelEnrichment.
     ///
     /// Parameters:
+    ///   - excludeFilters: The metric namespaces, and the metric names, to leave unenriched. If this parameter is omitted, nothing is excluded. Amazon CloudWatch applies ExcludeFilters after IncludeFilters, so a metric that both parameters match is not enriched. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+    ///   - includeFilters: The metric namespaces, and the metric names, to enrich. If this parameter is omitted, every namespace that Amazon CloudWatch supports for enrichment is in scope. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
     ///   - logger: Logger use during operation
     @inlinable
     public func startOTelEnrichment(
+        excludeFilters: [OTelEnrichmentMetricSelector]? = nil,
+        includeFilters: [OTelEnrichmentMetricSelector]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartOTelEnrichmentOutput {
         let input = StartOTelEnrichmentInput(
+            excludeFilters: excludeFilters, 
+            includeFilters: includeFilters
         )
         return try await self.startOTelEnrichment(input, logger: logger)
     }
@@ -1969,6 +2072,70 @@ public struct CloudWatch: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Replaces the filters that determine which CloudWatch vended metrics are enriched with resource ARN and resource tag labels for the account. Enrichment must already be running for the account. If it is not, this operation returns a ResourceNotFoundException. To start enrichment, use StartOTelEnrichment. The filters in the request completely replace the stored filters; they are not merged with them. IncludeFilters and ExcludeFilters are replaced as a pair, so a request that specifies only IncludeFilters also clears the stored ExcludeFilters, and a request that specifies neither clears both.
+    @Sendable
+    @inlinable
+    public func updateOTelEnrichment(_ input: UpdateOTelEnrichmentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOTelEnrichmentOutput {
+        try await self.client.execute(
+            operation: "UpdateOTelEnrichment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Replaces the filters that determine which CloudWatch vended metrics are enriched with resource ARN and resource tag labels for the account. Enrichment must already be running for the account. If it is not, this operation returns a ResourceNotFoundException. To start enrichment, use StartOTelEnrichment. The filters in the request completely replace the stored filters; they are not merged with them. IncludeFilters and ExcludeFilters are replaced as a pair, so a request that specifies only IncludeFilters also clears the stored ExcludeFilters, and a request that specifies neither clears both.
+    ///
+    /// Parameters:
+    ///   - excludeFilters: The metric namespaces, and the metric names, to leave unenriched. If this parameter is omitted, nothing is excluded. Amazon CloudWatch applies ExcludeFilters after IncludeFilters, so a metric that both parameters match is not enriched. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+    ///   - includeFilters: The metric namespaces, and the metric names, to enrich. If this parameter is omitted, every namespace that Amazon CloudWatch supports for enrichment is in scope. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateOTelEnrichment(
+        excludeFilters: [OTelEnrichmentMetricSelector]? = nil,
+        includeFilters: [OTelEnrichmentMetricSelector]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateOTelEnrichmentOutput {
+        let input = UpdateOTelEnrichmentInput(
+            excludeFilters: excludeFilters, 
+            includeFilters: includeFilters
+        )
+        return try await self.updateOTelEnrichment(input, logger: logger)
+    }
+
+    /// Updates the resource metrics configuration for an Amazon Web Services resource. The MetricSelections value that you provide replaces any existing metric selections for the resource; it is not merged with them. If you omit MetricSelections, Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration. To update a resource metrics configuration, you must have the cloudwatch:UpdateResourceMetricsConfiguration permission. For information about scoping this permission to specific resources, see Condition keys for resource metrics configuration access in the Amazon CloudWatch User Guide.
+    @Sendable
+    @inlinable
+    public func updateResourceMetricsConfiguration(_ input: UpdateResourceMetricsConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateResourceMetricsConfigurationOutput {
+        try await self.client.execute(
+            operation: "UpdateResourceMetricsConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the resource metrics configuration for an Amazon Web Services resource. The MetricSelections value that you provide replaces any existing metric selections for the resource; it is not merged with them. If you omit MetricSelections, Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource. This operation returns a ResourceNotFoundException if no resource metrics configuration exists for the specified resource ARN. To create a configuration, use CreateResourceMetricsConfiguration. To update a resource metrics configuration, you must have the cloudwatch:UpdateResourceMetricsConfiguration permission. For information about scoping this permission to specific resources, see Condition keys for resource metrics configuration access in the Amazon CloudWatch User Guide.
+    ///
+    /// Parameters:
+    ///   - metricSelections: Specifies which metrics Amazon CloudWatch collects for the resource. The selections that you provide completely replace any existing metric selections. If you omit this parameter, Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon Web Services resource to update the resource metrics configuration for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateResourceMetricsConfiguration(
+        metricSelections: [ResourceMetricSelection]? = nil,
+        resourceArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateResourceMetricsConfigurationOutput {
+        let input = UpdateResourceMetricsConfigurationInput(
+            metricSelections: metricSelections, 
+            resourceArn: resourceArn
+        )
+        return try await self.updateResourceMetricsConfiguration(input, logger: logger)
     }
 }
 

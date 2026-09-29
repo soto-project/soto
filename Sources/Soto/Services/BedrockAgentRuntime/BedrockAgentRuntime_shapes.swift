@@ -48,6 +48,38 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum AgenticRetrieveMemoryMetadataFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The AFTER operator matches memory records whose timestamp metadata value falls after the supplied value.
+        case after = "AFTER"
+        /// The BEFORE operator matches memory records whose timestamp metadata value falls before the supplied value.
+        case before = "BEFORE"
+        /// The CONTAINS operator matches memory records whose metadata value contains the supplied value.
+        case contains = "CONTAINS"
+        /// The EQUALS_TO operator matches memory records whose metadata value equals the supplied value.
+        case equalsTo = "EQUALS_TO"
+        /// The EXISTS operator matches memory records that carry the metadata key, whatever its value. This operator takes no right operand.
+        case exists = "EXISTS"
+        /// The GREATER_THAN operator matches memory records whose numeric metadata value is greater than the supplied value.
+        case greaterThan = "GREATER_THAN"
+        /// The GREATER_THAN_OR_EQUALS operator matches memory records whose numeric metadata value is greater than or equal to the supplied value.
+        case greaterThanOrEquals = "GREATER_THAN_OR_EQUALS"
+        /// The LESS_THAN operator matches memory records whose numeric metadata value is less than the supplied value.
+        case lessThan = "LESS_THAN"
+        /// The LESS_THAN_OR_EQUALS operator matches memory records whose numeric metadata value is less than or equal to the supplied value.
+        case lessThanOrEquals = "LESS_THAN_OR_EQUALS"
+        /// The NOT_EXISTS operator matches memory records that do not carry the metadata key. This operator takes no right operand.
+        case notExists = "NOT_EXISTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgenticRetrieveMemoryPersistenceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Specifies that the question and the agent-generated answer are persisted to the session. This is the default when persistenceMode is omitted.
+        case `default` = "DEFAULT"
+        /// Specifies that the session is left unchanged.
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AgenticRetrieveRerankingConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bedrockRerankingModel = "BEDROCK_RERANKING_MODEL"
         public var description: String { return self.rawValue }
@@ -77,12 +109,16 @@ extension BedrockAgentRuntime {
         case planning = "Planning"
         /// The retrieval phase where data is fetched.
         case retrieval = "Retrieval"
+        /// The phase that restores prior session history from AgentCore Memory short-term memory, before the agent begins work.
+        case sessionHistoryLoad = "SessionHistoryLoad"
         /// A speculative retrieval phase for optimization.
         case speculativeRetrieval = "SpeculativeRetrieval"
         public var description: String { return self.rawValue }
     }
 
     public enum AgenticRetrieveType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// An AgentCore Memory resource. Long-term memory retrievals report under the Retrieval step with this source type.
+        case bedrockAgentCoreMemory = "BedrockAgentCoreMemory"
         /// A Bedrock knowledge base retrieval source.
         case bedrockKnowledgeBase = "BedrockKnowledgeBase"
         public var description: String { return self.rawValue }
@@ -116,6 +152,18 @@ extension BedrockAgentRuntime {
 
     public enum CustomControlMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case returnControl = "RETURN_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentAclMemberRelation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case and = "AND"
+        case or = "OR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DocumentAclMembershipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataSource = "DATA_SOURCE"
+        case knowledgeBase = "KNOWLEDGE_BASE"
         public var description: String { return self.rawValue }
     }
 
@@ -632,6 +680,55 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case customControl = "customControl"
             case lambda = "lambda"
+        }
+    }
+
+    public enum AgenticRetrieveMemoryMetadataValue: AWSEncodableShape, Sendable {
+        /// A timestamp value in ISO 8601 UTC format.
+        case dateTimeValue(Date)
+        /// A numeric value.
+        case numberValue(Double)
+        /// A list of string values.
+        case stringListValue([String])
+        /// A string value.
+        case stringValue(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .dateTimeValue(let value):
+                try container.encode(value, forKey: .dateTimeValue)
+            case .numberValue(let value):
+                try container.encode(value, forKey: .numberValue)
+            case .stringListValue(let value):
+                try container.encode(value, forKey: .stringListValue)
+            case .stringValue(let value):
+                try container.encode(value, forKey: .stringValue)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .stringListValue(let value):
+                try value.forEach {
+                    try validate($0, name: "stringListValue[]", parent: name, max: 64)
+                    try validate($0, name: "stringListValue[]", parent: name, min: 1)
+                    try validate($0, name: "stringListValue[]", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+                }
+            case .stringValue(let value):
+                try self.validate(value, name: "stringValue", parent: name, max: 256)
+                try self.validate(value, name: "stringValue", parent: name, min: 1)
+                try self.validate(value, name: "stringValue", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateTimeValue = "dateTimeValue"
+            case numberValue = "numberValue"
+            case stringListValue = "stringListValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -2116,17 +2213,21 @@ extension BedrockAgentRuntime {
     public struct AgenticRetrieveAction: AWSDecodableShape {
         /// Details of a full document expansion action.
         public let fullDocumentExpansion: AgenticRetrieveFullDocExpansionDetails?
+        /// The details of a long-term memory retrieval that the agent chose to perform.
+        public let memoryRetrieve: AgenticRetrieveMemoryRetrieveDetails?
         /// Details of the retrieve action.
         public let retrieve: AgenticRetrieveActionDetails?
 
         @inlinable
-        public init(fullDocumentExpansion: AgenticRetrieveFullDocExpansionDetails? = nil, retrieve: AgenticRetrieveActionDetails? = nil) {
+        public init(fullDocumentExpansion: AgenticRetrieveFullDocExpansionDetails? = nil, memoryRetrieve: AgenticRetrieveMemoryRetrieveDetails? = nil, retrieve: AgenticRetrieveActionDetails? = nil) {
             self.fullDocumentExpansion = fullDocumentExpansion
+            self.memoryRetrieve = memoryRetrieve
             self.retrieve = retrieve
         }
 
         private enum CodingKeys: String, CodingKey {
             case fullDocumentExpansion = "fullDocumentExpansion"
+            case memoryRetrieve = "memoryRetrieve"
             case retrieve = "retrieve"
         }
     }
@@ -2352,6 +2453,167 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct AgenticRetrieveMemoryConfiguration: AWSEncodableShape {
+        /// The identifier of the AgentCore Memory resource to use. The resource must exist in your account and be in the ACTIVE state.
+        public let memoryId: String
+        /// Specifies whether the agent-generated answer is written back to the given short-term memory session, and applies only when sessionBinding is set. Valid values:    DEFAULT (default) – Specifies that the question and the agent-generated answer are persisted to the session as a single event. This value requires generateResponse to be true.    NONE – Specifies that the session is left unchanged.
+        public let persistenceMode: AgenticRetrieveMemoryPersistenceMode?
+        /// Specifies the long-term memory configuration the agent can retrieve from. The agent decides whether to retrieve and composes its own query. This field currently accepts at most one entry.
+        public let retrievalConfigs: [AgenticRetrieveMemoryRetrievalConfig]?
+        /// The short-term memory session whose history is restored for this retrieval. To persist the agent-generated answer to the session, omit persistenceMode or set it to DEFAULT. To leave the session unchanged, set persistenceMode to NONE. Supply session history through the existing messages parameter or through short-term memory, but not both.
+        public let sessionBinding: AgenticRetrieveMemorySessionBinding?
+
+        @inlinable
+        public init(memoryId: String, persistenceMode: AgenticRetrieveMemoryPersistenceMode? = nil, retrievalConfigs: [AgenticRetrieveMemoryRetrievalConfig]? = nil, sessionBinding: AgenticRetrieveMemorySessionBinding? = nil) {
+            self.memoryId = memoryId
+            self.persistenceMode = persistenceMode
+            self.retrievalConfigs = retrievalConfigs
+            self.sessionBinding = sessionBinding
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memoryId, name: "memoryId", parent: name, max: 111)
+            try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
+            try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9\\-_]{0,99}-[a-zA-Z0-9]{10}$")
+            try self.retrievalConfigs?.forEach {
+                try $0.validate(name: "\(name).retrievalConfigs[]")
+            }
+            try self.sessionBinding?.validate(name: "\(name).sessionBinding")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memoryId = "memoryId"
+            case persistenceMode = "persistenceMode"
+            case retrievalConfigs = "retrievalConfigs"
+            case sessionBinding = "sessionBinding"
+        }
+    }
+
+    public struct AgenticRetrieveMemoryMetadataFilter: AWSEncodableShape {
+        /// The metadata key that the expression evaluates.
+        public let left: AgenticRetrieveMemoryMetadataFilterLeft
+        /// The relationship that the metadata key and value must have for a memory record to match.
+        public let `operator`: AgenticRetrieveMemoryMetadataFilterOperator
+        /// The value that the expression compares the metadata key against. Supply this value for every operator except EXISTS and NOT_EXISTS.
+        public let right: AgenticRetrieveMemoryMetadataFilterRight?
+
+        @inlinable
+        public init(left: AgenticRetrieveMemoryMetadataFilterLeft, operator: AgenticRetrieveMemoryMetadataFilterOperator, right: AgenticRetrieveMemoryMetadataFilterRight? = nil) {
+            self.left = left
+            self.`operator` = `operator`
+            self.right = right
+        }
+
+        public func validate(name: String) throws {
+            try self.left.validate(name: "\(name).left")
+            try self.right?.validate(name: "\(name).right")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case left = "left"
+            case `operator` = "operator"
+            case right = "right"
+        }
+    }
+
+    public struct AgenticRetrieveMemoryRetrievalConfig: AWSEncodableShape {
+        /// The metadata filter expressions that restrict retrieval to matching memory records. You can specify a maximum of 5 expressions.
+        public let metadataFilters: [AgenticRetrieveMemoryMetadataFilter]?
+        /// The namespace prefix to filter memory records by. The agent retrieves memory records in namespaces that start with the provided prefix. You must specify either namespace or namespacePath.
+        public let namespace: String?
+        /// The parent namespace to use for hierarchical retrievals. The agent retrieves all memory records whose namespace falls under the same parent hierarchy. You must specify either namespace or namespacePath.
+        public let namespacePath: String?
+        /// The extraction strategy ID that restricts retrieval to memory records produced by a single strategy. Omit this parameter to retrieve records from every strategy on the memory resource.
+        public let strategyId: String?
+
+        @inlinable
+        public init(metadataFilters: [AgenticRetrieveMemoryMetadataFilter]? = nil, namespace: String? = nil, namespacePath: String? = nil, strategyId: String? = nil) {
+            self.metadataFilters = metadataFilters
+            self.namespace = namespace
+            self.namespacePath = namespacePath
+            self.strategyId = strategyId
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataFilters?.forEach {
+                try $0.validate(name: "\(name).metadataFilters[]")
+            }
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 1024)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9/*][a-zA-Z0-9\\-_/*]*(?::[a-zA-Z0-9\\-_/*]+)*[a-zA-Z0-9\\-_/*]*$")
+            try self.validate(self.namespacePath, name: "namespacePath", parent: name, max: 1024)
+            try self.validate(self.namespacePath, name: "namespacePath", parent: name, min: 1)
+            try self.validate(self.namespacePath, name: "namespacePath", parent: name, pattern: "^[a-zA-Z0-9/*][a-zA-Z0-9\\-_/*]*(?::[a-zA-Z0-9\\-_/*]+)*[a-zA-Z0-9\\-_/*]*$")
+            try self.validate(self.strategyId, name: "strategyId", parent: name, max: 100)
+            try self.validate(self.strategyId, name: "strategyId", parent: name, min: 1)
+            try self.validate(self.strategyId, name: "strategyId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataFilters = "metadataFilters"
+            case namespace = "namespace"
+            case namespacePath = "namespacePath"
+            case strategyId = "strategyId"
+        }
+    }
+
+    public struct AgenticRetrieveMemoryRetrieveDetails: AWSDecodableShape {
+        /// The query that the agent composed.
+        public let inputQuery: AgenticRetrieveMessageContent
+        /// The identifier of the AgentCore Memory resource retrieved from.
+        public let memoryId: String
+        /// The namespace prefix retrieved from, as supplied in the request. This field is present when the request specified namespace.
+        public let namespace: String?
+        /// The parent namespace retrieved from hierarchically, as supplied in the request. This field is present when the request specified namespacePath.
+        public let namespacePath: String?
+        /// The extraction strategy that restricted retrieval, if the request specified one.
+        public let strategyId: String?
+
+        @inlinable
+        public init(inputQuery: AgenticRetrieveMessageContent, memoryId: String, namespace: String? = nil, namespacePath: String? = nil, strategyId: String? = nil) {
+            self.inputQuery = inputQuery
+            self.memoryId = memoryId
+            self.namespace = namespace
+            self.namespacePath = namespacePath
+            self.strategyId = strategyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputQuery = "inputQuery"
+            case memoryId = "memoryId"
+            case namespace = "namespace"
+            case namespacePath = "namespacePath"
+            case strategyId = "strategyId"
+        }
+    }
+
+    public struct AgenticRetrieveMemorySessionBinding: AWSEncodableShape {
+        /// The identifier of the end user or agent that the session belongs to. This identifier scopes session history so that one actor's history is never returned for another. You are responsible for sending the correct actor value.
+        public let actorId: String
+        /// The identifier of the session to restore and continue. You are responsible for sending the correct session value.
+        public let sessionId: String
+
+        @inlinable
+        public init(actorId: String, sessionId: String) {
+            self.actorId = actorId
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actorId, name: "actorId", parent: name, max: 255)
+            try self.validate(self.actorId, name: "actorId", parent: name, min: 1)
+            try self.validate(self.actorId, name: "actorId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_/]*(?::[a-zA-Z0-9\\-_/]+)*[a-zA-Z0-9\\-_/]*$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actorId = "actorId"
+            case sessionId = "sessionId"
+        }
+    }
+
     public struct AgenticRetrieveMessage: AWSEncodableShape {
         /// The content of the message.
         public let content: AgenticRetrieveMessageContent
@@ -2515,6 +2777,8 @@ extension BedrockAgentRuntime {
         public let agenticRetrieveConfiguration: AgenticRetrieveConfiguration
         /// Whether to generate a response based on the retrieved results.
         public let generateResponse: Bool?
+        /// The configuration for using an Amazon Bedrock AgentCore Memory resource with this retrieval.
+        public let memoryConfiguration: AgenticRetrieveMemoryConfiguration?
         /// The list of messages for the agentic retrieval conversation.
         public let messages: [AgenticRetrieveMessage]
         /// Opaque continuation token for paginated results.
@@ -2527,9 +2791,10 @@ extension BedrockAgentRuntime {
         public let userContext: UserContext?
 
         @inlinable
-        public init(agenticRetrieveConfiguration: AgenticRetrieveConfiguration, generateResponse: Bool? = nil, messages: [AgenticRetrieveMessage], nextToken: String? = nil, policyConfiguration: AgenticRetrievePolicyConfiguration? = nil, retrievers: [AgenticRetriever], userContext: UserContext? = nil) {
+        public init(agenticRetrieveConfiguration: AgenticRetrieveConfiguration, generateResponse: Bool? = nil, memoryConfiguration: AgenticRetrieveMemoryConfiguration? = nil, messages: [AgenticRetrieveMessage], nextToken: String? = nil, policyConfiguration: AgenticRetrievePolicyConfiguration? = nil, retrievers: [AgenticRetriever], userContext: UserContext? = nil) {
             self.agenticRetrieveConfiguration = agenticRetrieveConfiguration
             self.generateResponse = generateResponse
+            self.memoryConfiguration = memoryConfiguration
             self.messages = messages
             self.nextToken = nextToken
             self.policyConfiguration = policyConfiguration
@@ -2539,6 +2804,7 @@ extension BedrockAgentRuntime {
 
         public func validate(name: String) throws {
             try self.agenticRetrieveConfiguration.validate(name: "\(name).agenticRetrieveConfiguration")
+            try self.memoryConfiguration?.validate(name: "\(name).memoryConfiguration")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
@@ -2550,6 +2816,7 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case agenticRetrieveConfiguration = "agenticRetrieveConfiguration"
             case generateResponse = "generateResponse"
+            case memoryConfiguration = "memoryConfiguration"
             case messages = "messages"
             case nextToken = "nextToken"
             case policyConfiguration = "policyConfiguration"
@@ -3033,6 +3300,64 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case data = "data"
             case mediaType = "mediaType"
+        }
+    }
+
+    public struct CheckIngestedDocumentAclRequest: AWSEncodableShape {
+        /// The unique identifier of the data source that contains the document.
+        public let dataSourceId: String
+        /// The unique identifier of the document to check access for.
+        public let documentId: String
+        /// The unique identifier of the knowledge base that contains the document.
+        public let knowledgeBaseId: String
+        /// The context object containing identity information for access control filtering, including user ID and optional group memberships used to evaluate the document access control list (ACL).
+        public let userContext: UserContext
+
+        @inlinable
+        public init(dataSourceId: String, documentId: String, knowledgeBaseId: String, userContext: UserContext) {
+            self.dataSourceId = dataSourceId
+            self.documentId = documentId
+            self.knowledgeBaseId = knowledgeBaseId
+            self.userContext = userContext
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSourceId, key: "dataSourceId")
+            try container.encode(self.documentId, forKey: .documentId)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+            try container.encode(self.userContext, forKey: .userContext)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 10)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.documentId, name: "documentId", parent: name, max: 1825)
+            try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
+            try self.validate(self.documentId, name: "documentId", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 2048)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, min: 10)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentId = "documentId"
+            case userContext = "userContext"
+        }
+    }
+
+    public struct CheckIngestedDocumentAclResponse: AWSDecodableShape {
+        /// Specifies whether the user has access to the document based on the ingested access control list (ACL). Returns true if the user is allowed access, and false otherwise.
+        public let hasAccess: Bool
+
+        @inlinable
+        public init(hasAccess: Bool) {
+            self.hasAccess = hasAccess
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hasAccess = "hasAccess"
         }
     }
 
@@ -3574,6 +3899,100 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case resourceName = "resourceName"
+        }
+    }
+
+    public struct DocumentAcl: AWSDecodableShape {
+        /// The list of principals allowed access to the document.
+        public let allowList: DocumentAclMembership?
+        /// The list of principals denied access to the document.
+        public let denyList: DocumentAclMembership?
+
+        @inlinable
+        public init(allowList: DocumentAclMembership? = nil, denyList: DocumentAclMembership? = nil) {
+            self.allowList = allowList
+            self.denyList = denyList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowList = "allowList"
+            case denyList = "denyList"
+        }
+    }
+
+    public struct DocumentAclCondition: AWSDecodableShape {
+        /// The logical operator for combining users and groups within this condition. Valid values: AND – Both a user match and a group match are required. OR – Either a user match or a group match is sufficient.
+        public let conditionOperator: DocumentAclMemberRelation?
+        /// The list of group entries in this condition.
+        public let groups: [DocumentAclGroup]?
+        /// The list of user entries in this condition.
+        public let users: [DocumentAclUser]?
+
+        @inlinable
+        public init(conditionOperator: DocumentAclMemberRelation? = nil, groups: [DocumentAclGroup]? = nil, users: [DocumentAclUser]? = nil) {
+            self.conditionOperator = conditionOperator
+            self.groups = groups
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionOperator = "conditionOperator"
+            case groups = "groups"
+            case users = "users"
+        }
+    }
+
+    public struct DocumentAclGroup: AWSDecodableShape {
+        /// The identifier of the group.
+        public let id: String
+        /// The membership type indicating the scope of the group entry.
+        public let type: DocumentAclMembershipType
+
+        @inlinable
+        public init(id: String, type: DocumentAclMembershipType) {
+            self.id = id
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case type = "type"
+        }
+    }
+
+    public struct DocumentAclMembership: AWSDecodableShape {
+        /// The list of conditions that determine membership.
+        public let conditions: [DocumentAclCondition]?
+        /// The logical relation between conditions. Valid values: AND – All conditions must match. OR – At least one condition must match.
+        public let memberRelation: DocumentAclMemberRelation?
+
+        @inlinable
+        public init(conditions: [DocumentAclCondition]? = nil, memberRelation: DocumentAclMemberRelation? = nil) {
+            self.conditions = conditions
+            self.memberRelation = memberRelation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
+            case memberRelation = "memberRelation"
+        }
+    }
+
+    public struct DocumentAclUser: AWSDecodableShape {
+        /// The identifier of the user.
+        public let id: String
+        /// The membership type indicating the scope of the user entry.
+        public let type: DocumentAclMembershipType
+
+        @inlinable
+        public init(id: String, type: DocumentAclMembershipType) {
+            self.id = id
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case type = "type"
         }
     }
 
@@ -4716,6 +5135,7 @@ extension BedrockAgentRuntime {
         public let knowledgeBaseId: String
         /// The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW.
         public let outputFormat: DocumentOutputFormat?
+        /// Contains information about the user making the request. This is used for access control filtering to ensure that results only include documents the user is authorized to access.
         public let userContext: UserContext?
 
         @inlinable
@@ -4921,6 +5341,59 @@ extension BedrockAgentRuntime {
             case flowVersion = "flowVersion"
             case startedAt = "startedAt"
             case status = "status"
+        }
+    }
+
+    public struct GetIngestedDocumentAclRequest: AWSEncodableShape {
+        /// The unique identifier of the data source that contains the document.
+        public let dataSourceId: String
+        /// The unique identifier of the document to retrieve the ingested access control list (ACL) for.
+        public let documentId: String
+        /// The unique identifier of the knowledge base that contains the document.
+        public let knowledgeBaseId: String
+
+        @inlinable
+        public init(dataSourceId: String, documentId: String, knowledgeBaseId: String) {
+            self.dataSourceId = dataSourceId
+            self.documentId = documentId
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataSourceId, key: "dataSourceId")
+            try container.encode(self.documentId, forKey: .documentId)
+            request.encodePath(self.knowledgeBaseId, key: "knowledgeBaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 10)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.documentId, name: "documentId", parent: name, max: 1825)
+            try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
+            try self.validate(self.documentId, name: "documentId", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 2048)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, min: 10)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z]{10}$|^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:knowledge-base/[0-9a-zA-Z]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentId = "documentId"
+        }
+    }
+
+    public struct GetIngestedDocumentAclResponse: AWSDecodableShape {
+        /// The ingested document access control list (ACL) containing allow and deny membership information.
+        public let documentAcl: DocumentAcl
+
+        @inlinable
+        public init(documentAcl: DocumentAcl) {
+            self.documentAcl = documentAcl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentAcl = "documentAcl"
         }
     }
 
@@ -6826,6 +7299,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct ManagedSearchConfiguration: AWSEncodableShape {
+        /// Filters the metadata of the retrieved results so that Amazon Bedrock returns only results that match the filter.
         public let filter: RetrievalFilter?
         /// The number of results to retrieve.
         public let numberOfResults: Int?
@@ -8545,6 +9019,7 @@ extension BedrockAgentRuntime {
         public let sessionConfiguration: RetrieveAndGenerateSessionConfiguration?
         /// The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
         public let sessionId: String?
+        /// Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
         public let userContext: UserContext?
 
         @inlinable
@@ -8628,6 +9103,7 @@ extension BedrockAgentRuntime {
         public let sessionConfiguration: RetrieveAndGenerateSessionConfiguration?
         /// The unique identifier of the session. When you first make a RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must reuse this value for all subsequent requests in the same conversational session. This value allows Amazon Bedrock to maintain context and knowledge from previous interactions. You can't explicitly set the sessionId yourself.
         public let sessionId: String?
+        /// Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
         public let userContext: UserContext?
 
         @inlinable
@@ -8690,6 +9166,7 @@ extension BedrockAgentRuntime {
         public let retrievalConfiguration: KnowledgeBaseRetrievalConfiguration?
         /// Contains the query to send the knowledge base.
         public let retrievalQuery: KnowledgeBaseQuery
+        /// Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
         public let userContext: UserContext?
 
         @inlinable
@@ -9658,6 +10135,44 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case s3Uri = "s3Uri"
             case summary = "summary"
+        }
+    }
+
+    public struct AgenticRetrieveMemoryMetadataFilterLeft: AWSEncodableShape {
+        /// The metadata key to filter on.
+        public let metadataKey: String?
+
+        @inlinable
+        public init(metadataKey: String? = nil) {
+            self.metadataKey = metadataKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataKey, name: "metadataKey", parent: name, max: 128)
+            try self.validate(self.metadataKey, name: "metadataKey", parent: name, min: 1)
+            try self.validate(self.metadataKey, name: "metadataKey", parent: name, pattern: "^[a-zA-Z0-9\\s._:/=+@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataKey = "metadataKey"
+        }
+    }
+
+    public struct AgenticRetrieveMemoryMetadataFilterRight: AWSEncodableShape {
+        /// The value to compare the metadata key against.
+        public let metadataValue: AgenticRetrieveMemoryMetadataValue?
+
+        @inlinable
+        public init(metadataValue: AgenticRetrieveMemoryMetadataValue? = nil) {
+            self.metadataValue = metadataValue
+        }
+
+        public func validate(name: String) throws {
+            try self.metadataValue?.validate(name: "\(name).metadataValue")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataValue = "metadataValue"
         }
     }
 

@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS CloudDirectory service.
 ///
-/// Amazon Cloud Directory Amazon Cloud Directory is a component of the AWS Directory Service that simplifies the development and management of cloud-scale web, mobile, and IoT applications. This guide describes the Cloud Directory operations that you can call programmatically and includes detailed information on data types and errors. For information about Cloud Directory features, see AWS Directory Service and the Amazon Cloud Directory Developer Guide.
+/// Amazon Cloud Directory Amazon Cloud Directory is a component of the AWS Directory Service that simplifies the development and management of cloud-scale web, mobile, and IoT applications. This guide describes the Cloud Directory operations that you can call programmatically and includes detailed information on data types and errors. For information about Cloud Directory features, see AWS Directory Service and the Amazon Cloud Directory Developer Guide. Amazon Cloud Directory is no longer open to new customers and will reach end of support on July 24, 2027. For alternatives to Amazon Cloud Directory, explore Amazon DynamoDB and Amazon Neptune. If you need help choosing the right alternative for your use case, or for any other questions, contact AWS Support.
 public struct CloudDirectory: AWSService {
     // MARK: Member variables
 
@@ -40,7 +40,7 @@ public struct CloudDirectory: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct CloudDirectory: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "CloudDirectory",
+            sdkId: "CloudDirectory",
             serviceIdentifier: "clouddirectory",
             serviceProtocol: .restjson,
             apiVersion: "2017-01-11",

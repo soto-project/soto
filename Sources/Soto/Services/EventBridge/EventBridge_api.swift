@@ -40,7 +40,7 @@ public struct EventBridge: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -61,6 +61,7 @@ public struct EventBridge: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "AWSEvents",
             serviceName: "EventBridge",
+            sdkId: "EventBridge",
             serviceIdentifier: "events",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-10-07",
@@ -1527,7 +1528,7 @@ public struct EventBridge: AWSService {
         return try await self.listTargetsByRule(input, logger: logger)
     }
 
-    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency.  However, the total entry size must be less than 256KB. You can calculate the entry size before you send the events.  For more information, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide . PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1000 levels deep.
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency.  However, the total entry size must be less than 1MB. You can calculate the entry size before you send the events.  For more information, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide . PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1000 levels deep.
     @Sendable
     @inlinable
     public func putEvents(_ input: PutEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEventsResponse {
@@ -1540,7 +1541,7 @@ public struct EventBridge: AWSService {
             logger: logger
         )
     }
-    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency.  However, the total entry size must be less than 256KB. You can calculate the entry size before you send the events.  For more information, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide . PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1000 levels deep.
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency.  However, the total entry size must be less than 1MB. You can calculate the entry size before you send the events.  For more information, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide . PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1000 levels deep.
     ///
     /// Parameters:
     ///   - endpointId: The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When using Java, you must include auth-crt on the class path.

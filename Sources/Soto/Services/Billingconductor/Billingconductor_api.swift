@@ -39,7 +39,7 @@ public struct Billingconductor: AWSService {
     /// - parameters:
     ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -58,6 +58,7 @@ public struct Billingconductor: AWSService {
             region: nil,
             partition: partition,
             serviceName: "Billingconductor",
+            sdkId: "billingconductor",
             serviceIdentifier: "billingconductor",
             serviceProtocol: .restjson,
             apiVersion: "2021-07-30",
@@ -650,6 +651,35 @@ public struct Billingconductor: AWSService {
         return try await self.getBillingGroupCostReport(input, logger: logger)
     }
 
+    /// Retrieves the auto billing group creation preference for a billing transfer.
+    @Sendable
+    @inlinable
+    public func getBillingTransferPreference(_ input: GetBillingTransferPreferenceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBillingTransferPreferenceOutput {
+        try await self.client.execute(
+            operation: "GetBillingTransferPreference", 
+            path: "/get-billing-transfer-preference", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the auto billing group creation preference for a billing transfer.
+    ///
+    /// Parameters:
+    ///   - responsibilityTransferArn: The Amazon Resource Name (ARN) of the billing transfer whose preference you want to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getBillingTransferPreference(
+        responsibilityTransferArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetBillingTransferPreferenceOutput {
+        let input = GetBillingTransferPreferenceInput(
+            responsibilityTransferArn: responsibilityTransferArn
+        )
+        return try await self.getBillingTransferPreference(input, logger: logger)
+    }
+
     ///  This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
     @Sendable
     @inlinable
@@ -1165,6 +1195,41 @@ public struct Billingconductor: AWSService {
             status: status
         )
         return try await self.updateBillingGroup(input, logger: logger)
+    }
+
+    /// Sets the auto billing group creation preference for a billing transfer. When the preference is enabled, Billing Conductor automatically creates an indirect billing transfer billing group in your account, with the pricing plan that you specify, for each account that transfers its bill to the bill source account of this billing transfer. The preference applies only to billing groups that are created after you enable it. Enabling the preference requires the iam:CreateServiceLinkedRole permission. While a pricing plan is specified in an enabled preference, you can't delete that pricing plan.
+    @Sendable
+    @inlinable
+    public func updateBillingTransferPreference(_ input: UpdateBillingTransferPreferenceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBillingTransferPreferenceOutput {
+        try await self.client.execute(
+            operation: "UpdateBillingTransferPreference", 
+            path: "/update-billing-transfer-preference", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets the auto billing group creation preference for a billing transfer. When the preference is enabled, Billing Conductor automatically creates an indirect billing transfer billing group in your account, with the pricing plan that you specify, for each account that transfers its bill to the bill source account of this billing transfer. The preference applies only to billing groups that are created after you enable it. Enabling the preference requires the iam:CreateServiceLinkedRole permission. While a pricing plan is specified in an enabled preference, you can't delete that pricing plan.
+    ///
+    /// Parameters:
+    ///   - autoBillingTransferBillingGroupCreation: The auto billing group creation preference to set for the billing transfer.
+    ///   - clientToken: A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
+    ///   - responsibilityTransferArn: The Amazon Resource Name (ARN) of the billing transfer whose preference you want to set.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateBillingTransferPreference(
+        autoBillingTransferBillingGroupCreation: AutoTransferBillingGroupCreationPreference,
+        clientToken: String? = UpdateBillingTransferPreferenceInput.idempotencyToken(),
+        responsibilityTransferArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateBillingTransferPreferenceOutput {
+        let input = UpdateBillingTransferPreferenceInput(
+            autoBillingTransferBillingGroupCreation: autoBillingTransferBillingGroupCreation, 
+            clientToken: clientToken, 
+            responsibilityTransferArn: responsibilityTransferArn
+        )
+        return try await self.updateBillingTransferPreference(input, logger: logger)
     }
 
     ///  Update an existing custom line item in the current or previous billing period.

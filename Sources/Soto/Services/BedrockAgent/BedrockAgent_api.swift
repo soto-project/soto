@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS BedrockAgent service.
 ///
-/// Describes the API operations for creating and managing Amazon Bedrock agents.
+///  Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see Amazon Bedrock Agents Classic availability change.  Describes the API operations for creating and managing Amazon Bedrock agents.
 public struct BedrockAgent: AWSService {
     // MARK: Member variables
 
@@ -40,7 +40,7 @@ public struct BedrockAgent: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct BedrockAgent: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "BedrockAgent",
+            sdkId: "Bedrock Agent",
             serviceIdentifier: "bedrock-agent",
             signingName: "bedrock",
             serviceProtocol: .restjson,
@@ -167,7 +168,7 @@ public struct BedrockAgent: AWSService {
         return try await self.associateAgentKnowledgeBase(input, logger: logger)
     }
 
-    /// Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.   Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.     To enable your agent to retain conversational context across multiple sessions, include a memoryConfiguration object. For more information, see Configure memory.   To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see Advanced prompts.   If your agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
+    ///  Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see Amazon Bedrock Agents Classic availability change.  Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.   Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.     To enable your agent to retain conversational context across multiple sessions, include a memoryConfiguration object. For more information, see Configure memory.   To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see Advanced prompts.   If your agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     @Sendable
     @inlinable
     public func createAgent(_ input: CreateAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentResponse {
@@ -180,7 +181,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.   Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.     To enable your agent to retain conversational context across multiple sessions, include a memoryConfiguration object. For more information, see Configure memory.   To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see Advanced prompts.   If your agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
+    ///  Amazon Bedrock Agents (now Amazon Bedrock Agents Classic) is no longer open to new customers. For capabilities similar to Bedrock Agents Classic, explore Amazon Bedrock AgentCore. Existing customers can continue to use the service as normal. For more information, see Amazon Bedrock Agents Classic availability change.  Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.   Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.     To enable your agent to retain conversational context across multiple sessions, include a memoryConfiguration object. For more information, see Configure memory.   To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see Advanced prompts.   If your agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     ///
     /// Parameters:
     ///   - agentCollaboration: The agent's collaboration role.
@@ -652,6 +653,68 @@ public struct BedrockAgent: AWSService {
         return try await self.createPromptVersion(input, logger: logger)
     }
 
+    /// Creates a VPC configuration that lets a knowledge base connect to a resource in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING. Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED.
+    @Sendable
+    @inlinable
+    public func createVpcConfiguration(_ input: CreateVpcConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVpcConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateVpcConfiguration", 
+            path: "/knowledgebases/{knowledgeBaseId}/vpcconfigurations/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a VPC configuration that lets a knowledge base connect to a resource in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING. Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+    ///   - description: An optional description of the VPC configuration. If you don't specify a description, the VPC configuration has no description.
+    ///   - hostHeader: An optional HTTP Host header value to send when invoking the resource. Set this only if your resource (or an upstream router or ingress) routes by the Host header and that host differs from the target. This setting is independent of tlsServerName.
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base to associate this VPC configuration with.
+    ///   - name: An optional human-readable name for the VPC configuration. If you don't specify a name, the VPC configuration has no name.
+    ///   - port: The port on which to reach the resource.
+    ///   - protocol: The protocol used to connect to the resource. Specify HTTP for plaintext or HTTPS for TLS. When you specify HTTPS, you must also provide tlsServerName.
+    ///   - resolutionMode: Controls how a domain-name resourceTarget is resolved. This applies only when the target is a domain name; it has no effect for IP-address targets, which have no name to resolve. In all cases the resolved address must be reachable from inside your VPC. Valid values:    IN_VPC (default, recommended) – The target domain name is resolved privately, using the DNS resolvers of the VPC, such as private Route 53 hosted zones or on-premises DNS reachable from the VPC. Use this for targets that are private to your VPC, such as internal load balancers, private hosted-zone names, or on-premises hosts.    PUBLIC – The target domain name is resolved against public DNS resolvers. Select this only when the target's domain name must be resolved through public DNS and the resulting address is still reachable from the VPC, an uncommon split-horizon configuration. If you are unsure, use IN_VPC.
+    ///   - resourceTarget: The private IPv4 address or DNS name of the resource you want the knowledge base to reach. The target must be privately reachable from inside your VPC, such as an internal load balancer or a private IP. The following are not supported:   Internet-facing endpoints   Loopback addresses   Link-local addresses   Wildcard addresses   Multicast addresses   IPv6 literals
+    ///   - subnetIds: The subnets, in the VPC identified by vpcId, that the knowledge base uses to connect to the resource.
+    ///   - tlsServerName: The expected TLS server name. The service matches this value against the Subject Alternative Names on your resource's TLS certificate during invocation. This field is required when protocol is HTTPS. Set it to a hostname on your certificate, such as app.internal.example.com. You can use a single leftmost wildcard, such as *.example.com. The value must be a hostname without a port.
+    ///   - vpcId: The identifier of the VPC that the knowledge base connects through to reach the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createVpcConfiguration(
+        clientToken: String? = CreateVpcConfigurationRequest.idempotencyToken(),
+        description: String? = nil,
+        hostHeader: String? = nil,
+        knowledgeBaseId: String,
+        name: String? = nil,
+        port: Int,
+        protocol: VpcProtocol,
+        resolutionMode: VpcResolutionMode,
+        resourceTarget: String,
+        subnetIds: [String],
+        tlsServerName: String? = nil,
+        vpcId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateVpcConfigurationResponse {
+        let input = CreateVpcConfigurationRequest(
+            clientToken: clientToken, 
+            description: description, 
+            hostHeader: hostHeader, 
+            knowledgeBaseId: knowledgeBaseId, 
+            name: name, 
+            port: port, 
+            protocol: `protocol`, 
+            resolutionMode: resolutionMode, 
+            resourceTarget: resourceTarget, 
+            subnetIds: subnetIds, 
+            tlsServerName: tlsServerName, 
+            vpcId: vpcId
+        )
+        return try await self.createVpcConfiguration(input, logger: logger)
+    }
+
     /// Deletes an agent.
     @Sendable
     @inlinable
@@ -1049,6 +1112,38 @@ public struct BedrockAgent: AWSService {
             resourceArn: resourceArn
         )
         return try await self.deleteResourcePolicy(input, logger: logger)
+    }
+
+    /// Deletes a VPC configuration. This operation is asynchronous: it returns status DELETING. Poll GetVpcConfiguration until it returns a ResourceNotFoundException, indicating the configuration is deleted. Delete requests are idempotent and safe to retry.
+    @Sendable
+    @inlinable
+    public func deleteVpcConfiguration(_ input: DeleteVpcConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVpcConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteVpcConfiguration", 
+            path: "/knowledgebases/{knowledgeBaseId}/vpcconfigurations/{vpcConfigurationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a VPC configuration. This operation is asynchronous: it returns status DELETING. Poll GetVpcConfiguration until it returns a ResourceNotFoundException, indicating the configuration is deleted. Delete requests are idempotent and safe to retry.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base that owns the VPC configuration.
+    ///   - vpcConfigurationId: The unique identifier of the VPC configuration to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteVpcConfiguration(
+        knowledgeBaseId: String,
+        vpcConfigurationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteVpcConfigurationResponse {
+        let input = DeleteVpcConfigurationRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            vpcConfigurationId: vpcConfigurationId
+        )
+        return try await self.deleteVpcConfiguration(input, logger: logger)
     }
 
     /// Disassociates an agent collaborator.
@@ -1611,6 +1706,38 @@ public struct BedrockAgent: AWSService {
             resourceArn: resourceArn
         )
         return try await self.getResourcePolicy(input, logger: logger)
+    }
+
+    /// Returns the details and current status of a single VPC configuration. Use this operation to poll for the outcome of an asynchronous create or delete.
+    @Sendable
+    @inlinable
+    public func getVpcConfiguration(_ input: GetVpcConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVpcConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetVpcConfiguration", 
+            path: "/knowledgebases/{knowledgeBaseId}/vpcconfigurations/{vpcConfigurationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the details and current status of a single VPC configuration. Use this operation to poll for the outcome of an asynchronous create or delete.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base that owns the VPC configuration.
+    ///   - vpcConfigurationId: The unique identifier of the VPC configuration to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getVpcConfiguration(
+        knowledgeBaseId: String,
+        vpcConfigurationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetVpcConfigurationResponse {
+        let input = GetVpcConfigurationRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            vpcConfigurationId: vpcConfigurationId
+        )
+        return try await self.getVpcConfiguration(input, logger: logger)
     }
 
     /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
@@ -2180,6 +2307,44 @@ public struct BedrockAgent: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Returns a paginated list of the VPC configurations for a knowledge base. You can optionally filter by status. Use the nextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listVpcConfigurations(_ input: ListVpcConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVpcConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListVpcConfigurations", 
+            path: "/knowledgebases/{knowledgeBaseId}/vpcconfigurations/", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of the VPC configurations for a knowledge base. You can optionally filter by status. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base whose VPC configurations you want to list.
+    ///   - maxResults: The maximum number of results to return in the response. If more results are available, the response returns a nextToken.
+    ///   - nextToken: A pagination token to retrieve the next page of results, returned in a previous response when more results are available.
+    ///   - statusFilter: The status to filter the results by. Only VPC configurations with the specified status are returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listVpcConfigurations(
+        knowledgeBaseId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        statusFilter: VpcConfigurationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListVpcConfigurationsResponse {
+        let input = ListVpcConfigurationsRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            statusFilter: statusFilter
+        )
+        return try await self.listVpcConfigurations(input, logger: logger)
     }
 
     /// Creates a DRAFT version of the agent that can be used for internal testing.
@@ -3469,6 +3634,46 @@ extension BedrockAgent {
         )
         return self.listPromptsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listVpcConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listVpcConfigurationsPaginator(
+        _ input: ListVpcConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVpcConfigurationsRequest, ListVpcConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listVpcConfigurations,
+            inputKey: \ListVpcConfigurationsRequest.nextToken,
+            outputKey: \ListVpcConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listVpcConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - knowledgeBaseId: The unique identifier of the knowledge base whose VPC configurations you want to list.
+    ///   - maxResults: The maximum number of results to return in the response. If more results are available, the response returns a nextToken.
+    ///   - statusFilter: The status to filter the results by. Only VPC configurations with the specified status are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listVpcConfigurationsPaginator(
+        knowledgeBaseId: String,
+        maxResults: Int? = nil,
+        statusFilter: VpcConfigurationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListVpcConfigurationsRequest, ListVpcConfigurationsResponse> {
+        let input = ListVpcConfigurationsRequest(
+            knowledgeBaseId: knowledgeBaseId, 
+            maxResults: maxResults, 
+            statusFilter: statusFilter
+        )
+        return self.listVpcConfigurationsPaginator(input, logger: logger)
+    }
 }
 
 extension BedrockAgent.ListAgentActionGroupsRequest: AWSPaginateToken {
@@ -3625,6 +3830,18 @@ extension BedrockAgent.ListPromptsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             promptIdentifier: self.promptIdentifier
+        )
+    }
+}
+
+extension BedrockAgent.ListVpcConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgent.ListVpcConfigurationsRequest {
+        return .init(
+            knowledgeBaseId: self.knowledgeBaseId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            statusFilter: self.statusFilter
         )
     }
 }

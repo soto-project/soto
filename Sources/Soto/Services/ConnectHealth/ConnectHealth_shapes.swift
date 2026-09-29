@@ -74,6 +74,7 @@ extension ConnectHealth {
 
     public enum MedicalScribeLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enUs = "en-US"
+        case multi = "multi"
         public var description: String { return self.rawValue }
     }
 
@@ -1816,7 +1817,7 @@ extension ConnectHealth {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sectionHeader, name: "sectionHeader", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.sectionHeader, name: "sectionHeader", parent: name, pattern: "^[a-zA-Z0-9_]+$")
             try self.validate(self.sectionInstruction, name: "sectionInstruction", parent: name, pattern: "^[\\p{L}\\p{N}\\s\\*_\\-#\\[\\]\\(\\)\\.,:;!?'\"`<>~/|+=&%@\\\\{}^]+$")
         }
 

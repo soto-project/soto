@@ -210,7 +210,7 @@ extension RedshiftData {
             try self.validate(self.waitTimeSeconds, name: "waitTimeSeconds", parent: name, min: 1)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -550,7 +550,7 @@ extension RedshiftData {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -673,7 +673,7 @@ extension RedshiftData {
             try self.validate(self.waitTimeSeconds, name: "waitTimeSeconds", parent: name, min: 1)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -868,7 +868,7 @@ extension RedshiftData {
         /// The cluster identifier. This parameter is required when connecting to a cluster and authenticating using either Secrets Manager or temporary credentials.
         public let clusterIdentifier: String?
         /// The name of the database. This parameter is required when authenticating using either Secrets Manager or temporary credentials.
-        public let database: String
+        public let database: String?
         /// The database user name. This parameter is required when connecting to a cluster as a database user and authenticating using temporary credentials.
         public let dbUser: String?
         /// The maximum number of databases to return in the response. If more databases exist than fit in one response, then NextToken is returned to page through the results.
@@ -881,7 +881,7 @@ extension RedshiftData {
         public let workgroupName: String?
 
         @inlinable
-        public init(clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, secretArn: String? = nil, workgroupName: String? = nil) {
+        public init(clusterIdentifier: String? = nil, database: String? = nil, dbUser: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, secretArn: String? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.database = database
             self.dbUser = dbUser
@@ -899,7 +899,7 @@ extension RedshiftData {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -972,7 +972,7 @@ extension RedshiftData {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1045,7 +1045,7 @@ extension RedshiftData {
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-z0-9]{8}(-[a-z0-9]{4}){3}-[a-z0-9]{12}(:\\d{0,2})?$")
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1117,7 +1117,7 @@ extension RedshiftData {
             try self.validate(self.statementName, name: "statementName", parent: name, max: 2048)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1194,7 +1194,7 @@ extension RedshiftData {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^([a-z0-9-]{3,63}|arn:(aws(-[a-z]+)*):redshift-serverless:([a-z]{2}(-gov|(-iso[a-z]?))?|eusc-[a-z]+)-[a-z]+-\\d{1}:\\d{12}:workgroup/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|[a-z0-9-]{1,63}/[a-z0-9-]{1,63}))$")
         }
 
         private enum CodingKeys: String, CodingKey {

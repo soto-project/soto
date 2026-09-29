@@ -40,7 +40,7 @@ public struct Textract: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -61,6 +61,7 @@ public struct Textract: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "Textract",
             serviceName: "Textract",
+            sdkId: "Textract",
             serviceIdentifier: "textract",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-06-27",
@@ -138,7 +139,7 @@ public struct Textract: AWSService {
     ///   - adaptersConfig: Specifies the adapter to be used when analyzing a document.
     ///   - document: The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
     ///   - featureTypes: A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. Add SIGNATURES to return the locations of detected signatures. Add LAYOUT to the list to return information about the layout of the document.  All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
-    ///   - humanLoopConfig: Sets the configuration for the human in the loop workflow for analyzing documents.
+    ///   - humanLoopConfig: Sets the configuration for the human in the loop workflow for analyzing documents.  Amazon Textract uses Amazon Augmented AI (A2I) to run the human review workflows that you specify in HumanLoopConfig. A2I entered maintenance mode in July 2026 and no longer accepts new customers. If your account is not an existing A2I customer, requests fail with an InvalidParameterException. For more information, see AWS service availability. If you're an existing A2I customer but receive this error, contact AWS Support and request assistance from the A2I team.
     ///   - queriesConfig: Contains Queries and the alias for those Queries, as determined by the input.
     ///   - logger: Logger use during operation
     @inlinable

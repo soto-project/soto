@@ -40,7 +40,7 @@ public struct S3Vectors: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct S3Vectors: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "S3Vectors",
+            sdkId: "S3Vectors",
             serviceIdentifier: "s3vectors",
             serviceProtocol: .restjson,
             apiVersion: "2025-07-15",

@@ -40,7 +40,7 @@ public struct Invoicing: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -61,6 +61,7 @@ public struct Invoicing: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "Invoicing",
             serviceName: "Invoicing",
+            sdkId: "Invoicing",
             serviceIdentifier: "invoicing",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2024-12-01",
@@ -486,6 +487,73 @@ public struct Invoicing: AWSService {
             nextToken: nextToken
         )
         return try await self.listProcurementPortalPreferences(input, logger: logger)
+    }
+
+    /// Returns the suppliers configured for a specified procurement portal, including supplier identifiers and associated metadata. For faster, more reliable responses, use pagination.
+    @Sendable
+    @inlinable
+    public func listProcurementPortalSuppliers(_ input: ListProcurementPortalSuppliersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProcurementPortalSuppliersResponse {
+        try await self.client.execute(
+            operation: "ListProcurementPortalSuppliers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the suppliers configured for a specified procurement portal, including supplier identifiers and associated metadata. For faster, more reliable responses, use pagination.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. Default is 100.
+    ///   - nextToken: The token for the next set of results. You received this token from a previous call.
+    ///   - portalIdentifier: The unique identifier of the procurement portal for which to list suppliers. Use the PortalIdentifier value returned by ListProcurementPortals.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProcurementPortalSuppliers(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        portalIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListProcurementPortalSuppliersResponse {
+        let input = ListProcurementPortalSuppliersRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            portalIdentifier: portalIdentifier
+        )
+        return try await self.listProcurementPortalSuppliers(input, logger: logger)
+    }
+
+    /// Returns the Amazon Web Services-supported procurement portals for e-invoice delivery and purchase order retrieval. Each entry includes the portal identifier, name, and default feature configurations, which define the supported document and attachment types. For faster, more reliable responses, use pagination.
+    @Sendable
+    @inlinable
+    public func listProcurementPortals(_ input: ListProcurementPortalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProcurementPortalsResponse {
+        try await self.client.execute(
+            operation: "ListProcurementPortals", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the Amazon Web Services-supported procurement portals for e-invoice delivery and purchase order retrieval. Each entry includes the portal identifier, name, and default feature configurations, which define the supported document and attachment types. For faster, more reliable responses, use pagination.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. Default is 100.
+    ///   - nextToken: The token for the next set of results. You received this token from a previous call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProcurementPortals(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListProcurementPortalsResponse {
+        let input = ListProcurementPortalsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listProcurementPortals(input, logger: logger)
     }
 
     /// Lists the tags for a resource.
@@ -916,6 +984,77 @@ extension Invoicing {
         )
         return self.listProcurementPortalPreferencesPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listProcurementPortalSuppliers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProcurementPortalSuppliersPaginator(
+        _ input: ListProcurementPortalSuppliersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListProcurementPortalSuppliersRequest, ListProcurementPortalSuppliersResponse> {
+        return .init(
+            input: input,
+            command: self.listProcurementPortalSuppliers,
+            inputKey: \ListProcurementPortalSuppliersRequest.nextToken,
+            outputKey: \ListProcurementPortalSuppliersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listProcurementPortalSuppliers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. Default is 100.
+    ///   - portalIdentifier: The unique identifier of the procurement portal for which to list suppliers. Use the PortalIdentifier value returned by ListProcurementPortals.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProcurementPortalSuppliersPaginator(
+        maxResults: Int? = nil,
+        portalIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListProcurementPortalSuppliersRequest, ListProcurementPortalSuppliersResponse> {
+        let input = ListProcurementPortalSuppliersRequest(
+            maxResults: maxResults, 
+            portalIdentifier: portalIdentifier
+        )
+        return self.listProcurementPortalSuppliersPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listProcurementPortals(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProcurementPortalsPaginator(
+        _ input: ListProcurementPortalsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListProcurementPortalsRequest, ListProcurementPortalsResponse> {
+        return .init(
+            input: input,
+            command: self.listProcurementPortals,
+            inputKey: \ListProcurementPortalsRequest.nextToken,
+            outputKey: \ListProcurementPortalsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listProcurementPortals(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. Default is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProcurementPortalsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListProcurementPortalsRequest, ListProcurementPortalsResponse> {
+        let input = ListProcurementPortalsRequest(
+            maxResults: maxResults
+        )
+        return self.listProcurementPortalsPaginator(input, logger: logger)
+    }
 }
 
 extension Invoicing.ListInvoiceSummariesRequest: AWSPaginateToken {
@@ -945,6 +1084,27 @@ extension Invoicing.ListInvoiceUnitsRequest: AWSPaginateToken {
 extension Invoicing.ListProcurementPortalPreferencesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Invoicing.ListProcurementPortalPreferencesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Invoicing.ListProcurementPortalSuppliersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Invoicing.ListProcurementPortalSuppliersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            portalIdentifier: self.portalIdentifier
+        )
+    }
+}
+
+extension Invoicing.ListProcurementPortalsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Invoicing.ListProcurementPortalsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

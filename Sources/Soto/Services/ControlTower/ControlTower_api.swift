@@ -40,7 +40,7 @@ public struct ControlTower: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct ControlTower: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "ControlTower",
+            sdkId: "ControlTower",
             serviceIdentifier: "controltower",
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
@@ -627,10 +628,10 @@ public struct ControlTower: AWSService {
     ///
     /// Parameters:
     ///   - filter: An input filter for the ListEnabledControls API that lets you select the types of control operations to view.
-    ///   - includeChildren: A boolean value that determines whether to include enabled controls from child organizational units in the response.
+    ///   - includeChildren: Specifies whether to include enabled controls from child organizational units and child accounts in the response.
     ///   - maxResults: How many results to return per API call.
     ///   - nextToken: The token to continue the list from a previous API call with the same parameters.
-    ///   - targetIdentifier: The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
+    ///   - targetIdentifier: The ARN of the target. The value depends on the target type:   Organizational unit (OU) – Specify the ARN of the OU.   Account – Specify the ARN of the account.   For information on how to find the targetIdentifier, see the overview page.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEnabledControls(
@@ -1150,9 +1151,9 @@ extension ControlTower {
     ///
     /// - Parameters:
     ///   - filter: An input filter for the ListEnabledControls API that lets you select the types of control operations to view.
-    ///   - includeChildren: A boolean value that determines whether to include enabled controls from child organizational units in the response.
+    ///   - includeChildren: Specifies whether to include enabled controls from child organizational units and child accounts in the response.
     ///   - maxResults: How many results to return per API call.
-    ///   - targetIdentifier: The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
+    ///   - targetIdentifier: The ARN of the target. The value depends on the target type:   Organizational unit (OU) – Specify the ARN of the OU.   Account – Specify the ARN of the account.   For information on how to find the targetIdentifier, see the overview page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEnabledControlsPaginator(

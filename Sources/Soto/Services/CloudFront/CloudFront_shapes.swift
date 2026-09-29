@@ -243,6 +243,7 @@ extension CloudFront {
 
     public enum OriginAccessControlSigningProtocols: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case sigv4 = "sigv4"
+        case sigv4a = "sigv4a"
         public var description: String { return self.rawValue }
     }
 
@@ -9143,7 +9144,7 @@ extension CloudFront {
         public let originAccessControlOriginType: OriginAccessControlOriginTypes
         /// Specifies which requests CloudFront signs (adds authentication information to). Specify always for the most common use case. For more information, see origin access control advanced settings in the Amazon CloudFront Developer Guide. This field can have one of the following values:    always – CloudFront signs all origin requests, overwriting the Authorization header from the viewer request if one exists.    never – CloudFront doesn't sign any origin requests. This value turns off origin access control for all origins in all distributions that use this origin access control.    no-override – If the viewer request doesn't contain the Authorization header, then CloudFront signs the origin request. If the viewer request contains the Authorization header, then CloudFront doesn't sign the origin request and instead passes along the Authorization header from the viewer request. WARNING: To pass along the Authorization header from the viewer request, you must add the Authorization header to a cache policy for all cache behaviors that use origins associated with this origin access control.
         public let signingBehavior: OriginAccessControlSigningBehaviors
-        /// The signing protocol of the origin access control, which determines how CloudFront signs (authenticates) requests. The only valid value is sigv4.
+        /// The signing protocol of the origin access control, which determines how CloudFront signs (authenticates) requests. The only valid values are sigv4 and sigv4a.
         public let signingProtocol: OriginAccessControlSigningProtocols
 
         @inlinable
@@ -9212,7 +9213,7 @@ extension CloudFront {
         public let originAccessControlOriginType: OriginAccessControlOriginTypes
         /// A value that specifies which requests CloudFront signs (adds authentication information to). This field can have one of the following values:    never – CloudFront doesn't sign any origin requests.    always – CloudFront signs all origin requests, overwriting the Authorization header from the viewer request if necessary.    no-override – If the viewer request doesn't contain the Authorization header, CloudFront signs the origin request. If the viewer request contains the Authorization header, CloudFront doesn't sign the origin request, but instead passes along the Authorization header that it received in the viewer request.
         public let signingBehavior: OriginAccessControlSigningBehaviors
-        /// The signing protocol of the origin access control. The signing protocol determines how CloudFront signs (authenticates) requests. The only valid value is sigv4.
+        /// The signing protocol of the origin access control. The signing protocol determines how CloudFront signs (authenticates) requests. The only valid values are sigv4 and sigv4a.
         public let signingProtocol: OriginAccessControlSigningProtocols
 
         @inlinable
@@ -12782,7 +12783,7 @@ extension CloudFront {
         public let iamCertificateId: String?
         /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify the security policy that you want CloudFront to use for HTTPS connections with viewers. The security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront can use to communicate with viewers.   The ciphers that CloudFront can use to encrypt the content that it returns to viewers.   For more information, see Security Policy and Supported Protocols and Ciphers Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  On the CloudFront console, this setting is called Security Policy.  When you're using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher. If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
         public let minimumProtocolVersion: MinimumProtocolVersion?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the Amazon Web Services Support Center.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don't set a value for this field.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the Amazon Web ServicesSupport Center.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don't set a value for this field.
         public let sslSupportMethod: SSLSupportMethod?
 
         @inlinable

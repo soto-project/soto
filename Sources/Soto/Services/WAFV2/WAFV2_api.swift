@@ -40,7 +40,7 @@ public struct WAFV2: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -61,6 +61,7 @@ public struct WAFV2: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "AWSWAF_20190729",
             serviceName: "WAFV2",
+            sdkId: "WAFV2",
             serviceIdentifier: "wafv2",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-07-29",

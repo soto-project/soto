@@ -36,6 +36,9 @@ let package = Package(
         .library(name: "SotoARCZonalShift", targets: ["SotoARCZonalShift"]),
         .library(name: "SotoAccessAnalyzer", targets: ["SotoAccessAnalyzer"]),
         .library(name: "SotoAccount", targets: ["SotoAccount"]),
+        .library(name: "SotoAccountAccess", targets: ["SotoAccountAccess"]),
+        .library(name: "SotoAgentRegistry", targets: ["SotoAgentRegistry"]),
+        .library(name: "SotoAgentRegistryControl", targets: ["SotoAgentRegistryControl"]),
         .library(name: "SotoAmp", targets: ["SotoAmp"]),
         .library(name: "SotoAmplify", targets: ["SotoAmplify"]),
         .library(name: "SotoAmplifyBackend", targets: ["SotoAmplifyBackend"]),
@@ -208,6 +211,7 @@ let package = Package(
         .library(name: "SotoHealth", targets: ["SotoHealth"]),
         .library(name: "SotoHealthLake", targets: ["SotoHealthLake"]),
         .library(name: "SotoIAM", targets: ["SotoIAM"]),
+        .library(name: "SotoIAMToolbox", targets: ["SotoIAMToolbox"]),
         .library(name: "SotoIVS", targets: ["SotoIVS"]),
         .library(name: "SotoIVSRealTime", targets: ["SotoIVSRealTime"]),
         .library(name: "SotoIdentityStore", targets: ["SotoIdentityStore"]),
@@ -303,6 +307,7 @@ let package = Package(
         .library(name: "SotoNetworkFlowMonitor", targets: ["SotoNetworkFlowMonitor"]),
         .library(name: "SotoNetworkManager", targets: ["SotoNetworkManager"]),
         .library(name: "SotoNetworkMonitor", targets: ["SotoNetworkMonitor"]),
+        .library(name: "SotoNetworkSecurityManager", targets: ["SotoNetworkSecurityManager"]),
         .library(name: "SotoNotifications", targets: ["SotoNotifications"]),
         .library(name: "SotoNotificationsContacts", targets: ["SotoNotificationsContacts"]),
         .library(name: "SotoNovaAct", targets: ["SotoNovaAct"]),
@@ -335,6 +340,7 @@ let package = Package(
         .library(name: "SotoPipes", targets: ["SotoPipes"]),
         .library(name: "SotoPolly", targets: ["SotoPolly"]),
         .library(name: "SotoPricing", targets: ["SotoPricing"]),
+        .library(name: "SotoPricingPlanManager", targets: ["SotoPricingPlanManager"]),
         .library(name: "SotoProton", targets: ["SotoProton"]),
         .library(name: "SotoQApps", targets: ["SotoQApps"]),
         .library(name: "SotoQBusiness", targets: ["SotoQBusiness"]),
@@ -455,7 +461,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.9.0"),
+        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.16.0"),
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.100.0"),
     ],
     targets: [
@@ -505,6 +511,24 @@ let package = Package(
             name: "SotoAccount",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Account",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoAccountAccess",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/AccountAccess",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoAgentRegistry",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/AgentRegistry",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoAgentRegistryControl",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/AgentRegistryControl",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -1540,6 +1564,12 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
+            name: "SotoIAMToolbox",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/IAMToolbox",
+            swiftSettings: swiftSettings
+        ),
+        .target(
             name: "SotoIVS",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/IVS",
@@ -2110,6 +2140,12 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
+            name: "SotoNetworkSecurityManager",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/NetworkSecurityManager",
+            swiftSettings: swiftSettings
+        ),
+        .target(
             name: "SotoNotifications",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Notifications",
@@ -2299,6 +2335,12 @@ let package = Package(
             name: "SotoPricing",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Pricing",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoPricingPlanManager",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/PricingPlanManager",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -3012,13 +3054,17 @@ let package = Package(
         // Service extensions
         .target(
             name: "SotoCognitoIdentity",
-            dependencies: [.product(name: "SotoCore", package: "soto-core"), "_SotoCognitoIdentityGenerated"],
+            dependencies: [
+                .product(name: "SotoCore", package: "soto-core"), "_SotoCognitoIdentityGenerated",
+            ],
             path: "./Sources/Soto/Extensions/CognitoIdentity",
             swiftSettings: swiftSettings
         ),
         .target(
             name: "SotoDynamoDB",
-            dependencies: [.product(name: "SotoCore", package: "soto-core"), "_SotoDynamoDBGenerated"],
+            dependencies: [
+                .product(name: "SotoCore", package: "soto-core"), "_SotoDynamoDBGenerated",
+            ],
             path: "./Sources/Soto/Extensions/DynamoDB",
             swiftSettings: swiftSettings
         ),

@@ -2017,13 +2017,15 @@ extension EventBridge {
         public let lastModifiedTime: Date?
         /// The logging configuration settings for the event bus. For more information, see Configuring logs for event buses in the EventBridge User Guide.
         public let logConfig: LogConfig?
+        /// If the event bus was created on behalf of your account by an Amazon Web Services service, this field displays the principal name of the service that created the event bus.
+        public let managedBy: String?
         /// The name of the event bus. Currently, this is always default.
         public let name: String?
         /// The policy that enables the external account to send events to your account.
         public let policy: String?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: Date? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, lastModifiedTime: Date? = nil, logConfig: LogConfig? = nil, name: String? = nil, policy: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, kmsKeyIdentifier: String? = nil, lastModifiedTime: Date? = nil, logConfig: LogConfig? = nil, managedBy: String? = nil, name: String? = nil, policy: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.deadLetterConfig = deadLetterConfig
@@ -2031,6 +2033,7 @@ extension EventBridge {
             self.kmsKeyIdentifier = kmsKeyIdentifier
             self.lastModifiedTime = lastModifiedTime
             self.logConfig = logConfig
+            self.managedBy = managedBy
             self.name = name
             self.policy = policy
         }
@@ -2043,6 +2046,7 @@ extension EventBridge {
             case kmsKeyIdentifier = "KmsKeyIdentifier"
             case lastModifiedTime = "LastModifiedTime"
             case logConfig = "LogConfig"
+            case managedBy = "ManagedBy"
             case name = "Name"
             case policy = "Policy"
         }
@@ -2528,17 +2532,20 @@ extension EventBridge {
         public let description: String?
         /// The time the event bus was last modified.
         public let lastModifiedTime: Date?
+        /// If the event bus was created on behalf of your account by an Amazon Web Services service, this field displays the principal name of the service that created the event bus.
+        public let managedBy: String?
         /// The name of the event bus.
         public let name: String?
         /// The permissions policy of the event bus, describing which other Amazon Web Services accounts can write events to this event bus.
         public let policy: String?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, policy: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, lastModifiedTime: Date? = nil, managedBy: String? = nil, name: String? = nil, policy: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.lastModifiedTime = lastModifiedTime
+            self.managedBy = managedBy
             self.name = name
             self.policy = policy
         }
@@ -2548,6 +2555,7 @@ extension EventBridge {
             case creationTime = "CreationTime"
             case description = "Description"
             case lastModifiedTime = "LastModifiedTime"
+            case managedBy = "ManagedBy"
             case name = "Name"
             case policy = "Policy"
         }
@@ -4413,7 +4421,7 @@ extension EventBridge {
     }
 
     public struct SqsParameters: AWSEncodableShape & AWSDecodableShape {
-        /// The FIFO message group ID to use as the target.
+        /// The ID of the message group to use as the target.
         public let messageGroupId: String?
 
         @inlinable
@@ -4589,7 +4597,7 @@ extension EventBridge {
         public let runCommandParameters: RunCommandParameters?
         /// Contains the SageMaker AI Model Building Pipeline parameters to start execution of a SageMaker AI Model Building Pipeline. If you specify a SageMaker AI Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
         public let sageMakerPipelineParameters: SageMakerPipelineParameters?
-        /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
+        /// Contains the message group ID to use when the target is an Amazon SQS fair or FIFO queue. If you specify a fair or FIFO queue as a target, the queue must have content-based deduplication enabled.
         public let sqsParameters: SqsParameters?
 
         @inlinable

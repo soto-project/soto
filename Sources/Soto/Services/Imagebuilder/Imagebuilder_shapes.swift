@@ -79,6 +79,15 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageConfigurationStep: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associateLicenses = "ASSOCIATE_LICENSES"
+        case exportAmi = "EXPORT_AMI"
+        case putSsmParameters = "PUT_SSM_PARAMETERS"
+        case updateFastLaunchConfigurations = "UPDATE_FAST_LAUNCH_CONFIGURATIONS"
+        case updateLaunchTemplates = "UPDATE_LAUNCH_TEMPLATES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageScanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case abandoned = "ABANDONED"
         case collecting = "COLLECTING"
@@ -224,6 +233,13 @@ extension Imagebuilder {
         public var description: String { return self.rawValue }
     }
 
+    public enum RegionFailureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case deleted = "DELETED"
@@ -315,7 +331,9 @@ extension Imagebuilder {
     }
 
     public struct AdditionalInstanceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Contains settings for the Systems Manager agent on your build instance.
+        /// The Systems Manager agent settings for your build instance. This setting
+        /// 			applies to Linux and macOS build instances only. Requests that set it for a
+        /// 			recipe with a Windows base image are rejected.
         public let systemsManagerAgent: SystemsManagerAgent?
         /// Use this property to provide commands or a command script to run when you launch your
         /// 			build instance. The userDataOverride property replaces any commands that Image Builder might have added to
@@ -323,7 +341,7 @@ extension Imagebuilder {
         /// 			data, make sure that you add commands to install Systems Manager, if it is not pre-installed on
         /// 			your base image.  The user data is always base 64 encoded. For example, the following commands are
         /// 				encoded as
-        /// 				IyEvYmluL2Jhc2gKbWtkaXIgLXAgL3Zhci9iYi8KdG91Y2ggL3Zhci$:  #!/bin/bash  mkdir -p /var/bb/ touch /var
+        /// 				IyEvYmluL2Jhc2gKbWtkaXIgLXAgL3Zhci9iYi8KdG91Y2ggL3Zhcg==:  #!/bin/bash  mkdir -p /var/bb/ touch /var
         public let userDataOverride: String?
 
         @inlinable
@@ -355,6 +373,8 @@ extension Imagebuilder {
         public let name: String?
         /// The Amazon Web Services Region of the Amazon EC2 AMI.
         public let region: String?
+        /// The state of the AMI, which includes the status and, if applicable,
+        /// 			the reason for that status.
         public let state: ImageState?
 
         @inlinable
@@ -380,8 +400,12 @@ extension Imagebuilder {
     public struct AmiDistributionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The tags to apply to AMIs distributed to this Region.
         public let amiTags: [String: String]?
-        /// The description of the AMI distribution configuration. Minimum and maximum length are
-        /// 			in characters.
+        /// The description to apply to the distributed AMI. Image Builder sets this as the
+        /// 			output AMI's description in each target Region and account. If you
+        /// 			don't specify a description, the AMI in the build Region uses the
+        /// 			image recipe's description, if the recipe has one. Copies distributed
+        /// 			to other Regions and accounts don't receive a default
+        /// 			description.
         public let description: String?
         /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt the distributed image.
         /// 			This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
@@ -390,9 +414,15 @@ extension Imagebuilder {
         /// Launch permissions can be used to configure which Amazon Web Services accounts can use the AMI to
         /// 			launch instances.
         public let launchPermission: LaunchPermissionConfiguration?
-        /// The name of the output AMI.
+        /// The name of the output AMI. The name must include the
+        /// 			{{ imagebuilder:buildDate }} dynamic tag so that each build
+        /// 			produces a uniquely named AMI. If you don't specify a name, Image Builder
+        /// 			names the output AMI with the image name followed by the build timestamp,
+        /// 			for example my-image 2022-10-26T22-30-05.912619Z.
         public let name: String?
-        /// The ID of an account to which you want to distribute an image.
+        /// The Amazon Web Services account IDs to distribute the AMI to in this Region. Each listed
+        /// 			account receives its own copy of the output AMI. If you don't specify
+        /// 			accounts, Image Builder distributes the AMI only to your own account.
         public let targetAccountIds: [String]?
 
         @inlinable
@@ -460,7 +490,9 @@ extension Imagebuilder {
     }
 
     public struct CancelImageCreationRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the image that you want to cancel creation
         /// 			for.
@@ -507,7 +539,9 @@ extension Imagebuilder {
     }
 
     public struct CancelLifecycleExecutionRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// Identifies the specific runtime instance of the image lifecycle to cancel.
         public let lifecycleExecutionId: String
@@ -531,7 +565,8 @@ extension Imagebuilder {
     }
 
     public struct CancelLifecycleExecutionResponse: AWSDecodableShape {
-        /// The unique identifier for the image lifecycle runtime instance that was canceled.
+        /// The unique identifier of the lifecycle execution that the cancellation
+        /// 			request applies to. The cancellation completes asynchronously.
         public let lifecycleExecutionId: String?
 
         @inlinable
@@ -556,7 +591,9 @@ extension Imagebuilder {
         public let dateCreated: String?
         /// The description of the component.
         public let description: String?
-        /// The encryption status of the component.
+        /// Indicates whether the component data is encrypted at rest. Image Builder encrypts
+        /// 			all component data at rest, so this value is always true. This
+        /// 			field is retained for backward compatibility.
         public let encrypted: Bool?
         /// The KMS key identifier used to encrypt the component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
         /// 			in the Key Management Service Developer Guide.
@@ -566,7 +603,9 @@ extension Imagebuilder {
         /// Indicates whether component source is hidden from view in the console, and from
         /// 			component detail results for API, CLI, or SDK operations.
         public let obfuscate: Bool?
-        /// The owner of the component.
+        /// The owner of the component. The value is your account ID for components
+        /// 			that you own, the sharing account's ID for shared components, or
+        /// 			Amazon, ThirdParty, or AWSMarketplace.
         public let owner: String?
         /// Contains parameter details for each of the parameters that the component document
         /// 			defined for the component.
@@ -639,10 +678,14 @@ extension Imagebuilder {
     }
 
     public struct ComponentConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the component.
+        /// The Amazon Resource Name (ARN) of the component. You can specify a build version ARN, or a
+        /// 			component version ARN whose version segments can use x
+        /// 			wildcards, for example 1.x.x.
         public let componentArn: String
-        /// A group of parameter settings that Image Builder uses to configure the component for a specific
-        /// 			recipe.
+        /// A group of parameter settings that Image Builder uses to configure the component for
+        /// 			a specific recipe. You must supply a value for every component parameter
+        /// 			that has no default value, and you can only supply parameters that the
+        /// 			component defines.
         public let parameters: [ComponentParameter]?
 
         @inlinable
@@ -652,7 +695,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):component/[a-z0-9-_]+/(?:(?:([0-9]+|x)\\.([0-9]+|x)\\.([0-9]+|x))|(?:[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+))$")
+            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):component/[a-z0-9-_]+/(?:(?:([0-9]+|x)\\.([0-9]+|x)\\.([0-9]+|x))|(?:[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+))$")
             try self.parameters?.forEach {
                 try $0.validate(name: "\(name).parameters[]")
             }
@@ -662,6 +705,39 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case componentArn = "componentArn"
             case parameters = "parameters"
+        }
+    }
+
+    public struct ComponentFailureContext: AWSDecodableShape {
+        /// The action that the failed step runs, for example ExecuteBash.
+        public let action: String?
+        /// The Amazon Resource Name (ARN) of the component build version that failed.
+        public let componentArn: String?
+        /// The error message from the step that failed. Image Builder truncates messages that are
+        /// 			longer than 1024 characters. The component log in Amazon CloudWatch Logs contains
+        /// 			the full output.
+        public let errorMessage: String?
+        /// The name of the phase in the component document where the failure occurred, such
+        /// 			as build, validate, or test.
+        public let phaseName: String?
+        /// The name of the step in the component document that failed.
+        public let stepName: String?
+
+        @inlinable
+        public init(action: String? = nil, componentArn: String? = nil, errorMessage: String? = nil, phaseName: String? = nil, stepName: String? = nil) {
+            self.action = action
+            self.componentArn = componentArn
+            self.errorMessage = errorMessage
+            self.phaseName = phaseName
+            self.stepName = stepName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case componentArn = "componentArn"
+            case errorMessage = "errorMessage"
+            case phaseName = "phaseName"
+            case stepName = "stepName"
         }
     }
 
@@ -722,7 +798,9 @@ extension Imagebuilder {
     public struct ComponentState: AWSDecodableShape {
         /// Describes how or why the component changed state.
         public let reason: String?
-        /// The current state of the component.
+        /// The current state of the component. Components with a status of
+        /// 			DEPRECATED or DISABLED can't be added to new
+        /// 			recipes.
         public let status: ComponentStatus?
 
         @inlinable
@@ -740,9 +818,9 @@ extension Imagebuilder {
     public struct ComponentSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
-        /// The change description for the current version of the component.
+        /// The change description for this version of the component.
         public let changeDescription: String?
-        /// The original creation date of the component.
+        /// The date that Image Builder created this version of the component.
         public let dateCreated: String?
         /// The description of the component.
         public let description: String?
@@ -751,7 +829,9 @@ extension Imagebuilder {
         /// Indicates whether component source is hidden from view in the console, and from
         /// 			component detail results for API, CLI, or SDK operations.
         public let obfuscate: Bool?
-        /// The owner of the component.
+        /// The owner of the component. The value is your account ID for components
+        /// 			that you own, the sharing account's ID for shared components, or
+        /// 			Amazon, ThirdParty, or AWSMarketplace.
         public let owner: String?
         /// The operating system platform of the component.
         public let platform: Platform?
@@ -819,7 +899,9 @@ extension Imagebuilder {
         public let description: String?
         /// The name of the component.
         public let name: String?
-        /// The owner of the component.
+        /// The owner of the component. The value is your account ID for components
+        /// 			that you own, the sharing account's ID for shared components, or
+        /// 			Amazon, ThirdParty, or AWSMarketplace.
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
@@ -827,22 +909,21 @@ extension Imagebuilder {
         public let productCodes: [ProductCodeListItem]?
         /// Describes the current status of the component version.
         public let status: ComponentStatus?
-        /// he operating system (OS) version supported by the component. If the OS information is
-        /// 			available, a prefix match is performed against the base image OS version during image
+        /// The operating system (OS) version supported by the component. If OS information is
+        /// 			available, Image Builder performs a prefix match against the base image OS version during image
         /// 			recipe creation.
         public let supportedOsVersions: [String]?
         /// The type of the component denotes whether the component is used to build the image or
         /// 			only to test it.
         public let type: ComponentType?
         /// The semantic version of the component.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
-        /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes, you can assign any positive integer value, including
+        /// 	zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the
         /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
-        /// 	a date, such as 2021.01.01.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-        /// 	to specify the most recent versions or nodes when selecting the base image or components for your
-        /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-        /// 	wildcards.
+        /// 	a date, such as 2021.01.01.  Filtering: You can use wildcards (x) to specify the most recent versions or nodes when
+        /// 	selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes
+        /// 	to the right of the first wildcard must also be wildcards.
         public let version: String?
 
         @inlinable
@@ -895,7 +976,8 @@ extension Imagebuilder {
     }
 
     public struct ContainerDistributionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Tags that are attached to the container distribution configuration.
+        /// Tags that Image Builder applies to the distributed container image in the target
+        /// 			repository. These are repository image tags, not resource tags.
         public let containerTags: [String]?
         /// The description of the container distribution configuration.
         public let description: String?
@@ -932,8 +1014,10 @@ extension Imagebuilder {
         /// 				either left off entirely, or they are specified as wildcards, for example: x.x.x.   Version ARNs have only the first three nodes: ..   Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
         public let arn: String?
         /// Build and test components that are included in the container recipe.
-        /// 			Recipes require a minimum of one build component, and can
-        /// 			have a maximum of 20 build and test components in any combination.
+        /// 			A recipe can contain a maximum of 20 build and test components
+        /// 			in any combination, by default. This maximum is an adjustable quota. For more information, see
+        /// 			EC2 Image Builder endpoints and quotas
+        /// 			in the Amazon Web Services General Reference.
         public let components: [ComponentConfiguration]?
         /// Specifies the type of container, such as Docker.
         public let containerType: ContainerType?
@@ -941,19 +1025,26 @@ extension Imagebuilder {
         public let dateCreated: String?
         /// The description of the container recipe.
         public let description: String?
-        /// Dockerfiles are text documents that are used to build Docker containers, and ensure
-        /// 			that they contain all of the elements required by the application running inside. The
-        /// 			template data consists of contextual variables where Image Builder places build information or
-        /// 			scripts, based on your container image recipe.
+        /// The Dockerfile template that Image Builder uses to build the container image. The
+        /// 			template can include contextual variables that Image Builder replaces with build
+        /// 			information at build time. For the contextual variables that the template
+        /// 			can include, see Create
+        /// 				a new version of a container recipe in the
+        /// 			EC2 Image Builder User Guide.
         public let dockerfileTemplateData: String?
-        /// A flag that indicates if the target container is encrypted.
+        /// Specifies whether the recipe's Dockerfile template data is encrypted at
+        /// 			rest. Image Builder encrypts all Dockerfile template data at rest, so this value is
+        /// 			always true. This field is retained for backward compatibility,
+        /// 			and doesn't describe encryption of the output container image.
         public let encrypted: Bool?
         /// A group of options that can be used to configure an instance for building and testing
         /// 			container images.
         public let instanceConfiguration: InstanceConfiguration?
-        /// The Amazon Resource Name (ARN) that uniquely identifies which KMS key is used to encrypt the container image
-        /// 			for distribution to the target Region. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
-        /// 			in the Key Management Service Developer Guide.
+        /// The KMS key that Image Builder uses to encrypt the recipe's Dockerfile template
+        /// 			data at rest. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide. If you don't specify a key, Image Builder
+        /// 			encrypts the template data with a KMS key that Image Builder owns. This key
+        /// 			isn't used to encrypt the output container image.
         public let kmsKeyId: String?
         /// The name of the container recipe.
         public let name: String?
@@ -963,21 +1054,21 @@ extension Imagebuilder {
         /// 			contain an Image Builder image resource ARN or a container image URI, for example
         /// 			amazonlinux:latest.
         public let parentImage: String?
-        /// The system platform for the container, such as Windows or Linux.
+        /// The system platform for the container. Container recipes support only the
+        /// 			Linux and Windows platforms.
         public let platform: Platform?
         /// Tags that are attached to the container recipe.
         public let tags: [String: String]?
         /// The destination repository for the container image.
         public let targetRepository: TargetContainerRepository?
         /// The semantic version of the container recipe.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
-        /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes, you can assign any positive integer value, including
+        /// 	zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the
         /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
-        /// 	a date, such as 2021.01.01.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-        /// 	to specify the most recent versions or nodes when selecting the base image or components for your
-        /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-        /// 	wildcards.
+        /// 	a date, such as 2021.01.01.  Filtering: You can use wildcards (x) to specify the most recent versions or nodes when
+        /// 	selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes
+        /// 	to the right of the first wildcard must also be wildcards.
         public let version: String?
         /// The working directory for use during build and test workflows.
         public let workingDirectory: String?
@@ -1041,7 +1132,8 @@ extension Imagebuilder {
         public let owner: String?
         /// The base image for the container recipe.
         public let parentImage: String?
-        /// The system platform for the container, such as Windows or Linux.
+        /// The system platform for the container. Container recipes support only the
+        /// 			Linux and Windows platforms.
         public let platform: Platform?
         /// Tags that are attached to the container recipe.
         public let tags: [String: String]?
@@ -1077,7 +1169,9 @@ extension Imagebuilder {
         /// 			version, or what makes this version different from other versions of the
         /// 			component.
         public let changeDescription: String?
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// Component data contains inline YAML document content for the component.
         /// 			Alternatively, you can specify the uri of a YAML document file stored in
@@ -1085,19 +1179,27 @@ extension Imagebuilder {
         public let data: String?
         /// Describes the contents of the component.
         public let description: String?
-        /// Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
+        /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
         public let dryRun: Bool?
-        /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
-        /// 			in the Key Management Service Developer Guide.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component.
+        /// 			This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide. If you don't specify a key, Image Builder encrypts the
+        /// 			component data with a KMS key that Image Builder owns.
         public let kmsKeyId: String?
-        /// The name of the component.
+        /// The name of the component. Image Builder generates the component ARN from a
+        /// 			normalized form of the name, so names that differ only in case, spaces, or
+        /// 			underscores count as the same name. If a component with the same name and
+        /// 			semantic version already exists in your account in the same Amazon Web Services Region,
+        /// 			the request creates a new build version for it. If the content is also
+        /// 			identical to the latest build version, the request fails because the
+        /// 			component already exists.
         public let name: String
         /// The operating system platform of the component.
         public let platform: Platform
         /// The semantic version of the component. This version follows the semantic version
         /// 			syntax.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
-        /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes, you can assign any positive integer value, including
+        /// 	zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the
         /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
         /// 	a date, such as 2021.01.01.
@@ -1109,9 +1211,9 @@ extension Imagebuilder {
         /// The tags that apply to the component.
         public let tags: [String: String]?
         /// The uri of a YAML component document file. This must be an S3 URL
-        /// 				(s3://bucket/key), and the requester must have permission to access the
+        /// 				(s3://bucket/key), and you must have permission to access the
         /// 			S3 bucket it points to. If you use Amazon S3, you can specify component content up to your
-        /// 			service quota. Alternatively, you can specify the YAML document inline, using the component
+        /// 			service quota for component size, which is 64 KB by default. Alternatively, you can specify the YAML document inline, using the component
         /// 				data property. You cannot specify both properties.
         public let uri: String?
 
@@ -1181,7 +1283,9 @@ extension Imagebuilder {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the component that the request created.
         public let componentBuildVersionArn: String?
-        /// The resource ARNs with different wildcard variations of semantic versioning.
+        /// A set of wildcard version ARNs that always reference the latest
+        /// 			version of the resource. ARNs are included for the latest version overall, and for the latest
+        /// 			versions within the same major, minor, and patch levels.
         public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -1203,20 +1307,37 @@ extension Imagebuilder {
     }
 
     public struct CreateContainerRecipeRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// The components included in the container recipe.
+        /// The components included in the container recipe. You can specify each
+        /// 			component only one time in a recipe.
         public let components: [ComponentConfiguration]?
         /// The type of container to create.
         public let containerType: ContainerType
         /// The description of the container recipe.
         public let description: String?
-        /// The Dockerfile template used to build your image as an inline data blob.
+        /// The Dockerfile template used to build your image, as an inline data blob.
+        /// 			You must specify exactly one of the dockerfileTemplateData or
+        /// 			dockerfileTemplateUri properties. For the contextual variables
+        /// 			that the template can include, see Create
+        /// 				a new version of a container recipe in the
+        /// 			EC2 Image Builder User Guide.
         public let dockerfileTemplateData: String?
-        /// The Amazon S3 URI for the Dockerfile that will be used to build your container
-        /// 			image.
+        /// The Amazon S3 URI for the Dockerfile template that is used to build your container
+        /// 			image. You must have permission to read the object. Image Builder reads the object
+        /// 			once, when it creates the recipe, and stores its content in the recipe.
+        /// 			Later changes to the S3 object don't affect the recipe. You must specify
+        /// 			exactly one of the dockerfileTemplateData or
+        /// 			dockerfileTemplateUri properties.
         public let dockerfileTemplateUri: String?
-        /// Specifies the operating system version for the base image.
+        /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+        public let dryRun: Bool?
+        /// Specifies the operating system version for the base image. Use this property
+        /// 			only when the base image is a container image from a registry. When the base
+        /// 			image is an Image Builder image, the operating system version comes from the parent
+        /// 			image.
         public let imageOsVersionOverride: String?
         /// A group of options that can be used to configure an instance for building and testing
         /// 			container images.
@@ -1225,35 +1346,44 @@ extension Imagebuilder {
         /// 			template. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
         /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
-        /// The name of the container recipe.
+        /// The name of the container recipe. The recipe name, combined with the
+        /// 			semantic version, must be unique to your account in each Amazon Web Services Region.
+        /// 			Image Builder generates the container recipe ARN from a normalized form of the
+        /// 			name, so names that differ only in case, spaces, or underscores count as
+        /// 			the same name.
         public let name: String
-        /// The base image for the container recipe.
+        /// The base image for the container recipe. This can be an Image Builder image resource
+        /// 			ARN or a container image URI from a registry, for example
+        /// 			amazonlinux:latest.
         public let parentImage: String
         /// Specifies the operating system platform when you use a custom base image.
+        /// 			Container recipes support only the Linux and Windows platforms.
         public let platformOverride: Platform?
         /// The semantic version of the container recipe. This version follows the semantic
         /// 			version syntax.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
-        /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes, you can assign any positive integer value, including
+        /// 	zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the
         /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
         /// 	a date, such as 2021.01.01.
         public let semanticVersion: String
         /// Tags that are attached to the container recipe.
         public let tags: [String: String]?
-        /// The destination repository for the container image.
+        /// The destination repository for the container image. The Amazon ECR repository
+        /// 			must already exist in the Amazon Web Services Region where the build runs.
         public let targetRepository: TargetContainerRepository
         /// The working directory for use during build and test workflows.
         public let workingDirectory: String?
 
         @inlinable
-        public init(clientToken: String = CreateContainerRecipeRequest.idempotencyToken(), components: [ComponentConfiguration]? = nil, containerType: ContainerType, description: String? = nil, dockerfileTemplateData: String? = nil, dockerfileTemplateUri: String? = nil, imageOsVersionOverride: String? = nil, instanceConfiguration: InstanceConfiguration? = nil, kmsKeyId: String? = nil, name: String, parentImage: String, platformOverride: Platform? = nil, semanticVersion: String, tags: [String: String]? = nil, targetRepository: TargetContainerRepository, workingDirectory: String? = nil) {
+        public init(clientToken: String = CreateContainerRecipeRequest.idempotencyToken(), components: [ComponentConfiguration]? = nil, containerType: ContainerType, description: String? = nil, dockerfileTemplateData: String? = nil, dockerfileTemplateUri: String? = nil, dryRun: Bool? = nil, imageOsVersionOverride: String? = nil, instanceConfiguration: InstanceConfiguration? = nil, kmsKeyId: String? = nil, name: String, parentImage: String, platformOverride: Platform? = nil, semanticVersion: String, tags: [String: String]? = nil, targetRepository: TargetContainerRepository, workingDirectory: String? = nil) {
             self.clientToken = clientToken
             self.components = components
             self.containerType = containerType
             self.description = description
             self.dockerfileTemplateData = dockerfileTemplateData
             self.dockerfileTemplateUri = dockerfileTemplateUri
+            self.dryRun = dryRun
             self.imageOsVersionOverride = imageOsVersionOverride
             self.instanceConfiguration = instanceConfiguration
             self.kmsKeyId = kmsKeyId
@@ -1307,6 +1437,7 @@ extension Imagebuilder {
             case description = "description"
             case dockerfileTemplateData = "dockerfileTemplateData"
             case dockerfileTemplateUri = "dockerfileTemplateUri"
+            case dryRun = "dryRun"
             case imageOsVersionOverride = "imageOsVersionOverride"
             case instanceConfiguration = "instanceConfiguration"
             case kmsKeyId = "kmsKeyId"
@@ -1326,7 +1457,9 @@ extension Imagebuilder {
         /// Returns the Amazon Resource Name (ARN) of the container recipe that the request
         /// 			created.
         public let containerRecipeArn: String?
-        /// The resource ARNs with different wildcard variations of semantic versioning.
+        /// A set of wildcard version ARNs that always reference the latest
+        /// 			version of the resource. ARNs are included for the latest version overall, and for the latest
+        /// 			versions within the same major, minor, and patch levels.
         public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -1348,22 +1481,33 @@ extension Imagebuilder {
     }
 
     public struct CreateDistributionConfigurationRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The description of the distribution configuration.
         public let description: String?
-        /// The distributions of the distribution configuration.
+        /// The distribution settings for the configuration. Each entry defines how
+        /// 			output images are distributed in one target Amazon Web Services Region. A Region can
+        /// 			appear at most once in the list.
         public let distributions: [Distribution]
-        /// The name of the distribution configuration.
+        /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+        public let dryRun: Bool?
+        /// The name of the distribution configuration. Distribution configuration
+        /// 			names must be unique to your account in each Amazon Web Services Region. Image Builder generates
+        /// 			the distribution configuration ARN from a normalized form of the name, so
+        /// 			names that differ only in case, spaces, or underscores count as the same
+        /// 			name.
         public let name: String
         /// The tags of the distribution configuration.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String = CreateDistributionConfigurationRequest.idempotencyToken(), description: String? = nil, distributions: [Distribution], name: String, tags: [String: String]? = nil) {
+        public init(clientToken: String = CreateDistributionConfigurationRequest.idempotencyToken(), description: String? = nil, distributions: [Distribution], dryRun: Bool? = nil, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.distributions = distributions
+            self.dryRun = dryRun
             self.name = name
             self.tags = tags
         }
@@ -1391,6 +1535,7 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case description = "description"
             case distributions = "distributions"
+            case dryRun = "dryRun"
             case name = "name"
             case tags = "tags"
         }
@@ -1420,34 +1565,45 @@ extension Imagebuilder {
     }
 
     public struct CreateImagePipelineRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the container recipe that is used to configure
-        /// 			images created by this container pipeline.
+        /// 			images created by this container pipeline. You must specify either this
+        /// 			property or imageRecipeArn, but not both.
         public let containerRecipeArn: String?
         /// The description of the image pipeline.
         public let description: String?
-        /// The Amazon Resource Name (ARN) of the distribution configuration that will be used to
-        /// 			configure and distribute images created by this image pipeline.
+        /// The Amazon Resource Name (ARN) of the distribution configuration that configures and
+        /// 			distributes images created by this image pipeline.
         public let distributionConfigurationArn: String?
-        /// Collects additional information about the image being created, including the operating
-        /// 			system (OS) version and package list. This information is used to enhance the overall
-        /// 			experience of using EC2 Image Builder. Enabled by default.
+        /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+        public let dryRun: Bool?
+        /// Specifies whether to collect additional information about the image being created, including the operating
+        /// 			system (OS) version and package list. Defaults to true.
         public let enhancedImageMetadataEnabled: Bool?
         /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants
         /// 			Image Builder access to perform workflow actions.
         public let executionRole: String?
-        /// The Amazon Resource Name (ARN) of the image recipe that will be used to configure
-        /// 			images created by this image pipeline.
+        /// The Amazon Resource Name (ARN) of the image recipe that configures
+        /// 			images created by this image pipeline. You must specify either this property
+        /// 			or containerRecipeArn, but not both.
         public let imageRecipeArn: String?
-        /// Contains settings for vulnerability scans.
+        /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance
+        /// 			during image creation.
         public let imageScanningConfiguration: ImageScanningConfiguration?
-        /// The tags to be applied to the images produced by this pipeline.
+        /// The tags that Image Builder applies to the Image Builder image resource that this
+        /// 			pipeline's scheduled executions create. These tags don't apply to the
+        /// 			output AMI. To tag output AMIs, use amiTags in the
+        /// 			pipeline's distribution configuration.
         public let imageTags: [String: String]?
-        /// The image test configuration of the image pipeline.
+        /// Specifies the test settings that Image Builder applies to images that this
+        /// 			pipeline creates. If you don't provide test settings, Image Builder stores a default
+        /// 			configuration with image tests enabled.
         public let imageTestsConfiguration: ImageTestsConfiguration?
-        /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used
-        /// 			to build images created by this image pipeline.
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that
+        /// 			builds images created by this image pipeline.
         public let infrastructureConfigurationArn: String
         /// Specifies the logging configuration for the image pipeline. Use this
         /// 			to define custom CloudWatch Logs log groups for your pipeline execution
@@ -1456,23 +1612,33 @@ extension Imagebuilder {
         /// 			role. For custom log group names outside of this prefix, you must also
         /// 			provide an executionRole.
         public let loggingConfiguration: PipelineLoggingConfiguration?
-        /// The name of the image pipeline.
+        /// The name of the image pipeline. Pipeline names must be unique to your
+        /// 			account in each Amazon Web Services Region. Image Builder generates the pipeline ARN from a
+        /// 			normalized form of the name, so names that differ only in case, spaces, or
+        /// 			underscores count as the same name.
         public let name: String
-        /// The schedule of the image pipeline.
+        /// The schedule of the image pipeline. If you don't provide a schedule, the
+        /// 			pipeline runs only when you call
+        /// 			StartImagePipelineExecution.
         public let schedule: Schedule?
-        /// The status of the image pipeline.
+        /// The status of the image pipeline. If you don't specify a status, it
+        /// 			defaults to ENABLED. A disabled pipeline doesn't run on its
+        /// 			schedule, but you can still start builds manually.
         public let status: PipelineStatus?
         /// The tags of the image pipeline.
         public let tags: [String: String]?
-        /// Contains an array of workflow configuration objects.
+        /// The array of workflow configuration objects for builds that this pipeline
+        /// 			starts. You must also specify executionRole when you provide
+        /// 			workflows.
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
-        public init(clientToken: String = CreateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTags: [String: String]? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, loggingConfiguration: PipelineLoggingConfiguration? = nil, name: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
+        public init(clientToken: String = CreateImagePipelineRequest.idempotencyToken(), containerRecipeArn: String? = nil, description: String? = nil, distributionConfigurationArn: String? = nil, dryRun: Bool? = nil, enhancedImageMetadataEnabled: Bool? = nil, executionRole: String? = nil, imageRecipeArn: String? = nil, imageScanningConfiguration: ImageScanningConfiguration? = nil, imageTags: [String: String]? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, loggingConfiguration: PipelineLoggingConfiguration? = nil, name: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil, workflows: [WorkflowConfiguration]? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
             self.description = description
             self.distributionConfigurationArn = distributionConfigurationArn
+            self.dryRun = dryRun
             self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.executionRole = executionRole
             self.imageRecipeArn = imageRecipeArn
@@ -1531,6 +1697,7 @@ extension Imagebuilder {
             case containerRecipeArn = "containerRecipeArn"
             case description = "description"
             case distributionConfigurationArn = "distributionConfigurationArn"
+            case dryRun = "dryRun"
             case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
             case executionRole = "executionRole"
             case imageRecipeArn = "imageRecipeArn"
@@ -1571,7 +1738,7 @@ extension Imagebuilder {
     }
 
     public struct CreateImageRecipeRequest: AWSEncodableShape {
-        /// Specify additional settings and launch scripts for your build instances.
+        /// The additional settings and launch scripts for your build instances.
         public let additionalInstanceConfiguration: AdditionalInstanceConfiguration?
         /// Tags that are applied to the AMI that Image Builder creates during the Build phase
         /// 			prior to image distribution.
@@ -1582,36 +1749,55 @@ extension Imagebuilder {
         /// 			Regions or accounts.  AMI watermarks are supported only for image recipes. AMIs with
         /// 				watermarks cannot be made public.
         public let amiWatermarks: [String]?
-        /// The block device mappings of the image recipe.
+        /// The block device mappings that Image Builder applies to the build instance and the
+        /// 			output AMI. For example, you can override the size of the base image's
+        /// 			root volume or attach additional EBS volumes.
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// The components included in the image recipe.
+        /// The components included in the image recipe. Components are optional. A
+        /// 			recipe with no components bakes the base image without additional
+        /// 			customization. You can
+        /// 			specify each component only one time in a recipe. Components with a status
+        /// 			of DEPRECATED or DISABLED can't be added to
+        /// 			new recipes.
         public let components: [ComponentConfiguration]?
         /// The description of the image recipe.
         public let description: String?
-        /// The name of the image recipe.
+        /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+        public let dryRun: Bool?
+        /// The name of the image recipe. The recipe name, combined with the semantic
+        /// 			version, must be unique to your account in each Amazon Web Services Region. Image Builder
+        /// 			generates the image recipe ARN from a normalized form of the name, so
+        /// 			names that differ only in case, spaces, or underscores count as the same
+        /// 			name.
         public let name: String
         /// The base image for customizations specified in the image recipe. You can specify the
         /// 			parent image using one of the following options:   AMI ID   Image Builder image Amazon Resource Name (ARN)   Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by ssm:,
         /// 					followed by the parameter name or ARN.   Amazon Web Services Marketplace product ID   If you enter an AMI ID or an SSM parameter that contains the AMI ID, you must have access
-        /// 			to the AMI, and the AMI must be in the source Region.
+        /// 			to the AMI. The AMI must also be in the Region where you're creating
+        /// 			the recipe.
         public let parentImage: String
         /// The semantic version of the image recipe. This version follows the semantic version
         /// 			syntax.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
-        /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes, you can assign any positive integer value, including
+        /// 	zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the
         /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
         /// 	a date, such as 2021.01.01.
         public let semanticVersion: String
         /// The tags of the image recipe.
         public let tags: [String: String]?
-        /// The working directory used during build and test workflows.
+        /// The working directory used during build and test workflows. If you
+        /// 			don't specify a working directory, Image Builder uses /tmp for
+        /// 			Linux and macOS build instances, and C:/ for Windows build
+        /// 			instances.
         public let workingDirectory: String?
 
         @inlinable
-        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, amiTags: [String: String]? = nil, amiWatermarks: [String]? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration]? = nil, description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
+        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, amiTags: [String: String]? = nil, amiWatermarks: [String]? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration]? = nil, description: String? = nil, dryRun: Bool? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
             self.amiTags = amiTags
             self.amiWatermarks = amiWatermarks
@@ -1619,6 +1805,7 @@ extension Imagebuilder {
             self.clientToken = clientToken
             self.components = components
             self.description = description
+            self.dryRun = dryRun
             self.name = name
             self.parentImage = parentImage
             self.semanticVersion = semanticVersion
@@ -1678,6 +1865,7 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case components = "components"
             case description = "description"
+            case dryRun = "dryRun"
             case name = "name"
             case parentImage = "parentImage"
             case semanticVersion = "semanticVersion"
@@ -1692,7 +1880,9 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image recipe that was created by this
         /// 			request.
         public let imageRecipeArn: String?
-        /// The resource ARNs with different wildcard variations of semantic versioning.
+        /// A set of wildcard version ARNs that always reference the latest
+        /// 			version of the resource. ARNs are included for the latest version overall, and for the latest
+        /// 			versions within the same major, minor, and patch levels.
         public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -1714,36 +1904,53 @@ extension Imagebuilder {
     }
 
     public struct CreateImageRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the container recipe that defines how images are
-        /// 			configured and tested.
+        /// 			configured and tested. You must specify either this property or
+        /// 			imageRecipeArn, but not both.
         public let containerRecipeArn: String?
         /// The Amazon Resource Name (ARN) of the distribution configuration that defines and
-        /// 			configures the outputs of your pipeline.
+        /// 			configures the outputs of the image build. If you don't specify a
+        /// 			distribution configuration, Image Builder creates the output image only in the
+        /// 			account and Amazon Web Services Region where the build runs.
         public let distributionConfigurationArn: String?
-        /// Collects additional information about the image being created, including the operating
-        /// 			system (OS) version and package list. This information is used to enhance the overall
-        /// 			experience of using EC2 Image Builder. Enabled by default.
+        /// Specifies whether to collect additional information about the image being created, including the operating
+        /// 			system (OS) version and package list. Defaults to true.
         public let enhancedImageMetadataEnabled: Bool?
         /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants
-        /// 			Image Builder access to perform workflow actions.
+        /// 			Image Builder access to perform workflow actions. This property is required if you
+        /// 			specify workflows. If you don't provide a role, Image Builder uses the
+        /// 			Image Builder service-linked role in your account, and creates it if it doesn't
+        /// 			exist.
         public let executionRole: String?
         /// The Amazon Resource Name (ARN) of the image recipe that defines how images are
-        /// 			configured, tested, and assessed.
+        /// 			configured, tested, and assessed. You must specify either this property or
+        /// 			containerRecipeArn, but not both.
         public let imageRecipeArn: String?
-        /// Contains settings for vulnerability scans.
+        /// Settings for vulnerability scans that Amazon Inspector runs during image
+        /// 			creation. For AMI output, Amazon Inspector scans the test instance. For container
+        /// 			output, Amazon Inspector scans the container image that Image Builder pushes to the Amazon ECR
+        /// 			repository specified in ecrConfiguration.
         public let imageScanningConfiguration: ImageScanningConfiguration?
-        /// The image tests configuration of the image.
+        /// Settings that determine whether Image Builder runs tests on the image after
+        /// 			building it. Image tests are enabled by default.
         public let imageTestsConfiguration: ImageTestsConfiguration?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that defines the
         /// 			environment in which your image will be built and tested.
         public let infrastructureConfigurationArn: String
-        /// Define logging configuration for the image build process.
+        /// The CloudWatch Logs log group where Image Builder sends the image build logs. If
+        /// 			you specify a log group name outside of the /aws/imagebuilder/
+        /// 			namespace, you must also provide an executionRole that has
+        /// 			permission to write to that log group.
         public let loggingConfiguration: ImageLoggingConfiguration?
         /// The tags of the image.
         public let tags: [String: String]?
-        /// Contains an array of workflow configuration objects.
+        /// The array of workflow configuration objects for the build. If you specify
+        /// 			workflows, they replace the default workflows that Image Builder otherwise runs for
+        /// 			the build, and you must also provide an executionRole.
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
@@ -1809,7 +2016,9 @@ extension Imagebuilder {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the image that the request created.
         public let imageBuildVersionArn: String?
-        /// The resource ARNs with different wildcard variations of semantic versioning.
+        /// A set of wildcard version ARNs that always reference the latest
+        /// 			version of the resource. ARNs are included for the latest version overall, and for the latest
+        /// 			versions within the same major, minor, and patch levels.
         public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -1831,55 +2040,82 @@ extension Imagebuilder {
     }
 
     public struct CreateInfrastructureConfigurationRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The description of the infrastructure configuration.
         public let description: String?
-        /// The instance metadata options that you can set for the HTTP requests that pipeline
-        /// 			builds use to launch EC2 build and test instances.
+        /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+        public let dryRun: Bool?
+        /// The instance metadata service (IMDS) settings that Image Builder applies to the EC2
+        /// 			build and test instances it launches during image creation. If you don't
+        /// 			set these options, the EC2 launch defaults for the instance apply. For more
+        /// 			information about instance metadata options, see one of the following
+        /// 			links:    Configure the instance metadata options in the
+        /// 						 Amazon EC2 User Guide for Linux instances.    Configure the instance metadata options in the
+        /// 						 Amazon EC2 Windows Guide for Windows instances.
         public let instanceMetadataOptions: InstanceMetadataOptions?
         /// The instance profile to associate with the instance used to customize your Amazon EC2
-        /// 			AMI.
+        /// 			AMI. The instance profile must exist in your account.
         public let instanceProfileName: String
         /// The instance types of the infrastructure configuration. You can specify one or more
-        /// 			instance types to use for this build. The service will pick one of these instance types
-        /// 			based on availability.
+        /// 			instance types to use for this build. Image Builder picks one of these instance types
+        /// 			based on availability. If you don't specify instance types, Image Builder selects
+        /// 			compatible instance types automatically. If you specify a Dedicated Host,
+        /// 			Image Builder uses only instance types that the host supports.
         public let instanceTypes: [String]?
         /// The key pair of the infrastructure configuration. You can use this to log on to and
         /// 			debug the instance used to create your image.
         public let keyPair: String?
-        /// The logging configuration of the infrastructure configuration.
+        /// The logging configuration of the infrastructure configuration. When you
+        /// 			configure S3 logs, Image Builder writes logs from the build and test process to the
+        /// 			specified bucket under the key prefix.
         public let logging: Logging?
-        /// The name of the infrastructure configuration.
+        /// The name of the infrastructure configuration. Infrastructure configuration
+        /// 			names must be unique to your account in each Amazon Web Services Region. Image Builder generates
+        /// 			the infrastructure configuration ARN from a normalized form of the name, so
+        /// 			names that differ only in case, spaces, or underscores count as the same
+        /// 			name.
         public let name: String
-        /// The instance placement settings that define where the instances that are launched
-        /// 			from your image will run.
+        /// The instance placement settings that define where the build and test
+        /// 			instances that Image Builder launches during image creation run. These settings
+        /// 			don't affect instances that you launch from the output image.
         public let placement: Placement?
-        /// The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during the build process.
-        /// 			Tags are formatted as key value pairs.
+        /// The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during
+        /// 			the build process. Tags are formatted as key value pairs. Tag keys can't
+        /// 			begin with aws: or match one of the following reserved keys: CreatedBy,
+        /// 			Ec2ImageBuilderArn, Name, or
+        /// 			Tags.
         public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your Amazon EC2
         /// 			AMI.
         public let securityGroupIds: [String]?
-        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event
-        /// 			notifications.  EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
-        /// 				from other accounts. The key that is used to encrypt the SNS topic must reside in the
-        /// 				account that the Image Builder service runs under.
+        /// The Amazon Resource Name (ARN) of the SNS topic to which Image Builder sends image build event notifications.
+        /// 			Specify a standard topic. Image Builder doesn't support FIFO topics.
+        /// 			Image Builder validates the topic when you create or update the configuration. You
+        /// 			must have permission to publish to the topic.  EC2 Image Builder can't send notifications to SNS topics that are encrypted using keys
+        /// 				from other accounts. If your SNS topic is encrypted, the key must be owned by the
+        /// 				same account that owns your Image Builder resources.
         public let snsTopicArn: String?
-        /// The subnet ID in which to place the instance used to customize your Amazon EC2 AMI.
+        /// The subnet ID in which to place the instance used to customize your Amazon EC2
+        /// 			AMI. If you specify subnetId, you must also specify one or
+        /// 			more security group IDs in securityGroupIds. Otherwise, the
+        /// 			request fails.
         public let subnetId: String?
         /// The metadata tags to assign to the infrastructure configuration resource that Image Builder
         /// 			creates as output. Tags are formatted as key value pairs.
         public let tags: [String: String]?
-        /// The terminate instance on failure setting of the infrastructure configuration. Set to
+        /// Specifies whether to terminate the instance on failure. Set to
         /// 			false if you want Image Builder to retain the instance used to configure your AMI if the build or
-        /// 			test phase of your workflow fails.
+        /// 			test phase of your workflow fails. Defaults to true.
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
-        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
+            self.dryRun = dryRun
             self.instanceMetadataOptions = instanceMetadataOptions
             self.instanceProfileName = instanceProfileName
             self.instanceTypes = instanceTypes
@@ -1937,6 +2173,7 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case description = "description"
+            case dryRun = "dryRun"
             case instanceMetadataOptions = "instanceMetadataOptions"
             case instanceProfileName = "instanceProfileName"
             case instanceTypes = "instanceTypes"
@@ -1977,30 +2214,51 @@ extension Imagebuilder {
     }
 
     public struct CreateLifecyclePolicyRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// Optional description for the lifecycle policy.
         public let description: String?
-        /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants
-        /// 			Image Builder access to run lifecycle actions.
+        /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+        public let dryRun: Bool?
+        /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to run
+        /// 			lifecycle actions. You must have permission to pass the role, and the
+        /// 			role's trust policy must allow the Image Builder service principal to assume it.
         public let executionRole: String
-        /// The name of the  lifecycle policy to create.
+        /// The name of the lifecycle policy to create. Policy names must be unique to
+        /// 			your account in each Amazon Web Services Region. Image Builder generates the policy ARN from a
+        /// 			normalized form of the name, so names that differ only in case, spaces, or
+        /// 			underscores count as the same name. You can't change the name after
+        /// 			creation.
         public let name: String
-        /// Configuration details for the lifecycle policy rules.
+        /// Configuration details for the lifecycle policy rules. A policy can contain
+        /// 			at most one rule per action type: one DELETE, one
+        /// 			DEPRECATE, and one DISABLE.
         public let policyDetails: [LifecyclePolicyDetail]
         /// Selection criteria for the resources that the lifecycle policy applies to.
+        /// 			You must specify exactly one selection criteria: either recipes or a tag
+        /// 			map, not both.
         public let resourceSelection: LifecyclePolicyResourceSelection
-        /// The type of Image Builder resource that the lifecycle policy applies to.
+        /// The type of Image Builder resource that the lifecycle policy applies to. The resource
+        /// 			type determines the allowed rule actions: policies for AMI-based Image Builder images
+        /// 			support DELETE, DEPRECATE, and
+        /// 			DISABLE, and policies for container-based Image Builder images support
+        /// 			only DELETE. You can't
+        /// 			change the resource type after creation.
         public let resourceType: LifecyclePolicyResourceType
-        /// Indicates whether the lifecycle policy resource is enabled.
+        /// Indicates whether the lifecycle policy resource is enabled. If you don't
+        /// 			specify a status, it defaults to ENABLED. Only enabled policies
+        /// 			run on their schedule.
         public let status: LifecyclePolicyStatus?
         /// Tags to apply to the lifecycle policy resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String = CreateLifecyclePolicyRequest.idempotencyToken(), description: String? = nil, executionRole: String, name: String, policyDetails: [LifecyclePolicyDetail], resourceSelection: LifecyclePolicyResourceSelection, resourceType: LifecyclePolicyResourceType, status: LifecyclePolicyStatus? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String = CreateLifecyclePolicyRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, executionRole: String, name: String, policyDetails: [LifecyclePolicyDetail], resourceSelection: LifecyclePolicyResourceSelection, resourceType: LifecyclePolicyResourceType, status: LifecyclePolicyStatus? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
+            self.dryRun = dryRun
             self.executionRole = executionRole
             self.name = name
             self.policyDetails = policyDetails
@@ -2038,6 +2296,7 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case description = "description"
+            case dryRun = "dryRun"
             case executionRole = "executionRole"
             case name = "name"
             case policyDetails = "policyDetails"
@@ -2070,40 +2329,51 @@ extension Imagebuilder {
         /// Describes what change has been made in this version of the workflow, or
         /// 			what makes this version different from other versions of the workflow.
         public let changeDescription: String?
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// Contains the UTF-8 encoded YAML document content for the workflow.
-        /// 			Alternatively, you can specify the uri of a YAML document file stored in
-        /// 			Amazon S3. However, you cannot specify both properties.
+        /// The UTF-8 encoded YAML document content for the workflow, up to
+        /// 			16,000 characters. For larger documents, store the document in Amazon S3 and specify
+        /// 			the uri property instead. You must specify exactly one of the
+        /// 			data or uri properties.
         public let data: String?
         /// Describes the workflow.
         public let description: String?
-        /// Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
+        /// Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
         public let dryRun: Bool?
         /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this workflow resource.
         /// 			This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
-        /// 			in the Key Management Service Developer Guide.
+        /// 			in the Key Management Service Developer Guide. If you don't specify a key, Image Builder encrypts the workflow
+        /// 			document with a KMS key that Image Builder owns.
         public let kmsKeyId: String?
-        /// The name of the workflow to create.
+        /// The name of the workflow to create. Image Builder generates the workflow ARN from a
+        /// 			normalized form of the name, so names that differ only in case, spaces, or
+        /// 			underscores count as the same name. If a workflow with the same name and
+        /// 			semantic version already exists in your account in the same Amazon Web Services Region,
+        /// 			the request creates a new build version for it. If the content is also
+        /// 			identical to the latest build version, the request fails because the
+        /// 			workflow already exists.
         public let name: String
         /// The semantic version of this workflow resource. The semantic version syntax
         /// 			adheres to the following rules.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
-        /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes, you can assign any positive integer value, including
+        /// 	zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the
         /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
         /// 	a date, such as 2021.01.01.
         public let semanticVersion: String
         /// Tags that apply to the workflow resource.
         public let tags: [String: String]?
-        /// The phase in the image build process for which the workflow resource
-        /// 			is responsible.
+        /// The image creation stage that this workflow applies to. Image Builder validates the
+        /// 			workflow document steps against the stage you specify.
         public let type: WorkflowType
-        /// The uri of a YAML component document file. This must be an S3 URL
-        /// 			(s3://bucket/key), and the requester must have permission to access the
-        /// 			S3 bucket it points to. If you use Amazon S3, you can specify component content up to your
-        /// 			service quota. Alternatively, you can specify the YAML document inline, using the component
-        /// 			data property. You cannot specify both properties.
+        /// The uri of a YAML workflow document file stored in Amazon S3. This must
+        /// 			be an S3 URL (s3://bucket/key), and you must have permission to
+        /// 			access the S3 bucket it points to. A workflow document that you provide from
+        /// 			Amazon S3 can be up to your service quota for workflow size. Alternatively, you can specify the YAML document inline, using the workflow
+        /// 			data property. You must specify exactly one of the data
+        /// 			or uri properties.
         public let uri: String?
 
         @inlinable
@@ -2163,7 +2433,9 @@ extension Imagebuilder {
     public struct CreateWorkflowResponse: AWSDecodableShape {
         /// The client token that uniquely identifies the request.
         public let clientToken: String?
-        /// The resource ARNs with different wildcard variations of semantic versioning.
+        /// A set of wildcard version ARNs that always reference the latest
+        /// 			version of the resource. ARNs are included for the latest version overall, and for the latest
+        /// 			versions within the same major, minor, and patch levels.
         public let latestVersionReferences: LatestVersionReferences?
         /// The Amazon Resource Name (ARN) of the workflow resource that the request created.
         public let workflowBuildVersionArn: String?
@@ -2227,10 +2499,12 @@ extension Imagebuilder {
     }
 
     public struct CvssScoreDetails: AWSDecodableShape {
-        /// An object that contains details about an adjustment that Amazon Inspector made to the CVSS score
-        /// 			for the finding.
+        /// The adjustments that Amazon Inspector applied to the base CVSS score to produce its own
+        /// 			score for the finding. The list is empty when Amazon Inspector made no
+        /// 			adjustments.
         public let adjustments: [CvssScoreAdjustment]?
-        /// The source of the finding.
+        /// The source of the CVSS data that the Amazon Inspector score for the finding is based
+        /// 			on, for example NVD or a vendor security feed.
         public let cvssSource: String?
         /// The CVSS score.
         public let score: Double?
@@ -2277,7 +2551,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentBuildVersionArn, name: "componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
+            try self.validate(self.componentBuildVersionArn, name: "componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2618,7 +2892,9 @@ extension Imagebuilder {
     }
 
     public struct DistributeImageRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the distribution configuration. The configuration
         /// 			defines target Regions, accounts, and AMI settings. The distribution
@@ -2629,12 +2905,15 @@ extension Imagebuilder {
         public let executionRole: String
         /// The logging configuration for the distribution.
         public let loggingConfiguration: ImageLoggingConfiguration?
-        /// The source image to distribute. Specify an AMI identifier,
-        /// 			SSM parameter path, or Image Builder image Amazon Resource Name (ARN). When you specify an
-        /// 			Image Builder image Amazon Resource Name (ARN), the image must be in the AVAILABLE
-        /// 			state.
+        /// The source image to distribute. You can specify the source in any of the
+        /// 			following formats:   An AMI ID.   An Amazon Web Services Systems Manager Parameter Store reference, prefixed by
+        /// 					ssm:, followed by the parameter name or ARN.   An Image Builder image Amazon Resource Name (ARN). An image version ARN resolves to the latest
+        /// 					available build version.   Whichever format you use, the source must resolve to an AMI in the current
+        /// 			Amazon Web Services Region.
         public let sourceImage: String
-        /// The tags to apply to the distributed image.
+        /// The tags to apply to the new Image Builder image resource that this operation
+        /// 			creates. To tag the output AMIs, use amiTags in the
+        /// 			distribution configuration.
         public let tags: [String: String]?
 
         @inlinable
@@ -2680,7 +2959,9 @@ extension Imagebuilder {
     public struct DistributeImageResponse: AWSDecodableShape {
         /// The client token that uniquely identifies the request.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the image to be distributed.
+        /// The Amazon Resource Name (ARN) of the new Image Builder image resource that this operation creates to
+        /// 			track the distribution. Use this ARN with GetImage to
+        /// 			monitor distribution progress.
         public let imageBuildVersionArn: String?
 
         @inlinable
@@ -2784,7 +3065,9 @@ extension Imagebuilder {
         public let name: String?
         /// The tags of the distribution configuration.
         public let tags: [String: String]?
-        /// The maximum duration in minutes for this distribution configuration.
+        /// A property that Image Builder doesn't use. You can't set this property
+        /// 			when you create or update a distribution configuration, and it has no
+        /// 			effect on distribution behavior.
         public let timeoutMinutes: Int
 
         @inlinable
@@ -2822,7 +3105,8 @@ extension Imagebuilder {
         public let description: String?
         /// The name of the distribution configuration.
         public let name: String?
-        /// A list of Regions where the container image is distributed to.
+        /// A list of the Regions that the distribution configuration distributes
+        /// 			images to.
         public let regions: [String]?
         /// The tags associated with the distribution configuration.
         public let tags: [String: String]?
@@ -2849,12 +3133,31 @@ extension Imagebuilder {
         }
     }
 
+    public struct DistributionFailureContext: AWSDecodableShape {
+        /// The error message for the distribution failure.
+        public let errorMessage: String?
+        /// The details about the failure for each Region where the image didn't finish
+        /// 			distribution or configuration.
+        public let regionFailures: [RegionFailure]?
+
+        @inlinable
+        public init(errorMessage: String? = nil, regionFailures: [RegionFailure]? = nil) {
+            self.errorMessage = errorMessage
+            self.regionFailures = regionFailures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case regionFailures = "regionFailures"
+        }
+    }
+
     public struct EbsInstanceBlockDeviceSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// Use to configure delete on termination of the associated device.
+        /// Specifies whether to delete the associated device on termination.
         public let deleteOnTermination: Bool?
-        /// Use to configure device encryption.
+        /// Specifies whether to encrypt the device.
         public let encrypted: Bool?
-        /// Use to configure device IOPS.
+        /// The IOPS value for the device. Required only when volumeType is io1 or io2.
         public let iops: Int?
         /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key to use when encrypting the device.
         /// 			This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
@@ -2865,9 +3168,9 @@ extension Imagebuilder {
         ///  For GP3 volumes only – The throughput in MiB/s
         /// 			that the volume supports.
         public let throughput: Int?
-        /// Use to override the device's volume size.
+        /// Overrides the volume size for the device.
         public let volumeSize: Int?
-        /// Use to override the device's volume type.
+        /// Overrides the volume type for the device.
         public let volumeType: EbsVolumeType?
 
         @inlinable
@@ -2911,11 +3214,12 @@ extension Imagebuilder {
         /// Tags for Image Builder to apply to the output container image that Amazon Inspector scans. Tags can
         /// 			help you identify and manage your scanned images.
         public let containerTags: [String]?
-        /// The name of the container repository that Amazon Inspector scans to identify findings for your
-        /// 			container images. The name includes the path for the repository location. If you don’t
-        /// 			provide this information, Image Builder creates a repository in your account named
-        /// 				image-builder-image-scanning-repository for vulnerability scans of your
-        /// 			output container images.
+        /// The name of the container repository where Image Builder pushes the container
+        /// 			image for the vulnerability scan. Provide the repository name only (a
+        /// 			namespace path is allowed, but not the registry hostname); the repository
+        /// 			must already exist in your account. If you don't specify a repository
+        /// 			name, Image Builder creates the default repository
+        /// 			image-builder-image-scanning-repository in your account.
         public let repositoryName: String?
 
         @inlinable
@@ -2942,9 +3246,9 @@ extension Imagebuilder {
     public struct FastLaunchConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The owner account ID for the fast-launch enabled Windows AMI.
         public let accountId: String?
-        /// A Boolean that represents the current state of faster launching for the Windows AMI.
-        /// 			Set to true to start using Windows faster launching, or false
-        /// 			to stop using it.
+        /// Specifies whether to enable Windows fast launch on the output AMI during
+        /// 			distribution. A value of false means Image Builder takes no
+        /// 			fast-launch action for this configuration.
         public let enabled: Bool
         /// The launch template that the fast-launch enabled Windows AMI uses when it launches
         /// 			Windows instances to create pre-provisioned snapshots.
@@ -2953,7 +3257,7 @@ extension Imagebuilder {
         /// 			resources.
         public let maxParallelLaunches: Int?
         /// Configuration settings for managing the number of snapshots that are created from
-        /// 			pre-provisioned instances for the Windows AMI when faster launching is enabled.
+        /// 			pre-provisioned instances for the Windows AMI when Windows fast launch is enabled.
         public let snapshotConfiguration: FastLaunchSnapshotConfiguration?
 
         @inlinable
@@ -2982,11 +3286,11 @@ extension Imagebuilder {
     }
 
     public struct FastLaunchLaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the launch template to use for faster launching for a Windows AMI.
+        /// The ID of the launch template to use for Windows fast launch for a Windows AMI.
         public let launchTemplateId: String?
-        /// The name of the launch template to use for faster launching for a Windows AMI.
+        /// The name of the launch template to use for Windows fast launch for a Windows AMI.
         public let launchTemplateName: String?
-        /// The version of the launch template to use for faster launching for a Windows
+        /// The version of the launch template to use for Windows fast launch for a Windows
         /// 			AMI.
         public let launchTemplateVersion: String?
 
@@ -3076,7 +3380,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
+            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3101,8 +3405,11 @@ extension Imagebuilder {
     }
 
     public struct GetComponentRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the component that you want to get. Regex requires
-        /// 			the suffix /\d+$.
+        /// The Amazon Resource Name (ARN) of the component that you want to get. You can specify a build
+        /// 			version ARN, or a component version ARN. The version can use the
+        /// 			x wildcard in trailing positions, for example
+        /// 			1.0.x or 1.x.x. Version ARNs resolve to the
+        /// 			latest available matching component build version.
         public let componentBuildVersionArn: String
 
         @inlinable
@@ -3117,7 +3424,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentBuildVersionArn, name: "componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):component/[a-z0-9-_]+/(?:(?:([0-9]+|x)\\.([0-9]+|x)\\.([0-9]+|x))|(?:[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+))$")
+            try self.validate(self.componentBuildVersionArn, name: "componentBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):component/[a-z0-9-_]+/(?:(?:([0-9]+|x)\\.([0-9]+|x)\\.([0-9]+|x))|(?:[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3126,7 +3433,9 @@ extension Imagebuilder {
     public struct GetComponentResponse: AWSDecodableShape {
         /// The component object specified in the request.
         public let component: Component?
-        /// The resource ARNs with different wildcard variations of semantic versioning.
+        /// A set of wildcard version ARNs that always reference the latest
+        /// 			version of the resource. ARNs are included for the latest version overall, and for the latest
+        /// 			versions within the same major, minor, and patch levels.
         public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -3169,7 +3478,9 @@ extension Imagebuilder {
     }
 
     public struct GetContainerRecipePolicyResponse: AWSDecodableShape {
-        /// The container recipe policy object that is returned.
+        /// The resource policy for the container recipe, as a JSON policy document. If
+        /// 			no policy has been applied, the response contains an empty JSON object
+        /// 			({}).
         public let policy: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -3211,7 +3522,9 @@ extension Imagebuilder {
     public struct GetContainerRecipeResponse: AWSDecodableShape {
         /// The container recipe object that is returned.
         public let containerRecipe: ContainerRecipe?
-        /// The resource ARNs with different wildcard variations of semantic versioning.
+        /// A set of wildcard version ARNs that always reference the latest
+        /// 			version of the resource. ARNs are included for the latest version overall, and for the latest
+        /// 			versions within the same major, minor, and patch levels.
         public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -3334,7 +3647,9 @@ extension Imagebuilder {
     }
 
     public struct GetImagePolicyResponse: AWSDecodableShape {
-        /// The image policy object.
+        /// The resource policy for the image, as a JSON policy document. If the image
+        /// 			has no policy applied, the response contains an empty JSON object
+        /// 			({}).
         public let policy: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -3375,7 +3690,9 @@ extension Imagebuilder {
     }
 
     public struct GetImageRecipePolicyResponse: AWSDecodableShape {
-        /// The image recipe policy object.
+        /// The resource policy for the image recipe, as a JSON policy document. If no
+        /// 			policy has been applied, the response contains an empty JSON object
+        /// 			({}).
         public let policy: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -3393,7 +3710,9 @@ extension Imagebuilder {
     }
 
     public struct GetImageRecipeRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve.
+        /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. You can use the
+        /// 			x wildcard in trailing version positions to retrieve the latest
+        /// 			matching version, for example x.x.x or 1.x.x.
         public let imageRecipeArn: String
 
         @inlinable
@@ -3417,7 +3736,9 @@ extension Imagebuilder {
     public struct GetImageRecipeResponse: AWSDecodableShape {
         /// The image recipe object.
         public let imageRecipe: ImageRecipe?
-        /// The resource ARNs with different wildcard variations of semantic versioning.
+        /// A set of wildcard version ARNs that always reference the latest
+        /// 			version of the resource. ARNs are included for the latest version overall, and for the latest
+        /// 			versions within the same major, minor, and patch levels.
         public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -3437,7 +3758,13 @@ extension Imagebuilder {
     }
 
     public struct GetImageRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the image that you want to get.
+        /// The Amazon Resource Name (ARN) of the image that you want to get. You can specify a full build
+        /// 			version ARN, or a version ARN with or without wildcards
+        /// 			(x.x.x, 1.x.x, or 1.0.x). A version or
+        /// 			wildcard ARN resolves to the latest matching build version that has reached
+        /// 			AVAILABLE status. Builds that were later deprecated, disabled,
+        /// 			or deleted don't resolve. To get an image in any other state, such as a
+        /// 			failed or in-progress build, specify the full build version ARN.
         public let imageBuildVersionArn: String
 
         @inlinable
@@ -3461,7 +3788,9 @@ extension Imagebuilder {
     public struct GetImageResponse: AWSDecodableShape {
         /// The image object.
         public let image: Image?
-        /// The resource ARNs with different wildcard variations of semantic versioning.
+        /// A set of wildcard version ARNs that always reference the latest
+        /// 			version of the resource. ARNs are included for the latest version overall, and for the latest
+        /// 			versions within the same major, minor, and patch levels.
         public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -3522,7 +3851,7 @@ extension Imagebuilder {
     }
 
     public struct GetLifecycleExecutionRequest: AWSEncodableShape {
-        /// Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
+        /// The unique identifier for a runtime instance of the lifecycle policy.
         public let lifecycleExecutionId: String
 
         @inlinable
@@ -3581,7 +3910,7 @@ extension Imagebuilder {
     }
 
     public struct GetLifecyclePolicyResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the image lifecycle policy resource that was returned.
+        /// The details of the lifecycle policy that the request retrieved.
         public let lifecyclePolicy: LifecyclePolicy?
 
         @inlinable
@@ -3597,7 +3926,8 @@ extension Imagebuilder {
     public struct GetMarketplaceResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource.
         public let resourceArn: String
-        /// The bucket path that you can specify to download the resource from Amazon S3.
+        /// The Amazon S3 location of the component artifact to retrieve, in
+        /// 			s3://bucket/key form.
         public let resourceLocation: String?
         /// Specifies which type of Amazon Web Services Marketplace resource Image Builder retrieves.
         public let resourceType: MarketplaceResourceType
@@ -3610,7 +3940,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
             try self.validate(self.resourceLocation, name: "resourceLocation", parent: name, max: 1024)
             try self.validate(self.resourceLocation, name: "resourceLocation", parent: name, pattern: "^s3://[^/]+/.+[^/]$")
         }
@@ -3627,7 +3957,8 @@ extension Imagebuilder {
         public let data: String?
         /// The Amazon Resource Name (ARN) for the Amazon Web Services Marketplace resource that was requested.
         public let resourceArn: String?
-        /// The obfuscated S3 URL to download the component artifact from.
+        /// A time-limited presigned URL for downloading the component artifact from
+        /// 			Amazon S3.
         public let url: String?
 
         @inlinable
@@ -3670,23 +4001,26 @@ extension Imagebuilder {
     public struct GetWorkflowExecutionResponse: AWSDecodableShape {
         /// The timestamp when the specified runtime instance of the workflow finished.
         public let endTime: String?
-        /// The Amazon Resource Name (ARN) of the image resource build version that the specified
-        /// 			runtime instance of the workflow created.
+        /// The Amazon Resource Name (ARN) of the image build version that owns the specified runtime
+        /// 			instance of the workflow.
         public let imageBuildVersionArn: String?
         /// The output message from the specified runtime instance of the workflow, if applicable.
         public let message: String?
-        /// Test workflows are defined within named runtime groups. The parallel group
-        /// 			is a named group that contains one or more test workflows.
+        /// The name of the parallel group that this runtime instance of the workflow
+        /// 			ran in, if configured. Parallel groups apply only to test workflows.
         public let parallelGroup: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
         /// The timestamp when the specified runtime instance of the workflow started.
         public let startTime: String?
         /// The current runtime status for the specified runtime instance of the workflow.
+        /// 			COMPLETED, FAILED, ROLLBACK_COMPLETED,
+        /// 			CANCELLED, and SKIPPED are terminal states.
         public let status: WorkflowExecutionStatus?
-        /// The total number of steps in the specified runtime instance of the workflow that ran.
-        /// 			This number should equal the sum of the step counts for steps that succeeded, were skipped,
-        /// 			and failed.
+        /// The total number of steps that the workflow document defines for this runtime
+        /// 			instance of the workflow. Image Builder sets this count before any steps run. The sum of
+        /// 			succeeded, skipped, and failed steps only reaches this total if every step
+        /// 			finishes in one of those states.
         public let totalStepCount: Int?
         /// A runtime count for the number of steps that failed in the specified runtime instance
         /// 			of the workflow.
@@ -3743,7 +4077,10 @@ extension Imagebuilder {
     }
 
     public struct GetWorkflowRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the workflow resource that you want to get.
+        /// The Amazon Resource Name (ARN) of the workflow resource that you want to get. You can specify a
+        /// 			build version ARN, or a version ARN with or without wildcards (x)
+        /// 			in its version segments. Image Builder resolves version and wildcard ARNs to the most
+        /// 			recent matching build version.
         public let workflowBuildVersionArn: String
 
         @inlinable
@@ -3765,7 +4102,9 @@ extension Imagebuilder {
     }
 
     public struct GetWorkflowResponse: AWSDecodableShape {
-        /// The resource ARNs with different wildcard variations of semantic versioning.
+        /// A set of wildcard version ARNs that always reference the latest
+        /// 			version of the resource. ARNs are included for the latest version overall, and for the latest
+        /// 			versions within the same major, minor, and patch levels.
         public let latestVersionReferences: LatestVersionReferences?
         /// The workflow resource specified in the request.
         public let workflow: Workflow?
@@ -3783,8 +4122,9 @@ extension Imagebuilder {
     }
 
     public struct GetWorkflowStepExecutionRequest: AWSEncodableShape {
-        /// Use the unique identifier for a specific runtime instance of the workflow step to
-        /// 			get runtime details for that step.
+        /// The unique identifier for the runtime instance of the workflow step that you
+        /// 			want to get runtime details for. To get the identifiers for the steps that ran
+        /// 			in a workflow, call ListWorkflowStepExecutions.
         public let stepExecutionId: String
 
         @inlinable
@@ -3808,37 +4148,53 @@ extension Imagebuilder {
     public struct GetWorkflowStepExecutionResponse: AWSDecodableShape {
         /// The name of the action that the specified step performs.
         public let action: String?
+        /// The current attempt number for the specified runtime instance of the workflow
+        /// 			step. The first run is attempt one. The number increases by one for each retry.
+        public let attemptNumber: Int?
         /// Describes the specified workflow step.
         public let description: String?
         /// The timestamp when the specified runtime instance of the workflow step finished.
         public let endTime: String?
-        /// The Amazon Resource Name (ARN) of the image resource build version that the specified
-        /// 			runtime instance of the workflow step creates.
+        /// The Amazon Resource Name (ARN) of the image build version that owns the specified runtime
+        /// 			instance of the workflow step.
         public let imageBuildVersionArn: String?
         /// Input parameters that Image Builder provided for the specified runtime instance of
-        /// 			the workflow step.
+        /// 			the workflow step, as a JSON-encoded string.
         public let inputs: String?
+        /// The maximum number of attempts allowed for the specified runtime instance of
+        /// 			the workflow step, based on the retry configuration in the workflow document.
+        /// 			If the step doesn't configure retries, the maximum is one attempt.
+        public let maxAttempts: Int?
         /// The output message from the specified runtime instance of the workflow step, if applicable.
         public let message: String?
         /// The name of the specified runtime instance of the workflow step.
         public let name: String?
-        /// The action to perform if the workflow step fails.
+        /// The action that the workflow takes if this step fails, as configured in the
+        /// 			workflow document. Abort fails the workflow and rolls back
+        /// 			completed steps. Continue proceeds to the next step. If the
+        /// 			step doesn't set a value, it defaults to Abort.
         public let onFailure: String?
-        /// The file names that the specified runtime version of the workflow step created as output.
+        /// The output values that the specified runtime instance of the workflow step
+        /// 			produced, as a JSON-encoded string. For example, a step that launches an
+        /// 			instance outputs the instance ID. If the step failed, this field contains the
+        /// 			error message.
         public let outputs: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
-        /// Reports on the rollback status of the specified runtime version of the workflow step,
-        /// 			if applicable.
+        /// Reports on the rollback status of the specified runtime instance of the
+        /// 			workflow step, if applicable. Rollback runs when the workflow execution fails,
+        /// 			and undoes the work that completed steps performed.
         public let rollbackStatus: WorkflowStepExecutionRollbackStatus?
-        /// The timestamp when the specified runtime version of the workflow step started.
+        /// The timestamp when the specified runtime instance of the workflow step started.
         public let startTime: String?
-        /// The current status for the specified runtime version of the workflow step.
+        /// The current status for the specified runtime instance of the workflow step.
         public let status: WorkflowStepExecutionStatus?
-        /// The unique identifier for the runtime version of the workflow step that you specified
+        /// The unique identifier for the runtime instance of the workflow step that you specified
         /// 			in the request.
         public let stepExecutionId: String?
-        /// The maximum duration in seconds for this step to complete its action.
+        /// The maximum duration in seconds for this step to complete its action. If the
+        /// 			workflow document doesn't set a timeout for the step, Image Builder applies the
+        /// 			default timeout for the step's action. This field returns that value.
         public let timeoutSeconds: Int?
         /// The Amazon Resource Name (ARN) of the build version for the Image Builder workflow resource
         /// 			that defines this workflow step.
@@ -3848,12 +4204,14 @@ extension Imagebuilder {
         public let workflowExecutionId: String?
 
         @inlinable
-        public init(action: String? = nil, description: String? = nil, endTime: String? = nil, imageBuildVersionArn: String? = nil, inputs: String? = nil, message: String? = nil, name: String? = nil, onFailure: String? = nil, outputs: String? = nil, requestId: String? = nil, rollbackStatus: WorkflowStepExecutionRollbackStatus? = nil, startTime: String? = nil, status: WorkflowStepExecutionStatus? = nil, stepExecutionId: String? = nil, timeoutSeconds: Int? = nil, workflowBuildVersionArn: String? = nil, workflowExecutionId: String? = nil) {
+        public init(action: String? = nil, attemptNumber: Int? = nil, description: String? = nil, endTime: String? = nil, imageBuildVersionArn: String? = nil, inputs: String? = nil, maxAttempts: Int? = nil, message: String? = nil, name: String? = nil, onFailure: String? = nil, outputs: String? = nil, requestId: String? = nil, rollbackStatus: WorkflowStepExecutionRollbackStatus? = nil, startTime: String? = nil, status: WorkflowStepExecutionStatus? = nil, stepExecutionId: String? = nil, timeoutSeconds: Int? = nil, workflowBuildVersionArn: String? = nil, workflowExecutionId: String? = nil) {
             self.action = action
+            self.attemptNumber = attemptNumber
             self.description = description
             self.endTime = endTime
             self.imageBuildVersionArn = imageBuildVersionArn
             self.inputs = inputs
+            self.maxAttempts = maxAttempts
             self.message = message
             self.name = name
             self.onFailure = onFailure
@@ -3870,10 +4228,12 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case attemptNumber = "attemptNumber"
             case description = "description"
             case endTime = "endTime"
             case imageBuildVersionArn = "imageBuildVersionArn"
             case inputs = "inputs"
+            case maxAttempts = "maxAttempts"
             case message = "message"
             case name = "name"
             case onFailure = "onFailure"
@@ -3919,11 +4279,14 @@ extension Imagebuilder {
         /// For images that distribute an AMI, this is the image recipe that Image Builder used to
         /// 			create the image. For container images, this is empty.
         public let imageRecipe: ImageRecipe?
-        /// Contains settings for vulnerability scans.
+        /// Settings for the vulnerability scans that Amazon Inspector runs for this
+        /// 			image. For AMI output, Amazon Inspector scans the test instance during image creation.
+        /// 			For container output, Amazon Inspector scans the container image in its Amazon ECR
+        /// 			repository.
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The origin of the base image that Image Builder used to build this image.
         public let imageSource: ImageSource?
-        /// The image tests that ran when that Image Builder created this image.
+        /// The image test settings that Image Builder used when it created this image.
         public let imageTestsConfiguration: ImageTestsConfiguration?
         /// The infrastructure that Image Builder used to create this image.
         public let infrastructureConfiguration: InfrastructureConfiguration?
@@ -3943,9 +4306,11 @@ extension Imagebuilder {
         public let platform: Platform?
         /// Contains information about the current state of scans for this image.
         public let scanState: ImageScanState?
-        /// The Amazon Resource Name (ARN) of the image pipeline that created this image.
+        /// The Amazon Resource Name (ARN) of the image pipeline that created this image. This field is only
+        /// 			present for images that a pipeline execution created.
         public let sourcePipelineArn: String?
-        /// The name of the image pipeline that created this image.
+        /// The name of the image pipeline that created this image. Image Builder doesn't return
+        /// 			this field for new images. Use sourcePipelineArn instead.
         public let sourcePipelineName: String?
         /// The state of the image.
         public let state: ImageState?
@@ -3954,16 +4319,16 @@ extension Imagebuilder {
         /// Specifies whether this image produces an AMI or a container image.
         public let type: ImageType?
         /// The semantic version of the image.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
-        /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes, you can assign any positive integer value, including
+        /// 	zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the
         /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
-        /// 	a date, such as 2021.01.01.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-        /// 	to specify the most recent versions or nodes when selecting the base image or components for your
-        /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-        /// 	wildcards.
+        /// 	a date, such as 2021.01.01.  Filtering: You can use wildcards (x) to specify the most recent versions or nodes when
+        /// 	selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes
+        /// 	to the right of the first wildcard must also be wildcards.
         public let version: String?
-        /// Contains the build and test workflows that are associated with the image.
+        /// The build, test, and distribution workflow configurations that are
+        /// 			associated with the image.
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
@@ -4047,6 +4412,51 @@ extension Imagebuilder {
         }
     }
 
+    public struct ImageFailureContext: AWSDecodableShape {
+        /// The details about the component that failed, if the failure occurred while a
+        /// 			component was running.
+        public let componentFailure: ComponentFailureContext?
+        /// The details about the distribution failure, if the failure occurred while Image Builder
+        /// 			distributed or configured the image.
+        public let distributionFailure: DistributionFailureContext?
+        /// The name of the workflow step that failed, as it appears in the workflow
+        /// 			document.
+        public let failedStep: String?
+        /// The status that the image had when the failure occurred. This indicates the stage
+        /// 			of the image creation process where the image failed, for example
+        /// 			BUILDING or DISTRIBUTING.
+        public let imageStatus: ImageStatus?
+        /// The unique identifier of the workflow step execution that failed.
+        public let stepExecutionId: String?
+        /// The Amazon Resource Name (ARN) of the workflow build version that was running when the image
+        /// 			failed.
+        public let workflowArn: String?
+        /// The unique identifier of the workflow execution that was running when the image
+        /// 			failed.
+        public let workflowExecutionId: String?
+
+        @inlinable
+        public init(componentFailure: ComponentFailureContext? = nil, distributionFailure: DistributionFailureContext? = nil, failedStep: String? = nil, imageStatus: ImageStatus? = nil, stepExecutionId: String? = nil, workflowArn: String? = nil, workflowExecutionId: String? = nil) {
+            self.componentFailure = componentFailure
+            self.distributionFailure = distributionFailure
+            self.failedStep = failedStep
+            self.imageStatus = imageStatus
+            self.stepExecutionId = stepExecutionId
+            self.workflowArn = workflowArn
+            self.workflowExecutionId = workflowExecutionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentFailure = "componentFailure"
+            case distributionFailure = "distributionFailure"
+            case failedStep = "failedStep"
+            case imageStatus = "imageStatus"
+            case stepExecutionId = "stepExecutionId"
+            case workflowArn = "workflowArn"
+            case workflowExecutionId = "workflowExecutionId"
+        }
+    }
+
     public struct ImageLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The log group name that Image Builder uses for image creation. If not specified, the log group
         /// 			name defaults to /aws/imagebuilder/image-name.
@@ -4094,7 +4504,7 @@ extension Imagebuilder {
         /// Image Builder tracks the number of consecutive failures for scheduled pipeline
         /// 			executions and takes one of the following actions each time it runs on a schedule:   If the pipeline execution is successful, the number of consecutive
         /// 					failures resets to zero.   If the pipeline execution fails, Image Builder increments the number of
-        /// 					consecutive failures. If the failure count exceeds the limit defined in the
+        /// 					consecutive failures. If the failure count reaches the limit defined in the
         /// 					AutoDisablePolicy, Image Builder disables the pipeline.   The consecutive failure count is also reset to zero under the following
         /// 			conditions:   The pipeline runs manually and succeeds.   The pipeline configuration is updated.   If the pipeline runs manually and fails, the count remains the same. The next
         /// 			scheduled run continues to increment where it left off before.
@@ -4104,7 +4514,7 @@ extension Imagebuilder {
         public let containerRecipeArn: String?
         /// The date on which this image pipeline was created.
         public let dateCreated: String?
-        /// This is no longer supported, and does not return a value.
+        /// The date on which this image pipeline was last run.
         public let dateLastRun: String?
         /// The next date when the pipeline is scheduled to run.
         public let dateNextRun: String?
@@ -4115,9 +4525,8 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the distribution configuration associated with this
         /// 			image pipeline.
         public let distributionConfigurationArn: String?
-        /// Collects additional information about the image being created, including the operating
-        /// 			system (OS) version and package list. This information is used to enhance the overall
-        /// 			experience of using EC2 Image Builder. Enabled by default.
+        /// Specifies whether to collect additional information about the image being created, including the operating
+        /// 			system (OS) version and package list. Defaults to true.
         public let enhancedImageMetadataEnabled: Bool?
         /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants
         /// 			Image Builder access to perform workflow actions.
@@ -4125,9 +4534,13 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image recipe associated with this image
         /// 			pipeline.
         public let imageRecipeArn: String?
-        /// Contains settings for vulnerability scans.
+        /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance
+        /// 			during image creation.
         public let imageScanningConfiguration: ImageScanningConfiguration?
-        /// The tags to be applied to the images produced by this pipeline.
+        /// The tags that Image Builder applies to the Image Builder image resource that this
+        /// 			pipeline's scheduled executions create. These tags don't apply to the
+        /// 			output AMI. Builds that you start manually use the tags from the
+        /// 			StartImagePipelineExecution request instead.
         public let imageTags: [String: String]?
         /// The image tests configuration of the image pipeline.
         public let imageTestsConfiguration: ImageTestsConfiguration?
@@ -4138,15 +4551,19 @@ extension Imagebuilder {
         /// 			BUILDING, TESTING, FAILED,
         /// 			or AVAILABLE.
         public let lastRunStatus: ImageStatus?
-        /// Defines logging configuration for the output image.
+        /// The CloudWatch Logs configuration for the pipeline: the log group for
+        /// 			image build logs and the log group for pipeline execution logs.
         public let loggingConfiguration: PipelineLoggingConfiguration?
         /// The name of the image pipeline.
         public let name: String?
-        /// The platform of the image pipeline.
+        /// The platform of the image pipeline, inherited from the recipe that the
+        /// 			pipeline uses.
         public let platform: Platform?
         /// The schedule of the image pipeline.
         public let schedule: Schedule?
-        /// The status of the image pipeline.
+        /// The status of the image pipeline. A disabled pipeline doesn't run on its
+        /// 			schedule, but you can still start builds manually. Image Builder can also disable a
+        /// 			pipeline automatically when consecutive scheduled builds fail.
         public let status: PipelineStatus?
         /// The tags of this image pipeline.
         public let tags: [String: String]?
@@ -4232,8 +4649,8 @@ extension Imagebuilder {
     public struct ImageRecipe: AWSDecodableShape {
         /// Before you create a new AMI, Image Builder launches temporary Amazon EC2 instances to build and test
         /// 			your image configuration. Instance configuration adds a layer of control over those
-        /// 			instances. You can define settings and add scripts to run when an instance is launched
-        /// 			from your AMI.
+        /// 			instances. You can define settings and add scripts to run when Image Builder launches
+        /// 			your build instance.
         public let additionalInstanceConfiguration: AdditionalInstanceConfiguration?
         /// Tags that are applied to the AMI that Image Builder creates during the Build phase
         /// 			prior to image distribution.
@@ -4246,8 +4663,10 @@ extension Imagebuilder {
         public let arn: String?
         /// The block device mappings to apply when creating images from this recipe.
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
-        /// The components that are included in the image recipe. Recipes require a minimum of one build component, and can
-        /// 			have a maximum of 20 build and test components in any combination.
+        /// The components that are included in the image recipe. A recipe can contain a maximum of 20 build and test components
+        /// 			in any combination, by default. This maximum is an adjustable quota. For more information, see
+        /// 			EC2 Image Builder endpoints and quotas
+        /// 			in the Amazon Web Services General Reference.
         public let components: [ComponentConfiguration]?
         /// The date on which this image recipe was created.
         public let dateCreated: String?
@@ -4265,12 +4684,16 @@ extension Imagebuilder {
         public let platform: Platform?
         /// The tags of the image recipe.
         public let tags: [String: String]?
-        /// Specifies which type of image is created by the recipe - an AMI or a container
-        /// 			image.
+        /// The output image type. For an image recipe, this is always AMI. Container
+        /// 			images are built from container recipes, a separate resource. This field
+        /// 			isn't currently returned in responses.
         public let type: ImageType?
         /// The version of the image recipe.
         public let version: String?
-        /// The working directory to be used during build and test workflows.
+        /// The working directory used during build and test workflows. If you
+        /// 			don't specify a working directory, Image Builder uses /tmp for
+        /// 			Linux and macOS build instances, and C:/ for Windows build
+        /// 			instances.
         public let workingDirectory: String?
 
         @inlinable
@@ -4359,7 +4782,9 @@ extension Imagebuilder {
         /// The date and time when the finding was first observed.
         public let firstObservedAt: Date?
         /// Details about whether a fix is available for any of the packages that are identified
-        /// 			in the finding through a version update.
+        /// 			in the finding through a version update. Valid values include:    YES – A fix is available for all of the packages
+        /// 					identified in the finding.    NO – No fix is available.    PARTIAL – A fix is available for some, but not
+        /// 					all, of the packages identified in the finding.
         public let fixAvailable: String?
         /// The Amazon Resource Name (ARN) of the image build version that's associated with the
         /// 			finding.
@@ -4375,7 +4800,8 @@ extension Imagebuilder {
         public let packageVulnerabilityDetails: PackageVulnerabilityDetails?
         /// An object that contains the details about how to remediate the finding.
         public let remediation: Remediation?
-        /// The severity of the finding.
+        /// The severity of the finding. For more information, see Severity levels for Amazon Inspector findings in the
+        /// 				Amazon Inspector User Guide.
         public let severity: String?
         /// The title of the finding.
         public let title: String?
@@ -4450,6 +4876,11 @@ extension Imagebuilder {
 
     public struct ImageScanFindingsFilter: AWSEncodableShape {
         /// The name of the image scan finding filter. Filter names are case-sensitive.
+        /// 			Valid filter names are:    imageBuildVersionArn – Filters findings by the
+        /// 					image build version that was scanned.    imagePipelineArn – Filters findings by the
+        /// 					pipeline that created the scanned image.    vulnerabilityId – Filters findings by
+        /// 					vulnerability ID, for example a CVE ID.    severity – Filters findings by severity
+        /// 					level.
         public let name: String?
         /// The filter values. Filter values are case-sensitive.
         public let values: [String]?
@@ -4478,7 +4909,12 @@ extension Imagebuilder {
     public struct ImageScanState: AWSDecodableShape {
         /// The reason for the scan status for the image.
         public let reason: String?
-        /// The current state of vulnerability scans for the image.
+        /// The current state of vulnerability scans for the image. The scan starts as
+        /// 			PENDING and moves through SCANNING and
+        /// 			COLLECTING to COMPLETED. Image Builder sets the status to
+        /// 			ABANDONED if the image reaches a terminal state before the scan
+        /// 			finding collection completes. A scan can also end as FAILED or
+        /// 			TIMED_OUT.
         public let status: ImageScanStatus?
 
         @inlinable
@@ -4496,8 +4932,12 @@ extension Imagebuilder {
     public struct ImageScanningConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains Amazon ECR settings for vulnerability scans.
         public let ecrConfiguration: EcrConfiguration?
-        /// A setting that indicates whether Image Builder keeps a snapshot of the vulnerability scans that
-        /// 			Amazon Inspector runs against the build instance when you create a new image.
+        /// Specifies whether Amazon Inspector scans for vulnerabilities when you create a new
+        /// 			image, and whether Image Builder saves the findings. Amazon Inspector must be enabled in the
+        /// 			account. Image tests must also be enabled. For AMI output, Amazon Inspector scans the
+        /// 			test instance. For container output, Amazon Inspector scans the container image that
+        /// 			Image Builder pushes to the Amazon ECR repository from your ecrConfiguration
+        /// 			settings.
         public let imageScanningEnabled: Bool?
 
         @inlinable
@@ -4517,18 +4957,28 @@ extension Imagebuilder {
     }
 
     public struct ImageState: AWSDecodableShape {
+        /// The details about the failure, for images that failed to complete. Image Builder only
+        /// 			sets this property when the image status is FAILED.
+        public let failureContext: ImageFailureContext?
         /// The reason for the status of the image.
         public let reason: String?
-        /// The status of the image.
+        /// The status of the image. A new image moves through build, test, and
+        /// 			distribution statuses during creation, and ends in the
+        /// 			AVAILABLE, FAILED, or CANCELLED
+        /// 			state. The DEPRECATED, DISABLED, and
+        /// 			DELETED statuses come from later resource management
+        /// 			actions.
         public let status: ImageStatus?
 
         @inlinable
-        public init(reason: String? = nil, status: ImageStatus? = nil) {
+        public init(failureContext: ImageFailureContext? = nil, reason: String? = nil, status: ImageStatus? = nil) {
+            self.failureContext = failureContext
             self.reason = reason
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case failureContext = "failureContext"
             case reason = "reason"
             case status = "status"
         }
@@ -4615,10 +5065,12 @@ extension Imagebuilder {
     }
 
     public struct ImageTestsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Determines if tests should run after building the image. Image Builder defaults to enable tests
-        /// 			to run following the image build, before image distribution.
+        /// Specifies whether tests run after building the image.
+        /// 			When enabled, tests run after the image build and before image distribution.
+        /// 			Defaults to true.
         public let imageTestsEnabled: Bool?
-        /// The maximum time in minutes that tests are permitted to run.  The timeout property is not currently active. This value is
+        /// The maximum time in minutes that tests are permitted to run. If you don't
+        /// 			specify a value, Image Builder stores and returns 720.  The timeout property is not currently active. This value is
         /// 				ignored.
         public let timeoutMinutes: Int?
 
@@ -4657,8 +5109,8 @@ extension Imagebuilder {
         public let imageSource: ImageSource?
         /// The name of this specific version of an Image Builder image.
         public let name: String?
-        /// The operating system version of the Amazon EC2 build instance. For example, Amazon Linux 2,
-        /// 			Ubuntu 18, or Microsoft Windows Server 2019.
+        /// The operating system version of the image. For example, Amazon Linux 2023
+        /// 			or Microsoft Windows Server 2022.
         public let osVersion: String?
         /// The owner of the image version.
         public let owner: String?
@@ -4667,16 +5119,15 @@ extension Imagebuilder {
         public let platform: Platform?
         /// Specifies whether this image produces an AMI or a container image.
         public let type: ImageType?
-        /// Details for a specific version of an Image Builder image. This version follows the semantic
+        /// The semantic version of the image. This version follows the semantic
         /// 			version syntax.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
-        /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes, you can assign any positive integer value, including
+        /// 	zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the
         /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
-        /// 	a date, such as 2021.01.01.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-        /// 	to specify the most recent versions or nodes when selecting the base image or components for your
-        /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-        /// 	wildcards.
+        /// 	a date, such as 2021.01.01.  Filtering: You can use wildcards (x) to specify the most recent versions or nodes when
+        /// 	selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes
+        /// 	to the right of the first wildcard must also be wildcards.
         public let version: String?
 
         @inlinable
@@ -4712,35 +5163,48 @@ extension Imagebuilder {
         /// 			has been made in this version, or what makes this version different from other versions
         /// 			of the component.
         public let changeDescription: String?
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// The data of the component. Used to specify the data inline. Either data
-        /// 			or uri can be used to specify the data within the component.
+        /// The data of the component. For the SHELL format, this is the
+        /// 			plain script content. You must specify exactly one of the data
+        /// 			or uri properties. For scripts that exceed the inline length
+        /// 			constraint, use the uri property.
         public let data: String?
         /// The description of the component. Describes the contents of the component.
         public let description: String?
         /// The format of the resource that you want to import as a component.
         public let format: ComponentFormat
-        /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
-        /// 			in the Key Management Service Developer Guide.
+        /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt this component.
+        /// 			This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
+        /// 			in the Key Management Service Developer Guide. If you don't specify a key, Image Builder encrypts the
+        /// 			component data with a KMS key that Image Builder owns.
         public let kmsKeyId: String?
-        /// The name of the component.
+        /// The name of the component. Image Builder generates the component ARN from a
+        /// 			normalized form of the name, so names that differ only in case, spaces, or
+        /// 			underscores count as the same name. If a component with the same name and
+        /// 			semantic version already exists in your account in the same Amazon Web Services Region,
+        /// 			the request creates a new build version for it. If the content is also
+        /// 			identical to the latest build version, the request fails because the
+        /// 			component already exists.
         public let name: String
         /// The platform of the component.
         public let platform: Platform
         /// The semantic version of the component. This version follows the semantic version
         /// 			syntax.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-        /// 	to specify the most recent versions or nodes when selecting the base image or components for your
-        /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-        /// 	wildcards.
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes, you can assign any positive integer value, including
+        /// 	zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the
+        /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
+        /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
+        /// 	a date, such as 2021.01.01.
         public let semanticVersion: String
         /// The tags of the component.
         public let tags: [String: String]?
         /// The type of the component denotes whether the component is used to build the image, or
         /// 			only to test it.
         public let type: ComponentType
-        /// The uri of the component. Must be an Amazon S3 URL and the requester must have permission
+        /// The uri of the component. Must be an Amazon S3 URL and you must have permission
         /// 			to access the Amazon S3 bucket. If you use Amazon S3, you can specify component content up to your
         /// 			service quota. Either data or uri can be used to specify the
         /// 			data within the component.
@@ -4824,22 +5288,34 @@ extension Imagebuilder {
     }
 
     public struct ImportDiskImageRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The description for your disk image import.
         public let description: String?
         /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access
         /// 			to perform workflow actions to import an image from a Microsoft ISO file.
+        /// 			If you don't provide a role, Image Builder uses the Image Builder service-linked role in your
+        /// 			account, and creates it if it doesn't exist.
         public let executionRole: String?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for
         /// 			launching the EC2 instance on which the ISO image is built.
         public let infrastructureConfigurationArn: String
-        /// Define logging configuration for the image build process.
+        /// The CloudWatch Logs log group where Image Builder sends the import logs. If you
+        /// 			specify a log group name outside of the /aws/imagebuilder/
+        /// 			namespace, you must also provide an executionRole that has
+        /// 			permission to write to that log group.
         public let loggingConfiguration: ImageLoggingConfiguration?
-        /// The name of the image resource that's created from the import.
+        /// The name of the image resource that's created from the import. Image Builder
+        /// 			generates the image ARN from a normalized form of the name, so names that
+        /// 			differ only in case, spaces, or underscores count as the same name. If an
+        /// 			image with the same name and semantic version already exists in your
+        /// 			account in the same Amazon Web Services Region, the import creates a new build version
+        /// 			for it.
         public let name: String
-        /// The operating system version for the imported image. Allowed values include
-        /// 			the following: Microsoft Windows 11.
+        /// The operating system version for the imported image. The only supported
+        /// 			value is Microsoft Windows 11.
         public let osVersion: String
         /// The operating system platform for the imported image. Allowed values include
         /// 			the following: Windows.
@@ -4852,7 +5328,10 @@ extension Imagebuilder {
         public let semanticVersion: String
         /// Tags that are attached to image resources created from the import.
         public let tags: [String: String]?
-        /// The uri of the ISO disk file that's stored in Amazon S3.
+        /// The uri of the ISO disk file that's stored in Amazon S3, in
+        /// 			s3://bucket/key format. The key must end with the
+        /// 			.iso, .ISO, or .Iso extension, and the
+        /// 			bucket must be owned by the account that makes the request.
         public let uri: String
         /// Specifies Windows settings for ISO imports.
         public let windowsConfiguration: WindowsConfiguration?
@@ -4921,7 +5400,10 @@ extension Imagebuilder {
     public struct ImportDiskImageResponse: AWSDecodableShape {
         /// The client token that uniquely identifies the request.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the output AMI that was created from the ISO disk file.
+        /// The Amazon Resource Name (ARN) of the Image Builder image resource that this request created. The AMI
+        /// 			doesn't exist yet when the response returns. The import runs asynchronously,
+        /// 			and the output AMI appears in the image's output resources when the import
+        /// 			completes.
         public let imageBuildVersionArn: String?
 
         @inlinable
@@ -4937,13 +5419,22 @@ extension Imagebuilder {
     }
 
     public struct ImportVmImageRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The description for the base image that is created by the import process.
         public let description: String?
-        /// Define logging configuration for the image build process.
+        /// The CloudWatch Logs log group where Image Builder sends the import logs. For
+        /// 			ImportVmImage, the log group name must be within the
+        /// 			/aws/imagebuilder/ namespace.
         public let loggingConfiguration: ImageLoggingConfiguration?
-        /// The name of the base image that is created by the import process.
+        /// The name of the base image that is created by the import process. Image Builder
+        /// 			generates the image ARN from a normalized form of the name, so names that
+        /// 			differ only in case, spaces, or underscores count as the same name. If an
+        /// 			image with the same name and semantic version already exists in your
+        /// 			account in the same Amazon Web Services Region, the import creates a new build version
+        /// 			for it.
         public let name: String
         /// The operating system version for the imported VM.
         public let osVersion: String?
@@ -4951,8 +5442,8 @@ extension Imagebuilder {
         public let platform: Platform
         /// The semantic version to attach to the base image that was created during the import
         /// 			process. This version follows the semantic version syntax.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes you can assign any positive integer value, including
-        /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
+        /// 	You can assign values for the first three, and can filter on all of them.  Assignment: For the first three nodes, you can assign any positive integer value, including
+        /// 	zero. The upper limit is 2^30-1, or 1073741823, for each node. Image Builder automatically assigns the
         /// 	build number to the fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment requirements for
         /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
         /// 	a date, such as 2021.01.01.
@@ -4960,8 +5451,9 @@ extension Imagebuilder {
         /// Tags that are attached to the import resources.
         public let tags: [String: String]?
         /// The importTaskId (API) or ImportTaskId (CLI) from the
-        /// 			Amazon EC2 VM import process. Image Builder retrieves information from the import process to pull in
-        /// 			the AMI that is created from the VM source as the base image for your recipe.
+        /// 			Amazon EC2 VM import process. The import task doesn't need to be complete when you
+        /// 			call ImportVmImage - Image Builder monitors the task and finishes creating the image
+        /// 			when the task completes.
         public let vmImportTaskId: String
 
         @inlinable
@@ -5015,8 +5507,9 @@ extension Imagebuilder {
     public struct ImportVmImageResponse: AWSDecodableShape {
         /// The client token that uniquely identifies the request.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the AMI that was created during the VM import
-        /// 			process. This AMI is used as the base image for the recipe that imported the VM.
+        /// The Amazon Resource Name (ARN) of the Image Builder image resource that this request created. Image Builder
+        /// 			records the AMI from the VM import task in the image's output resources
+        /// 			after the task completes.
         public let imageArn: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -5052,28 +5545,34 @@ extension Imagebuilder {
         public let instanceTypes: [String]?
         /// The Amazon EC2 key pair of the infrastructure configuration.
         public let keyPair: String?
-        /// The logging configuration of the infrastructure configuration.
+        /// The logging configuration of the infrastructure configuration. When you
+        /// 			configure S3 logs, Image Builder writes logs from the build and test process to the
+        /// 			specified bucket under the key prefix.
         public let logging: Logging?
         /// The name of the infrastructure configuration.
         public let name: String?
-        /// The instance placement settings that define where the instances that are launched
-        /// 			from your image will run.
+        /// The instance placement settings that define where the build and test
+        /// 			instances that Image Builder launches during image creation run. These settings
+        /// 			don't affect instances that you launch from the output image.
         public let placement: Placement?
-        /// The tags attached to the resource created by Image Builder.
+        /// The metadata tags assigned to the Amazon EC2 build and test instances that Image Builder
+        /// 			launches during image creation.
         public let resourceTags: [String: String]?
         /// The security group IDs of the infrastructure configuration.
         public let securityGroupIds: [String]?
-        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event
-        /// 			notifications.  EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
-        /// 				from other accounts. The key that is used to encrypt the SNS topic must reside in the
-        /// 				account that the Image Builder service runs under.
+        /// The Amazon Resource Name (ARN) of the SNS topic to which Image Builder
+        /// 			sends image build event notifications. Specify a standard topic. Image Builder doesn't support FIFO
+        /// 			topics.  EC2 Image Builder can't send notifications to SNS topics that are encrypted using keys
+        /// 				from other accounts. If your SNS topic is encrypted, the key must be owned by the
+        /// 				same account that owns your Image Builder resources.
         public let snsTopicArn: String?
         /// The subnet ID of the infrastructure configuration.
         public let subnetId: String?
         /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
-        /// The terminate instance on failure configuration of the infrastructure
-        /// 			configuration.
+        /// Indicates whether Image Builder terminates the build and test instances when the image
+        /// 			build fails. When false, Image Builder retains the instance so that you
+        /// 			can debug it.
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
@@ -5133,10 +5632,12 @@ extension Imagebuilder {
         public let instanceTypes: [String]?
         /// The name of the infrastructure configuration.
         public let name: String?
-        /// The instance placement settings that define where the instances that are launched
-        /// 			from your image will run.
+        /// The instance placement settings that define where the build and test
+        /// 			instances that Image Builder launches during image creation run. These settings
+        /// 			don't affect instances that you launch from the output image.
         public let placement: Placement?
-        /// The tags attached to the image created by Image Builder.
+        /// The metadata tags assigned to the Amazon EC2 build and test instances that Image Builder
+        /// 			launches during image creation.
         public let resourceTags: [String: String]?
         /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
@@ -5170,8 +5671,9 @@ extension Imagebuilder {
     }
 
     public struct InspectorScoreDetails: AWSDecodableShape {
-        /// An object that contains details about an adjustment that Amazon Inspector made to the CVSS score
-        /// 			for the finding.
+        /// The CVSS score that Amazon Inspector assigned to the finding after applying its
+        /// 			adjustments. It includes the score source, CVSS version, scoring vector,
+        /// 			and the adjustments applied.
         public let adjustedCvss: CvssScoreDetails?
 
         @inlinable
@@ -5187,11 +5689,11 @@ extension Imagebuilder {
     public struct InstanceBlockDeviceMapping: AWSEncodableShape & AWSDecodableShape {
         /// The device to which these mappings apply.
         public let deviceName: String?
-        /// Use to manage Amazon EBS-specific configuration for this mapping.
+        /// The Amazon EBS-specific configuration for this mapping.
         public let ebs: EbsInstanceBlockDeviceSpecification?
-        /// Use to remove a mapping from the base image.
+        /// Specifies a mapping to remove from the base image.
         public let noDevice: String?
-        /// Use to manage instance ephemeral devices.
+        /// The virtual device name for instance ephemeral devices.
         public let virtualName: String?
 
         @inlinable
@@ -5220,8 +5722,8 @@ extension Imagebuilder {
     }
 
     public struct InstanceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Defines the block devices to attach for building an instance from this Image Builder
-        /// 			AMI.
+        /// Defines the block device mappings for the EC2 instance that Image Builder launches
+        /// 			to build and test your container image.
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
         /// The base image for a container build and test instance. This can contain an AMI ID
         /// 			or it can specify an Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by ssm:,
@@ -5249,16 +5751,20 @@ extension Imagebuilder {
     }
 
     public struct InstanceMetadataOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Limit the number of hops that an instance metadata request can traverse to reach its
-        /// 			destination. The default is one hop. However, if HTTP tokens are required, container
-        /// 			image builds need a minimum of two hops.
+        /// Limit the number of hops that an instance metadata request can traverse to
+        /// 			reach its destination. If you don't set a value, the EC2 launch default
+        /// 			for the instance applies. If HTTP tokens are required, container image
+        /// 			builds need a minimum of two hops.
         public let httpPutResponseHopLimit: Int?
         /// Indicates whether a signed token header is required for instance metadata retrieval
         /// 			requests. The values affect the response as follows:    required – When you retrieve the IAM
         /// 					role credentials, version 2.0 credentials are returned in all cases.    optional – You can include a signed
         /// 					token header in your request to retrieve instance metadata, or you can leave it
         /// 					out. If you include it, version 2.0 credentials are returned for the IAM role.
-        /// 					Otherwise, version 1.0 credentials are returned.   The default setting is optional.
+        /// 					Otherwise, version 1.0 credentials are returned.   If you don't set a value, the EC2 launch default applies to the
+        /// 			build and test instances. That default depends on the base AMI and any
+        /// 			account-level instance metadata defaults. For more information, see Configure the instance metadata options in the
+        /// 				 Amazon EC2 User Guide .
         public let httpTokens: String?
 
         @inlinable
@@ -5314,9 +5820,12 @@ extension Imagebuilder {
         /// 			information, see What is
         /// 				Organizations?.
         public let organizationArns: [String]?
-        /// The name of the group.
+        /// The name of the group that you want to grant launch permission to. The only
+        /// 			supported value is all, which makes the distributed AMI
+        /// 			public.
         public let userGroups: [String]?
-        /// The Amazon Web Services account ID.
+        /// The Amazon Web Services account IDs to grant launch permission to. Each listed account can
+        /// 			use the distributed AMI to launch instances.
         public let userIds: [String]?
 
         @inlinable
@@ -5362,8 +5871,9 @@ extension Imagebuilder {
         public let accountId: String?
         /// Identifies the Amazon EC2 launch template to use.
         public let launchTemplateId: String
-        /// Set the specified Amazon EC2 launch template as the default launch template for the
-        /// 			specified account.
+        /// Specifies whether to make the new launch template version that Image Builder creates
+        /// 			the default version of the launch template. If you don't set a value,
+        /// 			Image Builder treats it as true.
         public let setDefaultVersion: Bool?
 
         @inlinable
@@ -5392,13 +5902,13 @@ extension Imagebuilder {
         public let lifecycleExecutionId: String?
         /// The Amazon Resource Name (ARN) of the lifecycle policy that ran.
         public let lifecyclePolicyArn: String?
-        /// Contains information about associated resources that are identified for action by
-        /// 			the runtime instance of the lifecycle policy.
+        /// A summary flag that indicates whether the lifecycle execution identified any
+        /// 			resources to take lifecycle actions on.
         public let resourcesImpactedSummary: LifecycleExecutionResourcesImpactedSummary?
         /// The timestamp when the lifecycle runtime instance started.
         public let startTime: Date?
-        /// Runtime state that reports if the policy action ran successfully,
-        /// 			failed, or was skipped.
+        /// Runtime state that reports whether the lifecycle execution is in progress,
+        /// 			succeeded, or failed.
         public let state: LifecycleExecutionState?
 
         @inlinable
@@ -5441,7 +5951,7 @@ extension Imagebuilder {
         public let snapshots: [LifecycleExecutionSnapshotResource]?
         /// The starting timestamp from the lifecycle action that was applied to the resource.
         public let startTime: Date?
-        /// The runtime state for the lifecycle execution.
+        /// The runtime state of the lifecycle action for this resource.
         public let state: LifecycleExecutionResourceState?
 
         @inlinable
@@ -5471,7 +5981,7 @@ extension Imagebuilder {
     }
 
     public struct LifecycleExecutionResourceAction: AWSDecodableShape {
-        /// The name of the resource that was identified for a lifecycle policy action.
+        /// The name of the lifecycle action that was identified for the resource.
         public let name: LifecycleExecutionResourceActionName?
         /// The reason why the lifecycle policy action is taken.
         public let reason: String?
@@ -5508,8 +6018,8 @@ extension Imagebuilder {
     }
 
     public struct LifecycleExecutionResourcesImpactedSummary: AWSDecodableShape {
-        /// Indicates whether an image resource that was identified for a lifecycle action has
-        /// 			associated resources that are also impacted.
+        /// Indicates whether the lifecycle execution identified any resources to take
+        /// 			lifecycle actions on.
         public let hasImpactedResources: Bool?
 
         @inlinable
@@ -5574,13 +6084,17 @@ extension Imagebuilder {
         public let executionRole: String?
         /// The name of the lifecycle policy.
         public let name: String?
-        /// The configuration details for a lifecycle policy resource.
+        /// The list of rules for the lifecycle policy. Each rule pairs an action with a
+        /// 			filter and optional exclusion rules. A policy can contain at most one rule
+        /// 			per action type.
         public let policyDetails: [LifecyclePolicyDetail]?
         /// Resource selection criteria used to run the lifecycle policy.
         public let resourceSelection: LifecyclePolicyResourceSelection?
         /// The type of resources the lifecycle policy targets.
         public let resourceType: LifecyclePolicyResourceType?
-        /// Indicates whether the lifecycle policy resource is enabled.
+        /// Indicates whether the lifecycle policy resource is enabled. Only enabled
+        /// 			policies run on their schedule. Disabling or deleting a policy removes its
+        /// 			schedule and cancels any in-flight lifecycle execution.
         public let status: LifecyclePolicyStatus?
         /// To help manage your lifecycle policy resources, you can assign your own
         /// 			metadata to each resource in the form of tags. Each tag consists of a key and
@@ -5647,9 +6161,17 @@ extension Imagebuilder {
     }
 
     public struct LifecyclePolicyDetailAction: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the resources that the lifecycle policy applies to.
+        /// Specifies which underlying resources the action extends to beyond the Image Builder
+        /// 			image resource itself: distributed AMIs, their snapshots, or distributed
+        /// 			container images. DELETE rules can include all three,
+        /// 			DEPRECATE and DISABLE rules can include AMIs only,
+        /// 			and you can only include snapshots together with AMIs.
         public let includeResources: LifecyclePolicyDetailActionIncludeResources?
-        /// Specifies the lifecycle action to take.
+        /// Specifies the lifecycle action to take. DELETE deletes the
+        /// 			image resource and, with includeResources, also removes
+        /// 			distributed AMIs, snapshots, or container images. DEPRECATE and
+        /// 			DISABLE set the corresponding status on the image resource and,
+        /// 			if includeResources.amis is set, on its distributed AMIs.
         public let type: LifecyclePolicyDetailActionType
 
         @inlinable
@@ -5721,14 +6243,17 @@ extension Imagebuilder {
     public struct LifecyclePolicyDetailExclusionRulesAmis: AWSEncodableShape & AWSDecodableShape {
         /// Configures whether public AMIs are excluded from the lifecycle action.
         public let isPublic: Bool?
-        /// Specifies configuration details for Image Builder to exclude the most recent resources
-        /// 			from lifecycle actions.
+        /// Configures Image Builder to exclude AMIs that were launched within the specified time
+        /// 			period from lifecycle actions. AMIs with no recorded last-launched time
+        /// 			aren't excluded by this rule.
         public let lastLaunched: LifecyclePolicyDetailExclusionRulesAmisLastLaunched?
         /// Configures Amazon Web Services Regions that are excluded from the lifecycle action.
         public let regions: [String]?
-        /// Specifies Amazon Web Services accounts whose resources are excluded from the lifecycle action.
+        /// The lifecycle action doesn't apply to AMIs that are shared with any of
+        /// 			the specified Amazon Web Services accounts.
         public let sharedAccounts: [String]?
-        /// Lists tags that should be excluded from lifecycle actions for the AMIs that have them.
+        /// Lifecycle actions don't apply to AMIs that have any of these tags. Both
+        /// 			the key and the value must match.
         public let tagMap: [String: String]?
 
         @inlinable
@@ -5771,8 +6296,8 @@ extension Imagebuilder {
     }
 
     public struct LifecyclePolicyDetailExclusionRulesAmisLastLaunched: AWSEncodableShape & AWSDecodableShape {
-        /// Defines the unit of time that the lifecycle policy uses to calculate elapsed time
-        /// 			since the last instance launched from the AMI. For example: days, weeks, months, or years.
+        /// Defines the unit of time that the lifecycle policy uses to calculate elapsed
+        /// 			time since the last launch.
         public let unit: LifecyclePolicyTimeUnit
         /// The integer number of units for the time period. For example 6 (months).
         public let value: Int
@@ -5800,7 +6325,9 @@ extension Imagebuilder {
         /// 			this number of resources. If you have fewer resources than this number, the impacted resource
         /// 			is not deleted.
         public let retainAtLeast: Int?
-        /// Filter resources based on either age or count.
+        /// Filter resources based on either AGE or COUNT.
+        /// 			You can only use the count filter with the DELETE action
+        /// 			type.
         public let type: LifecyclePolicyDetailFilterType
         /// Defines the unit of time that the lifecycle policy uses to determine impacted
         /// 			resources. This is required for age-based rules.
@@ -5894,7 +6421,7 @@ extension Imagebuilder {
     }
 
     public struct LifecyclePolicySummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the lifecycle policy summary resource.
+        /// The Amazon Resource Name (ARN) of the lifecycle policy.
         public let arn: String?
         /// The timestamp when Image Builder created the lifecycle policy resource.
         public let dateCreated: Date?
@@ -5946,12 +6473,14 @@ extension Imagebuilder {
     }
 
     public struct ListComponentBuildVersionsRequest: AWSEncodableShape {
-        /// The component version Amazon Resource Name (ARN) whose versions you want to
-        /// 			list.
+        /// The component version ARN whose build versions you want to list. The ARN
+        /// 			must specify an exact version, without a build number suffix. If you
+        /// 			don't specify an ARN, Image Builder returns build versions for the components
+        /// 			that your account owns.
         public let componentVersionArn: String?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -5963,7 +6492,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentVersionArn, name: "componentVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.componentVersionArn, name: "componentVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
@@ -5978,7 +6507,10 @@ extension Imagebuilder {
     }
 
     public struct ListComponentBuildVersionsResponse: AWSDecodableShape {
-        /// The list of component summaries for the specified semantic version.
+        /// The list of component summaries. Each summary represents one build version
+        /// 			of the specified component version, or of the components that your account
+        /// 			owns if you didn't specify an ARN. Deprecated build versions aren't
+        /// 			included.
         public let componentSummaryList: [ComponentSummary]?
         /// The next token used for paginated responses. When this field isn't empty,
         /// 	there are additional elements that the service hasn't included in this request. Use this token
@@ -6002,19 +6534,23 @@ extension Imagebuilder {
     }
 
     public struct ListComponentsRequest: AWSEncodableShape {
-        /// Returns the list of components for the specified name.
+        /// Specifies whether to return one entry per component name, with all versions
+        /// 			of each component aggregated. Defaults to false, which returns
+        /// 			one entry per component version. You can't combine this option with the
+        /// 			version filter.
         public let byName: Bool?
-        /// Use the following filters to streamline results:    description     name     platform     supportedOsVersion     type     version
+        /// Use the following filters to streamline results:    description     name     platform     productCodes     status     supportedOsVersion     type     version
         public let filters: [Filter]?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
         /// Filters results based on the type of owner for the component. By default, this request
         /// 			returns a list of components that your account owns. To see results for other types of
-        /// 			owners, you can specify components that Amazon manages, third party components, or
-        /// 			components that other accounts have shared with you.
+        /// 			owners, you can specify components that Amazon manages, components from the
+        /// 			Amazon Web Services Marketplace, third party components, or components that other accounts have shared
+        /// 			with you.
         public let owner: Ownership?
 
         @inlinable
@@ -6075,14 +6611,15 @@ extension Imagebuilder {
     public struct ListContainerRecipesRequest: AWSEncodableShape {
         /// Use the following filters to streamline results:    containerType     name     parentImage     platform
         public let filters: [Filter]?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
-        /// Returns container recipes belonging to the specified owner, that have been shared with
-        /// 			you. You can omit this field to return container recipes belonging to your
-        /// 			account.
+        /// Returns container recipes belonging to the specified owner, that have been
+        /// 			shared with you. You can omit this field to return container recipes
+        /// 			belonging to your account. For container recipes, the valid owner values are
+        /// 			Self, Shared, and Amazon.
         public let owner: Ownership?
 
         @inlinable
@@ -6140,9 +6677,9 @@ extension Imagebuilder {
     public struct ListDistributionConfigurationsRequest: AWSEncodableShape {
         /// You can filter on name to streamline results.
         public let filters: [Filter]?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -6199,12 +6736,15 @@ extension Imagebuilder {
     public struct ListImageBuildVersionsRequest: AWSEncodableShape {
         /// Use the following filters to streamline results:    name     osVersion     platform     type     version
         public let filters: [Filter]?
-        /// The Amazon Resource Name (ARN) of the image whose build versions you want to
-        /// 			retrieve.
+        /// The Amazon Resource Name (ARN) of the image version whose build versions you want to retrieve.
+        /// 			The ARN must specify an exact version
+        /// 			(..) - wildcards aren't allowed.
+        /// 			This parameter is optional. If you don't specify it, Image Builder returns build
+        /// 			versions for all of the images in your account.
         public let imageVersionArn: String?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -6262,11 +6802,12 @@ extension Imagebuilder {
     }
 
     public struct ListImagePackagesRequest: AWSEncodableShape {
-        /// Filter results for the ListImagePackages request by the Image Build Version ARN
+        /// The Amazon Resource Name (ARN) of the image build version whose packages you want to list. The
+        /// 			value must be a full build version ARN.
         public let imageBuildVersionArn: String
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -6322,9 +6863,9 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to
         /// 			view.
         public let imagePipelineArn: String
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -6384,9 +6925,9 @@ extension Imagebuilder {
     public struct ListImagePipelinesRequest: AWSEncodableShape {
         /// Use the following filters to streamline results:    description     distributionConfigurationArn     imageRecipeArn     infrastructureConfigurationArn     name     status
         public let filters: [Filter]?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -6443,9 +6984,9 @@ extension Imagebuilder {
     public struct ListImageRecipesRequest: AWSEncodableShape {
         /// Use the following filters to streamline results:    name     parentImage     platform
         public let filters: [Filter]?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
         /// You can specify the recipe owner to filter results by that owner. By default, this request will
@@ -6507,8 +7048,10 @@ extension Imagebuilder {
     }
 
     public struct ListImageScanFindingAggregationsRequest: AWSEncodableShape {
+        /// A filter name and value pair that determines the type of aggregation
+        /// 			that Image Builder returns. Use one of the following filter names:    imageBuildVersionArn     imagePipelineArn     vulnerabilityId    If you don't specify a filter, Image Builder returns an aggregation for your account.
         public let filter: Filter?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -6563,11 +7106,15 @@ extension Imagebuilder {
 
     public struct ListImageScanFindingsRequest: AWSEncodableShape {
         /// An array of name value pairs that you can use to filter your results. You can use the
-        /// 			following filters to streamline results:    imageBuildVersionArn     imagePipelineArn     vulnerabilityId     severity    If you don't request a filter, then all findings in your account are listed.
+        /// 			following filters to streamline results:    imageBuildVersionArn – Filters findings by the
+        /// 					image build version that was scanned.    imagePipelineArn – Filters findings by the
+        /// 					pipeline that created the scanned image.    vulnerabilityId – Filters findings by
+        /// 					vulnerability ID, for example a CVE ID.    severity – Filters findings by severity
+        /// 					level.   If you don't request a filter, then all findings in your account are listed.
         public let filters: [ImageScanFindingsFilter]?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -6623,21 +7170,24 @@ extension Imagebuilder {
     }
 
     public struct ListImagesRequest: AWSEncodableShape {
-        /// Requests a list of images with a specific recipe name.
+        /// Specifies whether to return one entry per image name, with all versions of
+        /// 			each image aggregated. Defaults to false, which returns one
+        /// 			entry per image version. You can't combine this option with the
+        /// 			version filter.
         public let byName: Bool?
         /// Use the following filters to streamline results:    name     osVersion     platform     type     version
         public let filters: [Filter]?
-        /// Includes deprecated images in the response list.
+        /// Specifies whether to include deprecated Amazon-managed images in the
+        /// 			results. Deprecated images that you own are always returned. Defaults to
+        /// 			false.
         public let includeDeprecated: Bool?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
-        /// The owner defines which images you want to list. By default, this request will only
-        /// 			show images owned by your account. You can use this field to specify if you want to view
-        /// 			images owned by yourself, by Amazon, or those images that have been shared with you by
-        /// 			other customers.
+        /// Filters the list to images owned by you, by Amazon, or shared with you by other accounts.
+        /// 		By default, only your account's images are returned.
         public let owner: Ownership?
 
         @inlinable
@@ -6674,10 +7224,9 @@ extension Imagebuilder {
 
     public struct ListImagesResponse: AWSDecodableShape {
         /// The list of image semantic versions.  The semantic version has four nodes: ../.
-        /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-        /// 	to specify the most recent versions or nodes when selecting the base image or components for your
-        /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-        /// 	wildcards.
+        /// 	You can assign values for the first three, and can filter on all of them.  Filtering: You can use wildcards (x) to specify the most recent versions or nodes when
+        /// 	selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes
+        /// 	to the right of the first wildcard must also be wildcards.
         public let imageVersionList: [ImageVersion]?
         /// The next token used for paginated responses. When this field isn't empty,
         /// 	there are additional elements that the service hasn't included in this request. Use this token
@@ -6703,9 +7252,9 @@ extension Imagebuilder {
     public struct ListInfrastructureConfigurationsRequest: AWSEncodableShape {
         /// You can filter on name to streamline results.
         public let filters: [Filter]?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -6760,16 +7309,20 @@ extension Imagebuilder {
     }
 
     public struct ListLifecycleExecutionResourcesRequest: AWSEncodableShape {
-        /// Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
+        /// The unique identifier for a runtime instance of the lifecycle policy.
         public let lifecycleExecutionId: String
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
-        /// You can  leave this empty to get a list of Image Builder resources that were identified for lifecycle actions. To get a list of associated resources that are impacted for an individual resource (the parent), specify
-        /// 			its Amazon Resource Name (ARN). Associated resources are produced from your image and distributed when you run a build, such as
-        /// 			AMIs or container images stored in ECR repositories.
+        /// The Amazon Resource Name (ARN) of an image build version to get the output resources for,
+        /// 			such as AMIs or container images in Amazon ECR. You can get this value from the
+        /// 			resourceId in the top-level response. If you leave this
+        /// 			property empty, the response lists the Image Builder resources that the lifecycle
+        /// 			execution identified for lifecycle actions. If the image build version that
+        /// 			you specify in parentResourceId wasn't part of this
+        /// 			lifecycle execution, the response contains an empty list.
         public let parentResourceId: String?
 
         @inlinable
@@ -6799,7 +7352,7 @@ extension Imagebuilder {
     }
 
     public struct ListLifecycleExecutionResourcesResponse: AWSDecodableShape {
-        /// Runtime details for the specified runtime instance of the lifecycle policy.
+        /// The unique identifier for the runtime instance of the lifecycle policy.
         public let lifecycleExecutionId: String?
         /// The current state of the lifecycle runtime instance.
         public let lifecycleExecutionState: LifecycleExecutionState?
@@ -6827,12 +7380,16 @@ extension Imagebuilder {
     }
 
     public struct ListLifecycleExecutionsRequest: AWSEncodableShape {
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the resource for which to get a list of lifecycle runtime instances.
+        /// The Amazon Resource Name (ARN) of the resource for which to list lifecycle executions. Specify a
+        /// 			lifecycle policy ARN to list its executions, or an image build version ARN
+        /// 			to list the executions that StartResourceStateUpdate
+        /// 			started for that image. Other ARN types aren't valid for this
+        /// 			request.
         public let resourceArn: String
 
         @inlinable
@@ -6847,7 +7404,7 @@ extension Imagebuilder {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6878,12 +7435,13 @@ extension Imagebuilder {
     }
 
     public struct ListLifecyclePoliciesRequest: AWSEncodableShape {
-        /// Streamline results based on one of the following values: Name,
-        /// 			Status.
+        /// Use the following filters to streamline results: name,
+        /// 			resourceType, and status. Filter names are
+        /// 			matched exactly as shown.
         public let filters: [Filter]?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -6950,7 +7508,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6971,9 +7529,9 @@ extension Imagebuilder {
     }
 
     public struct ListWaitingWorkflowStepsRequest: AWSEncodableShape {
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -7002,7 +7560,9 @@ extension Imagebuilder {
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
         /// An array of the workflow steps that are waiting for action in your
-        /// 			Amazon Web Services account.
+        /// 			Amazon Web Services account. Each step is paused at a WaitForAction step, and
+        /// 			remains in the list until you respond with
+        /// 			SendWorkflowStepAction or the wait times out.
         public let steps: [WorkflowStepExecution]?
 
         @inlinable
@@ -7018,12 +7578,15 @@ extension Imagebuilder {
     }
 
     public struct ListWorkflowBuildVersionsRequest: AWSEncodableShape {
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the workflow resource for which to get a list of build versions.
+        /// 			The version segments can contain wildcards (x) to match multiple
+        /// 			versions of the workflow. If you don't specify an ARN, the response lists build
+        /// 			versions for all of the workflows in your account.
         public let workflowVersionArn: String?
 
         @inlinable
@@ -7053,8 +7616,8 @@ extension Imagebuilder {
         /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// A list that contains metadata for the workflow builds that have run for
-        /// 			the workflow resource specified in the request.
+        /// A list that contains metadata for the build versions of the workflow
+        /// 			resource specified in the request.
         public let workflowSummaryList: [WorkflowSummary]?
 
         @inlinable
@@ -7073,9 +7636,9 @@ extension Imagebuilder {
         /// List all workflow runtime instances for the specified image build version
         /// 			resource ARN.
         public let imageBuildVersionArn: String
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
 
@@ -7105,7 +7668,9 @@ extension Imagebuilder {
         /// The resource Amazon Resource Name (ARN) of the image build version for which you requested a list of
         /// 			workflow runtime details.
         public let imageBuildVersionArn: String?
-        /// The output message from the list action, if applicable.
+        /// The failure reason for the image build version, if it's in a failed state.
+        /// 			This comes from the image itself, not from an individual workflow, so it's
+        /// 			available even when no workflow executions remain for the image.
         public let message: String?
         /// The next token used for paginated responses. When this field isn't empty,
         /// 	there are additional elements that the service hasn't included in this request. Use this token
@@ -7113,8 +7678,10 @@ extension Imagebuilder {
         public let nextToken: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
-        /// Contains an array of runtime details that represents each time a workflow ran for
-        /// 			the requested image build version.
+        /// An array of runtime details that represents each time a workflow ran for
+        /// 			the requested image build version. Image Builder retains workflow execution records
+        /// 			for a limited time, so this array can be empty for older image build
+        /// 			versions.
         public let workflowExecutions: [WorkflowExecutionMetadata]?
 
         @inlinable
@@ -7136,9 +7703,9 @@ extension Imagebuilder {
     }
 
     public struct ListWorkflowStepExecutionsRequest: AWSEncodableShape {
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
         /// The unique identifier that Image Builder assigned to keep track of runtime details
@@ -7212,16 +7779,25 @@ extension Imagebuilder {
     }
 
     public struct ListWorkflowsRequest: AWSEncodableShape {
-        /// Specify all or part of the workflow name to streamline results.
+        /// Specifies whether to return one entry per workflow name, with all versions of
+        /// 			each workflow aggregated. Defaults to false, which returns one
+        /// 			entry per workflow version. You can't combine this option with the
+        /// 			version filter.
         public let byName: Bool?
-        /// Used to streamline search results.
+        /// Filters to narrow the list of workflows. You can filter on
+        /// 			name, version, description, and
+        /// 			type.
         public let filters: [Filter]?
-        /// Specify the maximum number of items to return in a request.
+        /// The maximum number of items to return in a single request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the nextToken
+        /// A token to specify where to start paginating. Use the nextToken value
         /// 	from a previously truncated response.
         public let nextToken: String?
-        /// Used to get a list of workflow build version filtered by the identity of the creator.
+        /// Filters results based on the workflow owner. By default, this request returns
+        /// 			the workflows that your account owns (Self). Specify
+        /// 			Amazon to list the workflows that Image Builder manages. Image Builder rejects
+        /// 			the Shared and ThirdParty owner values for
+        /// 			workflows, and AWSMarketplace returns no results.
         public let owner: Ownership?
 
         @inlinable
@@ -7259,7 +7835,7 @@ extension Imagebuilder {
         /// 	there are additional elements that the service hasn't included in this request. Use this token
         /// 		with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// A list of workflow build versions that match the request criteria.
+        /// A list of workflow versions that match the request criteria.
         public let workflowVersionList: [WorkflowVersion]?
 
         @inlinable
@@ -7293,10 +7869,12 @@ extension Imagebuilder {
     }
 
     public struct OutputResources: AWSDecodableShape {
-        /// The Amazon EC2 AMIs created by this image.
+        /// The Amazon EC2 AMIs created by this image. The list contains one entry per
+        /// 			AMI, including copies that distribution created in each target
+        /// 			Amazon Web Services Region and account.
         public let amis: [Ami]?
-        /// Container images that the pipeline has generated and stored in the output
-        /// 			repository.
+        /// The container images that Image Builder created when it built this image, stored in
+        /// 			the output Amazon ECR repository.
         public let containers: [Container]?
 
         @inlinable
@@ -7312,8 +7890,9 @@ extension Imagebuilder {
     }
 
     public struct PackageVulnerabilityDetails: AWSDecodableShape {
-        /// CVSS scores for one or more vulnerabilities that Amazon Inspector identified for a
-        /// 			package.
+        /// The CVSS scores for the vulnerability in this finding, as published
+        /// 			by the vulnerability sources. Sources include NVD and the operating system
+        /// 			vendor, and scores can span CVSS versions.
         public let cvss: [CvssScore]?
         /// Links to web pages that contain details about the vulnerabilities that Amazon Inspector
         /// 			identified for the package.
@@ -7408,12 +7987,10 @@ extension Imagebuilder {
         /// The Availability Zone where your build and test instances will launch.
         public let availabilityZone: String?
         /// The ID of the Dedicated Host on which build and test instances run. This only
-        /// 			applies if tenancy is host. If you specify the host ID, you
-        /// 			must not specify the resource group ARN. If you specify both, Image Builder returns an error.
+        /// 			applies if tenancy is host.
         public let hostId: String?
         /// The Amazon Resource Name (ARN) of the host resource group in which to launch build and test instances.
-        /// 			This only applies if tenancy is host. If you specify the resource
-        /// 			group ARN, you must not specify the host ID. If you specify both, Image Builder returns an error.
+        /// 			This only applies if tenancy is host.
         public let hostResourceGroupArn: String?
         /// The tenancy of the instance. An instance with a tenancy of dedicated
         /// 			runs on single-tenant hardware. An instance with a tenancy of host runs
@@ -7483,7 +8060,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
+            try self.validate(self.componentArn, name: "componentArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):component/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
             try self.validate(self.policy, name: "policy", parent: name, max: 30000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
         }
@@ -7561,7 +8138,9 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image that this policy should be applied
         /// 			to.
         public let imageArn: String
-        /// The policy to apply.
+        /// The resource policy to apply to the image, as a JSON policy document.
+        /// 			Image Builder validates the policy with Amazon Web Services RAM before applying it, and rejects
+        /// 			invalid policies with InvalidParameterValueException.
         public let policy: String
 
         @inlinable
@@ -7644,6 +8223,41 @@ extension Imagebuilder {
         }
     }
 
+    public struct RegionFailure: AWSDecodableShape {
+        /// The error message for the failure in the Region.
+        public let errorMessage: String?
+        /// The image configuration step where the failure occurred. Image Builder sets this property
+        /// 			when the failure happened during post-distribution configuration, such as launch
+        /// 			template updates or virtual machine (VM) export. This property doesn't appear
+        /// 			for failures that occurred while Image Builder copied the image to the Region.
+        public let imageConfigurationStep: ImageConfigurationStep?
+        /// The Region where the failure occurred.
+        public let region: String?
+        /// The failure status for the Region. Indicates whether the process failed, was
+        /// 			canceled, or timed out.
+        public let status: RegionFailureStatus?
+        /// The account ID of the account that the image was distributed to in the
+        /// 			Region.
+        public let targetAccountId: String?
+
+        @inlinable
+        public init(errorMessage: String? = nil, imageConfigurationStep: ImageConfigurationStep? = nil, region: String? = nil, status: RegionFailureStatus? = nil, targetAccountId: String? = nil) {
+            self.errorMessage = errorMessage
+            self.imageConfigurationStep = imageConfigurationStep
+            self.region = region
+            self.status = status
+            self.targetAccountId = targetAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case imageConfigurationStep = "imageConfigurationStep"
+            case region = "region"
+            case status = "status"
+            case targetAccountId = "targetAccountId"
+        }
+    }
+
     public struct RegisterImageOptions: AWSEncodableShape {
         /// Specifies whether Secure Boot is enabled for the output AMI.
         /// 			The default value is true. To disable Secure Boot
@@ -7708,7 +8322,9 @@ extension Imagebuilder {
     }
 
     public struct ResourceState: AWSEncodableShape {
-        /// Shows the current lifecycle policy action that was applied to an impacted resource.
+        /// The status to which you want to move the image resource. Set the status to
+        /// 			AVAILABLE to restore an image that's currently deprecated
+        /// 			or disabled.
         public let status: ResourceStatus?
 
         @inlinable
@@ -7722,6 +8338,8 @@ extension Imagebuilder {
     }
 
     public struct ResourceStateUpdateExclusionRules: AWSEncodableShape {
+        /// Defines criteria for AMIs that Image Builder should exclude from the resource
+        /// 			state update.
         public let amis: LifecyclePolicyDetailExclusionRulesAmis?
 
         @inlinable
@@ -7739,7 +8357,7 @@ extension Imagebuilder {
     }
 
     public struct ResourceStateUpdateIncludeResources: AWSEncodableShape {
-        /// Specifies whether the lifecycle action should apply to distributed AMIs
+        /// Specifies whether the lifecycle action should apply to distributed AMIs.
         public let amis: Bool?
         /// Specifies whether the lifecycle action should apply to distributed containers.
         public let containers: Bool?
@@ -7761,9 +8379,12 @@ extension Imagebuilder {
     }
 
     public struct RetryImageRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// The source image Amazon Resource Name (ARN) to retry.
+        /// The Amazon Resource Name (ARN) of the image build version that you want to retry. The image
+        /// 			must be in the FAILED or CANCELLED state.
         public let imageBuildVersionArn: String
 
         @inlinable
@@ -7843,9 +8464,14 @@ extension Imagebuilder {
     }
 
     public struct S3Logs: AWSEncodableShape & AWSDecodableShape {
-        /// The S3 bucket in which to store the logs.
+        /// The name of an existing Amazon S3 bucket where Image Builder saves build logs. The bucket
+        /// 			isn't validated when you create or update the configuration, and Image Builder
+        /// 			doesn't create it. The instance profile associated with this
+        /// 			infrastructure configuration must have permission to write to the
+        /// 			bucket.
         public let s3BucketName: String?
-        /// The Amazon S3 path to the bucket where the logs are stored.
+        /// The Amazon S3 key prefix under which Image Builder writes build and test logs in the
+        /// 			bucket.
         public let s3KeyPrefix: String?
 
         @inlinable
@@ -7876,15 +8502,21 @@ extension Imagebuilder {
         /// 			EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE.    EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE (default) –
         /// 					When you use semantic version filters on the base image or components in your
         /// 					image recipe, EC2 Image Builder builds a new image only when there are new versions of
-        /// 					the base image or components in your recipe that match the filter.  For semantic version syntax, see CreateComponent.     EXPRESSION_MATCH_ONLY – This condition builds a new
-        /// 					image every time the CRON expression matches the current time.
+        /// 					the base image or components in your recipe that match the filter.  For semantic version syntax, see
+        /// 						CreateComponent.     EXPRESSION_MATCH_ONLY – This condition builds a new
+        /// 					image every time the CRON expression matches the current time.    If the recipe references its base image through an Amazon Web Services Systems Manager Parameter
+        /// 				Store parameter, a change in the parameter's value also counts as an
+        /// 				available dependency update.
         public let pipelineExecutionStartCondition: PipelineExecutionStartCondition?
-        /// The cron expression determines how often EC2 Image Builder evaluates your
-        /// 				pipelineExecutionStartCondition. For information on how to format a cron expression in Image Builder, see Use
+        /// The expression determines how often EC2 Image Builder evaluates your
+        /// 				pipelineExecutionStartCondition. You can specify a cron
+        /// 				expression, or a rate expression such as rate(1 day). For information on how to format a cron expression in Image Builder, see Use
         /// 				cron expressions in EC2 Image Builder.
         public let scheduleExpression: String?
-        /// The timezone that applies to the scheduling expression. For example, "Etc/UTC",
-        /// 			"America/Los_Angeles" in the IANA timezone format. If not specified this defaults to UTC.
+        /// The timezone that applies to the scheduling expression. Specify a value in
+        /// 			IANA timezone
+        /// 				format, for example Etc/UTC or
+        /// 			America/Los_Angeles. If not specified, this defaults to UTC.
         public let timezone: String?
 
         @inlinable
@@ -7913,11 +8545,16 @@ extension Imagebuilder {
     }
 
     public struct SendWorkflowStepActionRequest: AWSEncodableShape {
-        /// The action to perform on the paused workflow step. The workflow
-        /// 			step must be in a waiting state to accept an action. The request
-        /// 			fails if the step has already timed out or been actioned.
+        /// The action to perform on the paused workflow step.
+        /// 			RESUME completes the waiting step, and the workflow continues.
+        /// 			STOP fails the step, and the step's onFailure
+        /// 			setting determines whether the workflow continues or aborts. The workflow
+        /// 			step must be in a waiting state to accept an action. The request fails if
+        /// 			the step has already timed out or been actioned.
         public let action: WorkflowStepActionType
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the image build version associated with the workflow
         /// 			step execution. This value must match the image that owns the waiting step.
@@ -7928,7 +8565,8 @@ extension Imagebuilder {
         /// 			execution record and is accessible in subsequent workflow steps
         /// 			via step output references.
         public let reason: String?
-        /// Uniquely identifies the workflow step that sent the step action.
+        /// Uniquely identifies the waiting workflow step that you send the action to.
+        /// 			To get this identifier, call ListWaitingWorkflowSteps.
         public let stepExecutionId: String
 
         @inlinable
@@ -7964,7 +8602,8 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image build version that received the action
         /// 			request.
         public let imageBuildVersionArn: String?
-        /// The workflow step that sent the step action.
+        /// The unique identifier for the workflow step that received the action, as
+        /// 			specified in the request.
         public let stepExecutionId: String?
 
         @inlinable
@@ -8012,8 +8651,8 @@ extension Imagebuilder {
         /// 			this account must be specified in distribution settings as a target account for the
         /// 			Region.
         public let amiAccountId: String?
-        /// The data type specifies what type of value the Parameter contains. We recommend that
-        /// 			you use data type aws:ec2:image.
+        /// The type of value the parameter contains.
+        /// 		We recommend the aws:ec2:image data type.
         public let dataType: SsmParameterDataType?
         /// This is the name of the Parameter in the target Region or account. The image
         /// 			distribution creates the Parameter if it doesn't already exist. Otherwise, it updates
@@ -8042,13 +8681,15 @@ extension Imagebuilder {
     }
 
     public struct StartImagePipelineExecutionRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the image pipeline that you want to manually
         /// 			invoke.
         public let imagePipelineArn: String
-        /// Specify tags for Image Builder to apply to the image resource that's created
-        /// 			When it starts pipeline execution.
+        /// The tags for Image Builder to apply to the image resource that's created
+        /// 			when pipeline execution starts.
         public let tags: [String: String]?
 
         @inlinable
@@ -8102,21 +8743,27 @@ extension Imagebuilder {
     }
 
     public struct StartResourceStateUpdateRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// Skip action on the image resource and associated resources if specified
-        /// 			exclusion rules are met.
+        /// Rules that Image Builder evaluates against each of the image's AMIs. Matching
+        /// 			AMIs and their snapshots are skipped. Exclusion rules only take effect when
+        /// 			the request includes AMIs. If the target state is DELETED and
+        /// 			any resource was skipped, the Image Builder image resource itself is also retained.
+        /// 			For the DEPRECATED and DISABLED target states,
+        /// 			Image Builder updates the image resource's state regardless of
+        /// 			exclusions.
         public let exclusionRules: ResourceStateUpdateExclusionRules?
-        /// The name or Amazon Resource Name (ARN) of the IAM role that’s used to update image state.
+        /// The name or Amazon Resource Name (ARN) of the IAM role that's used to update image state. You
+        /// 			must provide this property together with includeResources.
+        /// 			Neither is valid without the other.
         public let executionRole: String?
-        /// Specifies which image resources to include in the state update.
-        /// 			When specified, the lifecycle action applies to underlying resources.
-        /// 			These resources include AMIs, snapshots, and containers in addition
-        /// 			to the Image Builder image resource. Requires executionRole to
-        /// 			also be specified. To delete an image and its underlying resources, you must
-        /// 			specify includeResources. To delete only the Image Builder
-        /// 			image record without affecting underlying resources, use the
-        /// 			DeleteImage API instead.
+        /// Specifies which underlying resources to update, in addition to the Image Builder
+        /// 			image resource itself. Snapshots and containers are only valid for the
+        /// 			DELETED state. To set an image to DELETED, you
+        /// 			must include its underlying resources. To delete only the Image Builder image
+        /// 			record, use the DeleteImage operation instead.
         public let includeResources: ResourceStateUpdateIncludeResources?
         /// The Amazon Resource Name (ARN) of the image build version to update. The
         /// 			image must be in one of these terminal states: AVAILABLE,
@@ -8131,9 +8778,13 @@ extension Imagebuilder {
         /// 			DELETED. For container-based images, only
         /// 			DELETED is supported.
         public let state: ResourceState
-        /// Specifies the timestamp when the state transition takes
-        /// 			effect. Use this parameter only when the target status is
-        /// 			DEPRECATED. The value must be a future time.
+        /// The timestamp that indicates when resources are updated by a lifecycle
+        /// 			action. This property is valid only when the target status is
+        /// 			DEPRECATED, and the value must be a future time. If you
+        /// 			don't specify a value, Image Builder begins the state update right away. For a
+        /// 			scheduled deprecation, included AMIs get their EC2 deprecation time set
+        /// 			immediately, and Image Builder schedules the image resource to transition to
+        /// 			DEPRECATED at that time.
         public let updateAt: Date?
 
         @inlinable
@@ -8169,8 +8820,10 @@ extension Imagebuilder {
     }
 
     public struct StartResourceStateUpdateResponse: AWSDecodableShape {
-        /// Identifies the lifecycle runtime instance that started the resource
-        /// 			state update.
+        /// Identifies the lifecycle execution that performs the resource state update.
+        /// 			Image Builder only returns this field when it started a lifecycle execution for the
+        /// 			update. Use it with GetLifecycleExecution to track
+        /// 			progress.
         public let lifecycleExecutionId: String?
         /// The requested Amazon Resource Name (ARN) of the Image Builder resource for the asynchronous update.
         public let resourceArn: String?
@@ -8188,10 +8841,12 @@ extension Imagebuilder {
     }
 
     public struct SystemsManagerAgent: AWSEncodableShape & AWSDecodableShape {
-        /// Controls whether the Systems Manager agent is removed from your final build image, prior to
-        /// 			creating the new AMI. If this is set to true, then the agent is removed from the final
-        /// 			image. If it's set to false, then the agent is left in, so that it is included in the
-        /// 			new AMI. default value is false. The default behavior of uninstallAfterBuild is to remove the SSM Agent if it was installed by EC2 Image Builder
+        /// Specifies whether the Systems Manager agent is removed from your final build image
+        /// 			before Image Builder creates the new AMI. If true, the agent is
+        /// 			removed. If false, the agent is kept, so that it's
+        /// 			included in the AMI. If you don't set this property, Image Builder removes the
+        /// 			agent only if Image Builder installed the agent during the build. An agent that was
+        /// 			pre-installed on the base image is kept.
         public let uninstallAfterBuild: Bool?
 
         @inlinable
@@ -8224,7 +8879,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -8245,9 +8900,10 @@ extension Imagebuilder {
     }
 
     public struct TargetContainerRepository: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the container repository where the output container image is stored.
-        /// 			This name is prefixed by the repository location. For example,
-        /// 			/repository_name.
+        /// The name of the container repository where the output container image is
+        /// 			stored. Provide the repository name only (a namespace path such as
+        /// 			team-a/my-repo is allowed, but not the registry
+        /// 			hostname).
         public let repositoryName: String
         /// Specifies the service in which this image was registered.
         public let service: ContainerRepositoryService
@@ -8289,7 +8945,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?|third-party):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline|lifecycle-policy|workflow\\/(?:build|test|distribution))/[a-z0-9-_]+(?:/(?:(?:x|[0-9]+)\\.(?:x|[0-9]+)\\.(?:x|[0-9]+))(?:/[0-9]+)?)?$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -8307,14 +8963,19 @@ extension Imagebuilder {
     }
 
     public struct UpdateDistributionConfigurationRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The description of the distribution configuration.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the distribution configuration that you want to
         /// 			update.
         public let distributionConfigurationArn: String
-        /// The distributions of the distribution configuration.
+        /// The distribution settings for the configuration. Each entry defines how
+        /// 			output images are distributed in one target Amazon Web Services Region. A Region can
+        /// 			appear at most once in the list. This list replaces the configuration's existing
+        /// 			distributions entirely.
         public let distributions: [Distribution]
 
         @inlinable
@@ -8368,44 +9029,66 @@ extension Imagebuilder {
     }
 
     public struct UpdateImagePipelineRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// The Amazon Resource Name (ARN) of the container pipeline to update.
+        /// The Amazon Resource Name (ARN) of the container recipe that is used to configure images
+        /// 			created by this container pipeline. You must specify either this property or
+        /// 			imageRecipeArn, but not both.
         public let containerRecipeArn: String?
         /// The description of the image pipeline.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the distribution configuration that Image Builder uses to
-        /// 			configure and distribute images that this image pipeline has updated.
+        /// 			configure and distribute images created by this image pipeline.
         public let distributionConfigurationArn: String?
-        /// Collects additional information about the image being created, including the operating
-        /// 			system (OS) version and package list. This information is used to enhance the overall
-        /// 			experience of using EC2 Image Builder. Enabled by default.
+        /// Specifies whether to collect additional information about the image being created, including the operating
+        /// 			system (OS) version and package list. Defaults to true.
         public let enhancedImageMetadataEnabled: Bool?
         /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants
-        /// 			Image Builder access to perform workflow actions.
+        /// 			Image Builder access to perform workflow actions. If you omit this property, the
+        /// 			pipeline reverts to the Image Builder service-linked role.
         public let executionRole: String?
         /// The Amazon Resource Name (ARN) of the image pipeline that you want to update.
         public let imagePipelineArn: String
-        /// The Amazon Resource Name (ARN) of the image recipe that will be used to configure
-        /// 			images updated by this image pipeline.
+        /// The Amazon Resource Name (ARN) of the image recipe that configures
+        /// 			images created by this image pipeline. You must specify either this property
+        /// 			or containerRecipeArn, but not both.
         public let imageRecipeArn: String?
-        /// Contains settings for vulnerability scans.
+        /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance
+        /// 			during image creation.
         public let imageScanningConfiguration: ImageScanningConfiguration?
-        /// The tags to be applied to the images produced by this pipeline.
+        /// The tags that Image Builder applies to the Image Builder image resource that this
+        /// 			pipeline's scheduled executions create. These tags don't apply to the
+        /// 			output AMI. To tag output AMIs, use amiTags in the
+        /// 			pipeline's distribution configuration.
         public let imageTags: [String: String]?
-        /// The image test configuration of the image pipeline.
+        /// Specifies the test settings that Image Builder applies to images that this
+        /// 			pipeline creates. If you don't provide test settings, Image Builder stores a default
+        /// 			configuration with image tests enabled.
         public let imageTestsConfiguration: ImageTestsConfiguration?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to
-        /// 			build images that this image pipeline has updated.
+        /// 			build images created by this image pipeline.
         public let infrastructureConfigurationArn: String
-        /// Update logging configuration for the output image that's created when
-        /// 			the pipeline runs.
+        /// Specifies the logging configuration for the image pipeline. Use this
+        /// 			to define custom CloudWatch Logs log groups for your pipeline execution
+        /// 			logs and image build logs. The service manages log groups with names
+        /// 			starting with /aws/imagebuilder/ using the service-linked
+        /// 			role. For custom log group names outside of this prefix, you must also
+        /// 			provide an executionRole.
         public let loggingConfiguration: PipelineLoggingConfiguration?
-        /// The schedule of the image pipeline.
+        /// The schedule of the image pipeline. Because the update replaces the entire
+        /// 			configuration, omitting this property removes any existing schedule. The
+        /// 			pipeline then runs only when you call
+        /// 			StartImagePipelineExecution.
         public let schedule: Schedule?
-        /// The status of the image pipeline.
+        /// The status of the image pipeline. Defaults to ENABLED when
+        /// 			omitted. To keep a pipeline disabled, include this property set to
+        /// 			DISABLED in your update request.
         public let status: PipelineStatus?
-        /// Contains the workflows to run for the pipeline.
+        /// The array of workflow configuration objects for builds that this pipeline
+        /// 			starts. You must also specify executionRole when you provide
+        /// 			workflows.
         public let workflows: [WorkflowConfiguration]?
 
         @inlinable
@@ -8502,49 +9185,67 @@ extension Imagebuilder {
     }
 
     public struct UpdateInfrastructureConfigurationRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The description of the infrastructure configuration.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration that you want to
         /// 			update.
         public let infrastructureConfigurationArn: String
-        /// The instance metadata options that you can set for the HTTP requests that pipeline
-        /// 			builds use to launch EC2 build and test instances. For more information about instance
-        /// 			metadata options, see one of the following links:    Configure the instance metadata options in the
+        /// The instance metadata service (IMDS) settings that Image Builder applies to the EC2
+        /// 			build and test instances it launches during image creation. If you don't
+        /// 			set these options, the EC2 launch defaults for the instance apply. For more
+        /// 			information about instance metadata options, see one of the following
+        /// 			links:    Configure the instance metadata options in the
         /// 						 Amazon EC2 User Guide for Linux instances.    Configure the instance metadata options in the
         /// 						 Amazon EC2 Windows Guide for Windows instances.
         public let instanceMetadataOptions: InstanceMetadataOptions?
         /// The instance profile to associate with the instance used to customize your Amazon EC2
-        /// 			AMI.
+        /// 			AMI. The instance profile must exist in your account.
         public let instanceProfileName: String
         /// The instance types of the infrastructure configuration. You can specify one or more
-        /// 			instance types to use for this build. The service will pick one of these instance types
-        /// 			based on availability.
+        /// 			instance types to use for this build. Image Builder picks one of these instance types
+        /// 			based on availability. If you don't specify instance types, Image Builder selects
+        /// 			compatible instance types automatically. If you specify a Dedicated Host,
+        /// 			Image Builder uses only instance types that the host supports.
         public let instanceTypes: [String]?
         /// The key pair of the infrastructure configuration. You can use this to log on to and
         /// 			debug the instance used to create your image.
         public let keyPair: String?
-        /// The logging configuration of the infrastructure configuration.
+        /// The logging configuration of the infrastructure configuration. When you
+        /// 			configure S3 logs, Image Builder writes logs from the build and test process to the
+        /// 			specified bucket under the key prefix.
         public let logging: Logging?
-        /// The instance placement settings that define where the instances that are launched
-        /// 			from your image will run.
+        /// The instance placement settings that define where the build and test
+        /// 			instances that Image Builder launches during image creation run. These settings
+        /// 			don't affect instances that you launch from the output image.
         public let placement: Placement?
-        /// The tags attached to the resource created by Image Builder.
+        /// The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during
+        /// 			the build process. Tags are formatted as key value pairs. Tag keys can't
+        /// 			begin with aws: or match one of the following reserved keys:
+        /// 			CreatedBy, Ec2ImageBuilderArn, Name,
+        /// 			or Tags.
         public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your Amazon EC2
         /// 			AMI.
         public let securityGroupIds: [String]?
-        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event
-        /// 			notifications.  EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
-        /// 				from other accounts. The key that is used to encrypt the SNS topic must reside in the
-        /// 				account that the Image Builder service runs under.
+        /// The Amazon Resource Name (ARN) of the SNS topic to which Image Builder
+        /// 			sends image build event notifications. Specify a standard topic. Image Builder doesn't support FIFO
+        /// 			topics. Image Builder validates the topic when you create or update the configuration.
+        /// 			You must have permission to publish to the topic.  EC2 Image Builder can't send notifications to SNS topics that are encrypted using keys
+        /// 				from other accounts. If your SNS topic is encrypted, the key must be owned by the
+        /// 				same account that owns your Image Builder resources.
         public let snsTopicArn: String?
-        /// The subnet ID to place the instance used to customize your Amazon EC2 AMI in.
+        /// The subnet ID in which to place the instance used to customize your Amazon EC2
+        /// 			AMI. If you specify subnetId, you must also specify one or
+        /// 			more security group IDs in securityGroupIds. Otherwise, the
+        /// 			request fails.
         public let subnetId: String?
-        /// The terminate instance on failure setting of the infrastructure configuration. Set to
+        /// Specifies whether to terminate the instance on failure. Set to
         /// 			false if you want Image Builder to retain the instance used to configure your AMI if the build or
-        /// 			test phase of your workflow fails.
+        /// 			test phase of your workflow fails. Defaults to true.
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
@@ -8638,22 +9339,32 @@ extension Imagebuilder {
     }
 
     public struct UpdateLifecyclePolicyRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+        /// 	   token, Image Builder returns the original response without running the operation again. For more
+        /// 	   information, see Ensuring idempotency in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// Optional description for the lifecycle policy.
+        /// Optional description for the lifecycle policy. Because the update replaces the
+        /// 			entire configuration, omitting this property removes any existing
+        /// 			description.
         public let description: String?
-        /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder uses to update the
-        /// 			lifecycle policy.
+        /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access
+        /// 			to run lifecycle actions.
         public let executionRole: String
         /// The Amazon Resource Name (ARN) of the lifecycle policy resource.
         public let lifecyclePolicyArn: String
         /// The configuration details for a lifecycle policy resource.
         public let policyDetails: [LifecyclePolicyDetail]
-        /// Selection criteria for resources that the lifecycle policy applies to.
+        /// Selection criteria for resources that the lifecycle policy applies to. You
+        /// 			must specify exactly one selection criteria: either recipes or a tag map,
+        /// 			not both.
         public let resourceSelection: LifecyclePolicyResourceSelection
-        /// The type of image resource that the lifecycle policy applies to.
+        /// The type of image resource that the lifecycle policy applies to. The value
+        /// 			must match the policy's existing resource type. You can't change the
+        /// 			resource type of an existing lifecycle policy.
         public let resourceType: LifecyclePolicyResourceType
-        /// Indicates whether the lifecycle policy resource is enabled.
+        /// Indicates whether the lifecycle policy resource is enabled. Defaults to
+        /// 			ENABLED when omitted, so updating a disabled policy without
+        /// 			setting this property re-enables it.
         public let status: LifecyclePolicyStatus?
 
         @inlinable
@@ -8822,16 +9533,15 @@ extension Imagebuilder {
         public let name: String?
         /// The owner of the workflow resource.
         public let owner: String?
-        /// An array of input parameters that that the image workflow uses
+        /// An array of input parameters that the image workflow uses
         /// 			to control actions or configure settings.
         public let parameters: [WorkflowParameterDetail]?
         /// Describes the current status of the workflow and the reason for
         /// 			that status.
         public let state: WorkflowState?
-        /// The tags that apply to the workflow resource
+        /// The tags that apply to the workflow resource.
         public let tags: [String: String]?
-        /// Specifies the image creation stage that the workflow applies to. Image Builder
-        /// 			currently supports build and test workflows.
+        /// The image creation stage that the workflow applies to.
         public let type: WorkflowType?
         /// The workflow resource version. Workflow resources are immutable.
         /// 			To make a change, you can clone a workflow or create a new version.
@@ -8872,7 +9582,10 @@ extension Imagebuilder {
     }
 
     public struct WorkflowConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The action to take if the workflow fails.
+        /// The action to take if the workflow fails. With CONTINUE, a
+        /// 			failed workflow is logged and image creation proceeds to the next workflow.
+        /// 			If you don't set a value, the image build fails when the workflow fails.
+        /// 			You can only set this property for test workflows.
         public let onFailure: OnWorkflowFailure?
         /// Test workflows are defined within named runtime groups called parallel groups.
         /// 			The parallel group is the named group that contains this test workflow. Test
@@ -8921,14 +9634,16 @@ extension Imagebuilder {
         public let message: String?
         /// The name of the test group that included the test workflow resource at runtime.
         public let parallelGroup: String?
-        /// Indicates retry status for this runtime instance of the workflow.
+        /// Indicates whether a retry of the image build superseded this runtime instance of the workflow. When you retry a failed image build, Image Builder sets this flag to true on the original workflow executions that the retry re-ran.
         public let retried: Bool?
         /// The timestamp when the runtime instance of this workflow started.
         public let startTime: String?
         /// The current runtime status for this workflow.
         public let status: WorkflowExecutionStatus?
-        /// The total number of steps in the workflow. This should equal the sum of the step
-        /// 			counts for steps that succeeded, were skipped, and failed.
+        /// The total number of steps that the workflow document defines for this runtime
+        /// 			instance of the workflow. Image Builder sets this count before any steps run. The sum of
+        /// 			succeeded, skipped, and failed steps only reaches this total if every step
+        /// 			finishes in one of those states.
         public let totalStepCount: Int?
         /// A runtime count for the number of steps in the workflow that failed.
         public let totalStepsFailed: Int?
@@ -9012,8 +9727,9 @@ extension Imagebuilder {
         public let description: String?
         /// The name of this input parameter.
         public let name: String
-        /// The type of input this parameter provides. The currently supported value is
-        /// 			"string".
+        /// The type of input this parameter provides. Supported values are
+        /// 			string, integer, boolean, and
+        /// 			stringList.
         public let type: String
 
         @inlinable
@@ -9093,17 +9809,28 @@ extension Imagebuilder {
     public struct WorkflowStepMetadata: AWSDecodableShape {
         /// The step action name.
         public let action: String?
+        /// The current attempt number for the workflow step. The first run is attempt one.
+        /// 			The number increases by one for each retry.
+        public let attemptNumber: Int?
         /// Description of the workflow step.
         public let description: String?
         /// The timestamp when the workflow step finished.
         public let endTime: String?
-        /// Input parameters that Image Builder provides for the workflow step.
+        /// Input parameters that Image Builder provides for the workflow step, as a JSON-encoded
+        /// 			string.
         public let inputs: String?
+        /// The maximum number of attempts allowed for the workflow step, based on the
+        /// 			retry configuration in the workflow document. If the step doesn't configure
+        /// 			retries, the maximum is one attempt.
+        public let maxAttempts: Int?
         /// Detailed output message that the workflow step provides at runtime.
         public let message: String?
         /// The name of the workflow step.
         public let name: String?
-        /// The file names that the workflow step created as output for this runtime instance of the workflow.
+        /// The output values that the workflow step produced for this runtime instance
+        /// 			of the workflow, as a JSON-encoded string. For example, a step that launches
+        /// 			an instance outputs the instance ID. If the step failed, this field contains
+        /// 			the error message.
         public let outputs: String?
         /// Reports on the rollback status of the step, if applicable.
         public let rollbackStatus: WorkflowStepExecutionRollbackStatus?
@@ -9115,11 +9842,13 @@ extension Imagebuilder {
         public let stepExecutionId: String?
 
         @inlinable
-        public init(action: String? = nil, description: String? = nil, endTime: String? = nil, inputs: String? = nil, message: String? = nil, name: String? = nil, outputs: String? = nil, rollbackStatus: WorkflowStepExecutionRollbackStatus? = nil, startTime: String? = nil, status: WorkflowStepExecutionStatus? = nil, stepExecutionId: String? = nil) {
+        public init(action: String? = nil, attemptNumber: Int? = nil, description: String? = nil, endTime: String? = nil, inputs: String? = nil, maxAttempts: Int? = nil, message: String? = nil, name: String? = nil, outputs: String? = nil, rollbackStatus: WorkflowStepExecutionRollbackStatus? = nil, startTime: String? = nil, status: WorkflowStepExecutionStatus? = nil, stepExecutionId: String? = nil) {
             self.action = action
+            self.attemptNumber = attemptNumber
             self.description = description
             self.endTime = endTime
             self.inputs = inputs
+            self.maxAttempts = maxAttempts
             self.message = message
             self.name = name
             self.outputs = outputs
@@ -9131,9 +9860,11 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case attemptNumber = "attemptNumber"
             case description = "description"
             case endTime = "endTime"
             case inputs = "inputs"
+            case maxAttempts = "maxAttempts"
             case message = "message"
             case name = "name"
             case outputs = "outputs"
@@ -9161,8 +9892,7 @@ extension Imagebuilder {
         public let state: WorkflowState?
         /// Contains a list of tags that are defined for the workflow.
         public let tags: [String: String]?
-        /// The image creation stage that this workflow applies to. Image Builder currently
-        /// 			supports build and test stage workflows.
+        /// The image creation stage that this workflow applies to.
         public let type: WorkflowType?
         /// The version of the workflow.
         public let version: String?
@@ -9206,8 +9936,7 @@ extension Imagebuilder {
         public let name: String?
         /// The owner of the workflow resource.
         public let owner: String?
-        /// The image creation stage that this workflow applies to. Image Builder currently
-        /// 			supports build and test stage workflows.
+        /// The image creation stage that this workflow applies to.
         public let type: WorkflowType?
         /// The semantic version of the workflow resource. The format includes three nodes: ...
         public let version: String?
@@ -9282,11 +10011,13 @@ public struct ImagebuilderErrorType: AWSErrorType {
 
     /// You do not have permissions to perform the requested operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// You have exceeded the permitted request rate for the specific operation.
+    /// You have exceeded the permitted request rate for the Amazon EC2 APIs that Image Builder
+    /// 			calls on your behalf. Retry with an increasing or variable delay between
+    /// 			requests.
     public static var callRateLimitExceededException: Self { .init(.callRateLimitExceededException) }
-    /// These errors are usually caused by a client action, such as using an action or
-    /// 			resource on behalf of a user that doesn't have permissions to use the action or
-    /// 			resource, or specifying an invalid resource identifier.
+    /// A generic client error. This error usually indicates that the request
+    /// 			failed a validation check, such as when a downstream service rejects a
+    /// 			configured value.
     public static var clientException: Self { .init(.clientException) }
     /// The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
     public static var dryRunOperationException: Self { .init(.dryRunOperationException) }
@@ -9297,15 +10028,17 @@ public struct ImagebuilderErrorType: AWSErrorType {
     public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
     /// You have provided an invalid pagination token in your request.
     public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
-    /// You have specified two or more mutually exclusive parameters. Review the error message
-    /// 			for details.
+    /// You have specified a combination of parameters that isn't valid. For
+    /// 			example, two mutually exclusive parameters, or a parameter without its
+    /// 			required companion parameter. Review the error message for details.
     public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
     /// The specified parameter is invalid. Review the available parameters for the API
     /// 			request.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// The value that you provided for the specified parameter is invalid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
-    /// You have requested an action that that the service doesn't support.
+    /// The request is malformed or otherwise invalid. Verify the request and try
+    /// 			again.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// Your version number is out of bounds or does not follow the required syntax.
     public static var invalidVersionNumberException: Self { .init(.invalidVersionNumberException) }
@@ -9319,8 +10052,8 @@ public struct ImagebuilderErrorType: AWSErrorType {
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// At least one of the resources referenced by your request does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// This exception is thrown when the service encounters an unrecoverable
-    /// 			exception.
+    /// An internal server error occurred while Image Builder processed the request.
+    /// 			Retrying the request may succeed.
     public static var serviceException: Self { .init(.serviceException) }
     /// You have exceeded the number of permitted resources or operations for this service.
     /// 			For service quotas, see EC2 Image Builder endpoints and

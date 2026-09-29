@@ -105,6 +105,7 @@ extension Evs {
     public enum InstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case i4iMetal = "i4i.metal"
         case i7iMetal24Xl = "i7i.metal-24xl"
+        case i7iMetal48Xl = "i7i.metal-48xl"
         public var description: String { return self.rawValue }
     }
 
@@ -133,6 +134,33 @@ extension Evs {
     }
 
     // MARK: Shapes
+
+    public struct AccountSetting: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the EVS setting. Valid values are:    vcfPortedCoreCount (type: numeric string) - The total number of VCF license cores ported to Amazon EVS for the account in that Region. The maximum value is 1,000,000 cores. This setting value is shared with Broadcom for record-keeping.
+        public let name: String
+        /// The value of the EVS setting.
+        public let value: String
+
+        @inlinable
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 128)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
 
     public struct AssociateEipToVlanRequest: AWSEncodableShape {
         /// The Elastic IP address allocation ID.
@@ -1039,6 +1067,24 @@ extension Evs {
         }
     }
 
+    public struct GetAccountSettingsRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetAccountSettingsResponse: AWSDecodableShape {
+        /// A list of regional account-level EVS settings for the account. EVS settings that have never been explicitly set are omitted from the response.
+        public let settings: [AccountSetting]?
+
+        @inlinable
+        public init(settings: [AccountSetting]? = nil) {
+            self.settings = settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settings = "settings"
+        }
+    }
+
     public struct GetDepotUrlRequest: AWSEncodableShape {
         /// The unique ID of the Amazon EVS environment to get the depot URL for.
         public let environmentId: String
@@ -1684,6 +1730,41 @@ extension Evs {
 
         private enum CodingKeys: String, CodingKey {
             case networkInterfaceId = "networkInterfaceId"
+        }
+    }
+
+    public struct PutAccountSettingsRequest: AWSEncodableShape {
+        /// A list of regional account-level EVS settings to create or update. Only the settings included in this list are modified.
+        public let settings: [AccountSetting]
+
+        @inlinable
+        public init(settings: [AccountSetting]) {
+            self.settings = settings
+        }
+
+        public func validate(name: String) throws {
+            try self.settings.forEach {
+                try $0.validate(name: "\(name).settings[]")
+            }
+            try self.validate(self.settings, name: "settings", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settings = "settings"
+        }
+    }
+
+    public struct PutAccountSettingsResponse: AWSDecodableShape {
+        /// A list of regional account-level EVS settings, and their values, that were modified in this request.
+        public let settings: [AccountSetting]?
+
+        @inlinable
+        public init(settings: [AccountSetting]? = nil) {
+            self.settings = settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settings = "settings"
         }
     }
 

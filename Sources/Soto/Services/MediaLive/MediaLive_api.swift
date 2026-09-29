@@ -40,7 +40,7 @@ public struct MediaLive: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct MediaLive: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "MediaLive",
+            sdkId: "MediaLive",
             serviceIdentifier: "medialive",
             serviceProtocol: .restjson,
             apiVersion: "2017-10-14",
@@ -5925,6 +5926,9 @@ extension MediaLive {
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "IDLE")),
                 .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "STOPPING")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETING")),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETED")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("NotFoundException")),
             ],
             minDelayTime: .seconds(5),
             command: self.describeChannel

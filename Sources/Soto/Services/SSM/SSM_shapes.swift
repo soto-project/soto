@@ -250,6 +250,12 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeletionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case removeSharing = "RemoveSharing"
+        case rollbackMigration = "RollbackMigration"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DescribeActivationsFilterKeys: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activationIds = "ActivationIds"
         case defaultInstanceName = "DefaultInstanceName"
@@ -4256,6 +4262,8 @@ extension SSM {
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// Specifies the intended outcome of the operation. Applies only to the Document resource type. The operation ignores this parameter for other resource types. Optional. Defaults to RemoveSharing.    RemoveSharing – Deletes the resource policy and removes sharing of the document.    RollbackMigration – Reverts the document to Custom sharing, preserving existing consumer access, instead of removing the policy.
+        public let deletionMode: DeletionMode?
         /// ID of the current policy version. The hash helps to prevent multiple calls from attempting to overwrite a policy.
         public let policyHash: String
         /// The policy ID.
@@ -4264,7 +4272,8 @@ extension SSM {
         public let resourceArn: String
 
         @inlinable
-        public init(policyHash: String, policyId: String, resourceArn: String) {
+        public init(deletionMode: DeletionMode? = nil, policyHash: String, policyId: String, resourceArn: String) {
+            self.deletionMode = deletionMode
             self.policyHash = policyHash
             self.policyId = policyId
             self.resourceArn = resourceArn
@@ -4276,6 +4285,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deletionMode = "DeletionMode"
             case policyHash = "PolicyHash"
             case policyId = "PolicyId"
             case resourceArn = "ResourceArn"
@@ -4645,7 +4655,7 @@ extension SSM {
 
         public func validate(name: String) throws {
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
-            try self.validate(self.associationVersion, name: "associationVersion", parent: name, pattern: "^([$]LATEST)|([1-9][0-9]*)$")
+            try self.validate(self.associationVersion, name: "associationVersion", parent: name, pattern: "^(([$]LATEST)|([1-9][0-9]*))$")
             try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^(^i-(\\w{8}|\\w{17})$)|(^mi-\\w{17}$)$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
         }
@@ -12320,7 +12330,7 @@ extension SSM {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 132)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "^tag:.+|Name|Type|KeyId|Path|Label|Tier|DataType$")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^(tag:.+|Name|Type|KeyId|Path|Label|Tier|DataType)$")
             try self.validate(self.option, name: "option", parent: name, max: 10)
             try self.validate(self.option, name: "option", parent: name, min: 1)
             try self.values?.forEach {
@@ -12833,7 +12843,7 @@ extension SSM {
         public func validate(name: String) throws {
             try self.validate(self.complianceType, name: "complianceType", parent: name, max: 100)
             try self.validate(self.complianceType, name: "complianceType", parent: name, min: 1)
-            try self.validate(self.complianceType, name: "complianceType", parent: name, pattern: "^[A-Za-z0-9_\\-]\\w+|Custom:[a-zA-Z0-9_\\-]\\w+$")
+            try self.validate(self.complianceType, name: "complianceType", parent: name, pattern: "^([A-Za-z0-9_\\-]\\w+|Custom:[a-zA-Z0-9_\\-]\\w+)$")
             try self.executionSummary.validate(name: "\(name).executionSummary")
             try self.validate(self.itemContentHash, name: "itemContentHash", parent: name, max: 256)
             try self.items.forEach {
@@ -15035,7 +15045,7 @@ extension SSM {
             try self.excludeAccounts?.forEach {
                 try validate($0, name: "excludeAccounts[]", parent: name, max: 68)
                 try validate($0, name: "excludeAccounts[]", parent: name, min: 6)
-                try validate($0, name: "excludeAccounts[]", parent: name, pattern: "^(ou-[a-z0-9]{4,32}-[a-z0-9]{8,32})|(\\d{12})$")
+                try validate($0, name: "excludeAccounts[]", parent: name, pattern: "^((ou-[a-z0-9]{4,32}-[a-z0-9]{8,32})|(\\d{12}))$")
             }
             try self.validate(self.excludeAccounts, name: "excludeAccounts", parent: name, max: 5000)
             try self.validate(self.excludeAccounts, name: "excludeAccounts", parent: name, min: 1)
@@ -15295,7 +15305,7 @@ extension SSM {
             try self.validate(self.associationDispatchAssumeRole, name: "associationDispatchAssumeRole", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
             try self.validate(self.associationName, name: "associationName", parent: name, pattern: "^[a-zA-Z0-9_\\-.]{3,128}$")
-            try self.validate(self.associationVersion, name: "associationVersion", parent: name, pattern: "^([$]LATEST)|([1-9][0-9]*)$")
+            try self.validate(self.associationVersion, name: "associationVersion", parent: name, pattern: "^(([$]LATEST)|([1-9][0-9]*))$")
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, max: 50)
             try self.validate(self.automationTargetParameterName, name: "automationTargetParameterName", parent: name, min: 1)
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "^([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)$")
@@ -15539,7 +15549,7 @@ extension SSM {
         public let content: String
         /// The friendly name of the SSM document that you want to update. This value can differ for each version of the document. If you don't specify a value for this parameter in your request, the existing value is applied to the new document version.
         public let displayName: String?
-        /// Specify the document format for the new document version. Systems Manager supports JSON and YAML documents. JSON is the default format.
+        /// Specify the document format for the new document version. The document format can be JSON, YAML, or TEXT. JSON is the default format.
         public let documentFormat: DocumentFormat?
         /// The version of the document that you want to update. Currently, Systems Manager supports updating only the latest version of the document. You can specify the version number of the latest version or use the $LATEST variable.  If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter.
         public let documentVersion: String?

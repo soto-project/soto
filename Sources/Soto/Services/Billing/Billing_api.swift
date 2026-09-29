@@ -40,7 +40,7 @@ public struct Billing: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -61,6 +61,7 @@ public struct Billing: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "AWSBilling",
             serviceName: "Billing",
+            sdkId: "Billing",
             serviceIdentifier: "billing",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2023-09-07",
@@ -368,6 +369,64 @@ public struct Billing: AWSService {
         return try await self.getCredits(input, logger: logger)
     }
 
+    /// Returns a summary of Enterprise Support data aggregated across all accounts in the Enterprise Support profile.
+    @Sendable
+    @inlinable
+    public func getEnterpriseSupportChargeSummary(_ input: GetEnterpriseSupportChargeSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnterpriseSupportChargeSummaryResponse {
+        try await self.client.execute(
+            operation: "GetEnterpriseSupportChargeSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a summary of Enterprise Support data aggregated across all accounts in the Enterprise Support profile.
+    ///
+    /// Parameters:
+    ///   - billingMonth: The billing month in YYYY-MM format. This must be a month in the past.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getEnterpriseSupportChargeSummary(
+        billingMonth: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetEnterpriseSupportChargeSummaryResponse {
+        let input = GetEnterpriseSupportChargeSummaryRequest(
+            billingMonth: billingMonth
+        )
+        return try await self.getEnterpriseSupportChargeSummary(input, logger: logger)
+    }
+
+    /// Returns Enterprise Support contract details.
+    @Sendable
+    @inlinable
+    public func getEnterpriseSupportContractDetails(_ input: GetEnterpriseSupportContractDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnterpriseSupportContractDetailsResponse {
+        try await self.client.execute(
+            operation: "GetEnterpriseSupportContractDetails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns Enterprise Support contract details.
+    ///
+    /// Parameters:
+    ///   - billingMonth: The billing month in YYYY-MM format. This must be a month in the past.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getEnterpriseSupportContractDetails(
+        billingMonth: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetEnterpriseSupportContractDetailsResponse {
+        let input = GetEnterpriseSupportContractDetailsRequest(
+            billingMonth: billingMonth
+        )
+        return try await self.getEnterpriseSupportContractDetails(input, logger: logger)
+    }
+
     /// Returns the resource-based policy document attached to the resource in JSON format.
     @Sendable
     @inlinable
@@ -395,6 +454,44 @@ public struct Billing: AWSService {
             resourceArn: resourceArn
         )
         return try await self.getResourcePolicy(input, logger: logger)
+    }
+
+    /// Lists the segments of a billing view over a given time period. Each segment identifies the billing domain (PRO_FORMA or BILLABLE) and the account relationships that apply during its time range. If you don't provide an arn, the response includes segments for the caller's PRIMARY billing view. If a mid-period change occurs, the response includes multiple segments, each with its own time range. The response omits hidden segments, so the segments it returns might not cover the entire requested time period.
+    @Sendable
+    @inlinable
+    public func listBillingViewSegments(_ input: ListBillingViewSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBillingViewSegmentsResponse {
+        try await self.client.execute(
+            operation: "ListBillingViewSegments", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the segments of a billing view over a given time period. Each segment identifies the billing domain (PRO_FORMA or BILLABLE) and the account relationships that apply during its time range. If you don't provide an arn, the response includes segments for the caller's PRIMARY billing view. If a mid-period change occurs, the response includes multiple segments, each with its own time range. The response omits hidden segments, so the segments it returns might not cover the entire requested time period.
+    ///
+    /// Parameters:
+    ///   - arn:  The Amazon Resource Name (ARN) that uniquely identifies the billing view to query. If you don't provide an ARN, the caller's PRIMARY billing view is used. The ARN must reference a primary billing view. Custom billing views aren't supported.
+    ///   - maxResults:  The number of entries a paginated response contains. Valid values range from 1 to 100. The default is 100.
+    ///   - nextToken:  The pagination token that is used on subsequent calls to list billing view segments.
+    ///   - timeRange:  The billing period to query. If you don't provide a time range, the current billing period, which is the calendar month in UTC, is used.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBillingViewSegments(
+        arn: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        timeRange: BillingViewSegmentTimeRange? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBillingViewSegmentsResponse {
+        let input = ListBillingViewSegmentsRequest(
+            arn: arn, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            timeRange: timeRange
+        )
+        return try await self.listBillingViewSegments(input, logger: logger)
     }
 
     /// Lists the billing views available for a given time period.  Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views representing pro forma costs associated with each created billing group.
@@ -445,6 +542,126 @@ public struct Billing: AWSService {
             sourceAccountId: sourceAccountId
         )
         return try await self.listBillingViews(input, logger: logger)
+    }
+
+    /// Returns Business Support charges broken down at the linked account level for a given billing month.
+    @Sendable
+    @inlinable
+    public func listBusinessSupportAccountCharges(_ input: ListBusinessSupportAccountChargesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBusinessSupportAccountChargesResponse {
+        try await self.client.execute(
+            operation: "ListBusinessSupportAccountCharges", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns Business Support charges broken down at the linked account level for a given billing month.
+    ///
+    /// Parameters:
+    ///   - accountId: The linked account ID to filter results to a specific account. If you don't specify a value, the response includes charges for all linked accounts.
+    ///   - billingMonth: The billing month to retrieve Business Support charges for, in YYYY-MM format. You can request the current month (charges will be estimated) or a past month (charges will be finalized).
+    ///   - maxResults: The maximum number of results to return per page. Default is 100.
+    ///   - nextToken: The pagination token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBusinessSupportAccountCharges(
+        accountId: String? = nil,
+        billingMonth: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBusinessSupportAccountChargesResponse {
+        let input = ListBusinessSupportAccountChargesRequest(
+            accountId: accountId, 
+            billingMonth: billingMonth, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listBusinessSupportAccountCharges(input, logger: logger)
+    }
+
+    /// Returns the history of Business Support subscription contracts across accounts.
+    @Sendable
+    @inlinable
+    public func listBusinessSupportSubscriptionHistory(_ input: ListBusinessSupportSubscriptionHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBusinessSupportSubscriptionHistoryResponse {
+        try await self.client.execute(
+            operation: "ListBusinessSupportSubscriptionHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the history of Business Support subscription contracts across accounts.
+    ///
+    /// Parameters:
+    ///   - accountId: The account ID to filter results to a specific account. If you don't specify a value, the response includes subscription history for all accounts.
+    ///   - billingMonth: The billing month to retrieve subscription contracts for, in YYYY-MM format. If you don't specify a value, defaults to the current month.
+    ///   - endDate: The end date to filter subscription contracts to.
+    ///   - maxResults: The maximum number of results to return per page. Default is 100.
+    ///   - nextToken: The pagination token for the next page of results.
+    ///   - startDate: The start date to filter subscription contracts from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBusinessSupportSubscriptionHistory(
+        accountId: String? = nil,
+        billingMonth: String? = nil,
+        endDate: Date? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        startDate: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBusinessSupportSubscriptionHistoryResponse {
+        let input = ListBusinessSupportSubscriptionHistoryRequest(
+            accountId: accountId, 
+            billingMonth: billingMonth, 
+            endDate: endDate, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            startDate: startDate
+        )
+        return try await self.listBusinessSupportSubscriptionHistory(input, logger: logger)
+    }
+
+    /// Returns Support-eligible spend broken down at linked account level.
+    @Sendable
+    @inlinable
+    public func listEnterpriseSupportLinkedAccountCharges(_ input: ListEnterpriseSupportLinkedAccountChargesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnterpriseSupportLinkedAccountChargesResponse {
+        try await self.client.execute(
+            operation: "ListEnterpriseSupportLinkedAccountCharges", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns Support-eligible spend broken down at linked account level.
+    ///
+    /// Parameters:
+    ///   - accountId: The linked account ID to filter results to a specific account. If you don't specify a value, the response includes charges for all linked accounts.
+    ///   - billingMonth: The billing month in YYYY-MM format. This must be a month in the past.
+    ///   - maxResults: The maximum number of results to return per page. Default is 100.
+    ///   - nextToken: The pagination token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEnterpriseSupportLinkedAccountCharges(
+        accountId: String? = nil,
+        billingMonth: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEnterpriseSupportLinkedAccountChargesResponse {
+        let input = ListEnterpriseSupportLinkedAccountChargesRequest(
+            accountId: accountId, 
+            billingMonth: billingMonth, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listEnterpriseSupportLinkedAccountCharges(input, logger: logger)
     }
 
     /// Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
@@ -734,6 +951,46 @@ extension Billing {
         return self.getCreditAllocationHistoryPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listBillingViewSegments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBillingViewSegmentsPaginator(
+        _ input: ListBillingViewSegmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBillingViewSegmentsRequest, ListBillingViewSegmentsResponse> {
+        return .init(
+            input: input,
+            command: self.listBillingViewSegments,
+            inputKey: \ListBillingViewSegmentsRequest.nextToken,
+            outputKey: \ListBillingViewSegmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBillingViewSegments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn:  The Amazon Resource Name (ARN) that uniquely identifies the billing view to query. If you don't provide an ARN, the caller's PRIMARY billing view is used. The ARN must reference a primary billing view. Custom billing views aren't supported.
+    ///   - maxResults:  The number of entries a paginated response contains. Valid values range from 1 to 100. The default is 100.
+    ///   - timeRange:  The billing period to query. If you don't provide a time range, the current billing period, which is the calendar month in UTC, is used.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBillingViewSegmentsPaginator(
+        arn: String? = nil,
+        maxResults: Int? = nil,
+        timeRange: BillingViewSegmentTimeRange? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBillingViewSegmentsRequest, ListBillingViewSegmentsResponse> {
+        let input = ListBillingViewSegmentsRequest(
+            arn: arn, 
+            maxResults: maxResults, 
+            timeRange: timeRange
+        )
+        return self.listBillingViewSegmentsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listBillingViews(_:logger:)``.
     ///
     /// - Parameters:
@@ -784,6 +1041,132 @@ extension Billing {
             sourceAccountId: sourceAccountId
         )
         return self.listBillingViewsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBusinessSupportAccountCharges(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBusinessSupportAccountChargesPaginator(
+        _ input: ListBusinessSupportAccountChargesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBusinessSupportAccountChargesRequest, ListBusinessSupportAccountChargesResponse> {
+        return .init(
+            input: input,
+            command: self.listBusinessSupportAccountCharges,
+            inputKey: \ListBusinessSupportAccountChargesRequest.nextToken,
+            outputKey: \ListBusinessSupportAccountChargesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBusinessSupportAccountCharges(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountId: The linked account ID to filter results to a specific account. If you don't specify a value, the response includes charges for all linked accounts.
+    ///   - billingMonth: The billing month to retrieve Business Support charges for, in YYYY-MM format. You can request the current month (charges will be estimated) or a past month (charges will be finalized).
+    ///   - maxResults: The maximum number of results to return per page. Default is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBusinessSupportAccountChargesPaginator(
+        accountId: String? = nil,
+        billingMonth: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBusinessSupportAccountChargesRequest, ListBusinessSupportAccountChargesResponse> {
+        let input = ListBusinessSupportAccountChargesRequest(
+            accountId: accountId, 
+            billingMonth: billingMonth, 
+            maxResults: maxResults
+        )
+        return self.listBusinessSupportAccountChargesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBusinessSupportSubscriptionHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBusinessSupportSubscriptionHistoryPaginator(
+        _ input: ListBusinessSupportSubscriptionHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBusinessSupportSubscriptionHistoryRequest, ListBusinessSupportSubscriptionHistoryResponse> {
+        return .init(
+            input: input,
+            command: self.listBusinessSupportSubscriptionHistory,
+            inputKey: \ListBusinessSupportSubscriptionHistoryRequest.nextToken,
+            outputKey: \ListBusinessSupportSubscriptionHistoryResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBusinessSupportSubscriptionHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountId: The account ID to filter results to a specific account. If you don't specify a value, the response includes subscription history for all accounts.
+    ///   - billingMonth: The billing month to retrieve subscription contracts for, in YYYY-MM format. If you don't specify a value, defaults to the current month.
+    ///   - endDate: The end date to filter subscription contracts to.
+    ///   - maxResults: The maximum number of results to return per page. Default is 100.
+    ///   - startDate: The start date to filter subscription contracts from.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBusinessSupportSubscriptionHistoryPaginator(
+        accountId: String? = nil,
+        billingMonth: String? = nil,
+        endDate: Date? = nil,
+        maxResults: Int? = nil,
+        startDate: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBusinessSupportSubscriptionHistoryRequest, ListBusinessSupportSubscriptionHistoryResponse> {
+        let input = ListBusinessSupportSubscriptionHistoryRequest(
+            accountId: accountId, 
+            billingMonth: billingMonth, 
+            endDate: endDate, 
+            maxResults: maxResults, 
+            startDate: startDate
+        )
+        return self.listBusinessSupportSubscriptionHistoryPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listEnterpriseSupportLinkedAccountCharges(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEnterpriseSupportLinkedAccountChargesPaginator(
+        _ input: ListEnterpriseSupportLinkedAccountChargesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEnterpriseSupportLinkedAccountChargesRequest, ListEnterpriseSupportLinkedAccountChargesResponse> {
+        return .init(
+            input: input,
+            command: self.listEnterpriseSupportLinkedAccountCharges,
+            inputKey: \ListEnterpriseSupportLinkedAccountChargesRequest.nextToken,
+            outputKey: \ListEnterpriseSupportLinkedAccountChargesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEnterpriseSupportLinkedAccountCharges(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountId: The linked account ID to filter results to a specific account. If you don't specify a value, the response includes charges for all linked accounts.
+    ///   - billingMonth: The billing month in YYYY-MM format. This must be a month in the past.
+    ///   - maxResults: The maximum number of results to return per page. Default is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEnterpriseSupportLinkedAccountChargesPaginator(
+        accountId: String? = nil,
+        billingMonth: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEnterpriseSupportLinkedAccountChargesRequest, ListEnterpriseSupportLinkedAccountChargesResponse> {
+        let input = ListEnterpriseSupportLinkedAccountChargesRequest(
+            accountId: accountId, 
+            billingMonth: billingMonth, 
+            maxResults: maxResults
+        )
+        return self.listEnterpriseSupportLinkedAccountChargesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listSourceViewsForBillingView(_:logger:)``.
@@ -838,6 +1221,18 @@ extension Billing.GetCreditAllocationHistoryRequest: AWSPaginateToken {
     }
 }
 
+extension Billing.ListBillingViewSegmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Billing.ListBillingViewSegmentsRequest {
+        return .init(
+            arn: self.arn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            timeRange: self.timeRange
+        )
+    }
+}
+
 extension Billing.ListBillingViewsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Billing.ListBillingViewsRequest {
@@ -850,6 +1245,44 @@ extension Billing.ListBillingViewsRequest: AWSPaginateToken {
             nextToken: token,
             ownerAccountId: self.ownerAccountId,
             sourceAccountId: self.sourceAccountId
+        )
+    }
+}
+
+extension Billing.ListBusinessSupportAccountChargesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Billing.ListBusinessSupportAccountChargesRequest {
+        return .init(
+            accountId: self.accountId,
+            billingMonth: self.billingMonth,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Billing.ListBusinessSupportSubscriptionHistoryRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Billing.ListBusinessSupportSubscriptionHistoryRequest {
+        return .init(
+            accountId: self.accountId,
+            billingMonth: self.billingMonth,
+            endDate: self.endDate,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startDate: self.startDate
+        )
+    }
+}
+
+extension Billing.ListEnterpriseSupportLinkedAccountChargesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Billing.ListEnterpriseSupportLinkedAccountChargesRequest {
+        return .init(
+            accountId: self.accountId,
+            billingMonth: self.billingMonth,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

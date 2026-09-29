@@ -113,6 +113,8 @@ extension MWAAServerless {
     public struct CreateWorkflowRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token prevents duplicate workflow creation requests.
         public let clientToken: String?
+        /// The location of code artifacts in Amazon S3 for the workflow. The service copies the code from this location at the time of the request.
+        public let code: Code?
         /// The Amazon S3 location where the workflow definition file is stored. This must point to a valid YAML file that defines the workflow structure using supported Amazon Web Services operators and tasks. Amazon Managed Workflows for Apache Airflow Serverless takes a snapshot of the definition at creation time, so subsequent changes to the Amazon S3 object will not affect the workflow unless you create a new version. In your YAML definition, include task dependencies, scheduling information, and operator configurations that are compatible with the Amazon Managed Workflows for Apache Airflow Serverless execution environment.
         public let definitionS3Location: DefinitionS3Location
         /// An optional description of the workflow that you can use to provide additional context about the workflow's purpose and functionality.
@@ -135,8 +137,9 @@ extension MWAAServerless {
         public let triggerMode: String?
 
         @inlinable
-        public init(clientToken: String? = CreateWorkflowRequest.idempotencyToken(), definitionS3Location: DefinitionS3Location, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, engineVersion: EngineVersion? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, networkConfiguration: NetworkConfiguration? = nil, roleArn: String, tags: [String: String]? = nil, triggerMode: String? = nil) {
+        public init(clientToken: String? = CreateWorkflowRequest.idempotencyToken(), code: Code? = nil, definitionS3Location: DefinitionS3Location, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, engineVersion: EngineVersion? = nil, loggingConfiguration: LoggingConfiguration? = nil, name: String, networkConfiguration: NetworkConfiguration? = nil, roleArn: String, tags: [String: String]? = nil, triggerMode: String? = nil) {
             self.clientToken = clientToken
+            self.code = code
             self.definitionS3Location = definitionS3Location
             self.description = description
             self.encryptionConfiguration = encryptionConfiguration
@@ -178,6 +181,7 @@ extension MWAAServerless {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
+            case code = "Code"
             case definitionS3Location = "DefinitionS3Location"
             case description = "Description"
             case encryptionConfiguration = "EncryptionConfiguration"
@@ -462,6 +466,11 @@ extension MWAAServerless {
     }
 
     public struct GetWorkflowResponse: AWSDecodableShape {
+        /// The Amazon S3 location of the code artifacts provided during workflow creation or update.
+        public let code: Code?
+        /// The time at which the code artifacts were copied for this workflow, in ISO 8601 date-time format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var codeSnapshottedAt: Date?
         /// The timestamp when the workflow was created, in ISO 8601 date-time format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -498,7 +507,9 @@ extension MWAAServerless {
         public let workflowVersion: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, definitionS3Location: DefinitionS3Location? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, engineVersion: EngineVersion? = nil, loggingConfiguration: LoggingConfiguration? = nil, modifiedAt: Date? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, roleArn: String? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, triggerMode: String? = nil, workflowArn: String, workflowDefinition: String? = nil, workflowStatus: WorkflowStatus? = nil, workflowVersion: String? = nil) {
+        public init(code: Code? = nil, codeSnapshottedAt: Date? = nil, createdAt: Date? = nil, definitionS3Location: DefinitionS3Location? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, engineVersion: EngineVersion? = nil, loggingConfiguration: LoggingConfiguration? = nil, modifiedAt: Date? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, roleArn: String? = nil, scheduleConfiguration: ScheduleConfiguration? = nil, triggerMode: String? = nil, workflowArn: String, workflowDefinition: String? = nil, workflowStatus: WorkflowStatus? = nil, workflowVersion: String? = nil) {
+            self.code = code
+            self.codeSnapshottedAt = codeSnapshottedAt
             self.createdAt = createdAt
             self.definitionS3Location = definitionS3Location
             self.description = description
@@ -518,6 +529,8 @@ extension MWAAServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case codeSnapshottedAt = "CodeSnapshottedAt"
             case createdAt = "CreatedAt"
             case definitionS3Location = "DefinitionS3Location"
             case description = "Description"
@@ -962,6 +975,28 @@ extension MWAAServerless {
         }
     }
 
+    public struct S3Location: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket.
+        public let bucket: String
+        /// The key of the code artifact within the Amazon S3 bucket.
+        public let objectKey: String
+        /// The version ID of the object in Amazon S3. If not specified, the latest version is used.
+        public let versionId: String?
+
+        @inlinable
+        public init(bucket: String, objectKey: String, versionId: String? = nil) {
+            self.bucket = bucket
+            self.objectKey = objectKey
+            self.versionId = versionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case objectKey = "ObjectKey"
+            case versionId = "VersionId"
+        }
+    }
+
     public struct ScheduleConfiguration: AWSDecodableShape {
         /// A cron expression that defines when the workflow is automatically executed. Uses standard cron syntax.
         public let cronExpression: String?
@@ -1284,6 +1319,8 @@ extension MWAAServerless {
     }
 
     public struct UpdateWorkflowRequest: AWSEncodableShape {
+        /// The location of code artifacts in Amazon S3 for the updated workflow. The service copies the code from this location at the time of the request.
+        public let code: Code?
         /// The Amazon S3 location where the updated workflow definition file is stored.
         public let definitionS3Location: DefinitionS3Location
         /// An updated description for the workflow.
@@ -1302,7 +1339,8 @@ extension MWAAServerless {
         public let workflowArn: String
 
         @inlinable
-        public init(definitionS3Location: DefinitionS3Location, description: String? = nil, engineVersion: EngineVersion? = nil, loggingConfiguration: LoggingConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, roleArn: String, triggerMode: String? = nil, workflowArn: String) {
+        public init(code: Code? = nil, definitionS3Location: DefinitionS3Location, description: String? = nil, engineVersion: EngineVersion? = nil, loggingConfiguration: LoggingConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, roleArn: String, triggerMode: String? = nil, workflowArn: String) {
+            self.code = code
             self.definitionS3Location = definitionS3Location
             self.description = description
             self.engineVersion = engineVersion
@@ -1316,6 +1354,7 @@ extension MWAAServerless {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.code, forKey: .code)
             try container.encode(self.definitionS3Location, forKey: .definitionS3Location)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.engineVersion, forKey: .engineVersion)
@@ -1343,6 +1382,7 @@ extension MWAAServerless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case code = "Code"
             case definitionS3Location = "DefinitionS3Location"
             case description = "Description"
             case engineVersion = "EngineVersion"
@@ -1596,6 +1636,20 @@ extension MWAAServerless {
             case triggerMode = "TriggerMode"
             case workflowArn = "WorkflowArn"
             case workflowVersion = "WorkflowVersion"
+        }
+    }
+
+    public struct Code: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 location of the code artifacts that your workflow tasks use during execution.
+        public let s3Location: S3Location?
+
+        @inlinable
+        public init(s3Location: S3Location? = nil) {
+            self.s3Location = s3Location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "S3Location"
         }
     }
 }

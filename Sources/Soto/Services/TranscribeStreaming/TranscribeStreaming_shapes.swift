@@ -172,6 +172,9 @@ extension TranscribeStreaming {
 
     public enum MediaEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case flac = "flac"
+        case g711Alaw = "g711-alaw"
+        case g711Ulaw = "g711-ulaw"
+        case g729 = "g729"
         case oggOpus = "ogg-opus"
         case pcm = "pcm"
         public var description: String { return self.rawValue }
@@ -272,6 +275,12 @@ extension TranscribeStreaming {
         case primarycare = "PRIMARYCARE"
         case radiology = "RADIOLOGY"
         case urology = "UROLOGY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscriptFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case spoken = "spoken"
+        case written = "written"
         public var description: String { return self.rawValue }
     }
 
@@ -517,7 +526,7 @@ extension TranscribeStreaming {
         case conflictException(ConflictException)
         /// A problem occurred while processing the audio. Amazon Transcribe terminated  processing.
         case internalFailureException(InternalFailureException)
-        /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+        /// Your client has exceeded one of the Amazon Transcribe limits, typically the concurrent stream service quota. This error can also occur if a stream exceeds the maximum session duration. In rare cases, this error can also occur if you increase your number of concurrent streams too quickly. Reduce your number of concurrent streams and try your request again using an exponential backoff strategy.
         case limitExceededException(LimitExceededException)
         /// The service is currently unavailable. Try your request later.
         case serviceUnavailableException(ServiceUnavailableException)
@@ -2104,6 +2113,8 @@ extension TranscribeStreaming {
         public let sessionResumeWindow: Int?
         /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning  labels the speech from individual speakers in your media file. For more information, see Partitioning speakers (diarization).
         public let showSpeakerLabel: Bool?
+        /// Specify how numbers, dates, and other alphanumeric entities are rendered in your transcription results.    WRITTEN renders these entities in their standard written form (for example, $50, 10:30 AM, and 101).    SPOKEN renders these entities as words, exactly as they were spoken (for example, fifty dollars, ten thirty a m, and one oh one).   If you don't specify a value, Amazon Transcribe uses WRITTEN by default.
+        public let transcriptFormat: TranscriptFormat?
         /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
         /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription.  This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
@@ -2116,7 +2127,7 @@ extension TranscribeStreaming {
         public let vocabularyNames: String?
 
         @inlinable
-        public init(audioStream: AWSEventStream<AudioStream>, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, sessionResumeWindow: Int? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
+        public init(audioStream: AWSEventStream<AudioStream>, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, sessionResumeWindow: Int? = nil, showSpeakerLabel: Bool? = nil, transcriptFormat: TranscriptFormat? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.audioStream = audioStream
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
@@ -2136,6 +2147,7 @@ extension TranscribeStreaming {
             self.sessionId = sessionId
             self.sessionResumeWindow = sessionResumeWindow
             self.showSpeakerLabel = showSpeakerLabel
+            self.transcriptFormat = transcriptFormat
             self.vocabularyFilterMethod = vocabularyFilterMethod
             self.vocabularyFilterName = vocabularyFilterName
             self.vocabularyFilterNames = vocabularyFilterNames
@@ -2165,6 +2177,7 @@ extension TranscribeStreaming {
             request.encodeHeader(self.sessionId, key: "x-amzn-transcribe-session-id")
             request.encodeHeader(self.sessionResumeWindow, key: "x-amzn-transcribe-session-resume-window")
             request.encodeHeader(self.showSpeakerLabel, key: "x-amzn-transcribe-show-speaker-label")
+            request.encodeHeader(self.transcriptFormat, key: "x-amzn-transcribe-transcript-format")
             request.encodeHeader(self.vocabularyFilterMethod, key: "x-amzn-transcribe-vocabulary-filter-method")
             request.encodeHeader(self.vocabularyFilterName, key: "x-amzn-transcribe-vocabulary-filter-name")
             request.encodeHeader(self.vocabularyFilterNames, key: "x-amzn-transcribe-vocabulary-filter-names")
@@ -2247,6 +2260,8 @@ extension TranscribeStreaming {
         public let sessionResumeWindow: Int?
         /// Shows whether speaker partitioning was enabled for your transcription.
         public let showSpeakerLabel: Bool?
+        /// Provides the transcript format that you specified in your request.
+        public let transcriptFormat: TranscriptFormat?
         /// Provides detailed information about your streaming session.
         public let transcriptResultStream: AWSEventStream<TranscriptResultStream>
         /// Provides the vocabulary filtering method used in your transcription.
@@ -2261,7 +2276,7 @@ extension TranscribeStreaming {
         public let vocabularyNames: String?
 
         @inlinable
-        public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, sessionResumeWindow: Int? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: AWSEventStream<TranscriptResultStream>, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
+        public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, sessionResumeWindow: Int? = nil, showSpeakerLabel: Bool? = nil, transcriptFormat: TranscriptFormat? = nil, transcriptResultStream: AWSEventStream<TranscriptResultStream>, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enableChannelIdentification = enableChannelIdentification
@@ -2281,6 +2296,7 @@ extension TranscribeStreaming {
             self.sessionId = sessionId
             self.sessionResumeWindow = sessionResumeWindow
             self.showSpeakerLabel = showSpeakerLabel
+            self.transcriptFormat = transcriptFormat
             self.transcriptResultStream = transcriptResultStream
             self.vocabularyFilterMethod = vocabularyFilterMethod
             self.vocabularyFilterName = vocabularyFilterName
@@ -2311,6 +2327,7 @@ extension TranscribeStreaming {
             self.sessionId = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-session-id")
             self.sessionResumeWindow = try response.decodeHeaderIfPresent(Int.self, key: "x-amzn-transcribe-session-resume-window")
             self.showSpeakerLabel = try response.decodeHeaderIfPresent(Bool.self, key: "x-amzn-transcribe-show-speaker-label")
+            self.transcriptFormat = try response.decodeHeaderIfPresent(TranscriptFormat.self, key: "x-amzn-transcribe-transcript-format")
             self.transcriptResultStream = try container.decode(AWSEventStream<TranscriptResultStream>.self)
             self.vocabularyFilterMethod = try response.decodeHeaderIfPresent(VocabularyFilterMethod.self, key: "x-amzn-transcribe-vocabulary-filter-method")
             self.vocabularyFilterName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-vocabulary-filter-name")
@@ -2464,7 +2481,7 @@ public struct TranscribeStreamingErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// A problem occurred while processing the audio. Amazon Transcribe terminated  processing.
     public static var internalFailureException: Self { .init(.internalFailureException) }
-    /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
+    /// Your client has exceeded one of the Amazon Transcribe limits, typically the concurrent stream service quota. This error can also occur if a stream exceeds the maximum session duration. In rare cases, this error can also occur if you increase your number of concurrent streams too quickly. Reduce your number of concurrent streams and try your request again using an exponential backoff strategy.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The request references a resource which doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

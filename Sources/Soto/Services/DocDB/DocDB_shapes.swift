@@ -374,6 +374,8 @@ extension DocDB {
         public var availabilityZones: [String]?
         /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.
         public let backupRetentionPeriod: Int?
+        /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
+        public let copyTagsToSnapshot: Bool?
         /// The cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster
         public let dbClusterIdentifier: String?
         /// The name of the cluster parameter group to associate with this cluster.
@@ -425,9 +427,10 @@ extension DocDB {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, networkType: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, networkType: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -462,6 +465,7 @@ extension DocDB {
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
             case backupRetentionPeriod = "BackupRetentionPeriod"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbClusterParameterGroupName = "DBClusterParameterGroupName"
             case dbSubnetGroupName = "DBSubnetGroupName"
@@ -837,6 +841,8 @@ extension DocDB {
         public let cloneGroupId: String?
         /// Specifies the time when the cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: Date?
+        /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
+        public let copyTagsToSnapshot: Bool?
         /// The Amazon Resource Name (ARN) for the cluster.
         public let dbClusterArn: String?
         /// Contains a user-supplied cluster identifier. This identifier is the unique key that identifies a cluster.
@@ -907,12 +913,13 @@ extension DocDB {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, masterUserSecret: ClusterMasterUserSecret? = nil, multiAZ: Bool? = nil, networkType: String? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, ioOptimizedNextAllowedModificationTime: Date? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, masterUserSecret: ClusterMasterUserSecret? = nil, multiAZ: Bool? = nil, networkType: String? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloneGroupId = cloneGroupId
             self.clusterCreateTime = clusterCreateTime
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterArn = dbClusterArn
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterMembers = dbClusterMembers
@@ -953,6 +960,7 @@ extension DocDB {
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case cloneGroupId = "CloneGroupId"
             case clusterCreateTime = "ClusterCreateTime"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbClusterArn = "DBClusterArn"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbClusterMembers = "DBClusterMembers"
@@ -2823,6 +2831,8 @@ extension DocDB {
         public let backupRetentionPeriod: Int?
         /// The configuration setting for the log types to be enabled for export to Amazon CloudWatch Logs for a specific instance or cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs are exported (or not exported) to CloudWatch Logs.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
+        /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
+        public let copyTagsToSnapshot: Bool?
         /// The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.
         public let dbClusterIdentifier: String?
         /// The name of the cluster parameter group to use for the cluster.
@@ -2858,11 +2868,12 @@ extension DocDB {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, networkType: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, rotateMasterUserPassword: Bool? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, networkType: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, rotateMasterUserPassword: Bool? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
             self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.deletionProtection = deletionProtection
@@ -2886,6 +2897,7 @@ extension DocDB {
             case applyImmediately = "ApplyImmediately"
             case backupRetentionPeriod = "BackupRetentionPeriod"
             case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbClusterParameterGroupName = "DBClusterParameterGroupName"
             case deletionProtection = "DeletionProtection"
@@ -3607,6 +3619,8 @@ extension DocDB {
         /// Provides the list of Amazon EC2 Availability Zones that instances in the restored DB cluster can be created in.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
+        /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them.
+        public let copyTagsToSnapshot: Bool?
         /// The name of the cluster to create from the snapshot or cluster snapshot. This parameter isn't case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-snapshot-id
         public let dbClusterIdentifier: String?
         /// The name of the DB cluster parameter group to associate with this DB cluster.  Type: String.         Required: No. If this argument is omitted, the default DB cluster parameter group is used. If supplied, must match the name of an existing default DB cluster parameter group. The string must consist of from 1 to 255 letters, numbers or hyphens. Its first character must be a letter, and it cannot end with a hyphen or contain two consecutive hyphens.
@@ -3642,8 +3656,9 @@ extension DocDB {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, networkType: String? = nil, port: Int? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, snapshotIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, networkType: String? = nil, port: Int? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, snapshotIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -3663,6 +3678,7 @@ extension DocDB {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbClusterParameterGroupName = "DBClusterParameterGroupName"
             case dbSubnetGroupName = "DBSubnetGroupName"
@@ -3698,6 +3714,8 @@ extension DocDB {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
+        /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them.
+        public let copyTagsToSnapshot: Bool?
         /// The name of the new cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
         public let dbClusterIdentifier: String?
         /// The subnet group name to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
@@ -3733,7 +3751,8 @@ extension DocDB {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(dbClusterIdentifier: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, networkType: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(copyTagsToSnapshot: Bool? = nil, dbClusterIdentifier: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, kmsKeyId: String? = nil, networkType: String? = nil, port: Int? = nil, restoreToTime: Date? = nil, restoreType: String? = nil, serverlessV2ScalingConfiguration: ServerlessV2ScalingConfiguration? = nil, sourceDBClusterIdentifier: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+            self.copyTagsToSnapshot = copyTagsToSnapshot
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbSubnetGroupName = dbSubnetGroupName
             self.deletionProtection = deletionProtection
@@ -3752,6 +3771,7 @@ extension DocDB {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case copyTagsToSnapshot = "CopyTagsToSnapshot"
             case dbClusterIdentifier = "DBClusterIdentifier"
             case dbSubnetGroupName = "DBSubnetGroupName"
             case deletionProtection = "DeletionProtection"

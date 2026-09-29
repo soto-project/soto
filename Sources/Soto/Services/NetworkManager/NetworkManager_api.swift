@@ -39,7 +39,7 @@ public struct NetworkManager: AWSService {
     /// - parameters:
     ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -58,6 +58,7 @@ public struct NetworkManager: AWSService {
             region: nil,
             partition: partition,
             serviceName: "NetworkManager",
+            sdkId: "NetworkManager",
             serviceIdentifier: "networkmanager",
             serviceProtocol: .restjson,
             apiVersion: "2019-07-05",

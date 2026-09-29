@@ -30,6 +30,23 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum ChannelDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case iceberg = "ICEBERG"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case suspended = "SUSPENDED"
+        case suspending = "SUSPENDING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClientBroker: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case plaintext = "PLAINTEXT"
         case tls = "TLS"
@@ -83,6 +100,18 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum IcebergCompressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case snappy = "SNAPPY"
+        case zstd = "ZSTD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JwtSigningAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case es384 = "ES384"
+        case rs256 = "RS256"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KafkaClusterEncryptionInTransitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tls = "TLS"
         public var description: String { return self.rawValue }
@@ -108,6 +137,11 @@ extension Kafka {
 
     public enum NodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case broker = "BROKER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PartitionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case timeHour = "TIME_HOUR"
         public var description: String { return self.rawValue }
     }
 
@@ -138,6 +172,20 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3CompressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gzip = "GZIP"
+        case none = "NONE"
+        case zstd = "ZSTD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case glacierIr = "GLACIER_IR"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StorageMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case local = "LOCAL"
         case tiered = "TIERED"
@@ -153,6 +201,13 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum TokenEndpointAuthenticationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basic = "BASIC"
+        case none = "NONE"
+        case post = "POST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TopicState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -164,6 +219,14 @@ extension Kafka {
     public enum UserIdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsaccount = "AWSACCOUNT"
         case awsservice = "AWSSERVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValueConverter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case byteArray = "BYTE_ARRAY"
+        case json = "JSON"
+        case jsonSchemaGsr = "JSON_SCHEMA_GSR"
+        case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
@@ -210,6 +273,28 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case apacheKafkaClusterId = "apacheKafkaClusterId"
             case bootstrapBrokerString = "bootstrapBrokerString"
+        }
+    }
+
+    public struct AuthorizerLogs: AWSEncodableShape & AWSDecodableShape {
+        /// Details of the CloudWatch Logs destination for authorizer logs.
+        public let cloudWatchLogs: CloudWatchLogs?
+        /// Details of the Kinesis Data Firehose delivery stream that is the destination for authorizer logs.
+        public let firehose: Firehose?
+        /// Details of the Amazon S3 destination for authorizer logs.
+        public let s3: S3?
+
+        @inlinable
+        public init(cloudWatchLogs: CloudWatchLogs? = nil, firehose: Firehose? = nil, s3: S3? = nil) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.firehose = firehose
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogs = "cloudWatchLogs"
+            case firehose = "firehose"
+            case s3 = "s3"
         }
     }
 
@@ -472,6 +557,99 @@ extension Kafka {
             case configurationArn = "configurationArn"
             case configurationRevision = "configurationRevision"
             case kafkaVersion = "kafkaVersion"
+        }
+    }
+
+    public struct Catalog: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the federated AWS Glue Data Catalog that projects the S3 Tables bucket. If omitted, MSK derives the catalog ARN from warehouseLocation.
+        public let catalogArn: String?
+        /// The Amazon Resource Name (ARN) of the S3 Tables bucket that backs the Apache Iceberg warehouse.
+        public let warehouseLocation: String?
+
+        @inlinable
+        public init(catalogArn: String? = nil, warehouseLocation: String? = nil) {
+            self.catalogArn = catalogArn
+            self.warehouseLocation = warehouseLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogArn = "catalogArn"
+            case warehouseLocation = "warehouseLocation"
+        }
+    }
+
+    public struct ChannelInfo: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+        public let channelArn: String?
+        /// The name of the channel.
+        public let channelName: String?
+        /// The Amazon Resource Name (ARN) of the in-flight cluster operation. Returned only while the channel is in CREATING, UPDATING, or DELETING.
+        public let clusterOperationArn: String?
+        /// The time when the channel was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The type of destination configured for the channel.
+        public let destinationType: ChannelDestinationType?
+        /// The current lifecycle state of the channel.
+        public let status: ChannelStatus?
+
+        @inlinable
+        public init(channelArn: String? = nil, channelName: String? = nil, clusterOperationArn: String? = nil, creationTime: Date? = nil, destinationType: ChannelDestinationType? = nil, status: ChannelStatus? = nil) {
+            self.channelArn = channelArn
+            self.channelName = channelName
+            self.clusterOperationArn = clusterOperationArn
+            self.creationTime = creationTime
+            self.destinationType = destinationType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
+            case channelName = "channelName"
+            case clusterOperationArn = "clusterOperationArn"
+            case creationTime = "creationTime"
+            case destinationType = "destinationType"
+            case status = "status"
+        }
+    }
+
+    public struct ChannelLoggingInfo: AWSEncodableShape & AWSDecodableShape {
+        /// Details of the CloudWatch Logs destination for Channel logs.
+        public let cloudWatchLogs: CloudWatchLogs?
+        /// Details of the Kinesis Data Firehose delivery stream that is the destination for Channel logs.
+        public let firehose: Firehose?
+        /// Details of the Amazon S3 destination for Channel logs.
+        public let s3: S3?
+
+        @inlinable
+        public init(cloudWatchLogs: CloudWatchLogs? = nil, firehose: Firehose? = nil, s3: S3? = nil) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.firehose = firehose
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogs = "cloudWatchLogs"
+            case firehose = "firehose"
+            case s3 = "s3"
+        }
+    }
+
+    public struct ChannelStateInfo: AWSDecodableShape {
+        /// A short, machine-readable code identifying the failure cause.
+        public let code: String?
+        /// A human-readable message describing the failure.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1186,6 +1364,78 @@ extension Kafka {
         }
     }
 
+    public struct CreateChannelRequest: AWSEncodableShape {
+        /// The name of the channel. Must be unique within the cluster.
+        public let channelName: String?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+        /// The encryption configuration applied to the channel.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The Apache Iceberg destination for the channel. Mutually exclusive with s3DestinationConfiguration.
+        public let icebergDestinationConfiguration: IcebergDestinationConfiguration?
+        /// The destinations to which the channel publishes operational logs.
+        public let loggingInfo: ChannelLoggingInfo?
+        /// The Amazon S3 destination for the channel. Mutually exclusive with icebergDestinationConfiguration.
+        public let s3DestinationConfiguration: S3DestinationConfiguration?
+        /// The tags attached to the channel.
+        public let tags: [String: String]?
+        /// The list of topic configurations for the channel. Currently exactly one topic must be specified.
+        public let topicConfigurationList: [TopicConfiguration]?
+
+        @inlinable
+        public init(channelName: String? = nil, clusterArn: String, encryptionConfiguration: EncryptionConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, loggingInfo: ChannelLoggingInfo? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, tags: [String: String]? = nil, topicConfigurationList: [TopicConfiguration]? = nil) {
+            self.channelName = channelName
+            self.clusterArn = clusterArn
+            self.encryptionConfiguration = encryptionConfiguration
+            self.icebergDestinationConfiguration = icebergDestinationConfiguration
+            self.loggingInfo = loggingInfo
+            self.s3DestinationConfiguration = s3DestinationConfiguration
+            self.tags = tags
+            self.topicConfigurationList = topicConfigurationList
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.channelName, forKey: .channelName)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
+            try container.encodeIfPresent(self.icebergDestinationConfiguration, forKey: .icebergDestinationConfiguration)
+            try container.encodeIfPresent(self.loggingInfo, forKey: .loggingInfo)
+            try container.encodeIfPresent(self.s3DestinationConfiguration, forKey: .s3DestinationConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.topicConfigurationList, forKey: .topicConfigurationList)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "channelName"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case icebergDestinationConfiguration = "icebergDestinationConfiguration"
+            case loggingInfo = "loggingInfo"
+            case s3DestinationConfiguration = "s3DestinationConfiguration"
+            case tags = "tags"
+            case topicConfigurationList = "topicConfigurationList"
+        }
+    }
+
+    public struct CreateChannelResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+        public let channelArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        @inlinable
+        public init(channelArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.channelArn = channelArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
+            case clusterOperationArn = "clusterOperationArn"
+        }
+    }
+
     public struct CreateClusterRequest: AWSEncodableShape {
         /// Information about the broker nodes in the cluster.
         public let brokerNodeGroupInfo: BrokerNodeGroupInfo?
@@ -1607,6 +1857,68 @@ extension Kafka {
         }
     }
 
+    public struct DeadLetterQueueS3: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the dead-letter Amazon S3 bucket.
+        public let bucketArn: String?
+        /// An optional prefix prepended to every dead-letter Amazon S3 object key.
+        public let errorOutputPrefix: String?
+        /// Optional 12-digit AWS account ID expected to own the dead-letter Amazon S3 bucket.
+        public let expectedBucketOwner: String?
+
+        @inlinable
+        public init(bucketArn: String? = nil, errorOutputPrefix: String? = nil, expectedBucketOwner: String? = nil) {
+            self.bucketArn = bucketArn
+            self.errorOutputPrefix = errorOutputPrefix
+            self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketArn = "bucketArn"
+            case errorOutputPrefix = "errorOutputPrefix"
+            case expectedBucketOwner = "expectedBucketOwner"
+        }
+    }
+
+    public struct DeleteChannelRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+        public let channelArn: String
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+
+        @inlinable
+        public init(channelArn: String, clusterArn: String) {
+            self.channelArn = channelArn
+            self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteChannelResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+        public let channelArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        @inlinable
+        public init(channelArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.channelArn = channelArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
+            case clusterOperationArn = "clusterOperationArn"
+        }
+    }
+
     public struct DeleteClusterPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String
@@ -1822,6 +2134,91 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case state = "state"
             case vpcConnectionArn = "vpcConnectionArn"
+        }
+    }
+
+    public struct DescribeChannelRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+        public let channelArn: String
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+
+        @inlinable
+        public init(channelArn: String, clusterArn: String) {
+            self.channelArn = channelArn
+            self.clusterArn = clusterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeChannelResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+        public let channelArn: String?
+        /// The name of the channel.
+        public let channelName: String?
+        /// The Amazon Resource Name (ARN) of the in-flight cluster operation. Returned only while the channel is in CREATING, UPDATING, or DELETING.
+        public let clusterOperationArn: String?
+        /// The time when the channel was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The type of destination configured for the channel.
+        public let destinationType: ChannelDestinationType?
+        /// The encryption configuration applied to the channel.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The Apache Iceberg destination for the channel, if configured.
+        public let icebergDestinationConfiguration: IcebergDestinationConfiguration?
+        /// The destinations to which the channel publishes operational logs.
+        public let loggingInfo: ChannelLoggingInfo?
+        /// The Amazon S3 destination for the channel, if configured.
+        public let s3DestinationConfiguration: S3DestinationConfiguration?
+        /// Additional context for the current channel state, populated when the channel is in FAILED.
+        public let stateInfo: ChannelStateInfo?
+        /// The current lifecycle state of the channel.
+        public let status: ChannelStatus?
+        /// The tags attached to the channel.
+        public let tags: [String: String]?
+        /// The list of topic configurations for the channel.
+        public let topicConfigurationList: [TopicConfiguration]?
+
+        @inlinable
+        public init(channelArn: String? = nil, channelName: String? = nil, clusterOperationArn: String? = nil, creationTime: Date? = nil, destinationType: ChannelDestinationType? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, loggingInfo: ChannelLoggingInfo? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, stateInfo: ChannelStateInfo? = nil, status: ChannelStatus? = nil, tags: [String: String]? = nil, topicConfigurationList: [TopicConfiguration]? = nil) {
+            self.channelArn = channelArn
+            self.channelName = channelName
+            self.clusterOperationArn = clusterOperationArn
+            self.creationTime = creationTime
+            self.destinationType = destinationType
+            self.encryptionConfiguration = encryptionConfiguration
+            self.icebergDestinationConfiguration = icebergDestinationConfiguration
+            self.loggingInfo = loggingInfo
+            self.s3DestinationConfiguration = s3DestinationConfiguration
+            self.stateInfo = stateInfo
+            self.status = status
+            self.tags = tags
+            self.topicConfigurationList = topicConfigurationList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
+            case channelName = "channelName"
+            case clusterOperationArn = "clusterOperationArn"
+            case creationTime = "creationTime"
+            case destinationType = "destinationType"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case icebergDestinationConfiguration = "icebergDestinationConfiguration"
+            case loggingInfo = "loggingInfo"
+            case s3DestinationConfiguration = "s3DestinationConfiguration"
+            case stateInfo = "stateInfo"
+            case status = "status"
+            case tags = "tags"
+            case topicConfigurationList = "topicConfigurationList"
         }
     }
 
@@ -2322,6 +2719,28 @@ extension Kafka {
         }
     }
 
+    public struct DestinationTable: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the destination namespace (database) in the AWS Glue Data Catalog.
+        public let destinationDatabaseName: String?
+        /// The name of the destination Apache Iceberg table.
+        public let destinationTableName: String?
+        /// The partition specification for the destination table.
+        public let partitionSpec: PartitionSpec?
+
+        @inlinable
+        public init(destinationDatabaseName: String? = nil, destinationTableName: String? = nil, partitionSpec: PartitionSpec? = nil) {
+            self.destinationDatabaseName = destinationDatabaseName
+            self.destinationTableName = destinationTableName
+            self.partitionSpec = partitionSpec
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationDatabaseName = "destinationDatabaseName"
+            case destinationTableName = "destinationTableName"
+            case partitionSpec = "partitionSpec"
+        }
+    }
+
     public struct EBSStorageInfo: AWSEncodableShape & AWSDecodableShape {
         /// EBS volume provisioned throughput information.
         public let provisionedThroughput: ProvisionedThroughput?
@@ -2356,6 +2775,20 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case dataVolumeKMSKeyId = "dataVolumeKMSKeyId"
+        }
+    }
+
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the data.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil) {
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
@@ -2631,6 +3064,66 @@ extension Kafka {
         }
     }
 
+    public struct IcebergDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Whether the destination is append-only. Must be true; updates and deletes are not supported.
+        public let appendOnly: Bool?
+        /// The AWS Glue Data Catalog and S3 Tables warehouse used by the destination.
+        public let catalog: Catalog?
+        /// The compression codec for Iceberg table data files. Defaults to ZSTD.
+        public let compressionType: IcebergCompressionType?
+        /// The maximum time, in seconds, that records buffer in MSK before being flushed to the destination. Allowed range: 300 to 900. Default: 600.
+        public let dataFreshnessInSeconds: Int?
+        /// The Amazon S3 bucket and prefix where MSK writes records that fail to deliver.
+        public let deadLetterQueueS3: DeadLetterQueueS3?
+        /// The destination Iceberg tables. Currently exactly one table must be specified.
+        public let destinationTableList: [DestinationTable]?
+        /// Configuration controlling whether the destination table's schema is evolved to match incoming records.
+        public let schemaEvolution: SchemaEvolution?
+        /// The Amazon Resource Name (ARN) of the IAM role that MSK assumes to access the destination table, the AWS Glue Data Catalog, and the dead-letter Amazon S3 bucket.
+        public let serviceExecutionRoleArn: String?
+        /// Configuration controlling whether MSK creates the destination table if it does not already exist.
+        public let tableCreation: TableCreation?
+
+        @inlinable
+        public init(appendOnly: Bool? = nil, catalog: Catalog? = nil, compressionType: IcebergCompressionType? = nil, dataFreshnessInSeconds: Int? = nil, deadLetterQueueS3: DeadLetterQueueS3? = nil, destinationTableList: [DestinationTable]? = nil, schemaEvolution: SchemaEvolution? = nil, serviceExecutionRoleArn: String? = nil, tableCreation: TableCreation? = nil) {
+            self.appendOnly = appendOnly
+            self.catalog = catalog
+            self.compressionType = compressionType
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3 = deadLetterQueueS3
+            self.destinationTableList = destinationTableList
+            self.schemaEvolution = schemaEvolution
+            self.serviceExecutionRoleArn = serviceExecutionRoleArn
+            self.tableCreation = tableCreation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appendOnly = "appendOnly"
+            case catalog = "catalog"
+            case compressionType = "compressionType"
+            case dataFreshnessInSeconds = "dataFreshnessInSeconds"
+            case deadLetterQueueS3 = "deadLetterQueueS3"
+            case destinationTableList = "destinationTableList"
+            case schemaEvolution = "schemaEvolution"
+            case serviceExecutionRoleArn = "serviceExecutionRoleArn"
+            case tableCreation = "tableCreation"
+        }
+    }
+
+    public struct IcebergDestinationUpdate: AWSEncodableShape {
+        /// The maximum time, in seconds, that records buffer in MSK before being flushed to the destination. Allowed range: 300 to 900.
+        public let dataFreshnessInSeconds: Int?
+
+        @inlinable
+        public init(dataFreshnessInSeconds: Int? = nil) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFreshnessInSeconds = "dataFreshnessInSeconds"
+        }
+    }
+
     public struct InternalServerErrorException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
@@ -2710,17 +3203,21 @@ extension Kafka {
     public struct KafkaClusterClientAuthentication: AWSEncodableShape & AWSDecodableShape {
         /// Details for mTLS client authentication.
         public let mtls: KafkaClusterMTLSAuthentication?
+        /// Details for SASL/OAUTHBEARER client authentication.
+        public let saslOAuthBearer: KafkaClusterSaslOAuthBearerAuthentication?
         /// Details for SASL/SCRAM client authentication.
         public let saslScram: KafkaClusterSaslScramAuthentication?
 
         @inlinable
-        public init(mtls: KafkaClusterMTLSAuthentication? = nil, saslScram: KafkaClusterSaslScramAuthentication? = nil) {
+        public init(mtls: KafkaClusterMTLSAuthentication? = nil, saslOAuthBearer: KafkaClusterSaslOAuthBearerAuthentication? = nil, saslScram: KafkaClusterSaslScramAuthentication? = nil) {
             self.mtls = mtls
+            self.saslOAuthBearer = saslOAuthBearer
             self.saslScram = saslScram
         }
 
         private enum CodingKeys: String, CodingKey {
             case mtls = "mTLS"
+            case saslOAuthBearer = "saslOAuthBearer"
             case saslScram = "saslScram"
         }
     }
@@ -2806,6 +3303,102 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case secretArn = "secretArn"
+        }
+    }
+
+    public struct KafkaClusterOAuthClientCredentials: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the OAuth client credentials.
+        public let tokenRequestSecretArn: String?
+
+        @inlinable
+        public init(tokenRequestSecretArn: String? = nil) {
+            self.tokenRequestSecretArn = tokenRequestSecretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tokenRequestSecretArn = "tokenRequestSecretArn"
+        }
+    }
+
+    public struct KafkaClusterOAuthClientCredentialsAssertion: AWSEncodableShape & AWSDecodableShape {
+        /// The audience for the JWT client assertion.
+        public let audience: String?
+        /// The signing algorithm for the JWT client assertion.
+        public let signingAlgorithm: JwtSigningAlgorithm?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the signing key.
+        public let tokenRequestSecretArn: String?
+
+        @inlinable
+        public init(audience: String? = nil, signingAlgorithm: JwtSigningAlgorithm? = nil, tokenRequestSecretArn: String? = nil) {
+            self.audience = audience
+            self.signingAlgorithm = signingAlgorithm
+            self.tokenRequestSecretArn = tokenRequestSecretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audience = "audience"
+            case signingAlgorithm = "signingAlgorithm"
+            case tokenRequestSecretArn = "tokenRequestSecretArn"
+        }
+    }
+
+    public struct KafkaClusterOAuthIamJwtBearer: AWSEncodableShape & AWSDecodableShape {
+        /// The audience for the JWT Bearer assertion.
+        public let audience: String?
+        /// The signing algorithm for the JWT Bearer assertion.
+        public let signingAlgorithm: JwtSigningAlgorithm?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the signing key.
+        public let tokenRequestSecretArn: String?
+
+        @inlinable
+        public init(audience: String? = nil, signingAlgorithm: JwtSigningAlgorithm? = nil, tokenRequestSecretArn: String? = nil) {
+            self.audience = audience
+            self.signingAlgorithm = signingAlgorithm
+            self.tokenRequestSecretArn = tokenRequestSecretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audience = "audience"
+            case signingAlgorithm = "signingAlgorithm"
+            case tokenRequestSecretArn = "tokenRequestSecretArn"
+        }
+    }
+
+    public struct KafkaClusterSaslOAuthBearerAuthentication: AWSEncodableShape & AWSDecodableShape {
+        /// Details for SASL/OAUTHBEARER using standard client_credentials grant.
+        public let clientCredentials: KafkaClusterOAuthClientCredentials?
+        /// Details for SASL/OAUTHBEARER using client credentials grant with JWT client assertion.
+        public let clientCredentialsAssertion: KafkaClusterOAuthClientCredentialsAssertion?
+        /// Details for SASL/OAUTHBEARER using JWT Bearer assertion grant (RFC 7523).
+        public let iamJwtBearer: KafkaClusterOAuthIamJwtBearer?
+        /// OAuth scope to request.
+        public let scope: String?
+        /// How client credentials are sent to the identity provider. Valid values are POST, BASIC, or NONE.
+        public let tokenEndpointAuthenticationMethod: TokenEndpointAuthenticationMethod?
+        /// Secrets Manager ARN containing a custom CA certificate for the identity provider.
+        public let tokenEndpointTlsCertificateArn: String?
+        /// The HTTPS URL of the OAuth token endpoint that vends OAuth Bearer tokens per RFC 6749.
+        public let tokenEndpointUrl: String?
+
+        @inlinable
+        public init(clientCredentials: KafkaClusterOAuthClientCredentials? = nil, clientCredentialsAssertion: KafkaClusterOAuthClientCredentialsAssertion? = nil, iamJwtBearer: KafkaClusterOAuthIamJwtBearer? = nil, scope: String? = nil, tokenEndpointAuthenticationMethod: TokenEndpointAuthenticationMethod? = nil, tokenEndpointTlsCertificateArn: String? = nil, tokenEndpointUrl: String? = nil) {
+            self.clientCredentials = clientCredentials
+            self.clientCredentialsAssertion = clientCredentialsAssertion
+            self.iamJwtBearer = iamJwtBearer
+            self.scope = scope
+            self.tokenEndpointAuthenticationMethod = tokenEndpointAuthenticationMethod
+            self.tokenEndpointTlsCertificateArn = tokenEndpointTlsCertificateArn
+            self.tokenEndpointUrl = tokenEndpointUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientCredentials = "clientCredentials"
+            case clientCredentialsAssertion = "clientCredentialsAssertion"
+            case iamJwtBearer = "iamJwtBearer"
+            case scope = "scope"
+            case tokenEndpointAuthenticationMethod = "tokenEndpointAuthenticationMethod"
+            case tokenEndpointTlsCertificateArn = "tokenEndpointTlsCertificateArn"
+            case tokenEndpointUrl = "tokenEndpointUrl"
         }
     }
 
@@ -2898,6 +3491,59 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case status = "status"
             case version = "version"
+        }
+    }
+
+    public struct ListChannelsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+        /// Maximum number of channels to return in a single response.
+        public let maxResults: Int?
+        /// If the response of ListChannels is truncated, it returns a nextToken in the response. This nextToken should be sent in the subsequent request to ListChannels.
+        public let nextToken: String?
+        /// Filters results to channels whose topic name matches the specified value.
+        public let topicNameFilter: String?
+
+        @inlinable
+        public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil, topicNameFilter: String? = nil) {
+            self.clusterArn = clusterArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.topicNameFilter = topicNameFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.topicNameFilter, key: "topicNameFilter")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListChannelsResponse: AWSDecodableShape {
+        /// The list of channels in the cluster.
+        public let channels: [ChannelInfo]?
+        /// If the response from ListChannels is truncated, this token is included. Send it as the nextToken parameter on a subsequent ListChannels call to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(channels: [ChannelInfo]? = nil, nextToken: String? = nil) {
+            self.channels = channels
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3579,14 +4225,18 @@ extension Kafka {
     }
 
     public struct LoggingInfo: AWSEncodableShape & AWSDecodableShape {
+        /// You can configure your MSK cluster to send authorizer logs to different destination types.
+        public let authorizerLogs: AuthorizerLogs?
         public let brokerLogs: BrokerLogs?
 
         @inlinable
-        public init(brokerLogs: BrokerLogs? = nil) {
+        public init(authorizerLogs: AuthorizerLogs? = nil, brokerLogs: BrokerLogs? = nil) {
+            self.authorizerLogs = authorizerLogs
             self.brokerLogs = brokerLogs
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authorizerLogs = "authorizerLogs"
             case brokerLogs = "brokerLogs"
         }
     }
@@ -3788,6 +4438,38 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case prometheus = "prometheus"
+        }
+    }
+
+    public struct PartitionSource: AWSEncodableShape & AWSDecodableShape {
+        /// Source name.
+        public let sourceName: String?
+
+        @inlinable
+        public init(sourceName: String? = nil) {
+            self.sourceName = sourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceName = "sourceName"
+        }
+    }
+
+    public struct PartitionSpec: AWSEncodableShape & AWSDecodableShape {
+        /// The partitioning strategy applied to records written to the table.
+        public let partitionStrategy: PartitionStrategy?
+        /// The source columns used by the partitioning strategy. For TIME_HOUR, must contain exactly one source column whose value is a timestamp.
+        public let sourceList: [PartitionSource]?
+
+        @inlinable
+        public init(partitionStrategy: PartitionStrategy? = nil, sourceList: [PartitionSource]? = nil) {
+            self.partitionStrategy = partitionStrategy
+            self.sourceList = sourceList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partitionStrategy = "partitionStrategy"
+            case sourceList = "sourceList"
         }
     }
 
@@ -4097,6 +4779,34 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "clusterArn"
             case clusterOperationArn = "clusterOperationArn"
+        }
+    }
+
+    public struct RecordConverter: AWSEncodableShape & AWSDecodableShape {
+        /// The deserialization format applied to Apache Kafka record values.
+        public let valueConverter: ValueConverter?
+
+        @inlinable
+        public init(valueConverter: ValueConverter? = nil) {
+            self.valueConverter = valueConverter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueConverter = "valueConverter"
+        }
+    }
+
+    public struct RecordSchema: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS Glue Schema Registry schema (not registry) used to validate records for the destination Apache Iceberg table.
+        public let gsrArn: String?
+
+        @inlinable
+        public init(gsrArn: String? = nil) {
+            self.gsrArn = gsrArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gsrArn = "gsrArn"
         }
     }
 
@@ -4411,6 +5121,80 @@ extension Kafka {
         }
     }
 
+    public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum time, in seconds, that records buffer in MSK before being flushed to the destination. Allowed range: 300 to 900. Default: 600.
+        public let dataFreshnessInSeconds: Int?
+        /// The Amazon S3 bucket and prefix where MSK writes records that fail to deliver.
+        public let deadLetterQueueS3: DeadLetterQueueS3?
+        /// The Amazon Resource Name (ARN) of the IAM role that MSK assumes to write to the destination Amazon S3 bucket and the dead-letter bucket.
+        public let serviceExecutionRoleArn: String?
+        /// The Amazon S3 bucket, prefix, and storage class for delivered records.
+        public let storage: S3Storage?
+
+        @inlinable
+        public init(dataFreshnessInSeconds: Int? = nil, deadLetterQueueS3: DeadLetterQueueS3? = nil, serviceExecutionRoleArn: String? = nil, storage: S3Storage? = nil) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3 = deadLetterQueueS3
+            self.serviceExecutionRoleArn = serviceExecutionRoleArn
+            self.storage = storage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFreshnessInSeconds = "dataFreshnessInSeconds"
+            case deadLetterQueueS3 = "deadLetterQueueS3"
+            case serviceExecutionRoleArn = "serviceExecutionRoleArn"
+            case storage = "storage"
+        }
+    }
+
+    public struct S3DestinationUpdate: AWSEncodableShape {
+        /// The maximum time, in seconds, that records buffer in MSK before being flushed to the destination. Allowed range: 300 to 900.
+        public let dataFreshnessInSeconds: Int?
+
+        @inlinable
+        public init(dataFreshnessInSeconds: Int? = nil) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFreshnessInSeconds = "dataFreshnessInSeconds"
+        }
+    }
+
+    public struct S3Storage: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination Amazon S3 bucket.
+        public let bucketArn: String?
+        /// The compression codec applied to delivered Amazon S3 objects.
+        public let compressionType: S3CompressionType?
+        /// Optional 12-digit AWS account ID expected to own the Amazon S3 bucket.
+        public let expectedBucketOwner: String?
+        /// An optional template that controls the Amazon S3 object key for each delivered record. Supports the placeholders !{partition-id}, !{sequence-number}, and !{kafka-offset}.
+        public let outputKeyTemplate: String?
+        /// An optional prefix prepended to every Amazon S3 object key written by the channel.
+        public let outputPrefix: String?
+        /// The Amazon S3 storage class for delivered objects.
+        public let storageClass: S3StorageClass?
+
+        @inlinable
+        public init(bucketArn: String? = nil, compressionType: S3CompressionType? = nil, expectedBucketOwner: String? = nil, outputKeyTemplate: String? = nil, outputPrefix: String? = nil, storageClass: S3StorageClass? = nil) {
+            self.bucketArn = bucketArn
+            self.compressionType = compressionType
+            self.expectedBucketOwner = expectedBucketOwner
+            self.outputKeyTemplate = outputKeyTemplate
+            self.outputPrefix = outputPrefix
+            self.storageClass = storageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketArn = "bucketArn"
+            case compressionType = "compressionType"
+            case expectedBucketOwner = "expectedBucketOwner"
+            case outputKeyTemplate = "outputKeyTemplate"
+            case outputPrefix = "outputPrefix"
+            case storageClass = "storageClass"
+        }
+    }
+
     public struct Sasl: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether IAM access control is enabled.
         public let iam: Iam?
@@ -4426,6 +5210,20 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case iam = "iam"
             case scram = "scram"
+        }
+    }
+
+    public struct SchemaEvolution: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to allow MSK to evolve the destination table's schema. Must be false for the current release.
+        public let enableSchemaEvolution: Bool?
+
+        @inlinable
+        public init(enableSchemaEvolution: Bool? = nil) {
+            self.enableSchemaEvolution = enableSchemaEvolution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableSchemaEvolution = "enableSchemaEvolution"
         }
     }
 
@@ -4577,6 +5375,20 @@ extension Kafka {
         }
     }
 
+    public struct TableCreation: AWSEncodableShape & AWSDecodableShape {
+        /// Whether MSK creates the destination table on the customer's behalf. Must be true for the current release.
+        public let enableTableCreation: Bool?
+
+        @inlinable
+        public init(enableTableCreation: Bool? = nil) {
+            self.enableTableCreation = enableTableCreation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableTableCreation = "enableTableCreation"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.
         public let resourceArn: String
@@ -4634,6 +5446,28 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
             case message = "message"
+        }
+    }
+
+    public struct TopicConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration that controls how Apache Kafka record values are deserialized for the destination.
+        public let recordConverter: RecordConverter?
+        /// The schema used to validate records when the value converter requires one (for example, JSON_SCHEMA_GSR).
+        public let recordSchema: RecordSchema?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the topic.
+        public let topicArn: String?
+
+        @inlinable
+        public init(recordConverter: RecordConverter? = nil, recordSchema: RecordSchema? = nil, topicArn: String? = nil) {
+            self.recordConverter = recordConverter
+            self.recordSchema = recordSchema
+            self.topicArn = topicArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordConverter = "recordConverter"
+            case recordSchema = "recordSchema"
+            case topicArn = "topicArn"
         }
     }
 
@@ -5033,6 +5867,57 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
+        }
+    }
+
+    public struct UpdateChannelRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+        public let channelArn: String
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+        /// Updates fields on an Apache Iceberg destination. Use only when the channel was created with an Iceberg destination.
+        public let icebergDestinationUpdate: IcebergDestinationUpdate?
+        /// Updates fields on an Amazon S3 destination. Use only when the channel was created with an Amazon S3 destination.
+        public let s3DestinationUpdate: S3DestinationUpdate?
+
+        @inlinable
+        public init(channelArn: String, clusterArn: String, icebergDestinationUpdate: IcebergDestinationUpdate? = nil, s3DestinationUpdate: S3DestinationUpdate? = nil) {
+            self.channelArn = channelArn
+            self.clusterArn = clusterArn
+            self.icebergDestinationUpdate = icebergDestinationUpdate
+            self.s3DestinationUpdate = s3DestinationUpdate
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelArn, key: "ChannelArn")
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encodeIfPresent(self.icebergDestinationUpdate, forKey: .icebergDestinationUpdate)
+            try container.encodeIfPresent(self.s3DestinationUpdate, forKey: .s3DestinationUpdate)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case icebergDestinationUpdate = "icebergDestinationUpdate"
+            case s3DestinationUpdate = "s3DestinationUpdate"
+        }
+    }
+
+    public struct UpdateChannelResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the channel.
+        public let channelArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        @inlinable
+        public init(channelArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.channelArn = channelArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelArn = "channelArn"
             case clusterOperationArn = "clusterOperationArn"
         }
     }

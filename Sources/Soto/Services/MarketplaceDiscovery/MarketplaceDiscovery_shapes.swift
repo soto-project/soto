@@ -97,6 +97,7 @@ extension MarketplaceDiscovery {
     }
 
     public enum PurchaseOptionBadgeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autoRenew = "AUTO_RENEW"
         case futureDated = "FUTURE_DATED"
         case privatePricing = "PRIVATE_PRICING"
         case replacementOffer = "REPLACEMENT_OFFER"
@@ -140,6 +141,12 @@ extension MarketplaceDiscovery {
 
     public enum ReviewSourceId: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsMarketplace = "AWS_MARKETPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SaasQuickLaunchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -202,6 +209,7 @@ extension MarketplaceDiscovery {
         case fixedUpfrontPricingTerm = "FixedUpfrontPricingTerm"
         case freeTrialPricingTerm = "FreeTrialPricingTerm"
         case legalTerm = "LegalTerm"
+        case netPaymentTerm = "NetPaymentTerm"
         case paymentScheduleTerm = "PaymentScheduleTerm"
         case recurringPaymentTerm = "RecurringPaymentTerm"
         case renewalTerm = "RenewalTerm"
@@ -309,6 +317,8 @@ extension MarketplaceDiscovery {
         case fixedUpfrontPricingTerm(FixedUpfrontPricingTerm)
         case freeTrialPricingTerm(FreeTrialPricingTerm)
         case legalTerm(LegalTerm)
+        /// A net payment term.
+        case netPaymentTerm(NetPaymentTerm)
         case paymentScheduleTerm(PaymentScheduleTerm)
         case recurringPaymentTerm(RecurringPaymentTerm)
         case renewalTerm(RenewalTerm)
@@ -342,6 +352,9 @@ extension MarketplaceDiscovery {
             case .legalTerm:
                 let value = try container.decode(LegalTerm.self, forKey: .legalTerm)
                 self = .legalTerm(value)
+            case .netPaymentTerm:
+                let value = try container.decode(NetPaymentTerm.self, forKey: .netPaymentTerm)
+                self = .netPaymentTerm(value)
             case .paymentScheduleTerm:
                 let value = try container.decode(PaymentScheduleTerm.self, forKey: .paymentScheduleTerm)
                 self = .paymentScheduleTerm(value)
@@ -372,6 +385,7 @@ extension MarketplaceDiscovery {
             case fixedUpfrontPricingTerm = "fixedUpfrontPricingTerm"
             case freeTrialPricingTerm = "freeTrialPricingTerm"
             case legalTerm = "legalTerm"
+            case netPaymentTerm = "netPaymentTerm"
             case paymentScheduleTerm = "paymentScheduleTerm"
             case recurringPaymentTerm = "recurringPaymentTerm"
             case renewalTerm = "renewalTerm"
@@ -379,6 +393,37 @@ extension MarketplaceDiscovery {
             case usageBasedPricingTerm = "usageBasedPricingTerm"
             case validityTerm = "validityTerm"
             case variablePaymentTerm = "variablePaymentTerm"
+        }
+    }
+
+    public enum PriceIncrease: AWSDecodableShape, Sendable {
+        /// A single fixed percentage applied uniformly at every renewal cycle.
+        case fixedPercentage(FixedPercentage)
+        /// A percentage band with minimum, maximum, and default values that bound the price increase at each renewal cycle.
+        case percentageRange(PercentageRange)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .fixedPercentage:
+                let value = try container.decode(FixedPercentage.self, forKey: .fixedPercentage)
+                self = .fixedPercentage(value)
+            case .percentageRange:
+                let value = try container.decode(PercentageRange.self, forKey: .percentageRange)
+                self = .percentageRange(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fixedPercentage = "fixedPercentage"
+            case percentageRange = "percentageRange"
         }
     }
 
@@ -413,7 +458,35 @@ extension MarketplaceDiscovery {
 
     // MARK: Shapes
 
+    public struct AmazonMachineImageEbsVolume: AWSDecodableShape {
+        /// The total number of provisioned IOPS supported.
+        public let iops: Int?
+        /// The supported Amazon EBS volume types.
+        public let volumeTypes: [String]
+
+        @inlinable
+        public init(iops: Int? = nil, volumeTypes: [String]) {
+            self.iops = iops
+            self.volumeTypes = volumeTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iops = "iops"
+            case volumeTypes = "volumeTypes"
+        }
+    }
+
     public struct AmazonMachineImageFulfillmentOption: AWSDecodableShape {
+        /// The URL pattern for accessing the product when an instance is running.
+        public let accessUrlTemplate: String?
+        /// The alias of the AMI associated with this fulfillment option.
+        public let amiAlias: String?
+        /// The architecture of the AMI, such as x86_64.
+        public let architecture: String
+        /// The date and time when the AMI became available for fulfillment.
+        public let availableFromTime: Date?
+        /// The supported Amazon EBS volume configuration for the AMI.
+        public let ebsVolume: AmazonMachineImageEbsVolume?
         /// A human-readable name for the fulfillment option type.
         public let fulfillmentOptionDisplayName: String
         /// The unique identifier of the fulfillment option.
@@ -430,11 +503,18 @@ extension MarketplaceDiscovery {
         public let recommendation: AmazonMachineImageRecommendation?
         /// Release notes describing changes in this version of the fulfillment option.
         public let releaseNotes: String?
+        /// A short description of the fulfillment option.
+        public let shortDescription: String?
         /// Instructions on how to deploy and use this fulfillment option.
         public let usageInstructions: String?
 
         @inlinable
-        public init(fulfillmentOptionDisplayName: String, fulfillmentOptionId: String, fulfillmentOptionName: String, fulfillmentOptionType: FulfillmentOptionType, fulfillmentOptionVersion: String? = nil, operatingSystems: [AmazonMachineImageOperatingSystem], recommendation: AmazonMachineImageRecommendation? = nil, releaseNotes: String? = nil, usageInstructions: String? = nil) {
+        public init(accessUrlTemplate: String? = nil, amiAlias: String? = nil, architecture: String, availableFromTime: Date? = nil, ebsVolume: AmazonMachineImageEbsVolume? = nil, fulfillmentOptionDisplayName: String, fulfillmentOptionId: String, fulfillmentOptionName: String, fulfillmentOptionType: FulfillmentOptionType, fulfillmentOptionVersion: String? = nil, operatingSystems: [AmazonMachineImageOperatingSystem], recommendation: AmazonMachineImageRecommendation? = nil, releaseNotes: String? = nil, shortDescription: String? = nil, usageInstructions: String? = nil) {
+            self.accessUrlTemplate = accessUrlTemplate
+            self.amiAlias = amiAlias
+            self.architecture = architecture
+            self.availableFromTime = availableFromTime
+            self.ebsVolume = ebsVolume
             self.fulfillmentOptionDisplayName = fulfillmentOptionDisplayName
             self.fulfillmentOptionId = fulfillmentOptionId
             self.fulfillmentOptionName = fulfillmentOptionName
@@ -443,10 +523,16 @@ extension MarketplaceDiscovery {
             self.operatingSystems = operatingSystems
             self.recommendation = recommendation
             self.releaseNotes = releaseNotes
+            self.shortDescription = shortDescription
             self.usageInstructions = usageInstructions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessUrlTemplate = "accessUrlTemplate"
+            case amiAlias = "amiAlias"
+            case architecture = "architecture"
+            case availableFromTime = "availableFromTime"
+            case ebsVolume = "ebsVolume"
             case fulfillmentOptionDisplayName = "fulfillmentOptionDisplayName"
             case fulfillmentOptionId = "fulfillmentOptionId"
             case fulfillmentOptionName = "fulfillmentOptionName"
@@ -455,6 +541,7 @@ extension MarketplaceDiscovery {
             case operatingSystems = "operatingSystems"
             case recommendation = "recommendation"
             case releaseNotes = "releaseNotes"
+            case shortDescription = "shortDescription"
             case usageInstructions = "usageInstructions"
         }
     }
@@ -484,14 +571,44 @@ extension MarketplaceDiscovery {
     public struct AmazonMachineImageRecommendation: AWSDecodableShape {
         /// The recommended EC2 instance type for this AMI.
         public let instanceType: String
+        /// The recommended security group configurations for this AMI.
+        public let securityGroups: [AmazonMachineImageSecurityGroup]?
 
         @inlinable
-        public init(instanceType: String) {
+        public init(instanceType: String, securityGroups: [AmazonMachineImageSecurityGroup]? = nil) {
             self.instanceType = instanceType
+            self.securityGroups = securityGroups
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceType = "instanceType"
+            case securityGroups = "securityGroups"
+        }
+    }
+
+    public struct AmazonMachineImageSecurityGroup: AWSDecodableShape {
+        /// The IP address ranges in CIDR format.
+        public let cidrIpAddresses: [String]
+        /// The start of the port range.
+        public let fromPort: Int
+        /// The IP protocol name, such as tcp.
+        public let `protocol`: String
+        /// The end of the port range.
+        public let toPort: Int
+
+        @inlinable
+        public init(cidrIpAddresses: [String], fromPort: Int, protocol: String, toPort: Int) {
+            self.cidrIpAddresses = cidrIpAddresses
+            self.fromPort = fromPort
+            self.`protocol` = `protocol`
+            self.toPort = toPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrIpAddresses = "cidrIpAddresses"
+            case fromPort = "fromPort"
+            case `protocol` = "protocol"
+            case toPort = "toPort"
         }
     }
 
@@ -584,6 +701,8 @@ extension MarketplaceDiscovery {
     }
 
     public struct CloudFormationFulfillmentOption: AWSDecodableShape {
+        /// The date and time when the CloudFormation fulfillment option became available for fulfillment.
+        public let availableFromTime: Date?
         /// A human-readable name for the fulfillment option type.
         public let fulfillmentOptionDisplayName: String
         /// The unique identifier of the fulfillment option.
@@ -594,29 +713,39 @@ extension MarketplaceDiscovery {
         public let fulfillmentOptionType: FulfillmentOptionType
         /// The version identifier of the fulfillment option.
         public let fulfillmentOptionVersion: String?
+        /// A detailed description of the fulfillment option.
+        public let longDescription: String?
         /// Release notes describing changes in this version of the fulfillment option.
         public let releaseNotes: String?
+        /// A short description of the fulfillment option.
+        public let shortDescription: String?
         /// Instructions on how to deploy and use this CloudFormation template.
         public let usageInstructions: String?
 
         @inlinable
-        public init(fulfillmentOptionDisplayName: String, fulfillmentOptionId: String, fulfillmentOptionName: String, fulfillmentOptionType: FulfillmentOptionType, fulfillmentOptionVersion: String? = nil, releaseNotes: String? = nil, usageInstructions: String? = nil) {
+        public init(availableFromTime: Date? = nil, fulfillmentOptionDisplayName: String, fulfillmentOptionId: String, fulfillmentOptionName: String, fulfillmentOptionType: FulfillmentOptionType, fulfillmentOptionVersion: String? = nil, longDescription: String? = nil, releaseNotes: String? = nil, shortDescription: String? = nil, usageInstructions: String? = nil) {
+            self.availableFromTime = availableFromTime
             self.fulfillmentOptionDisplayName = fulfillmentOptionDisplayName
             self.fulfillmentOptionId = fulfillmentOptionId
             self.fulfillmentOptionName = fulfillmentOptionName
             self.fulfillmentOptionType = fulfillmentOptionType
             self.fulfillmentOptionVersion = fulfillmentOptionVersion
+            self.longDescription = longDescription
             self.releaseNotes = releaseNotes
+            self.shortDescription = shortDescription
             self.usageInstructions = usageInstructions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availableFromTime = "availableFromTime"
             case fulfillmentOptionDisplayName = "fulfillmentOptionDisplayName"
             case fulfillmentOptionId = "fulfillmentOptionId"
             case fulfillmentOptionName = "fulfillmentOptionName"
             case fulfillmentOptionType = "fulfillmentOptionType"
             case fulfillmentOptionVersion = "fulfillmentOptionVersion"
+            case longDescription = "longDescription"
             case releaseNotes = "releaseNotes"
+            case shortDescription = "shortDescription"
             case usageInstructions = "usageInstructions"
         }
     }
@@ -957,6 +1086,20 @@ extension MarketplaceDiscovery {
         }
     }
 
+    public struct FixedPercentage: AWSDecodableShape {
+        /// The percentage value applied at each renewal cycle.
+        public let percentageValue: String
+
+        @inlinable
+        public init(percentageValue: String) {
+            self.percentageValue = percentageValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentageValue = "percentageValue"
+        }
+    }
+
     public struct FixedUpfrontPricingTerm: AWSDecodableShape {
         /// Defines the currency for the prices in this term.
         public let currencyCode: String
@@ -1038,20 +1181,27 @@ extension MarketplaceDiscovery {
     public struct GetListingInput: AWSEncodableShape {
         /// The unique identifier of the listing to retrieve.
         public let listingId: String
+        /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+        public let locale: String?
 
         @inlinable
-        public init(listingId: String) {
+        public init(listingId: String, locale: String? = nil) {
             self.listingId = listingId
+            self.locale = locale
         }
 
         public func validate(name: String) throws {
             try self.validate(self.listingId, name: "listingId", parent: name, max: 255)
             try self.validate(self.listingId, name: "listingId", parent: name, min: 1)
             try self.validate(self.listingId, name: "listingId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.locale, name: "locale", parent: name, max: 256)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, pattern: "^[^;,]+(\\s*,\\s*[^;,]+){0,1}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case listingId = "listingId"
+            case locale = "locale"
         }
     }
 
@@ -1074,6 +1224,8 @@ extension MarketplaceDiscovery {
         public let listingId: String
         /// The human-readable display name of the listing.
         public let listingName: String
+        /// The locale of the returned content. Indicates whether the response contains content in the requested locale, or fell back to the default locale. See Locale for details.
+        public let locale: String?
         /// The URL of the logo thumbnail image for the listing.
         public let logoThumbnailUrl: String
         /// A detailed description of what the listing offers, in paragraph format.
@@ -1098,7 +1250,7 @@ extension MarketplaceDiscovery {
         public let useCases: [UseCaseEntry]
 
         @inlinable
-        public init(associatedEntities: [ListingAssociatedEntity], badges: [ListingBadge], catalog: String, categories: [Category], fulfillmentOptionSummaries: [FulfillmentOptionSummary], highlights: [String], integrationGuide: String? = nil, listingId: String, listingName: String, logoThumbnailUrl: String, longDescription: String, pricingModels: [PricingModel], pricingUnits: [PricingUnit], promotionalMedia: [PromotionalMedia], publisher: SellerInformation, resources: [Resource], reviewSummary: ReviewSummary? = nil, sellerEngagements: [SellerEngagement], shortDescription: String, useCases: [UseCaseEntry]) {
+        public init(associatedEntities: [ListingAssociatedEntity], badges: [ListingBadge], catalog: String, categories: [Category], fulfillmentOptionSummaries: [FulfillmentOptionSummary], highlights: [String], integrationGuide: String? = nil, listingId: String, listingName: String, locale: String? = nil, logoThumbnailUrl: String, longDescription: String, pricingModels: [PricingModel], pricingUnits: [PricingUnit], promotionalMedia: [PromotionalMedia], publisher: SellerInformation, resources: [Resource], reviewSummary: ReviewSummary? = nil, sellerEngagements: [SellerEngagement], shortDescription: String, useCases: [UseCaseEntry]) {
             self.associatedEntities = associatedEntities
             self.badges = badges
             self.catalog = catalog
@@ -1108,6 +1260,7 @@ extension MarketplaceDiscovery {
             self.integrationGuide = integrationGuide
             self.listingId = listingId
             self.listingName = listingName
+            self.locale = locale
             self.logoThumbnailUrl = logoThumbnailUrl
             self.longDescription = longDescription
             self.pricingModels = pricingModels
@@ -1131,6 +1284,7 @@ extension MarketplaceDiscovery {
             case integrationGuide = "integrationGuide"
             case listingId = "listingId"
             case listingName = "listingName"
+            case locale = "locale"
             case logoThumbnailUrl = "logoThumbnailUrl"
             case longDescription = "longDescription"
             case pricingModels = "pricingModels"
@@ -1146,21 +1300,28 @@ extension MarketplaceDiscovery {
     }
 
     public struct GetOfferInput: AWSEncodableShape {
+        /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+        public let locale: String?
         /// The unique identifier of the offer to retrieve.
         public let offerId: String
 
         @inlinable
-        public init(offerId: String) {
+        public init(locale: String? = nil, offerId: String) {
+            self.locale = locale
             self.offerId = offerId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.locale, name: "locale", parent: name, max: 256)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, pattern: "^[^;,]+(\\s*,\\s*[^;,]+){0,1}$")
             try self.validate(self.offerId, name: "offerId", parent: name, max: 255)
             try self.validate(self.offerId, name: "offerId", parent: name, min: 1)
             try self.validate(self.offerId, name: "offerId", parent: name, pattern: "^[\\w\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
             case offerId = "offerId"
         }
     }
@@ -1178,6 +1339,8 @@ extension MarketplaceDiscovery {
         public let catalog: String
         /// The date and time until when the offer can be procured. This value is null for offers that never expire.
         public let expirationTime: Date?
+        /// The locale of the returned content. Indicates whether the response contains content in the requested locale, or fell back to the default locale. See Locale for details.
+        public let locale: String?
         /// The unique identifier of the offer.
         public let offerId: String
         /// The display name of the offer. This is free-form text provided by the seller.
@@ -1190,13 +1353,14 @@ extension MarketplaceDiscovery {
         public let sellerOfRecord: SellerInformation
 
         @inlinable
-        public init(agreementProposalId: String, associatedEntities: [OfferAssociatedEntity], availableFromTime: Date? = nil, badges: [PurchaseOptionBadge], catalog: String, expirationTime: Date? = nil, offerId: String, offerName: String? = nil, pricingModel: PricingModel, replacementAgreementId: String? = nil, sellerOfRecord: SellerInformation) {
+        public init(agreementProposalId: String, associatedEntities: [OfferAssociatedEntity], availableFromTime: Date? = nil, badges: [PurchaseOptionBadge], catalog: String, expirationTime: Date? = nil, locale: String? = nil, offerId: String, offerName: String? = nil, pricingModel: PricingModel, replacementAgreementId: String? = nil, sellerOfRecord: SellerInformation) {
             self.agreementProposalId = agreementProposalId
             self.associatedEntities = associatedEntities
             self.availableFromTime = availableFromTime
             self.badges = badges
             self.catalog = catalog
             self.expirationTime = expirationTime
+            self.locale = locale
             self.offerId = offerId
             self.offerName = offerName
             self.pricingModel = pricingModel
@@ -1211,6 +1375,7 @@ extension MarketplaceDiscovery {
             case badges = "badges"
             case catalog = "catalog"
             case expirationTime = "expirationTime"
+            case locale = "locale"
             case offerId = "offerId"
             case offerName = "offerName"
             case pricingModel = "pricingModel"
@@ -1220,21 +1385,28 @@ extension MarketplaceDiscovery {
     }
 
     public struct GetOfferSetInput: AWSEncodableShape {
+        /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+        public let locale: String?
         /// The unique identifier of the offer set to retrieve.
         public let offerSetId: String
 
         @inlinable
-        public init(offerSetId: String) {
+        public init(locale: String? = nil, offerSetId: String) {
+            self.locale = locale
             self.offerSetId = offerSetId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.locale, name: "locale", parent: name, max: 256)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, pattern: "^[^;,]+(\\s*,\\s*[^;,]+){0,1}$")
             try self.validate(self.offerSetId, name: "offerSetId", parent: name, max: 255)
             try self.validate(self.offerSetId, name: "offerSetId", parent: name, min: 1)
             try self.validate(self.offerSetId, name: "offerSetId", parent: name, pattern: "^[\\w\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
             case offerSetId = "offerSetId"
         }
     }
@@ -1252,6 +1424,8 @@ extension MarketplaceDiscovery {
         public let catalog: String
         /// The date and time when the offer set expires and is no longer available for procurement.
         public let expirationTime: Date?
+        /// The locale of the returned content. Indicates whether the response contains content in the requested locale, or fell back to the default locale. See Locale for details.
+        public let locale: String?
         /// The unique identifier of the offer set.
         public let offerSetId: String
         /// The display name of the offer set.
@@ -1260,13 +1434,14 @@ extension MarketplaceDiscovery {
         public let sellerOfRecord: SellerInformation
 
         @inlinable
-        public init(associatedEntities: [OfferSetAssociatedEntity], availableFromTime: Date? = nil, badges: [PurchaseOptionBadge], buyerNotes: String? = nil, catalog: String, expirationTime: Date? = nil, offerSetId: String, offerSetName: String? = nil, sellerOfRecord: SellerInformation) {
+        public init(associatedEntities: [OfferSetAssociatedEntity], availableFromTime: Date? = nil, badges: [PurchaseOptionBadge], buyerNotes: String? = nil, catalog: String, expirationTime: Date? = nil, locale: String? = nil, offerSetId: String, offerSetName: String? = nil, sellerOfRecord: SellerInformation) {
             self.associatedEntities = associatedEntities
             self.availableFromTime = availableFromTime
             self.badges = badges
             self.buyerNotes = buyerNotes
             self.catalog = catalog
             self.expirationTime = expirationTime
+            self.locale = locale
             self.offerSetId = offerSetId
             self.offerSetName = offerSetName
             self.sellerOfRecord = sellerOfRecord
@@ -1279,6 +1454,7 @@ extension MarketplaceDiscovery {
             case buyerNotes = "buyerNotes"
             case catalog = "catalog"
             case expirationTime = "expirationTime"
+            case locale = "locale"
             case offerSetId = "offerSetId"
             case offerSetName = "offerSetName"
             case sellerOfRecord = "sellerOfRecord"
@@ -1286,6 +1462,8 @@ extension MarketplaceDiscovery {
     }
 
     public struct GetOfferTermsInput: AWSEncodableShape {
+        /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+        public let locale: String?
         /// The maximum number of results that are returned per call. You can use nextToken to get more results.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
@@ -1294,13 +1472,17 @@ extension MarketplaceDiscovery {
         public let offerId: String
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, offerId: String) {
+        public init(locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, offerId: String) {
+            self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.offerId = offerId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.locale, name: "locale", parent: name, max: 256)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, pattern: "^[^;,]+(\\s*,\\s*[^;,]+){0,1}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=]+$")
             try self.validate(self.offerId, name: "offerId", parent: name, max: 255)
@@ -1309,6 +1491,7 @@ extension MarketplaceDiscovery {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case offerId = "offerId"
@@ -1316,39 +1499,50 @@ extension MarketplaceDiscovery {
     }
 
     public struct GetOfferTermsOutput: AWSDecodableShape {
+        /// The locale of the returned content. Indicates whether the response contains content in the requested locale, or fell back to the default locale. See Locale for details.
+        public let locale: String?
         /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
         /// The terms attached to the offer. Each element contains exactly one term type.
         public let offerTerms: [OfferTerm]
 
         @inlinable
-        public init(nextToken: String? = nil, offerTerms: [OfferTerm]) {
+        public init(locale: String? = nil, nextToken: String? = nil, offerTerms: [OfferTerm]) {
+            self.locale = locale
             self.nextToken = nextToken
             self.offerTerms = offerTerms
         }
 
         private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
             case nextToken = "nextToken"
             case offerTerms = "offerTerms"
         }
     }
 
     public struct GetProductInput: AWSEncodableShape {
+        /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+        public let locale: String?
         /// The unique identifier of the product to retrieve.
         public let productId: String
 
         @inlinable
-        public init(productId: String) {
+        public init(locale: String? = nil, productId: String) {
+            self.locale = locale
             self.productId = productId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.locale, name: "locale", parent: name, max: 256)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, pattern: "^[^;,]+(\\s*,\\s*[^;,]+){0,1}$")
             try self.validate(self.productId, name: "productId", parent: name, max: 255)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[\\w\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
             case productId = "productId"
         }
     }
@@ -1364,6 +1558,10 @@ extension MarketplaceDiscovery {
         public let fulfillmentOptionSummaries: [FulfillmentOptionSummary]
         /// A list of key features that the product offers to customers.
         public let highlights: [String]
+        /// The default listing identifier associated with the product.
+        public let listingId: String
+        /// The locale of the returned content. Indicates whether the response contains content in the requested locale, or fell back to the default locale. See Locale for details.
+        public let locale: String?
         /// The URL of the logo thumbnail image for the product.
         public let logoThumbnailUrl: String
         /// A detailed description of what the product does, in paragraph format.
@@ -1384,12 +1582,14 @@ extension MarketplaceDiscovery {
         public let shortDescription: String
 
         @inlinable
-        public init(catalog: String, categories: [Category], deployedOnAws: DeployedOnAwsStatus, fulfillmentOptionSummaries: [FulfillmentOptionSummary], highlights: [String], logoThumbnailUrl: String, longDescription: String, manufacturer: SellerInformation, productId: String, productName: String, promotionalMedia: [PromotionalMedia], resources: [Resource], sellerEngagements: [SellerEngagement], shortDescription: String) {
+        public init(catalog: String, categories: [Category], deployedOnAws: DeployedOnAwsStatus, fulfillmentOptionSummaries: [FulfillmentOptionSummary], highlights: [String], listingId: String, locale: String? = nil, logoThumbnailUrl: String, longDescription: String, manufacturer: SellerInformation, productId: String, productName: String, promotionalMedia: [PromotionalMedia], resources: [Resource], sellerEngagements: [SellerEngagement], shortDescription: String) {
             self.catalog = catalog
             self.categories = categories
             self.deployedOnAws = deployedOnAws
             self.fulfillmentOptionSummaries = fulfillmentOptionSummaries
             self.highlights = highlights
+            self.listingId = listingId
+            self.locale = locale
             self.logoThumbnailUrl = logoThumbnailUrl
             self.longDescription = longDescription
             self.manufacturer = manufacturer
@@ -1407,6 +1607,8 @@ extension MarketplaceDiscovery {
             case deployedOnAws = "deployedOnAws"
             case fulfillmentOptionSummaries = "fulfillmentOptionSummaries"
             case highlights = "highlights"
+            case listingId = "listingId"
+            case locale = "locale"
             case logoThumbnailUrl = "logoThumbnailUrl"
             case longDescription = "longDescription"
             case manufacturer = "manufacturer"
@@ -1540,6 +1742,8 @@ extension MarketplaceDiscovery {
     }
 
     public struct ListFulfillmentOptionsInput: AWSEncodableShape {
+        /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+        public let locale: String?
         /// The maximum number of results that are returned per call. You can use nextToken to get more results.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
@@ -1548,13 +1752,17 @@ extension MarketplaceDiscovery {
         public let productId: String
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, productId: String) {
+        public init(locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, productId: String) {
+            self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.productId = productId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.locale, name: "locale", parent: name, max: 256)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, pattern: "^[^;,]+(\\s*,\\s*[^;,]+){0,1}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=]+$")
             try self.validate(self.productId, name: "productId", parent: name, max: 255)
@@ -1563,6 +1771,7 @@ extension MarketplaceDiscovery {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case locale = "locale"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case productId = "productId"
@@ -1572,17 +1781,20 @@ extension MarketplaceDiscovery {
     public struct ListFulfillmentOptionsOutput: AWSDecodableShape {
         /// The fulfillment options available for the product. Each option describes how the buyer can deploy or access the product.
         public let fulfillmentOptions: [FulfillmentOption]
+        public let locale: String?
         /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         @inlinable
-        public init(fulfillmentOptions: [FulfillmentOption], nextToken: String? = nil) {
+        public init(fulfillmentOptions: [FulfillmentOption], locale: String? = nil, nextToken: String? = nil) {
             self.fulfillmentOptions = fulfillmentOptions
+            self.locale = locale
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case fulfillmentOptions = "fulfillmentOptions"
+            case locale = "locale"
             case nextToken = "nextToken"
         }
     }
@@ -1590,14 +1802,17 @@ extension MarketplaceDiscovery {
     public struct ListPurchaseOptionsInput: AWSEncodableShape {
         /// Filters to narrow the results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
         public let filters: [PurchaseOptionFilter]?
+        /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+        public let locale: String?
         /// The maximum number of results that are returned per call. You can use nextToken to get more results.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         @inlinable
-        public init(filters: [PurchaseOptionFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: [PurchaseOptionFilter]? = nil, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
+            self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1608,6 +1823,9 @@ extension MarketplaceDiscovery {
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 10)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, max: 256)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, pattern: "^[^;,]+(\\s*,\\s*[^;,]+){0,1}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -1616,6 +1834,7 @@ extension MarketplaceDiscovery {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "filters"
+            case locale = "locale"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
         }
@@ -1777,6 +1996,28 @@ extension MarketplaceDiscovery {
         }
     }
 
+    public struct NetPaymentTerm: AWSDecodableShape {
+        /// The unique identifier of the term.
+        public let id: String
+        /// The duration after invoice date by which payment is due.
+        public let paymentDuePeriod: String
+        /// The category of the term.
+        public let type: TermType
+
+        @inlinable
+        public init(id: String, paymentDuePeriod: String, type: TermType) {
+            self.id = id
+            self.paymentDuePeriod = paymentDuePeriod
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case paymentDuePeriod = "paymentDuePeriod"
+            case type = "type"
+        }
+    }
+
     public struct OfferAssociatedEntity: AWSDecodableShape {
         /// Information about the offer set, if the offer is part of a bundled offer set.
         public let offerSet: OfferSetInformation?
@@ -1853,6 +2094,28 @@ extension MarketplaceDiscovery {
         }
     }
 
+    public struct PaymentScheduleEntry: AWSDecodableShape {
+        /// The relative offset from the renewal agreement start date when this installment is due, represented in ISO 8601 duration format (for example, P1M or P30D).
+        public let chargeDateOffset: String
+        /// The percentage of the increased Total Contract Value (TCV) to charge in this installment. All entries in a schedule sum to 100.00.
+        public let chargePercentage: String
+        /// The optional calendar day of month on which the charge occurs. When absent, the charge day is derived from chargeDateOffset. For months with fewer days than the specified day, the charge occurs on the last day of the month. For example, if dayOfMonth is 31, the charge in April occurs on April 30.
+        public let dayOfMonth: Int?
+
+        @inlinable
+        public init(chargeDateOffset: String, chargePercentage: String, dayOfMonth: Int? = nil) {
+            self.chargeDateOffset = chargeDateOffset
+            self.chargePercentage = chargePercentage
+            self.dayOfMonth = dayOfMonth
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chargeDateOffset = "chargeDateOffset"
+            case chargePercentage = "chargePercentage"
+            case dayOfMonth = "dayOfMonth"
+        }
+    }
+
     public struct PaymentScheduleTerm: AWSDecodableShape {
         /// Defines the currency for the prices in this term.
         public let currencyCode: String
@@ -1876,6 +2139,42 @@ extension MarketplaceDiscovery {
             case id = "id"
             case schedule = "schedule"
             case type = "type"
+        }
+    }
+
+    public struct PaymentScheduleTermTemplate: AWSDecodableShape {
+        /// An ordered list of installment entries for the renewal payment schedule.
+        public let schedule: [PaymentScheduleEntry]
+
+        @inlinable
+        public init(schedule: [PaymentScheduleEntry]) {
+            self.schedule = schedule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schedule = "schedule"
+        }
+    }
+
+    public struct PercentageRange: AWSDecodableShape {
+        /// The percentage increase applied by default when no other value is finalized before the adjustment deadline. Falls between minimumValue and maximumValue.
+        public let defaultValue: String
+        /// The maximum percentage by which the price can increase at each renewal cycle.
+        public let maximumValue: String
+        /// The minimum percentage by which the price can increase at each renewal cycle.
+        public let minimumValue: String
+
+        @inlinable
+        public init(defaultValue: String, maximumValue: String, minimumValue: String) {
+            self.defaultValue = defaultValue
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "defaultValue"
+            case maximumValue = "maximumValue"
+            case minimumValue = "minimumValue"
         }
     }
 
@@ -2054,7 +2353,7 @@ extension MarketplaceDiscovery {
     public struct PurchaseOptionFilter: AWSEncodableShape {
         /// The type of filter to apply, such as PRODUCT_ID, VISIBILITY_SCOPE, or PURCHASE_OPTION_TYPE.
         public let filterType: PurchaseOptionFilterType
-        /// The values to filter by. Multiple values within the same filter are combined with OR logic.
+        /// The values to filter by. Supported values depend on filterType:    PRODUCT_ID – One or more product identifiers to filter by.    SELLER_OF_RECORD_PROFILE_ID – One or more seller profile identifiers to filter by.    PURCHASE_OPTION_TYPE – One or more purchase option types to filter by: OFFER or OFFERSET.    VISIBILITY_SCOPE – The visibility scope to filter by: PRIVATE.    AVAILABILITY_STATUS – One or more availability statuses to filter by: AVAILABLE or EXPIRED.   To retrieve private offers and offer sets visible to you, use VISIBILITY_SCOPE with PRIVATE. OR logic combines multiple values within the same filter.
         public let filterValues: [String]
 
         @inlinable
@@ -2190,19 +2489,39 @@ extension MarketplaceDiscovery {
     }
 
     public struct RenewalTerm: AWSDecodableShape {
+        /// The duration before the agreement end date by which the renewal price is finalized, represented in ISO 8601 format (for example, P30D). Only applicable with PercentageRange.
+        public let adjustmentDeadline: String?
         /// The unique identifier of the term.
         public let id: String
+        /// The duration before the agreement end date when the lockout window begins, in ISO 8601 format (for example, P30D). Absent means no lockout.
+        public let lockoutPeriod: String?
+        /// The maximum number of renewals allowed on this offer. Absent means unlimited renewals.
+        public let maxRenewals: Int?
+        /// The price increase applied at each renewal cycle. Absent means identical pricing on renewal.
+        public let priceIncrease: PriceIncrease?
+        /// Structural templates defining how specific terms are reshaped on each renewal cycle. Absent for upfront-only offers.
+        public let termTemplates: [TermTemplate]?
         /// The category of the term.
         public let type: TermType
 
         @inlinable
-        public init(id: String, type: TermType) {
+        public init(adjustmentDeadline: String? = nil, id: String, lockoutPeriod: String? = nil, maxRenewals: Int? = nil, priceIncrease: PriceIncrease? = nil, termTemplates: [TermTemplate]? = nil, type: TermType) {
+            self.adjustmentDeadline = adjustmentDeadline
             self.id = id
+            self.lockoutPeriod = lockoutPeriod
+            self.maxRenewals = maxRenewals
+            self.priceIncrease = priceIncrease
+            self.termTemplates = termTemplates
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adjustmentDeadline = "adjustmentDeadline"
             case id = "id"
+            case lockoutPeriod = "lockoutPeriod"
+            case maxRenewals = "maxRenewals"
+            case priceIncrease = "priceIncrease"
+            case termTemplates = "termTemplates"
             case type = "type"
         }
     }
@@ -2278,6 +2597,8 @@ extension MarketplaceDiscovery {
     }
 
     public struct SaasFulfillmentOption: AWSDecodableShape {
+        /// The date and time when the SaaS product became available for fulfillment.
+        public let availableFromTime: Date?
         /// A human-readable name for the fulfillment option type.
         public let fulfillmentOptionDisplayName: String
         /// The unique identifier of the fulfillment option.
@@ -2286,23 +2607,33 @@ extension MarketplaceDiscovery {
         public let fulfillmentOptionType: FulfillmentOptionType
         /// The URL of the seller's software registration landing page.
         public let fulfillmentUrl: String?
+        /// The URL that a buyer uses to launch the seller's SaaS product. This URL is distinct from fulfillmentUrl, which is the seller's software registration landing page.
+        public let launchUrl: String?
+        /// Specifies whether the SaaS product supports quick-launch deployment.
+        public let quickLaunch: SaasQuickLaunchStatus
         /// Instructions on how to access and use this SaaS product.
         public let usageInstructions: String?
 
         @inlinable
-        public init(fulfillmentOptionDisplayName: String, fulfillmentOptionId: String, fulfillmentOptionType: FulfillmentOptionType, fulfillmentUrl: String? = nil, usageInstructions: String? = nil) {
+        public init(availableFromTime: Date? = nil, fulfillmentOptionDisplayName: String, fulfillmentOptionId: String, fulfillmentOptionType: FulfillmentOptionType, fulfillmentUrl: String? = nil, launchUrl: String? = nil, quickLaunch: SaasQuickLaunchStatus, usageInstructions: String? = nil) {
+            self.availableFromTime = availableFromTime
             self.fulfillmentOptionDisplayName = fulfillmentOptionDisplayName
             self.fulfillmentOptionId = fulfillmentOptionId
             self.fulfillmentOptionType = fulfillmentOptionType
             self.fulfillmentUrl = fulfillmentUrl
+            self.launchUrl = launchUrl
+            self.quickLaunch = quickLaunch
             self.usageInstructions = usageInstructions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availableFromTime = "availableFromTime"
             case fulfillmentOptionDisplayName = "fulfillmentOptionDisplayName"
             case fulfillmentOptionId = "fulfillmentOptionId"
             case fulfillmentOptionType = "fulfillmentOptionType"
             case fulfillmentUrl = "fulfillmentUrl"
+            case launchUrl = "launchUrl"
+            case quickLaunch = "quickLaunch"
             case usageInstructions = "usageInstructions"
         }
     }
@@ -2380,17 +2711,23 @@ extension MarketplaceDiscovery {
         public let recommendation: SageMakerModelRecommendation?
         /// Release notes describing changes in this version of the fulfillment option.
         public let releaseNotes: String?
+        /// The MIME types that this model accepts as input.
+        public let supportedContentTypes: [String]?
+        /// The MIME types that this model returns as output.
+        public let supportedResponseMimeTypes: [String]?
         /// Instructions on how to use this SageMaker model.
         public let usageInstructions: String?
 
         @inlinable
-        public init(fulfillmentOptionDisplayName: String, fulfillmentOptionId: String, fulfillmentOptionType: FulfillmentOptionType, fulfillmentOptionVersion: String? = nil, recommendation: SageMakerModelRecommendation? = nil, releaseNotes: String? = nil, usageInstructions: String? = nil) {
+        public init(fulfillmentOptionDisplayName: String, fulfillmentOptionId: String, fulfillmentOptionType: FulfillmentOptionType, fulfillmentOptionVersion: String? = nil, recommendation: SageMakerModelRecommendation? = nil, releaseNotes: String? = nil, supportedContentTypes: [String]? = nil, supportedResponseMimeTypes: [String]? = nil, usageInstructions: String? = nil) {
             self.fulfillmentOptionDisplayName = fulfillmentOptionDisplayName
             self.fulfillmentOptionId = fulfillmentOptionId
             self.fulfillmentOptionType = fulfillmentOptionType
             self.fulfillmentOptionVersion = fulfillmentOptionVersion
             self.recommendation = recommendation
             self.releaseNotes = releaseNotes
+            self.supportedContentTypes = supportedContentTypes
+            self.supportedResponseMimeTypes = supportedResponseMimeTypes
             self.usageInstructions = usageInstructions
         }
 
@@ -2401,6 +2738,8 @@ extension MarketplaceDiscovery {
             case fulfillmentOptionVersion = "fulfillmentOptionVersion"
             case recommendation = "recommendation"
             case releaseNotes = "releaseNotes"
+            case supportedContentTypes = "supportedContentTypes"
+            case supportedResponseMimeTypes = "supportedResponseMimeTypes"
             case usageInstructions = "usageInstructions"
         }
     }
@@ -2446,15 +2785,18 @@ extension MarketplaceDiscovery {
         public let facetTypes: [SearchFacetType]?
         /// Filters to apply before retrieving facets. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
         public let filters: [SearchFilter]?
+        /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+        public let locale: String?
         /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
         /// The search query text to filter listings before retrieving facets.
         public let searchText: String?
 
         @inlinable
-        public init(facetTypes: [SearchFacetType]? = nil, filters: [SearchFilter]? = nil, nextToken: String? = nil, searchText: String? = nil) {
+        public init(facetTypes: [SearchFacetType]? = nil, filters: [SearchFilter]? = nil, locale: String? = nil, nextToken: String? = nil, searchText: String? = nil) {
             self.facetTypes = facetTypes
             self.filters = filters
+            self.locale = locale
             self.nextToken = nextToken
             self.searchText = searchText
         }
@@ -2466,6 +2808,9 @@ extension MarketplaceDiscovery {
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 30)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, max: 256)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, pattern: "^[^;,]+(\\s*,\\s*[^;,]+){0,1}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=]+$")
             try self.validate(self.searchText, name: "searchText", parent: name, max: 512)
@@ -2476,6 +2821,7 @@ extension MarketplaceDiscovery {
         private enum CodingKeys: String, CodingKey {
             case facetTypes = "facetTypes"
             case filters = "filters"
+            case locale = "locale"
             case nextToken = "nextToken"
             case searchText = "searchText"
         }
@@ -2534,6 +2880,8 @@ extension MarketplaceDiscovery {
     public struct SearchListingsInput: AWSEncodableShape {
         /// Filters to narrow search results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
         public let filters: [SearchFilter]?
+        /// A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
+        public let locale: String?
         /// The maximum number of results that are returned per call. You can use nextToken to get more results.
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
@@ -2546,8 +2894,9 @@ extension MarketplaceDiscovery {
         public let sortOrder: SearchListingsSortOrder?
 
         @inlinable
-        public init(filters: [SearchFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, searchText: String? = nil, sortBy: SearchListingsSortBy? = nil, sortOrder: SearchListingsSortOrder? = nil) {
+        public init(filters: [SearchFilter]? = nil, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, searchText: String? = nil, sortBy: SearchListingsSortBy? = nil, sortOrder: SearchListingsSortOrder? = nil) {
             self.filters = filters
+            self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.searchText = searchText
@@ -2561,6 +2910,9 @@ extension MarketplaceDiscovery {
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 30)
             try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, max: 256)
+            try self.validate(self.locale, name: "locale", parent: name, min: 1)
+            try self.validate(self.locale, name: "locale", parent: name, pattern: "^[^;,]+(\\s*,\\s*[^;,]+){0,1}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -2572,6 +2924,7 @@ extension MarketplaceDiscovery {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "filters"
+            case locale = "locale"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case searchText = "searchText"
@@ -2811,6 +3164,20 @@ extension MarketplaceDiscovery {
             case id = "id"
             case maxTotalChargeAmount = "maxTotalChargeAmount"
             case type = "type"
+        }
+    }
+
+    public struct TermTemplate: AWSDecodableShape {
+        /// The installment schedule used to structure payments on the renewal offer.
+        public let paymentScheduleTermTemplate: PaymentScheduleTermTemplate?
+
+        @inlinable
+        public init(paymentScheduleTermTemplate: PaymentScheduleTermTemplate? = nil) {
+            self.paymentScheduleTermTemplate = paymentScheduleTermTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paymentScheduleTermTemplate = "paymentScheduleTermTemplate"
         }
     }
 }

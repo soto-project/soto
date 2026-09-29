@@ -38,7 +38,7 @@ public struct KafkaConnect: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -58,6 +58,7 @@ public struct KafkaConnect: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "KafkaConnect",
+            sdkId: "KafkaConnect",
             serviceIdentifier: "kafkaconnect",
             serviceProtocol: .restjson,
             apiVersion: "2021-09-14",
@@ -596,6 +597,38 @@ public struct KafkaConnect: AWSService {
             nextToken: nextToken
         )
         return try await self.listWorkerConfigurations(input, logger: logger)
+    }
+
+    /// Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to DescribeConnectorOperation to track the state of the restart.
+    @Sendable
+    @inlinable
+    public func restartConnector(_ input: RestartConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestartConnectorResponse {
+        try await self.client.execute(
+            operation: "RestartConnector", 
+            path: "/v1/connectors/{connectorArn}/restart", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to DescribeConnectorOperation to track the state of the restart.
+    ///
+    /// Parameters:
+    ///   - connectorArn: The Amazon Resource Name (ARN) of the connector that you want to restart.
+    ///   - onlyFailedTasks: Specifies whether to restart only the connector's failed tasks. If true, the operation restarts only the tasks that are currently in a failed state, and healthy tasks continue running. If false or not specified, the operation restarts the connector and all of its tasks.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func restartConnector(
+        connectorArn: String,
+        onlyFailedTasks: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RestartConnectorResponse {
+        let input = RestartConnectorRequest(
+            connectorArn: connectorArn, 
+            onlyFailedTasks: onlyFailedTasks
+        )
+        return try await self.restartConnector(input, logger: logger)
     }
 
     /// Attaches tags to the specified resource.

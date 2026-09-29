@@ -217,6 +217,7 @@ extension S3 {
         case s3ObjectrestoreCompleted = "s3:ObjectRestore:Completed"
         case s3ObjectrestoreDelete = "s3:ObjectRestore:Delete"
         case s3ObjectrestorePost = "s3:ObjectRestore:Post"
+        case s3ObjectretentionPut = "s3:ObjectRetention:Put"
         case s3Objecttagging = "s3:ObjectTagging:*"
         case s3ObjecttaggingDelete = "s3:ObjectTagging:Delete"
         case s3ObjecttaggingPut = "s3:ObjectTagging:Put"
@@ -312,6 +313,8 @@ extension S3 {
         case lastModifiedDate = "LastModifiedDate"
         case lifecycleExpirationDate = "LifecycleExpirationDate"
         case objectAccessControlList = "ObjectAccessControlList"
+        case objectLockEventHoldDuration = "ObjectLockEventHoldDuration"
+        case objectLockEventHoldStatus = "ObjectLockEventHoldStatus"
         case objectLockLegalHoldStatus = "ObjectLockLegalHoldStatus"
         case objectLockMode = "ObjectLockMode"
         case objectLockRetainUntilDate = "ObjectLockRetainUntilDate"
@@ -383,6 +386,12 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ObjectLockEventHold: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case off = "OFF"
+        case on = "ON"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "OFF"
         case on = "ON"
@@ -409,6 +418,8 @@ extension S3 {
     }
 
     public enum ObjectStorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsBackupLowCostWarm = "AWS_BACKUP_LOW_COST_WARM"
+        case awsBackupWarm = "AWS_BACKUP_WARM"
         case deepArchive = "DEEP_ARCHIVE"
         case expressOnezone = "EXPRESS_ONEZONE"
         case fsxOntap = "FSX_ONTAP"
@@ -517,6 +528,7 @@ extension S3 {
 
     public enum ServerSideEncryption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
+        case awsBackup = "aws:backup"
         case awsFsx = "aws:fsx"
         case awsKms = "aws:kms"
         case awsKmsDsse = "aws:kms:dsse"
@@ -536,6 +548,8 @@ extension S3 {
     }
 
     public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsBackupLowCostWarm = "AWS_BACKUP_LOW_COST_WARM"
+        case awsBackupWarm = "AWS_BACKUP_WARM"
         case deepArchive = "DEEP_ARCHIVE"
         case expressOnezone = "EXPRESS_ONEZONE"
         case fsxOntap = "FSX_ONTAP"
@@ -1832,6 +1846,12 @@ extension S3 {
         public let metadata: [String: String]?
         /// Specifies whether the metadata is copied from the source object or replaced with metadata that's provided in the request. When copying an object, you can preserve all metadata (the default) or specify new metadata. If this header isn’t specified, COPY is the default behavior.   General purpose bucket - For general purpose buckets, when you grant permissions, you can use the s3:x-amz-metadata-directive condition key to enforce certain metadata behavior when objects are uploaded. For more information, see Amazon S3 condition key examples in the Amazon S3 User Guide.   x-amz-website-redirect-location is unique to each object and is not copied when using the x-amz-metadata-directive header. To copy the value, you must specify x-amz-website-redirect-location in the request header.
         public let metadataDirective: MetadataDirective?
+        /// The event hold status to apply to the object copy. Set to ON to enable or OFF to disable.  This functionality is not supported for directory buckets.
+        public let objectLockEventHold: ObjectLockEventHold?
+        /// The event hold duration in days to apply to the object copy. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
+        public let objectLockEventHoldDurationDays: Int?
+        /// The event hold duration in years to apply to the object copy. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
+        public let objectLockEventHoldDurationYears: Int?
         /// Specifies whether you want to apply a legal hold to the object copy.  This functionality is not supported for directory buckets.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
         /// The Object Lock mode that you want to apply to the object copy.  This functionality is not supported for directory buckets.
@@ -1868,7 +1888,7 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acl: ObjectCannedACL? = nil, annotationDirective: AnnotationDirective? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, annotationDirective: AnnotationDirective? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockEventHold: ObjectLockEventHold? = nil, objectLockEventHoldDurationDays: Int? = nil, objectLockEventHoldDurationYears: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.annotationDirective = annotationDirective
             self.bucket = bucket
@@ -1899,6 +1919,9 @@ extension S3 {
             self.key = key
             self.metadata = metadata
             self.metadataDirective = metadataDirective
+            self.objectLockEventHold = objectLockEventHold
+            self.objectLockEventHoldDurationDays = objectLockEventHoldDurationDays
+            self.objectLockEventHoldDurationYears = objectLockEventHoldDurationYears
             self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
             self.objectLockMode = objectLockMode
             self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -1948,6 +1971,9 @@ extension S3 {
             request.encodePath(self.key, key: "Key")
             request.encodeHeader(self.metadata, key: "x-amz-meta-")
             request.encodeHeader(self.metadataDirective, key: "x-amz-metadata-directive")
+            request.encodeHeader(self.objectLockEventHold, key: "x-amz-object-lock-event-hold")
+            request.encodeHeader(self.objectLockEventHoldDurationDays, key: "x-amz-object-lock-event-hold-duration-days")
+            request.encodeHeader(self.objectLockEventHoldDurationYears, key: "x-amz-object-lock-event-hold-duration-years")
             request.encodeHeader(self.objectLockLegalHoldStatus, key: "x-amz-object-lock-legal-hold")
             request.encodeHeader(self.objectLockMode, key: "x-amz-object-lock-mode")
             request.encodeHeader(self._objectLockRetainUntilDate, key: "x-amz-object-lock-retain-until-date")
@@ -1973,7 +1999,7 @@ extension S3 {
     }
 
     public struct CopyObjectResult: AWSDecodableShape {
-        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the object was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
         /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
@@ -2394,6 +2420,12 @@ extension S3 {
         public let key: String
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
+        /// Specifies the event hold status to apply to the uploaded object. Set to ON to enable or OFF to disable.  This functionality is not supported for directory buckets.
+        public let objectLockEventHold: ObjectLockEventHold?
+        /// Specifies the event hold duration in days to apply to the uploaded object. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
+        public let objectLockEventHoldDurationDays: Int?
+        /// Specifies the event hold duration in years to apply to the uploaded object. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
+        public let objectLockEventHoldDurationYears: Int?
         /// Specifies whether you want to apply a legal hold to the uploaded object.  This functionality is not supported for directory buckets.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
         /// Specifies the Object Lock mode that you want to apply to the uploaded object.  This functionality is not supported for directory buckets.
@@ -2426,7 +2458,7 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockEventHold: ObjectLockEventHold? = nil, objectLockEventHoldDurationDays: Int? = nil, objectLockEventHoldDurationYears: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -2445,6 +2477,9 @@ extension S3 {
             self.grantWriteACP = grantWriteACP
             self.key = key
             self.metadata = metadata
+            self.objectLockEventHold = objectLockEventHold
+            self.objectLockEventHoldDurationDays = objectLockEventHoldDurationDays
+            self.objectLockEventHoldDurationYears = objectLockEventHoldDurationYears
             self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
             self.objectLockMode = objectLockMode
             self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -2481,6 +2516,9 @@ extension S3 {
             request.encodeHeader(self.grantWriteACP, key: "x-amz-grant-write-acp")
             request.encodePath(self.key, key: "Key")
             request.encodeHeader(self.metadata, key: "x-amz-meta-")
+            request.encodeHeader(self.objectLockEventHold, key: "x-amz-object-lock-event-hold")
+            request.encodeHeader(self.objectLockEventHoldDurationDays, key: "x-amz-object-lock-event-hold-duration-days")
+            request.encodeHeader(self.objectLockEventHoldDurationYears, key: "x-amz-object-lock-event-hold-duration-years")
             request.encodeHeader(self.objectLockLegalHoldStatus, key: "x-amz-object-lock-legal-hold")
             request.encodeHeader(self.objectLockMode, key: "x-amz-object-lock-mode")
             request.encodeHeader(self._objectLockRetainUntilDate, key: "x-amz-object-lock-retain-until-date")
@@ -2582,20 +2620,24 @@ extension S3 {
     public struct DefaultRetention: AWSEncodableShape & AWSDecodableShape {
         /// The number of days that you want to specify for the default retention period. Must be used with Mode.
         public let days: Int?
+        /// The default event hold duration to be applied to new objects placed in the specified bucket. When configured, new objects will automatically have an event hold enabled with this duration.
+        public let defaultEventHold: EventHoldDuration?
         /// The default Object Lock retention mode you want to apply to new objects placed in the specified bucket. Must be used with either Days or Years.
         public let mode: ObjectLockRetentionMode?
         /// The number of years that you want to specify for the default retention period. Must be used with Mode.
         public let years: Int?
 
         @inlinable
-        public init(days: Int? = nil, mode: ObjectLockRetentionMode? = nil, years: Int? = nil) {
+        public init(days: Int? = nil, defaultEventHold: EventHoldDuration? = nil, mode: ObjectLockRetentionMode? = nil, years: Int? = nil) {
             self.days = days
+            self.defaultEventHold = defaultEventHold
             self.mode = mode
             self.years = years
         }
 
         private enum CodingKeys: String, CodingKey {
             case days = "Days"
+            case defaultEventHold = "DefaultEventHold"
             case mode = "Mode"
             case years = "Years"
         }
@@ -3505,6 +3547,24 @@ extension S3 {
 
     public struct EventBridgeConfiguration: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct EventHoldDuration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of days for the event hold duration. The minimum value is 1 and the maximum value is 36,500.
+        public let days: Int?
+        /// The number of years for the event hold duration. The minimum value is 1 and the maximum value is 100.
+        public let years: Int?
+
+        @inlinable
+        public init(days: Int? = nil, years: Int? = nil) {
+            self.days = days
+            self.years = years
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case days = "Days"
+            case years = "Years"
+        }
     }
 
     public struct ExistingObjectReplication: AWSEncodableShape & AWSDecodableShape {
@@ -4962,7 +5022,7 @@ extension S3 {
         public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
-        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the object was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
         /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
@@ -5011,6 +5071,12 @@ extension S3 {
         public let metadata: [String: String]?
         /// This is set to the number of metadata entries not returned in the headers that are prefixed with x-amz-meta-. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.  This functionality is not supported for directory buckets.
         public let missingMeta: Int?
+        /// The event hold status for this object. This header is only returned if the requester has the s3:GetObjectRetention permission.  This functionality is not supported for directory buckets.
+        public let objectLockEventHold: ObjectLockEventHold?
+        /// The event hold duration in days for this object. Only returned when the event hold is enabled.  This functionality is not supported for directory buckets.
+        public let objectLockEventHoldDurationDays: Int?
+        /// The event hold duration in years for this object. Only returned when the event hold is enabled.  This functionality is not supported for directory buckets.
+        public let objectLockEventHoldDurationYears: Int?
         /// Indicates whether this object has an active legal hold. This field is only returned if you have permission to view an object's legal hold status.   This functionality is not supported for directory buckets.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
         /// The Object Lock mode that's currently in place for this object.  This functionality is not supported for directory buckets.
@@ -5043,7 +5109,7 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, body: AWSHTTPBody, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSHTTPBody, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockEventHold: ObjectLockEventHold? = nil, objectLockEventHoldDurationDays: Int? = nil, objectLockEventHoldDurationYears: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -5072,6 +5138,9 @@ extension S3 {
             self.lastModified = lastModified
             self.metadata = metadata
             self.missingMeta = missingMeta
+            self.objectLockEventHold = objectLockEventHold
+            self.objectLockEventHoldDurationDays = objectLockEventHoldDurationDays
+            self.objectLockEventHoldDurationYears = objectLockEventHoldDurationYears
             self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
             self.objectLockMode = objectLockMode
             self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -5120,6 +5189,9 @@ extension S3 {
             self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
             self.metadata = try response.decodeHeaderIfPresent([String: String].self, key: "x-amz-meta-")
             self.missingMeta = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-missing-meta")
+            self.objectLockEventHold = try response.decodeHeaderIfPresent(ObjectLockEventHold.self, key: "x-amz-object-lock-event-hold")
+            self.objectLockEventHoldDurationDays = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-object-lock-event-hold-duration-days")
+            self.objectLockEventHoldDurationYears = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-object-lock-event-hold-duration-years")
             self.objectLockLegalHoldStatus = try response.decodeHeaderIfPresent(ObjectLockLegalHoldStatus.self, key: "x-amz-object-lock-legal-hold")
             self.objectLockMode = try response.decodeHeaderIfPresent(ObjectLockMode.self, key: "x-amz-object-lock-mode")
             self.objectLockRetainUntilDate = try response.decodeHeaderIfPresent(Date.self, key: "x-amz-object-lock-retain-until-date")
@@ -5632,6 +5704,12 @@ extension S3 {
         public let metadata: [String: String]?
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.  This functionality is not supported for directory buckets.
         public let missingMeta: Int?
+        /// The event hold status for this object. This header is only returned if the requester has the s3:GetObjectRetention permission.  This functionality is not supported for directory buckets.
+        public let objectLockEventHold: ObjectLockEventHold?
+        /// The event hold duration in days for this object. Only returned when the event hold is enabled.  This functionality is not supported for directory buckets.
+        public let objectLockEventHoldDurationDays: Int?
+        /// The event hold duration in years for this object. Only returned when the event hold is enabled.  This functionality is not supported for directory buckets.
+        public let objectLockEventHoldDurationYears: Int?
         /// Specifies whether a legal hold is in effect for this object. This header is only returned if the requester has the s3:GetObjectLegalHold permission. This header is not returned if the specified version of this object has never had a legal hold applied. For more information about S3 Object Lock, see Object Lock.  This functionality is not supported for directory buckets.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
         /// The Object Lock mode, if any, that's in effect for this object. This header is only returned if the requester has the s3:GetObjectRetention permission. For more information about S3 Object Lock, see Object Lock.   This functionality is not supported for directory buckets.
@@ -5664,7 +5742,7 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockEventHold: ObjectLockEventHold? = nil, objectLockEventHoldDurationDays: Int? = nil, objectLockEventHoldDurationYears: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.archiveStatus = archiveStatus
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -5693,6 +5771,9 @@ extension S3 {
             self.lastModified = lastModified
             self.metadata = metadata
             self.missingMeta = missingMeta
+            self.objectLockEventHold = objectLockEventHold
+            self.objectLockEventHoldDurationDays = objectLockEventHoldDurationDays
+            self.objectLockEventHoldDurationYears = objectLockEventHoldDurationYears
             self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
             self.objectLockMode = objectLockMode
             self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -5740,6 +5821,9 @@ extension S3 {
             self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
             self.metadata = try response.decodeHeaderIfPresent([String: String].self, key: "x-amz-meta-")
             self.missingMeta = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-missing-meta")
+            self.objectLockEventHold = try response.decodeHeaderIfPresent(ObjectLockEventHold.self, key: "x-amz-object-lock-event-hold")
+            self.objectLockEventHoldDurationDays = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-object-lock-event-hold-duration-days")
+            self.objectLockEventHoldDurationYears = try response.decodeHeaderIfPresent(Int.self, key: "x-amz-object-lock-event-hold-duration-years")
             self.objectLockLegalHoldStatus = try response.decodeHeaderIfPresent(ObjectLockLegalHoldStatus.self, key: "x-amz-object-lock-legal-hold")
             self.objectLockMode = try response.decodeHeaderIfPresent(ObjectLockMode.self, key: "x-amz-object-lock-mode")
             self.objectLockRetainUntilDate = try response.decodeHeaderIfPresent(Date.self, key: "x-amz-object-lock-retain-until-date")
@@ -8042,6 +8126,10 @@ extension S3 {
     }
 
     public struct ObjectLockRetention: AWSEncodableShape & AWSDecodableShape {
+        /// The event hold status for the object. Set to ON to enable an event hold or OFF to disable it.
+        public let eventHold: ObjectLockEventHold?
+        /// The event hold duration for the object. Specifies how long the object remains protected after the event hold is released.
+        public let eventHoldDuration: EventHoldDuration?
         /// Indicates the Retention mode for the specified object.
         public let mode: ObjectLockRetentionMode?
         /// The date on which this Object Lock Retention will expire.
@@ -8049,19 +8137,23 @@ extension S3 {
         public var retainUntilDate: Date?
 
         @inlinable
-        public init(mode: ObjectLockRetentionMode? = nil, retainUntilDate: Date? = nil) {
+        public init(eventHold: ObjectLockEventHold? = nil, eventHoldDuration: EventHoldDuration? = nil, mode: ObjectLockRetentionMode? = nil, retainUntilDate: Date? = nil) {
+            self.eventHold = eventHold
+            self.eventHoldDuration = eventHoldDuration
             self.mode = mode
             self.retainUntilDate = retainUntilDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventHold = "EventHold"
+            case eventHoldDuration = "EventHoldDuration"
             case mode = "Mode"
             case retainUntilDate = "RetainUntilDate"
         }
     }
 
     public struct ObjectLockRule: AWSEncodableShape & AWSDecodableShape {
-        /// The default Object Lock retention mode and period that you want to apply to new objects placed in the specified bucket. Bucket settings require both a mode and a period. The period can be either Days or Years but you must select one. You cannot specify Days and Years at the same time.
+        /// The default Object Lock retention settings for new objects in this bucket. You can specify:   A default retention period, by using Days or Years.   A default event hold duration, by using DefaultEventHold. This setting also uses days or years.   You can set one or both. You cannot use days and years in the same setting.
         public let defaultRetention: DefaultRetention?
 
         @inlinable
@@ -9734,6 +9826,12 @@ extension S3 {
         public let key: String
         /// A map of metadata to store with the object in S3.
         public let metadata: [String: String]?
+        /// Specifies the event hold status to apply to this object. Set to ON to enable or OFF to disable.  This functionality is not supported for directory buckets.
+        public let objectLockEventHold: ObjectLockEventHold?
+        /// Specifies the event hold duration in days to apply to this object. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
+        public let objectLockEventHoldDurationDays: Int?
+        /// Specifies the event hold duration in years to apply to this object. You cannot specify a duration in both days and years.  This functionality is not supported for directory buckets.
+        public let objectLockEventHoldDurationYears: Int?
         /// Specifies whether a legal hold will be applied to this object. For more information about S3 Object Lock, see Object Lock in the Amazon S3 User Guide.  This functionality is not supported for directory buckets.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
         /// The Object Lock mode that you want to apply to this object.  This functionality is not supported for directory buckets.
@@ -9768,7 +9866,7 @@ extension S3 {
         public let writeOffsetBytes: Int64?
 
         @inlinable
-        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil, writeOffsetBytes: Int64? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, objectLockEventHold: ObjectLockEventHold? = nil, objectLockEventHoldDurationDays: Int? = nil, objectLockEventHoldDurationYears: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil, writeOffsetBytes: Int64? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -9801,6 +9899,9 @@ extension S3 {
             self.ifNoneMatch = ifNoneMatch
             self.key = key
             self.metadata = metadata
+            self.objectLockEventHold = objectLockEventHold
+            self.objectLockEventHoldDurationDays = objectLockEventHoldDurationDays
+            self.objectLockEventHoldDurationYears = objectLockEventHoldDurationYears
             self.objectLockLegalHoldStatus = objectLockLegalHoldStatus
             self.objectLockMode = objectLockMode
             self.objectLockRetainUntilDate = objectLockRetainUntilDate
@@ -9852,6 +9953,9 @@ extension S3 {
             request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
             request.encodePath(self.key, key: "Key")
             request.encodeHeader(self.metadata, key: "x-amz-meta-")
+            request.encodeHeader(self.objectLockEventHold, key: "x-amz-object-lock-event-hold")
+            request.encodeHeader(self.objectLockEventHoldDurationDays, key: "x-amz-object-lock-event-hold-duration-days")
+            request.encodeHeader(self.objectLockEventHoldDurationYears, key: "x-amz-object-lock-event-hold-duration-years")
             request.encodeHeader(self.objectLockLegalHoldStatus, key: "x-amz-object-lock-legal-hold")
             request.encodeHeader(self.objectLockMode, key: "x-amz-object-lock-mode")
             request.encodeHeader(self._objectLockRetainUntilDate, key: "x-amz-object-lock-retain-until-date")

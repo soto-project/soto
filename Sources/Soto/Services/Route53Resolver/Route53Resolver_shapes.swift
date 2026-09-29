@@ -725,7 +725,7 @@ extension Route53Resolver {
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group where you want to create the rule.
         public let firewallRuleGroupId: String
-        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
+        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an Amazon Web Services-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an Amazon Web Services-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through Amazon Web Services Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
         public let firewallRuleType: FirewallRuleType?
         /// A name that lets you identify the rule in the rule group.
         public let name: String
@@ -871,7 +871,7 @@ extension Route53Resolver {
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group where you want to create the rule.
         public let firewallRuleGroupId: String
-        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
+        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an Amazon Web Services-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an Amazon Web Services-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through Amazon Web Services Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
         public let firewallRuleType: FirewallRuleType?
         /// A name that lets you identify the rule in the rule group.
         public let name: String
@@ -1040,7 +1040,7 @@ extension Route53Resolver {
         /// 			DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation. Default is false.
         public let dns64Enabled: Bool?
         /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward
-        /// 			DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC.   Even though the minimum is 1, Route 53 requires that you create at least two.
+        /// 			DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC.   Even though the minimum is 1, Route 53 requires that you create at least two.  We recommend using VPC Resolver on Outposts to create endpoints on Outposts Racks.  Outposts subnets with Local Network Interface (LNI) enabled are not compatible with Route 53 Resolver endpoints. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver endpoints in the Amazon Route 53 Developer Guide.
         public let ipAddresses: [IpAddressRequest]
         /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true,
         /// 			the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway.
@@ -1053,7 +1053,8 @@ extension Route53Resolver {
         /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a
-        /// 			value for the PreferredInstanceType.
+        /// 			value for the PreferredInstanceType.   Resolver endpoints on Outposts are supported on first-generation Outposts only. Inbound and outbound
+        /// 				Resolver endpoints aren't supported on second-generation Outposts.
         public let outpostArn: String?
         /// The  instance type. If you specify this, you must also specify a value for the OutpostArn.
         public let preferredInstanceType: String?
@@ -2042,7 +2043,7 @@ extension Route53Resolver {
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the Firewall rule group of the rule.
         public let firewallRuleGroupId: String?
-        /// The rule type configuration for the firewall rule. This is a tagged union — exactly one of its members will be populated. Possible members are:    FirewallAdvancedContentCategory — an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — a third-party threat feed delivered through AWS Marketplace.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
+        /// The rule type configuration for the firewall rule. This is a tagged union — exactly one of its members will be populated. Possible members are:    FirewallAdvancedContentCategory — an Amazon Web Services-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — an Amazon Web Services-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — a third-party threat feed delivered through Amazon Web Services Marketplace.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
         public let firewallRuleType: FirewallRuleType?
         /// 			ID of the DNS Firewall Advanced rule.
         ///
@@ -2061,7 +2062,7 @@ extension Route53Resolver {
         /// 				example, TYPE28. For more information, see
         /// 				List of DNS record types.
         public let qtype: String?
-        /// The lifecycle state of the firewall rule. Possible values:    CREATING — DNS Firewall is provisioning the rule. Rules created with the PartnerThreatProtection rule type begin in this state while DNS Firewall verifies the calling account's AWS Marketplace entitlement.    COMPLETE — The rule is provisioned and enforcing matches.    CREATION_FAILED — Provisioning failed. StatusMessage contains a human-readable reason. A rule in this state is immutable: UpdateFirewallRule rejects the request, and the rule must be removed with DeleteFirewallRule.   For rules that do not require asynchronous provisioning, this field may be absent.
+        /// The lifecycle state of the firewall rule. Possible values:    CREATING — DNS Firewall is provisioning the rule. Rules created with the PartnerThreatProtection rule type begin in this state while DNS Firewall verifies the calling account's Amazon Web Services Marketplace entitlement.    COMPLETE — The rule is provisioned and enforcing matches.    CREATION_FAILED — Provisioning failed. StatusMessage contains a human-readable reason. A rule in this state is immutable: UpdateFirewallRule rejects the request, and the rule must be removed with DeleteFirewallRule.   For rules that do not require asynchronous provisioning, this field may be absent.
         public let status: String?
         /// An additional message about the rule's lifecycle state. Populated when Status is CREATION_FAILED to describe why provisioning failed.
         public let statusMessage: String?
@@ -2273,11 +2274,11 @@ extension Route53Resolver {
     public struct FirewallRuleType: AWSEncodableShape & AWSDecodableShape {
         /// Configures the rule to match a built-in DNS Firewall Advanced threat detector — DGA, DNS_TUNNELING, or DICTIONARY_DGA. See DnsThreatProtectionRuleTypeConfig.
         public let dnsThreatProtection: DnsThreatProtectionRuleTypeConfig?
-        /// Configures the rule to match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH). See FirewallAdvancedContentCategoryConfig.
+        /// Configures the rule to match an Amazon Web Services-managed content category (for example, VIOLENCE_AND_HATE_SPEECH). See FirewallAdvancedContentCategoryConfig.
         public let firewallAdvancedContentCategory: FirewallAdvancedContentCategoryConfig?
-        /// Configures the rule to match an AWS-managed advanced threat category (for example, PHISHING). See FirewallAdvancedThreatCategoryConfig.
+        /// Configures the rule to match an Amazon Web Services-managed advanced threat category (for example, PHISHING). See FirewallAdvancedThreatCategoryConfig.
         public let firewallAdvancedThreatCategory: FirewallAdvancedThreatCategoryConfig?
-        /// Configures the rule to match a third-party threat feed delivered through AWS Marketplace. The calling account must hold an active subscription to the partner product named in Partner; if the subscription is missing or revoked, the rule is created with Status CREATION_FAILED and cannot be modified — only deleted. See PartnerThreatProtectionConfig.
+        /// Configures the rule to match a third-party threat feed delivered through Amazon Web Services Marketplace. The calling account must hold an active subscription to the partner product named in Partner; if the subscription is missing or revoked, the rule is created with Status CREATION_FAILED and cannot be modified — only deleted. See PartnerThreatProtectionConfig.
         public let partnerThreatProtection: PartnerThreatProtectionConfig?
 
         @inlinable
@@ -2310,7 +2311,7 @@ extension Route53Resolver {
         public let displayName: String?
         /// The category or class of the rule type, such as FirewallAdvancedContentCategory or FirewallAdvancedThreatCategory.
         public let ruleType: String?
-        /// For rule types that require an external subscription (today, only the PartnerThreatProtection variant), describes the AWS Marketplace product that backs the rule type. Absent for rule types that are managed by AWS and do not require a separate subscription. See SubscriptionInfo.
+        /// For rule types that require an external subscription (today, only the PartnerThreatProtection variant), describes the Amazon Web Services Marketplace product that backs the rule type. Absent for rule types that are managed by Amazon Web Services and do not require a separate subscription. See SubscriptionInfo.
         public let subscriptionInfo: SubscriptionInfo?
         /// The specific identifier within the rule type category, such as VIOLENCE_AND_HATE_SPEECH or PHISHING.
         public let value: String?
@@ -2913,7 +2914,7 @@ extension Route53Resolver {
         /// 			The IPv6 address that you want to use for DNS queries.
         ///
         public let ipv6: String?
-        /// The ID of the subnet that contains the IP address.
+        /// The ID of the subnet that contains the IP address.  We recommend using VPC Resolver on Outposts to create endpoints on Outposts Racks.  Outposts subnets with Local Network Interface (LNI) enabled are not compatible with Route 53 Resolver endpoints. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver endpoints in the Amazon Route 53 Developer Guide.
         public let subnetId: String
 
         @inlinable
@@ -2993,7 +2994,7 @@ extension Route53Resolver {
         ///
         public let ipv6: String?
         /// The ID of the subnet that includes the IP address that you want to update. To get this ID, use
-        /// 			GetResolverEndpoint.
+        /// 			GetResolverEndpoint. We recommend using VPC Resolver on Outposts to create endpoints on Outposts Racks.  Outposts subnets with Local Network Interface (LNI) enabled are not compatible with Route 53 Resolver endpoints. If you enable LNI on a subnet that contains Route 53 Resolver endpoint elastic network interfaces (ENIs), those ENIs will stop functioning. For more information, see Subnet compatibility for Resolver endpoints in the Amazon Route 53 Developer Guide.
         public let subnetId: String?
 
         @inlinable
@@ -4038,7 +4039,7 @@ extension Route53Resolver {
     }
 
     public struct PartnerThreatProtectionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the partner threat-protection product, exactly as returned in the Value field of a FirewallRuleTypeDefinition with RuleType set to PartnerThreatProtection. The calling account must hold an active AWS Marketplace subscription to this product.
+        /// The identifier of the partner threat-protection product, exactly as returned in the Value field of a FirewallRuleTypeDefinition with RuleType set to PartnerThreatProtection. The calling account must hold an active Amazon Web Services Marketplace subscription to this product.
         public let partner: String
 
         @inlinable
@@ -4661,9 +4662,9 @@ extension Route53Resolver {
     }
 
     public struct SubscriptionInfo: AWSDecodableShape {
-        /// The AWS Marketplace product identifier of the partner threat-protection product. Use this value to verify or manage the calling account's subscription in AWS Marketplace.
+        /// The Amazon Web Services Marketplace product identifier of the partner threat-protection product. Use this value to verify or manage the calling account's subscription in Amazon Web Services Marketplace.
         public let productId: String?
-        /// The name of the AWS Marketplace seller (vendor) that publishes the partner threat-protection product (for example, Palo Alto Networks).
+        /// The name of the Amazon Web Services Marketplace seller (vendor) that publishes the partner threat-protection product (for example, Palo Alto Networks).
         public let vendorName: String?
 
         @inlinable
@@ -4928,7 +4929,7 @@ extension Route53Resolver {
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group for the rule.
         public let firewallRuleGroupId: String
-        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
+        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an Amazon Web Services-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an Amazon Web Services-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through Amazon Web Services Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
         public let firewallRuleType: FirewallRuleType?
         /// The ID of the DNS Firewall Advanced rule.
         public let firewallThreatProtectionId: String?
@@ -5073,7 +5074,7 @@ extension Route53Resolver {
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group for the rule.
         public let firewallRuleGroupId: String
-        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
+        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an Amazon Web Services-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an Amazon Web Services-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through Amazon Web Services Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
         public let firewallRuleType: FirewallRuleType?
         /// 			The DNS Firewall Advanced rule ID.
         ///
