@@ -13,6 +13,10 @@ on:
       - '**.yml'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-ci
+  cancel-in-progress: true
+
 env:
   AWS_ACCESS_KEY_ID : ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -34,9 +38,9 @@ jobs:
     strategy:
       matrix:
         image:
-          - swift:6.1
           - swift:6.2
           - swift:6.3
+          - swift:6.4
     services:
       localstack:
         image: localstack/localstack
@@ -56,4 +60,5 @@ jobs:
     - name: Test
       # Cannot run in parallel as APIGateway tests fail occasionally
       run: |
-        swift test --enable-test-discovery
+        cd IntegrationTests
+        swift test

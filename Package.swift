@@ -3035,7 +3035,7 @@ let package = Package(
         ),
 
         .testTarget(
-            name: "SotoTests",
+            name: "IntegrationTests",
             dependencies: [
                 "SotoACM",
                 "SotoAPIGateway",
@@ -3055,7 +3055,8 @@ let package = Package(
                 "SotoSSM",
                 "SotoSTS",
                 "SotoTimestreamWrite",
-            ]
+            ],
+            path: "IntegrationTests/Tests/IntegrationTests"
         ),
     ]
 )
