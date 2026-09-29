@@ -142,6 +142,17 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
+    public enum FeedbackCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eyesClosedDetected = "EYES_CLOSED_DETECTED"
+        case faceNotAligned = "FACE_NOT_ALIGNED"
+        case faceNotVisible = "FACE_NOT_VISIBLE"
+        case faceObstructionDetected = "FACE_OBSTRUCTION_DETECTED"
+        case highLightingDetected = "HIGH_LIGHTING_DETECTED"
+        case lowLightingDetected = "LOW_LIGHTING_DETECTED"
+        case lowVideoQualityDetected = "LOW_VIDEO_QUALITY_DETECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GenderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case female = "Female"
         case male = "Male"
@@ -3370,6 +3381,24 @@ extension Rekognition {
         }
     }
 
+    public struct FeedbackItem: AWSDecodableShape {
+        /// A code identifying the condition that was detected during the Face Liveness session.
+        public let code: FeedbackCode
+        /// A human-readable description of the detected condition, suitable for displaying to an end user before they retry a Face Liveness check. Use Code rather than this message for programmatic decisions, because the message text can change.
+        public let message: String
+
+        @inlinable
+        public init(code: FeedbackCode, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct Gender: AWSDecodableShape {
         /// Level of confidence in the prediction.
         public let confidence: Float?
@@ -3773,6 +3802,10 @@ extension Rekognition {
         public let challenge: Challenge?
         /// Probabalistic confidence score for if the person in the given video was live, represented as a float value between 0 to 100.
         public let confidence: Float?
+        /// A list of conditions that were detected in the Face Liveness video and that contributed to the returned Confidence score. Each item contains a code and a human-readable message. Feedback is returned only for sessions with a Status of SUCCEEDED, and the list is empty when no such conditions were detected.
+        public let feedback: [FeedbackItem]?
+        /// Metadata about the client that streamed the video for the Face Liveness session.
+        public let metadata: SessionMetadata?
         /// A high-quality image from the Face Liveness video that can be used for face comparison or search. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration. In case the reference image is not returned, it's recommended to retry the Liveness check.
         public let referenceImage: AuditImage?
         /// The sessionId for which this request was called.
@@ -3781,10 +3814,12 @@ extension Rekognition {
         public let status: LivenessSessionStatus
 
         @inlinable
-        public init(auditImages: [AuditImage]? = nil, challenge: Challenge? = nil, confidence: Float? = nil, referenceImage: AuditImage? = nil, sessionId: String, status: LivenessSessionStatus) {
+        public init(auditImages: [AuditImage]? = nil, challenge: Challenge? = nil, confidence: Float? = nil, feedback: [FeedbackItem]? = nil, metadata: SessionMetadata? = nil, referenceImage: AuditImage? = nil, sessionId: String, status: LivenessSessionStatus) {
             self.auditImages = auditImages
             self.challenge = challenge
             self.confidence = confidence
+            self.feedback = feedback
+            self.metadata = metadata
             self.referenceImage = referenceImage
             self.sessionId = sessionId
             self.status = status
@@ -3794,6 +3829,8 @@ extension Rekognition {
             case auditImages = "AuditImages"
             case challenge = "Challenge"
             case confidence = "Confidence"
+            case feedback = "Feedback"
+            case metadata = "Metadata"
             case referenceImage = "ReferenceImage"
             case sessionId = "SessionId"
             case status = "Status"
@@ -6808,6 +6845,20 @@ extension Rekognition {
             case code = "Code"
             case logref = "Logref"
             case message = "Message"
+        }
+    }
+
+    public struct SessionMetadata: AWSDecodableShape {
+        /// The type of SDK that was used to stream the video for the Face Liveness session.  This value is self-reported by the client that streamed the session, and Amazon Rekognition doesn't verify it. Don't rely on it for authentication, authorization, or any other security decision.
+        public let sdkType: String
+
+        @inlinable
+        public init(sdkType: String) {
+            self.sdkType = sdkType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sdkType = "SDKType"
         }
     }
 

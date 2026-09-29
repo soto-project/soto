@@ -59,6 +59,17 @@ extension HealthLake {
         public var description: String { return self.rawValue }
     }
 
+    public enum BackupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BackupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case continuous = "CONTINUOUS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CmkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aoCmk = "AWS_OWNED_KMS_KEY"
         case cmCmk = "CUSTOMER_MANAGED_KMS_KEY"
@@ -244,10 +255,55 @@ extension HealthLake {
         }
     }
 
+    public struct BackupConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether tags are included in backups.
+        public let backupTagsEnabled: Bool?
+        /// The type of backup.
+        public let backupType: BackupType?
+        /// The number of days backup data is retained.
+        public let retentionPeriodInDays: Int?
+        /// The backup status of the data store.
+        public let status: BackupStatus?
+
+        @inlinable
+        public init(backupTagsEnabled: Bool? = nil, backupType: BackupType? = nil, retentionPeriodInDays: Int? = nil, status: BackupStatus? = nil) {
+            self.backupTagsEnabled = backupTagsEnabled
+            self.backupType = backupType
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retentionPeriodInDays, name: "retentionPeriodInDays", parent: name, max: 30)
+            try self.validate(self.retentionPeriodInDays, name: "retentionPeriodInDays", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupTagsEnabled = "BackupTagsEnabled"
+            case backupType = "BackupType"
+            case retentionPeriodInDays = "RetentionPeriodInDays"
+            case status = "Status"
+        }
+    }
+
+    public struct ContinuousBackupRestoreConfiguration: AWSEncodableShape {
+        /// The point in time to restore the data store to, specified as a UTC timestamp.
+        public let restorePointTime: Date?
+
+        @inlinable
+        public init(restorePointTime: Date? = nil) {
+            self.restorePointTime = restorePointTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case restorePointTime = "RestorePointTime"
+        }
+    }
+
     public struct CreateDataTransformationProfileRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
         public let clientToken: String?
-        /// The AWS Key Management Service (AWS KMS) key identifier used to encrypt the profile content at rest.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key identifier used to encrypt the profile content at rest.
         public let kmsKeyId: String?
         /// A human-readable description of the profile's purpose.
         public let profileDescription: String?
@@ -337,6 +393,8 @@ extension HealthLake {
     public struct CreateFHIRDatastoreRequest: AWSEncodableShape {
         /// The analytics configuration for the data store.
         public let analyticsConfiguration: AnalyticsConfiguration?
+        /// The backup configuration for the data store.
+        public let backupConfiguration: BackupConfiguration?
         /// An optional user-provided token to ensure API idempotency.
         public let clientToken: String?
         /// The data store name (user-generated).
@@ -357,8 +415,9 @@ extension HealthLake {
         public let tags: [Tag]?
 
         @inlinable
-        public init(analyticsConfiguration: AnalyticsConfiguration? = nil, clientToken: String? = CreateFHIRDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, datastoreTypeVersion: FHIRVersion, identityProviderConfiguration: IdentityProviderConfiguration? = nil, nlpConfiguration: NlpConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, profileConfiguration: ProfileConfiguration? = nil, sseConfiguration: SseConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(analyticsConfiguration: AnalyticsConfiguration? = nil, backupConfiguration: BackupConfiguration? = nil, clientToken: String? = CreateFHIRDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, datastoreTypeVersion: FHIRVersion, identityProviderConfiguration: IdentityProviderConfiguration? = nil, nlpConfiguration: NlpConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, profileConfiguration: ProfileConfiguration? = nil, sseConfiguration: SseConfiguration? = nil, tags: [Tag]? = nil) {
             self.analyticsConfiguration = analyticsConfiguration
+            self.backupConfiguration = backupConfiguration
             self.clientToken = clientToken
             self.datastoreName = datastoreName
             self.datastoreTypeVersion = datastoreTypeVersion
@@ -371,6 +430,7 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.backupConfiguration?.validate(name: "\(name).backupConfiguration")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -388,6 +448,7 @@ extension HealthLake {
 
         private enum CodingKeys: String, CodingKey {
             case analyticsConfiguration = "AnalyticsConfiguration"
+            case backupConfiguration = "BackupConfiguration"
             case clientToken = "ClientToken"
             case datastoreName = "DatastoreName"
             case datastoreTypeVersion = "DatastoreTypeVersion"
@@ -403,7 +464,7 @@ extension HealthLake {
     public struct CreateFHIRDatastoreResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the data store.
         public let datastoreArn: String
-        /// The AWS endpoint created for the data store.
+        /// The Amazon Web Services endpoint created for the data store.
         public let datastoreEndpoint: String
         /// The data store identifier.
         public let datastoreId: String
@@ -503,9 +564,9 @@ extension HealthLake {
     }
 
     public struct DataTransformationS3Configuration: AWSEncodableShape & AWSDecodableShape {
-        /// The AWS Key Management Service (AWS KMS) key identifier used to encrypt the transformation job output written to Amazon S3.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key identifier used to encrypt the transformation job output written to Amazon S3.
         public let kmsKeyId: String
-        /// The Amazon S3 URI where AWS HealthLake writes the converted output files.
+        /// The Amazon S3 URI where HealthLake writes the converted output files.
         public let s3Uri: String
 
         @inlinable
@@ -525,6 +586,36 @@ extension HealthLake {
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct DatastoreBackupStatus: AWSDecodableShape {
+        /// The time backup was enabled on the data store.
+        public let backupEnabledAt: Date?
+        /// The backup configuration for the data store.
+        public let configuration: BackupConfiguration?
+        /// The earliest point in time the data store can be restored to.
+        public let earliestRestorePoint: Date?
+        /// The latest point in time the data store can be restored to.
+        public let latestRestorePoint: Date?
+        /// The time the retained backup data is scheduled for permanent deletion.
+        public let scheduledPermanentDeletionTime: Date?
+
+        @inlinable
+        public init(backupEnabledAt: Date? = nil, configuration: BackupConfiguration? = nil, earliestRestorePoint: Date? = nil, latestRestorePoint: Date? = nil, scheduledPermanentDeletionTime: Date? = nil) {
+            self.backupEnabledAt = backupEnabledAt
+            self.configuration = configuration
+            self.earliestRestorePoint = earliestRestorePoint
+            self.latestRestorePoint = latestRestorePoint
+            self.scheduledPermanentDeletionTime = scheduledPermanentDeletionTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupEnabledAt = "BackupEnabledAt"
+            case configuration = "Configuration"
+            case earliestRestorePoint = "EarliestRestorePoint"
+            case latestRestorePoint = "LatestRestorePoint"
+            case scheduledPermanentDeletionTime = "ScheduledPermanentDeletionTime"
         }
     }
 
@@ -563,11 +654,13 @@ extension HealthLake {
     public struct DatastoreProperties: AWSDecodableShape {
         /// The analytics configuration for the data store.
         public let analyticsConfiguration: AnalyticsConfiguration?
+        /// The backup status information for the data store.
+        public let backupStatusInfo: DatastoreBackupStatus?
         /// The time the data store was created.
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) used in the creation of the data store.
         public let datastoreArn: String
-        /// The AWS endpoint for the data store.
+        /// The Amazon Web Services endpoint for the data store.
         public let datastoreEndpoint: String
         /// The data store identifier.
         public let datastoreId: String
@@ -591,8 +684,9 @@ extension HealthLake {
         public let sseConfiguration: SseConfiguration?
 
         @inlinable
-        public init(analyticsConfiguration: AnalyticsConfiguration? = nil, createdAt: Date? = nil, datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreName: String? = nil, datastoreStatus: DatastoreStatus, datastoreTypeVersion: FHIRVersion, errorCause: ErrorCause? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, nlpConfiguration: NlpConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, profileConfiguration: ProfileConfiguration? = nil, sseConfiguration: SseConfiguration? = nil) {
+        public init(analyticsConfiguration: AnalyticsConfiguration? = nil, backupStatusInfo: DatastoreBackupStatus? = nil, createdAt: Date? = nil, datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreName: String? = nil, datastoreStatus: DatastoreStatus, datastoreTypeVersion: FHIRVersion, errorCause: ErrorCause? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, nlpConfiguration: NlpConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, profileConfiguration: ProfileConfiguration? = nil, sseConfiguration: SseConfiguration? = nil) {
             self.analyticsConfiguration = analyticsConfiguration
+            self.backupStatusInfo = backupStatusInfo
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
             self.datastoreEndpoint = datastoreEndpoint
@@ -610,6 +704,7 @@ extension HealthLake {
 
         private enum CodingKeys: String, CodingKey {
             case analyticsConfiguration = "AnalyticsConfiguration"
+            case backupStatusInfo = "BackupStatusInfo"
             case createdAt = "CreatedAt"
             case datastoreArn = "DatastoreArn"
             case datastoreEndpoint = "DatastoreEndpoint"
@@ -673,7 +768,7 @@ extension HealthLake {
     }
 
     public struct DeleteFHIRDatastoreRequest: AWSEncodableShape {
-        ///  The AWS-generated identifier for the data store to be deleted.
+        ///  The Amazon Web Services-generated identifier for the data store to be deleted.
         public let datastoreId: String
 
         @inlinable
@@ -693,11 +788,11 @@ extension HealthLake {
     }
 
     public struct DeleteFHIRDatastoreResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that grants access permission to AWS HealthLake.
+        /// The Amazon Resource Name (ARN) that grants access permission to HealthLake.
         public let datastoreArn: String
-        /// The AWS endpoint of the data store to be deleted.
+        /// The Amazon Web Services endpoint of the data store to be deleted.
         public let datastoreEndpoint: String
-        /// The AWS-generated ID for the deleted data store.
+        /// The Amazon Web Services-generated ID for the deleted data store.
         public let datastoreId: String
         /// The data store status.
         public let datastoreStatus: DatastoreStatus
@@ -1031,7 +1126,7 @@ extension HealthLake {
     }
 
     public struct IdentityProviderConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The authorization strategy selected when the HealthLake data store is created.  HealthLake provides support for both SMART on FHIR V1 and V2 as described below.    SMART_ON_FHIR_V1 – Support for only SMART on FHIR V1, which includes read (read/search) and write (create/update/delete) permissions.    SMART_ON_FHIR – Support for both SMART on FHIR V1 and V2, which includes create, read, update, delete, and search permissions.    AWS_AUTH – The default HealthLake authorization strategy; not affiliated with SMART on FHIR.
+        /// The authorization strategy selected when the HealthLake data store is created.  HealthLake provides support for both SMART on FHIR V1 and V2 as described below.    SMART_ON_FHIR_V1 – Support for only SMART on FHIR V1, which includes read (read/search) and write (create/update/delete) permissions.    SMART_ON_FHIR – Support for both SMART on FHIR V1 and V2, which includes create, read, update, delete, and search permissions.    Amazon Web Services_AUTH – The default HealthLake authorization strategy; not affiliated with SMART on FHIR.
         public let authorizationStrategy: AuthorizationStrategy
         /// The parameter to enable SMART on FHIR fine-grained authorization for the data store.
         public let fineGrainedAuthorizationEnabled: Bool?
@@ -1063,7 +1158,7 @@ extension HealthLake {
     }
 
     public struct ImportJobProperties: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that grants AWS HealthLake access to the input data.
+        /// The Amazon Resource Name (ARN) that grants HealthLake access to the input data.
         public let dataAccessRoleArn: String?
         /// The data store identifier.
         public let datastoreId: String
@@ -1122,42 +1217,37 @@ extension HealthLake {
     public struct JobProgressReport: AWSDecodableShape {
         /// The transaction rate the import job is processed at.
         public let throughput: Double?
-        /// Number of CCDA files successfully transformed during the import's
-        /// transformation phase. Populated only for import jobs that use the
-        /// two-Step-Function (transformation + ingestion) flow; null for legacy
-        /// single-SF imports and for pure FHIR imports that skip transformation.
+        /// Number of CCDA files successfully transformed during the import's transformation phase. Populated only for import jobs that use the two-Step-Function (transformation + ingestion) flow; null for legacy single-SF imports and for pure FHIR imports that skip transformation.
         public let totalFilesConverted: Int64?
-        /// The number of files that failed to be read from the S3 input bucket due to customer error.
+        /// The number of files that failed to be read from the Amazon S3 input bucket due to customer error.
         public let totalNumberOfFilesReadWithCustomerError: Int64?
         /// The number of files imported.
         public let totalNumberOfImportedFiles: Int64?
         /// The number of non-FHIR files imported.
         public let totalNumberOfImportedNonFhirFiles: Int64?
-        /// The number of non-FHIR files that failed to be read from the S3 input bucket due to customer error.
+        /// The number of non-FHIR files that failed to be read from the Amazon S3 input bucket due to customer error.
         public let totalNumberOfNonFhirFilesReadWithCustomerError: Int64?
         /// The number of non-FHIR resources imported.
         public let totalNumberOfNonFhirResourcesImported: Int64?
-        /// The number of non-FHIR resources scanned from the S3 input bucket.
+        /// The number of non-FHIR resources scanned from the Amazon S3 input bucket.
         public let totalNumberOfNonFhirResourcesScanned: Int64?
         /// The number of non-FHIR resources that failed due to customer error.
         public let totalNumberOfNonFhirResourcesWithCustomerError: Int64?
         /// The number of resources imported.
         public let totalNumberOfResourcesImported: Int64?
-        /// The number of resources scanned from the S3 input bucket.
+        /// The number of resources scanned from the Amazon S3 input bucket.
         public let totalNumberOfResourcesScanned: Int64?
         /// The number of resources that failed due to customer error.
         public let totalNumberOfResourcesWithCustomerError: Int64?
-        /// The number of files scanned from the S3 input bucket.
+        /// The number of files scanned from the Amazon S3 input bucket.
         public let totalNumberOfScannedFiles: Int64?
-        /// The number of non-FHIR files scanned from the S3 input bucket.
+        /// The number of non-FHIR files scanned from the Amazon S3 input bucket.
         public let totalNumberOfScannedNonFhirFiles: Int64?
-        /// Number of FHIR resources produced by the transformation phase.
-        /// Populated only for import jobs that use the two-Step-Function flow;
-        /// null for legacy single-SF imports and for pure FHIR imports.
+        /// Number of FHIR resources produced by the transformation phase. Populated only for import jobs that use the two-Step-Function flow; null for legacy single-SF imports and for pure FHIR imports.
         public let totalResourcesGenerated: Int64?
-        /// The size (in MB) of files scanned from the S3 input bucket.
+        /// The size (in MB) of files scanned from the Amazon S3 input bucket.
         public let totalSizeOfScannedFilesInMB: Double?
-        /// The size (in MB) of non-FHIR files scanned from the S3 input bucket.
+        /// The size (in MB) of non-FHIR files scanned from the Amazon S3 input bucket.
         public let totalSizeOfScannedNonFhirFilesInMB: Double?
 
         @inlinable
@@ -1756,10 +1846,105 @@ extension HealthLake {
         }
     }
 
+    public struct RestoreFHIRDatastoreRequest: AWSEncodableShape {
+        /// The analytics configuration for the restored data store.
+        public let analyticsConfiguration: AnalyticsConfiguration?
+        /// An optional user-provided token to ensure API idempotency of the restore.
+        public let clientToken: String?
+        /// The name for the restored data store.
+        public let datastoreName: String?
+        /// The identity provider configuration for the restored data store.
+        public let identityProviderConfiguration: IdentityProviderConfiguration?
+        /// The NLP configuration for the restored data store.
+        public let nlpConfiguration: NlpConfiguration?
+        /// The profile configuration for the restored data store.
+        public let profileConfiguration: ProfileConfiguration?
+        /// The restore configuration specifying the type and parameters for the restore.
+        public let restoreConfiguration: RestoreConfiguration
+        /// The identifier of the source data store to restore from.
+        public let sourceDatastoreId: String
+        /// The server-side encryption key configuration for the restored data store.
+        public let sseConfiguration: SseConfiguration?
+        /// The resource tags applied to the restored data store.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(analyticsConfiguration: AnalyticsConfiguration? = nil, clientToken: String? = RestoreFHIRDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, nlpConfiguration: NlpConfiguration? = nil, profileConfiguration: ProfileConfiguration? = nil, restoreConfiguration: RestoreConfiguration, sourceDatastoreId: String, sseConfiguration: SseConfiguration? = nil, tags: [Tag]? = nil) {
+            self.analyticsConfiguration = analyticsConfiguration
+            self.clientToken = clientToken
+            self.datastoreName = datastoreName
+            self.identityProviderConfiguration = identityProviderConfiguration
+            self.nlpConfiguration = nlpConfiguration
+            self.profileConfiguration = profileConfiguration
+            self.restoreConfiguration = restoreConfiguration
+            self.sourceDatastoreId = sourceDatastoreId
+            self.sseConfiguration = sseConfiguration
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.datastoreName, name: "datastoreName", parent: name, max: 256)
+            try self.validate(self.datastoreName, name: "datastoreName", parent: name, min: 1)
+            try self.validate(self.datastoreName, name: "datastoreName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.identityProviderConfiguration?.validate(name: "\(name).identityProviderConfiguration")
+            try self.profileConfiguration?.validate(name: "\(name).profileConfiguration")
+            try self.validate(self.sourceDatastoreId, name: "sourceDatastoreId", parent: name, max: 32)
+            try self.validate(self.sourceDatastoreId, name: "sourceDatastoreId", parent: name, min: 1)
+            try self.validate(self.sourceDatastoreId, name: "sourceDatastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.sseConfiguration?.validate(name: "\(name).sseConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyticsConfiguration = "AnalyticsConfiguration"
+            case clientToken = "ClientToken"
+            case datastoreName = "DatastoreName"
+            case identityProviderConfiguration = "IdentityProviderConfiguration"
+            case nlpConfiguration = "NlpConfiguration"
+            case profileConfiguration = "ProfileConfiguration"
+            case restoreConfiguration = "RestoreConfiguration"
+            case sourceDatastoreId = "SourceDatastoreId"
+            case sseConfiguration = "SseConfiguration"
+            case tags = "Tags"
+        }
+    }
+
+    public struct RestoreFHIRDatastoreResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the restored data store.
+        public let datastoreArn: String
+        /// The AWS endpoint for the restored data store.
+        public let datastoreEndpoint: String
+        /// The restored data store identifier.
+        public let datastoreId: String
+        /// The restored data store status.
+        public let datastoreStatus: DatastoreStatus
+
+        @inlinable
+        public init(datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreStatus: DatastoreStatus) {
+            self.datastoreArn = datastoreArn
+            self.datastoreEndpoint = datastoreEndpoint
+            self.datastoreId = datastoreId
+            self.datastoreStatus = datastoreStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datastoreArn = "DatastoreArn"
+            case datastoreEndpoint = "DatastoreEndpoint"
+            case datastoreId = "DatastoreId"
+            case datastoreStatus = "DatastoreStatus"
+        }
+    }
+
     public struct S3Configuration: AWSEncodableShape & AWSDecodableShape {
-        /// The Key Management Service (KMS) key ID used to access the S3 bucket.
+        /// The Key Management Service (KMS) key ID used to access the Amazon S3 bucket.
         public let kmsKeyId: String
-        /// The S3Uri is the user-specified S3 location of the FHIR data to be imported into AWS HealthLake.
+        /// The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake.
         public let s3Uri: String
 
         @inlinable
@@ -1823,15 +2008,15 @@ extension HealthLake {
     public struct StartDataTransformationJobRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
         public let clientToken: String
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that AWS HealthLake assumes to read from and write to the specified Amazon S3 locations.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that HealthLake assumes to read from and write to the specified Amazon S3 locations.
         public let dataAccessRoleArn: String
-        /// Specifies whether drift detection is enabled for this job. When enabled, AWS HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
+        /// Specifies whether drift detection is enabled for this job. When enabled, HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
         public let driftDetectionEnabled: Bool?
         /// The Amazon S3 location and format of the source files to transform.
         public let inputDataConfig: TransformationInputDataConfig
         /// A descriptive name for the data transformation job.
         public let jobName: String?
-        /// The Amazon S3 output location and AWS Key Management Service (AWS KMS) encryption configuration.
+        /// The Amazon S3 output location and Amazon Web Services Key Management Service (Amazon Web Services KMS) encryption configuration.
         public let outputDataConfig: TransformationOutputDataConfig
         /// The unique identifier of the data transformation profile to use for conversion.
         public let profileId: String
@@ -1968,23 +2153,28 @@ extension HealthLake {
     public struct StartFHIRImportJobRequest: AWSEncodableShape {
         /// The optional user-provided token used for ensuring API idempotency.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) that grants access permission to AWS HealthLake.
+        /// The Amazon Resource Name (ARN) that grants access permission to HealthLake.
         public let dataAccessRoleArn: String
         /// The data store identifier.
         public let datastoreId: String
+        /// Specifies whether to enable drift detection for the import job.
         public let driftDetectionEnabled: Bool?
         /// The input properties for the import job request.
         public let inputDataConfig: InputDataConfig
+        /// The input format of the data to be imported.
         public let inputFormat: String?
         /// The import job name.
         public let jobName: String?
         public let jobOutputDataConfig: OutputDataConfig
+        /// The data transformation profile identifier to use for the import job.
         public let profileId: String?
+        /// Specifies whether to enable provenance for the import job.
+        public let provenanceEnabled: Bool?
         /// The validation level of the import job.
         public let validationLevel: ValidationLevel?
 
         @inlinable
-        public init(clientToken: String? = StartFHIRImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, driftDetectionEnabled: Bool? = nil, inputDataConfig: InputDataConfig, inputFormat: String? = nil, jobName: String? = nil, jobOutputDataConfig: OutputDataConfig, profileId: String? = nil, validationLevel: ValidationLevel? = nil) {
+        public init(clientToken: String? = StartFHIRImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, driftDetectionEnabled: Bool? = nil, inputDataConfig: InputDataConfig, inputFormat: String? = nil, jobName: String? = nil, jobOutputDataConfig: OutputDataConfig, profileId: String? = nil, provenanceEnabled: Bool? = nil, validationLevel: ValidationLevel? = nil) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
@@ -1994,6 +2184,7 @@ extension HealthLake {
             self.jobName = jobName
             self.jobOutputDataConfig = jobOutputDataConfig
             self.profileId = profileId
+            self.provenanceEnabled = provenanceEnabled
             self.validationLevel = validationLevel
         }
 
@@ -2030,6 +2221,7 @@ extension HealthLake {
             case jobName = "JobName"
             case jobOutputDataConfig = "JobOutputDataConfig"
             case profileId = "ProfileId"
+            case provenanceEnabled = "ProvenanceEnabled"
             case validationLevel = "ValidationLevel"
         }
     }
@@ -2179,9 +2371,9 @@ extension HealthLake {
     }
 
     public struct TransformationJobProperties: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants AWS HealthLake access to the specified Amazon S3 locations. AWS HealthLake assumes this role to read input files and write output files.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that grants HealthLake access to the specified Amazon S3 locations. HealthLake assumes this role to read input files and write output files.
         public let dataAccessRoleArn: String
-        /// Specifies whether drift detection is enabled for this job. When enabled, AWS HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
+        /// Specifies whether drift detection is enabled for this job. When enabled, HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
         public let driftDetectionEnabled: Bool?
         /// The timestamp when the job completed or failed.
         public let endTime: Date?
@@ -2283,7 +2475,7 @@ extension HealthLake {
     }
 
     public struct TransformationOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon S3 output location and AWS Key Management Service (AWS KMS) encryption configuration.
+        /// The Amazon S3 output location and Amazon Web Services Key Management Service (Amazon Web Services KMS) encryption configuration.
         public let s3Configuration: DataTransformationS3Configuration
 
         @inlinable
@@ -2410,6 +2602,8 @@ extension HealthLake {
     public struct UpdateFHIRDatastoreRequest: AWSEncodableShape {
         /// The analytics configuration for the data store.
         public let analyticsConfiguration: AnalyticsConfiguration?
+        /// The backup configuration for the data store.
+        public let backupConfiguration: BackupConfiguration?
         /// The data store identifier.
         public let datastoreId: String
         /// The data store name.
@@ -2422,8 +2616,9 @@ extension HealthLake {
         public let profileConfiguration: ProfileConfiguration?
 
         @inlinable
-        public init(analyticsConfiguration: AnalyticsConfiguration? = nil, datastoreId: String, datastoreName: String? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, nlpConfiguration: NlpConfiguration? = nil, profileConfiguration: ProfileConfiguration? = nil) {
+        public init(analyticsConfiguration: AnalyticsConfiguration? = nil, backupConfiguration: BackupConfiguration? = nil, datastoreId: String, datastoreName: String? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, nlpConfiguration: NlpConfiguration? = nil, profileConfiguration: ProfileConfiguration? = nil) {
             self.analyticsConfiguration = analyticsConfiguration
+            self.backupConfiguration = backupConfiguration
             self.datastoreId = datastoreId
             self.datastoreName = datastoreName
             self.identityProviderConfiguration = identityProviderConfiguration
@@ -2432,6 +2627,7 @@ extension HealthLake {
         }
 
         public func validate(name: String) throws {
+            try self.backupConfiguration?.validate(name: "\(name).backupConfiguration")
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, max: 32)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
@@ -2444,6 +2640,7 @@ extension HealthLake {
 
         private enum CodingKeys: String, CodingKey {
             case analyticsConfiguration = "AnalyticsConfiguration"
+            case backupConfiguration = "BackupConfiguration"
             case datastoreId = "DatastoreId"
             case datastoreName = "DatastoreName"
             case identityProviderConfiguration = "IdentityProviderConfiguration"
@@ -2520,7 +2717,7 @@ extension HealthLake {
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The S3Uri is the user-specified S3 location of the FHIR data to be imported into AWS HealthLake.
+        /// The S3Uri is the user-specified Amazon S3 location of the FHIR data to be imported into HealthLake.
         public let s3Uri: String?
 
         @inlinable
@@ -2553,6 +2750,20 @@ extension HealthLake {
 
         private enum CodingKeys: String, CodingKey {
             case s3Configuration = "S3Configuration"
+        }
+    }
+
+    public struct RestoreConfiguration: AWSEncodableShape {
+        /// Configuration for restoring from continuous backup to a specific point in time.
+        public let continuousBackupRestoreConfiguration: ContinuousBackupRestoreConfiguration?
+
+        @inlinable
+        public init(continuousBackupRestoreConfiguration: ContinuousBackupRestoreConfiguration? = nil) {
+            self.continuousBackupRestoreConfiguration = continuousBackupRestoreConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case continuousBackupRestoreConfiguration = "ContinuousBackupRestoreConfiguration"
         }
     }
 }
@@ -2615,7 +2826,7 @@ public struct HealthLakeErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The user has exceeded their maximum number of allowed calls to the given API.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// You are not authorized to make this request. Verify that your AWS credentials are valid and that you have the required permissions.
+    /// You are not authorized to make this request. Verify that your Amazon Web Services credentials are valid and that you have the required permissions.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
     /// The content type in your request is not supported. Use a supported content type for this operation.
     public static var unsupportedMIMETypeException: Self { .init(.unsupportedMIMETypeException) }

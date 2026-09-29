@@ -40,7 +40,7 @@ public struct EntityResolution: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct EntityResolution: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "EntityResolution",
+            sdkId: "EntityResolution",
             serviceIdentifier: "entityresolution",
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
@@ -342,7 +343,7 @@ public struct EntityResolution: AWSService {
         return try await self.createSchemaMapping(input, logger: logger)
     }
 
-    /// Deletes the IdMappingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
+    /// Deletes the IdMappingWorkflow with a given name. This operation returns a ResourceNotFoundException if a workflow with the given name does not exist.
     @Sendable
     @inlinable
     public func deleteIdMappingWorkflow(_ input: DeleteIdMappingWorkflowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdMappingWorkflowOutput {
@@ -355,7 +356,7 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Deletes the IdMappingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
+    /// Deletes the IdMappingWorkflow with a given name. This operation returns a ResourceNotFoundException if a workflow with the given name does not exist.
     ///
     /// Parameters:
     ///   - workflowName: The name of the workflow to be deleted.
@@ -371,7 +372,7 @@ public struct EntityResolution: AWSService {
         return try await self.deleteIdMappingWorkflow(input, logger: logger)
     }
 
-    /// Deletes the IdNamespace with a given name.
+    /// Deletes the IdNamespace with a given name. This operation returns a ResourceNotFoundException if an ID namespace with the given name does not exist.
     @Sendable
     @inlinable
     public func deleteIdNamespace(_ input: DeleteIdNamespaceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdNamespaceOutput {
@@ -384,7 +385,7 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Deletes the IdNamespace with a given name.
+    /// Deletes the IdNamespace with a given name. This operation returns a ResourceNotFoundException if an ID namespace with the given name does not exist.
     ///
     /// Parameters:
     ///   - idNamespaceName: The name of the ID namespace.
@@ -400,7 +401,7 @@ public struct EntityResolution: AWSService {
         return try await self.deleteIdNamespace(input, logger: logger)
     }
 
-    /// Deletes the MatchingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
+    /// Deletes the MatchingWorkflow with a given name. This operation returns a ResourceNotFoundException if a workflow with the given name does not exist.
     @Sendable
     @inlinable
     public func deleteMatchingWorkflow(_ input: DeleteMatchingWorkflowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMatchingWorkflowOutput {
@@ -413,7 +414,7 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Deletes the MatchingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
+    /// Deletes the MatchingWorkflow with a given name. This operation returns a ResourceNotFoundException if a workflow with the given name does not exist.
     ///
     /// Parameters:
     ///   - workflowName: The name of the workflow to be retrieved.
@@ -461,7 +462,7 @@ public struct EntityResolution: AWSService {
         return try await self.deletePolicyStatement(input, logger: logger)
     }
 
-    /// Deletes the SchemaMapping with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
+    /// Deletes the SchemaMapping with a given name. This operation returns a ResourceNotFoundException if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
     @Sendable
     @inlinable
     public func deleteSchemaMapping(_ input: DeleteSchemaMappingInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSchemaMappingOutput {
@@ -474,7 +475,7 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Deletes the SchemaMapping with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
+    /// Deletes the SchemaMapping with a given name. This operation returns a ResourceNotFoundException if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
     ///
     /// Parameters:
     ///   - schemaName: The name of the schema to delete.

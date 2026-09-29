@@ -40,7 +40,7 @@ public struct ObservabilityAdmin: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct ObservabilityAdmin: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "ObservabilityAdmin",
+            sdkId: "ObservabilityAdmin",
             serviceIdentifier: "observabilityadmin",
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
@@ -111,6 +112,38 @@ public struct ObservabilityAdmin: AWSService {
             tags: tags
         )
         return try await self.createCentralizationRuleForOrganization(input, logger: logger)
+    }
+
+    /// Creates a dataset integration for the caller's account in the current region and returns its ARN. To use this operation, you must have permission to access the dataset integration resources through the IAM role specified in the RoleArn parameter. If a dataset integration already exists for the account, this operation fails with a ConflictException.
+    @Sendable
+    @inlinable
+    public func createDatasetIntegration(_ input: CreateDatasetIntegrationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetIntegrationOutput {
+        try await self.client.execute(
+            operation: "CreateDatasetIntegration", 
+            path: "/CreateDatasetIntegration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a dataset integration for the caller's account in the current region and returns its ARN. To use this operation, you must have permission to access the dataset integration resources through the IAM role specified in the RoleArn parameter. If a dataset integration already exists for the account, this operation fails with a ConflictException.
+    ///
+    /// Parameters:
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that grants Amazon CloudWatch permission to access the resources needed for the dataset integration.
+    ///   - tags: The key-value pairs to associate with the dataset integration resource for categorization and management purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDatasetIntegration(
+        roleArn: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDatasetIntegrationOutput {
+        let input = CreateDatasetIntegrationInput(
+            roleArn: roleArn, 
+            tags: tags
+        )
+        return try await self.createDatasetIntegration(input, logger: logger)
     }
 
     /// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark.
@@ -282,6 +315,35 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.deleteCentralizationRuleForOrganization(input, logger: logger)
     }
 
+    /// Deletes a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same delete more than once, each call succeeds.
+    @Sendable
+    @inlinable
+    public func deleteDatasetIntegration(_ input: DeleteDatasetIntegrationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteDatasetIntegration", 
+            path: "/DeleteDatasetIntegration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same delete more than once, each call succeeds.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the dataset integration to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDatasetIntegration(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteDatasetIntegrationInput(
+            arn: arn
+        )
+        return try await self.deleteDatasetIntegration(input, logger: logger)
+    }
+
     /// Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
     @Sendable
     @inlinable
@@ -425,6 +487,35 @@ public struct ObservabilityAdmin: AWSService {
             ruleIdentifier: ruleIdentifier
         )
         return try await self.getCentralizationRuleForOrganization(input, logger: logger)
+    }
+
+    /// Returns the dataset integration for the caller's account in the current region.
+    @Sendable
+    @inlinable
+    public func getDatasetIntegration(_ input: GetDatasetIntegrationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDatasetIntegrationOutput {
+        try await self.client.execute(
+            operation: "GetDatasetIntegration", 
+            path: "/GetDatasetIntegration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the dataset integration for the caller's account in the current region.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the dataset integration to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDatasetIntegration(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDatasetIntegrationOutput {
+        let input = GetDatasetIntegrationInput(
+            arn: arn
+        )
+        return try await self.getDatasetIntegration(input, logger: logger)
     }
 
     /// Retrieves information about a specific S3 Table integration, including its configuration, status, and metadata.
@@ -620,6 +711,38 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.listCentralizationRulesForOrganization(input, logger: logger)
     }
 
+    /// Returns the dataset integrations in your account.
+    @Sendable
+    @inlinable
+    public func listDatasetIntegrations(_ input: ListDatasetIntegrationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetIntegrationsOutput {
+        try await self.client.execute(
+            operation: "ListDatasetIntegrations", 
+            path: "/ListDatasetIntegrations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the dataset integrations in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - nextToken: The token for the next set of results. A previous call generates this token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDatasetIntegrations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDatasetIntegrationsOutput {
+        let input = ListDatasetIntegrationsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDatasetIntegrations(input, logger: logger)
+    }
+
     ///  Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
     @Sendable
     @inlinable
@@ -640,7 +763,7 @@ public struct ObservabilityAdmin: AWSService {
     ///   - nextToken:  The token for the next set of items to return. A previous call generates this token.
     ///   - resourceIdentifierPrefix:  A string used to filter resources which have a ResourceIdentifier starting with the ResourceIdentifierPrefix.
     ///   - resourceTags:  A key-value pair to filter resources based on tags associated with the resource. For more information about tags, see What are tags?
-    ///   - resourceTypes:  A list of resource types used to filter resources supported by telemetry config. If this parameter is provided, the resources will be returned in the same order used in the request.
+    ///   - resourceTypes:  A list of resource types used to filter resources supported by telemetry config. If this parameter is provided, the service returns the resources in the same order as specified in the request. Currently supported resource types for discovery are:    AWS::EC2::Instance     AWS::EC2::VPC     AWS::Lambda::Function     AWS::EKS::Cluster     AWS::WAFv2::WebACL     AWS::ElasticLoadBalancingV2::LoadBalancer (Network Load Balancers only)
     ///   - telemetryConfigurationState:  A key-value pair to filter resources based on the telemetry type and the state of the telemetry configuration. The key is the telemetry type and the value is the state.
     ///   - logger: Logger use during operation
     @inlinable
@@ -685,7 +808,7 @@ public struct ObservabilityAdmin: AWSService {
     ///   - nextToken:  The token for the next set of items to return. A previous call provides this token.
     ///   - resourceIdentifierPrefix:  A string used to filter resources in the organization which have a ResourceIdentifier starting with the ResourceIdentifierPrefix.
     ///   - resourceTags:  A key-value pair to filter resources in the organization based on tags associated with the resource. Fore more information about tags, see What are tags?
-    ///   - resourceTypes:  A list of resource types used to filter resources in the organization. If this parameter is provided, the resources will be returned in the same order used in the request.
+    ///   - resourceTypes:  A list of resource types used to filter resources in the organization. If this parameter is provided, the service returns the resources in the same order as specified in the request. Currently supported resource types for discovery are:    AWS::EC2::Instance     AWS::EC2::VPC     AWS::Lambda::Function     AWS::EKS::Cluster     AWS::WAFv2::WebACL     AWS::ElasticLoadBalancingV2::LoadBalancer (Network Load Balancers only)
     ///   - telemetryConfigurationState:  A key-value pair to filter resources in the organization based on the telemetry type and the state of the telemetry configuration. The key is the telemetry type and the value is the state.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1127,6 +1250,38 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.updateCentralizationRuleForOrganization(input, logger: logger)
     }
 
+    /// Updates a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same update more than once, each call succeeds.
+    @Sendable
+    @inlinable
+    public func updateDatasetIntegration(_ input: UpdateDatasetIntegrationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDatasetIntegrationOutput {
+        try await self.client.execute(
+            operation: "UpdateDatasetIntegration", 
+            path: "/UpdateDatasetIntegration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a dataset integration for the caller's account in the current region. This operation is idempotent; if you submit the same update more than once, each call succeeds.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the dataset integration to update.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role to associate with the dataset integration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDatasetIntegration(
+        arn: String,
+        roleArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDatasetIntegrationOutput {
+        let input = UpdateDatasetIntegrationInput(
+            arn: arn, 
+            roleArn: roleArn
+        )
+        return try await self.updateDatasetIntegration(input, logger: logger)
+    }
+
     /// Updates the configuration of an existing telemetry pipeline.  The following attributes cannot be updated after pipeline creation:    Pipeline name - The pipeline name is immutable    Pipeline ARN - The ARN is automatically generated and cannot be changed    Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type   Processors can be added, removed, or modified. However, some processors are not supported for third-party pipelines and cannot be added through updates.   Source-Specific Update Rules   CloudWatch Logs Sources (Vended and Custom)   Updatable: sts_role_arn   Fixed: data_source_name, data_source_type, sink (must remain @original)  S3 Sources (Crowdstrike, Zscaler, SentinelOne, Custom)   Updatable: All SQS configuration parameters, sts_role_arn, codec settings, compression type, bucket ownership settings, sink log group  Fixed: notification_type, aws.region   GitHub Audit Logs   Updatable: All Amazon Web Services Secrets Manager attributes, scope (can switch between ORGANIZATION/ENTERPRISE), organization or enterprise name, range, authentication credentials (PAT or GitHub App)  Microsoft Sources (Entra ID, Office365, Windows)   Updatable: All Amazon Web Services Secrets Manager attributes, tenant_id, workspace_id (Windows only), OAuth2 credentials (client_id, client_secret)  Okta Sources (SSO, Auth0)   Updatable: All Amazon Web Services Secrets Manager attributes, domain, range, OAuth2 credentials (client_id, client_secret)  Palo Alto Networks   Updatable: All Amazon Web Services Secrets Manager attributes, hostname, basic authentication credentials (username, password)  ServiceNow CMDB   Updatable: All Amazon Web Services Secrets Manager attributes, instance_url, range, OAuth2 credentials (client_id, client_secret)  Wiz CNAPP   Updatable: All Amazon Web Services Secrets Manager attributes, region, range, OAuth2 credentials (client_id, client_secret)
     @Sendable
     @inlinable
@@ -1306,6 +1461,40 @@ extension ObservabilityAdmin {
         return self.listCentralizationRulesForOrganizationPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listDatasetIntegrations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetIntegrationsPaginator(
+        _ input: ListDatasetIntegrationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDatasetIntegrationsInput, ListDatasetIntegrationsOutput> {
+        return .init(
+            input: input,
+            command: self.listDatasetIntegrations,
+            inputKey: \ListDatasetIntegrationsInput.nextToken,
+            outputKey: \ListDatasetIntegrationsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDatasetIntegrations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetIntegrationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDatasetIntegrationsInput, ListDatasetIntegrationsOutput> {
+        let input = ListDatasetIntegrationsInput(
+            maxResults: maxResults
+        )
+        return self.listDatasetIntegrationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listResourceTelemetry(_:logger:)``.
     ///
     /// - Parameters:
@@ -1330,7 +1519,7 @@ extension ObservabilityAdmin {
     ///   - maxResults:  A number field used to limit the number of results within the returned list.
     ///   - resourceIdentifierPrefix:  A string used to filter resources which have a ResourceIdentifier starting with the ResourceIdentifierPrefix.
     ///   - resourceTags:  A key-value pair to filter resources based on tags associated with the resource. For more information about tags, see What are tags?
-    ///   - resourceTypes:  A list of resource types used to filter resources supported by telemetry config. If this parameter is provided, the resources will be returned in the same order used in the request.
+    ///   - resourceTypes:  A list of resource types used to filter resources supported by telemetry config. If this parameter is provided, the service returns the resources in the same order as specified in the request. Currently supported resource types for discovery are:    AWS::EC2::Instance     AWS::EC2::VPC     AWS::Lambda::Function     AWS::EKS::Cluster     AWS::WAFv2::WebACL     AWS::ElasticLoadBalancingV2::LoadBalancer (Network Load Balancers only)
     ///   - telemetryConfigurationState:  A key-value pair to filter resources based on the telemetry type and the state of the telemetry configuration. The key is the telemetry type and the value is the state.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1377,7 +1566,7 @@ extension ObservabilityAdmin {
     ///   - maxResults:  A number field used to limit the number of results within the returned list.
     ///   - resourceIdentifierPrefix:  A string used to filter resources in the organization which have a ResourceIdentifier starting with the ResourceIdentifierPrefix.
     ///   - resourceTags:  A key-value pair to filter resources in the organization based on tags associated with the resource. Fore more information about tags, see What are tags?
-    ///   - resourceTypes:  A list of resource types used to filter resources in the organization. If this parameter is provided, the resources will be returned in the same order used in the request.
+    ///   - resourceTypes:  A list of resource types used to filter resources in the organization. If this parameter is provided, the service returns the resources in the same order as specified in the request. Currently supported resource types for discovery are:    AWS::EC2::Instance     AWS::EC2::VPC     AWS::Lambda::Function     AWS::EKS::Cluster     AWS::WAFv2::WebACL     AWS::ElasticLoadBalancingV2::LoadBalancer (Network Load Balancers only)
     ///   - telemetryConfigurationState:  A key-value pair to filter resources in the organization based on the telemetry type and the state of the telemetry configuration. The key is the telemetry type and the value is the state.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1558,6 +1747,16 @@ extension ObservabilityAdmin.ListCentralizationRulesForOrganizationInput: AWSPag
             maxResults: self.maxResults,
             nextToken: token,
             ruleNamePrefix: self.ruleNamePrefix
+        )
+    }
+}
+
+extension ObservabilityAdmin.ListDatasetIntegrationsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ObservabilityAdmin.ListDatasetIntegrationsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

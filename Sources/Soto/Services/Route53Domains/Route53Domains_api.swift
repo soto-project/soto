@@ -41,7 +41,7 @@ public struct Route53Domains: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -62,6 +62,7 @@ public struct Route53Domains: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "Route53Domains_v20140515",
             serviceName: "Route53Domains",
+            sdkId: "Route 53 Domains",
             serviceIdentifier: "route53domains",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-05-15",

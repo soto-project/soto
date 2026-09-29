@@ -82,6 +82,35 @@ extension LaunchWizard {
         public var description: String { return self.rawValue }
     }
 
+    public enum AccountConstraint: AWSDecodableShape, Sendable {
+        case delegatedAdmin(DelegatedAdminConstraint)
+        case managementAccount(ManagementAccountConstraint)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .delegatedAdmin:
+                let value = try container.decode(DelegatedAdminConstraint.self, forKey: .delegatedAdmin)
+                self = .delegatedAdmin(value)
+            case .managementAccount:
+                let value = try container.decode(ManagementAccountConstraint.self, forKey: .managementAccount)
+                self = .managementAccount(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegatedAdmin = "delegatedAdmin"
+            case managementAccount = "managementAccount"
+        }
+    }
+
     // MARK: Shapes
 
     public struct CreateDeploymentInput: AWSEncodableShape {
@@ -127,9 +156,9 @@ extension LaunchWizard {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9 _.:/=+@-]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z+-=._:/]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9 _.:/=+@-]*$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
@@ -159,6 +188,20 @@ extension LaunchWizard {
 
         private enum CodingKeys: String, CodingKey {
             case deploymentId = "deploymentId"
+        }
+    }
+
+    public struct DelegatedAdminConstraint: AWSDecodableShape {
+        /// The service principal for which the account must be a delegated administrator. For example, `stacksets.cloudformation.amazonaws.com`.
+        public let servicePrincipal: String
+
+        @inlinable
+        public init(servicePrincipal: String) {
+            self.servicePrincipal = servicePrincipal
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case servicePrincipal = "servicePrincipal"
         }
     }
 
@@ -321,6 +364,7 @@ extension LaunchWizard {
     public struct DeploymentEventDataSummary: AWSDecodableShape {
         /// The description of the deployment event.
         public let description: String?
+        public let metadata: [String: String]?
         /// The name of the deployment event.
         public let name: String?
         /// The status of the deployment event.
@@ -331,8 +375,9 @@ extension LaunchWizard {
         public let timestamp: Date?
 
         @inlinable
-        public init(description: String? = nil, name: String? = nil, status: EventStatus? = nil, statusReason: String? = nil, timestamp: Date? = nil) {
+        public init(description: String? = nil, metadata: [String: String]? = nil, name: String? = nil, status: EventStatus? = nil, statusReason: String? = nil, timestamp: Date? = nil) {
             self.description = description
+            self.metadata = metadata
             self.name = name
             self.status = status
             self.statusReason = statusReason
@@ -341,6 +386,7 @@ extension LaunchWizard {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case metadata = "metadata"
             case name = "name"
             case status = "status"
             case statusReason = "statusReason"
@@ -907,6 +953,10 @@ extension LaunchWizard {
         }
     }
 
+    public struct ManagementAccountConstraint: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TagResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -930,9 +980,9 @@ extension LaunchWizard {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9 _.:/=+@-]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z+-=._:/]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9 _.:/=+@-]*$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
@@ -970,7 +1020,7 @@ extension LaunchWizard {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[a-zA-Z0-9 _.:/=+@-]+$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
@@ -1053,6 +1103,8 @@ extension LaunchWizard {
     }
 
     public struct WorkloadData: AWSDecodableShape {
+        /// Optional list of constraints describing what kind of AWS account is allowed to deploy this workload or deployment pattern. Within a single list the semantics are OR: an account satisfies the list if it satisfies any entry. Workload-level and pattern-level lists combine with AND at deployment time. An absent or empty list at this level means no constraint at this level.
+        public let accountConstraints: [AccountConstraint]?
         /// The description of a workload.
         public let description: String?
         /// The display name of a workload.
@@ -1069,7 +1121,8 @@ extension LaunchWizard {
         public let workloadName: String?
 
         @inlinable
-        public init(description: String? = nil, displayName: String? = nil, documentationUrl: String? = nil, iconUrl: String? = nil, status: WorkloadStatus? = nil, statusMessage: String? = nil, workloadName: String? = nil) {
+        public init(accountConstraints: [AccountConstraint]? = nil, description: String? = nil, displayName: String? = nil, documentationUrl: String? = nil, iconUrl: String? = nil, status: WorkloadStatus? = nil, statusMessage: String? = nil, workloadName: String? = nil) {
+            self.accountConstraints = accountConstraints
             self.description = description
             self.displayName = displayName
             self.documentationUrl = documentationUrl
@@ -1080,6 +1133,7 @@ extension LaunchWizard {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountConstraints = "accountConstraints"
             case description = "description"
             case displayName = "displayName"
             case documentationUrl = "documentationUrl"
@@ -1091,6 +1145,8 @@ extension LaunchWizard {
     }
 
     public struct WorkloadDataSummary: AWSDecodableShape {
+        /// Optional list of constraints describing what kind of AWS account is allowed to deploy this workload or deployment pattern. Within a single list the semantics are OR: an account satisfies the list if it satisfies any entry. Workload-level and pattern-level lists combine with AND at deployment time. An absent or empty list at this level means no constraint at this level.
+        public let accountConstraints: [AccountConstraint]?
         /// The display name of the workload data.
         public let displayName: String?
         /// The status of the workload.
@@ -1099,13 +1155,15 @@ extension LaunchWizard {
         public let workloadName: String?
 
         @inlinable
-        public init(displayName: String? = nil, status: WorkloadStatus? = nil, workloadName: String? = nil) {
+        public init(accountConstraints: [AccountConstraint]? = nil, displayName: String? = nil, status: WorkloadStatus? = nil, workloadName: String? = nil) {
+            self.accountConstraints = accountConstraints
             self.displayName = displayName
             self.status = status
             self.workloadName = workloadName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountConstraints = "accountConstraints"
             case displayName = "displayName"
             case status = "status"
             case workloadName = "workloadName"
@@ -1113,6 +1171,8 @@ extension LaunchWizard {
     }
 
     public struct WorkloadDeploymentPatternData: AWSDecodableShape {
+        /// Optional list of constraints describing what kind of AWS account is allowed to deploy this workload or deployment pattern. Within a single list the semantics are OR: an account satisfies the list if it satisfies any entry. Workload-level and pattern-level lists combine with AND at deployment time. An absent or empty list at this level means no constraint at this level.
+        public let accountConstraints: [AccountConstraint]?
         /// The name of the deployment pattern.
         public let deploymentPatternName: String?
         /// The version name of the deployment pattern.
@@ -1133,7 +1193,8 @@ extension LaunchWizard {
         public let workloadVersionName: String?
 
         @inlinable
-        public init(deploymentPatternName: String? = nil, deploymentPatternVersionName: String? = nil, description: String? = nil, displayName: String? = nil, specifications: [DeploymentSpecificationsField]? = nil, status: WorkloadDeploymentPatternStatus? = nil, statusMessage: String? = nil, workloadName: String? = nil, workloadVersionName: String? = nil) {
+        public init(accountConstraints: [AccountConstraint]? = nil, deploymentPatternName: String? = nil, deploymentPatternVersionName: String? = nil, description: String? = nil, displayName: String? = nil, specifications: [DeploymentSpecificationsField]? = nil, status: WorkloadDeploymentPatternStatus? = nil, statusMessage: String? = nil, workloadName: String? = nil, workloadVersionName: String? = nil) {
+            self.accountConstraints = accountConstraints
             self.deploymentPatternName = deploymentPatternName
             self.deploymentPatternVersionName = deploymentPatternVersionName
             self.description = description
@@ -1146,6 +1207,7 @@ extension LaunchWizard {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountConstraints = "accountConstraints"
             case deploymentPatternName = "deploymentPatternName"
             case deploymentPatternVersionName = "deploymentPatternVersionName"
             case description = "description"
@@ -1159,6 +1221,8 @@ extension LaunchWizard {
     }
 
     public struct WorkloadDeploymentPatternDataSummary: AWSDecodableShape {
+        /// Optional list of constraints describing what kind of AWS account is allowed to deploy this workload or deployment pattern. Within a single list the semantics are OR: an account satisfies the list if it satisfies any entry. Workload-level and pattern-level lists combine with AND at deployment time. An absent or empty list at this level means no constraint at this level.
+        public let accountConstraints: [AccountConstraint]?
         /// The name of a workload deployment pattern.
         public let deploymentPatternName: String?
         /// The version name of a workload deployment pattern.
@@ -1177,7 +1241,8 @@ extension LaunchWizard {
         public let workloadVersionName: String?
 
         @inlinable
-        public init(deploymentPatternName: String? = nil, deploymentPatternVersionName: String? = nil, description: String? = nil, displayName: String? = nil, status: WorkloadDeploymentPatternStatus? = nil, statusMessage: String? = nil, workloadName: String? = nil, workloadVersionName: String? = nil) {
+        public init(accountConstraints: [AccountConstraint]? = nil, deploymentPatternName: String? = nil, deploymentPatternVersionName: String? = nil, description: String? = nil, displayName: String? = nil, status: WorkloadDeploymentPatternStatus? = nil, statusMessage: String? = nil, workloadName: String? = nil, workloadVersionName: String? = nil) {
+            self.accountConstraints = accountConstraints
             self.deploymentPatternName = deploymentPatternName
             self.deploymentPatternVersionName = deploymentPatternVersionName
             self.description = description
@@ -1189,6 +1254,7 @@ extension LaunchWizard {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountConstraints = "accountConstraints"
             case deploymentPatternName = "deploymentPatternName"
             case deploymentPatternVersionName = "deploymentPatternVersionName"
             case description = "description"

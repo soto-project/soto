@@ -163,6 +163,16 @@ extension SecurityAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum JobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// A CI/CD pentest job that tests only the code changes in a single pipeline run, as determined by the scope changes supplied when the job is started.
+        case cicd = "CICD"
+        /// A full pentest job that executes all phases including scanning, managed execution, and guided exploration.
+        case full = "FULL"
+        /// A targeted revalidation job that retests specific findings to determine whether they are still exploitable.
+        case revalidation = "REVALIDATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Logs stored in CloudWatch.
         case cloudwatch = "CLOUDWATCH"
@@ -314,6 +324,16 @@ extension SecurityAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScopeDecision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The code changes are in scope and are tested by the pentest job.
+        case inScope = "IN_SCOPE"
+        /// The code changes could not be conclusively scoped because of a conflict in the scoping inputs.
+        case scopeConflict = "SCOPE_CONFLICT"
+        /// The code changes are out of scope and are not tested. No pentest is run for the changes.
+        case scopedOut = "SCOPED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SecurityRequirementArtifactFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case doc = "DOC"
         case docx = "DOCX"
@@ -452,6 +472,65 @@ extension SecurityAgent {
         case validating = "VALIDATING"
         case validationFailed = "VALIDATION_FAILED"
         public var description: String { return self.rawValue }
+    }
+
+    public enum CaCertificateSource: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The artifact ID of an uploaded certificate file.
+        case artifactId(String)
+        /// A PEM-encoded X.509 certificate supplied inline.
+        case inlinePem(String)
+        /// The Amazon S3 location URI of a customer-staged certificate.
+        case s3Location(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .artifactId:
+                let value = try container.decode(String.self, forKey: .artifactId)
+                self = .artifactId(value)
+            case .inlinePem:
+                let value = try container.decode(String.self, forKey: .inlinePem)
+                self = .inlinePem(value)
+            case .s3Location:
+                let value = try container.decode(String.self, forKey: .s3Location)
+                self = .s3Location(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .artifactId(let value):
+                try container.encode(value, forKey: .artifactId)
+            case .inlinePem(let value):
+                try container.encode(value, forKey: .inlinePem)
+            case .s3Location(let value):
+                try container.encode(value, forKey: .s3Location)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .inlinePem(let value):
+                try self.validate(value, name: "inlinePem", parent: name, max: 8192)
+                try self.validate(value, name: "inlinePem", parent: name, min: 1)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactId = "artifactId"
+            case inlinePem = "inlinePem"
+            case s3Location = "s3Location"
+        }
     }
 
     public enum IntegratedResource: AWSEncodableShape, Sendable {
@@ -694,24 +773,58 @@ extension SecurityAgent {
         public let authentication: Authentication?
         /// A description of the actor.
         public let description: String?
+        /// Whether email-based MFA is enabled for this actor.
+        public let enableEmailMfa: Bool?
         /// The unique identifier for the actor.
         public let identifier: String?
+        /// Server-generated email forwarding address for receiving MFA codes.
+        public let mfaForwardingAddress: String?
         /// The list of URIs that the actor targets during testing.
         public let uris: [String]?
 
         @inlinable
-        public init(authentication: Authentication? = nil, description: String? = nil, identifier: String? = nil, uris: [String]? = nil) {
+        public init(authentication: Authentication? = nil, description: String? = nil, enableEmailMfa: Bool? = nil, identifier: String? = nil, mfaForwardingAddress: String? = nil, uris: [String]? = nil) {
             self.authentication = authentication
             self.description = description
+            self.enableEmailMfa = enableEmailMfa
             self.identifier = identifier
+            self.mfaForwardingAddress = mfaForwardingAddress
             self.uris = uris
         }
 
         private enum CodingKeys: String, CodingKey {
             case authentication = "authentication"
             case description = "description"
+            case enableEmailMfa = "enableEmailMfa"
             case identifier = "identifier"
+            case mfaForwardingAddress = "mfaForwardingAddress"
             case uris = "uris"
+        }
+    }
+
+    public struct ActorMessage: AWSDecodableShape {
+        /// The plain-text body of the message, containing the MFA code or verification link.
+        public let body: String?
+        /// The time the message was received.
+        public let receivedAt: Date?
+        /// The address the message was sent from.
+        public let sender: String?
+        /// The subject line of the message.
+        public let subject: String?
+
+        @inlinable
+        public init(body: String? = nil, receivedAt: Date? = nil, sender: String? = nil, subject: String? = nil) {
+            self.body = body
+            self.receivedAt = receivedAt
+            self.sender = sender
+            self.subject = subject
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+            case receivedAt = "receivedAt"
+            case sender = "sender"
+            case subject = "subject"
         }
     }
 
@@ -930,14 +1043,23 @@ extension SecurityAgent {
         public let integratedRepositories: [IntegratedRepository]?
         /// The list of source code repositories to analyze during the pentest.
         public let sourceCode: [SourceCodeRepository]?
+        /// The trust anchors used to validate target endpoint TLS certificates. Provide these for endpoints served by a private or internal certificate authority (CA), an intermediate CA, or a self-signed certificate.
+        public let trustedCaCertificates: [TrustedCaCertificate]?
 
         @inlinable
-        public init(actors: [Actor]? = nil, documents: [DocumentInfo]? = nil, endpoints: [Endpoint]? = nil, integratedRepositories: [IntegratedRepository]? = nil, sourceCode: [SourceCodeRepository]? = nil) {
+        public init(actors: [Actor]? = nil, documents: [DocumentInfo]? = nil, endpoints: [Endpoint]? = nil, integratedRepositories: [IntegratedRepository]? = nil, sourceCode: [SourceCodeRepository]? = nil, trustedCaCertificates: [TrustedCaCertificate]? = nil) {
             self.actors = actors
             self.documents = documents
             self.endpoints = endpoints
             self.integratedRepositories = integratedRepositories
             self.sourceCode = sourceCode
+            self.trustedCaCertificates = trustedCaCertificates
+        }
+
+        public func validate(name: String) throws {
+            try self.trustedCaCertificates?.forEach {
+                try $0.validate(name: "\(name).trustedCaCertificates[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -946,6 +1068,7 @@ extension SecurityAgent {
             case endpoints = "endpoints"
             case integratedRepositories = "integratedRepositories"
             case sourceCode = "sourceCode"
+            case trustedCaCertificates = "trustedCaCertificates"
         }
     }
 
@@ -1919,6 +2042,20 @@ extension SecurityAgent {
         }
     }
 
+    public struct CiCdConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Whether CI/CD pentesting is enabled for this pentest.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+        }
+    }
+
     public struct CloudWatchLog: AWSEncodableShape & AWSDecodableShape {
         /// The name of the CloudWatch log group.
         public let logGroup: String?
@@ -2020,6 +2157,12 @@ extension SecurityAgent {
         public let createdAt: Date?
         /// The CloudWatch Logs configuration for the code review.
         public let logConfig: CloudWatchLog?
+        /// The maximum number of billable task hours allowed for jobs started from this code review. If a job reaches the configured limit, it is gracefully stopped. If not set, jobs run to completion with no budget cap.
+        public let maxTaskHours: Double?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public let reportFilters: ReportFilters?
         /// The IAM service role used for the code review.
         public let serviceRole: String?
         /// The title of the code review.
@@ -2030,13 +2173,16 @@ extension SecurityAgent {
         public let validationMode: ValidationMode?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets, codeRemediationStrategy: CodeRemediationStrategy? = nil, codeReviewId: String, createdAt: Date? = nil, logConfig: CloudWatchLog? = nil, serviceRole: String? = nil, title: String, updatedAt: Date? = nil, validationMode: ValidationMode? = nil) {
+        public init(agentSpaceId: String, assets: Assets, codeRemediationStrategy: CodeRemediationStrategy? = nil, codeReviewId: String, createdAt: Date? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String, updatedAt: Date? = nil, validationMode: ValidationMode? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.codeRemediationStrategy = codeRemediationStrategy
             self.codeReviewId = codeReviewId
             self.createdAt = createdAt
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.updatedAt = updatedAt
@@ -2050,6 +2196,9 @@ extension SecurityAgent {
             case codeReviewId = "codeReviewId"
             case createdAt = "createdAt"
             case logConfig = "logConfig"
+            case maxTaskHours = "maxTaskHours"
+            case reportDestination = "reportDestination"
+            case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
             case title = "title"
             case updatedAt = "updatedAt"
@@ -2076,8 +2225,12 @@ extension SecurityAgent {
         public let integratedRepositories: [IntegratedRepository]?
         /// The CloudWatch Logs configuration for the code review job.
         public let logConfig: CloudWatchLog?
+        /// The maximum number of billable task hours allowed for this code review job. If the cumulative task hours reach this limit, the job is gracefully stopped.
+        public let maxTaskHours: Double?
         /// An overview of the code review job results.
         public let overview: String?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
         /// The IAM service role used for the code review job.
         public let serviceRole: String?
         /// The list of source code repositories analyzed during the code review job.
@@ -2092,7 +2245,7 @@ extension SecurityAgent {
         public let updatedAt: Date?
 
         @inlinable
-        public init(codeRemediationStrategy: CodeRemediationStrategy? = nil, codeReviewId: String? = nil, codeReviewJobId: String? = nil, createdAt: Date? = nil, documents: [DocumentInfo]? = nil, errorInformation: ErrorInformation? = nil, executionContext: [ExecutionContext]? = nil, integratedRepositories: [IntegratedRepository]? = nil, logConfig: CloudWatchLog? = nil, overview: String? = nil, serviceRole: String? = nil, sourceCode: [SourceCodeRepository]? = nil, status: JobStatus? = nil, steps: [Step]? = nil, title: String? = nil, updatedAt: Date? = nil) {
+        public init(codeRemediationStrategy: CodeRemediationStrategy? = nil, codeReviewId: String? = nil, codeReviewJobId: String? = nil, createdAt: Date? = nil, documents: [DocumentInfo]? = nil, errorInformation: ErrorInformation? = nil, executionContext: [ExecutionContext]? = nil, integratedRepositories: [IntegratedRepository]? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, overview: String? = nil, reportDestination: ReportDestination? = nil, serviceRole: String? = nil, sourceCode: [SourceCodeRepository]? = nil, status: JobStatus? = nil, steps: [Step]? = nil, title: String? = nil, updatedAt: Date? = nil) {
             self.codeRemediationStrategy = codeRemediationStrategy
             self.codeReviewId = codeReviewId
             self.codeReviewJobId = codeReviewJobId
@@ -2102,7 +2255,9 @@ extension SecurityAgent {
             self.executionContext = executionContext
             self.integratedRepositories = integratedRepositories
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
             self.overview = overview
+            self.reportDestination = reportDestination
             self.serviceRole = serviceRole
             self.sourceCode = sourceCode
             self.status = status
@@ -2121,7 +2276,9 @@ extension SecurityAgent {
             case executionContext = "executionContext"
             case integratedRepositories = "integratedRepositories"
             case logConfig = "logConfig"
+            case maxTaskHours = "maxTaskHours"
             case overview = "overview"
+            case reportDestination = "reportDestination"
             case serviceRole = "serviceRole"
             case sourceCode = "sourceCode"
             case status = "status"
@@ -2559,6 +2716,12 @@ extension SecurityAgent {
         public let codeRemediationStrategy: CodeRemediationStrategy?
         /// The CloudWatch Logs configuration for the code review.
         public let logConfig: CloudWatchLog?
+        /// The maximum number of billable task hours allowed for jobs started from this code review. Must be a positive number. If not set, jobs run to completion with no budget cap.
+        public let maxTaskHours: Double?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public let reportFilters: ReportFilters?
         /// The IAM service role to use for the code review.
         public let serviceRole: String?
         /// The title of the code review.
@@ -2567,14 +2730,22 @@ extension SecurityAgent {
         public let validationMode: ValidationMode?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets, codeRemediationStrategy: CodeRemediationStrategy? = nil, logConfig: CloudWatchLog? = nil, serviceRole: String? = nil, title: String, validationMode: ValidationMode? = nil) {
+        public init(agentSpaceId: String, assets: Assets, codeRemediationStrategy: CodeRemediationStrategy? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String, validationMode: ValidationMode? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.codeRemediationStrategy = codeRemediationStrategy
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.validationMode = validationMode
+        }
+
+        public func validate(name: String) throws {
+            try self.assets.validate(name: "\(name).assets")
+            try self.reportFilters?.validate(name: "\(name).reportFilters")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2582,6 +2753,9 @@ extension SecurityAgent {
             case assets = "assets"
             case codeRemediationStrategy = "codeRemediationStrategy"
             case logConfig = "logConfig"
+            case maxTaskHours = "maxTaskHours"
+            case reportDestination = "reportDestination"
+            case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
             case title = "title"
             case validationMode = "validationMode"
@@ -2601,6 +2775,12 @@ extension SecurityAgent {
         public let createdAt: Date?
         /// The CloudWatch Logs configuration for the code review.
         public let logConfig: CloudWatchLog?
+        /// The maximum number of billable task hours configured for jobs started from this code review. Null if no budget cap is set.
+        public let maxTaskHours: Double?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public let reportFilters: ReportFilters?
         /// The IAM service role used for the code review.
         public let serviceRole: String?
         /// The title of the code review.
@@ -2611,13 +2791,16 @@ extension SecurityAgent {
         public let validationMode: ValidationMode?
 
         @inlinable
-        public init(agentSpaceId: String? = nil, assets: Assets? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, codeReviewId: String, createdAt: Date? = nil, logConfig: CloudWatchLog? = nil, serviceRole: String? = nil, title: String? = nil, updatedAt: Date? = nil, validationMode: ValidationMode? = nil) {
+        public init(agentSpaceId: String? = nil, assets: Assets? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, codeReviewId: String, createdAt: Date? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String? = nil, updatedAt: Date? = nil, validationMode: ValidationMode? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.codeRemediationStrategy = codeRemediationStrategy
             self.codeReviewId = codeReviewId
             self.createdAt = createdAt
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.updatedAt = updatedAt
@@ -2631,6 +2814,9 @@ extension SecurityAgent {
             case codeReviewId = "codeReviewId"
             case createdAt = "createdAt"
             case logConfig = "logConfig"
+            case maxTaskHours = "maxTaskHours"
+            case reportDestination = "reportDestination"
+            case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
             case title = "title"
             case updatedAt = "updatedAt"
@@ -2725,6 +2911,8 @@ extension SecurityAgent {
         public let agentSpaceId: String
         /// The assets to include in the pentest, such as endpoints, actors, documents, and source code.
         public let assets: Assets?
+        /// The CI/CD pentesting configuration to apply to the pentest.
+        public let cicdConfiguration: CiCdConfiguration?
         /// The code remediation strategy for the pentest. Valid values are AUTOMATIC and DISABLED.
         public let codeRemediationStrategy: CodeRemediationStrategy?
         /// A list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
@@ -2733,8 +2921,14 @@ extension SecurityAgent {
         public let excludeRiskTypes: [RiskType]?
         /// The CloudWatch Logs configuration for the pentest.
         public let logConfig: CloudWatchLog?
+        /// The maximum number of billable task hours allowed for jobs started from this pentest. Must be a positive number. If not set, jobs run to completion with no budget cap.
+        public let maxTaskHours: Double?
         /// The network traffic configuration for the pentest, including custom headers and traffic rules.
         public let networkTrafficConfig: NetworkTrafficConfig?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public let reportFilters: ReportFilters?
         /// The IAM service role to use for the pentest.
         public let serviceRole: String?
         /// The title of the pentest.
@@ -2743,27 +2937,40 @@ extension SecurityAgent {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, serviceRole: String? = nil, title: String, vpcConfig: VpcConfig? = nil) {
+        public init(agentSpaceId: String, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String, vpcConfig: VpcConfig? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
+            self.cicdConfiguration = cicdConfiguration
             self.codeRemediationStrategy = codeRemediationStrategy
             self.disableManagedSkills = disableManagedSkills
             self.excludeRiskTypes = excludeRiskTypes
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
             self.networkTrafficConfig = networkTrafficConfig
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.vpcConfig = vpcConfig
         }
 
+        public func validate(name: String) throws {
+            try self.assets?.validate(name: "\(name).assets")
+            try self.reportFilters?.validate(name: "\(name).reportFilters")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case agentSpaceId = "agentSpaceId"
             case assets = "assets"
+            case cicdConfiguration = "cicdConfiguration"
             case codeRemediationStrategy = "codeRemediationStrategy"
             case disableManagedSkills = "disableManagedSkills"
             case excludeRiskTypes = "excludeRiskTypes"
             case logConfig = "logConfig"
+            case maxTaskHours = "maxTaskHours"
             case networkTrafficConfig = "networkTrafficConfig"
+            case reportDestination = "reportDestination"
+            case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
             case title = "title"
             case vpcConfig = "vpcConfig"
@@ -2775,6 +2982,8 @@ extension SecurityAgent {
         public let agentSpaceId: String?
         /// The assets included in the pentest.
         public let assets: Assets?
+        /// The CI/CD pentesting configuration applied to the pentest.
+        public let cicdConfiguration: CiCdConfiguration?
         /// The date and time the pentest was created, in UTC format.
         public let createdAt: Date?
         /// The list of risk types excluded from the pentest.
@@ -2783,6 +2992,10 @@ extension SecurityAgent {
         public let logConfig: CloudWatchLog?
         /// The unique identifier of the created pentest.
         public let pentestId: String?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public let reportFilters: ReportFilters?
         /// The IAM service role used for the pentest.
         public let serviceRole: String?
         /// The title of the pentest.
@@ -2791,13 +3004,16 @@ extension SecurityAgent {
         public let updatedAt: Date?
 
         @inlinable
-        public init(agentSpaceId: String? = nil, assets: Assets? = nil, createdAt: Date? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, pentestId: String? = nil, serviceRole: String? = nil, title: String? = nil, updatedAt: Date? = nil) {
+        public init(agentSpaceId: String? = nil, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, createdAt: Date? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, pentestId: String? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String? = nil, updatedAt: Date? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
+            self.cicdConfiguration = cicdConfiguration
             self.createdAt = createdAt
             self.excludeRiskTypes = excludeRiskTypes
             self.logConfig = logConfig
             self.pentestId = pentestId
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.updatedAt = updatedAt
@@ -2806,10 +3022,13 @@ extension SecurityAgent {
         private enum CodingKeys: String, CodingKey {
             case agentSpaceId = "agentSpaceId"
             case assets = "assets"
+            case cicdConfiguration = "cicdConfiguration"
             case createdAt = "createdAt"
             case excludeRiskTypes = "excludeRiskTypes"
             case logConfig = "logConfig"
             case pentestId = "pentestId"
+            case reportDestination = "reportDestination"
+            case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
             case title = "title"
             case updatedAt = "updatedAt"
@@ -3138,6 +3357,10 @@ extension SecurityAgent {
             self.title = title
         }
 
+        public func validate(name: String) throws {
+            try self.assets?.validate(name: "\(name).assets")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case agentSpaceId = "agentSpaceId"
             case assets = "assets"
@@ -3161,6 +3384,8 @@ extension SecurityAgent {
         public let description: String?
         /// The CloudWatch Logs configuration for the threat model.
         public let logConfig: CloudWatchLog?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
         /// The scoped documents for the agent to focus on during threat modeling.
         public let scopeDocs: [DocumentInfo]?
         /// The IAM service role used for the threat model.
@@ -3173,12 +3398,13 @@ extension SecurityAgent {
         public let updatedAt: Date?
 
         @inlinable
-        public init(agentSpaceId: String? = nil, assets: Assets? = nil, createdAt: Date? = nil, description: String? = nil, logConfig: CloudWatchLog? = nil, scopeDocs: [DocumentInfo]? = nil, serviceRole: String? = nil, threatModelId: String, title: String? = nil, updatedAt: Date? = nil) {
+        public init(agentSpaceId: String? = nil, assets: Assets? = nil, createdAt: Date? = nil, description: String? = nil, logConfig: CloudWatchLog? = nil, reportDestination: ReportDestination? = nil, scopeDocs: [DocumentInfo]? = nil, serviceRole: String? = nil, threatModelId: String, title: String? = nil, updatedAt: Date? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.createdAt = createdAt
             self.description = description
             self.logConfig = logConfig
+            self.reportDestination = reportDestination
             self.scopeDocs = scopeDocs
             self.serviceRole = serviceRole
             self.threatModelId = threatModelId
@@ -3192,6 +3418,7 @@ extension SecurityAgent {
             case createdAt = "createdAt"
             case description = "description"
             case logConfig = "logConfig"
+            case reportDestination = "reportDestination"
             case scopeDocs = "scopeDocs"
             case serviceRole = "serviceRole"
             case threatModelId = "threatModelId"
@@ -3825,12 +4052,16 @@ extension SecurityAgent {
         public let lastUpdatedBy: String?
         /// The name of the finding.
         public let name: String?
+        /// The identifier of the original finding that this revalidation finding was produced from.
+        public let originalFindingId: String?
         /// The unique identifier of the pentest associated with the finding.
         public let pentestId: String?
         /// The unique identifier of the pentest job that produced the finding.
         public let pentestJobId: String?
         /// The reasoning behind the finding, explaining why it was identified as a vulnerability.
         public let reasoning: String?
+        /// The list of pentest job identifiers for revalidation jobs that retested this finding.
+        public let revalidationJobIds: [String]?
         /// The risk level of the finding. Valid values include UNKNOWN, INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
         public let riskLevel: RiskLevel?
         /// The numerical risk score of the finding.
@@ -3849,7 +4080,7 @@ extension SecurityAgent {
         public let verificationScript: VerificationScript?
 
         @inlinable
-        public init(agentSpaceId: String, alignmentRationale: String? = nil, attackScript: String? = nil, codeLocations: [CodeLocation]? = nil, codeRemediationTask: CodeRemediationTask? = nil, codeReviewId: String? = nil, codeReviewJobId: String? = nil, confidence: ConfidenceLevel? = nil, createdAt: Date? = nil, customerNote: String? = nil, description: String? = nil, findingId: String, lastUpdatedBy: String? = nil, name: String? = nil, pentestId: String? = nil, pentestJobId: String? = nil, reasoning: String? = nil, riskLevel: RiskLevel? = nil, riskScore: String? = nil, riskType: String? = nil, status: FindingStatus? = nil, taskId: String? = nil, updatedAt: Date? = nil, validationStatus: ValidationStatus? = nil, verificationScript: VerificationScript? = nil) {
+        public init(agentSpaceId: String, alignmentRationale: String? = nil, attackScript: String? = nil, codeLocations: [CodeLocation]? = nil, codeRemediationTask: CodeRemediationTask? = nil, codeReviewId: String? = nil, codeReviewJobId: String? = nil, confidence: ConfidenceLevel? = nil, createdAt: Date? = nil, customerNote: String? = nil, description: String? = nil, findingId: String, lastUpdatedBy: String? = nil, name: String? = nil, originalFindingId: String? = nil, pentestId: String? = nil, pentestJobId: String? = nil, reasoning: String? = nil, revalidationJobIds: [String]? = nil, riskLevel: RiskLevel? = nil, riskScore: String? = nil, riskType: String? = nil, status: FindingStatus? = nil, taskId: String? = nil, updatedAt: Date? = nil, validationStatus: ValidationStatus? = nil, verificationScript: VerificationScript? = nil) {
             self.agentSpaceId = agentSpaceId
             self.alignmentRationale = alignmentRationale
             self.attackScript = attackScript
@@ -3864,9 +4095,11 @@ extension SecurityAgent {
             self.findingId = findingId
             self.lastUpdatedBy = lastUpdatedBy
             self.name = name
+            self.originalFindingId = originalFindingId
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
             self.reasoning = reasoning
+            self.revalidationJobIds = revalidationJobIds
             self.riskLevel = riskLevel
             self.riskScore = riskScore
             self.riskType = riskType
@@ -3892,9 +4125,11 @@ extension SecurityAgent {
             case findingId = "findingId"
             case lastUpdatedBy = "lastUpdatedBy"
             case name = "name"
+            case originalFindingId = "originalFindingId"
             case pentestId = "pentestId"
             case pentestJobId = "pentestJobId"
             case reasoning = "reasoning"
+            case revalidationJobIds = "revalidationJobIds"
             case riskLevel = "riskLevel"
             case riskScore = "riskScore"
             case riskType = "riskType"
@@ -4487,18 +4722,22 @@ extension SecurityAgent {
     }
 
     public struct IntegratedRepository: AWSEncodableShape & AWSDecodableShape {
+        /// An optional override for the repository branch.
+        public let branch: String?
         /// The unique identifier of the integration that provides access to the repository.
         public let integrationId: String
         /// The provider-specific resource identifier for the repository.
         public let providerResourceId: String
 
         @inlinable
-        public init(integrationId: String, providerResourceId: String) {
+        public init(branch: String? = nil, integrationId: String, providerResourceId: String) {
+            self.branch = branch
             self.integrationId = integrationId
             self.providerResourceId = providerResourceId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case branch = "branch"
             case integrationId = "integrationId"
             case providerResourceId = "providerResourceId"
         }
@@ -4579,6 +4818,54 @@ extension SecurityAgent {
             case provider = "provider"
             case providerType = "providerType"
             case targetUrl = "targetUrl"
+        }
+    }
+
+    public struct ListActorMessagesInput: AWSEncodableShape {
+        /// The identifier of the actor whose messages to list. The identifier is case-insensitive.
+        public let actorIdentifier: String
+        /// The unique identifier of the agent space that owns the pentest.
+        public let agentSpaceId: String
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+        public let nextToken: String?
+        /// The unique identifier of the pentest that the actor belongs to.
+        public let pentestId: String
+
+        @inlinable
+        public init(actorIdentifier: String, agentSpaceId: String, maxResults: Int? = nil, nextToken: String? = nil, pentestId: String) {
+            self.actorIdentifier = actorIdentifier
+            self.agentSpaceId = agentSpaceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.pentestId = pentestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actorIdentifier = "actorIdentifier"
+            case agentSpaceId = "agentSpaceId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case pentestId = "pentestId"
+        }
+    }
+
+    public struct ListActorMessagesOutput: AWSDecodableShape {
+        /// The list of messages received for the actor, most recent first.
+        public let messages: [ActorMessage]?
+        /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(messages: [ActorMessage]? = nil, nextToken: String? = nil) {
+            self.messages = messages
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messages = "messages"
+            case nextToken = "nextToken"
         }
     }
 
@@ -5137,6 +5424,8 @@ extension SecurityAgent {
     public struct ListPentestJobsForPentestInput: AWSEncodableShape {
         /// The unique identifier of the agent space.
         public let agentSpaceId: String
+        /// Filters the returned pentest jobs to only those of the specified job type.
+        public let jobType: JobType?
         /// The maximum number of results to return in a single call.
         public let maxResults: Int?
         /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
@@ -5145,8 +5434,9 @@ extension SecurityAgent {
         public let pentestId: String
 
         @inlinable
-        public init(agentSpaceId: String, maxResults: Int? = nil, nextToken: String? = nil, pentestId: String) {
+        public init(agentSpaceId: String, jobType: JobType? = nil, maxResults: Int? = nil, nextToken: String? = nil, pentestId: String) {
             self.agentSpaceId = agentSpaceId
+            self.jobType = jobType
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.pentestId = pentestId
@@ -5154,6 +5444,7 @@ extension SecurityAgent {
 
         private enum CodingKeys: String, CodingKey {
             case agentSpaceId = "agentSpaceId"
+            case jobType = "jobType"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case pentestId = "pentestId"
@@ -5705,6 +5996,8 @@ extension SecurityAgent {
         public let agentSpaceId: String
         /// The assets included in the pentest.
         public let assets: Assets
+        /// The CI/CD pentesting configuration for this pentest. Present when the pentest is set up to run from a CI/CD pipeline.
+        public let cicdConfiguration: CiCdConfiguration?
         /// Strategy for cleaning up resources after pentest job completion.
         public let cleanUpStrategy: CleanUpStrategy?
         /// The code remediation strategy for the pentest.
@@ -5717,10 +6010,16 @@ extension SecurityAgent {
         public let excludeRiskTypes: [RiskType]?
         /// The CloudWatch Logs configuration for the pentest.
         public let logConfig: CloudWatchLog?
+        /// The maximum number of billable task hours allowed for jobs started from this pentest. If a job reaches the configured limit, it is gracefully stopped. If not set, jobs run to completion with no budget cap.
+        public let maxTaskHours: Double?
         /// The network traffic configuration for the pentest.
         public let networkTrafficConfig: NetworkTrafficConfig?
         /// The unique identifier of the pentest.
         public let pentestId: String
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public let reportFilters: ReportFilters?
         /// The IAM service role used for the pentest.
         public let serviceRole: String?
         /// The title of the pentest.
@@ -5731,17 +6030,21 @@ extension SecurityAgent {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets, cleanUpStrategy: CleanUpStrategy? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, createdAt: Date? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, pentestId: String, serviceRole: String? = nil, title: String, updatedAt: Date? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(agentSpaceId: String, assets: Assets, cicdConfiguration: CiCdConfiguration? = nil, cleanUpStrategy: CleanUpStrategy? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, createdAt: Date? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, pentestId: String, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String, updatedAt: Date? = nil, vpcConfig: VpcConfig? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
+            self.cicdConfiguration = cicdConfiguration
             self.cleanUpStrategy = cleanUpStrategy
             self.codeRemediationStrategy = codeRemediationStrategy
             self.createdAt = createdAt
             self.disableManagedSkills = disableManagedSkills
             self.excludeRiskTypes = excludeRiskTypes
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
             self.networkTrafficConfig = networkTrafficConfig
             self.pentestId = pentestId
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.updatedAt = updatedAt
@@ -5751,14 +6054,18 @@ extension SecurityAgent {
         private enum CodingKeys: String, CodingKey {
             case agentSpaceId = "agentSpaceId"
             case assets = "assets"
+            case cicdConfiguration = "cicdConfiguration"
             case cleanUpStrategy = "cleanUpStrategy"
             case codeRemediationStrategy = "codeRemediationStrategy"
             case createdAt = "createdAt"
             case disableManagedSkills = "disableManagedSkills"
             case excludeRiskTypes = "excludeRiskTypes"
             case logConfig = "logConfig"
+            case maxTaskHours = "maxTaskHours"
             case networkTrafficConfig = "networkTrafficConfig"
             case pentestId = "pentestId"
+            case reportDestination = "reportDestination"
+            case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
             case title = "title"
             case updatedAt = "updatedAt"
@@ -5771,6 +6078,7 @@ extension SecurityAgent {
         public let actors: [Actor]?
         /// The list of domains allowed during the pentest job.
         public let allowedDomains: [Endpoint]?
+        public let cicdConfiguration: CiCdConfiguration?
         /// Strategy for cleaning up resources after pentest job completion.
         public let cleanUpStrategy: CleanUpStrategy?
         /// The code remediation strategy for the pentest job.
@@ -5793,8 +6101,12 @@ extension SecurityAgent {
         public let executionContext: [ExecutionContext]?
         /// The list of integrated repositories associated with the pentest job.
         public let integratedRepositories: [IntegratedRepository]?
+        /// The type of the pentest job. Valid values are FULL, REVALIDATION, and CICD.
+        public let jobType: JobType?
         /// The CloudWatch Logs configuration for the pentest job.
         public let logConfig: CloudWatchLog?
+        /// The maximum number of billable task hours allowed for this pentest job. If the cumulative task hours reach this limit, the job is gracefully stopped.
+        public let maxTaskHours: Double?
         /// The network traffic configuration for the pentest job.
         public let networkTrafficConfig: NetworkTrafficConfig?
         /// An overview of the pentest job results.
@@ -5803,6 +6115,16 @@ extension SecurityAgent {
         public let pentestId: String?
         /// The unique identifier of the pentest job.
         public let pentestJobId: String?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The URL to view this pentest job's findings report in the console.
+        public let reportUrl: String?
+        /// The code changes that defined the scope of this CI/CD pentest job. Present only for jobs of type CICD.
+        public let scopeChanges: [ScopeChange]?
+        /// The scoping outcome for this CI/CD pentest job. Present only for jobs of type CICD.
+        public let scopeResult: ScopeResult?
+        /// The list of finding identifiers selected for revalidation. Present only when jobType is REVALIDATION.
+        public let selectedFindingIds: [String]?
         /// The IAM service role used for the pentest job.
         public let serviceRole: String?
         /// The list of source code repositories analyzed during the pentest job.
@@ -5813,15 +6135,18 @@ extension SecurityAgent {
         public let steps: [Step]?
         /// The title of the pentest job.
         public let title: String?
+        /// The trust anchors used to validate target endpoint TLS certificates during the pentest job.
+        public let trustedCaCertificates: [TrustedCaCertificate]?
         /// The date and time the pentest job was last updated, in UTC format.
         public let updatedAt: Date?
         /// The VPC configuration for the pentest job.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(actors: [Actor]? = nil, allowedDomains: [Endpoint]? = nil, cleanUpStrategy: CleanUpStrategy? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, createdAt: Date? = nil, disableManagedSkills: [SkillType]? = nil, documents: [DocumentInfo]? = nil, endpoints: [Endpoint]? = nil, errorInformation: ErrorInformation? = nil, excludePaths: [Endpoint]? = nil, excludeRiskTypes: [RiskType]? = nil, executionContext: [ExecutionContext]? = nil, integratedRepositories: [IntegratedRepository]? = nil, logConfig: CloudWatchLog? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, overview: String? = nil, pentestId: String? = nil, pentestJobId: String? = nil, serviceRole: String? = nil, sourceCode: [SourceCodeRepository]? = nil, status: JobStatus? = nil, steps: [Step]? = nil, title: String? = nil, updatedAt: Date? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(actors: [Actor]? = nil, allowedDomains: [Endpoint]? = nil, cicdConfiguration: CiCdConfiguration? = nil, cleanUpStrategy: CleanUpStrategy? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, createdAt: Date? = nil, disableManagedSkills: [SkillType]? = nil, documents: [DocumentInfo]? = nil, endpoints: [Endpoint]? = nil, errorInformation: ErrorInformation? = nil, excludePaths: [Endpoint]? = nil, excludeRiskTypes: [RiskType]? = nil, executionContext: [ExecutionContext]? = nil, integratedRepositories: [IntegratedRepository]? = nil, jobType: JobType? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, overview: String? = nil, pentestId: String? = nil, pentestJobId: String? = nil, reportDestination: ReportDestination? = nil, reportUrl: String? = nil, scopeChanges: [ScopeChange]? = nil, scopeResult: ScopeResult? = nil, selectedFindingIds: [String]? = nil, serviceRole: String? = nil, sourceCode: [SourceCodeRepository]? = nil, status: JobStatus? = nil, steps: [Step]? = nil, title: String? = nil, trustedCaCertificates: [TrustedCaCertificate]? = nil, updatedAt: Date? = nil, vpcConfig: VpcConfig? = nil) {
             self.actors = actors
             self.allowedDomains = allowedDomains
+            self.cicdConfiguration = cicdConfiguration
             self.cleanUpStrategy = cleanUpStrategy
             self.codeRemediationStrategy = codeRemediationStrategy
             self.createdAt = createdAt
@@ -5833,16 +6158,24 @@ extension SecurityAgent {
             self.excludeRiskTypes = excludeRiskTypes
             self.executionContext = executionContext
             self.integratedRepositories = integratedRepositories
+            self.jobType = jobType
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
             self.networkTrafficConfig = networkTrafficConfig
             self.overview = overview
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
+            self.reportDestination = reportDestination
+            self.reportUrl = reportUrl
+            self.scopeChanges = scopeChanges
+            self.scopeResult = scopeResult
+            self.selectedFindingIds = selectedFindingIds
             self.serviceRole = serviceRole
             self.sourceCode = sourceCode
             self.status = status
             self.steps = steps
             self.title = title
+            self.trustedCaCertificates = trustedCaCertificates
             self.updatedAt = updatedAt
             self.vpcConfig = vpcConfig
         }
@@ -5850,6 +6183,7 @@ extension SecurityAgent {
         private enum CodingKeys: String, CodingKey {
             case actors = "actors"
             case allowedDomains = "allowedDomains"
+            case cicdConfiguration = "cicdConfiguration"
             case cleanUpStrategy = "cleanUpStrategy"
             case codeRemediationStrategy = "codeRemediationStrategy"
             case createdAt = "createdAt"
@@ -5861,16 +6195,24 @@ extension SecurityAgent {
             case excludeRiskTypes = "excludeRiskTypes"
             case executionContext = "executionContext"
             case integratedRepositories = "integratedRepositories"
+            case jobType = "jobType"
             case logConfig = "logConfig"
+            case maxTaskHours = "maxTaskHours"
             case networkTrafficConfig = "networkTrafficConfig"
             case overview = "overview"
             case pentestId = "pentestId"
             case pentestJobId = "pentestJobId"
+            case reportDestination = "reportDestination"
+            case reportUrl = "reportUrl"
+            case scopeChanges = "scopeChanges"
+            case scopeResult = "scopeResult"
+            case selectedFindingIds = "selectedFindingIds"
             case serviceRole = "serviceRole"
             case sourceCode = "sourceCode"
             case status = "status"
             case steps = "steps"
             case title = "title"
+            case trustedCaCertificates = "trustedCaCertificates"
             case updatedAt = "updatedAt"
             case vpcConfig = "vpcConfig"
         }
@@ -5879,10 +6221,14 @@ extension SecurityAgent {
     public struct PentestJobSummary: AWSDecodableShape {
         /// The date and time the pentest job was created, in UTC format.
         public let createdAt: Date?
+        /// The type of the pentest job. Valid values are FULL, REVALIDATION, and CICD.
+        public let jobType: JobType?
         /// The unique identifier of the pentest associated with the job.
         public let pentestId: String
         /// The unique identifier of the pentest job.
         public let pentestJobId: String
+        /// The URL to view this pentest job's findings report in the console.
+        public let reportUrl: String?
         /// The current status of the pentest job.
         public let status: JobStatus?
         /// The title of the pentest job.
@@ -5891,10 +6237,12 @@ extension SecurityAgent {
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, pentestId: String, pentestJobId: String, status: JobStatus? = nil, title: String? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, jobType: JobType? = nil, pentestId: String, pentestJobId: String, reportUrl: String? = nil, status: JobStatus? = nil, title: String? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
+            self.jobType = jobType
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
+            self.reportUrl = reportUrl
             self.status = status
             self.title = title
             self.updatedAt = updatedAt
@@ -5902,8 +6250,10 @@ extension SecurityAgent {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case jobType = "jobType"
             case pentestId = "pentestId"
             case pentestJobId = "pentestJobId"
+            case reportUrl = "reportUrl"
             case status = "status"
             case title = "title"
             case updatedAt = "updatedAt"
@@ -5994,7 +6344,7 @@ extension SecurityAgent {
         }
     }
 
-    public struct ReportDestination: AWSEncodableShape {
+    public struct ReportDestination: AWSEncodableShape & AWSDecodableShape {
         /// The container identifier where the report will be published.
         public let containerId: String
         /// The existing document identifier to update instead of creating a new document.
@@ -6017,6 +6367,109 @@ extension SecurityAgent {
             case documentId = "documentId"
             case integrationId = "integrationId"
             case parentId = "parentId"
+        }
+    }
+
+    public struct ReportFilters: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to include reviewer annotation notes under each finding.
+        public let annotationNotes: Bool?
+        /// Whether to include the compliance-ready report additions.
+        public let complianceReport: Bool?
+        /// The confidence levels to include in the report.
+        public let confidenceLevels: [ConfidenceLevel]?
+        /// The finding types to include in the report.
+        public let findingTypes: [String]?
+        /// The severity levels to include in the report.
+        public let riskLevels: [RiskLevel]?
+        /// The risk types to include in the report.
+        public let riskTypes: [RiskType]?
+        /// The finding statuses to include in the report.
+        public let statuses: [FindingStatus]?
+        /// The task execution statuses to include in the report's task table.
+        public let taskStatuses: [TaskExecutionStatus]?
+
+        @inlinable
+        public init(annotationNotes: Bool? = nil, complianceReport: Bool? = nil, confidenceLevels: [ConfidenceLevel]? = nil, findingTypes: [String]? = nil, riskLevels: [RiskLevel]? = nil, riskTypes: [RiskType]? = nil, statuses: [FindingStatus]? = nil, taskStatuses: [TaskExecutionStatus]? = nil) {
+            self.annotationNotes = annotationNotes
+            self.complianceReport = complianceReport
+            self.confidenceLevels = confidenceLevels
+            self.findingTypes = findingTypes
+            self.riskLevels = riskLevels
+            self.riskTypes = riskTypes
+            self.statuses = statuses
+            self.taskStatuses = taskStatuses
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.confidenceLevels, name: "confidenceLevels", parent: name, max: 50)
+            try self.findingTypes?.forEach {
+                try validate($0, name: "findingTypes[]", parent: name, max: 256)
+                try validate($0, name: "findingTypes[]", parent: name, min: 1)
+            }
+            try self.validate(self.findingTypes, name: "findingTypes", parent: name, max: 50)
+            try self.validate(self.riskLevels, name: "riskLevels", parent: name, max: 50)
+            try self.validate(self.riskTypes, name: "riskTypes", parent: name, max: 50)
+            try self.validate(self.statuses, name: "statuses", parent: name, max: 50)
+            try self.validate(self.taskStatuses, name: "taskStatuses", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotationNotes = "annotationNotes"
+            case complianceReport = "complianceReport"
+            case confidenceLevels = "confidenceLevels"
+            case findingTypes = "findingTypes"
+            case riskLevels = "riskLevels"
+            case riskTypes = "riskTypes"
+            case statuses = "statuses"
+            case taskStatuses = "taskStatuses"
+        }
+    }
+
+    public struct ScopeChange: AWSEncodableShape & AWSDecodableShape {
+        /// The commit SHA that the change is compared against. When omitted, the change is evaluated against the head commit alone.
+        public let baseCommitSha: String?
+        /// The commit SHA at the tip of the change to be tested.
+        public let headCommitSha: String
+        /// The identifier of the integration for the source-code provider that hosts the repository.
+        public let integrationId: String
+        /// The provider-specific identifier of the repository the change belongs to.
+        public let providerResourceId: String
+        /// The identifier of the CI/CD pipeline run that triggered this pentest job.
+        public let triggerRunId: String?
+
+        @inlinable
+        public init(baseCommitSha: String? = nil, headCommitSha: String, integrationId: String, providerResourceId: String, triggerRunId: String? = nil) {
+            self.baseCommitSha = baseCommitSha
+            self.headCommitSha = headCommitSha
+            self.integrationId = integrationId
+            self.providerResourceId = providerResourceId
+            self.triggerRunId = triggerRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseCommitSha = "baseCommitSha"
+            case headCommitSha = "headCommitSha"
+            case integrationId = "integrationId"
+            case providerResourceId = "providerResourceId"
+            case triggerRunId = "triggerRunId"
+        }
+    }
+
+    public struct ScopeResult: AWSDecodableShape {
+        /// The scoping decision for the job's code changes.
+        public let decision: ScopeDecision
+        /// A human-readable explanation of the scoping decision.
+        public let reason: String
+
+        @inlinable
+        public init(decision: ScopeDecision, reason: String) {
+            self.decision = decision
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case decision = "decision"
+            case reason = "reason"
         }
     }
 
@@ -6285,18 +6738,30 @@ extension SecurityAgent {
     public struct StartPentestJobInput: AWSEncodableShape {
         /// The unique identifier of the agent space.
         public let agentSpaceId: String
+        /// The type of pentest job to start. Valid values are FULL, REVALIDATION, and CICD. When set to REVALIDATION, the selectedFindingIds parameter is required. When set to CICD, the scopeChanges parameter defines the code changes to test.
+        public let jobType: JobType?
         /// The unique identifier of the pentest to start a job for.
         public let pentestId: String
+        /// The code changes that define the scope of a CI/CD pentest job. Provide this when starting a job with jobType CICD to test only the changes in the current pipeline run.
+        public let scopeChanges: [ScopeChange]?
+        /// The list of finding identifiers to revalidate. Required when jobType is REVALIDATION. Each finding must belong to the same agent space and pentest.
+        public let selectedFindingIds: [String]?
 
         @inlinable
-        public init(agentSpaceId: String, pentestId: String) {
+        public init(agentSpaceId: String, jobType: JobType? = nil, pentestId: String, scopeChanges: [ScopeChange]? = nil, selectedFindingIds: [String]? = nil) {
             self.agentSpaceId = agentSpaceId
+            self.jobType = jobType
             self.pentestId = pentestId
+            self.scopeChanges = scopeChanges
+            self.selectedFindingIds = selectedFindingIds
         }
 
         private enum CodingKeys: String, CodingKey {
             case agentSpaceId = "agentSpaceId"
+            case jobType = "jobType"
             case pentestId = "pentestId"
+            case scopeChanges = "scopeChanges"
+            case selectedFindingIds = "selectedFindingIds"
         }
     }
 
@@ -6835,6 +7300,8 @@ extension SecurityAgent {
         public let description: String?
         /// The CloudWatch Logs configuration for the threat model.
         public let logConfig: CloudWatchLog?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
         /// The scoped documents for the agent to focus on during threat modeling.
         public let scopeDocs: [DocumentInfo]?
         /// The IAM service role used for the threat model.
@@ -6847,12 +7314,13 @@ extension SecurityAgent {
         public let updatedAt: Date?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets, createdAt: Date? = nil, description: String? = nil, logConfig: CloudWatchLog? = nil, scopeDocs: [DocumentInfo]? = nil, serviceRole: String? = nil, threatModelId: String, title: String, updatedAt: Date? = nil) {
+        public init(agentSpaceId: String, assets: Assets, createdAt: Date? = nil, description: String? = nil, logConfig: CloudWatchLog? = nil, reportDestination: ReportDestination? = nil, scopeDocs: [DocumentInfo]? = nil, serviceRole: String? = nil, threatModelId: String, title: String, updatedAt: Date? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.createdAt = createdAt
             self.description = description
             self.logConfig = logConfig
+            self.reportDestination = reportDestination
             self.scopeDocs = scopeDocs
             self.serviceRole = serviceRole
             self.threatModelId = threatModelId
@@ -6866,6 +7334,7 @@ extension SecurityAgent {
             case createdAt = "createdAt"
             case description = "description"
             case logConfig = "logConfig"
+            case reportDestination = "reportDestination"
             case scopeDocs = "scopeDocs"
             case serviceRole = "serviceRole"
             case threatModelId = "threatModelId"
@@ -6889,6 +7358,8 @@ extension SecurityAgent {
         public let executionStartTime: Date?
         /// The list of integrated repositories used for threat modeling.
         public let integratedRepositories: [IntegratedRepository]?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
         /// The scoped documents for the agent to focus on during threat modeling.
         public let scopeDocs: [DocumentInfo]?
         /// The list of source code repositories used for threat modeling.
@@ -6907,7 +7378,7 @@ extension SecurityAgent {
         public let updatedAt: Date?
 
         @inlinable
-        public init(agentSpaceId: String? = nil, createdAt: Date? = nil, documents: [DocumentInfo]? = nil, errorInformation: ErrorInformation? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, integratedRepositories: [IntegratedRepository]? = nil, scopeDocs: [DocumentInfo]? = nil, sourceCode: [SourceCodeRepository]? = nil, status: JobStatus? = nil, systemOverview: String? = nil, threatModelId: String? = nil, threatModelJobId: String? = nil, title: String? = nil, updatedAt: Date? = nil) {
+        public init(agentSpaceId: String? = nil, createdAt: Date? = nil, documents: [DocumentInfo]? = nil, errorInformation: ErrorInformation? = nil, executionEndTime: Date? = nil, executionStartTime: Date? = nil, integratedRepositories: [IntegratedRepository]? = nil, reportDestination: ReportDestination? = nil, scopeDocs: [DocumentInfo]? = nil, sourceCode: [SourceCodeRepository]? = nil, status: JobStatus? = nil, systemOverview: String? = nil, threatModelId: String? = nil, threatModelJobId: String? = nil, title: String? = nil, updatedAt: Date? = nil) {
             self.agentSpaceId = agentSpaceId
             self.createdAt = createdAt
             self.documents = documents
@@ -6915,6 +7386,7 @@ extension SecurityAgent {
             self.executionEndTime = executionEndTime
             self.executionStartTime = executionStartTime
             self.integratedRepositories = integratedRepositories
+            self.reportDestination = reportDestination
             self.scopeDocs = scopeDocs
             self.sourceCode = sourceCode
             self.status = status
@@ -6933,6 +7405,7 @@ extension SecurityAgent {
             case executionEndTime = "executionEndTime"
             case executionStartTime = "executionStartTime"
             case integratedRepositories = "integratedRepositories"
+            case reportDestination = "reportDestination"
             case scopeDocs = "scopeDocs"
             case sourceCode = "sourceCode"
             case status = "status"
@@ -7180,6 +7653,24 @@ extension SecurityAgent {
         }
     }
 
+    public struct TrustedCaCertificate: AWSEncodableShape & AWSDecodableShape {
+        /// The source that Security Agent reads the certificate from.
+        public let source: CaCertificateSource
+
+        @inlinable
+        public init(source: CaCertificateSource) {
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.source.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to remove tags from.
         public let resourceArn: String
@@ -7329,6 +7820,12 @@ extension SecurityAgent {
         public let codeReviewId: String
         /// The updated CloudWatch Logs configuration for the code review.
         public let logConfig: CloudWatchLog?
+        /// The updated maximum number of billable task hours allowed for jobs started from this code review.
+        public let maxTaskHours: Double?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public let reportFilters: ReportFilters?
         /// The updated IAM service role for the code review.
         public let serviceRole: String?
         /// The updated title of the code review.
@@ -7337,15 +7834,23 @@ extension SecurityAgent {
         public let validationMode: ValidationMode?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, codeReviewId: String, logConfig: CloudWatchLog? = nil, serviceRole: String? = nil, title: String? = nil, validationMode: ValidationMode? = nil) {
+        public init(agentSpaceId: String, assets: Assets? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, codeReviewId: String, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String? = nil, validationMode: ValidationMode? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.codeRemediationStrategy = codeRemediationStrategy
             self.codeReviewId = codeReviewId
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.validationMode = validationMode
+        }
+
+        public func validate(name: String) throws {
+            try self.assets?.validate(name: "\(name).assets")
+            try self.reportFilters?.validate(name: "\(name).reportFilters")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7354,6 +7859,9 @@ extension SecurityAgent {
             case codeRemediationStrategy = "codeRemediationStrategy"
             case codeReviewId = "codeReviewId"
             case logConfig = "logConfig"
+            case maxTaskHours = "maxTaskHours"
+            case reportDestination = "reportDestination"
+            case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
             case title = "title"
             case validationMode = "validationMode"
@@ -7373,6 +7881,12 @@ extension SecurityAgent {
         public let createdAt: Date?
         /// The CloudWatch Logs configuration for the code review.
         public let logConfig: CloudWatchLog?
+        /// The maximum number of billable task hours configured for jobs started from this code review. Null if no budget cap is set.
+        public let maxTaskHours: Double?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public let reportFilters: ReportFilters?
         /// The IAM service role used for the code review.
         public let serviceRole: String?
         /// The title of the code review.
@@ -7383,13 +7897,16 @@ extension SecurityAgent {
         public let validationMode: ValidationMode?
 
         @inlinable
-        public init(agentSpaceId: String? = nil, assets: Assets? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, codeReviewId: String, createdAt: Date? = nil, logConfig: CloudWatchLog? = nil, serviceRole: String? = nil, title: String? = nil, updatedAt: Date? = nil, validationMode: ValidationMode? = nil) {
+        public init(agentSpaceId: String? = nil, assets: Assets? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, codeReviewId: String, createdAt: Date? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String? = nil, updatedAt: Date? = nil, validationMode: ValidationMode? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.codeRemediationStrategy = codeRemediationStrategy
             self.codeReviewId = codeReviewId
             self.createdAt = createdAt
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.updatedAt = updatedAt
@@ -7403,6 +7920,9 @@ extension SecurityAgent {
             case codeReviewId = "codeReviewId"
             case createdAt = "createdAt"
             case logConfig = "logConfig"
+            case maxTaskHours = "maxTaskHours"
+            case reportDestination = "reportDestination"
+            case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
             case title = "title"
             case updatedAt = "updatedAt"
@@ -7499,6 +8019,8 @@ extension SecurityAgent {
         public let agentSpaceId: String
         /// The updated assets for the pentest.
         public let assets: Assets?
+        /// The updated CI/CD pentesting configuration to apply to the pentest.
+        public let cicdConfiguration: CiCdConfiguration?
         /// The updated code remediation strategy for the pentest.
         public let codeRemediationStrategy: CodeRemediationStrategy?
         /// The updated list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
@@ -7507,10 +8029,16 @@ extension SecurityAgent {
         public let excludeRiskTypes: [RiskType]?
         /// The updated CloudWatch Logs configuration for the pentest.
         public let logConfig: CloudWatchLog?
+        /// The updated maximum number of billable task hours allowed for jobs started from this pentest.
+        public let maxTaskHours: Double?
         /// The updated network traffic configuration for the pentest.
         public let networkTrafficConfig: NetworkTrafficConfig?
         /// The unique identifier of the pentest to update.
         public let pentestId: String
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public let reportFilters: ReportFilters?
         /// The updated IAM service role for the pentest.
         public let serviceRole: String?
         /// The updated title of the pentest.
@@ -7519,29 +8047,42 @@ extension SecurityAgent {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, pentestId: String, serviceRole: String? = nil, title: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(agentSpaceId: String, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, pentestId: String, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
+            self.cicdConfiguration = cicdConfiguration
             self.codeRemediationStrategy = codeRemediationStrategy
             self.disableManagedSkills = disableManagedSkills
             self.excludeRiskTypes = excludeRiskTypes
             self.logConfig = logConfig
+            self.maxTaskHours = maxTaskHours
             self.networkTrafficConfig = networkTrafficConfig
             self.pentestId = pentestId
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.vpcConfig = vpcConfig
         }
 
+        public func validate(name: String) throws {
+            try self.assets?.validate(name: "\(name).assets")
+            try self.reportFilters?.validate(name: "\(name).reportFilters")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case agentSpaceId = "agentSpaceId"
             case assets = "assets"
+            case cicdConfiguration = "cicdConfiguration"
             case codeRemediationStrategy = "codeRemediationStrategy"
             case disableManagedSkills = "disableManagedSkills"
             case excludeRiskTypes = "excludeRiskTypes"
             case logConfig = "logConfig"
+            case maxTaskHours = "maxTaskHours"
             case networkTrafficConfig = "networkTrafficConfig"
             case pentestId = "pentestId"
+            case reportDestination = "reportDestination"
+            case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
             case title = "title"
             case vpcConfig = "vpcConfig"
@@ -7553,6 +8094,8 @@ extension SecurityAgent {
         public let agentSpaceId: String?
         /// The assets included in the pentest.
         public let assets: Assets?
+        /// The CI/CD pentesting configuration applied to the pentest.
+        public let cicdConfiguration: CiCdConfiguration?
         /// The date and time the pentest was created, in UTC format.
         public let createdAt: Date?
         /// The list of risk types excluded from the pentest.
@@ -7561,6 +8104,10 @@ extension SecurityAgent {
         public let logConfig: CloudWatchLog?
         /// The unique identifier of the pentest.
         public let pentestId: String?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
+        /// The report-generation filters applied when the report is exported.
+        public let reportFilters: ReportFilters?
         /// The IAM service role used for the pentest.
         public let serviceRole: String?
         /// The title of the pentest.
@@ -7569,13 +8116,16 @@ extension SecurityAgent {
         public let updatedAt: Date?
 
         @inlinable
-        public init(agentSpaceId: String? = nil, assets: Assets? = nil, createdAt: Date? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, pentestId: String? = nil, serviceRole: String? = nil, title: String? = nil, updatedAt: Date? = nil) {
+        public init(agentSpaceId: String? = nil, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, createdAt: Date? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, pentestId: String? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String? = nil, updatedAt: Date? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
+            self.cicdConfiguration = cicdConfiguration
             self.createdAt = createdAt
             self.excludeRiskTypes = excludeRiskTypes
             self.logConfig = logConfig
             self.pentestId = pentestId
+            self.reportDestination = reportDestination
+            self.reportFilters = reportFilters
             self.serviceRole = serviceRole
             self.title = title
             self.updatedAt = updatedAt
@@ -7584,10 +8134,13 @@ extension SecurityAgent {
         private enum CodingKeys: String, CodingKey {
             case agentSpaceId = "agentSpaceId"
             case assets = "assets"
+            case cicdConfiguration = "cicdConfiguration"
             case createdAt = "createdAt"
             case excludeRiskTypes = "excludeRiskTypes"
             case logConfig = "logConfig"
             case pentestId = "pentestId"
+            case reportDestination = "reportDestination"
+            case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
             case title = "title"
             case updatedAt = "updatedAt"
@@ -7887,6 +8440,8 @@ extension SecurityAgent {
         public let description: String?
         /// The updated CloudWatch Logs configuration for the threat model.
         public let logConfig: CloudWatchLog?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
         /// The updated scoped documents for the agent to focus on during threat modeling.
         public let scopeDocs: [DocumentInfo]?
         /// The updated IAM service role for the threat model.
@@ -7897,15 +8452,20 @@ extension SecurityAgent {
         public let title: String?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets? = nil, description: String? = nil, logConfig: CloudWatchLog? = nil, scopeDocs: [DocumentInfo]? = nil, serviceRole: String? = nil, threatModelId: String, title: String? = nil) {
+        public init(agentSpaceId: String, assets: Assets? = nil, description: String? = nil, logConfig: CloudWatchLog? = nil, reportDestination: ReportDestination? = nil, scopeDocs: [DocumentInfo]? = nil, serviceRole: String? = nil, threatModelId: String, title: String? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.description = description
             self.logConfig = logConfig
+            self.reportDestination = reportDestination
             self.scopeDocs = scopeDocs
             self.serviceRole = serviceRole
             self.threatModelId = threatModelId
             self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.assets?.validate(name: "\(name).assets")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7913,6 +8473,7 @@ extension SecurityAgent {
             case assets = "assets"
             case description = "description"
             case logConfig = "logConfig"
+            case reportDestination = "reportDestination"
             case scopeDocs = "scopeDocs"
             case serviceRole = "serviceRole"
             case threatModelId = "threatModelId"
@@ -7931,6 +8492,8 @@ extension SecurityAgent {
         public let description: String?
         /// The CloudWatch Logs configuration for the threat model.
         public let logConfig: CloudWatchLog?
+        /// The destination for publishing scan reports to an integrated document provider.
+        public let reportDestination: ReportDestination?
         /// The scoped documents for the agent to focus on during threat modeling.
         public let scopeDocs: [DocumentInfo]?
         /// The IAM service role used for the threat model.
@@ -7943,12 +8506,13 @@ extension SecurityAgent {
         public let updatedAt: Date?
 
         @inlinable
-        public init(agentSpaceId: String? = nil, assets: Assets? = nil, createdAt: Date? = nil, description: String? = nil, logConfig: CloudWatchLog? = nil, scopeDocs: [DocumentInfo]? = nil, serviceRole: String? = nil, threatModelId: String, title: String? = nil, updatedAt: Date? = nil) {
+        public init(agentSpaceId: String? = nil, assets: Assets? = nil, createdAt: Date? = nil, description: String? = nil, logConfig: CloudWatchLog? = nil, reportDestination: ReportDestination? = nil, scopeDocs: [DocumentInfo]? = nil, serviceRole: String? = nil, threatModelId: String, title: String? = nil, updatedAt: Date? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.createdAt = createdAt
             self.description = description
             self.logConfig = logConfig
+            self.reportDestination = reportDestination
             self.scopeDocs = scopeDocs
             self.serviceRole = serviceRole
             self.threatModelId = threatModelId
@@ -7962,6 +8526,7 @@ extension SecurityAgent {
             case createdAt = "createdAt"
             case description = "description"
             case logConfig = "logConfig"
+            case reportDestination = "reportDestination"
             case scopeDocs = "scopeDocs"
             case serviceRole = "serviceRole"
             case threatModelId = "threatModelId"
@@ -8251,11 +8816,11 @@ extension SecurityAgent {
     }
 
     public struct VpcConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Names (ARNs) of the security groups for the VPC configuration.
+        /// The Amazon Resource Names (ARNs) or IDs of the security groups for the VPC configuration.
         public let securityGroupArns: [String]?
-        /// The Amazon Resource Names (ARNs) of the subnets for the VPC configuration.
+        /// The Amazon Resource Names (ARNs) or IDs of the subnets for the VPC configuration.
         public let subnetArns: [String]?
-        /// The Amazon Resource Name (ARN) of the VPC.
+        /// The Amazon Resource Name (ARN) or ID of the VPC.
         public let vpcArn: String?
 
         @inlinable

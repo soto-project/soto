@@ -1849,6 +1849,8 @@ extension SSOAdmin {
         public let createdDate: Date?
         /// Contains the encryption configuration for your IAM Identity Center instance, including the encryption status, KMS key type, and KMS key ARN.
         public let encryptionConfigurationDetails: EncryptionConfigurationDetails?
+        /// The ARN of the identity store that is connected to the instance of IAM Identity Center.
+        public let identityStoreArn: String?
         /// The identifier of the identity store that is connected to the instance of IAM Identity Center.
         public let identityStoreId: String?
         /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
@@ -1857,19 +1859,29 @@ extension SSOAdmin {
         public let name: String?
         /// The identifier of the Amazon Web Services account for which the instance was created.
         public let ownerAccountId: String?
+        /// Indicates whether permission sets are enabled for this Identity Center instance.
+        public let permissionSetsEnabled: Bool?
+        /// The primary Region where the IAM Identity Center instance was originally enabled. The primary Region cannot be removed.
+        public let primaryRegion: String?
+        /// The list of Regions enabled in the IAM Identity Center instance, including Regions with ACTIVE, ADDING, or REMOVING status.
+        public let regions: [RegionMetadata]?
         /// The status of the instance.
         public let status: InstanceStatus?
         /// Provides additional context about the current status of the IAM Identity Center instance. This field is particularly useful when an instance is in a non-ACTIVE state, such as CREATE_FAILED. When an instance fails to create or update, this field contains information about the cause, which may include issues with KMS key configuration, permission problems with the specified KMS key, or service-related errors.
         public let statusReason: String?
 
         @inlinable
-        public init(createdDate: Date? = nil, encryptionConfigurationDetails: EncryptionConfigurationDetails? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
+        public init(createdDate: Date? = nil, encryptionConfigurationDetails: EncryptionConfigurationDetails? = nil, identityStoreArn: String? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, permissionSetsEnabled: Bool? = nil, primaryRegion: String? = nil, regions: [RegionMetadata]? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
             self.createdDate = createdDate
             self.encryptionConfigurationDetails = encryptionConfigurationDetails
+            self.identityStoreArn = identityStoreArn
             self.identityStoreId = identityStoreId
             self.instanceArn = instanceArn
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.permissionSetsEnabled = permissionSetsEnabled
+            self.primaryRegion = primaryRegion
+            self.regions = regions
             self.status = status
             self.statusReason = statusReason
         }
@@ -1877,10 +1889,14 @@ extension SSOAdmin {
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
             case encryptionConfigurationDetails = "EncryptionConfigurationDetails"
+            case identityStoreArn = "IdentityStoreArn"
             case identityStoreId = "IdentityStoreId"
             case instanceArn = "InstanceArn"
             case name = "Name"
             case ownerAccountId = "OwnerAccountId"
+            case permissionSetsEnabled = "PermissionSetsEnabled"
+            case primaryRegion = "PrimaryRegion"
+            case regions = "Regions"
             case status = "Status"
             case statusReason = "StatusReason"
         }
@@ -2538,6 +2554,8 @@ extension SSOAdmin {
     public struct InstanceMetadata: AWSDecodableShape {
         /// The date and time that the Identity Center instance was created.
         public let createdDate: Date?
+        /// The ARN of the identity store that is connected to the Identity Center instance.
+        public let identityStoreArn: String?
         /// The identifier of the identity store that is connected to the Identity Center instance.
         public let identityStoreId: String?
         /// The ARN of the Identity Center instance under which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
@@ -2556,8 +2574,9 @@ extension SSOAdmin {
         public let statusReason: String?
 
         @inlinable
-        public init(createdDate: Date? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, primaryRegion: String? = nil, regions: [RegionMetadata]? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
+        public init(createdDate: Date? = nil, identityStoreArn: String? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, primaryRegion: String? = nil, regions: [RegionMetadata]? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
             self.createdDate = createdDate
+            self.identityStoreArn = identityStoreArn
             self.identityStoreId = identityStoreId
             self.instanceArn = instanceArn
             self.name = name
@@ -2570,6 +2589,7 @@ extension SSOAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
+            case identityStoreArn = "IdentityStoreArn"
             case identityStoreId = "IdentityStoreId"
             case instanceArn = "InstanceArn"
             case name = "Name"
@@ -4700,12 +4720,15 @@ extension SSOAdmin {
         public let instanceArn: String
         /// Updates the instance name.
         public let name: String?
+        /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled.  You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. These calls can be made in parallel.
+        public let permissionSetsEnabled: Bool?
 
         @inlinable
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, instanceArn: String, name: String? = nil) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, instanceArn: String, name: String? = nil, permissionSetsEnabled: Bool? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.instanceArn = instanceArn
             self.name = name
+            self.permissionSetsEnabled = permissionSetsEnabled
         }
 
         public func validate(name: String) throws {
@@ -4721,6 +4744,7 @@ extension SSOAdmin {
             case encryptionConfiguration = "EncryptionConfiguration"
             case instanceArn = "InstanceArn"
             case name = "Name"
+            case permissionSetsEnabled = "PermissionSetsEnabled"
         }
     }
 

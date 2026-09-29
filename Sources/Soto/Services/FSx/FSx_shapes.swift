@@ -1959,9 +1959,9 @@ extension FSx {
                 try validate($0, name: "routeTableIds[]", parent: name, pattern: "^(rtb-[0-9a-f]{8,})$")
             }
             try self.validate(self.routeTableIds, name: "routeTableIds", parent: name, max: 50)
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 2147483647)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
-            try self.validate(self.throughputCapacityPerHAPair, name: "throughputCapacityPerHAPair", parent: name, max: 6144)
+            try self.validate(self.throughputCapacityPerHAPair, name: "throughputCapacityPerHAPair", parent: name, max: 2147483647)
             try self.validate(self.throughputCapacityPerHAPair, name: "throughputCapacityPerHAPair", parent: name, min: 128)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -2053,7 +2053,7 @@ extension FSx {
                 try validate($0, name: "routeTableIds[]", parent: name, pattern: "^(rtb-[0-9a-f]{8,})$")
             }
             try self.validate(self.routeTableIds, name: "routeTableIds", parent: name, max: 50)
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 2147483647)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -2256,7 +2256,7 @@ extension FSx {
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, min: 15)
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, pattern: "^(subnet-[0-9a-f]{8,})$")
             try self.selfManagedActiveDirectoryConfiguration?.validate(name: "\(name).selfManagedActiveDirectoryConfiguration")
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 2147483647)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -4295,7 +4295,7 @@ extension FSx {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.iops, name: "iops", parent: name, max: 2400000)
+            try self.validate(self.iops, name: "iops", parent: name, max: 2147483647)
             try self.validate(self.iops, name: "iops", parent: name, min: 0)
         }
 
@@ -6987,9 +6987,9 @@ extension FSx {
                 try validate($0, name: "removeRouteTableIds[]", parent: name, pattern: "^(rtb-[0-9a-f]{8,})$")
             }
             try self.validate(self.removeRouteTableIds, name: "removeRouteTableIds", parent: name, max: 50)
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 2147483647)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
-            try self.validate(self.throughputCapacityPerHAPair, name: "throughputCapacityPerHAPair", parent: name, max: 6144)
+            try self.validate(self.throughputCapacityPerHAPair, name: "throughputCapacityPerHAPair", parent: name, max: 2147483647)
             try self.validate(self.throughputCapacityPerHAPair, name: "throughputCapacityPerHAPair", parent: name, min: 128)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -7069,7 +7069,7 @@ extension FSx {
                 try validate($0, name: "removeRouteTableIds[]", parent: name, pattern: "^(rtb-[0-9a-f]{8,})$")
             }
             try self.validate(self.removeRouteTableIds, name: "removeRouteTableIds", parent: name, max: 50)
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 2147483647)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
@@ -7210,7 +7210,7 @@ extension FSx {
             try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
             try self.fsrmConfiguration?.validate(name: "\(name).fsrmConfiguration")
             try self.selfManagedActiveDirectoryConfiguration?.validate(name: "\(name).selfManagedActiveDirectoryConfiguration")
-            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 2147483647)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)

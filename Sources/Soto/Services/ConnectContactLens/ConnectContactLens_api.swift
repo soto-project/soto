@@ -40,7 +40,7 @@ public struct ConnectContactLens: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct ConnectContactLens: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "ConnectContactLens",
+            sdkId: "Connect Contact Lens",
             serviceIdentifier: "contact-lens",
             signingName: "connect",
             serviceProtocol: .restjson,
@@ -79,7 +80,7 @@ public struct ConnectContactLens: AWSService {
 
     // MARK: API Calls
 
-    /// Provides a list of analysis segments for a real-time analysis session.
+    /// Provides a list of analysis segments for a real-time analysis session for voice.  Voice data is retained for 24 hours. You must invoke this API during that time.
     @Sendable
     @inlinable
     public func listRealtimeContactAnalysisSegments(_ input: ListRealtimeContactAnalysisSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRealtimeContactAnalysisSegmentsResponse {
@@ -92,7 +93,7 @@ public struct ConnectContactLens: AWSService {
             logger: logger
         )
     }
-    /// Provides a list of analysis segments for a real-time analysis session.
+    /// Provides a list of analysis segments for a real-time analysis session for voice.  Voice data is retained for 24 hours. You must invoke this API during that time.
     ///
     /// Parameters:
     ///   - contactId: The identifier of the contact.

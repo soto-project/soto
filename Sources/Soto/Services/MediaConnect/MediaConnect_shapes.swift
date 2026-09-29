@@ -126,6 +126,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum FabricLatencyMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case balanced = "BALANCED"
+        case lowLatency = "LOW_LATENCY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FailoverInputSourcePriorityMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noPriority = "NO_PRIORITY"
         case primarySecondary = "PRIMARY_SECONDARY"
@@ -347,6 +353,7 @@ extension MediaConnect {
 
     public enum RouterOutputProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rist = "RIST"
+        case rtmpPush = "RTMP_PUSH"
         case rtp = "RTP"
         case srtCaller = "SRT_CALLER"
         case srtListener = "SRT_LISTENER"
@@ -440,6 +447,11 @@ extension MediaConnect {
     public enum ThumbnailState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TlsEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
@@ -1160,6 +1172,7 @@ extension MediaConnect {
 
     public enum RouterOutputProtocolConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         case rist(RistRouterOutputConfiguration)
+        case rtmpPush(RtmpPushRouterOutputConfiguration)
         case rtp(RtpRouterOutputConfiguration)
         case srtCaller(SrtCallerRouterOutputConfiguration)
         case srtListener(SrtListenerRouterOutputConfiguration)
@@ -1177,6 +1190,9 @@ extension MediaConnect {
             case .rist:
                 let value = try container.decode(RistRouterOutputConfiguration.self, forKey: .rist)
                 self = .rist(value)
+            case .rtmpPush:
+                let value = try container.decode(RtmpPushRouterOutputConfiguration.self, forKey: .rtmpPush)
+                self = .rtmpPush(value)
             case .rtp:
                 let value = try container.decode(RtpRouterOutputConfiguration.self, forKey: .rtp)
                 self = .rtp(value)
@@ -1194,6 +1210,8 @@ extension MediaConnect {
             switch self {
             case .rist(let value):
                 try container.encode(value, forKey: .rist)
+            case .rtmpPush(let value):
+                try container.encode(value, forKey: .rtmpPush)
             case .rtp(let value):
                 try container.encode(value, forKey: .rtp)
             case .srtCaller(let value):
@@ -1216,6 +1234,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case rist = "rist"
+            case rtmpPush = "rtmpPush"
             case rtp = "rtp"
             case srtCaller = "srtCaller"
             case srtListener = "srtListener"
@@ -2645,6 +2664,8 @@ extension MediaConnect {
         public let clientToken: String?
         /// The configuration settings for the router output.
         public let configuration: RouterOutputConfiguration
+        /// The fabric configuration settings for the router output.
+        public let fabricConfiguration: FabricConfiguration?
         /// The maintenance configuration settings for the router output, including preferred maintenance windows and schedules.
         public let maintenanceConfiguration: MaintenanceConfiguration?
         /// The maximum bitrate for the router output.
@@ -2661,10 +2682,11 @@ extension MediaConnect {
         public let tier: RouterOutputTier
 
         @inlinable
-        public init(availabilityZone: String? = nil, clientToken: String? = CreateRouterOutputRequest.idempotencyToken(), configuration: RouterOutputConfiguration, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64, name: String, regionName: String? = nil, routingScope: RoutingScope, tags: [String: String]? = nil, tier: RouterOutputTier) {
+        public init(availabilityZone: String? = nil, clientToken: String? = CreateRouterOutputRequest.idempotencyToken(), configuration: RouterOutputConfiguration, fabricConfiguration: FabricConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64, name: String, regionName: String? = nil, routingScope: RoutingScope, tags: [String: String]? = nil, tier: RouterOutputTier) {
             self.availabilityZone = availabilityZone
             self.clientToken = clientToken
             self.configuration = configuration
+            self.fabricConfiguration = fabricConfiguration
             self.maintenanceConfiguration = maintenanceConfiguration
             self.maximumBitrate = maximumBitrate
             self.name = name
@@ -2684,6 +2706,7 @@ extension MediaConnect {
             case availabilityZone = "availabilityZone"
             case clientToken = "clientToken"
             case configuration = "configuration"
+            case fabricConfiguration = "fabricConfiguration"
             case maintenanceConfiguration = "maintenanceConfiguration"
             case maximumBitrate = "maximumBitrate"
             case name = "name"
@@ -3477,6 +3500,20 @@ extension MediaConnect {
             case entitlementStatus = "entitlementStatus"
             case name = "name"
             case subscribers = "subscribers"
+        }
+    }
+
+    public struct FabricConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The recovery latency mode for the router fabric connection. Valid values include the following:    BALANCED (default) – Optimizes for stream quality.    LOW_LATENCY – Reduces latency at the potential cost of stream quality under adverse network conditions.
+        public let recoveryLatencyMode: FabricLatencyMode
+
+        @inlinable
+        public init(recoveryLatencyMode: FabricLatencyMode) {
+            self.recoveryLatencyMode = recoveryLatencyMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryLatencyMode = "recoveryLatencyMode"
         }
     }
 
@@ -5994,6 +6031,10 @@ extension MediaConnect {
         }
     }
 
+    public struct PublicTlsEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct PurchaseOfferingRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the offering.
         public let offeringArn: String
@@ -6809,6 +6850,8 @@ extension MediaConnect {
         public let configuration: RouterOutputConfiguration
         /// The timestamp when the router output was created.
         public let createdAt: Date
+        /// The fabric configuration settings for the router output.
+        public let fabricConfiguration: FabricConfiguration?
         /// The unique identifier of the router output.
         public let id: String
         /// The IP address of the router output.
@@ -6848,11 +6891,12 @@ extension MediaConnect {
         public let updatedAt: Date
 
         @inlinable
-        public init(arn: String, availabilityZone: String, configuration: RouterOutputConfiguration, createdAt: Date, id: String, ipAddress: String? = nil, maintenanceConfiguration: MaintenanceConfiguration, maintenanceSchedule: MaintenanceSchedule? = nil, maintenanceScheduleType: MaintenanceScheduleType? = nil, maintenanceType: MaintenanceType, maximumBitrate: Int64, messages: [RouterOutputMessage], name: String, outputType: RouterOutputType, regionName: String, routedInputArn: String? = nil, routedState: RouterOutputRoutedState, routingScope: RoutingScope, state: RouterOutputState, streamDetails: RouterOutputStreamDetails, tags: [String: String], tier: RouterOutputTier, updatedAt: Date) {
+        public init(arn: String, availabilityZone: String, configuration: RouterOutputConfiguration, createdAt: Date, fabricConfiguration: FabricConfiguration? = nil, id: String, ipAddress: String? = nil, maintenanceConfiguration: MaintenanceConfiguration, maintenanceSchedule: MaintenanceSchedule? = nil, maintenanceScheduleType: MaintenanceScheduleType? = nil, maintenanceType: MaintenanceType, maximumBitrate: Int64, messages: [RouterOutputMessage], name: String, outputType: RouterOutputType, regionName: String, routedInputArn: String? = nil, routedState: RouterOutputRoutedState, routingScope: RoutingScope, state: RouterOutputState, streamDetails: RouterOutputStreamDetails, tags: [String: String], tier: RouterOutputTier, updatedAt: Date) {
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.configuration = configuration
             self.createdAt = createdAt
+            self.fabricConfiguration = fabricConfiguration
             self.id = id
             self.ipAddress = ipAddress
             self.maintenanceConfiguration = maintenanceConfiguration
@@ -6879,6 +6923,7 @@ extension MediaConnect {
             case availabilityZone = "availabilityZone"
             case configuration = "configuration"
             case createdAt = "createdAt"
+            case fabricConfiguration = "fabricConfiguration"
             case id = "id"
             case ipAddress = "ipAddress"
             case maintenanceConfiguration = "maintenanceConfiguration"
@@ -6916,6 +6961,36 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case message = "message"
+        }
+    }
+
+    public struct RtmpPushRouterOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the RTMP application on the destination server. Together with the stream name, the application name forms the RTMP URL path, in the pattern rtmp://destinationAddress/applicationName/streamName.
+        public let applicationName: String
+        /// The IP address or hostname of the destination RTMP server that the router output pushes the stream to. Provide only the server address; specify the application and stream names separately.
+        public let destinationAddress: String
+        /// The TCP port on the destination RTMP server. For RTMP, valid values range from 1024 to 65535. For RTMPS (RTMP over TLS), valid values are 443 or 1024 to 65535. RTMP typically uses port 1935, and RTMPS typically uses port 443.
+        public let destinationPort: Int
+        /// The name of the RTMP stream that the output publishes to the destination application. The stream name forms the final segment of the RTMP URL path.
+        public let streamName: String
+        /// The TLS encryption settings for the output. When you specify these settings, the output uses RTMPS (RTMP over TLS) to establish a secure, encrypted connection to the destination server.
+        public let tlsEncryption: TlsEncryption?
+
+        @inlinable
+        public init(applicationName: String, destinationAddress: String, destinationPort: Int, streamName: String, tlsEncryption: TlsEncryption? = nil) {
+            self.applicationName = applicationName
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+            self.streamName = streamName
+            self.tlsEncryption = tlsEncryption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationName = "applicationName"
+            case destinationAddress = "destinationAddress"
+            case destinationPort = "destinationPort"
+            case streamName = "streamName"
+            case tlsEncryption = "tlsEncryption"
         }
     }
 
@@ -7891,6 +7966,24 @@ extension MediaConnect {
             case thumbnailMessages = "thumbnailMessages"
             case timecode = "timecode"
             case timestamp = "timestamp"
+        }
+    }
+
+    public struct TlsEncryption: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration settings for the specified TLS encryption type.
+        public let encryptionConfiguration: TlsEncryptionConfiguration
+        /// The type of TLS encryption to use for the connection.
+        public let encryptionType: TlsEncryptionType?
+
+        @inlinable
+        public init(encryptionConfiguration: TlsEncryptionConfiguration, encryptionType: TlsEncryptionType? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.encryptionType = encryptionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "encryptionConfiguration"
+            case encryptionType = "encryptionType"
         }
     }
 
@@ -9187,6 +9280,8 @@ extension MediaConnect {
         public let arn: String
         /// The updated configuration settings for the router output. Changing the type of the configuration is not supported.
         public let configuration: RouterOutputConfiguration?
+        /// The updated fabric configuration settings for the router output. You cannot update the fabric configuration while the output has an active route. You must unroute the output before updating the fabric configuration.
+        public let fabricConfiguration: FabricConfiguration?
         /// The updated maintenance configuration settings for the router output, including any changes to preferred maintenance windows and schedules.
         public let maintenanceConfiguration: MaintenanceConfiguration?
         /// The updated maximum bitrate for the router output.
@@ -9199,9 +9294,10 @@ extension MediaConnect {
         public let tier: RouterOutputTier?
 
         @inlinable
-        public init(arn: String, configuration: RouterOutputConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64? = nil, name: String? = nil, routingScope: RoutingScope? = nil, tier: RouterOutputTier? = nil) {
+        public init(arn: String, configuration: RouterOutputConfiguration? = nil, fabricConfiguration: FabricConfiguration? = nil, maintenanceConfiguration: MaintenanceConfiguration? = nil, maximumBitrate: Int64? = nil, name: String? = nil, routingScope: RoutingScope? = nil, tier: RouterOutputTier? = nil) {
             self.arn = arn
             self.configuration = configuration
+            self.fabricConfiguration = fabricConfiguration
             self.maintenanceConfiguration = maintenanceConfiguration
             self.maximumBitrate = maximumBitrate
             self.name = name
@@ -9214,6 +9310,7 @@ extension MediaConnect {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.arn, key: "Arn")
             try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.fabricConfiguration, forKey: .fabricConfiguration)
             try container.encodeIfPresent(self.maintenanceConfiguration, forKey: .maintenanceConfiguration)
             try container.encodeIfPresent(self.maximumBitrate, forKey: .maximumBitrate)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -9228,6 +9325,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case fabricConfiguration = "fabricConfiguration"
             case maintenanceConfiguration = "maintenanceConfiguration"
             case maximumBitrate = "maximumBitrate"
             case name = "name"
@@ -9431,6 +9529,20 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case transportStreamMediaInfo = "transportStreamMediaInfo"
+        }
+    }
+
+    public struct TlsEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The TLS encryption configuration that validates the destination by using a publicly trusted certificate authority.
+        public let `public`: PublicTlsEncryptionConfiguration?
+
+        @inlinable
+        public init(public: PublicTlsEncryptionConfiguration? = nil) {
+            self.`public` = `public`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `public` = "public"
         }
     }
 }

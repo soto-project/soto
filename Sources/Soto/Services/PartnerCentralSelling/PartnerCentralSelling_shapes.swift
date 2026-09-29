@@ -94,6 +94,7 @@ extension PartnerCentralSelling {
         case isvsm = "ISVSM"
         case pdm = "PDM"
         case psm = "PSM"
+        case signatory = "Signatory"
         case wwpspdm = "WWPSPDM"
         public var description: String { return self.rawValue }
     }
@@ -705,15 +706,6 @@ extension PartnerCentralSelling {
         public var description: String { return self.rawValue }
     }
 
-    public enum MarketSegment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enterprise = "Enterprise"
-        case large = "Large"
-        case medium = "Medium"
-        case micro = "Micro"
-        case small = "Small"
-        public var description: String { return self.rawValue }
-    }
-
     public enum MarketingSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case marketingActivity = "Marketing Activity"
         case none = "None"
@@ -1305,7 +1297,7 @@ extension PartnerCentralSelling {
         }
     }
 
-    public struct AddressSummary: AWSEncodableShape & AWSDecodableShape {
+    public struct AddressSummary: AWSDecodableShape {
         /// Specifies the end Customer's city associated with the Opportunity.
         public let city: String?
         /// Specifies the end Customer's country associated with the Opportunity.
@@ -1564,11 +1556,13 @@ extension PartnerCentralSelling {
         public let relatedEntityIds: AwsOpportunityRelatedEntities?
         /// Identifier of the related partner opportunity.
         public let relatedOpportunityId: String?
+        /// Seller-provided PARC deal terms: commitment value, discount, and contract dates.
+        public let softwareRevenue: AwsSoftwareRevenue?
         /// Visibility level for the AWS opportunity.
         public let visibility: Visibility?
 
         @inlinable
-        public init(cosellMotion: String? = nil, customer: AwsOpportunityCustomer? = nil, insights: AwsOpportunityInsights? = nil, involvementType: SalesInvolvementType? = nil, involvementTypeChangeReason: InvolvementTypeChangeReason? = nil, lifeCycle: AwsOpportunityLifeCycle? = nil, opportunityTeam: [AwsTeamMember]? = nil, origin: OpportunityOrigin? = nil, project: AwsOpportunityProject? = nil, relatedEntityIds: AwsOpportunityRelatedEntities? = nil, relatedOpportunityId: String? = nil, visibility: Visibility? = nil) {
+        public init(cosellMotion: String? = nil, customer: AwsOpportunityCustomer? = nil, insights: AwsOpportunityInsights? = nil, involvementType: SalesInvolvementType? = nil, involvementTypeChangeReason: InvolvementTypeChangeReason? = nil, lifeCycle: AwsOpportunityLifeCycle? = nil, opportunityTeam: [AwsTeamMember]? = nil, origin: OpportunityOrigin? = nil, project: AwsOpportunityProject? = nil, relatedEntityIds: AwsOpportunityRelatedEntities? = nil, relatedOpportunityId: String? = nil, softwareRevenue: AwsSoftwareRevenue? = nil, visibility: Visibility? = nil) {
             self.cosellMotion = cosellMotion
             self.customer = customer
             self.insights = insights
@@ -1580,6 +1574,7 @@ extension PartnerCentralSelling {
             self.project = project
             self.relatedEntityIds = relatedEntityIds
             self.relatedOpportunityId = relatedOpportunityId
+            self.softwareRevenue = softwareRevenue
             self.visibility = visibility
         }
 
@@ -1595,6 +1590,7 @@ extension PartnerCentralSelling {
             case project = "Project"
             case relatedEntityIds = "RelatedEntityIds"
             case relatedOpportunityId = "RelatedOpportunityId"
+            case softwareRevenue = "SoftwareRevenue"
             case visibility = "Visibility"
         }
     }
@@ -1708,6 +1704,31 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case aws = "AWS"
             case partner = "Partner"
+        }
+    }
+
+    public struct AwsSoftwareRevenue: AWSDecodableShape {
+        /// Discount percentage offered on the software revenue. Percent convention: 15.00 means 15%.
+        public let discount: String?
+        /// Contract effective (start) date in YYYY-MM-DD format.
+        public let effectiveDate: String?
+        /// Contract expiration (end) date in YYYY-MM-DD format.
+        public let expirationDate: String?
+        public let value: MonetaryValue?
+
+        @inlinable
+        public init(discount: String? = nil, effectiveDate: String? = nil, expirationDate: String? = nil, value: MonetaryValue? = nil) {
+            self.discount = discount
+            self.effectiveDate = effectiveDate
+            self.expirationDate = expirationDate
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case discount = "Discount"
+            case effectiveDate = "EffectiveDate"
+            case expirationDate = "ExpirationDate"
+            case value = "Value"
         }
     }
 
@@ -1915,12 +1936,12 @@ extension PartnerCentralSelling {
         /// The Contexts field is a required array of objects, with a maximum of 5 contexts allowed, specifying detailed information about customer projects associated with the Engagement. Each context object contains a Type field indicating the context type, which must be CustomerProject in this version, and a Payload field containing the CustomerProject details. The CustomerProject object is composed of two main components: Customer and Project. The Customer object includes information such as CompanyName, WebsiteUrl, Industry, and CountryCode, providing essential details about the customer. The Project object contains Title, BusinessProblem, and TargetCompletionDate, offering insights into the specific project associated with the customer. This structure allows comprehensive context to be included within the Engagement, facilitating effective collaboration between parties by providing relevant customer and project information.
         public let contexts: [EngagementContextDetails]?
         /// Provides a description of the Engagement.
-        public let description: String
+        public let description: String?
         /// Specifies the title of the Engagement.
-        public let title: String
+        public let title: String?
 
         @inlinable
-        public init(catalog: String, clientToken: String = CreateEngagementRequest.idempotencyToken(), contexts: [EngagementContextDetails]? = nil, description: String, title: String) {
+        public init(catalog: String, clientToken: String = CreateEngagementRequest.idempotencyToken(), contexts: [EngagementContextDetails]? = nil, description: String? = nil, title: String? = nil) {
             self.catalog = catalog
             self.clientToken = clientToken
             self.contexts = contexts
@@ -1936,7 +1957,7 @@ extension PartnerCentralSelling {
             }
             try self.validate(self.contexts, name: "contexts", parent: name, max: 5)
             try self.validate(self.description, name: "description", parent: name, pattern: "^(?s).{0,255}$")
-            try self.validate(self.title, name: "title", parent: name, pattern: "^(?s).{1,40}$")
+            try self.validate(self.title, name: "title", parent: name, pattern: "^(?s).{0,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2657,6 +2678,24 @@ extension PartnerCentralSelling {
         }
     }
 
+    public struct EnrichmentContext: AWSDecodableShape {
+        /// The AI-generated lead readiness score for this lead. Use this score to assess lead quality and prioritize engagement efforts.
+        public let leadInsights: LeadInsights?
+        /// The customer account data and propensity insights for the prospected account. It includes geographic, industry, and segment classifications, along with engagement and solution scoring.
+        public let prospectingResultAws: InvitationProspectingResultAws?
+
+        @inlinable
+        public init(leadInsights: LeadInsights? = nil, prospectingResultAws: InvitationProspectingResultAws? = nil) {
+            self.leadInsights = leadInsights
+            self.prospectingResultAws = prospectingResultAws
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case leadInsights = "LeadInsights"
+            case prospectingResultAws = "ProspectingResultAws"
+        }
+    }
+
     public struct ExpectedContractDuration: AWSEncodableShape & AWSDecodableShape {
         /// The unit of measurement for the contract duration value. Currently accepts only Months.
         public let term: ExpectedContractDurationTerm
@@ -2758,11 +2797,13 @@ extension PartnerCentralSelling {
         public let relatedEntityIds: AwsOpportunityRelatedEntities?
         /// Provides the unique identifier of the related partner opportunity, allowing partners to link the AWS Opportunity to their corresponding opportunity in their CRM system.
         public let relatedOpportunityId: String?
+        /// Seller-provided PARC deal terms: commitment value, discount, and contract dates.
+        public let softwareRevenue: AwsSoftwareRevenue?
         /// Defines the visibility level for the AWS Opportunity. Use Full visibility for most cases, while Limited visibility is reserved for special programs or sensitive opportunities.
         public let visibility: Visibility?
 
         @inlinable
-        public init(catalog: String, cosellMotion: String? = nil, customer: AwsOpportunityCustomer? = nil, insights: AwsOpportunityInsights? = nil, involvementType: SalesInvolvementType? = nil, involvementTypeChangeReason: InvolvementTypeChangeReason? = nil, lifeCycle: AwsOpportunityLifeCycle? = nil, opportunityTeam: [AwsTeamMember]? = nil, origin: OpportunityOrigin? = nil, project: AwsOpportunityProject? = nil, relatedEntityIds: AwsOpportunityRelatedEntities? = nil, relatedOpportunityId: String? = nil, visibility: Visibility? = nil) {
+        public init(catalog: String, cosellMotion: String? = nil, customer: AwsOpportunityCustomer? = nil, insights: AwsOpportunityInsights? = nil, involvementType: SalesInvolvementType? = nil, involvementTypeChangeReason: InvolvementTypeChangeReason? = nil, lifeCycle: AwsOpportunityLifeCycle? = nil, opportunityTeam: [AwsTeamMember]? = nil, origin: OpportunityOrigin? = nil, project: AwsOpportunityProject? = nil, relatedEntityIds: AwsOpportunityRelatedEntities? = nil, relatedOpportunityId: String? = nil, softwareRevenue: AwsSoftwareRevenue? = nil, visibility: Visibility? = nil) {
             self.catalog = catalog
             self.cosellMotion = cosellMotion
             self.customer = customer
@@ -2775,6 +2816,7 @@ extension PartnerCentralSelling {
             self.project = project
             self.relatedEntityIds = relatedEntityIds
             self.relatedOpportunityId = relatedOpportunityId
+            self.softwareRevenue = softwareRevenue
             self.visibility = visibility
         }
 
@@ -2791,6 +2833,7 @@ extension PartnerCentralSelling {
             case project = "Project"
             case relatedEntityIds = "RelatedEntityIds"
             case relatedOpportunityId = "RelatedOpportunityId"
+            case softwareRevenue = "SoftwareRevenue"
             case visibility = "Visibility"
         }
     }
@@ -2829,6 +2872,8 @@ extension PartnerCentralSelling {
         public let engagementId: String?
         /// The title of the engagement invitation, summarizing the purpose or objectives of the opportunity shared by AWS.
         public let engagementTitle: String?
+        /// The enrichment data for the engagement associated with this invitation. You can view propensity scores, program eligibility, and lead readiness assessments before taking action on the invitation.
+        public let enrichmentContext: EnrichmentContext?
         /// A list of active members currently part of the Engagement. This array contains a maximum of 10 members, each represented by an object with the following properties.   CompanyName: The name of the member's company.   WebsiteUrl: The website URL of the member's company.
         public let existingMembers: [EngagementMemberSummary]?
         /// Indicates the date on which the engagement invitation will expire if not accepted by the partner.
@@ -2857,12 +2902,13 @@ extension PartnerCentralSelling {
         public let status: InvitationStatus?
 
         @inlinable
-        public init(arn: String? = nil, catalog: String, engagementDescription: String? = nil, engagementId: String? = nil, engagementTitle: String? = nil, existingMembers: [EngagementMemberSummary]? = nil, expirationDate: Date? = nil, id: String, invitationDate: Date? = nil, invitationMessage: String? = nil, payload: Payload? = nil, payloadType: EngagementInvitationPayloadType? = nil, receiver: Receiver? = nil, rejectionReason: String? = nil, senderAwsAccountId: String? = nil, senderCompanyName: String? = nil, status: InvitationStatus? = nil) {
+        public init(arn: String? = nil, catalog: String, engagementDescription: String? = nil, engagementId: String? = nil, engagementTitle: String? = nil, enrichmentContext: EnrichmentContext? = nil, existingMembers: [EngagementMemberSummary]? = nil, expirationDate: Date? = nil, id: String, invitationDate: Date? = nil, invitationMessage: String? = nil, payload: Payload? = nil, payloadType: EngagementInvitationPayloadType? = nil, receiver: Receiver? = nil, rejectionReason: String? = nil, senderAwsAccountId: String? = nil, senderCompanyName: String? = nil, status: InvitationStatus? = nil) {
             self.arn = arn
             self.catalog = catalog
             self.engagementDescription = engagementDescription
             self.engagementId = engagementId
             self.engagementTitle = engagementTitle
+            self.enrichmentContext = enrichmentContext
             self.existingMembers = existingMembers
             self.expirationDate = expirationDate
             self.id = id
@@ -2883,6 +2929,7 @@ extension PartnerCentralSelling {
             case engagementDescription = "EngagementDescription"
             case engagementId = "EngagementId"
             case engagementTitle = "EngagementTitle"
+            case enrichmentContext = "EnrichmentContext"
             case existingMembers = "ExistingMembers"
             case expirationDate = "ExpirationDate"
             case id = "Id"
@@ -3372,6 +3419,24 @@ extension PartnerCentralSelling {
         }
     }
 
+    public struct InvitationProspectingResultAws: AWSDecodableShape {
+        /// The prospected customer account details, including geographic classification, industry segmentation, company size, and program eligibility.
+        public let customer: ProspectingResultCustomer?
+        /// The AI-generated insights from the prospecting analysis, including marketplace engagement scoring, solution fit assessments, and solution categorization.
+        public let insights: ProspectingInsights?
+
+        @inlinable
+        public init(customer: ProspectingResultCustomer? = nil, insights: ProspectingInsights? = nil) {
+            self.customer = customer
+            self.insights = insights
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customer = "Customer"
+            case insights = "Insights"
+        }
+    }
+
     public struct LastModifiedDate: AWSEncodableShape {
         /// Specifies the date after which the opportunities were modified. Use this filter to retrieve only those opportunities that were modified after a given timestamp.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -3389,6 +3454,36 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case afterLastModifiedDate = "AfterLastModifiedDate"
             case beforeLastModifiedDate = "BeforeLastModifiedDate"
+        }
+    }
+
+    public struct LeadAddress: AWSEncodableShape & AWSDecodableShape {
+        /// The city of the lead customer's address.
+        public let city: String?
+        /// The country code of the lead customer's address.
+        public let countryCode: String?
+        /// The postal code of the lead customer's address.
+        public let postalCode: String?
+        /// The state or region of the lead customer's address.
+        public let stateOrRegion: String?
+
+        @inlinable
+        public init(city: String? = nil, countryCode: String? = nil, postalCode: String? = nil, stateOrRegion: String? = nil) {
+            self.city = city
+            self.countryCode = countryCode
+            self.postalCode = postalCode
+            self.stateOrRegion = stateOrRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.countryCode, name: "countryCode", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case city = "City"
+            case countryCode = "CountryCode"
+            case postalCode = "PostalCode"
+            case stateOrRegion = "StateOrRegion"
         }
     }
 
@@ -3414,11 +3509,13 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.businessTitle, name: "businessTitle", parent: name, pattern: "^(?s).{0,80}$")
-            try self.validate(self.email, name: "email", parent: name, pattern: "^(?=.{0,80}$)[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
+            try self.validate(self.businessTitle, name: "businessTitle", parent: name, max: 255)
+            try self.validate(self.businessTitle, name: "businessTitle", parent: name, min: 1)
+            try self.validate(self.email, name: "email", parent: name, max: 255)
+            try self.validate(self.email, name: "email", parent: name, min: 1)
             try self.validate(self.firstName, name: "firstName", parent: name, pattern: "^(?s).{0,80}$")
             try self.validate(self.lastName, name: "lastName", parent: name, pattern: "^(?s).{0,80}$")
-            try self.validate(self.phone, name: "phone", parent: name, pattern: "^\\+[1-9]\\d{1,14}$")
+            try self.validate(self.phone, name: "phone", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3467,20 +3564,21 @@ extension PartnerCentralSelling {
     }
 
     public struct LeadCustomer: AWSEncodableShape & AWSDecodableShape {
-        public let address: AddressSummary
+        /// The address information for the lead customer.
+        public let address: LeadAddress?
         /// Indicates the customer's level of experience and adoption with AWS services. This assessment helps determine the appropriate engagement approach and solution complexity.
         public let awsMaturity: String?
         /// The name of the lead customer's company. This field is essential for identifying and tracking the customer organization associated with the lead.
         public let companyName: String
         /// Specifies the industry sector to which the lead customer's company belongs. This categorization helps in understanding the customer's business context and tailoring appropriate solutions.
-        public let industry: Industry?
+        public let industry: String?
         /// Specifies the market segment classification of the lead customer, such as enterprise, mid-market, or small business. This segmentation helps in targeting appropriate solutions and engagement strategies.
-        public let marketSegment: MarketSegment?
+        public let marketSegment: String?
         /// The website URL of the lead customer's company. This provides additional context about the customer organization and helps verify company legitimacy and size.
         public let websiteUrl: String?
 
         @inlinable
-        public init(address: AddressSummary, awsMaturity: String? = nil, companyName: String, industry: Industry? = nil, marketSegment: MarketSegment? = nil, websiteUrl: String? = nil) {
+        public init(address: LeadAddress? = nil, awsMaturity: String? = nil, companyName: String, industry: String? = nil, marketSegment: String? = nil, websiteUrl: String? = nil) {
             self.address = address
             self.awsMaturity = awsMaturity
             self.companyName = companyName
@@ -3490,9 +3588,12 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.awsMaturity, name: "awsMaturity", parent: name, pattern: "^(?s).{1,20}$")
+            try self.address?.validate(name: "\(name).address")
+            try self.validate(self.awsMaturity, name: "awsMaturity", parent: name, max: 255)
             try self.validate(self.companyName, name: "companyName", parent: name, pattern: "^(?s).{1,120}$")
-            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, pattern: "^(?=.{4,255}$)((http|https)://)??(www[.])??([a-zA-Z0-9]|-)+?([.][a-zA-Z0-9(-|/|=|?)??]+?)+?$")
+            try self.validate(self.industry, name: "industry", parent: name, max: 255)
+            try self.validate(self.marketSegment, name: "marketSegment", parent: name, max: 255)
+            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3525,21 +3626,21 @@ extension PartnerCentralSelling {
         /// Contains contact information for the customer representative involved in the lead interaction, including their name, title, and contact details.
         public let contact: LeadContact
         /// Describes the action taken by the customer during or as a result of the interaction, such as requesting information, scheduling a meeting, or expressing interest in a solution.
-        public let customerAction: String
+        public let customerAction: String?
         /// The date and time when the lead interaction occurred, in ISO 8601 format (UTC). This timestamp helps track the chronology of lead engagement activities.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var interactionDate: Date?
         /// The unique identifier of the specific source that generated the lead interaction. This ID provides traceability back to the original lead generation activity.
-        public let sourceId: String
+        public let sourceId: String?
         /// The descriptive name of the source that generated the lead interaction, providing a human-readable identifier for the lead generation channel or activity.
-        public let sourceName: String
+        public let sourceName: String?
         /// Specifies the type of source that generated the lead interaction, such as "Event", "Website", "Referral", or "Campaign". This categorization helps track lead generation effectiveness across different channels.
-        public let sourceType: String
+        public let sourceType: String?
         /// Describes the specific use case or business scenario discussed during the lead interaction. This helps categorize the customer's interests and potential solutions.
         public let usecase: String?
 
         @inlinable
-        public init(businessProblem: String? = nil, contact: LeadContact, customerAction: String, interactionDate: Date? = nil, sourceId: String, sourceName: String, sourceType: String, usecase: String? = nil) {
+        public init(businessProblem: String? = nil, contact: LeadContact, customerAction: String? = nil, interactionDate: Date? = nil, sourceId: String? = nil, sourceName: String? = nil, sourceType: String? = nil, usecase: String? = nil) {
             self.businessProblem = businessProblem
             self.contact = contact
             self.customerAction = customerAction
@@ -3551,13 +3652,13 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.businessProblem, name: "businessProblem", parent: name, pattern: "^(?s).{20,2000}$")
+            try self.validate(self.businessProblem, name: "businessProblem", parent: name, max: 2000)
             try self.contact.validate(name: "\(name).contact")
-            try self.validate(self.customerAction, name: "customerAction", parent: name, pattern: "^(?s).{1,255}$")
-            try self.validate(self.sourceId, name: "sourceId", parent: name, pattern: "^(?s).{1,255}$")
-            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^(?s).{1,255}$")
-            try self.validate(self.sourceType, name: "sourceType", parent: name, pattern: "^(?s).{1,255}$")
-            try self.validate(self.usecase, name: "usecase", parent: name, pattern: "^(?s).{1,255}$")
+            try self.validate(self.customerAction, name: "customerAction", parent: name, max: 255)
+            try self.validate(self.sourceId, name: "sourceId", parent: name, pattern: "^(?s).{0,255}$")
+            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^(?s).{0,255}$")
+            try self.validate(self.sourceType, name: "sourceType", parent: name, pattern: "^(?s).{0,255}$")
+            try self.validate(self.usecase, name: "usecase", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3578,16 +3679,16 @@ extension PartnerCentralSelling {
         /// The name of the customer company associated with the lead invitation. This field identifies the target organization for the lead engagement opportunity.
         public let companyName: String
         /// The country code indicating the geographic location of the customer company. This information helps partners understand regional requirements and assess their ability to serve the customer effectively.
-        public let countryCode: CountryCode
+        public let countryCode: String?
         /// Specifies the industry sector of the customer company associated with the lead invitation. This categorization helps partners understand the customer's business context and assess solution fit.
-        public let industry: Industry?
+        public let industry: String?
         /// Specifies the market segment classification of the customer, such as enterprise, mid-market, or small business. This segmentation helps partners determine the appropriate solution complexity and engagement strategy.
-        public let marketSegment: MarketSegment?
+        public let marketSegment: String?
         /// The website URL of the customer company. This provides additional context about the customer organization and helps partners verify company details and assess business size and legitimacy.
         public let websiteUrl: String?
 
         @inlinable
-        public init(awsMaturity: String? = nil, companyName: String, countryCode: CountryCode, industry: Industry? = nil, marketSegment: MarketSegment? = nil, websiteUrl: String? = nil) {
+        public init(awsMaturity: String? = nil, companyName: String, countryCode: String? = nil, industry: String? = nil, marketSegment: String? = nil, websiteUrl: String? = nil) {
             self.awsMaturity = awsMaturity
             self.companyName = companyName
             self.countryCode = countryCode
@@ -3597,9 +3698,12 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.awsMaturity, name: "awsMaturity", parent: name, pattern: "^(?s).{1,20}$")
+            try self.validate(self.awsMaturity, name: "awsMaturity", parent: name, max: 255)
             try self.validate(self.companyName, name: "companyName", parent: name, pattern: "^(?s).{1,120}$")
-            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, pattern: "^(?=.{4,255}$)((http|https)://)??(www[.])??([a-zA-Z0-9]|-)+?([.][a-zA-Z0-9(-|/|=|?)??]+?)+?$")
+            try self.validate(self.countryCode, name: "countryCode", parent: name, max: 10)
+            try self.validate(self.industry, name: "industry", parent: name, max: 255)
+            try self.validate(self.marketSegment, name: "marketSegment", parent: name, max: 255)
+            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3616,16 +3720,16 @@ extension PartnerCentralSelling {
         /// The business title or job role of the customer contact involved in the lead interaction. This helps partners identify the decision-making level and engagement approach for the lead.
         public let contactBusinessTitle: String
         /// The unique identifier of the specific source that generated the lead interaction. This provides traceability to the original lead generation activity for reference and follow-up purposes.
-        public let sourceId: String
+        public let sourceId: String?
         /// The descriptive name of the source that generated the lead interaction. This human-readable identifier helps partners understand the specific lead generation channel or campaign that created the opportunity.
-        public let sourceName: String
+        public let sourceName: String?
         /// Specifies the type of source that generated the lead interaction, such as "Event", "Website", or "Campaign". This helps partners understand the lead generation channel and assess lead quality based on the source type.
-        public let sourceType: String
+        public let sourceType: String?
         /// Describes the specific use case or business scenario associated with the lead interaction. This information helps partners understand the customer's interests and potential solution requirements.
         public let usecase: String?
 
         @inlinable
-        public init(contactBusinessTitle: String, sourceId: String, sourceName: String, sourceType: String, usecase: String? = nil) {
+        public init(contactBusinessTitle: String, sourceId: String? = nil, sourceName: String? = nil, sourceType: String? = nil, usecase: String? = nil) {
             self.contactBusinessTitle = contactBusinessTitle
             self.sourceId = sourceId
             self.sourceName = sourceName
@@ -3635,10 +3739,10 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.contactBusinessTitle, name: "contactBusinessTitle", parent: name, pattern: "^(?s).{0,80}$")
-            try self.validate(self.sourceId, name: "sourceId", parent: name, pattern: "^(?s).{1,255}$")
-            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^(?s).{1,255}$")
-            try self.validate(self.sourceType, name: "sourceType", parent: name, pattern: "^(?s).{1,255}$")
-            try self.validate(self.usecase, name: "usecase", parent: name, pattern: "^(?s).{1,255}$")
+            try self.validate(self.sourceId, name: "sourceId", parent: name, pattern: "^(?s).{0,255}$")
+            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^(?s).{0,255}$")
+            try self.validate(self.sourceType, name: "sourceType", parent: name, pattern: "^(?s).{0,255}$")
+            try self.validate(self.usecase, name: "usecase", parent: name, max: 255)
         }
 
         private enum CodingKeys: String, CodingKey {

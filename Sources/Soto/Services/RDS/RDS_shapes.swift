@@ -483,6 +483,10 @@ extension RDS {
         public let iops: Int?
         /// The upper limit in gibibytes (GiB) to which RDS can automatically scale the storage of the additional storage volume.
         public let maxAllocatedStorage: Int?
+        /// The percentage of the in-progress storage operation on the additional storage volume that has completed, from 0 to 100. This field appears only while a storage operation is in progress. It isn't present when no storage operation is active.
+        public let storageOperationPercentProgress: Int?
+        /// The status of an in-progress storage operation on the additional storage volume. This field appears only while a storage operation is in progress. It isn't present when no storage operation is active. Possible values:    Initializing - The volume is initializing from a snapshot, such as during a snapshot restore, point-in-time restore, read replica creation, or blue/green deployment. Performance can be lower than provisioned until initialization completes.    Optimizing - The volume is optimizing following a storage scaling or modification operation.
+        public let storageOperationStatus: String?
         /// The storage throughput value for the additional storage volume, in mebibytes per second (MiBps).
         public let storageThroughput: Int?
         /// The storage type for the additional storage volume. Valid Values: GP3 | IO2
@@ -493,10 +497,12 @@ extension RDS {
         public let volumeName: String?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, iops: Int? = nil, maxAllocatedStorage: Int? = nil, storageThroughput: Int? = nil, storageType: String? = nil, storageVolumeStatus: String? = nil, volumeName: String? = nil) {
+        public init(allocatedStorage: Int? = nil, iops: Int? = nil, maxAllocatedStorage: Int? = nil, storageOperationPercentProgress: Int? = nil, storageOperationStatus: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, storageVolumeStatus: String? = nil, volumeName: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.iops = iops
             self.maxAllocatedStorage = maxAllocatedStorage
+            self.storageOperationPercentProgress = storageOperationPercentProgress
+            self.storageOperationStatus = storageOperationStatus
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.storageVolumeStatus = storageVolumeStatus
@@ -507,6 +513,8 @@ extension RDS {
             case allocatedStorage = "AllocatedStorage"
             case iops = "IOPS"
             case maxAllocatedStorage = "MaxAllocatedStorage"
+            case storageOperationPercentProgress = "StorageOperationPercentProgress"
+            case storageOperationStatus = "StorageOperationStatus"
             case storageThroughput = "StorageThroughput"
             case storageType = "StorageType"
             case storageVolumeStatus = "StorageVolumeStatus"
@@ -4574,6 +4582,10 @@ extension RDS {
         public let storageEncrypted: Bool?
         /// The type of encryption used to protect data at rest in the DB instance. Possible values:    none - The DB instance is not encrypted.    sse-rds - The DB instance is encrypted using an Amazon Web Services owned KMS key.    sse-kms - The DB instance is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
         public let storageEncryptionType: StorageEncryptionType?
+        /// The percentage of the in-progress storage operation on the DB instance that has completed, from 0 to 100. This field appears only while a storage operation is in progress. It isn't present when no storage operation is active.
+        public let storageOperationPercentProgress: Int?
+        /// The status of an in-progress storage operation on the DB instance. This field appears only while a storage operation is in progress. It isn't present when no storage operation is active. Possible values:    Initializing - The volume is initializing from a snapshot, such as during a snapshot restore, point-in-time restore, read replica creation, or blue/green deployment. Performance can be lower than provisioned until initialization completes.    Optimizing - The volume is optimizing following a storage scaling or modification operation.
+        public let storageOperationStatus: String?
         /// The storage throughput for the DB instance. This setting applies only to the gp3 storage type.
         public let storageThroughput: Int?
         /// The storage type associated with the DB instance.
@@ -4593,7 +4605,7 @@ extension RDS {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(activityStreamEngineNativeAuditFieldsIncluded: Bool? = nil, activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamPolicyStatus: ActivityStreamPolicyStatus? = nil, activityStreamStatus: ActivityStreamStatus? = nil, additionalStorageVolumes: [AdditionalStorageVolumeOutput]? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, automaticRestartTime: Date? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customerOwnedIpEnabled: Bool? = nil, customIamInstanceProfile: String? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, dbSystemId: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, isStorageConfigUpgradeAvailable: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBClusterIdentifier: String? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeTime: Date? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageEncryptionType: StorageEncryptionType? = nil, storageThroughput: Int? = nil, storageType: String? = nil, storageVolumeStatus: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, upgradeRolloutOrder: UpgradeRolloutOrder? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamEngineNativeAuditFieldsIncluded: Bool? = nil, activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamPolicyStatus: ActivityStreamPolicyStatus? = nil, activityStreamStatus: ActivityStreamStatus? = nil, additionalStorageVolumes: [AdditionalStorageVolumeOutput]? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, automaticRestartTime: Date? = nil, automationMode: AutomationMode? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, awsBackupRecoveryPointArn: String? = nil, backupRetentionPeriod: Int? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, certificateDetails: CertificateDetails? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, customerOwnedIpEnabled: Bool? = nil, customIamInstanceProfile: String? = nil, databaseInsightsMode: DatabaseInsightsMode? = nil, dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceAutomatedBackupsReplications: [DBInstanceAutomatedBackupsReplication]? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dbInstanceStatus: String? = nil, dbiResourceId: String? = nil, dbName: String? = nil, dbParameterGroups: [DBParameterGroupStatus]? = nil, dbSecurityGroups: [DBSecurityGroupMembership]? = nil, dbSubnetGroup: DBSubnetGroup? = nil, dbSystemId: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, isStorageConfigUpgradeAvailable: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, multiTenant: Bool? = nil, ncharCharacterSetName: String? = nil, networkType: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, percentProgress: String? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBClusterIdentifier: String? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, resumeFullAutomationModeTime: Date? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageEncryptionType: StorageEncryptionType? = nil, storageOperationPercentProgress: Int? = nil, storageOperationStatus: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, storageVolumeStatus: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, upgradeRolloutOrder: UpgradeRolloutOrder? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamEngineNativeAuditFieldsIncluded = activityStreamEngineNativeAuditFieldsIncluded
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
@@ -4677,6 +4689,8 @@ extension RDS {
             self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
             self.storageEncryptionType = storageEncryptionType
+            self.storageOperationPercentProgress = storageOperationPercentProgress
+            self.storageOperationStatus = storageOperationStatus
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.storageVolumeStatus = storageVolumeStatus
@@ -4771,6 +4785,8 @@ extension RDS {
             case statusInfos = "StatusInfos"
             case storageEncrypted = "StorageEncrypted"
             case storageEncryptionType = "StorageEncryptionType"
+            case storageOperationPercentProgress = "StorageOperationPercentProgress"
+            case storageOperationStatus = "StorageOperationStatus"
             case storageThroughput = "StorageThroughput"
             case storageType = "StorageType"
             case storageVolumeStatus = "StorageVolumeStatus"
@@ -5688,6 +5704,8 @@ extension RDS {
         public let engine: String?
         /// Specifies the version of the database engine.
         public let engineVersion: String?
+        /// The full size of the DB snapshot, in bytes.  This is not the incremental size of the snapshot. This is the full snapshot size and represents the size of all the blocks that were written to the source volume at the time the snapshot was created.
+        public let fullSnapshotSizeInBytes: Int64?
         /// Indicates whether mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts is enabled.
         public let iamDatabaseAuthenticationEnabled: Bool?
         /// Specifies the time in Coordinated Universal Time (UTC) when the DB instance, from which the snapshot was taken, was created.
@@ -5747,7 +5765,7 @@ extension RDS {
         public let vpcId: String?
 
         @inlinable
-        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dbSnapshotArn: String? = nil, dbSnapshotIdentifier: String? = nil, dbSystemId: String? = nil, dedicatedLogVolume: Bool? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, multiTenant: Bool? = nil, optionGroupName: String? = nil, originalSnapshotCreateTime: Date? = nil, percentProgress: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, snapshotAvailabilityZone: String? = nil, snapshotCreateTime: Date? = nil, snapshotDatabaseTime: Date? = nil, snapshotTarget: String? = nil, snapshotType: String? = nil, sourceDBSnapshotIdentifier: String? = nil, sourceRegion: String? = nil, status: String? = nil, storageEncryptionType: StorageEncryptionType? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
+        public init(additionalStorageVolumes: [AdditionalStorageVolume]? = nil, allocatedStorage: Int? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dbSnapshotArn: String? = nil, dbSnapshotIdentifier: String? = nil, dbSystemId: String? = nil, dedicatedLogVolume: Bool? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, fullSnapshotSizeInBytes: Int64? = nil, iamDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: Date? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, multiTenant: Bool? = nil, optionGroupName: String? = nil, originalSnapshotCreateTime: Date? = nil, percentProgress: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, snapshotAvailabilityZone: String? = nil, snapshotCreateTime: Date? = nil, snapshotDatabaseTime: Date? = nil, snapshotTarget: String? = nil, snapshotType: String? = nil, sourceDBSnapshotIdentifier: String? = nil, sourceRegion: String? = nil, status: String? = nil, storageEncryptionType: StorageEncryptionType? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
             self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
@@ -5761,6 +5779,7 @@ extension RDS {
             self.encrypted = encrypted
             self.engine = engine
             self.engineVersion = engineVersion
+            self.fullSnapshotSizeInBytes = fullSnapshotSizeInBytes
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.instanceCreateTime = instanceCreateTime
             self.iops = iops
@@ -5805,6 +5824,7 @@ extension RDS {
             case encrypted = "Encrypted"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
+            case fullSnapshotSizeInBytes = "FullSnapshotSizeInBytes"
             case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
             case instanceCreateTime = "InstanceCreateTime"
             case iops = "Iops"

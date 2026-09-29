@@ -213,6 +213,12 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProxyMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case proxyProtocolV2Enforced = "PROXY_PROTOCOL_V2_ENFORCED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SecurityPolicyProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ftps = "FTPS"
         case sftp = "SFTP"
@@ -4340,15 +4346,18 @@ extension Transfer {
         public let as2Transports: [As2Transport]?
         ///  Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example:   aws transfer update-server --protocol-details PassiveIp=0.0.0.0  Replace 0.0.0.0 in the example above with the actual IP address you want to use.   If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see Configuring your FTPS server behind a firewall or NAT with Transfer Family.  Additionally, avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers. This configuration increases costs and can cause performance issues. When NLBs or NATs are in the communication path, Transfer Family cannot accurately recognize client IP addresses, which impacts connection sharding and limits FTPS servers to only 300 simultaneous connections instead of 10,000. If you must use an NLB, use port 21 for health checks and enable TLS session resumption by setting TlsSessionResumptionMode = ENFORCED. For optimal performance, migrate to VPC endpoints with Elastic IP addresses instead of using NLBs. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.    Special values  The AUTO and 0.0.0.0 are special values for the PassiveIp parameter. The value PassiveIp=AUTO is assigned by default to FTP and FTPS type servers. In this case, the server automatically responds with one of the endpoint IPs within the PASV response. PassiveIp=0.0.0.0 has a more unique application for its usage. For example, if you have a High Availability (HA) Network Load Balancer (NLB) environment, where you have 3 subnets, you can only specify a single IP address using the PassiveIp parameter. This reduces the effectiveness of having High Availability. In this case, you can specify PassiveIp=0.0.0.0. This tells the client to use the same IP address as the Control connection and utilize all AZs for their connections. Note, however, that not all FTP clients support the PassiveIp=0.0.0.0 response. FileZilla and WinSCP do support it. If you are using other clients, check to see if your client supports the PassiveIp=0.0.0.0 response.
         public let passiveIp: String?
+        /// The configuration for PROXY protocol version 2 (PPv2) support on the Transfer Family server. For more information, see Working with Network Load Balancers.
+        public let proxyConfig: ProxyConfig?
         /// Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Some SFTP file transfer clients can attempt to change the attributes of remote files, including timestamp and permissions, using commands, such as SETSTAT when uploading the file. However, these commands are not compatible with object storage systems, such as Amazon S3. Due to this incompatibility, file uploads from these clients can result in errors even when the file is otherwise successfully uploaded. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. While the SetStatOption ENABLE_NO_OP setting ignores the error, it does generate a log entry in Amazon CloudWatch Logs, so you can determine when the client is making a SETSTAT call.  If you want to preserve the original timestamp for your file, and modify other file attributes using SETSTAT, you can use Amazon EFS as backend storage with Transfer Family.
         public let setStatOption: SetStatOption?
         /// A property used with Transfer Family servers that use the FTPS protocol. TLS Session Resumption provides a mechanism to resume or share a negotiated secret key between the control and data connection for an FTPS session. TlsSessionResumptionMode determines whether or not the server resumes recent, negotiated sessions through a unique session ID. This property is available during CreateServer and UpdateServer calls. If a TlsSessionResumptionMode value is not specified during CreateServer, it is set to ENFORCED by default.    DISABLED: the server does not process TLS session resumption client requests and creates a new TLS session for each request.     ENABLED: the server processes and accepts clients that are performing TLS session resumption. The server doesn't reject client data connections that do not perform the TLS session resumption client processing.    ENFORCED: the server processes and accepts clients that are performing TLS session resumption. The server rejects client data connections that do not perform the TLS session resumption client processing. Before you set the value to ENFORCED, test your clients.  Not all FTPS clients perform TLS session resumption. So, if you choose to enforce TLS session resumption, you prevent any connections from FTPS clients that don't perform the protocol negotiation. To determine whether or not you can use the ENFORCED value, you need to test your clients.
         public let tlsSessionResumptionMode: TlsSessionResumptionMode?
 
         @inlinable
-        public init(as2Transports: [As2Transport]? = nil, passiveIp: String? = nil, setStatOption: SetStatOption? = nil, tlsSessionResumptionMode: TlsSessionResumptionMode? = nil) {
+        public init(as2Transports: [As2Transport]? = nil, passiveIp: String? = nil, proxyConfig: ProxyConfig? = nil, setStatOption: SetStatOption? = nil, tlsSessionResumptionMode: TlsSessionResumptionMode? = nil) {
             self.as2Transports = as2Transports
             self.passiveIp = passiveIp
+            self.proxyConfig = proxyConfig
             self.setStatOption = setStatOption
             self.tlsSessionResumptionMode = tlsSessionResumptionMode
         }
@@ -4362,8 +4371,23 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case as2Transports = "As2Transports"
             case passiveIp = "PassiveIp"
+            case proxyConfig = "ProxyConfig"
             case setStatOption = "SetStatOption"
             case tlsSessionResumptionMode = "TlsSessionResumptionMode"
+        }
+    }
+
+    public struct ProxyConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the Transfer Family server requires or ignores a PPv2 header containing the original client IP address on incoming SFTP connections. If you don't specify a value, the default is NONE     NONE: the server reads and ignores any PPv2 header on incoming SFTP connections. This is the default value. Use this value when your SFTP server is not behind an NLB, or when you do not need to preserve client source IP addresses through an NLB.    PROXY_PROTOCOL_V2_ENFORCED: the server requires a valid PPv2 header on every incoming SFTP connection. When a valid header is present, the server applies it and uses the client IP address from the header. If a connection arrives without a PPv2 header, the server refuses the connection and logs an error to Amazon CloudWatch Logs indicating that the expected PPv2 header was missing. Use this value when your SFTP server is behind an NLB with PPv2 enabled on the target group.  When you enable PROXY_PROTOCOL_V2_ENFORCED, the server trusts the source IP address in the PPv2 header. You must configure security groups on your server's VPC endpoint to restrict inbound traffic to only the NLB's private IP addresses. For the full requirements, see Working with Network Load Balancers.
+        public let sftpMode: ProxyMode?
+
+        @inlinable
+        public init(sftpMode: ProxyMode? = nil) {
+            self.sftpMode = sftpMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sftpMode = "SftpMode"
         }
     }
 
@@ -4556,20 +4580,29 @@ extension Transfer {
     public struct SftpConnectorConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 1. The maximum values is 5.  If you are using the Amazon Web Services Management Console, the default value is 5.  This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
         public let maxConcurrentConnections: Int?
+        /// An ordered list of Amazon Web Services Secrets Manager version stages (staging labels, such as AWSCURRENT and AWSPREVIOUS) for the secret identified by UserSecretId. When establishing a connection, the connector attempts to retrieve the SFTP user's credentials from each version stage in the order listed, and uses the first version it can successfully retrieve. This lets you rotate the user secret without interrupting connector operations.
+        public let orderedUserSecretVersionStages: [String]?
         /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key.   TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key.  When creating connectors with egress config (VPC_LATTICE type connectors), since host name is not something we can verify, the only accepted trusted host key format is key-type key-body without the host name. For example: ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt;  The three standard SSH public key format elements are &lt;key type&gt;, &lt;body base64&gt;, and an optional &lt;comment&gt;, with spaces between each element. Specify only the &lt;key type&gt; and &lt;body base64&gt;: do not enter the &lt;comment&gt; portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.   For RSA keys, the &lt;key type&gt; string is ssh-rsa.   For ECDSA keys, the &lt;key type&gt; string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.   Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com.  ssh-keyscan ftp.host.com  This prints the public host key to standard output.  ftp.host.com ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt;  Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console. For VPC Lattice type connectors (VPC_LATTICE), remove the hostname from the key and use only the key-type key-body format. In this example, it should be: ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt;
         public let trustedHostKeys: [String]?
         /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.    Required when creating an SFTP connector   Optional when updating an existing SFTP connector
         public let userSecretId: String?
 
         @inlinable
-        public init(maxConcurrentConnections: Int? = nil, trustedHostKeys: [String]? = nil, userSecretId: String? = nil) {
+        public init(maxConcurrentConnections: Int? = nil, orderedUserSecretVersionStages: [String]? = nil, trustedHostKeys: [String]? = nil, userSecretId: String? = nil) {
             self.maxConcurrentConnections = maxConcurrentConnections
+            self.orderedUserSecretVersionStages = orderedUserSecretVersionStages
             self.trustedHostKeys = trustedHostKeys
             self.userSecretId = userSecretId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxConcurrentConnections, name: "maxConcurrentConnections", parent: name, min: 1)
+            try self.orderedUserSecretVersionStages?.forEach {
+                try validate($0, name: "orderedUserSecretVersionStages[]", parent: name, max: 256)
+                try validate($0, name: "orderedUserSecretVersionStages[]", parent: name, min: 1)
+            }
+            try self.validate(self.orderedUserSecretVersionStages, name: "orderedUserSecretVersionStages", parent: name, max: 2)
+            try self.validate(self.orderedUserSecretVersionStages, name: "orderedUserSecretVersionStages", parent: name, min: 1)
             try self.trustedHostKeys?.forEach {
                 try validate($0, name: "trustedHostKeys[]", parent: name, max: 2048)
                 try validate($0, name: "trustedHostKeys[]", parent: name, min: 1)
@@ -4581,6 +4614,7 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case maxConcurrentConnections = "MaxConcurrentConnections"
+            case orderedUserSecretVersionStages = "OrderedUserSecretVersionStages"
             case trustedHostKeys = "TrustedHostKeys"
             case userSecretId = "UserSecretId"
         }

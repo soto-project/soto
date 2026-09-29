@@ -40,7 +40,7 @@ public struct ElastiCache: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct ElastiCache: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "ElastiCache",
+            sdkId: "ElastiCache",
             serviceIdentifier: "elasticache",
             serviceProtocol: .query,
             apiVersion: "2015-02-02",
@@ -91,7 +92,7 @@ public struct ElastiCache: AWSService {
 
     // MARK: API Calls
 
-    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions. For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see Using Cost Allocation Tags in Amazon ElastiCache in the ElastiCache User Guide.
+    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions. For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see Using Cost Allocation Tags in Amazon ElastiCache in the ElastiCache User Guide.
     @Sendable
     @inlinable
     public func addTagsToResource(_ input: AddTagsToResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> TagListMessage {
@@ -104,7 +105,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions. For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see Using Cost Allocation Tags in Amazon ElastiCache in the ElastiCache User Guide.
+    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions. For example, you can use cost-allocation tags to your ElastiCache resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see Using Cost Allocation Tags in Amazon ElastiCache in the ElastiCache User Guide.
     ///
     /// Parameters:
     ///   - resourceName: The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces.
@@ -585,18 +586,21 @@ public struct ElastiCache: AWSService {
     ///   - globalReplicationGroupDescription: Provides details of the Global datastore
     ///   - globalReplicationGroupIdSuffix: The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions.  For a full list of Amazon Regions and their respective Global datastore iD prefixes, see Using the Amazon CLI with Global datastores .
     ///   - primaryReplicationGroupId: The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster. This value is stored as a lowercase string.
+    ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGlobalReplicationGroup(
         globalReplicationGroupDescription: String? = nil,
         globalReplicationGroupIdSuffix: String? = nil,
         primaryReplicationGroupId: String? = nil,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGlobalReplicationGroupResult {
         let input = CreateGlobalReplicationGroupMessage(
             globalReplicationGroupDescription: globalReplicationGroupDescription, 
             globalReplicationGroupIdSuffix: globalReplicationGroupIdSuffix, 
-            primaryReplicationGroupId: primaryReplicationGroupId
+            primaryReplicationGroupId: primaryReplicationGroupId, 
+            tags: tags
         )
         return try await self.createGlobalReplicationGroup(input, logger: logger)
     }
@@ -2381,7 +2385,7 @@ public struct ElastiCache: AWSService {
         return try await self.listAllowedNodeTypeModifications(input, logger: logger)
     }
 
-    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions. If the cluster is not in the available state, ListTagsForResource returns an error.
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions. If the cluster is not in the available state, ListTagsForResource returns an error.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> TagListMessage {
@@ -2394,7 +2398,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions. If the cluster is not in the available state, ListTagsForResource returns an error.
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions. If the cluster is not in the available state, ListTagsForResource returns an error.
     ///
     /// Parameters:
     ///   - resourceName: The Amazon Resource Name (ARN) of the resource for which you want the list of tags, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
@@ -3025,7 +3029,7 @@ public struct ElastiCache: AWSService {
         return try await self.rebootCacheCluster(input, logger: logger)
     }
 
-    /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions.
+    /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions.
     @Sendable
     @inlinable
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> TagListMessage {
@@ -3038,7 +3042,7 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources, with the exception of global replication group. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions.
+    /// Removes the tags identified by the TagKeys list from the named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your ElastiCache resources. When you add or remove tags on replication groups, those actions will be replicated to all nodes in the replication group. For more information, see Resource-level permissions.
     ///
     /// Parameters:
     ///   - resourceName: The Amazon Resource Name (ARN) of the resource from which you want the tags removed, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Service Namespaces.

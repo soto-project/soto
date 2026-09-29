@@ -124,6 +124,12 @@ extension WorkspacesInstances {
         public var description: String { return self.rawValue }
     }
 
+    public enum NestedVirtualizationEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case enabled = "enabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PlatformTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linuxByol = "Red Hat BYOL Linux"
         case linuxUnix = "Linux/UNIX"
@@ -371,13 +377,16 @@ extension WorkspacesInstances {
         public let amdSevSnp: AmdSevSnpEnum?
         /// Number of CPU cores to allocate.
         public let coreCount: Int?
+        /// Specifies whether to enable or disable nested virtualization.
+        public let nestedVirtualization: NestedVirtualizationEnum?
         /// Number of threads per CPU core.
         public let threadsPerCore: Int?
 
         @inlinable
-        public init(amdSevSnp: AmdSevSnpEnum? = nil, coreCount: Int? = nil, threadsPerCore: Int? = nil) {
+        public init(amdSevSnp: AmdSevSnpEnum? = nil, coreCount: Int? = nil, nestedVirtualization: NestedVirtualizationEnum? = nil, threadsPerCore: Int? = nil) {
             self.amdSevSnp = amdSevSnp
             self.coreCount = coreCount
+            self.nestedVirtualization = nestedVirtualization
             self.threadsPerCore = threadsPerCore
         }
 
@@ -389,6 +398,7 @@ extension WorkspacesInstances {
         private enum CodingKeys: String, CodingKey {
             case amdSevSnp = "AmdSevSnp"
             case coreCount = "CoreCount"
+            case nestedVirtualization = "NestedVirtualization"
             case threadsPerCore = "ThreadsPerCore"
         }
     }

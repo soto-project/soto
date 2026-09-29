@@ -684,6 +684,7 @@ extension LexModelsV2 {
     }
 
     public enum SpeechModelPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case advanced = "Advanced"
         case deepgram = "Deepgram"
         case neural = "Neural"
         case standard = "Standard"
@@ -2503,6 +2504,8 @@ extension LexModelsV2 {
         public let localeId: String
         /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot.  For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the PostText operation would be:    AMAZON.FallbackIntent     IntentA     IntentB     IntentC
         public let nluIntentConfidenceThreshold: Double?
+        /// The speaker diarization settings to apply when importing the bot locale configuration.
+        public let speakerDiarizationSettings: SpeakerDiarizationSettings?
         /// The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
         public let speechDetectionSensitivity: SpeechDetectionSensitivity?
         /// Speech-to-text settings to apply when importing the bot locale configuration.
@@ -2512,12 +2515,13 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String, botVersion: String, localeId: String, nluIntentConfidenceThreshold: Double? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String, botVersion: String, localeId: String, nluIntentConfidenceThreshold: Double? = nil, speakerDiarizationSettings: SpeakerDiarizationSettings? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.speakerDiarizationSettings = speakerDiarizationSettings
             self.speechDetectionSensitivity = speechDetectionSensitivity
             self.speechRecognitionSettings = speechRecognitionSettings
             self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -2543,6 +2547,7 @@ extension LexModelsV2 {
             case botVersion = "botVersion"
             case localeId = "localeId"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case speakerDiarizationSettings = "speakerDiarizationSettings"
             case speechDetectionSensitivity = "speechDetectionSensitivity"
             case speechRecognitionSettings = "speechRecognitionSettings"
             case unifiedSpeechSettings = "unifiedSpeechSettings"
@@ -3590,6 +3595,8 @@ extension LexModelsV2 {
         public let localeId: String
         /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the RecognizeText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
         public let nluIntentConfidenceThreshold: Double
+        /// The speaker diarization settings to configure for the new bot locale. When enabled, Amazon Lex restricts speech detection to the primary (loudest) speaker during streaming audio conversations.
+        public let speakerDiarizationSettings: SpeakerDiarizationSettings?
         /// The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
         public let speechDetectionSensitivity: SpeechDetectionSensitivity?
         /// Speech-to-text settings to configure for the new bot locale.
@@ -3600,7 +3607,7 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, speakerDiarizationSettings: SpeakerDiarizationSettings? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botVersion = botVersion
@@ -3608,6 +3615,7 @@ extension LexModelsV2 {
             self.generativeAISettings = generativeAISettings
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.speakerDiarizationSettings = speakerDiarizationSettings
             self.speechDetectionSensitivity = speechDetectionSensitivity
             self.speechRecognitionSettings = speechRecognitionSettings
             self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -3624,6 +3632,7 @@ extension LexModelsV2 {
             try container.encodeIfPresent(self.generativeAISettings, forKey: .generativeAISettings)
             try container.encode(self.localeId, forKey: .localeId)
             try container.encode(self.nluIntentConfidenceThreshold, forKey: .nluIntentConfidenceThreshold)
+            try container.encodeIfPresent(self.speakerDiarizationSettings, forKey: .speakerDiarizationSettings)
             try container.encodeIfPresent(self.speechDetectionSensitivity, forKey: .speechDetectionSensitivity)
             try container.encodeIfPresent(self.speechRecognitionSettings, forKey: .speechRecognitionSettings)
             try container.encodeIfPresent(self.unifiedSpeechSettings, forKey: .unifiedSpeechSettings)
@@ -3651,6 +3660,7 @@ extension LexModelsV2 {
             case generativeAISettings = "generativeAISettings"
             case localeId = "localeId"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case speakerDiarizationSettings = "speakerDiarizationSettings"
             case speechDetectionSensitivity = "speechDetectionSensitivity"
             case speechRecognitionSettings = "speechRecognitionSettings"
             case unifiedSpeechSettings = "unifiedSpeechSettings"
@@ -3678,6 +3688,8 @@ extension LexModelsV2 {
         public let localeName: String?
         /// The specified confidence threshold for inserting the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents.
         public let nluIntentConfidenceThreshold: Double?
+        /// The speaker diarization settings configured for the created bot locale.
+        public let speakerDiarizationSettings: SpeakerDiarizationSettings?
         /// The sensitivity level for voice activity detection (VAD) that was specified for the bot locale.
         public let speechDetectionSensitivity: SpeechDetectionSensitivity?
         /// The speech-to-text settings configured for the created bot locale.
@@ -3688,7 +3700,7 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, speakerDiarizationSettings: SpeakerDiarizationSettings? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
@@ -3699,6 +3711,7 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.localeName = localeName
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.speakerDiarizationSettings = speakerDiarizationSettings
             self.speechDetectionSensitivity = speechDetectionSensitivity
             self.speechRecognitionSettings = speechRecognitionSettings
             self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -3716,6 +3729,7 @@ extension LexModelsV2 {
             case localeId = "localeId"
             case localeName = "localeName"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case speakerDiarizationSettings = "speakerDiarizationSettings"
             case speechDetectionSensitivity = "speechDetectionSensitivity"
             case speechRecognitionSettings = "speechRecognitionSettings"
             case unifiedSpeechSettings = "unifiedSpeechSettings"
@@ -6066,6 +6080,8 @@ extension LexModelsV2 {
         public let recommendedActions: [String]?
         /// The number of slot types defined for the locale.
         public let slotTypesCount: Int?
+        /// The speaker diarization settings configured for the bot locale.
+        public let speakerDiarizationSettings: SpeakerDiarizationSettings?
         /// The sensitivity level for voice activity detection (VAD) configured for the bot locale.
         public let speechDetectionSensitivity: SpeechDetectionSensitivity?
         /// The speech-to-text settings configured for the bot locale.
@@ -6076,7 +6092,7 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, speakerDiarizationSettings: SpeakerDiarizationSettings? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botLocaleHistoryEvents = botLocaleHistoryEvents
@@ -6094,6 +6110,7 @@ extension LexModelsV2 {
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.recommendedActions = recommendedActions
             self.slotTypesCount = slotTypesCount
+            self.speakerDiarizationSettings = speakerDiarizationSettings
             self.speechDetectionSensitivity = speechDetectionSensitivity
             self.speechRecognitionSettings = speechRecognitionSettings
             self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -6118,6 +6135,7 @@ extension LexModelsV2 {
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
             case recommendedActions = "recommendedActions"
             case slotTypesCount = "slotTypesCount"
+            case speakerDiarizationSettings = "speakerDiarizationSettings"
             case speechDetectionSensitivity = "speechDetectionSensitivity"
             case speechRecognitionSettings = "speechRecognitionSettings"
             case unifiedSpeechSettings = "unifiedSpeechSettings"
@@ -13025,6 +13043,20 @@ extension LexModelsV2 {
         }
     }
 
+    public struct SpeakerDiarizationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether speaker diarization is enabled for the bot locale. Set to true to have Amazon Lex treat speech from speakers other than the primary speaker as non-speech. Set to false to disable speaker diarization and rely on voice activity detection alone.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+        }
+    }
+
     public struct Specifications: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier assigned to the slot type.
         public let slotTypeId: String
@@ -14727,6 +14759,8 @@ extension LexModelsV2 {
         public let localeId: String
         /// The new confidence threshold where Amazon Lex inserts the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
         public let nluIntentConfidenceThreshold: Double
+        /// The updated speaker diarization settings to apply to the bot locale. If you omit this field, Amazon Lex keeps the setting currently stored on the bot locale. To turn speaker diarization off, set enabled to false explicitly.
+        public let speakerDiarizationSettings: SpeakerDiarizationSettings?
         /// The new sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
         public let speechDetectionSensitivity: SpeechDetectionSensitivity?
         /// Updated speech-to-text settings to apply to the bot locale.
@@ -14737,7 +14771,7 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, speakerDiarizationSettings: SpeakerDiarizationSettings? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botVersion = botVersion
@@ -14745,6 +14779,7 @@ extension LexModelsV2 {
             self.generativeAISettings = generativeAISettings
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.speakerDiarizationSettings = speakerDiarizationSettings
             self.speechDetectionSensitivity = speechDetectionSensitivity
             self.speechRecognitionSettings = speechRecognitionSettings
             self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -14761,6 +14796,7 @@ extension LexModelsV2 {
             try container.encodeIfPresent(self.generativeAISettings, forKey: .generativeAISettings)
             request.encodePath(self.localeId, key: "localeId")
             try container.encode(self.nluIntentConfidenceThreshold, forKey: .nluIntentConfidenceThreshold)
+            try container.encodeIfPresent(self.speakerDiarizationSettings, forKey: .speakerDiarizationSettings)
             try container.encodeIfPresent(self.speechDetectionSensitivity, forKey: .speechDetectionSensitivity)
             try container.encodeIfPresent(self.speechRecognitionSettings, forKey: .speechRecognitionSettings)
             try container.encodeIfPresent(self.unifiedSpeechSettings, forKey: .unifiedSpeechSettings)
@@ -14787,6 +14823,7 @@ extension LexModelsV2 {
             case description = "description"
             case generativeAISettings = "generativeAISettings"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case speakerDiarizationSettings = "speakerDiarizationSettings"
             case speechDetectionSensitivity = "speechDetectionSensitivity"
             case speechRecognitionSettings = "speechRecognitionSettings"
             case unifiedSpeechSettings = "unifiedSpeechSettings"
@@ -14821,6 +14858,8 @@ extension LexModelsV2 {
         public let nluIntentConfidenceThreshold: Double?
         /// Recommended actions to take to resolve an error in the failureReasons field.
         public let recommendedActions: [String]?
+        /// The updated speaker diarization settings for the bot locale.
+        public let speakerDiarizationSettings: SpeakerDiarizationSettings?
         /// The updated sensitivity level for voice activity detection (VAD) in the bot locale.
         public let speechDetectionSensitivity: SpeechDetectionSensitivity?
         /// The updated speech-to-text settings for the bot locale.
@@ -14831,7 +14870,7 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, speakerDiarizationSettings: SpeakerDiarizationSettings? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
@@ -14845,6 +14884,7 @@ extension LexModelsV2 {
             self.localeName = localeName
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.recommendedActions = recommendedActions
+            self.speakerDiarizationSettings = speakerDiarizationSettings
             self.speechDetectionSensitivity = speechDetectionSensitivity
             self.speechRecognitionSettings = speechRecognitionSettings
             self.unifiedSpeechSettings = unifiedSpeechSettings
@@ -14865,6 +14905,7 @@ extension LexModelsV2 {
             case localeName = "localeName"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
             case recommendedActions = "recommendedActions"
+            case speakerDiarizationSettings = "speakerDiarizationSettings"
             case speechDetectionSensitivity = "speechDetectionSensitivity"
             case speechRecognitionSettings = "speechRecognitionSettings"
             case unifiedSpeechSettings = "unifiedSpeechSettings"

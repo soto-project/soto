@@ -40,7 +40,7 @@ public struct NeptuneGraph: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct NeptuneGraph: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "NeptuneGraph",
+            sdkId: "Neptune Graph",
             serviceIdentifier: "neptune-graph",
             serviceProtocol: .restjson,
             apiVersion: "2023-11-29",
@@ -281,7 +282,7 @@ public struct NeptuneGraph: AWSService {
     ///   - minProvisionedMemory: The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 16
     ///   - parquetType: The parquet type of the import task.
     ///   - publicConnectivity: Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
-    ///   - replicaCount: The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2.   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
+    ///   - replicaCount: The number of replicas in other AZs to provision on the new graph after import. Default = 1, Min = 0, Max = 2.   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
     ///   - roleArn: The ARN of the IAM role that will allow access to the data that is to be imported.
     ///   - source: A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
     ///   - tags: Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
@@ -839,16 +840,19 @@ public struct NeptuneGraph: AWSService {
     /// Lists import tasks.
     ///
     /// Parameters:
+    ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph. When provided, the service returns only import tasks associated with this graph. If not specified, the service returns all import tasks.
     ///   - maxResults: The total number of records to return in the command's output. If the total number of records available is more than the value specified, nextToken is provided in the command's output. To resume pagination, provide the nextToken output value in the nextToken argument of a subsequent command. Do not use the nextToken response element directly outside of the Amazon CLI.
     ///   - nextToken: Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func listImportTasks(
+        graphIdentifier: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListImportTasksOutput {
         let input = ListImportTasksInput(
+            graphIdentifier: graphIdentifier, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -1437,14 +1441,17 @@ extension NeptuneGraph {
     /// Return PaginatorSequence for operation ``listImportTasks(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph. When provided, the service returns only import tasks associated with this graph. If not specified, the service returns all import tasks.
     ///   - maxResults: The total number of records to return in the command's output. If the total number of records available is more than the value specified, nextToken is provided in the command's output. To resume pagination, provide the nextToken output value in the nextToken argument of a subsequent command. Do not use the nextToken response element directly outside of the Amazon CLI.
     ///   - logger: Logger used for logging
     @inlinable
     public func listImportTasksPaginator(
+        graphIdentifier: String? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListImportTasksInput, ListImportTasksOutput> {
         let input = ListImportTasksInput(
+            graphIdentifier: graphIdentifier, 
             maxResults: maxResults
         )
         return self.listImportTasksPaginator(input, logger: logger)
@@ -1524,6 +1531,7 @@ extension NeptuneGraph.ListImportTasksInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> NeptuneGraph.ListImportTasksInput {
         return .init(
+            graphIdentifier: self.graphIdentifier,
             maxResults: self.maxResults,
             nextToken: token
         )

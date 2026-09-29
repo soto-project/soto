@@ -551,6 +551,49 @@ extension CloudWatch {
         }
     }
 
+    public struct CreateResourceMetricsConfigurationInput: AWSEncodableShape {
+        /// Specifies which metrics Amazon CloudWatch collects for the resource. If you omit this parameter, Amazon CloudWatch collects all available detailed metrics for the resource.
+        public let metricSelections: [ResourceMetricSelection]?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to enable detailed monitoring for.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(metricSelections: [ResourceMetricSelection]? = nil, resourceArn: String? = nil) {
+            self.metricSelections = metricSelections
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.metricSelections?.forEach {
+                try $0.validate(name: "\(name).metricSelections[]")
+            }
+            try self.validate(self.metricSelections, name: "metricSelections", parent: name, max: 1)
+            try self.validate(self.metricSelections, name: "metricSelections", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricSelections = "MetricSelections"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct CreateResourceMetricsConfigurationOutput: AWSDecodableShape {
+        /// The resource metrics configuration that was created by this operation.
+        public let resourceMetricsConfiguration: ResourceMetricsConfiguration?
+
+        @inlinable
+        public init(resourceMetricsConfiguration: ResourceMetricsConfiguration? = nil) {
+            self.resourceMetricsConfiguration = resourceMetricsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceMetricsConfiguration = "ResourceMetricsConfiguration"
+        }
+    }
+
     public struct DashboardEntry: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the dashboard.
         public let dashboardArn: String?
@@ -841,6 +884,30 @@ extension CloudWatch {
     }
 
     public struct DeleteMetricStreamOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteResourceMetricsConfigurationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to delete the resource metrics configuration for.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DeleteResourceMetricsConfigurationOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -1976,16 +2043,66 @@ extension CloudWatch {
     }
 
     public struct GetOTelEnrichmentOutput: AWSDecodableShape {
+        /// The date and time that enrichment started for the account. This parameter is omitted when enrichment is stopped.
+        public let createdAt: Date?
+        /// The metric namespaces, and the metric names, that are left unenriched. This parameter is omitted when enrichment is stopped, and when enrichment is running with no exclude filters, which means that nothing is excluded.
+        public let excludeFilters: [OTelEnrichmentMetricSelector]?
+        /// The metric namespaces, and the metric names, that are enriched. This parameter is omitted when enrichment is stopped, and when enrichment is running with no include filters, which means that every supported namespace is in scope.
+        public let includeFilters: [OTelEnrichmentMetricSelector]?
         /// The status of OTel enrichment for the account. Valid values are Running (enrichment is enabled) and Stopped (enrichment is disabled).
         public let status: OTelEnrichmentStatus?
+        /// The date and time that the enrichment configuration for the account was last stored.
+        public let updatedAt: Date?
 
         @inlinable
-        public init(status: OTelEnrichmentStatus? = nil) {
+        public init(createdAt: Date? = nil, excludeFilters: [OTelEnrichmentMetricSelector]? = nil, includeFilters: [OTelEnrichmentMetricSelector]? = nil, status: OTelEnrichmentStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.excludeFilters = excludeFilters
+            self.includeFilters = includeFilters
             self.status = status
+            self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case excludeFilters = "ExcludeFilters"
+            case includeFilters = "IncludeFilters"
             case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct GetResourceMetricsConfigurationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to retrieve the resource metrics configuration for.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct GetResourceMetricsConfigurationOutput: AWSDecodableShape {
+        /// The resource metrics configuration for the specified resource.
+        public let resourceMetricsConfiguration: ResourceMetricsConfiguration?
+
+        @inlinable
+        public init(resourceMetricsConfiguration: ResourceMetricsConfiguration? = nil) {
+            self.resourceMetricsConfiguration = resourceMetricsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceMetricsConfiguration = "ResourceMetricsConfiguration"
         }
     }
 
@@ -2446,9 +2563,11 @@ extension CloudWatch {
         public let threshold: Double?
         /// How this alarm handles missing data points. Valid values are breaching, notBreaching, ignore, and missing.
         public let treatMissingData: String?
+        /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. During the warm-up period, the alarm stays in INSUFFICIENT_DATA and does not perform alarm actions. For more information, see Alarm warm-up periods in the Amazon CloudWatch User Guide.
+        public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, evaluationState: EvaluationState? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, threshold: Double? = nil, treatMissingData: String? = nil) {
+        public init(actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, evaluationState: EvaluationState? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, threshold: Double? = nil, treatMissingData: String? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
             self.actionLogLineCount = actionLogLineCount
             self.actionLogLineRoleArn = actionLogLineRoleArn
             self.actionsEnabled = actionsEnabled
@@ -2471,6 +2590,7 @@ extension CloudWatch {
             self.stateValue = stateValue
             self.threshold = threshold
             self.treatMissingData = treatMissingData
+            self.warmUpConfiguration = warmUpConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2496,6 +2616,7 @@ extension CloudWatch {
             case stateValue = "StateValue"
             case threshold = "Threshold"
             case treatMissingData = "TreatMissingData"
+            case warmUpConfiguration = "WarmUpConfiguration"
         }
     }
 
@@ -2689,9 +2810,11 @@ extension CloudWatch {
         public let treatMissingData: String?
         /// The unit of the metric associated with the alarm.
         public let unit: StandardUnit?
+        /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. During the warm-up period, the alarm stays in INSUFFICIENT_DATA and does not perform alarm actions. For more information, see Alarm warm-up periods in the Amazon CloudWatch User Guide.
+        public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationState: EvaluationState? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: Date? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationState: EvaluationState? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, stateReason: String? = nil, stateReasonData: String? = nil, stateTransitionedTimestamp: Date? = nil, stateUpdatedTimestamp: Date? = nil, stateValue: StateValue? = nil, statistic: Statistic? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -2724,6 +2847,7 @@ extension CloudWatch {
             self.thresholdMetricId = thresholdMetricId
             self.treatMissingData = treatMissingData
             self.unit = unit
+            self.warmUpConfiguration = warmUpConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2759,6 +2883,7 @@ extension CloudWatch {
             case thresholdMetricId = "ThresholdMetricId"
             case treatMissingData = "TreatMissingData"
             case unit = "Unit"
+            case warmUpConfiguration = "WarmUpConfiguration"
         }
     }
 
@@ -3101,6 +3226,35 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case alarmNames = "AlarmNames"
+        }
+    }
+
+    public struct OTelEnrichmentMetricSelector: AWSEncodableShape & AWSDecodableShape {
+        /// The names of the metrics to select within the namespace. Metric names are matched exactly and are case-sensitive. If this parameter is omitted, every metric in the namespace is selected. A maximum of 100 metric names is allowed for each selector.
+        public let metricNames: [String]?
+        /// The namespace of the metrics to select. Namespaces are matched exactly and are case-sensitive.
+        public let namespace: String?
+
+        @inlinable
+        public init(metricNames: [String]? = nil, namespace: String? = nil) {
+            self.metricNames = metricNames
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try self.metricNames?.forEach {
+                try validate($0, name: "metricNames[]", parent: name, max: 255)
+                try validate($0, name: "metricNames[]", parent: name, min: 1)
+            }
+            try self.validate(self.metricNames, name: "metricNames", parent: name, max: 100)
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[^:]")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricNames = "MetricNames"
+            case namespace = "Namespace"
         }
     }
 
@@ -3469,9 +3623,11 @@ extension CloudWatch {
         public let threshold: Double?
         /// Sets how this alarm is to handle missing data points. Valid values are breaching, notBreaching, ignore, and missing. If this parameter is omitted, the default behavior of missing is used.
         public let treatMissingData: String?
+        /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. The warm-up period reduces alarm noise from missing data while a new resource or service starts publishing data. For more information, see Alarm warm-up periods in the Amazon CloudWatch User Guide.
+        public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, tags: [Tag]? = nil, threshold: Double? = nil, treatMissingData: String? = nil) {
+        public init(actionLogLineCount: Int? = nil, actionLogLineRoleArn: String? = nil, actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, insufficientDataActions: [String]? = nil, okActions: [String]? = nil, queryResultsToAlarm: Int? = nil, queryResultsToEvaluate: Int? = nil, scheduledQueryConfiguration: ScheduledQueryConfiguration? = nil, tags: [Tag]? = nil, threshold: Double? = nil, treatMissingData: String? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
             self.actionLogLineCount = actionLogLineCount
             self.actionLogLineRoleArn = actionLogLineRoleArn
             self.actionsEnabled = actionsEnabled
@@ -3487,6 +3643,7 @@ extension CloudWatch {
             self.tags = tags
             self.threshold = threshold
             self.treatMissingData = treatMissingData
+            self.warmUpConfiguration = warmUpConfiguration
         }
 
         public func validate(name: String) throws {
@@ -3516,6 +3673,7 @@ extension CloudWatch {
             }
             try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, max: 255)
             try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, min: 1)
+            try self.warmUpConfiguration?.validate(name: "\(name).warmUpConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3534,6 +3692,7 @@ extension CloudWatch {
             case tags = "Tags"
             case threshold = "Threshold"
             case treatMissingData = "TreatMissingData"
+            case warmUpConfiguration = "WarmUpConfiguration"
         }
     }
 
@@ -3622,9 +3781,11 @@ extension CloudWatch {
         public let treatMissingData: String?
         /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you are creating an alarm based on a metric math expression, you can specify the unit for each metric (if needed) within the objects in the Metrics array. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves unpredictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
         public let unit: StandardUnit?
+        /// The warm-up configuration for the alarm. A warm-up period delays alarm evaluation after you create or update the alarm. The warm-up period reduces alarm noise from missing data while a new resource or service starts publishing metrics. For more information, see Alarm warm-up periods in the Amazon CloudWatch User Guide.
+        public let warmUpConfiguration: WarmUpConfiguration?
 
         @inlinable
-        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil) {
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: ComparisonOperator? = nil, datapointsToAlarm: Int? = nil, dimensions: [Dimension]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationCriteria: EvaluationCriteria? = nil, evaluationInterval: Int? = nil, evaluationPeriods: Int? = nil, evaluationWindow: EvaluationWindow? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, metrics: [MetricDataQuery]? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, statistic: Statistic? = nil, tags: [Tag]? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: StandardUnit? = nil, warmUpConfiguration: WarmUpConfiguration? = nil) {
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmDescription = alarmDescription
@@ -3650,6 +3811,7 @@ extension CloudWatch {
             self.thresholdMetricId = thresholdMetricId
             self.treatMissingData = treatMissingData
             self.unit = unit
+            self.warmUpConfiguration = warmUpConfiguration
         }
 
         public func validate(name: String) throws {
@@ -3699,6 +3861,7 @@ extension CloudWatch {
             try self.validate(self.thresholdMetricId, name: "thresholdMetricId", parent: name, min: 1)
             try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, max: 255)
             try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, min: 1)
+            try self.warmUpConfiguration?.validate(name: "\(name).warmUpConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3727,6 +3890,7 @@ extension CloudWatch {
             case thresholdMetricId = "ThresholdMetricId"
             case treatMissingData = "TreatMissingData"
             case unit = "Unit"
+            case warmUpConfiguration = "WarmUpConfiguration"
         }
     }
 
@@ -3864,6 +4028,55 @@ extension CloudWatch {
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct ResourceMetricSelection: AWSEncodableShape & AWSDecodableShape {
+        /// The names of the metrics to collect for the resource. Amazon CloudWatch collects only the metrics that you list here.
+        public let includeMetrics: [String]?
+
+        @inlinable
+        public init(includeMetrics: [String]? = nil) {
+            self.includeMetrics = includeMetrics
+        }
+
+        public func validate(name: String) throws {
+            try self.includeMetrics?.forEach {
+                try validate($0, name: "includeMetrics[]", parent: name, max: 255)
+                try validate($0, name: "includeMetrics[]", parent: name, min: 1)
+            }
+            try self.validate(self.includeMetrics, name: "includeMetrics", parent: name, max: 500)
+            try self.validate(self.includeMetrics, name: "includeMetrics", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeMetrics = "IncludeMetrics"
+        }
+    }
+
+    public struct ResourceMetricsConfiguration: AWSDecodableShape {
+        /// The date and time that the resource metrics configuration was created.
+        public let createdAt: Date?
+        /// The metrics that Amazon CloudWatch collects for the resource. If this field is not present, Amazon CloudWatch collects all available detailed metrics for the resource.
+        public let metricSelections: [ResourceMetricSelection]?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services resource that this configuration applies to.
+        public let resourceArn: String?
+        /// The date and time that the resource metrics configuration was last updated. When the configuration is first created, this value is the same as CreatedAt.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, metricSelections: [ResourceMetricSelection]? = nil, resourceArn: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.metricSelections = metricSelections
+            self.resourceArn = resourceArn
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case metricSelections = "MetricSelections"
+            case resourceArn = "ResourceArn"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -4133,11 +4346,58 @@ extension CloudWatch {
     }
 
     public struct StartOTelEnrichmentInput: AWSEncodableShape {
-        public init() {}
+        /// The metric namespaces, and the metric names, to leave unenriched. If this parameter is omitted, nothing is excluded. Amazon CloudWatch applies ExcludeFilters after IncludeFilters, so a metric that both parameters match is not enriched. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+        public let excludeFilters: [OTelEnrichmentMetricSelector]?
+        /// The metric namespaces, and the metric names, to enrich. If this parameter is omitted, every namespace that Amazon CloudWatch supports for enrichment is in scope. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+        public let includeFilters: [OTelEnrichmentMetricSelector]?
+
+        @inlinable
+        public init(excludeFilters: [OTelEnrichmentMetricSelector]? = nil, includeFilters: [OTelEnrichmentMetricSelector]? = nil) {
+            self.excludeFilters = excludeFilters
+            self.includeFilters = includeFilters
+        }
+
+        public func validate(name: String) throws {
+            try self.excludeFilters?.forEach {
+                try $0.validate(name: "\(name).excludeFilters[]")
+            }
+            try self.validate(self.excludeFilters, name: "excludeFilters", parent: name, max: 100)
+            try self.includeFilters?.forEach {
+                try $0.validate(name: "\(name).includeFilters[]")
+            }
+            try self.validate(self.includeFilters, name: "includeFilters", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeFilters = "ExcludeFilters"
+            case includeFilters = "IncludeFilters"
+        }
     }
 
     public struct StartOTelEnrichmentOutput: AWSDecodableShape {
-        public init() {}
+        /// The date and time that enrichment started for the account.
+        public let createdAt: Date?
+        /// The exclude filters that are stored for the account.
+        public let excludeFilters: [OTelEnrichmentMetricSelector]?
+        /// The include filters that are stored for the account.
+        public let includeFilters: [OTelEnrichmentMetricSelector]?
+        /// The date and time that the enrichment configuration for the account was last stored.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, excludeFilters: [OTelEnrichmentMetricSelector]? = nil, includeFilters: [OTelEnrichmentMetricSelector]? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.excludeFilters = excludeFilters
+            self.includeFilters = includeFilters
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case excludeFilters = "ExcludeFilters"
+            case includeFilters = "IncludeFilters"
+            case updatedAt = "UpdatedAt"
+        }
     }
 
     public struct StatisticSet: AWSEncodableShape {
@@ -4284,6 +4544,104 @@ extension CloudWatch {
         public init() {}
     }
 
+    public struct UpdateOTelEnrichmentInput: AWSEncodableShape {
+        /// The metric namespaces, and the metric names, to leave unenriched. If this parameter is omitted, nothing is excluded. Amazon CloudWatch applies ExcludeFilters after IncludeFilters, so a metric that both parameters match is not enriched. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+        public let excludeFilters: [OTelEnrichmentMetricSelector]?
+        /// The metric namespaces, and the metric names, to enrich. If this parameter is omitted, every namespace that Amazon CloudWatch supports for enrichment is in scope. A maximum of 100 filters is allowed across IncludeFilters and ExcludeFilters combined.
+        public let includeFilters: [OTelEnrichmentMetricSelector]?
+
+        @inlinable
+        public init(excludeFilters: [OTelEnrichmentMetricSelector]? = nil, includeFilters: [OTelEnrichmentMetricSelector]? = nil) {
+            self.excludeFilters = excludeFilters
+            self.includeFilters = includeFilters
+        }
+
+        public func validate(name: String) throws {
+            try self.excludeFilters?.forEach {
+                try $0.validate(name: "\(name).excludeFilters[]")
+            }
+            try self.validate(self.excludeFilters, name: "excludeFilters", parent: name, max: 100)
+            try self.includeFilters?.forEach {
+                try $0.validate(name: "\(name).includeFilters[]")
+            }
+            try self.validate(self.includeFilters, name: "includeFilters", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeFilters = "ExcludeFilters"
+            case includeFilters = "IncludeFilters"
+        }
+    }
+
+    public struct UpdateOTelEnrichmentOutput: AWSDecodableShape {
+        /// The date and time that enrichment started for the account.
+        public let createdAt: Date?
+        /// The exclude filters that are stored for the account after the replacement. This parameter is omitted when the request cleared the exclude filters, which means that nothing is excluded.
+        public let excludeFilters: [OTelEnrichmentMetricSelector]?
+        /// The include filters that are stored for the account after the replacement. This parameter is omitted when the request cleared the include filters, which means that every supported namespace is in scope.
+        public let includeFilters: [OTelEnrichmentMetricSelector]?
+        /// The date and time that the enrichment configuration for the account was last stored.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, excludeFilters: [OTelEnrichmentMetricSelector]? = nil, includeFilters: [OTelEnrichmentMetricSelector]? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.excludeFilters = excludeFilters
+            self.includeFilters = includeFilters
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case excludeFilters = "ExcludeFilters"
+            case includeFilters = "IncludeFilters"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct UpdateResourceMetricsConfigurationInput: AWSEncodableShape {
+        /// Specifies which metrics Amazon CloudWatch collects for the resource. The selections that you provide completely replace any existing metric selections. If you omit this parameter, Amazon CloudWatch removes any existing metric selection filter and collects all available detailed metrics for the resource.
+        public let metricSelections: [ResourceMetricSelection]?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services resource to update the resource metrics configuration for.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(metricSelections: [ResourceMetricSelection]? = nil, resourceArn: String? = nil) {
+            self.metricSelections = metricSelections
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.metricSelections?.forEach {
+                try $0.validate(name: "\(name).metricSelections[]")
+            }
+            try self.validate(self.metricSelections, name: "metricSelections", parent: name, max: 1)
+            try self.validate(self.metricSelections, name: "metricSelections", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d{12}:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricSelections = "MetricSelections"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct UpdateResourceMetricsConfigurationOutput: AWSDecodableShape {
+        /// The resource metrics configuration after the update was applied.
+        public let resourceMetricsConfiguration: ResourceMetricsConfiguration?
+
+        @inlinable
+        public init(resourceMetricsConfiguration: ResourceMetricsConfiguration? = nil) {
+            self.resourceMetricsConfiguration = resourceMetricsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceMetricsConfiguration = "ResourceMetricsConfiguration"
+        }
+    }
+
     public struct WallClockWindow: AWSEncodableShape & AWSDecodableShape {
         /// The time zone to use when the alarm aligns the evaluation window to clock boundaries. You can specify an IANA time zone name (for example, America/New_York), a fixed UTC offset (for example, +05:30), or an offset-prefixed identifier (for example, UTC+05:30). The offset must be aligned to a multiple of 5 minutes. If you don't specify a time zone, CloudWatch uses UTC. The time zone affects window alignment for all periods, including periods of one hour or shorter.
         public let timezone: String?
@@ -4300,6 +4658,29 @@ extension CloudWatch {
 
         private enum CodingKeys: String, CodingKey {
             case timezone = "Timezone"
+        }
+    }
+
+    public struct WarmUpConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the alarm waits for the full warm-up period before it starts to evaluate. The default is false. If true, the alarm waits the entire WarmUpPeriodDurationInMinutes before it starts to evaluate, even if metric data arrives earlier. If false, the alarm ends the warm-up period early. Evaluation begins as soon as the alarm has enough metric data to fill its evaluation window.
+        public let onlyStartEvaluatingAfterWarmUpPeriodEnds: Bool?
+        /// The length of the warm-up period, in minutes. After you create or update the alarm, the alarm stays in INSUFFICIENT_DATA for this duration. During this time, the alarm does not perform alarm actions. You can change this value at any time, including after the warm-up period ends. If you change it after the warm-up period ends, the new value does not restart the warm-up period.
+        public let warmUpPeriodDurationInMinutes: Int?
+
+        @inlinable
+        public init(onlyStartEvaluatingAfterWarmUpPeriodEnds: Bool? = nil, warmUpPeriodDurationInMinutes: Int? = nil) {
+            self.onlyStartEvaluatingAfterWarmUpPeriodEnds = onlyStartEvaluatingAfterWarmUpPeriodEnds
+            self.warmUpPeriodDurationInMinutes = warmUpPeriodDurationInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.warmUpPeriodDurationInMinutes, name: "warmUpPeriodDurationInMinutes", parent: name, max: 2880)
+            try self.validate(self.warmUpPeriodDurationInMinutes, name: "warmUpPeriodDurationInMinutes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onlyStartEvaluatingAfterWarmUpPeriodEnds = "OnlyStartEvaluatingAfterWarmUpPeriodEnds"
+            case warmUpPeriodDurationInMinutes = "WarmUpPeriodDurationInMinutes"
         }
     }
 
@@ -4345,6 +4726,7 @@ public struct CloudWatchErrorType: AWSErrorType {
         case resourceConflict = "ResourceConflict"
         case resourceNotFound = "ResourceNotFound"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationError"
     }
 
     private let error: Code
@@ -4401,6 +4783,8 @@ public struct CloudWatchErrorType: AWSErrorType {
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
     /// The named resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request failed validation. One or more input parameters do not satisfy the constraints that the operation requires.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension CloudWatchErrorType: AWSServiceErrorType {

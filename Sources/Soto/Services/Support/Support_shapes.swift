@@ -25,6 +25,13 @@ import Foundation
 extension Support {
     // MARK: Enums
 
+    public enum UploadStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attachmentNotReady = "attachment-not-ready"
+        case attachmentReady = "attachment-ready"
+        case failed = "failed"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AddAttachmentsToSetRequest: AWSEncodableShape {
@@ -32,16 +39,20 @@ extension Support {
         public let attachments: [Attachment]
         /// The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
         public let attachmentSetId: String?
+        /// Specifies whether to validate the request without actually adding the attachments. When set to true, the request is validated but no attachments are stored, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
 
         @inlinable
-        public init(attachments: [Attachment], attachmentSetId: String? = nil) {
+        public init(attachments: [Attachment], attachmentSetId: String? = nil, dryRun: Bool? = nil) {
             self.attachments = attachments
             self.attachmentSetId = attachmentSetId
+            self.dryRun = dryRun
         }
 
         private enum CodingKeys: String, CodingKey {
             case attachments = "attachments"
             case attachmentSetId = "attachmentSetId"
+            case dryRun = "dryRun"
         }
     }
 
@@ -64,27 +75,38 @@ extension Support {
     }
 
     public struct AddCommunicationToCaseRequest: AWSEncodableShape {
-        /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet
+        /// The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet. Each attachment in the set must be 5 MB or smaller. To attach files larger than 5 MB, use uploadIds.
         public let attachmentSetId: String?
-        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
         public let caseId: String?
         /// The email addresses in the CC line of an email to be added to the support case.
         public let ccEmailAddresses: [String]?
         /// The body of an email communication to add to the support case.
         public let communicationBody: String
+        /// Specifies whether to validate the request without actually adding the communication to the case. When set to true, the request is validated but the communication isn't added, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
+        /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the GetAttachmentUploadLinks operation. The upload must reach the attachment-ready state by calling CompleteAttachmentUpload before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB.
+        public let uploadIds: [String]?
 
         @inlinable
-        public init(attachmentSetId: String? = nil, caseId: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String) {
+        public init(attachmentSetId: String? = nil, caseId: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String, dryRun: Bool? = nil, uploadIds: [String]? = nil) {
             self.attachmentSetId = attachmentSetId
             self.caseId = caseId
             self.ccEmailAddresses = ccEmailAddresses
             self.communicationBody = communicationBody
+            self.dryRun = dryRun
+            self.uploadIds = uploadIds
         }
 
         public func validate(name: String) throws {
             try self.validate(self.ccEmailAddresses, name: "ccEmailAddresses", parent: name, max: 10)
             try self.validate(self.communicationBody, name: "communicationBody", parent: name, max: 8000)
             try self.validate(self.communicationBody, name: "communicationBody", parent: name, min: 1)
+            try self.uploadIds?.forEach {
+                try validate($0, name: "uploadIds[]", parent: name, max: 2048)
+                try validate($0, name: "uploadIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.uploadIds, name: "uploadIds", parent: name, max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -92,6 +114,8 @@ extension Support {
             case caseId = "caseId"
             case ccEmailAddresses = "ccEmailAddresses"
             case communicationBody = "communicationBody"
+            case dryRun = "dryRun"
+            case uploadIds = "uploadIds"
         }
     }
 
@@ -146,7 +170,7 @@ extension Support {
     }
 
     public struct CaseDetails: AWSDecodableShape {
-        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
         public let caseId: String?
         /// The category of problem for the support case.
         public let categoryCode: String?
@@ -155,7 +179,7 @@ extension Support {
         /// The ID displayed for the case in the Amazon Web Services Support Center. This is a numeric string.
         public let displayId: String?
         /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
-        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1
+        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1
         /// code for the language parameter if you want support in that language.
         public let language: String?
         /// The five most recent communications between you and Amazon Web Services Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
@@ -224,11 +248,13 @@ extension Support {
     }
 
     public struct Communication: AWSDecodableShape {
-        /// Information about the attachments to the case communication.
+        /// Information about all attachments on the case communication. This includes attachments added through AddAttachmentsToSet and attachments uploaded through GetAttachmentUploadLinks. Use this field to enumerate every attachment on the communication. To download an attachment listed in this field, use GetAttachmentDownloadLink. GetAttachmentDownloadLink returns a presigned URL that works for attachments of any size.
+        public let attachments: [AttachmentDetails]?
+        /// Information about the attachments to the case communication that are 5 MB or smaller. This field doesn't include attachments larger than 5 MB. To enumerate every attachment on the communication, including attachments larger than 5 MB, use the attachments field instead.
         public let attachmentSet: [AttachmentDetails]?
         /// The text of the communication between the customer and Amazon Web Services Support.
         public let body: String?
-        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
         public let caseId: String?
         /// The identity of the account that submitted, or responded to, the support case. Customer entries include the IAM role as well as the email address (for example, "AdminRole (Role) ). Entries from the Amazon Web Services Support team display "Amazon Web Services," and don't show an email address.
         public let submittedBy: String?
@@ -236,7 +262,8 @@ extension Support {
         public let timeCreated: String?
 
         @inlinable
-        public init(attachmentSet: [AttachmentDetails]? = nil, body: String? = nil, caseId: String? = nil, submittedBy: String? = nil, timeCreated: String? = nil) {
+        public init(attachments: [AttachmentDetails]? = nil, attachmentSet: [AttachmentDetails]? = nil, body: String? = nil, caseId: String? = nil, submittedBy: String? = nil, timeCreated: String? = nil) {
+            self.attachments = attachments
             self.attachmentSet = attachmentSet
             self.body = body
             self.caseId = caseId
@@ -245,6 +272,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attachments = "attachments"
             case attachmentSet = "attachmentSet"
             case body = "body"
             case caseId = "caseId"
@@ -275,8 +303,75 @@ extension Support {
         }
     }
 
+    public struct CompleteAttachmentUploadRequest: AWSEncodableShape {
+        /// The list of parts being reported as completed in this call. Each entry must contain the partIndex of an uploaded part and the ETag returned by Amazon S3 when that part was uploaded.
+        public let completedUploads: [CompletedUpload]
+        /// Specifies whether to validate the request without actually completing the upload. When set to true, the request is validated but the upload isn't finalized, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
+        /// The identifier associated with the upload to complete.
+        public let uploadId: String
+
+        @inlinable
+        public init(completedUploads: [CompletedUpload], dryRun: Bool? = nil, uploadId: String) {
+            self.completedUploads = completedUploads
+            self.dryRun = dryRun
+            self.uploadId = uploadId
+        }
+
+        public func validate(name: String) throws {
+            try self.completedUploads.forEach {
+                try $0.validate(name: "\(name).completedUploads[]")
+            }
+            try self.validate(self.uploadId, name: "uploadId", parent: name, max: 2048)
+            try self.validate(self.uploadId, name: "uploadId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedUploads = "completedUploads"
+            case dryRun = "dryRun"
+            case uploadId = "uploadId"
+        }
+    }
+
+    public struct CompleteAttachmentUploadResponse: AWSDecodableShape {
+        /// The status of the multipart upload after the operation finalizes the attachment. Valid values: attachment-ready, attachment-not-ready, and failed.
+        public let uploadStatus: UploadStatus
+
+        @inlinable
+        public init(uploadStatus: UploadStatus) {
+            self.uploadStatus = uploadStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uploadStatus = "uploadStatus"
+        }
+    }
+
+    public struct CompletedUpload: AWSEncodableShape {
+        /// The ETag returned in the response headers when the part was uploaded to Amazon S3. The ETag value identifies the part contents.
+        public let eTag: String
+        /// The index of the uploaded part. This is the same partIndex value returned for the corresponding entry in the uploadUrls field of the GetAttachmentUploadLinks response.
+        public let partIndex: Int
+
+        @inlinable
+        public init(eTag: String, partIndex: Int) {
+            self.eTag = eTag
+            self.partIndex = partIndex
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eTag, name: "eTag", parent: name, max: 256)
+            try self.validate(self.eTag, name: "eTag", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "eTag"
+            case partIndex = "partIndex"
+        }
+    }
+
     public struct CreateCaseRequest: AWSEncodableShape {
-        /// The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation.
+        /// The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation. Each attachment in the set must be 5 MB or smaller. To attach files larger than 5 MB, use uploadIds.
         public let attachmentSetId: String?
         /// The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
         public let categoryCode: String?
@@ -284,10 +379,12 @@ extension Support {
         public let ccEmailAddresses: [String]?
         /// The communication body text that describes the issue. This text appears in the Description field on the Amazon Web Services Support Center Create Case page.
         public let communicationBody: String
+        /// Specifies whether to validate the request without actually creating the case. When set to true, the request is validated but no case is created, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
         /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
         public let issueType: String?
         /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
-        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1
+        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1
         /// code for the language parameter if you want support in that language.
         public let language: String?
         /// The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values.
@@ -296,18 +393,22 @@ extension Support {
         public let severityCode: String?
         /// The title of the support case. The title appears in the Subject field on the Amazon Web Services Support Center Create Case page.
         public let subject: String
+        /// A list of upload IDs that identify attachments to add to the case. Each uploadId is returned by the GetAttachmentUploadLinks operation. The upload must reach the attachment-ready state by calling CompleteAttachmentUpload before it can be passed here. Use uploadIds to attach files of any supported size, including files larger than 5 MB.
+        public let uploadIds: [String]?
 
         @inlinable
-        public init(attachmentSetId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String, issueType: String? = nil, language: String? = nil, serviceCode: String? = nil, severityCode: String? = nil, subject: String) {
+        public init(attachmentSetId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String, dryRun: Bool? = nil, issueType: String? = nil, language: String? = nil, serviceCode: String? = nil, severityCode: String? = nil, subject: String, uploadIds: [String]? = nil) {
             self.attachmentSetId = attachmentSetId
             self.categoryCode = categoryCode
             self.ccEmailAddresses = ccEmailAddresses
             self.communicationBody = communicationBody
+            self.dryRun = dryRun
             self.issueType = issueType
             self.language = language
             self.serviceCode = serviceCode
             self.severityCode = severityCode
             self.subject = subject
+            self.uploadIds = uploadIds
         }
 
         public func validate(name: String) throws {
@@ -315,6 +416,11 @@ extension Support {
             try self.validate(self.communicationBody, name: "communicationBody", parent: name, max: 8000)
             try self.validate(self.communicationBody, name: "communicationBody", parent: name, min: 1)
             try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[0-9a-z\\-_]+$")
+            try self.uploadIds?.forEach {
+                try validate($0, name: "uploadIds[]", parent: name, max: 2048)
+                try validate($0, name: "uploadIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.uploadIds, name: "uploadIds", parent: name, max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -322,16 +428,18 @@ extension Support {
             case categoryCode = "categoryCode"
             case ccEmailAddresses = "ccEmailAddresses"
             case communicationBody = "communicationBody"
+            case dryRun = "dryRun"
             case issueType = "issueType"
             case language = "language"
             case serviceCode = "serviceCode"
             case severityCode = "severityCode"
             case subject = "subject"
+            case uploadIds = "uploadIds"
         }
     }
 
     public struct CreateCaseResponse: AWSDecodableShape {
-        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string in the following format: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string in the following format: case-12345678910-exen-2025-c4c1d2bf33c5cf47
         public let caseId: String?
 
         @inlinable
@@ -363,16 +471,20 @@ extension Support {
     }
 
     public struct DescribeAttachmentRequest: AWSEncodableShape {
-        /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
+        /// The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation. If the specified attachment is larger than 5 MB, this operation returns InvalidParameterValueException. To download attachments larger than 5 MB, use GetAttachmentDownloadLink.
         public let attachmentId: String
+        /// Specifies whether to validate the request without actually retrieving the attachment. When set to true, the request is validated but no attachment content is returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
 
         @inlinable
-        public init(attachmentId: String) {
+        public init(attachmentId: String, dryRun: Bool? = nil) {
             self.attachmentId = attachmentId
+            self.dryRun = dryRun
         }
 
         private enum CodingKeys: String, CodingKey {
             case attachmentId = "attachmentId"
+            case dryRun = "dryRun"
         }
     }
 
@@ -390,21 +502,68 @@ extension Support {
         }
     }
 
+    public struct DescribeAttachmentUploadStatusRequest: AWSEncodableShape {
+        /// Specifies whether to validate the request without actually returning upload status. When set to true, the request is validated but no status is returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
+        /// The unique identifier for the upload. The uploadId is returned by GetAttachmentUploadLinks when you initiate the upload.
+        public let uploadId: String
+
+        @inlinable
+        public init(dryRun: Bool? = nil, uploadId: String) {
+            self.dryRun = dryRun
+            self.uploadId = uploadId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.uploadId, name: "uploadId", parent: name, max: 2048)
+            try self.validate(self.uploadId, name: "uploadId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "dryRun"
+            case uploadId = "uploadId"
+        }
+    }
+
+    public struct DescribeAttachmentUploadStatusResponse: AWSDecodableShape {
+        /// The name of the file being uploaded, including the file extension.
+        public let fileName: String
+        /// The progress of the multipart upload, including the total number of parts and the number of parts that have been successfully uploaded.
+        public let uploadProgress: UploadProgress?
+        /// The current status of the multipart upload. Valid values: attachment-ready, attachment-not-ready, and failed.
+        public let uploadStatus: UploadStatus
+
+        @inlinable
+        public init(fileName: String, uploadProgress: UploadProgress? = nil, uploadStatus: UploadStatus) {
+            self.fileName = fileName
+            self.uploadProgress = uploadProgress
+            self.uploadStatus = uploadStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileName = "fileName"
+            case uploadProgress = "uploadProgress"
+            case uploadStatus = "uploadStatus"
+        }
+    }
+
     public struct DescribeCasesRequest: AWSEncodableShape {
-        /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+        /// The start date for a filtered date search on support case communications. Case communications are available for 24 months after creation.
         public let afterTime: String?
-        /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+        /// The end date for a filtered date search on support case communications. Case communications are available for 24 months after creation.
         public let beforeTime: String?
         /// A list of ID numbers of the support cases you want returned. The maximum number of cases is 100.
         public let caseIdList: [String]?
         /// The ID displayed for a case in the Amazon Web Services Support Center user interface.
         public let displayId: String?
+        /// Specifies whether to validate the request without actually returning case data. When set to true, the request is validated but no cases are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
         /// Specifies whether to include communications in the DescribeCases response. By default, communications are included.
         public let includeCommunications: Bool?
         /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
         public let includeResolvedCases: Bool?
         /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
-        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1
+        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1
         /// code for the language parameter if you want support in that language.
         public let language: String?
         /// The maximum number of results to return before paginating.
@@ -413,11 +572,12 @@ extension Support {
         public let nextToken: String?
 
         @inlinable
-        public init(afterTime: String? = nil, beforeTime: String? = nil, caseIdList: [String]? = nil, displayId: String? = nil, includeCommunications: Bool? = nil, includeResolvedCases: Bool? = nil, language: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(afterTime: String? = nil, beforeTime: String? = nil, caseIdList: [String]? = nil, displayId: String? = nil, dryRun: Bool? = nil, includeCommunications: Bool? = nil, includeResolvedCases: Bool? = nil, language: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.afterTime = afterTime
             self.beforeTime = beforeTime
             self.caseIdList = caseIdList
             self.displayId = displayId
+            self.dryRun = dryRun
             self.includeCommunications = includeCommunications
             self.includeResolvedCases = includeResolvedCases
             self.language = language
@@ -436,6 +596,7 @@ extension Support {
             case beforeTime = "beforeTime"
             case caseIdList = "caseIdList"
             case displayId = "displayId"
+            case dryRun = "dryRun"
             case includeCommunications = "includeCommunications"
             case includeResolvedCases = "includeResolvedCases"
             case language = "language"
@@ -463,22 +624,25 @@ extension Support {
     }
 
     public struct DescribeCommunicationsRequest: AWSEncodableShape {
-        /// The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+        /// The start date for a filtered date search on support case communications. Case communications are available for 24 months after creation.
         public let afterTime: String?
-        /// The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+        /// The end date for a filtered date search on support case communications. Case communications are available for 24 months after creation.
         public let beforeTime: String?
-        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
         public let caseId: String
+        /// Specifies whether to validate the request without actually returning communications. When set to true, the request is validated but no communications are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
         /// The maximum number of results to return before paginating.
         public let maxResults: Int?
         /// A resumption point for pagination.
         public let nextToken: String?
 
         @inlinable
-        public init(afterTime: String? = nil, beforeTime: String? = nil, caseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(afterTime: String? = nil, beforeTime: String? = nil, caseId: String, dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.afterTime = afterTime
             self.beforeTime = beforeTime
             self.caseId = caseId
+            self.dryRun = dryRun
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -492,6 +656,7 @@ extension Support {
             case afterTime = "afterTime"
             case beforeTime = "beforeTime"
             case caseId = "caseId"
+            case dryRun = "dryRun"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
         }
@@ -518,18 +683,21 @@ extension Support {
     public struct DescribeCreateCaseOptionsRequest: AWSEncodableShape {
         /// The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
         public let categoryCode: String
+        /// Specifies whether to validate the request without actually returning case option data. When set to true, the request is validated but no options are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
         /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
         public let issueType: String
         /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
-        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1
+        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1
         /// code for the language parameter if you want support in that language.
         public let language: String
         /// The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values.
         public let serviceCode: String
 
         @inlinable
-        public init(categoryCode: String, issueType: String, language: String, serviceCode: String) {
+        public init(categoryCode: String, dryRun: Bool? = nil, issueType: String, language: String, serviceCode: String) {
             self.categoryCode = categoryCode
+            self.dryRun = dryRun
             self.issueType = issueType
             self.language = language
             self.serviceCode = serviceCode
@@ -541,6 +709,7 @@ extension Support {
 
         private enum CodingKeys: String, CodingKey {
             case categoryCode = "categoryCode"
+            case dryRun = "dryRun"
             case issueType = "issueType"
             case language = "language"
             case serviceCode = "serviceCode"
@@ -566,15 +735,18 @@ extension Support {
     }
 
     public struct DescribeServicesRequest: AWSEncodableShape {
+        /// Specifies whether to validate the request without actually returning the list of services. When set to true, the request is validated but no services are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
         /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
-        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1
+        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1
         /// code for the language parameter if you want support in that language.
         public let language: String?
         /// A JSON-formatted list of service codes available for Amazon Web Services services.
         public let serviceCodeList: [String]?
 
         @inlinable
-        public init(language: String? = nil, serviceCodeList: [String]? = nil) {
+        public init(dryRun: Bool? = nil, language: String? = nil, serviceCodeList: [String]? = nil) {
+            self.dryRun = dryRun
             self.language = language
             self.serviceCodeList = serviceCodeList
         }
@@ -587,6 +759,7 @@ extension Support {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "dryRun"
             case language = "language"
             case serviceCodeList = "serviceCodeList"
         }
@@ -607,17 +780,21 @@ extension Support {
     }
 
     public struct DescribeSeverityLevelsRequest: AWSEncodableShape {
+        /// Specifies whether to validate the request without actually returning severity levels. When set to true, the request is validated but no severity levels are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
         /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support
-        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") and Korean (“ko”). You must specify the ISO 639-1
+        /// currently supports Chinese (“zh”), English ("en"), Japanese ("ja") , Chinese ("zh"), Spanish ("es"), Portuguese ("pt"), French ("fr"), Korean (“ko”), and Turkish ("tr"). You must specify the ISO 639-1
         /// code for the language parameter if you want support in that language.
         public let language: String?
 
         @inlinable
-        public init(language: String? = nil) {
+        public init(dryRun: Bool? = nil, language: String? = nil) {
+            self.dryRun = dryRun
             self.language = language
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "dryRun"
             case language = "language"
         }
     }
@@ -639,14 +816,17 @@ extension Support {
     public struct DescribeSupportedLanguagesRequest: AWSEncodableShape {
         /// The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
         public let categoryCode: String
+        /// Specifies whether to validate the request without actually returning supported languages. When set to true, the request is validated but no languages are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
         /// The type of issue for the case. You can specify customer-service or technical.
         public let issueType: String
         /// The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values.
         public let serviceCode: String
 
         @inlinable
-        public init(categoryCode: String, issueType: String, serviceCode: String) {
+        public init(categoryCode: String, dryRun: Bool? = nil, issueType: String, serviceCode: String) {
             self.categoryCode = categoryCode
+            self.dryRun = dryRun
             self.issueType = issueType
             self.serviceCode = serviceCode
         }
@@ -660,6 +840,7 @@ extension Support {
 
         private enum CodingKeys: String, CodingKey {
             case categoryCode = "categoryCode"
+            case dryRun = "dryRun"
             case issueType = "issueType"
             case serviceCode = "serviceCode"
         }
@@ -795,6 +976,128 @@ extension Support {
         }
     }
 
+    public struct DownloadUrl: AWSDecodableShape {
+        /// The date and time, in ISO-8601 format, when the presigned URL expires. Download the attachment before this time.
+        public let expiryDate: String
+        /// The presigned HTTPS URL that you can use to download the attachment. Download URLs are served from downloadv1.attachments.support.{region}.amazonaws.com. The downloadv1 prefix is subject to change.
+        public let url: String
+
+        @inlinable
+        public init(expiryDate: String, url: String) {
+            self.expiryDate = expiryDate
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiryDate = "expiryDate"
+            case url = "url"
+        }
+    }
+
+    public struct GetAttachmentDownloadLinkRequest: AWSEncodableShape {
+        /// The unique identifier of the attachment for which to retrieve a download link. Attachment IDs are returned in the AttachmentDetails objects in the attachments field of a Communication returned by DescribeCommunications or DescribeCases.
+        public let attachmentId: String
+        /// Specifies whether to validate the request without actually returning a download link. When set to true, the request is validated but no URL is returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
+
+        @inlinable
+        public init(attachmentId: String, dryRun: Bool? = nil) {
+            self.attachmentId = attachmentId
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "attachmentId"
+            case dryRun = "dryRun"
+        }
+    }
+
+    public struct GetAttachmentDownloadLinkResponse: AWSDecodableShape {
+        /// The presigned download URL and the date and time the URL expires.
+        public let downloadUrl: DownloadUrl
+        /// The name of the attachment file, including the file extension.
+        public let fileName: String
+
+        @inlinable
+        public init(downloadUrl: DownloadUrl, fileName: String) {
+            self.downloadUrl = downloadUrl
+            self.fileName = fileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case downloadUrl = "downloadUrl"
+            case fileName = "fileName"
+        }
+    }
+
+    public struct GetAttachmentUploadLinksRequest: AWSEncodableShape {
+        /// Specifies whether to validate the request without actually generating upload URLs. When set to true, the request is validated but no URLs are returned, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
+        /// The name of the file to upload, including the file extension. This value is required when you initiate a new upload.
+        public let fileName: String
+        /// The total size of the file in bytes. The service uses this value to calculate the total number of parts and the size of each part. Required when you initiate a new upload (when uploadId isn't provided). Valid range: 1 to 157,286,400 bytes (approximately 150 MB).
+        public let fileSizeBytes: Int64?
+        /// The unique identifier of an in-progress multipart upload, returned by a previous call to GetAttachmentUploadLinks. Specify uploadId to retrieve additional presigned upload URLs for an upload that has already been initiated. Required when fileSizeBytes isn't provided. Length: 1 to 2,048 characters.
+        public let uploadId: String?
+        /// The range of part indexes for which to return presigned upload URLs. Use this parameter to page through the upload URLs for a large file across multiple calls. If you omit this parameter, the service determines the range to return.
+        public let uploadRange: UploadRange?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, fileName: String, fileSizeBytes: Int64? = nil, uploadId: String? = nil, uploadRange: UploadRange? = nil) {
+            self.dryRun = dryRun
+            self.fileName = fileName
+            self.fileSizeBytes = fileSizeBytes
+            self.uploadId = uploadId
+            self.uploadRange = uploadRange
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileSizeBytes, name: "fileSizeBytes", parent: name, max: 157286400)
+            try self.validate(self.fileSizeBytes, name: "fileSizeBytes", parent: name, min: 1)
+            try self.validate(self.uploadId, name: "uploadId", parent: name, max: 2048)
+            try self.validate(self.uploadId, name: "uploadId", parent: name, min: 1)
+            try self.uploadRange?.validate(name: "\(name).uploadRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "dryRun"
+            case fileName = "fileName"
+            case fileSizeBytes = "fileSizeBytes"
+            case uploadId = "uploadId"
+            case uploadRange = "uploadRange"
+        }
+    }
+
+    public struct GetAttachmentUploadLinksResponse: AWSDecodableShape {
+        /// The next part index to request presigned URLs for. If all upload URLs for the file have been returned, this field is null. Use this value as the startIndex in uploadRange on a subsequent call to GetAttachmentUploadLinks to retrieve the next batch of upload URLs.
+        public let nextIndex: Int?
+        /// The size, in bytes, of each part. Split the file into parts of this size before you upload them to the presigned URLs. For an upload with n total parts, parts 1 through n - 1 are exactly this size; the last part may be smaller. Maximum: 104,857,600 bytes (approximately 100 MB).
+        public let partSizeBytes: Int64
+        /// The total number of parts that the file is split into. Upload one part to each presigned URL.
+        public let totalParts: Int
+        /// The unique identifier for the multipart upload. Use this value in subsequent calls to GetAttachmentUploadLinks, DescribeAttachmentUploadStatus, and CompleteAttachmentUpload, and to attach the upload to a case through the uploadIds parameter on CreateCase or AddCommunicationToCase.
+        public let uploadId: String
+        /// The list of presigned upload URLs for the requested range of parts. The list contains at most 10 URLs per call. Upload each part to its corresponding URL by using HTTP PUT before the URL expires.
+        public let uploadUrls: [UploadUrl]
+
+        @inlinable
+        public init(nextIndex: Int? = nil, partSizeBytes: Int64, totalParts: Int, uploadId: String, uploadUrls: [UploadUrl]) {
+            self.nextIndex = nextIndex
+            self.partSizeBytes = partSizeBytes
+            self.totalParts = totalParts
+            self.uploadId = uploadId
+            self.uploadUrls = uploadUrls
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextIndex = "nextIndex"
+            case partSizeBytes = "partSizeBytes"
+            case totalParts = "totalParts"
+            case uploadId = "uploadId"
+            case uploadUrls = "uploadUrls"
+        }
+    }
+
     public struct RecentCaseCommunications: AWSDecodableShape {
         /// The five most recent communications associated with the case.
         public let communications: [Communication]?
@@ -842,16 +1145,20 @@ extension Support {
     }
 
     public struct ResolveCaseRequest: AWSEncodableShape {
-        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+        /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-exen-2025-c4c1d2bf33c5cf47
         public let caseId: String?
+        /// Specifies whether to validate the request without actually resolving the case. When set to true, the request is validated but the case isn't resolved, and the operation returns a DryRunOperationException. When omitted or set to false, the request runs normally.
+        public let dryRun: Bool?
 
         @inlinable
-        public init(caseId: String? = nil) {
+        public init(caseId: String? = nil, dryRun: Bool? = nil) {
             self.caseId = caseId
+            self.dryRun = dryRun
         }
 
         private enum CodingKeys: String, CodingKey {
             case caseId = "caseId"
+            case dryRun = "dryRun"
         }
     }
 
@@ -950,6 +1257,41 @@ extension Support {
             case code = "code"
             case display = "display"
             case language = "language"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        /// A list of one or more reasons that the request was throttled.
+        public let throttlingReasons: [ThrottlingReason]?
+
+        @inlinable
+        public init(message: String? = nil, throttlingReasons: [ThrottlingReason]? = nil) {
+            self.message = message
+            self.throttlingReasons = throttlingReasons
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case throttlingReasons = "throttlingReasons"
+        }
+    }
+
+    public struct ThrottlingReason: AWSDecodableShape {
+        /// The reason that the request was throttled.
+        public let reason: String?
+        /// The resource that caused the request to be throttled.
+        public let resource: String?
+
+        @inlinable
+        public init(reason: String? = nil, resource: String? = nil) {
+            self.reason = reason
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case resource = "resource"
         }
     }
 
@@ -1158,6 +1500,69 @@ extension Support {
             case resourcesSuppressed = "resourcesSuppressed"
         }
     }
+
+    public struct UploadProgress: AWSDecodableShape {
+        /// The number of parts that have been successfully uploaded.
+        public let completedPartsCount: Int?
+        /// The total number of parts that the file is split into.
+        public let totalParts: Int?
+
+        @inlinable
+        public init(completedPartsCount: Int? = nil, totalParts: Int? = nil) {
+            self.completedPartsCount = completedPartsCount
+            self.totalParts = totalParts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedPartsCount = "completedPartsCount"
+            case totalParts = "totalParts"
+        }
+    }
+
+    public struct UploadRange: AWSEncodableShape {
+        /// The ending part index of the range, exclusive. The range is half-open: startIndex is inclusive and endIndex is exclusive. For example, a range with startIndex of 1 and endIndex of 4 requests URLs for parts 1, 2, and 3. The range size (endIndex - startIndex) must not exceed 10. If you omit endIndex, the service defaults to startIndex + 10, capped by the total number of parts.
+        public let endIndex: Int?
+        /// The starting part index of the range, inclusive. Part indexes start at 1.
+        public let startIndex: Int
+
+        @inlinable
+        public init(endIndex: Int? = nil, startIndex: Int) {
+            self.endIndex = endIndex
+            self.startIndex = startIndex
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endIndex, name: "endIndex", parent: name, min: 2)
+            try self.validate(self.startIndex, name: "startIndex", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endIndex = "endIndex"
+            case startIndex = "startIndex"
+        }
+    }
+
+    public struct UploadUrl: AWSDecodableShape {
+        /// The date and time, in ISO-8601 format, when the presigned URL expires. Upload the part before this time.
+        public let expiryDate: String
+        /// The index of the part that this URL uploads.
+        public let partIndex: Int
+        /// The presigned HTTPS URL that you use to upload a single part with HTTP PUT. Upload URLs are served from uploadv1.attachments.support.{region}.amazonaws.com. The uploadv1 prefix is subject to change.
+        public let url: String
+
+        @inlinable
+        public init(expiryDate: String, partIndex: Int, url: String) {
+            self.expiryDate = expiryDate
+            self.partIndex = partIndex
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiryDate = "expiryDate"
+            case partIndex = "partIndex"
+            case url = "url"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1173,8 +1578,10 @@ public struct SupportErrorType: AWSErrorType {
         case caseCreationLimitExceeded = "CaseCreationLimitExceeded"
         case caseIdNotFound = "CaseIdNotFound"
         case describeAttachmentLimitExceeded = "DescribeAttachmentLimitExceeded"
+        case dryRunOperationException = "DryRunOperationException"
         case internalServerError = "InternalServerError"
         case throttlingException = "ThrottlingException"
+        case uploadIdNotFound = "UploadIdNotFound"
     }
 
     private let error: Code
@@ -1211,10 +1618,20 @@ public struct SupportErrorType: AWSErrorType {
     public static var caseIdNotFound: Self { .init(.caseIdNotFound) }
     /// The limit for the number of DescribeAttachment requests in a short period of time has been exceeded.
     public static var describeAttachmentLimitExceeded: Self { .init(.describeAttachmentLimitExceeded) }
+    /// The request was valid, but the operation wasn't performed because dryRun was set to true.
+    public static var dryRunOperationException: Self { .init(.dryRunOperationException) }
     /// An internal server error occurred.
     public static var internalServerError: Self { .init(.internalServerError) }
     ///  You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The specified uploadId couldn't be located.
+    public static var uploadIdNotFound: Self { .init(.uploadIdNotFound) }
+}
+
+extension SupportErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ThrottlingException": Support.ThrottlingException.self
+    ]
 }
 
 extension SupportErrorType: Equatable {

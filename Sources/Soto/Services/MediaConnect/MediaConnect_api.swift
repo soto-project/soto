@@ -40,7 +40,7 @@ public struct MediaConnect: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct MediaConnect: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "MediaConnect",
+            sdkId: "MediaConnect",
             serviceIdentifier: "mediaconnect",
             serviceProtocol: .restjson,
             apiVersion: "2018-11-14",
@@ -632,6 +633,7 @@ public struct MediaConnect: AWSService {
     ///   - availabilityZone: The Availability Zone where you want to create the router output. This must be a valid Availability Zone for the region specified by regionName, or the current region if no regionName is provided.
     ///   - clientToken: A unique identifier for the request to ensure idempotency.
     ///   - configuration: The configuration settings for the router output.
+    ///   - fabricConfiguration: The fabric configuration settings for the router output.
     ///   - maintenanceConfiguration: The maintenance configuration settings for the router output, including preferred maintenance windows and schedules.
     ///   - maximumBitrate: The maximum bitrate for the router output.
     ///   - name: The name of the router output.
@@ -645,6 +647,7 @@ public struct MediaConnect: AWSService {
         availabilityZone: String? = nil,
         clientToken: String? = CreateRouterOutputRequest.idempotencyToken(),
         configuration: RouterOutputConfiguration,
+        fabricConfiguration: FabricConfiguration? = nil,
         maintenanceConfiguration: MaintenanceConfiguration? = nil,
         maximumBitrate: Int64,
         name: String,
@@ -658,6 +661,7 @@ public struct MediaConnect: AWSService {
             availabilityZone: availabilityZone, 
             clientToken: clientToken, 
             configuration: configuration, 
+            fabricConfiguration: fabricConfiguration, 
             maintenanceConfiguration: maintenanceConfiguration, 
             maximumBitrate: maximumBitrate, 
             name: name, 
@@ -2937,6 +2941,7 @@ public struct MediaConnect: AWSService {
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to update.
     ///   - configuration: The updated configuration settings for the router output. Changing the type of the configuration is not supported.
+    ///   - fabricConfiguration: The updated fabric configuration settings for the router output. You cannot update the fabric configuration while the output has an active route. You must unroute the output before updating the fabric configuration.
     ///   - maintenanceConfiguration: The updated maintenance configuration settings for the router output, including any changes to preferred maintenance windows and schedules.
     ///   - maximumBitrate: The updated maximum bitrate for the router output.
     ///   - name: The updated name for the router output.
@@ -2947,6 +2952,7 @@ public struct MediaConnect: AWSService {
     public func updateRouterOutput(
         arn: String,
         configuration: RouterOutputConfiguration? = nil,
+        fabricConfiguration: FabricConfiguration? = nil,
         maintenanceConfiguration: MaintenanceConfiguration? = nil,
         maximumBitrate: Int64? = nil,
         name: String? = nil,
@@ -2957,6 +2963,7 @@ public struct MediaConnect: AWSService {
         let input = UpdateRouterOutputRequest(
             arn: arn, 
             configuration: configuration, 
+            fabricConfiguration: fabricConfiguration, 
             maintenanceConfiguration: maintenanceConfiguration, 
             maximumBitrate: maximumBitrate, 
             name: name, 

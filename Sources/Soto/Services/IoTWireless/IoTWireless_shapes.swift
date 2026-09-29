@@ -464,7 +464,7 @@ extension IoTWireless {
     }
 
     public struct AdvancedConfiguration: AWSEncodableShape {
-        /// Configuration for WiFi and cellular-based payloads for location estimates.
+        /// Configuration for WiFi and cellular-based location estimate payloads resolved by HERE's solvers.
         public let wiFiCellular: WiFiCellular?
 
         @inlinable
@@ -3160,12 +3160,14 @@ extension IoTWireless {
     }
 
     public struct GetPositionEstimateRequest: AWSEncodableShape {
-        /// Optional configuration to customize position estimates. If not provided, defaults are applied.
+        /// Optional configuration for customizing position measurement data.
         public let advancedConfiguration: AdvancedConfiguration?
         /// Retrieves an estimated device position by resolving measurement data from cellular radio towers. The position is resolved using HERE's cellular-based solver.
         public let cellTowers: CellTowers?
-        /// Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud.
+        /// Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud. This field is mutually exclusive with the GnssMultiFrame field.
         public let gnss: Gnss?
+        /// Retrieves an estimated device position by resolving multiple global navigation satellite system (GNSS) scan captures. The position is resolved using the multi-frame GNSS solver powered by LoRa Cloud. This field is mutually exclusive with the Gnss field.
+        public let gnssMultiFrame: GnssMultiFrame?
         /// Retrieves an estimated device position by resolving the IP address information from the device. The position is resolved using MaxMind's IP-based solver.
         public let ip: Ip?
         /// Optional information that specifies the time when the position information will be resolved. It uses the Unix timestamp format. If not specified, the time at which the request was received will be used.
@@ -3174,10 +3176,11 @@ extension IoTWireless {
         public let wiFiAccessPoints: [WiFiAccessPoint]?
 
         @inlinable
-        public init(advancedConfiguration: AdvancedConfiguration? = nil, cellTowers: CellTowers? = nil, gnss: Gnss? = nil, ip: Ip? = nil, timestamp: Date? = nil, wiFiAccessPoints: [WiFiAccessPoint]? = nil) {
+        public init(advancedConfiguration: AdvancedConfiguration? = nil, cellTowers: CellTowers? = nil, gnss: Gnss? = nil, gnssMultiFrame: GnssMultiFrame? = nil, ip: Ip? = nil, timestamp: Date? = nil, wiFiAccessPoints: [WiFiAccessPoint]? = nil) {
             self.advancedConfiguration = advancedConfiguration
             self.cellTowers = cellTowers
             self.gnss = gnss
+            self.gnssMultiFrame = gnssMultiFrame
             self.ip = ip
             self.timestamp = timestamp
             self.wiFiAccessPoints = wiFiAccessPoints
@@ -3187,6 +3190,7 @@ extension IoTWireless {
             try self.advancedConfiguration?.validate(name: "\(name).advancedConfiguration")
             try self.cellTowers?.validate(name: "\(name).cellTowers")
             try self.gnss?.validate(name: "\(name).gnss")
+            try self.gnssMultiFrame?.validate(name: "\(name).gnssMultiFrame")
             try self.wiFiAccessPoints?.forEach {
                 try $0.validate(name: "\(name).wiFiAccessPoints[]")
             }
@@ -3196,6 +3200,7 @@ extension IoTWireless {
             case advancedConfiguration = "AdvancedConfiguration"
             case cellTowers = "CellTowers"
             case gnss = "Gnss"
+            case gnssMultiFrame = "GnssMultiFrame"
             case ip = "Ip"
             case timestamp = "Timestamp"
             case wiFiAccessPoints = "WiFiAccessPoints"
@@ -4065,6 +4070,68 @@ extension IoTWireless {
             case captureTime = "CaptureTime"
             case captureTimeAccuracy = "CaptureTimeAccuracy"
             case payload = "Payload"
+            case use2DSolver = "Use2DSolver"
+        }
+    }
+
+    public struct GnssCapture: AWSEncodableShape {
+        /// Optional parameter that gives an estimate of the time when the GNSS scan information is taken, in seconds GPS time (GPST). If capture time is not specified, the local server time is used.
+        public let captureTime: Float?
+        /// Payload that contains the GNSS scan result, or NAV message, in hexadecimal notation.
+        public let payload: String
+
+        @inlinable
+        public init(captureTime: Float? = nil, payload: String) {
+            self.captureTime = captureTime
+            self.payload = payload
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.payload, name: "payload", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captureTime = "CaptureTime"
+            case payload = "Payload"
+        }
+    }
+
+    public struct GnssMultiFrame: AWSEncodableShape {
+        /// Optional assistance altitude, which is the altitude of the device at capture time, specified in meters above the WGS84 reference ellipsoid. This parameter is required when Use2DSolver is enabled.
+        public let assistAltitude: Float?
+        /// Optional assistance position information, specified using latitude and longitude values in degrees. The coordinates are inside the WGS84 reference frame.
+        public let assistPosition: [Float]?
+        /// List of GNSS scan captures. Each capture contains a payload from a single GNSS scan. The number of captures must be 2, 4, 8, 16, or 32.
+        public let captures: [GnssCapture]
+        /// Optional value that gives the capture time estimate accuracy, in seconds. If capture time accuracy is not specified, default value of 300 is used.
+        public let captureTimeAccuracy: Float?
+        /// Optional parameter that forces 2D solve, which modifies the positioning algorithm to a 2D solution problem. When this parameter is specified, the assistance altitude should have an accuracy of at least 10 meters.
+        public let use2DSolver: Bool?
+
+        @inlinable
+        public init(assistAltitude: Float? = nil, assistPosition: [Float]? = nil, captures: [GnssCapture], captureTimeAccuracy: Float? = nil, use2DSolver: Bool? = nil) {
+            self.assistAltitude = assistAltitude
+            self.assistPosition = assistPosition
+            self.captures = captures
+            self.captureTimeAccuracy = captureTimeAccuracy
+            self.use2DSolver = use2DSolver
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistPosition, name: "assistPosition", parent: name, max: 2)
+            try self.validate(self.assistPosition, name: "assistPosition", parent: name, min: 2)
+            try self.captures.forEach {
+                try $0.validate(name: "\(name).captures[]")
+            }
+            try self.validate(self.captures, name: "captures", parent: name, max: 32)
+            try self.validate(self.captures, name: "captures", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assistAltitude = "AssistAltitude"
+            case assistPosition = "AssistPosition"
+            case captures = "Captures"
+            case captureTimeAccuracy = "CaptureTimeAccuracy"
             case use2DSolver = "Use2DSolver"
         }
     }
@@ -8889,7 +8956,7 @@ extension IoTWireless {
     }
 
     public struct WiFiCellular: AWSEncodableShape {
-        /// Confidence level for WiFi and cellular position estimates, expressed as a percentage. Valid range: 50–99 inclusive. Defaults to 68 if not specified.
+        /// The confidence level for WiFi and cellular position estimates, expressed as a percentage. This value determines the size of the confidence area or uncertainty radius for the estimated position. A higher confidence level produces a larger uncertainty radius, while a lower confidence level produces a smaller, more precise radius. Valid range: 50 to 99 inclusive. If not specified, the default value of 68 is used, which corresponds to approximately one standard deviation of the normal distribution.
         public let confidencePercent: Int?
 
         @inlinable

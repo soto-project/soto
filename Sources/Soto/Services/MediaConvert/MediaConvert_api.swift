@@ -40,7 +40,7 @@ public struct MediaConvert: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct MediaConvert: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "MediaConvert",
+            sdkId: "MediaConvert",
             serviceIdentifier: "mediaconvert",
             serviceProtocol: .restjson,
             apiVersion: "2017-08-29",
@@ -999,7 +1000,7 @@ public struct MediaConvert: AWSService {
         return try await self.listVersions(input, logger: logger)
     }
 
-    /// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
+    /// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow. Probe supports the following input container formats: MP4, QuickTime (MOV), 3GP, 3G2, Matroska (MKV), WebM, MXF, MPEG-TS, MPEG-PS, AVI, WAV, MP3, FLAC, Ogg, and ASF (Windows Media / WMA). The fields that Probe returns vary by container and codec. A field isn't returned when the source doesn't contain it, or when it isn't available for that container and codec.
     @Sendable
     @inlinable
     public func probe(_ input: ProbeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProbeResponse {
@@ -1012,7 +1013,7 @@ public struct MediaConvert: AWSService {
             logger: logger
         )
     }
-    /// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
+    /// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow. Probe supports the following input container formats: MP4, QuickTime (MOV), 3GP, 3G2, Matroska (MKV), WebM, MXF, MPEG-TS, MPEG-PS, AVI, WAV, MP3, FLAC, Ogg, and ASF (Windows Media / WMA). The fields that Probe returns vary by container and codec. A field isn't returned when the source doesn't contain it, or when it isn't available for that container and codec.
     ///
     /// Parameters:
     ///   - inputFiles: Specify a media file to probe.

@@ -89,6 +89,14 @@ extension Invoicing {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProcurementPortalEnv: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The production environment.
+        case prod = "PROD"
+        /// The sandbox or test environment.
+        case test = "TEST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProcurementPortalName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case coupa = "COUPA"
         case sapBusinessNetwork = "SAP_BUSINESS_NETWORK"
@@ -706,6 +714,20 @@ extension Invoicing {
         }
     }
 
+    public struct FeatureConfigurations: AWSDecodableShape {
+        /// The invoice configuration settings for the procurement portal.
+        public let invoiceConfiguration: InvoiceConfiguration?
+
+        @inlinable
+        public init(invoiceConfiguration: InvoiceConfiguration? = nil) {
+            self.invoiceConfiguration = invoiceConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invoiceConfiguration = "InvoiceConfiguration"
+        }
+    }
+
     public struct FeesBreakdown: AWSDecodableShape {
         /// The list of fees information.
         public let breakdown: [FeesBreakdownAmount]?
@@ -943,6 +965,24 @@ extension Invoicing {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct InvoiceConfiguration: AWSDecodableShape {
+        /// The attachment types supported by the procurement portal for e-invoice delivery.
+        public let attachmentTypes: [EinvoiceDeliveryAttachmentType]?
+        /// The e-invoice document types supported by the procurement portal.
+        public let documentTypes: [EinvoiceDeliveryDocumentType]?
+
+        @inlinable
+        public init(attachmentTypes: [EinvoiceDeliveryAttachmentType]? = nil, documentTypes: [EinvoiceDeliveryDocumentType]? = nil) {
+            self.attachmentTypes = attachmentTypes
+            self.documentTypes = documentTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentTypes = "AttachmentTypes"
+            case documentTypes = "DocumentTypes"
         }
     }
 
@@ -1396,6 +1436,97 @@ extension Invoicing {
         }
     }
 
+    public struct ListProcurementPortalSuppliersRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. Default is 100.
+        public let maxResults: Int?
+        /// The token for the next set of results. You received this token from a previous call.
+        public let nextToken: String?
+        /// The unique identifier of the procurement portal for which to list suppliers. Use the PortalIdentifier value returned by ListProcurementPortals.
+        public let portalIdentifier: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, portalIdentifier: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.portalIdentifier = portalIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
+            try self.validate(self.portalIdentifier, name: "portalIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case portalIdentifier = "PortalIdentifier"
+        }
+    }
+
+    public struct ListProcurementPortalSuppliersResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The list of suppliers configured for the specified procurement portal.
+        public let procurementPortalSuppliers: [ProcurementPortalSupplier]
+
+        @inlinable
+        public init(nextToken: String? = nil, procurementPortalSuppliers: [ProcurementPortalSupplier]) {
+            self.nextToken = nextToken
+            self.procurementPortalSuppliers = procurementPortalSuppliers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case procurementPortalSuppliers = "ProcurementPortalSuppliers"
+        }
+    }
+
+    public struct ListProcurementPortalsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. Default is 100.
+        public let maxResults: Int?
+        /// The token for the next set of results. You received this token from a previous call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListProcurementPortalsResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The list of procurement portals available for configuration.
+        public let procurementPortals: [ProcurementPortal]
+
+        @inlinable
+        public init(nextToken: String? = nil, procurementPortals: [ProcurementPortal]) {
+            self.nextToken = nextToken
+            self.procurementPortals = procurementPortals
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case procurementPortals = "ProcurementPortals"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of tags to list.
         public let resourceArn: String
@@ -1427,6 +1558,32 @@ extension Invoicing {
 
         private enum CodingKeys: String, CodingKey {
             case resourceTags = "ResourceTags"
+        }
+    }
+
+    public struct ProcurementPortal: AWSDecodableShape {
+        /// The default feature configurations for the procurement portal.
+        public let defaultFeatureConfigurations: FeatureConfigurations?
+        /// The display name of the procurement portal.
+        public let portalDisplayName: String?
+        /// The unique identifier of the procurement portal.
+        public let portalIdentifier: String
+        /// The name of the procurement portal.
+        public let portalName: ProcurementPortalName
+
+        @inlinable
+        public init(defaultFeatureConfigurations: FeatureConfigurations? = nil, portalDisplayName: String? = nil, portalIdentifier: String, portalName: ProcurementPortalName) {
+            self.defaultFeatureConfigurations = defaultFeatureConfigurations
+            self.portalDisplayName = portalDisplayName
+            self.portalIdentifier = portalIdentifier
+            self.portalName = portalName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultFeatureConfigurations = "DefaultFeatureConfigurations"
+            case portalDisplayName = "PortalDisplayName"
+            case portalIdentifier = "PortalIdentifier"
+            case portalName = "PortalName"
         }
     }
 
@@ -1637,6 +1794,32 @@ extension Invoicing {
             case supplierDomain = "SupplierDomain"
             case supplierIdentifier = "SupplierIdentifier"
             case version = "Version"
+        }
+    }
+
+    public struct ProcurementPortalSupplier: AWSDecodableShape {
+        /// The two-letter ISO 3166-1 alpha-2 country code associated with the supplier.
+        public let countryCode: String?
+        /// The environment identifier for the supplier in the procurement portal. PROD for production env, or TEST for sandbox/test env.
+        public let environment: ProcurementPortalEnv?
+        /// The Amazon Web Services seller of record associated with the supplier—the Amazon Web Services legal entity that issues invoices for the account (for example, AWS_INC or AWS_EUROPE).
+        public let sellerOfRecord: String?
+        /// The unique identifier of the supplier within the procurement portal.
+        public let supplierIdentifier: String
+
+        @inlinable
+        public init(countryCode: String? = nil, environment: ProcurementPortalEnv? = nil, sellerOfRecord: String? = nil, supplierIdentifier: String) {
+            self.countryCode = countryCode
+            self.environment = environment
+            self.sellerOfRecord = sellerOfRecord
+            self.supplierIdentifier = supplierIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryCode = "CountryCode"
+            case environment = "Environment"
+            case sellerOfRecord = "SellerOfRecord"
+            case supplierIdentifier = "SupplierIdentifier"
         }
     }
 

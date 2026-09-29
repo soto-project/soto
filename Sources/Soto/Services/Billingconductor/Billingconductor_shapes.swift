@@ -55,6 +55,7 @@ extension Billingconductor {
 
     public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pricingPlanAttachedToBillingGroupDeleteConflict = "PRICING_PLAN_ATTACHED_TO_BILLING_GROUP_DELETE_CONFLICT"
+        case pricingPlanReferencedByPreferenceDeleteConflict = "PRICING_PLAN_REFERENCED_BY_PREFERENCE_DELETE_CONFLICT"
         case pricingRuleAttachedToPricingPlanDeleteConflict = "PRICING_RULE_ATTACHED_TO_PRICING_PLAN_DELETE_CONFLICT"
         case pricingRuleInPricingPlanConflict = "PRICING_RULE_IN_PRICING_PLAN_CONFLICT"
         case resourceNameConflict = "RESOURCE_NAME_CONFLICT"
@@ -383,6 +384,28 @@ extension Billingconductor {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct AutoTransferBillingGroupCreationPreference: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies whether Billing Conductor automatically creates billing groups for the billing transfer. The preference is disabled by default.
+        public let enabled: Bool
+        ///  The Amazon Resource Name (ARN) of the pricing plan to apply to the automatically created billing groups. This value is required when Enabled is true, and must be omitted when Enabled is false.
+        public let pricingPlanArn: String?
+
+        @inlinable
+        public init(enabled: Bool, pricingPlanArn: String? = nil) {
+            self.enabled = enabled
+            self.pricingPlanArn = pricingPlanArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pricingPlanArn, name: "pricingPlanArn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case pricingPlanArn = "PricingPlanArn"
         }
     }
 
@@ -1033,6 +1056,7 @@ extension Billingconductor {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.tiering?.validate(name: "\(name).tiering")
             try self.validate(self.usageType, name: "usageType", parent: name, max: 256)
             try self.validate(self.usageType, name: "usageType", parent: name, min: 1)
             try self.validate(self.usageType, name: "usageType", parent: name, pattern: "^\\S+$")
@@ -1068,15 +1092,27 @@ extension Billingconductor {
     }
 
     public struct CreateTieringInput: AWSEncodableShape {
+        ///  The set of custom tiers for the pricing rule.
+        public let customTiers: [CustomTier]?
         ///  The possible Amazon Web Services Free Tier configurations.
-        public let freeTier: CreateFreeTierConfig
+        public let freeTier: CreateFreeTierConfig?
 
         @inlinable
-        public init(freeTier: CreateFreeTierConfig) {
+        public init(customTiers: [CustomTier]? = nil, freeTier: CreateFreeTierConfig? = nil) {
+            self.customTiers = customTiers
             self.freeTier = freeTier
         }
 
+        public func validate(name: String) throws {
+            try self.customTiers?.forEach {
+                try $0.validate(name: "\(name).customTiers[]")
+            }
+            try self.validate(self.customTiers, name: "customTiers", parent: name, max: 10)
+            try self.validate(self.customTiers, name: "customTiers", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case customTiers = "CustomTiers"
             case freeTier = "FreeTier"
         }
     }
@@ -1317,6 +1353,34 @@ extension Billingconductor {
             case productCode = "ProductCode"
             case startBillingPeriod = "StartBillingPeriod"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct CustomTier: AWSEncodableShape & AWSDecodableShape {
+        ///  The inclusive start of the usage range that this tier applies to.
+        public let beginRangeInclusive: Double
+        ///  The exclusive end of the usage range that this tier applies to. If you don't specify a value, this tier applies to all usage that is greater than or equal to BeginRangeInclusive.
+        public let endRangeExclusive: Double?
+        ///  The rate that's applied to the usage that falls within this tier.
+        public let rateValue: Double
+
+        @inlinable
+        public init(beginRangeInclusive: Double, endRangeExclusive: Double? = nil, rateValue: Double) {
+            self.beginRangeInclusive = beginRangeInclusive
+            self.endRangeExclusive = endRangeExclusive
+            self.rateValue = rateValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.beginRangeInclusive, name: "beginRangeInclusive", parent: name, min: 0.0)
+            try self.validate(self.endRangeExclusive, name: "endRangeExclusive", parent: name, min: 0.0)
+            try self.validate(self.rateValue, name: "rateValue", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginRangeInclusive = "BeginRangeInclusive"
+            case endRangeExclusive = "EndRangeExclusive"
+            case rateValue = "RateValue"
         }
     }
 
@@ -1617,6 +1681,46 @@ extension Billingconductor {
         private enum CodingKeys: String, CodingKey {
             case billingGroupCostReportResults = "BillingGroupCostReportResults"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetBillingTransferPreferenceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the billing transfer whose preference you want to retrieve.
+        public let responsibilityTransferArn: String
+
+        @inlinable
+        public init(responsibilityTransferArn: String) {
+            self.responsibilityTransferArn = responsibilityTransferArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.responsibilityTransferArn, name: "responsibilityTransferArn", parent: name, pattern: "^arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responsibilityTransferArn = "ResponsibilityTransferArn"
+        }
+    }
+
+    public struct GetBillingTransferPreferenceOutput: AWSDecodableShape {
+        /// The auto billing group creation preference for the billing transfer.
+        public let autoBillingTransferBillingGroupCreation: AutoTransferBillingGroupCreationPreference
+        /// The most recent time when the preference was modified. This value is empty if the preference has never been set for the billing transfer.
+        public let lastModifiedTime: Int64?
+        /// The Amazon Resource Name (ARN) of the billing transfer that the preference applies to.
+        public let responsibilityTransferArn: String
+
+        @inlinable
+        public init(autoBillingTransferBillingGroupCreation: AutoTransferBillingGroupCreationPreference, lastModifiedTime: Int64? = nil, responsibilityTransferArn: String) {
+            self.autoBillingTransferBillingGroupCreation = autoBillingTransferBillingGroupCreation
+            self.lastModifiedTime = lastModifiedTime
+            self.responsibilityTransferArn = responsibilityTransferArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoBillingTransferBillingGroupCreation = "AutoBillingTransferBillingGroupCreation"
+            case lastModifiedTime = "LastModifiedTime"
+            case responsibilityTransferArn = "ResponsibilityTransferArn"
         }
     }
 
@@ -2877,15 +2981,19 @@ extension Billingconductor {
     }
 
     public struct Tiering: AWSDecodableShape {
+        ///  The set of custom tiers for the pricing rule.
+        public let customTiers: [CustomTier]?
         ///  The possible Amazon Web Services Free Tier configurations.
-        public let freeTier: FreeTierConfig
+        public let freeTier: FreeTierConfig?
 
         @inlinable
-        public init(freeTier: FreeTierConfig) {
+        public init(customTiers: [CustomTier]? = nil, freeTier: FreeTierConfig? = nil) {
+            self.customTiers = customTiers
             self.freeTier = freeTier
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customTiers = "CustomTiers"
             case freeTier = "FreeTier"
         }
     }
@@ -3040,6 +3148,65 @@ extension Billingconductor {
             case size = "Size"
             case status = "Status"
             case statusReason = "StatusReason"
+        }
+    }
+
+    public struct UpdateBillingTransferPreferenceInput: AWSEncodableShape {
+        /// The auto billing group creation preference to set for the billing transfer.
+        public let autoBillingTransferBillingGroupCreation: AutoTransferBillingGroupCreationPreference
+        /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the billing transfer whose preference you want to set.
+        public let responsibilityTransferArn: String
+
+        @inlinable
+        public init(autoBillingTransferBillingGroupCreation: AutoTransferBillingGroupCreationPreference, clientToken: String? = UpdateBillingTransferPreferenceInput.idempotencyToken(), responsibilityTransferArn: String) {
+            self.autoBillingTransferBillingGroupCreation = autoBillingTransferBillingGroupCreation
+            self.clientToken = clientToken
+            self.responsibilityTransferArn = responsibilityTransferArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.autoBillingTransferBillingGroupCreation, forKey: .autoBillingTransferBillingGroupCreation)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encode(self.responsibilityTransferArn, forKey: .responsibilityTransferArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.autoBillingTransferBillingGroupCreation.validate(name: "\(name).autoBillingTransferBillingGroupCreation")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.responsibilityTransferArn, name: "responsibilityTransferArn", parent: name, pattern: "^arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoBillingTransferBillingGroupCreation = "AutoBillingTransferBillingGroupCreation"
+            case responsibilityTransferArn = "ResponsibilityTransferArn"
+        }
+    }
+
+    public struct UpdateBillingTransferPreferenceOutput: AWSDecodableShape {
+        /// The updated auto billing group creation preference for the billing transfer.
+        public let autoBillingTransferBillingGroupCreation: AutoTransferBillingGroupCreationPreference
+        /// The most recent time when the preference was modified.
+        public let lastModifiedTime: Int64
+        /// The Amazon Resource Name (ARN) of the billing transfer that the preference applies to.
+        public let responsibilityTransferArn: String
+
+        @inlinable
+        public init(autoBillingTransferBillingGroupCreation: AutoTransferBillingGroupCreationPreference, lastModifiedTime: Int64, responsibilityTransferArn: String) {
+            self.autoBillingTransferBillingGroupCreation = autoBillingTransferBillingGroupCreation
+            self.lastModifiedTime = lastModifiedTime
+            self.responsibilityTransferArn = responsibilityTransferArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoBillingTransferBillingGroupCreation = "AutoBillingTransferBillingGroupCreation"
+            case lastModifiedTime = "LastModifiedTime"
+            case responsibilityTransferArn = "ResponsibilityTransferArn"
         }
     }
 
@@ -3295,6 +3462,7 @@ extension Billingconductor {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\+=\\.\\-@]+$")
+            try self.tiering?.validate(name: "\(name).tiering")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3370,15 +3538,27 @@ extension Billingconductor {
     }
 
     public struct UpdateTieringInput: AWSEncodableShape & AWSDecodableShape {
+        ///  The set of custom tiers for the pricing rule.
+        public let customTiers: [CustomTier]?
         ///  The possible Amazon Web Services Free Tier configurations.
-        public let freeTier: UpdateFreeTierConfig
+        public let freeTier: UpdateFreeTierConfig?
 
         @inlinable
-        public init(freeTier: UpdateFreeTierConfig) {
+        public init(customTiers: [CustomTier]? = nil, freeTier: UpdateFreeTierConfig? = nil) {
+            self.customTiers = customTiers
             self.freeTier = freeTier
         }
 
+        public func validate(name: String) throws {
+            try self.customTiers?.forEach {
+                try $0.validate(name: "\(name).customTiers[]")
+            }
+            try self.validate(self.customTiers, name: "customTiers", parent: name, max: 10)
+            try self.validate(self.customTiers, name: "customTiers", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case customTiers = "CustomTiers"
             case freeTier = "FreeTier"
         }
     }

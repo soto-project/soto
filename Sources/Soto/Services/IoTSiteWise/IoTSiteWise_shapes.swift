@@ -409,6 +409,11 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum MountStorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sharedStorage = "SHARED_STORAGE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Permission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case administrator = "ADMINISTRATOR"
         case viewer = "VIEWER"
@@ -563,6 +568,14 @@ extension IoTSiteWise {
     public enum SearchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deep = "DEEP"
         case quick = "QUICK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case standard1 = "STANDARD_1"
+        case standard2 = "STANDARD_2"
+        case throughput1 = "THROUGHPUT_1"
+        case throughput2 = "THROUGHPUT_2"
         public var description: String { return self.rawValue }
     }
 
@@ -3710,6 +3723,11 @@ extension IoTSiteWise {
         public let endTime: Date?
         /// The fully resolved environment variables used for this compute node execution.
         public let executionEnvironmentVariables: [String: String]?
+        /// The fully resolved mounts used for this compute node execution, after merging
+        /// task-defined mounts with any execution-level mount overrides. Each mount attaches an
+        /// external data source to the container filesystem at a relative path under the
+        /// service-owned mount root.
+        public let executionMounts: [Mount]?
         /// The time the compute node execution started, in Unix epoch time.
         public let startTime: Date?
         /// The current execution status of the compute node.
@@ -3722,11 +3740,12 @@ extension IoTSiteWise {
         public let taskVersion: String
 
         @inlinable
-        public init(computeNodeName: String, dependsOn: [String], endTime: Date? = nil, executionEnvironmentVariables: [String: String]? = nil, startTime: Date? = nil, status: ComputeNodeExecutionStatus, taskArn: String, taskName: String, taskVersion: String) {
+        public init(computeNodeName: String, dependsOn: [String], endTime: Date? = nil, executionEnvironmentVariables: [String: String]? = nil, executionMounts: [Mount]? = nil, startTime: Date? = nil, status: ComputeNodeExecutionStatus, taskArn: String, taskName: String, taskVersion: String) {
             self.computeNodeName = computeNodeName
             self.dependsOn = dependsOn
             self.endTime = endTime
             self.executionEnvironmentVariables = executionEnvironmentVariables
+            self.executionMounts = executionMounts
             self.startTime = startTime
             self.status = status
             self.taskArn = taskArn
@@ -3739,6 +3758,7 @@ extension IoTSiteWise {
             case dependsOn = "dependsOn"
             case endTime = "endTime"
             case executionEnvironmentVariables = "executionEnvironmentVariables"
+            case executionMounts = "executionMounts"
             case startTime = "startTime"
             case status = "status"
             case taskArn = "taskArn"
@@ -3851,6 +3871,13 @@ extension IoTSiteWise {
         public let ecrUri: String
         /// Environment variables passed to the container at runtime.
         public let environmentVariables: [String: String]?
+        /// Ephemeral storage configuration for the container task.
+        public let ephemeralStorageConfiguration: EphemeralStorageConfiguration?
+        /// Mounts attached to the container filesystem. Each mount exposes an external
+        /// data source as a local directory inside the container. The service assigns each mount
+        /// a container path based on the mount name. The container reads files through that path
+        /// as if the data were on the local filesystem.
+        public let mounts: [Mount]?
         /// The processing type for compute resources.
         public let processingType: ProcessingType
         /// The processing unit allocation that determines the vCPU, memory, and GPU resources.
@@ -3861,10 +3888,12 @@ extension IoTSiteWise {
         public let timeoutSeconds: Int64?
 
         @inlinable
-        public init(command: [String]? = nil, ecrUri: String, environmentVariables: [String: String]? = nil, processingType: ProcessingType, processingUnit: ProcessingUnit, taskExecutionRole: String, timeoutSeconds: Int64? = nil) {
+        public init(command: [String]? = nil, ecrUri: String, environmentVariables: [String: String]? = nil, ephemeralStorageConfiguration: EphemeralStorageConfiguration? = nil, mounts: [Mount]? = nil, processingType: ProcessingType, processingUnit: ProcessingUnit, taskExecutionRole: String, timeoutSeconds: Int64? = nil) {
             self.command = command
             self.ecrUri = ecrUri
             self.environmentVariables = environmentVariables
+            self.ephemeralStorageConfiguration = ephemeralStorageConfiguration
+            self.mounts = mounts
             self.processingType = processingType
             self.processingUnit = processingUnit
             self.taskExecutionRole = taskExecutionRole
@@ -3882,6 +3911,11 @@ extension IoTSiteWise {
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1024)
             }
             try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 20)
+            try self.ephemeralStorageConfiguration?.validate(name: "\(name).ephemeralStorageConfiguration")
+            try self.mounts?.forEach {
+                try $0.validate(name: "\(name).mounts[]")
+            }
+            try self.validate(self.mounts, name: "mounts", parent: name, max: 5)
             try self.validate(self.taskExecutionRole, name: "taskExecutionRole", parent: name, max: 2048)
             try self.validate(self.taskExecutionRole, name: "taskExecutionRole", parent: name, min: 20)
             try self.validate(self.taskExecutionRole, name: "taskExecutionRole", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:iam::\\d{12}:role/[\\w+=,.@/-]+$")
@@ -3893,6 +3927,8 @@ extension IoTSiteWise {
             case command = "command"
             case ecrUri = "ecrUri"
             case environmentVariables = "environmentVariables"
+            case ephemeralStorageConfiguration = "ephemeralStorageConfiguration"
+            case mounts = "mounts"
             case processingType = "processingType"
             case processingUnit = "processingUnit"
             case taskExecutionRole = "taskExecutionRole"
@@ -8216,6 +8252,8 @@ extension IoTSiteWise {
         public let pipelineVersion: String
         /// The environment variables provided as input for the pipeline execution.
         public let requestEnvironmentVariables: ExecutionEnvironmentVariables
+        /// The mount overrides provided as input for the pipeline execution. Present when mount overrides were supplied at execution time.
+        public let requestMountOverrides: MountOverrides?
         /// The time the pipeline execution started, in Unix epoch time.
         public let startTime: Date?
         /// The current execution status of the pipeline.
@@ -8224,7 +8262,7 @@ extension IoTSiteWise {
         public let workspaceName: String
 
         @inlinable
-        public init(computeNodeExecutionDetails: [ComputeNodeExecutionDetails], endTime: Date? = nil, executionPriority: Int? = nil, nextToken: String? = nil, pipelineExecutionId: String, pipelineName: String, pipelineVersion: String, requestEnvironmentVariables: ExecutionEnvironmentVariables, startTime: Date? = nil, status: PipelineExecutionStatus, workspaceName: String) {
+        public init(computeNodeExecutionDetails: [ComputeNodeExecutionDetails], endTime: Date? = nil, executionPriority: Int? = nil, nextToken: String? = nil, pipelineExecutionId: String, pipelineName: String, pipelineVersion: String, requestEnvironmentVariables: ExecutionEnvironmentVariables, requestMountOverrides: MountOverrides? = nil, startTime: Date? = nil, status: PipelineExecutionStatus, workspaceName: String) {
             self.computeNodeExecutionDetails = computeNodeExecutionDetails
             self.endTime = endTime
             self.executionPriority = executionPriority
@@ -8233,6 +8271,7 @@ extension IoTSiteWise {
             self.pipelineName = pipelineName
             self.pipelineVersion = pipelineVersion
             self.requestEnvironmentVariables = requestEnvironmentVariables
+            self.requestMountOverrides = requestMountOverrides
             self.startTime = startTime
             self.status = status
             self.workspaceName = workspaceName
@@ -8247,6 +8286,7 @@ extension IoTSiteWise {
             case pipelineName = "pipelineName"
             case pipelineVersion = "pipelineVersion"
             case requestEnvironmentVariables = "requestEnvironmentVariables"
+            case requestMountOverrides = "requestMountOverrides"
             case startTime = "startTime"
             case status = "status"
             case workspaceName = "workspaceName"
@@ -9176,6 +9216,29 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case endTime = "endTime"
             case startTime = "startTime"
+        }
+    }
+
+    public struct EphemeralStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Storage type that determines I/O performance family and level.
+        public let storageClass: StorageClass
+        /// Storage volume size in GiB.
+        public let storageSizeInGiB: Int
+
+        @inlinable
+        public init(storageClass: StorageClass, storageSizeInGiB: Int) {
+            self.storageClass = storageClass
+            self.storageSizeInGiB = storageSizeInGiB
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.storageSizeInGiB, name: "storageSizeInGiB", parent: name, max: 16384)
+            try self.validate(self.storageSizeInGiB, name: "storageSizeInGiB", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageClass = "storageClass"
+            case storageSizeInGiB = "storageSizeInGiB"
         }
     }
 
@@ -13203,6 +13266,66 @@ extension IoTSiteWise {
         }
     }
 
+    public struct Mount: AWSEncodableShape & AWSDecodableShape {
+        /// A unique name for the mount within the task.
+        public let name: String
+        /// The relative path under the service-owned mount root where this mount is attached inside the container.
+        public let relativePath: String
+        /// The data source for the mount.
+        public let source: MountSource
+        /// The type of storage used for the mount.
+        public let storageType: MountStorageType
+
+        @inlinable
+        public init(name: String, relativePath: String, source: MountSource, storageType: MountStorageType) {
+            self.name = name
+            self.relativePath = relativePath
+            self.source = source
+            self.storageType = storageType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.relativePath, name: "relativePath", parent: name, max: 1024)
+            try self.validate(self.relativePath, name: "relativePath", parent: name, min: 1)
+            try self.validate(self.relativePath, name: "relativePath", parent: name, pattern: "^((?!.*(^|/)\\.\\.?(/|$))(?!.*//)[a-zA-Z0-9._-][a-zA-Z0-9._/-]*[a-zA-Z0-9._-]|[a-zA-Z0-9_-])$")
+            try self.source.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case relativePath = "relativePath"
+            case source = "source"
+            case storageType = "storageType"
+        }
+    }
+
+    public struct MountOverrides: AWSEncodableShape & AWSDecodableShape {
+        /// The mount overrides for each compute node, keyed by compute node name.
+        public let computeNodes: [String: [Mount]]
+
+        @inlinable
+        public init(computeNodes: [String: [Mount]]) {
+            self.computeNodes = computeNodes
+        }
+
+        public func validate(name: String) throws {
+            try self.computeNodes.forEach {
+                try validate($0.key, name: "computeNodes.key", parent: name, max: 64)
+                try validate($0.key, name: "computeNodes.key", parent: name, min: 1)
+                try validate($0.key, name: "computeNodes.key", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+                try validate($0.value, name: "computeNodes[\"\($0.key)\"]", parent: name, max: 5)
+            }
+            try self.validate(self.computeNodes, name: "computeNodes", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computeNodes = "computeNodes"
+        }
+    }
+
     public struct Mp4: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -14162,6 +14285,32 @@ extension IoTSiteWise {
         }
     }
 
+    public struct S3AccessPointSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 access point.
+        public let accessPointArn: String
+        /// An optional key prefix to scope the mount to a subset of objects at the access point.
+        public let prefix: String?
+
+        @inlinable
+        public init(accessPointArn: String, prefix: String? = nil) {
+            self.accessPointArn = accessPointArn
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessPointArn, name: "accessPointArn", parent: name, max: 128)
+            try self.validate(self.accessPointArn, name: "accessPointArn", parent: name, min: 4)
+            try self.validate(self.accessPointArn, name: "accessPointArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:s3:[a-z0-9-]*:\\d{12}:accesspoint[/:][a-zA-Z0-9._-]+$")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "accessPointArn"
+            case prefix = "prefix"
+        }
+    }
+
     public struct SearchFilters: AWSEncodableShape {
         /// Restricts the search to these datasets.
         public let datasetIds: [String]?
@@ -14378,6 +14527,11 @@ extension IoTSiteWise {
         /// that apply to all compute nodes and computeNodes for per-node overrides. These take the highest
         /// priority in the environment variable hierarchy.
         public let executionEnvironmentVariableOverrides: ExecutionEnvironmentVariables?
+        /// Runtime mount overrides for the execution. Overrides are merged by mount name into
+        /// each listed compute node's task-defined mounts: a matching name replaces the task-defined
+        /// mount, a new name adds a mount, and task-defined mounts not referenced remain unchanged.
+        /// Compute nodes not listed use their task-defined mounts as-is.
+        public let executionMountOverrides: MountOverrides?
         /// Scheduling priority for the execution. Lower values indicate higher priority. Defaults to 2 when not specified.
         public let executionPriority: Int?
         /// The name of the pipeline to execute.
@@ -14386,9 +14540,10 @@ extension IoTSiteWise {
         public let workspaceName: String
 
         @inlinable
-        public init(clientToken: String? = StartPipelineExecutionRequest.idempotencyToken(), executionEnvironmentVariableOverrides: ExecutionEnvironmentVariables? = nil, executionPriority: Int? = nil, pipelineName: String, workspaceName: String) {
+        public init(clientToken: String? = StartPipelineExecutionRequest.idempotencyToken(), executionEnvironmentVariableOverrides: ExecutionEnvironmentVariables? = nil, executionMountOverrides: MountOverrides? = nil, executionPriority: Int? = nil, pipelineName: String, workspaceName: String) {
             self.clientToken = clientToken
             self.executionEnvironmentVariableOverrides = executionEnvironmentVariableOverrides
+            self.executionMountOverrides = executionMountOverrides
             self.executionPriority = executionPriority
             self.pipelineName = pipelineName
             self.workspaceName = workspaceName
@@ -14399,6 +14554,7 @@ extension IoTSiteWise {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.executionEnvironmentVariableOverrides, forKey: .executionEnvironmentVariableOverrides)
+            try container.encodeIfPresent(self.executionMountOverrides, forKey: .executionMountOverrides)
             try container.encodeIfPresent(self.executionPriority, forKey: .executionPriority)
             request.encodePath(self.pipelineName, key: "pipelineName")
             request.encodePath(self.workspaceName, key: "workspaceName")
@@ -14409,6 +14565,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
             try self.executionEnvironmentVariableOverrides?.validate(name: "\(name).executionEnvironmentVariableOverrides")
+            try self.executionMountOverrides?.validate(name: "\(name).executionMountOverrides")
             try self.validate(self.executionPriority, name: "executionPriority", parent: name, max: 2)
             try self.validate(self.executionPriority, name: "executionPriority", parent: name, min: 0)
             try self.validate(self.pipelineName, name: "pipelineName", parent: name, max: 64)
@@ -14422,6 +14579,7 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case executionEnvironmentVariableOverrides = "executionEnvironmentVariableOverrides"
+            case executionMountOverrides = "executionMountOverrides"
             case executionPriority = "executionPriority"
         }
     }
@@ -16331,6 +16489,24 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case eventDetection = "eventDetection"
+        }
+    }
+
+    public struct MountSource: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for a mount that reads from an Amazon S3 access point.
+        public let s3AccessPoint: S3AccessPointSource?
+
+        @inlinable
+        public init(s3AccessPoint: S3AccessPointSource? = nil) {
+            self.s3AccessPoint = s3AccessPoint
+        }
+
+        public func validate(name: String) throws {
+            try self.s3AccessPoint?.validate(name: "\(name).s3AccessPoint")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3AccessPoint = "s3AccessPoint"
         }
     }
 

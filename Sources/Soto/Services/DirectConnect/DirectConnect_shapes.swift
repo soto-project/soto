@@ -31,6 +31,12 @@ extension DirectConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum AsPathType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case seq = "seq"
+        case set = "set"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BGPPeerState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case deleted = "deleted"
@@ -44,6 +50,21 @@ extension DirectConnect {
         case down = "down"
         case unknown = "unknown"
         case up = "up"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case flatRateTier1 = "FlatRateTier1"
+        case flatRateTier2 = "FlatRateTier2"
+        case flatRateTier3 = "FlatRateTier3"
+        case flatRateTier4 = "FlatRateTier4"
+        case flatRateTier5 = "FlatRateTier5"
+        case payAsYouGo = "PayAsYouGo"
+        case portPairFlatRateTier1 = "PortPairFlatRateTier1"
+        case portPairFlatRateTier2 = "PortPairFlatRateTier2"
+        case portPairFlatRateTier3 = "PortPairFlatRateTier3"
+        case portPairFlatRateTier4 = "PortPairFlatRateTier4"
+        case portPairFlatRateTier5 = "PortPairFlatRateTier5"
         public var description: String { return self.rawValue }
     }
 
@@ -142,6 +163,50 @@ extension DirectConnect {
         case nonPartner = "nonPartner"
         case v1 = "v1"
         case v2 = "v2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequestBillingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case flatRateTier1 = "FlatRateTier1"
+        case flatRateTier2 = "FlatRateTier2"
+        case flatRateTier3 = "FlatRateTier3"
+        case flatRateTier4 = "FlatRateTier4"
+        case flatRateTier5 = "FlatRateTier5"
+        case payAsYouGo = "PayAsYouGo"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResiliencyGroupAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associated = "associated"
+        case associating = "associating"
+        case disassociated = "disassociated"
+        case disassociating = "disassociating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResiliencyGroupState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResiliencyGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case managed = "Managed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResiliencyModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basicResiliency = "basic-resiliency"
+        case highResiliency = "high-resiliency"
+        case maximumResiliency = "maximum-resiliency"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accepted = "accepted"
+        case advertised = "advertised"
         public var description: String { return self.rawValue }
     }
 
@@ -364,6 +429,24 @@ extension DirectConnect {
         }
     }
 
+    public struct AsPathSegment: AWSDecodableShape {
+        /// The autonomous system (AS) numbers in the segment.
+        public let path: [Int64]?
+        /// The type of the AS path segment. The valid values are seq (an ordered AS_SEQUENCE) and set (an unordered AS_SET).
+        public let pathType: AsPathType?
+
+        @inlinable
+        public init(path: [Int64]? = nil, pathType: AsPathType? = nil) {
+            self.path = path
+            self.pathType = pathType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "path"
+            case pathType = "pathType"
+        }
+    }
+
     public struct AssociateConnectionWithLagRequest: AWSEncodableShape {
         /// The ID of the connection.
         public let connectionId: String
@@ -379,6 +462,56 @@ extension DirectConnect {
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
             case lagId = "lagId"
+        }
+    }
+
+    public struct AssociateConnectionsToResiliencyGroupRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The IDs or ARNs of the connections to associate with the resiliency group.
+        public let connectionIdentifiers: [String]
+        /// The ID of the resiliency group.
+        public let resiliencyGroupId: String
+
+        @inlinable
+        public init(clientToken: String? = nil, connectionIdentifiers: [String], resiliencyGroupId: String) {
+            self.clientToken = clientToken
+            self.connectionIdentifiers = connectionIdentifiers
+            self.resiliencyGroupId = resiliencyGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.connectionIdentifiers.forEach {
+                try validate($0, name: "connectionIdentifiers[]", parent: name, max: 1024)
+                try validate($0, name: "connectionIdentifiers[]", parent: name, min: 1)
+            }
+            try self.validate(self.connectionIdentifiers, name: "connectionIdentifiers", parent: name, max: 50)
+            try self.validate(self.connectionIdentifiers, name: "connectionIdentifiers", parent: name, min: 1)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, max: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, min: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, pattern: "^(dxrg|DXRG)-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case connectionIdentifiers = "connectionIdentifiers"
+            case resiliencyGroupId = "resiliencyGroupId"
+        }
+    }
+
+    public struct AssociateConnectionsToResiliencyGroupResult: AWSDecodableShape {
+        /// The connection associations for the resiliency group.
+        public let resiliencyGroupAssociations: [ResiliencyGroupAssociation]?
+
+        @inlinable
+        public init(resiliencyGroupAssociations: [ResiliencyGroupAssociation]? = nil) {
+            self.resiliencyGroupAssociations = resiliencyGroupAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resiliencyGroupAssociations = "resiliencyGroupAssociations"
         }
     }
 
@@ -507,6 +640,28 @@ extension DirectConnect {
             case ownerAccount = "ownerAccount"
             case region = "region"
             case type = "type"
+        }
+    }
+
+    public struct AvailableBillingMode: AWSDecodableShape {
+        /// The port speeds available for the billing mode.
+        public let availablePortSpeeds: [String]?
+        /// The billing mode.
+        public let billingMode: BillingMode?
+        /// The Amazon Web Services Regions included with the billing mode.
+        public let includedRegions: [String]?
+
+        @inlinable
+        public init(availablePortSpeeds: [String]? = nil, billingMode: BillingMode? = nil, includedRegions: [String]? = nil) {
+            self.availablePortSpeeds = availablePortSpeeds
+            self.billingMode = billingMode
+            self.includedRegions = includedRegions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availablePortSpeeds = "availablePortSpeeds"
+            case billingMode = "billingMode"
+            case includedRegions = "includedRegions"
         }
     }
 
@@ -732,6 +887,8 @@ extension DirectConnect {
         public let awsLogicalDeviceId: String?
         /// The bandwidth of the connection.
         public let bandwidth: String?
+        /// The billing mode of the connection.
+        public let billingMode: BillingMode?
         /// The ID of the connection.
         public let connectionId: String?
         /// The name of the connection.
@@ -762,6 +919,14 @@ extension DirectConnect {
         public let partnerName: String?
         /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
         public let portEncryptionStatus: String?
+        /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+        public let prefixPoolSizeIpv4: Int?
+        /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the connection. Not applicable to hosted connections or interconnects.
+        public let prefixPoolSizeIpv6: Int?
+        /// The number of inbound IPv4 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+        public let prefixPoolUnallocatedCountIpv4: Int?
+        /// The number of inbound IPv6 route prefixes in the connection prefix pool not yet allocated to a virtual interface. Not applicable to hosted connections or interconnects.
+        public let prefixPoolUnallocatedCountIpv6: Int?
         /// The name of the service provider associated with the connection.
         public let providerName: String?
         /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
@@ -774,11 +939,12 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, ownerAccount: String? = nil, partnerInterconnectMacSecCapable: Bool? = nil, partnerName: String? = nil, portEncryptionStatus: String? = nil, providerName: String? = nil, rateLimiterStatus: RateLimiterStatus? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bandwidth: String? = nil, billingMode: BillingMode? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, ownerAccount: String? = nil, partnerInterconnectMacSecCapable: Bool? = nil, partnerName: String? = nil, portEncryptionStatus: String? = nil, prefixPoolSizeIpv4: Int? = nil, prefixPoolSizeIpv6: Int? = nil, prefixPoolUnallocatedCountIpv4: Int? = nil, prefixPoolUnallocatedCountIpv6: Int? = nil, providerName: String? = nil, rateLimiterStatus: RateLimiterStatus? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
             self.bandwidth = bandwidth
+            self.billingMode = billingMode
             self.connectionId = connectionId
             self.connectionName = connectionName
             self.connectionState = connectionState
@@ -794,6 +960,10 @@ extension DirectConnect {
             self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
             self.partnerName = partnerName
             self.portEncryptionStatus = portEncryptionStatus
+            self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+            self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+            self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+            self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
             self.providerName = providerName
             self.rateLimiterStatus = rateLimiterStatus
             self.region = region
@@ -806,6 +976,7 @@ extension DirectConnect {
             case awsDeviceV2 = "awsDeviceV2"
             case awsLogicalDeviceId = "awsLogicalDeviceId"
             case bandwidth = "bandwidth"
+            case billingMode = "billingMode"
             case connectionId = "connectionId"
             case connectionName = "connectionName"
             case connectionState = "connectionState"
@@ -821,6 +992,10 @@ extension DirectConnect {
             case partnerInterconnectMacSecCapable = "partnerInterconnectMacSecCapable"
             case partnerName = "partnerName"
             case portEncryptionStatus = "portEncryptionStatus"
+            case prefixPoolSizeIpv4 = "prefixPoolSizeIpv4"
+            case prefixPoolSizeIpv6 = "prefixPoolSizeIpv6"
+            case prefixPoolUnallocatedCountIpv4 = "prefixPoolUnallocatedCountIpv4"
+            case prefixPoolUnallocatedCountIpv6 = "prefixPoolUnallocatedCountIpv6"
             case providerName = "providerName"
             case rateLimiterStatus = "rateLimiterStatus"
             case region = "region"
@@ -882,6 +1057,8 @@ extension DirectConnect {
     public struct CreateConnectionRequest: AWSEncodableShape {
         /// The bandwidth of the connection.
         public let bandwidth: String
+        /// The billing mode for the connection.
+        public let billingMode: RequestBillingMode?
         /// The name of the connection.
         public let connectionName: String
         /// The ID of the LAG.
@@ -896,8 +1073,9 @@ extension DirectConnect {
         public let tags: [Tag]?
 
         @inlinable
-        public init(bandwidth: String, connectionName: String, lagId: String? = nil, location: String, providerName: String? = nil, requestMACSec: Bool? = nil, tags: [Tag]? = nil) {
+        public init(bandwidth: String, billingMode: RequestBillingMode? = nil, connectionName: String, lagId: String? = nil, location: String, providerName: String? = nil, requestMACSec: Bool? = nil, tags: [Tag]? = nil) {
             self.bandwidth = bandwidth
+            self.billingMode = billingMode
             self.connectionName = connectionName
             self.lagId = lagId
             self.location = location
@@ -915,6 +1093,7 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "bandwidth"
+            case billingMode = "billingMode"
             case connectionName = "connectionName"
             case lagId = "lagId"
             case location = "location"
@@ -1097,6 +1276,8 @@ extension DirectConnect {
     }
 
     public struct CreateLagRequest: AWSEncodableShape {
+        /// The billing mode for the LAG.
+        public let billingMode: RequestBillingMode?
         /// The tags to associate with the automtically created LAGs.
         public let childConnectionTags: [Tag]?
         /// The ID of an existing dedicated connection to migrate to the LAG.
@@ -1117,7 +1298,8 @@ extension DirectConnect {
         public let tags: [Tag]?
 
         @inlinable
-        public init(childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int = 0, providerName: String? = nil, requestMACSec: Bool? = nil, tags: [Tag]? = nil) {
+        public init(billingMode: RequestBillingMode? = nil, childConnectionTags: [Tag]? = nil, connectionId: String? = nil, connectionsBandwidth: String, lagName: String, location: String, numberOfConnections: Int = 0, providerName: String? = nil, requestMACSec: Bool? = nil, tags: [Tag]? = nil) {
+            self.billingMode = billingMode
             self.childConnectionTags = childConnectionTags
             self.connectionId = connectionId
             self.connectionsBandwidth = connectionsBandwidth
@@ -1141,6 +1323,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingMode = "billingMode"
             case childConnectionTags = "childConnectionTags"
             case connectionId = "connectionId"
             case connectionsBandwidth = "connectionsBandwidth"
@@ -1194,6 +1377,58 @@ extension DirectConnect {
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
             case newPublicVirtualInterface = "newPublicVirtualInterface"
+        }
+    }
+
+    public struct CreateResiliencyGroupRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The resiliency model that the resiliency group is intended to meet. The valid values are maximum-resiliency, high-resiliency, and basic-resiliency.
+        public let intendedResiliencyModel: ResiliencyModel
+        /// The name of the resiliency group.
+        public let resiliencyGroupName: String
+        /// The tags to associate with the resiliency group.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientToken: String? = nil, intendedResiliencyModel: ResiliencyModel, resiliencyGroupName: String, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.intendedResiliencyModel = intendedResiliencyModel
+            self.resiliencyGroupName = resiliencyGroupName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.resiliencyGroupName, name: "resiliencyGroupName", parent: name, max: 255)
+            try self.validate(self.resiliencyGroupName, name: "resiliencyGroupName", parent: name, min: 1)
+            try self.validate(self.resiliencyGroupName, name: "resiliencyGroupName", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case intendedResiliencyModel = "intendedResiliencyModel"
+            case resiliencyGroupName = "resiliencyGroupName"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateResiliencyGroupResult: AWSDecodableShape {
+        /// Information about the resiliency group.
+        public let resiliencyGroup: ResiliencyGroup?
+
+        @inlinable
+        public init(resiliencyGroup: ResiliencyGroup? = nil) {
+            self.resiliencyGroup = resiliencyGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resiliencyGroup = "resiliencyGroup"
         }
     }
 
@@ -1442,6 +1677,40 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case lagId = "lagId"
+        }
+    }
+
+    public struct DeleteResiliencyGroupRequest: AWSEncodableShape {
+        /// The ID of the resiliency group.
+        public let resiliencyGroupId: String
+
+        @inlinable
+        public init(resiliencyGroupId: String) {
+            self.resiliencyGroupId = resiliencyGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, max: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, min: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, pattern: "^(dxrg|DXRG)-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resiliencyGroupId = "resiliencyGroupId"
+        }
+    }
+
+    public struct DeleteResiliencyGroupResult: AWSDecodableShape {
+        /// Information about the resiliency group.
+        public let resiliencyGroup: ResiliencyGroup?
+
+        @inlinable
+        public init(resiliencyGroup: ResiliencyGroup? = nil) {
+            self.resiliencyGroup = resiliencyGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resiliencyGroup = "resiliencyGroup"
         }
     }
 
@@ -1993,9 +2262,11 @@ extension DirectConnect {
         public let stateChangeError: String?
         /// Information about a tag.
         public let tags: [Tag]?
+        /// The total number of inbound route prefixes allocated to the attachments on the Direct Connect gateway. The count combines the IPv4 and IPv6 address families.
+        public let totalPrefixPoolAllocations: Int?
 
         @inlinable
-        public init(amazonSideAsn: Int64? = nil, directConnectGatewayId: String? = nil, directConnectGatewayName: String? = nil, directConnectGatewayState: DirectConnectGatewayState? = nil, ownerAccount: String? = nil, stateChangeError: String? = nil, tags: [Tag]? = nil) {
+        public init(amazonSideAsn: Int64? = nil, directConnectGatewayId: String? = nil, directConnectGatewayName: String? = nil, directConnectGatewayState: DirectConnectGatewayState? = nil, ownerAccount: String? = nil, stateChangeError: String? = nil, tags: [Tag]? = nil, totalPrefixPoolAllocations: Int? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.directConnectGatewayId = directConnectGatewayId
             self.directConnectGatewayName = directConnectGatewayName
@@ -2003,6 +2274,7 @@ extension DirectConnect {
             self.ownerAccount = ownerAccount
             self.stateChangeError = stateChangeError
             self.tags = tags
+            self.totalPrefixPoolAllocations = totalPrefixPoolAllocations
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2013,6 +2285,7 @@ extension DirectConnect {
             case ownerAccount = "ownerAccount"
             case stateChangeError = "stateChangeError"
             case tags = "tags"
+            case totalPrefixPoolAllocations = "totalPrefixPoolAllocations"
         }
     }
 
@@ -2164,6 +2437,56 @@ extension DirectConnect {
         }
     }
 
+    public struct DisassociateConnectionsFromResiliencyGroupRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The IDs or ARNs of the connections to disassociate from the resiliency group.
+        public let connectionIdentifiers: [String]
+        /// The ID of the resiliency group.
+        public let resiliencyGroupId: String
+
+        @inlinable
+        public init(clientToken: String? = nil, connectionIdentifiers: [String], resiliencyGroupId: String) {
+            self.clientToken = clientToken
+            self.connectionIdentifiers = connectionIdentifiers
+            self.resiliencyGroupId = resiliencyGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.connectionIdentifiers.forEach {
+                try validate($0, name: "connectionIdentifiers[]", parent: name, max: 1024)
+                try validate($0, name: "connectionIdentifiers[]", parent: name, min: 1)
+            }
+            try self.validate(self.connectionIdentifiers, name: "connectionIdentifiers", parent: name, max: 50)
+            try self.validate(self.connectionIdentifiers, name: "connectionIdentifiers", parent: name, min: 1)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, max: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, min: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, pattern: "^(dxrg|DXRG)-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case connectionIdentifiers = "connectionIdentifiers"
+            case resiliencyGroupId = "resiliencyGroupId"
+        }
+    }
+
+    public struct DisassociateConnectionsFromResiliencyGroupResult: AWSDecodableShape {
+        /// The connection associations for the resiliency group.
+        public let resiliencyGroupAssociations: [ResiliencyGroupAssociation]?
+
+        @inlinable
+        public init(resiliencyGroupAssociations: [ResiliencyGroupAssociation]? = nil) {
+            self.resiliencyGroupAssociations = resiliencyGroupAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resiliencyGroupAssociations = "resiliencyGroupAssociations"
+        }
+    }
+
     public struct DisassociateMacSecKeyRequest: AWSEncodableShape {
         /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use DescribeConnections, DescribeInterconnects, or DescribeLags to retrieve connection ID.
         public let connectionId: String
@@ -2197,6 +2520,40 @@ extension DirectConnect {
         private enum CodingKeys: String, CodingKey {
             case connectionId = "connectionId"
             case macSecKeys = "macSecKeys"
+        }
+    }
+
+    public struct GetResiliencyGroupRequest: AWSEncodableShape {
+        /// The ID of the resiliency group.
+        public let resiliencyGroupId: String
+
+        @inlinable
+        public init(resiliencyGroupId: String) {
+            self.resiliencyGroupId = resiliencyGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, max: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, min: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, pattern: "^(dxrg|DXRG)-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resiliencyGroupId = "resiliencyGroupId"
+        }
+    }
+
+    public struct GetResiliencyGroupResult: AWSDecodableShape {
+        /// Information about the resiliency group.
+        public let resiliencyGroup: ResiliencyGroup?
+
+        @inlinable
+        public init(resiliencyGroup: ResiliencyGroup? = nil) {
+            self.resiliencyGroup = resiliencyGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resiliencyGroup = "resiliencyGroup"
         }
     }
 
@@ -2313,6 +2670,8 @@ extension DirectConnect {
         public let awsDeviceV2: String?
         /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
         public let awsLogicalDeviceId: String?
+        /// The billing mode of the LAG.
+        public let billingMode: BillingMode?
         /// The connections bundled by the LAG.
         public let connections: [Connection]?
         /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps, 10Gbps, 100Gbps, or 400 Gbps..
@@ -2341,6 +2700,14 @@ extension DirectConnect {
         public let numberOfConnections: Int?
         /// The ID of the Amazon Web Services account that owns the LAG.
         public let ownerAccount: String?
+        /// The total number of inbound IPv4 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.
+        public let prefixPoolSizeIpv4: Int?
+        /// The total number of inbound IPv6 route prefixes you can allocate across the virtual interfaces on the LAG. Not applicable to LAGs that are interconnects and support hosted connections.
+        public let prefixPoolSizeIpv6: Int?
+        /// The number of inbound IPv4 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.
+        public let prefixPoolUnallocatedCountIpv4: Int?
+        /// The number of inbound IPv6 route prefixes in the LAG prefix pool not yet allocated to a virtual interface. Not applicable to LAGs that are interconnects and support hosted connections.
+        public let prefixPoolUnallocatedCountIpv6: Int?
         /// The name of the service provider associated with the LAG.
         public let providerName: String?
         /// The rate limiter status for the LAG, including how many rate limiters are in use and the maximum allowed.
@@ -2351,11 +2718,12 @@ extension DirectConnect {
         public let tags: [Tag]?
 
         @inlinable
-        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, providerName: String? = nil, rateLimiterStatus: RateLimiterStatus? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, billingMode: BillingMode? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, prefixPoolSizeIpv4: Int? = nil, prefixPoolSizeIpv6: Int? = nil, prefixPoolUnallocatedCountIpv4: Int? = nil, prefixPoolUnallocatedCountIpv6: Int? = nil, providerName: String? = nil, rateLimiterStatus: RateLimiterStatus? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.allowsHostedConnections = allowsHostedConnections
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
+            self.billingMode = billingMode
             self.connections = connections
             self.connectionsBandwidth = connectionsBandwidth
             self.encryptionMode = encryptionMode
@@ -2370,6 +2738,10 @@ extension DirectConnect {
             self.minimumLinks = minimumLinks
             self.numberOfConnections = numberOfConnections
             self.ownerAccount = ownerAccount
+            self.prefixPoolSizeIpv4 = prefixPoolSizeIpv4
+            self.prefixPoolSizeIpv6 = prefixPoolSizeIpv6
+            self.prefixPoolUnallocatedCountIpv4 = prefixPoolUnallocatedCountIpv4
+            self.prefixPoolUnallocatedCountIpv6 = prefixPoolUnallocatedCountIpv6
             self.providerName = providerName
             self.rateLimiterStatus = rateLimiterStatus
             self.region = region
@@ -2381,6 +2753,7 @@ extension DirectConnect {
             case awsDevice = "awsDevice"
             case awsDeviceV2 = "awsDeviceV2"
             case awsLogicalDeviceId = "awsLogicalDeviceId"
+            case billingMode = "billingMode"
             case connections = "connections"
             case connectionsBandwidth = "connectionsBandwidth"
             case encryptionMode = "encryptionMode"
@@ -2395,6 +2768,10 @@ extension DirectConnect {
             case minimumLinks = "minimumLinks"
             case numberOfConnections = "numberOfConnections"
             case ownerAccount = "ownerAccount"
+            case prefixPoolSizeIpv4 = "prefixPoolSizeIpv4"
+            case prefixPoolSizeIpv6 = "prefixPoolSizeIpv6"
+            case prefixPoolUnallocatedCountIpv4 = "prefixPoolUnallocatedCountIpv4"
+            case prefixPoolUnallocatedCountIpv6 = "prefixPoolUnallocatedCountIpv6"
             case providerName = "providerName"
             case rateLimiterStatus = "rateLimiterStatus"
             case region = "region"
@@ -2417,6 +2794,143 @@ extension DirectConnect {
         private enum CodingKeys: String, CodingKey {
             case lags = "lags"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListResiliencyGroupAssociationsRequest: AWSEncodableShape {
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the resiliency group.
+        public let resiliencyGroupId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resiliencyGroupId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resiliencyGroupId = resiliencyGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, max: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, min: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, pattern: "^(dxrg|DXRG)-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resiliencyGroupId = "resiliencyGroupId"
+        }
+    }
+
+    public struct ListResiliencyGroupAssociationsResult: AWSDecodableShape {
+        /// The connection associations for the resiliency group.
+        public let items: [ResiliencyGroupAssociation]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ResiliencyGroupAssociation]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListResiliencyGroupsRequest: AWSEncodableShape {
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListResiliencyGroupsResult: AWSDecodableShape {
+        /// Summary information about the resiliency groups.
+        public let items: [ResiliencyGroupSummary]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ResiliencyGroupSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListVirtualInterfaceRoutesRequest: AWSEncodableShape {
+        /// The filters to apply to the routes returned.
+        public let filters: RouteFilters?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String?
+
+        @inlinable
+        public init(filters: RouteFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, virtualInterfaceId: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case virtualInterfaceId = "virtualInterfaceId"
+        }
+    }
+
+    public struct ListVirtualInterfaceRoutesResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The routes for the virtual interface.
+        public let routes: [Route]?
+        /// The ID of the virtual interface.
+        public let virtualInterfaceId: String?
+
+        @inlinable
+        public init(nextToken: String? = nil, routes: [Route]? = nil, virtualInterfaceId: String? = nil) {
+            self.nextToken = nextToken
+            self.routes = routes
+            self.virtualInterfaceId = virtualInterfaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case routes = "routes"
+            case virtualInterfaceId = "virtualInterfaceId"
         }
     }
 
@@ -2492,6 +3006,8 @@ extension DirectConnect {
     }
 
     public struct Location: AWSDecodableShape {
+        /// The billing modes available at the location, including the port speeds and Amazon Web Services Regions supported by each mode.
+        public let availableBillingModes: [AvailableBillingMode]?
         /// The available MAC Security (MACsec) port speeds for the location.
         public let availableMacSecPortSpeeds: [String]?
         /// The available port speeds for the location.
@@ -2506,7 +3022,8 @@ extension DirectConnect {
         public let region: String?
 
         @inlinable
-        public init(availableMacSecPortSpeeds: [String]? = nil, availablePortSpeeds: [String]? = nil, availableProviders: [String]? = nil, locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
+        public init(availableBillingModes: [AvailableBillingMode]? = nil, availableMacSecPortSpeeds: [String]? = nil, availablePortSpeeds: [String]? = nil, availableProviders: [String]? = nil, locationCode: String? = nil, locationName: String? = nil, region: String? = nil) {
+            self.availableBillingModes = availableBillingModes
             self.availableMacSecPortSpeeds = availableMacSecPortSpeeds
             self.availablePortSpeeds = availablePortSpeeds
             self.availableProviders = availableProviders
@@ -2516,6 +3033,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availableBillingModes = "availableBillingModes"
             case availableMacSecPortSpeeds = "availableMacSecPortSpeeds"
             case availablePortSpeeds = "availablePortSpeeds"
             case availableProviders = "availableProviders"
@@ -2620,6 +3138,10 @@ extension DirectConnect {
         public let enableSiteLink: Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public let mtu: Int?
+        /// The number of inbound IPv4 route prefixes to allocate to the virtual interface.
+        public let prefixPoolAllocatedCountIpv4: Int?
+        /// The number of inbound IPv6 route prefixes to allocate to the virtual interface.
+        public let prefixPoolAllocatedCountIpv6: Int?
         /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
         public let rateLimit: String?
         /// The tags associated with the private virtual interface.
@@ -2632,7 +3154,7 @@ extension DirectConnect {
         public let vlan: Int
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, rateLimit: String? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int = 0) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, prefixPoolAllocatedCountIpv4: Int? = nil, prefixPoolAllocatedCountIpv6: Int? = nil, rateLimit: String? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2642,6 +3164,8 @@ extension DirectConnect {
             self.directConnectGatewayId = directConnectGatewayId
             self.enableSiteLink = enableSiteLink
             self.mtu = mtu
+            self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+            self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
             self.rateLimit = rateLimit
             self.tags = tags
             self.virtualGatewayId = virtualGatewayId
@@ -2650,6 +3174,8 @@ extension DirectConnect {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.prefixPoolAllocatedCountIpv4, name: "prefixPoolAllocatedCountIpv4", parent: name, min: 0)
+            try self.validate(self.prefixPoolAllocatedCountIpv6, name: "prefixPoolAllocatedCountIpv6", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2666,6 +3192,8 @@ extension DirectConnect {
             case directConnectGatewayId = "directConnectGatewayId"
             case enableSiteLink = "enableSiteLink"
             case mtu = "mtu"
+            case prefixPoolAllocatedCountIpv4 = "prefixPoolAllocatedCountIpv4"
+            case prefixPoolAllocatedCountIpv6 = "prefixPoolAllocatedCountIpv6"
             case rateLimit = "rateLimit"
             case tags = "tags"
             case virtualGatewayId = "virtualGatewayId"
@@ -2884,6 +3412,10 @@ extension DirectConnect {
         public let enableSiteLink: Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public let mtu: Int?
+        /// The number of inbound IPv4 route prefixes to allocate to the virtual interface.
+        public let prefixPoolAllocatedCountIpv4: Int?
+        /// The number of inbound IPv6 route prefixes to allocate to the virtual interface.
+        public let prefixPoolAllocatedCountIpv6: Int?
         /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
         public let rateLimit: String?
         /// The tags associated with the transitive virtual interface.
@@ -2894,7 +3426,7 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, rateLimit: String? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, prefixPoolAllocatedCountIpv4: Int? = nil, prefixPoolAllocatedCountIpv6: Int? = nil, rateLimit: String? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2904,6 +3436,8 @@ extension DirectConnect {
             self.directConnectGatewayId = directConnectGatewayId
             self.enableSiteLink = enableSiteLink
             self.mtu = mtu
+            self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+            self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
             self.rateLimit = rateLimit
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
@@ -2911,6 +3445,8 @@ extension DirectConnect {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.prefixPoolAllocatedCountIpv4, name: "prefixPoolAllocatedCountIpv4", parent: name, min: 0)
+            try self.validate(self.prefixPoolAllocatedCountIpv6, name: "prefixPoolAllocatedCountIpv6", parent: name, min: 0)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2927,6 +3463,8 @@ extension DirectConnect {
             case directConnectGatewayId = "directConnectGatewayId"
             case enableSiteLink = "enableSiteLink"
             case mtu = "mtu"
+            case prefixPoolAllocatedCountIpv4 = "prefixPoolAllocatedCountIpv4"
+            case prefixPoolAllocatedCountIpv6 = "prefixPoolAllocatedCountIpv6"
             case rateLimit = "rateLimit"
             case tags = "tags"
             case virtualInterfaceName = "virtualInterfaceName"
@@ -3023,6 +3561,100 @@ extension DirectConnect {
         }
     }
 
+    public struct ResiliencyGroup: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account that owns the resiliency group.
+        public let ownerAccount: String?
+        /// The Amazon Resource Name (ARN) of the resiliency group.
+        public let resiliencyGroupArn: String?
+        /// The ID of the resiliency group.
+        public let resiliencyGroupId: String?
+        /// The name of the resiliency group.
+        public let resiliencyGroupName: String?
+        /// The type of the resiliency group. The valid value is Managed.
+        public let resiliencyGroupType: ResiliencyGroupType?
+        /// The state of the resiliency group. The valid values are pending, available, deleting, and deleted.
+        public let state: ResiliencyGroupState?
+        /// The tags associated with the resiliency group.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(ownerAccount: String? = nil, resiliencyGroupArn: String? = nil, resiliencyGroupId: String? = nil, resiliencyGroupName: String? = nil, resiliencyGroupType: ResiliencyGroupType? = nil, state: ResiliencyGroupState? = nil, tags: [Tag]? = nil) {
+            self.ownerAccount = ownerAccount
+            self.resiliencyGroupArn = resiliencyGroupArn
+            self.resiliencyGroupId = resiliencyGroupId
+            self.resiliencyGroupName = resiliencyGroupName
+            self.resiliencyGroupType = resiliencyGroupType
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ownerAccount = "ownerAccount"
+            case resiliencyGroupArn = "resiliencyGroupArn"
+            case resiliencyGroupId = "resiliencyGroupId"
+            case resiliencyGroupName = "resiliencyGroupName"
+            case resiliencyGroupType = "resiliencyGroupType"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
+    public struct ResiliencyGroupAssociation: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the associated connection.
+        public let connectionArn: String?
+        /// The ID of the resiliency group.
+        public let resiliencyGroupId: String?
+        /// The state of the association. The valid values are associating, associated, disassociating, and disassociated.
+        public let state: ResiliencyGroupAssociationState?
+
+        @inlinable
+        public init(connectionArn: String? = nil, resiliencyGroupId: String? = nil, state: ResiliencyGroupAssociationState? = nil) {
+            self.connectionArn = connectionArn
+            self.resiliencyGroupId = resiliencyGroupId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn = "connectionArn"
+            case resiliencyGroupId = "resiliencyGroupId"
+            case state = "state"
+        }
+    }
+
+    public struct ResiliencyGroupSummary: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account that owns the resiliency group.
+        public let ownerAccount: String?
+        /// The Amazon Resource Name (ARN) of the resiliency group.
+        public let resiliencyGroupArn: String?
+        /// The ID of the resiliency group.
+        public let resiliencyGroupId: String?
+        /// The name of the resiliency group.
+        public let resiliencyGroupName: String?
+        /// The type of the resiliency group. The valid value is Managed.
+        public let resiliencyGroupType: ResiliencyGroupType?
+        /// The state of the resiliency group.
+        public let state: ResiliencyGroupState?
+
+        @inlinable
+        public init(ownerAccount: String? = nil, resiliencyGroupArn: String? = nil, resiliencyGroupId: String? = nil, resiliencyGroupName: String? = nil, resiliencyGroupType: ResiliencyGroupType? = nil, state: ResiliencyGroupState? = nil) {
+            self.ownerAccount = ownerAccount
+            self.resiliencyGroupArn = resiliencyGroupArn
+            self.resiliencyGroupId = resiliencyGroupId
+            self.resiliencyGroupName = resiliencyGroupName
+            self.resiliencyGroupType = resiliencyGroupType
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ownerAccount = "ownerAccount"
+            case resiliencyGroupArn = "resiliencyGroupArn"
+            case resiliencyGroupId = "resiliencyGroupId"
+            case resiliencyGroupName = "resiliencyGroupName"
+            case resiliencyGroupType = "resiliencyGroupType"
+            case state = "state"
+        }
+    }
+
     public struct ResourceTag: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
@@ -3041,6 +3673,44 @@ extension DirectConnect {
         }
     }
 
+    public struct Route: AWSDecodableShape {
+        /// The address family of the route. The valid values are ipv4 and ipv6.
+        public let addressFamily: AddressFamily?
+        /// The autonomous system (AS) path of the route.
+        public let asPath: [AsPathSegment]?
+        /// The Direct Connect endpoint that terminates the logical connection. This device might be different than the device that terminates the physical connection.
+        public let awsLogicalDeviceId: String?
+        /// The CIDR (prefix) of the route.
+        public let cidr: String?
+        /// The BGP communities associated with the route.
+        public let communities: [String]?
+        /// The direction of the route. The valid values are accepted (received from the customer network) and advertised (advertised to the customer network).
+        public let routeDirection: RouteDirection?
+        /// The time when the route was installed. The value is displayed in UTC format.
+        public let routeInstalledAt: Date?
+
+        @inlinable
+        public init(addressFamily: AddressFamily? = nil, asPath: [AsPathSegment]? = nil, awsLogicalDeviceId: String? = nil, cidr: String? = nil, communities: [String]? = nil, routeDirection: RouteDirection? = nil, routeInstalledAt: Date? = nil) {
+            self.addressFamily = addressFamily
+            self.asPath = asPath
+            self.awsLogicalDeviceId = awsLogicalDeviceId
+            self.cidr = cidr
+            self.communities = communities
+            self.routeDirection = routeDirection
+            self.routeInstalledAt = routeInstalledAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressFamily = "addressFamily"
+            case asPath = "asPath"
+            case awsLogicalDeviceId = "awsLogicalDeviceId"
+            case cidr = "cidr"
+            case communities = "communities"
+            case routeDirection = "routeDirection"
+            case routeInstalledAt = "routeInstalledAt"
+        }
+    }
+
     public struct RouteFilterPrefix: AWSEncodableShape & AWSDecodableShape {
         /// The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter.
         public let cidr: String?
@@ -3052,6 +3722,41 @@ extension DirectConnect {
 
         private enum CodingKeys: String, CodingKey {
             case cidr = "cidr"
+        }
+    }
+
+    public struct RouteFilters: AWSEncodableShape {
+        /// The address family of the routes to return. The valid values are ipv4 and ipv6.
+        public let addressFamily: AddressFamily?
+        /// The autonomous system (AS) numbers used to filter the routes by their AS path.
+        public let asPath: [Int64]?
+        /// The CIDRs (prefixes) used to filter the routes. You can specify up to 10 CIDRs.
+        public let cidrs: [String]?
+        /// The BGP communities used to filter the routes.
+        public let communities: [String]?
+        /// The direction of the routes to return. The valid values are accepted (routes received from the customer network) and advertised (routes advertised to the customer network).
+        public let routeDirection: RouteDirection?
+
+        @inlinable
+        public init(addressFamily: AddressFamily? = nil, asPath: [Int64]? = nil, cidrs: [String]? = nil, communities: [String]? = nil, routeDirection: RouteDirection? = nil) {
+            self.addressFamily = addressFamily
+            self.asPath = asPath
+            self.cidrs = cidrs
+            self.communities = communities
+            self.routeDirection = routeDirection
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cidrs, name: "cidrs", parent: name, max: 10)
+            try self.validate(self.cidrs, name: "cidrs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressFamily = "addressFamily"
+            case asPath = "asPath"
+            case cidrs = "cidrs"
+            case communities = "communities"
+            case routeDirection = "routeDirection"
         }
     }
 
@@ -3260,6 +3965,47 @@ extension DirectConnect {
         }
     }
 
+    public struct UpdateConnectionsBillingModeRequest: AWSEncodableShape {
+        /// The billing mode to apply to the specified connections. The valid values are PayAsYouGo, FlatRateTier1, FlatRateTier2, FlatRateTier3, FlatRateTier4, and FlatRateTier5.
+        public let billingMode: RequestBillingMode
+        /// The IDs of the connections to update. You can specify from 1 to 200 connections.
+        public let connectionIds: [String]
+
+        @inlinable
+        public init(billingMode: RequestBillingMode, connectionIds: [String]) {
+            self.billingMode = billingMode
+            self.connectionIds = connectionIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionIds, name: "connectionIds", parent: name, max: 200)
+            try self.validate(self.connectionIds, name: "connectionIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingMode = "billingMode"
+            case connectionIds = "connectionIds"
+        }
+    }
+
+    public struct UpdateConnectionsBillingModeResponse: AWSDecodableShape {
+        /// The billing mode applied to the connections.
+        public let billingMode: BillingMode?
+        /// The connections with the updated billing mode.
+        public let connections: [Connection]?
+
+        @inlinable
+        public init(billingMode: BillingMode? = nil, connections: [Connection]? = nil) {
+            self.billingMode = billingMode
+            self.connections = connections
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingMode = "billingMode"
+            case connections = "connections"
+        }
+    }
+
     public struct UpdateDirectConnectGatewayAssociationRequest: AWSEncodableShape {
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
@@ -3354,11 +4100,62 @@ extension DirectConnect {
         }
     }
 
+    public struct UpdateResiliencyGroupRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID of the resiliency group.
+        public let resiliencyGroupId: String
+        /// The new name of the resiliency group.
+        public let resiliencyGroupName: String
+
+        @inlinable
+        public init(clientToken: String? = nil, resiliencyGroupId: String, resiliencyGroupName: String) {
+            self.clientToken = clientToken
+            self.resiliencyGroupId = resiliencyGroupId
+            self.resiliencyGroupName = resiliencyGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, max: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, min: 22)
+            try self.validate(self.resiliencyGroupId, name: "resiliencyGroupId", parent: name, pattern: "^(dxrg|DXRG)-[0-9a-zA-Z]{17}$")
+            try self.validate(self.resiliencyGroupName, name: "resiliencyGroupName", parent: name, max: 255)
+            try self.validate(self.resiliencyGroupName, name: "resiliencyGroupName", parent: name, min: 1)
+            try self.validate(self.resiliencyGroupName, name: "resiliencyGroupName", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case resiliencyGroupId = "resiliencyGroupId"
+            case resiliencyGroupName = "resiliencyGroupName"
+        }
+    }
+
+    public struct UpdateResiliencyGroupResult: AWSDecodableShape {
+        /// Information about the resiliency group.
+        public let resiliencyGroup: ResiliencyGroup?
+
+        @inlinable
+        public init(resiliencyGroup: ResiliencyGroup? = nil) {
+            self.resiliencyGroup = resiliencyGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resiliencyGroup = "resiliencyGroup"
+        }
+    }
+
     public struct UpdateVirtualInterfaceAttributesRequest: AWSEncodableShape {
         /// Indicates whether to enable or disable SiteLink.
         public let enableSiteLink: Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public let mtu: Int?
+        /// The number of inbound IPv4 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.
+        public let prefixPoolAllocatedCountIpv4: Int?
+        /// The number of inbound IPv6 route prefixes to allocate to the virtual interface. Not applicable to public virtual interfaces.
+        public let prefixPoolAllocatedCountIpv6: Int?
         /// The rate limit (bandwidth allocation) to apply to the virtual interface. Use this to update the bandwidth allocation on an existing virtual interface.
         public let rateLimit: String?
         /// The ID of the virtual private interface.
@@ -3367,17 +4164,26 @@ extension DirectConnect {
         public let virtualInterfaceName: String?
 
         @inlinable
-        public init(enableSiteLink: Bool? = nil, mtu: Int? = nil, rateLimit: String? = nil, virtualInterfaceId: String, virtualInterfaceName: String? = nil) {
+        public init(enableSiteLink: Bool? = nil, mtu: Int? = nil, prefixPoolAllocatedCountIpv4: Int? = nil, prefixPoolAllocatedCountIpv6: Int? = nil, rateLimit: String? = nil, virtualInterfaceId: String, virtualInterfaceName: String? = nil) {
             self.enableSiteLink = enableSiteLink
             self.mtu = mtu
+            self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+            self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
             self.rateLimit = rateLimit
             self.virtualInterfaceId = virtualInterfaceId
             self.virtualInterfaceName = virtualInterfaceName
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.prefixPoolAllocatedCountIpv4, name: "prefixPoolAllocatedCountIpv4", parent: name, min: 0)
+            try self.validate(self.prefixPoolAllocatedCountIpv6, name: "prefixPoolAllocatedCountIpv6", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case enableSiteLink = "enableSiteLink"
             case mtu = "mtu"
+            case prefixPoolAllocatedCountIpv4 = "prefixPoolAllocatedCountIpv4"
+            case prefixPoolAllocatedCountIpv6 = "prefixPoolAllocatedCountIpv6"
             case rateLimit = "rateLimit"
             case virtualInterfaceId = "virtualInterfaceId"
             case virtualInterfaceName = "virtualInterfaceName"
@@ -3453,6 +4259,10 @@ extension DirectConnect {
         public let mtu: Int?
         /// The ID of the Amazon Web Services account that owns the virtual interface.
         public let ownerAccount: String?
+        /// The number of inbound IPv4 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+        public let prefixPoolAllocatedCountIpv4: Int?
+        /// The number of inbound IPv6 route prefixes allocated to the virtual interface. Not applicable to public virtual interfaces.
+        public let prefixPoolAllocatedCountIpv6: Int?
         /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
         public let rateLimit: String?
         /// The Amazon Web Services Region where the virtual interface is located.
@@ -3477,7 +4287,7 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, rateLimit: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, siteLinkEnabled: Bool? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, prefixPoolAllocatedCountIpv4: Int? = nil, prefixPoolAllocatedCountIpv6: Int? = nil, rateLimit: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, siteLinkEnabled: Bool? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.amazonSideAsn = amazonSideAsn
@@ -3495,6 +4305,8 @@ extension DirectConnect {
             self.location = location
             self.mtu = mtu
             self.ownerAccount = ownerAccount
+            self.prefixPoolAllocatedCountIpv4 = prefixPoolAllocatedCountIpv4
+            self.prefixPoolAllocatedCountIpv6 = prefixPoolAllocatedCountIpv6
             self.rateLimit = rateLimit
             self.region = region
             self.routeFilterPrefixes = routeFilterPrefixes
@@ -3526,6 +4338,8 @@ extension DirectConnect {
             case location = "location"
             case mtu = "mtu"
             case ownerAccount = "ownerAccount"
+            case prefixPoolAllocatedCountIpv4 = "prefixPoolAllocatedCountIpv4"
+            case prefixPoolAllocatedCountIpv6 = "prefixPoolAllocatedCountIpv6"
             case rateLimit = "rateLimit"
             case region = "region"
             case routeFilterPrefixes = "routeFilterPrefixes"

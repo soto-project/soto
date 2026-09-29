@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS LexModelsV2 service.
 ///
-/// Amazon Lex Model Building Service provides APIs for creating, managing, and deploying conversational bots and their components.
+/// This document provides detailed information about the Amazon Lex V2 API actions and their parameters. For information about the IAM access control permissions you need to use this API, see Identity-based policies for Amazon Lex V2. Amazon Lex V2 Model Building V2 operations let you build and manage bots. If you use a custom HTTP client to call Amazon Lex Model Building V2 operations, you must set the "Content-Type" HTTP header to "application/x-amz-json-1.1". Otherwise, you receive an HTTP 404 - UnknownOperationException in the response. Amazon Lex Model Building V2 operations return the responses with the "application/x-amz-json-1.1" content type. You can use Amazon Web Services SDKs to access Amazon Lex V2 APIs using your favorite programming language. The SDKs automatically perform useful tasks for you, such as:   Cryptographically sign your service requests   Retry requests   Handle error responses   The following resources provide additional information about the Amazon Lex V2 Model Building API.    Amazon Web Services General Reference     Amazon Lex V2 Endpoints for each region.      Command Line Interface      Amazon Lex Model Building V2 CLI commands.
 public struct LexModelsV2: AWSService {
     // MARK: Member variables
 
@@ -40,7 +40,7 @@ public struct LexModelsV2: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct LexModelsV2: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "LexModelsV2",
+            sdkId: "Lex Models V2",
             serviceIdentifier: "models-v2-lex",
             signingName: "lex",
             serviceProtocol: .restjson,
@@ -357,6 +358,7 @@ public struct LexModelsV2: AWSService {
     ///   - generativeAISettings: 
     ///   - localeId: The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages.
     ///   - nluIntentConfidenceThreshold: Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the RecognizeText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
+    ///   - speakerDiarizationSettings: The speaker diarization settings to configure for the new bot locale. When enabled, Amazon Lex restricts speech detection to the primary (loudest) speaker during streaming audio conversations.
     ///   - speechDetectionSensitivity: The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
     ///   - speechRecognitionSettings: Speech-to-text settings to configure for the new bot locale.
     ///   - unifiedSpeechSettings: Unified speech settings to configure for the new bot locale.
@@ -371,6 +373,7 @@ public struct LexModelsV2: AWSService {
         generativeAISettings: GenerativeAISettings? = nil,
         localeId: String,
         nluIntentConfidenceThreshold: Double,
+        speakerDiarizationSettings: SpeakerDiarizationSettings? = nil,
         speechDetectionSensitivity: SpeechDetectionSensitivity? = nil,
         speechRecognitionSettings: SpeechRecognitionSettings? = nil,
         unifiedSpeechSettings: UnifiedSpeechSettings? = nil,
@@ -385,6 +388,7 @@ public struct LexModelsV2: AWSService {
             generativeAISettings: generativeAISettings, 
             localeId: localeId, 
             nluIntentConfidenceThreshold: nluIntentConfidenceThreshold, 
+            speakerDiarizationSettings: speakerDiarizationSettings, 
             speechDetectionSensitivity: speechDetectionSensitivity, 
             speechRecognitionSettings: speechRecognitionSettings, 
             unifiedSpeechSettings: unifiedSpeechSettings, 
@@ -3978,6 +3982,7 @@ public struct LexModelsV2: AWSService {
     ///   - generativeAISettings: Contains settings for generative AI features powered by Amazon Bedrock for your bot locale. Use this object to turn generative AI features on and off. Pricing  may differ if you turn a feature on. For more information, see LINK.
     ///   - localeId: The identifier of the language and locale to update. The string must match one of the supported locales. For more information, see Supported languages.
     ///   - nluIntentConfidenceThreshold: The new confidence threshold where Amazon Lex inserts the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
+    ///   - speakerDiarizationSettings: The updated speaker diarization settings to apply to the bot locale. If you omit this field, Amazon Lex keeps the setting currently stored on the bot locale. To turn speaker diarization off, set enabled to false explicitly.
     ///   - speechDetectionSensitivity: The new sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
     ///   - speechRecognitionSettings: Updated speech-to-text settings to apply to the bot locale.
     ///   - unifiedSpeechSettings: Updated unified speech settings to apply to the bot locale.
@@ -3992,6 +3997,7 @@ public struct LexModelsV2: AWSService {
         generativeAISettings: GenerativeAISettings? = nil,
         localeId: String,
         nluIntentConfidenceThreshold: Double,
+        speakerDiarizationSettings: SpeakerDiarizationSettings? = nil,
         speechDetectionSensitivity: SpeechDetectionSensitivity? = nil,
         speechRecognitionSettings: SpeechRecognitionSettings? = nil,
         unifiedSpeechSettings: UnifiedSpeechSettings? = nil,
@@ -4006,6 +4012,7 @@ public struct LexModelsV2: AWSService {
             generativeAISettings: generativeAISettings, 
             localeId: localeId, 
             nluIntentConfidenceThreshold: nluIntentConfidenceThreshold, 
+            speakerDiarizationSettings: speakerDiarizationSettings, 
             speechDetectionSensitivity: speechDetectionSensitivity, 
             speechRecognitionSettings: speechRecognitionSettings, 
             unifiedSpeechSettings: unifiedSpeechSettings, 

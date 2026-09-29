@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Rekognition service.
 ///
-/// This is the API Reference for Amazon Rekognition Image, Amazon Rekognition Custom Labels, Amazon Rekognition Stored Video, Amazon Rekognition Streaming Video. It provides descriptions of actions, data types, common parameters, and common errors.  Amazon Rekognition Image     AssociateFaces     CompareFaces     CreateCollection     CreateUser     DeleteCollection     DeleteFaces     DeleteUser     DescribeCollection     DetectFaces     DetectLabels     DetectModerationLabels     DetectProtectiveEquipment     DetectText     DisassociateFaces     GetCelebrityInfo     GetMediaAnalysisJob     IndexFaces     ListCollections     ListMediaAnalysisJob     ListFaces     ListUsers     RecognizeCelebrities     SearchFaces     SearchFacesByImage     SearchUsers     SearchUsersByImage     StartMediaAnalysisJob     Amazon Rekognition Custom Labels     CopyProjectVersion     CreateDataset     CreateProject     CreateProjectVersion     DeleteDataset     DeleteProject     DeleteProjectPolicy     DeleteProjectVersion     DescribeDataset     DescribeProjects     DescribeProjectVersions     DetectCustomLabels     DistributeDatasetEntries     ListDatasetEntries     ListDatasetLabels     ListProjectPolicies     PutProjectPolicy     StartProjectVersion     StopProjectVersion     UpdateDatasetEntries     Amazon Rekognition Video Stored Video     GetCelebrityRecognition     GetContentModeration     GetFaceDetection     GetFaceSearch     GetLabelDetection     GetPersonTracking     GetSegmentDetection     GetTextDetection     StartCelebrityRecognition     StartContentModeration     StartFaceDetection     StartFaceSearch     StartLabelDetection     StartPersonTracking     StartSegmentDetection     StartTextDetection     Amazon Rekognition Video Streaming Video     CreateStreamProcessor     DeleteStreamProcessor     DescribeStreamProcessor     ListStreamProcessors     StartStreamProcessor     StopStreamProcessor     UpdateStreamProcessor
+/// This is the API Reference for Amazon Rekognition Image, Amazon Rekognition Bulk Image Analysis, Amazon Rekognition Custom Labels, Amazon Rekognition Stored Video, Amazon Rekognition Face Liveness, Amazon Rekognition Streaming Video. It provides descriptions of actions, data types, common parameters, and common errors.  Amazon Rekognition Image     AssociateFaces     CompareFaces     CreateCollection     CreateUser     DeleteCollection     DeleteFaces     DeleteUser     DescribeCollection     DetectFaces     DetectLabels     DetectModerationLabels     DetectProtectiveEquipment     DetectText     DisassociateFaces     GetCelebrityInfo     IndexFaces     ListCollections     ListFaces     ListUsers     RecognizeCelebrities     SearchFaces     SearchFacesByImage     SearchUsers     SearchUsersByImage     Amazon Rekognition Bulk Image Analysis     GetMediaAnalysisJob     ListMediaAnalysisJob     StartMediaAnalysisJob     Amazon Rekognition Custom Labels     CopyProjectVersion     CreateDataset     CreateProject     CreateProjectVersion     DeleteDataset     DeleteProject     DeleteProjectPolicy     DeleteProjectVersion     DescribeDataset     DescribeProjects     DescribeProjectVersions     DetectCustomLabels     DistributeDatasetEntries     ListDatasetEntries     ListDatasetLabels     ListProjectPolicies     PutProjectPolicy     StartProjectVersion     StopProjectVersion     UpdateDatasetEntries     Amazon Rekognition Stored Video     GetCelebrityRecognition     GetContentModeration     GetFaceDetection     GetFaceSearch     GetLabelDetection     GetPersonTracking     GetSegmentDetection     GetTextDetection     StartCelebrityRecognition     StartContentModeration     StartFaceDetection     StartFaceSearch     StartLabelDetection     StartPersonTracking     StartSegmentDetection     StartTextDetection     Amazon Rekognition Face Liveness     CreateFaceLivenessSession     GetFaceLivenessSessionResults     StartFaceLivenessSession     Amazon Rekognition Streaming Video     CreateStreamProcessor     DeleteStreamProcessor     DescribeStreamProcessor     ListStreamProcessors     StartStreamProcessor     StopStreamProcessor     UpdateStreamProcessor
 public struct Rekognition: AWSService {
     // MARK: Member variables
 
@@ -40,7 +40,7 @@ public struct Rekognition: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -61,6 +61,7 @@ public struct Rekognition: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "RekognitionService",
             serviceName: "Rekognition",
+            sdkId: "Rekognition",
             serviceIdentifier: "rekognition",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-06-27",
@@ -315,7 +316,7 @@ public struct Rekognition: AWSService {
         return try await self.createDataset(input, logger: logger)
     }
 
-    /// This API operation initiates a Face Liveness session. It returns a SessionId, which you can use to start streaming Face Liveness video and get the results for a Face Liveness session.  You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. If no Amazon S3 bucket is defined, raw bytes are sent instead.  You can use AuditImagesLimit to limit the number of audit images returned when GetFaceLivenessSessionResults is called. This number is between 0 and 4. By default, it is set to 0. The limit is best effort and based on the duration of the selfie-video.
+    /// This API operation initiates a Face Liveness session. It returns a SessionId, which you can use to start streaming Face Liveness video and get the results for a Face Liveness session.  You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. If no Amazon S3 bucket is defined, raw bytes are sent instead.  You can use AuditImagesLimit to limit the number of audit images returned when GetFaceLivenessSessionResults is called. This number is between 0 and 4. By default, it is set to 0. The limit is best effort and based on the duration of the selfie-video.  You can use the ChallengePreferences option in the Settings parameter to choose between the  'FaceMovementAndLightChallenge' or FaceMovementChallenge' settings. See the  Shared Responsibility  page for details on guidance for which setting to choose between these two settings depending on  your use case and preferences. This parameter is optional and if no parameter is provided, then  the 'FaceMovementAndLightChallenge' settings is applied by default.
     @Sendable
     @inlinable
     public func createFaceLivenessSession(_ input: CreateFaceLivenessSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFaceLivenessSessionResponse {
@@ -328,7 +329,7 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// This API operation initiates a Face Liveness session. It returns a SessionId, which you can use to start streaming Face Liveness video and get the results for a Face Liveness session.  You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. If no Amazon S3 bucket is defined, raw bytes are sent instead.  You can use AuditImagesLimit to limit the number of audit images returned when GetFaceLivenessSessionResults is called. This number is between 0 and 4. By default, it is set to 0. The limit is best effort and based on the duration of the selfie-video.
+    /// This API operation initiates a Face Liveness session. It returns a SessionId, which you can use to start streaming Face Liveness video and get the results for a Face Liveness session.  You can use the OutputConfig option in the Settings parameter to provide an Amazon S3 bucket location. The Amazon S3 bucket stores reference images and audit images. If no Amazon S3 bucket is defined, raw bytes are sent instead.  You can use AuditImagesLimit to limit the number of audit images returned when GetFaceLivenessSessionResults is called. This number is between 0 and 4. By default, it is set to 0. The limit is best effort and based on the duration of the selfie-video.  You can use the ChallengePreferences option in the Settings parameter to choose between the  'FaceMovementAndLightChallenge' or FaceMovementChallenge' settings. See the  Shared Responsibility  page for details on guidance for which setting to choose between these two settings depending on  your use case and preferences. This parameter is optional and if no parameter is provided, then  the 'FaceMovementAndLightChallenge' settings is applied by default.
     ///
     /// Parameters:
     ///   - clientRequestToken: Idempotent token is used to recognize the Face Liveness request. If the same token is used with multiple CreateFaceLivenessSession requests, the same session is returned. This token is employed to avoid unintentionally creating the same session multiple times.
@@ -441,7 +442,8 @@ public struct Rekognition: AWSService {
         return try await self.createProjectVersion(input, logger: logger)
     }
 
-    /// Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams. There are two different settings for stream processors in Amazon Rekognition: detecting faces and detecting labels.   If you are creating a stream processor for detecting faces, you provide as input a Kinesis video stream (Input) and a Kinesis data stream (Output) stream for receiving the output. You must use the FaceSearch option in Settings, specifying the collection that contains the faces you want to recognize. After you have finished analyzing a streaming video, use StopStreamProcessor to stop processing.   If you are creating a stream processor to detect labels, you provide as input a Kinesis video stream (Input), Amazon S3 bucket information (Output), and an Amazon SNS topic ARN (NotificationChannel). You can also provide a KMS key ID to encrypt the data sent to your Amazon S3 bucket. You specify what you want to detect by using the ConnectedHome option in settings, and selecting one of the following: PERSON, PET, PACKAGE, ALL You can also specify where in the frame you want Amazon Rekognition to monitor with RegionsOfInterest. When you run the StartStreamProcessor operation on a label detection stream processor, you input start and stop information to determine the length of the processing time.    Use Name to assign an identifier for the stream processor. You use Name to manage the stream processor. For example, you can start processing the source video by calling StartStreamProcessor with the Name field.  This operation requires permissions to perform the rekognition:CreateStreamProcessor action. If you want to tag your stream processor, you also require permission to perform the rekognition:TagResource operation.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams. There are two different settings for stream processors in Amazon Rekognition: detecting faces and detecting labels.   If you are creating a stream processor for detecting faces, you provide as input a Kinesis video stream (Input) and a Kinesis data stream (Output) stream for receiving the output. You must use the FaceSearch option in Settings, specifying the collection that contains the faces you want to recognize. After you have finished analyzing a streaming video, use StopStreamProcessor to stop processing.   If you are creating a stream processor to detect labels, you provide as input a Kinesis video stream (Input), Amazon S3 bucket information (Output), and an Amazon SNS topic ARN (NotificationChannel). You can also provide a KMS key ID to encrypt the data sent to your Amazon S3 bucket. You specify what you want to detect by using the ConnectedHome option in settings, and selecting one of the following: PERSON, PET, PACKAGE, ALL You can also specify where in the frame you want Amazon Rekognition to monitor with RegionsOfInterest. When you run the StartStreamProcessor operation on a label detection stream processor, you input start and stop information to determine the length of the processing time.    Use Name to assign an identifier for the stream processor. You use Name to manage the stream processor. For example, you can start processing the source video by calling StartStreamProcessor with the Name field.  This operation requires permissions to perform the rekognition:CreateStreamProcessor action. If you want to tag your stream processor, you also require permission to perform the rekognition:TagResource operation.
     @Sendable
     @inlinable
     public func createStreamProcessor(_ input: CreateStreamProcessorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamProcessorResponse {
@@ -454,7 +456,8 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams. There are two different settings for stream processors in Amazon Rekognition: detecting faces and detecting labels.   If you are creating a stream processor for detecting faces, you provide as input a Kinesis video stream (Input) and a Kinesis data stream (Output) stream for receiving the output. You must use the FaceSearch option in Settings, specifying the collection that contains the faces you want to recognize. After you have finished analyzing a streaming video, use StopStreamProcessor to stop processing.   If you are creating a stream processor to detect labels, you provide as input a Kinesis video stream (Input), Amazon S3 bucket information (Output), and an Amazon SNS topic ARN (NotificationChannel). You can also provide a KMS key ID to encrypt the data sent to your Amazon S3 bucket. You specify what you want to detect by using the ConnectedHome option in settings, and selecting one of the following: PERSON, PET, PACKAGE, ALL You can also specify where in the frame you want Amazon Rekognition to monitor with RegionsOfInterest. When you run the StartStreamProcessor operation on a label detection stream processor, you input start and stop information to determine the length of the processing time.    Use Name to assign an identifier for the stream processor. You use Name to manage the stream processor. For example, you can start processing the source video by calling StartStreamProcessor with the Name field.  This operation requires permissions to perform the rekognition:CreateStreamProcessor action. If you want to tag your stream processor, you also require permission to perform the rekognition:TagResource operation.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video. Amazon Rekognition Video is a consumer of live video from Amazon Kinesis Video Streams. There are two different settings for stream processors in Amazon Rekognition: detecting faces and detecting labels.   If you are creating a stream processor for detecting faces, you provide as input a Kinesis video stream (Input) and a Kinesis data stream (Output) stream for receiving the output. You must use the FaceSearch option in Settings, specifying the collection that contains the faces you want to recognize. After you have finished analyzing a streaming video, use StopStreamProcessor to stop processing.   If you are creating a stream processor to detect labels, you provide as input a Kinesis video stream (Input), Amazon S3 bucket information (Output), and an Amazon SNS topic ARN (NotificationChannel). You can also provide a KMS key ID to encrypt the data sent to your Amazon S3 bucket. You specify what you want to detect by using the ConnectedHome option in settings, and selecting one of the following: PERSON, PET, PACKAGE, ALL You can also specify where in the frame you want Amazon Rekognition to monitor with RegionsOfInterest. When you run the StartStreamProcessor operation on a label detection stream processor, you input start and stop information to determine the length of the processing time.    Use Name to assign an identifier for the stream processor. You use Name to manage the stream processor. For example, you can start processing the source video by calling StartStreamProcessor with the Name field.  This operation requires permissions to perform the rekognition:CreateStreamProcessor action. If you want to tag your stream processor, you also require permission to perform the rekognition:TagResource operation.
     ///
     /// Parameters:
     ///   - dataSharingPreference:  Shows whether you are sharing data with Rekognition to improve model performance. You can choose this option at the account level or on a per-stream basis. Note that if you opt out at the account level this setting is ignored on individual streams.
@@ -717,7 +720,8 @@ public struct Rekognition: AWSService {
         return try await self.deleteProjectVersion(input, logger: logger)
     }
 
-    /// Deletes the stream processor identified by Name. You assign the value for Name when you create the stream processor with CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling DeleteStreamProcessor.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Deletes the stream processor identified by Name. You assign the value for Name when you create the stream processor with CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling DeleteStreamProcessor.
     @Sendable
     @inlinable
     public func deleteStreamProcessor(_ input: DeleteStreamProcessorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStreamProcessorResponse {
@@ -730,7 +734,8 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// Deletes the stream processor identified by Name. You assign the value for Name when you create the stream processor with CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling DeleteStreamProcessor.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Deletes the stream processor identified by Name. You assign the value for Name when you create the stream processor with CreateStreamProcessor. You might not be able to use the same name for a stream processor for a few seconds after calling DeleteStreamProcessor.
     ///
     /// Parameters:
     ///   - name: The name of the stream processor you want to delete.
@@ -921,7 +926,8 @@ public struct Rekognition: AWSService {
         return try await self.describeProjects(input, logger: logger)
     }
 
-    /// Provides information about a stream processor created by CreateStreamProcessor. You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status of the stream processor.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Provides information about a stream processor created by CreateStreamProcessor. You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status of the stream processor.
     @Sendable
     @inlinable
     public func describeStreamProcessor(_ input: DescribeStreamProcessorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStreamProcessorResponse {
@@ -934,7 +940,8 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// Provides information about a stream processor created by CreateStreamProcessor. You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status of the stream processor.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Provides information about a stream processor created by CreateStreamProcessor. You can get information about the input and output streams, the input parameters for the face recognition being performed, and the current status of the stream processor.
     ///
     /// Parameters:
     ///   - name: Name of the stream processor for which you want information.
@@ -1375,7 +1382,7 @@ public struct Rekognition: AWSService {
         return try await self.getFaceDetection(input, logger: logger)
     }
 
-    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession. Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100.  The number of audit images returned by GetFaceLivenessSessionResults is defined by the AuditImagesLimit paramater when calling CreateFaceLivenessSession. Reference images are always returned when possible.
+    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession. Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100.  The number of audit images returned by GetFaceLivenessSessionResults is defined by the AuditImagesLimit paramater when calling CreateFaceLivenessSession. Reference images are always returned when possible. For a session that has completed, the response can also include a Feedback list describing conditions that were detected in the selfie-video, such as low lighting or an obstructed face, and Metadata about the client that streamed the session.
     @Sendable
     @inlinable
     public func getFaceLivenessSessionResults(_ input: GetFaceLivenessSessionResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFaceLivenessSessionResultsResponse {
@@ -1388,7 +1395,7 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession. Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100.  The number of audit images returned by GetFaceLivenessSessionResults is defined by the AuditImagesLimit paramater when calling CreateFaceLivenessSession. Reference images are always returned when possible.
+    /// Retrieves the results of a specific Face Liveness session. It requires the sessionId as input, which was created using CreateFaceLivenessSession. Returns the corresponding Face Liveness confidence score, a reference image that includes a face bounding box, and audit images that also contain face bounding boxes. The Face Liveness confidence score ranges from 0 to 100.  The number of audit images returned by GetFaceLivenessSessionResults is defined by the AuditImagesLimit paramater when calling CreateFaceLivenessSession. Reference images are always returned when possible. For a session that has completed, the response can also include a Feedback list describing conditions that were detected in the selfie-video, such as low lighting or an obstructed face, and Metadata about the client that streamed the session.
     ///
     /// Parameters:
     ///   - sessionId: A unique 128-bit UUID. This is used to uniquely identify the session and also acts as an idempotency token for all operations associated with the session.
@@ -1483,7 +1490,8 @@ public struct Rekognition: AWSService {
         return try await self.getLabelDetection(input, logger: logger)
     }
 
-    /// Retrieves the results for a given media analysis job.  Takes a JobId returned by StartMediaAnalysisJob.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Retrieves the results for a given media analysis job.  Takes a JobId returned by StartMediaAnalysisJob.
     @Sendable
     @inlinable
     public func getMediaAnalysisJob(_ input: GetMediaAnalysisJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMediaAnalysisJobResponse {
@@ -1496,7 +1504,8 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the results for a given media analysis job.  Takes a JobId returned by StartMediaAnalysisJob.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Retrieves the results for a given media analysis job.  Takes a JobId returned by StartMediaAnalysisJob.
     ///
     /// Parameters:
     ///   - jobId: Unique identifier for the media analysis job for which you want to retrieve results.
@@ -1831,7 +1840,8 @@ public struct Rekognition: AWSService {
         return try await self.listFaces(input, logger: logger)
     }
 
-    /// Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order.
     @Sendable
     @inlinable
     public func listMediaAnalysisJobs(_ input: ListMediaAnalysisJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMediaAnalysisJobsResponse {
@@ -1844,7 +1854,8 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Returns a list of media analysis jobs. Results are sorted by CreationTimestamp in descending order.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return per paginated call. The largest value user can specify is 100.  If user specifies a value greater than 100, an InvalidParameterException error occurs. The default value is 100.
@@ -1898,7 +1909,8 @@ public struct Rekognition: AWSService {
         return try await self.listProjectPolicies(input, logger: logger)
     }
 
-    /// Gets a list of stream processors that you have created with CreateStreamProcessor.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Gets a list of stream processors that you have created with CreateStreamProcessor.
     @Sendable
     @inlinable
     public func listStreamProcessors(_ input: ListStreamProcessorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStreamProcessorsResponse {
@@ -1911,7 +1923,8 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of stream processors that you have created with CreateStreamProcessor.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Gets a list of stream processors that you have created with CreateStreamProcessor.
     ///
     /// Parameters:
     ///   - maxResults: Maximum number of stream processors you want Amazon Rekognition Video to return in the response. The default is 1000.
@@ -2433,7 +2446,8 @@ public struct Rekognition: AWSService {
         return try await self.startLabelDetection(input, logger: logger)
     }
 
-    /// Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
     @Sendable
     @inlinable
     public func startMediaAnalysisJob(_ input: StartMediaAnalysisJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMediaAnalysisJobResponse {
@@ -2446,7 +2460,8 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Initiates a new media analysis job. Accepts a manifest file in an Amazon S3 bucket. The output is a manifest file and a summary of the manifest stored in the Amazon S3 bucket.
     ///
     /// Parameters:
     ///   - clientRequestToken: Idempotency token used to prevent the accidental creation of duplicate versions. If you use the same token with multiple StartMediaAnalysisJobRequest requests, the same response is returned. Use ClientRequestToken to prevent the same request from being processed more than once.
@@ -2594,7 +2609,8 @@ public struct Rekognition: AWSService {
         return try await self.startSegmentDetection(input, logger: logger)
     }
 
-    /// Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor. To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateStreamProcessor. If you are using a label detection stream processor to detect labels, you need to provide a Start selector and a Stop selector to determine the length of the stream processing time.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor. To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateStreamProcessor. If you are using a label detection stream processor to detect labels, you need to provide a Start selector and a Stop selector to determine the length of the stream processing time.
     @Sendable
     @inlinable
     public func startStreamProcessor(_ input: StartStreamProcessorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartStreamProcessorResponse {
@@ -2607,7 +2623,8 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor. To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateStreamProcessor. If you are using a label detection stream processor to detect labels, you need to provide a Start selector and a Stop selector to determine the length of the stream processing time.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Starts processing a stream processor. You create a stream processor by calling CreateStreamProcessor. To tell StartStreamProcessor which stream processor to start, use the value of the Name field specified in the call to CreateStreamProcessor. If you are using a label detection stream processor to detect labels, you need to provide a Start selector and a Stop selector to determine the length of the stream processing time.
     ///
     /// Parameters:
     ///   - name: The name of the stream processor to start processing.
@@ -2699,7 +2716,8 @@ public struct Rekognition: AWSService {
         return try await self.stopProjectVersion(input, logger: logger)
     }
 
-    /// Stops a running stream processor that was created by CreateStreamProcessor.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Stops a running stream processor that was created by CreateStreamProcessor.
     @Sendable
     @inlinable
     public func stopStreamProcessor(_ input: StopStreamProcessorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopStreamProcessorResponse {
@@ -2712,7 +2730,8 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    /// Stops a running stream processor that was created by CreateStreamProcessor.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.   Stops a running stream processor that was created by CreateStreamProcessor.
     ///
     /// Parameters:
     ///   - name: The name of a stream processor created by CreateStreamProcessor.
@@ -2826,7 +2845,8 @@ public struct Rekognition: AWSService {
         return try await self.updateDatasetEntries(input, logger: logger)
     }
 
-    ///  Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.    Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
     @Sendable
     @inlinable
     public func updateStreamProcessor(_ input: UpdateStreamProcessorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStreamProcessorResponse {
@@ -2839,7 +2859,8 @@ public struct Rekognition: AWSService {
             logger: logger
         )
     }
-    ///  Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
+    ///  Service availability notice: Streaming Video and Bulk Image Analysis is no longer available to new customers. For more information, see
+    /// Rekognition feature availability changes.  This change does not impact the availability of other Amazon Rekognition features.    Allows you to update a stream processor. You can change some settings and regions of interest and delete certain parameters.
     ///
     /// Parameters:
     ///   - dataSharingPreferenceForUpdate:  Shows whether you are sharing data with Rekognition to improve model performance. You can choose this option at the account level or on a per-stream basis. Note that if you opt out at the account level this setting is ignored on individual streams.

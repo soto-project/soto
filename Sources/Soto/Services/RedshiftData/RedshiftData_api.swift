@@ -40,7 +40,7 @@ public struct RedshiftData: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -61,6 +61,7 @@ public struct RedshiftData: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "RedshiftData",
             serviceName: "RedshiftData",
+            sdkId: "Redshift Data",
             serviceIdentifier: "redshift-data",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-12-20",
@@ -432,7 +433,7 @@ public struct RedshiftData: AWSService {
     @inlinable
     public func listDatabases(
         clusterIdentifier: String? = nil,
-        database: String,
+        database: String? = nil,
         dbUser: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -505,7 +506,7 @@ public struct RedshiftData: AWSService {
         return try await self.listSchemas(input, logger: logger)
     }
 
-    /// Lists the sessions that the caller created in the last 24 hours. By default, only sessions with a status of AVAILABLE or BUSY are returned. You can filter the results by session status, compute target (cluster or serverless workgroup), or database. To retrieve the metadata for a single session, provide the SessionId parameter. Use NextToken to page through the session list. Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the ClusterIdentifier or WorkgroupName parameter to ensure that the AWS IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see  Trusted identity propagation overview.
+    /// Lists the sessions that the caller created in the last 24 hours. By default, only sessions with a status of AVAILABLE or BUSY are returned. You can filter the results by session status, compute target (cluster or serverless workgroup), or database. To retrieve the metadata for a single session, provide the SessionId parameter. Use NextToken to page through the session list. Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the ClusterIdentifier or WorkgroupName parameter to ensure that the IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see  Trusted identity propagation overview.
     @Sendable
     @inlinable
     public func listSessions(_ input: ListSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionsResponse {
@@ -518,7 +519,7 @@ public struct RedshiftData: AWSService {
             logger: logger
         )
     }
-    /// Lists the sessions that the caller created in the last 24 hours. By default, only sessions with a status of AVAILABLE or BUSY are returned. You can filter the results by session status, compute target (cluster or serverless workgroup), or database. To retrieve the metadata for a single session, provide the SessionId parameter. Use NextToken to page through the session list. Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the ClusterIdentifier or WorkgroupName parameter to ensure that the AWS IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see  Trusted identity propagation overview.
+    /// Lists the sessions that the caller created in the last 24 hours. By default, only sessions with a status of AVAILABLE or BUSY are returned. You can filter the results by session status, compute target (cluster or serverless workgroup), or database. To retrieve the metadata for a single session, provide the SessionId parameter. Use NextToken to page through the session list. Returns only the sessions that the caller created. When identity-enhanced role sessions are used, you must provide either the ClusterIdentifier or WorkgroupName parameter to ensure that the IAM Identity Center user can only access the Amazon Redshift IAM Identity Center applications they are assigned. For more information, see  Trusted identity propagation overview.
     ///
     /// Parameters:
     ///   - clusterIdentifier: The cluster identifier. Only sessions on this cluster are returned. When providing ClusterIdentifier, then WorkgroupName can't be specified.
@@ -838,7 +839,7 @@ extension RedshiftData {
     @inlinable
     public func listDatabasesPaginator(
         clusterIdentifier: String? = nil,
-        database: String,
+        database: String? = nil,
         dbUser: String? = nil,
         maxResults: Int? = nil,
         secretArn: String? = nil,

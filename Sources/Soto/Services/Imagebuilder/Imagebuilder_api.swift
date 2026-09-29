@@ -24,10 +24,13 @@ import Foundation
 
 /// Service object for interacting with AWS Imagebuilder service.
 ///
-/// EC2 Image Builder is a fully managed Amazon Web Services service that makes it easier to automate the
+/// EC2 Image Builder automates the
 /// 			creation, management, and deployment of customized, secure, and up-to-date
-/// 			"golden" server images that are pre-installed and pre-configured with software
-/// 			and settings to meet specific IT standards.
+/// 			server images. You can build Amazon Machine Images (AMIs) and container images
+/// 			that are pre-installed and pre-configured with software and settings to meet
+/// 			specific IT standards. For an introduction to the service concepts that these API operations work with,
+/// 			see How Image Builder
+/// 				works in the EC2 Image Builder User Guide.
 public struct Imagebuilder: AWSService {
     // MARK: Member variables
 
@@ -43,7 +46,7 @@ public struct Imagebuilder: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -63,6 +66,7 @@ public struct Imagebuilder: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "Imagebuilder",
+            sdkId: "imagebuilder",
             serviceIdentifier: "imagebuilder",
             serviceProtocol: .restjson,
             apiVersion: "2019-12-02",
@@ -81,8 +85,11 @@ public struct Imagebuilder: AWSService {
 
     // MARK: API Calls
 
-    /// CancelImageCreation cancels the creation of Image. This operation can only be used on
-    /// 			images in a non-terminal state.
+    /// Cancels the creation of an image. This operation can only be used on
+    /// 			images in a non-terminal state. Cancellation is asynchronous: the request
+    /// 			returns immediately, then Image Builder stops the running build and moves the image
+    /// 			to the CANCELLED state. Output resources that the build already
+    /// 			created, such as AMIs and snapshots, aren't removed.
     @Sendable
     @inlinable
     public func cancelImageCreation(_ input: CancelImageCreationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelImageCreationResponse {
@@ -95,11 +102,14 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// CancelImageCreation cancels the creation of Image. This operation can only be used on
-    /// 			images in a non-terminal state.
+    /// Cancels the creation of an image. This operation can only be used on
+    /// 			images in a non-terminal state. Cancellation is asynchronous: the request
+    /// 			returns immediately, then Image Builder stops the running build and moves the image
+    /// 			to the CANCELLED state. Output resources that the build already
+    /// 			created, such as AMIs and snapshots, aren't removed.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - imageBuildVersionArn: The Amazon Resource Name (ARN) of the image that you want to cancel creation
     ///   - logger: Logger use during operation
     @inlinable
@@ -115,7 +125,11 @@ public struct Imagebuilder: AWSService {
         return try await self.cancelImageCreation(input, logger: logger)
     }
 
-    /// Cancel a specific image lifecycle policy runtime instance.
+    /// Cancels a lifecycle execution – a single run of lifecycle actions that a
+    /// 			lifecycle policy or a StartResourceStateUpdate request
+    /// 			started. You can only cancel an execution that hasn't reached a
+    /// 			terminal state. Cancellation is asynchronous and doesn't undo
+    /// 			completed lifecycle actions.
     @Sendable
     @inlinable
     public func cancelLifecycleExecution(_ input: CancelLifecycleExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelLifecycleExecutionResponse {
@@ -128,10 +142,14 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Cancel a specific image lifecycle policy runtime instance.
+    /// Cancels a lifecycle execution – a single run of lifecycle actions that a
+    /// 			lifecycle policy or a StartResourceStateUpdate request
+    /// 			started. You can only cancel an execution that hasn't reached a
+    /// 			terminal state. Cancellation is asynchronous and doesn't undo
+    /// 			completed lifecycle actions.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - lifecycleExecutionId: Identifies the specific runtime instance of the image lifecycle to cancel.
     ///   - logger: Logger use during operation
     @inlinable
@@ -150,7 +168,9 @@ public struct Imagebuilder: AWSService {
     /// Creates a new component that can be used to build, validate, test, and assess your
     /// 			image. The component is based on a YAML document that you specify using exactly one of
     /// 			the following methods:   Inline, using the data property in the request body.   A URL that points to a YAML document file stored in Amazon S3, using the
-    /// 						uri property in the request body.
+    /// 						uri property in the request body.   Image Builder determines the component type from the document. If the document
+    /// 			contains a single phase named test, the component type is
+    /// 			TEST. Otherwise, the component type is BUILD.
     @Sendable
     @inlinable
     public func createComponent(_ input: CreateComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComponentResponse {
@@ -166,16 +186,18 @@ public struct Imagebuilder: AWSService {
     /// Creates a new component that can be used to build, validate, test, and assess your
     /// 			image. The component is based on a YAML document that you specify using exactly one of
     /// 			the following methods:   Inline, using the data property in the request body.   A URL that points to a YAML document file stored in Amazon S3, using the
-    /// 						uri property in the request body.
+    /// 						uri property in the request body.   Image Builder determines the component type from the document. If the document
+    /// 			contains a single phase named test, the component type is
+    /// 			TEST. Otherwise, the component type is BUILD.
     ///
     /// Parameters:
     ///   - changeDescription: The change description of the component. Describes what change has been made in this
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - data: Component data contains inline YAML document content for the component.
     ///   - description: Describes the contents of the component.
-    ///   - dryRun: Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
-    ///   - kmsKeyId: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
-    ///   - name: The name of the component.
+    ///   - dryRun: Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+    ///   - kmsKeyId: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component.
+    ///   - name: The name of the component. Image Builder generates the component ARN from a
     ///   - platform: The operating system platform of the component.
     ///   - semanticVersion: The semantic version of the component. This version follows the semantic version
     ///   - supportedOsVersions: The operating system (OS) version supported by the component. If the OS information is
@@ -233,21 +255,22 @@ public struct Imagebuilder: AWSService {
     /// 			tested, and assessed.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - components: The components included in the container recipe.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+    ///   - components: The components included in the container recipe. You can specify each
     ///   - containerType: The type of container to create.
     ///   - description: The description of the container recipe.
-    ///   - dockerfileTemplateData: The Dockerfile template used to build your image as an inline data blob.
-    ///   - dockerfileTemplateUri: The Amazon S3 URI for the Dockerfile that will be used to build your container
-    ///   - imageOsVersionOverride: Specifies the operating system version for the base image.
+    ///   - dockerfileTemplateData: The Dockerfile template used to build your image, as an inline data blob.
+    ///   - dockerfileTemplateUri: The Amazon S3 URI for the Dockerfile template that is used to build your container
+    ///   - dryRun: Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+    ///   - imageOsVersionOverride: Specifies the operating system version for the base image. Use this property
     ///   - instanceConfiguration: A group of options that can be used to configure an instance for building and testing
     ///   - kmsKeyId: The Amazon Resource Name (ARN) that uniquely identifies which KMS key is used to encrypt the Dockerfile
-    ///   - name: The name of the container recipe.
-    ///   - parentImage: The base image for the container recipe.
+    ///   - name: The name of the container recipe. The recipe name, combined with the
+    ///   - parentImage: The base image for the container recipe. This can be an Image Builder image resource
     ///   - platformOverride: Specifies the operating system platform when you use a custom base image.
     ///   - semanticVersion: The semantic version of the container recipe. This version follows the semantic
     ///   - tags: Tags that are attached to the container recipe.
-    ///   - targetRepository: The destination repository for the container image.
+    ///   - targetRepository: The destination repository for the container image. The Amazon ECR repository
     ///   - workingDirectory: The working directory for use during build and test workflows.
     ///   - logger: Logger use during operation
     @inlinable
@@ -258,6 +281,7 @@ public struct Imagebuilder: AWSService {
         description: String? = nil,
         dockerfileTemplateData: String? = nil,
         dockerfileTemplateUri: String? = nil,
+        dryRun: Bool? = nil,
         imageOsVersionOverride: String? = nil,
         instanceConfiguration: InstanceConfiguration? = nil,
         kmsKeyId: String? = nil,
@@ -277,6 +301,7 @@ public struct Imagebuilder: AWSService {
             description: description, 
             dockerfileTemplateData: dockerfileTemplateData, 
             dockerfileTemplateUri: dockerfileTemplateUri, 
+            dryRun: dryRun, 
             imageOsVersionOverride: imageOsVersionOverride, 
             instanceConfiguration: instanceConfiguration, 
             kmsKeyId: kmsKeyId, 
@@ -291,8 +316,9 @@ public struct Imagebuilder: AWSService {
         return try await self.createContainerRecipe(input, logger: logger)
     }
 
-    /// Creates a new distribution configuration. Distribution configurations define and
-    /// 			configure the outputs of your pipeline.
+    /// Creates a new distribution configuration. Distribution configurations define
+    /// 			and configure the outputs for your images, including the target Regions,
+    /// 			accounts, and settings for each Region.
     @Sendable
     @inlinable
     public func createDistributionConfiguration(_ input: CreateDistributionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDistributionConfigurationResponse {
@@ -305,14 +331,16 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Creates a new distribution configuration. Distribution configurations define and
-    /// 			configure the outputs of your pipeline.
+    /// Creates a new distribution configuration. Distribution configurations define
+    /// 			and configure the outputs for your images, including the target Regions,
+    /// 			accounts, and settings for each Region.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - description: The description of the distribution configuration.
-    ///   - distributions: The distributions of the distribution configuration.
-    ///   - name: The name of the distribution configuration.
+    ///   - distributions: The distribution settings for the configuration. Each entry defines how
+    ///   - dryRun: Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+    ///   - name: The name of the distribution configuration. Distribution configuration
     ///   - tags: The tags of the distribution configuration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -320,6 +348,7 @@ public struct Imagebuilder: AWSService {
         clientToken: String = CreateDistributionConfigurationRequest.idempotencyToken(),
         description: String? = nil,
         distributions: [Distribution],
+        dryRun: Bool? = nil,
         name: String,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -328,16 +357,18 @@ public struct Imagebuilder: AWSService {
             clientToken: clientToken, 
             description: description, 
             distributions: distributions, 
+            dryRun: dryRun, 
             name: name, 
             tags: tags
         )
         return try await self.createDistributionConfiguration(input, logger: logger)
     }
 
-    /// Creates a new image. This request will create a new image along with all of the
-    /// 			configured output resources defined in the distribution configuration. You must specify
-    /// 			exactly one recipe for your image, using either a ContainerRecipeArn or an
-    /// 			ImageRecipeArn.
+    /// Creates a new image along with all configured output resources defined in the
+    /// 			distribution configuration. You must specify exactly one recipe for your image, using
+    /// 			either a containerRecipeArn or an imageRecipeArn. The response returns as soon as Image Builder creates the new image resource.
+    /// 			The image build process runs asynchronously. To check its progress, call
+    /// 			GetImage and check the image status.
     @Sendable
     @inlinable
     public func createImage(_ input: CreateImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImageResponse {
@@ -350,24 +381,25 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Creates a new image. This request will create a new image along with all of the
-    /// 			configured output resources defined in the distribution configuration. You must specify
-    /// 			exactly one recipe for your image, using either a ContainerRecipeArn or an
-    /// 			ImageRecipeArn.
+    /// Creates a new image along with all configured output resources defined in the
+    /// 			distribution configuration. You must specify exactly one recipe for your image, using
+    /// 			either a containerRecipeArn or an imageRecipeArn. The response returns as soon as Image Builder creates the new image resource.
+    /// 			The image build process runs asynchronously. To check its progress, call
+    /// 			GetImage and check the image status.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - containerRecipeArn: The Amazon Resource Name (ARN) of the container recipe that defines how images are
     ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration that defines and
-    ///   - enhancedImageMetadataEnabled: Collects additional information about the image being created, including the operating
+    ///   - enhancedImageMetadataEnabled: Specifies whether to collect additional information about the image being created, including the operating
     ///   - executionRole: The name or Amazon Resource Name (ARN) for the IAM role you create that grants
     ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe that defines how images are
-    ///   - imageScanningConfiguration: Contains settings for vulnerability scans.
-    ///   - imageTestsConfiguration: The image tests configuration of the image.
+    ///   - imageScanningConfiguration: Settings for vulnerability scans that Amazon Inspector runs during image
+    ///   - imageTestsConfiguration: Settings that determine whether Image Builder runs tests on the image after
     ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration that defines the
-    ///   - loggingConfiguration: Define logging configuration for the image build process.
+    ///   - loggingConfiguration: The CloudWatch Logs log group where Image Builder sends the image build logs. If
     ///   - tags: The tags of the image.
-    ///   - workflows: Contains an array of workflow configuration objects.
+    ///   - workflows: The array of workflow configuration objects for the build. If you specify
     ///   - logger: Logger use during operation
     @inlinable
     public func createImage(
@@ -402,8 +434,10 @@ public struct Imagebuilder: AWSService {
         return try await self.createImage(input, logger: logger)
     }
 
-    /// Creates a new image pipeline. Image pipelines enable you to automate the creation and
-    /// 			distribution of images.
+    /// Creates a new image pipeline. Use image pipelines to automate the creation and
+    /// 			distribution of images. You must specify exactly one recipe for the pipeline,
+    /// 			using either a containerRecipeArn or an
+    /// 			imageRecipeArn.
     @Sendable
     @inlinable
     public func createImagePipeline(_ input: CreateImagePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImagePipelineResponse {
@@ -416,27 +450,30 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Creates a new image pipeline. Image pipelines enable you to automate the creation and
-    /// 			distribution of images.
+    /// Creates a new image pipeline. Use image pipelines to automate the creation and
+    /// 			distribution of images. You must specify exactly one recipe for the pipeline,
+    /// 			using either a containerRecipeArn or an
+    /// 			imageRecipeArn.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - containerRecipeArn: The Amazon Resource Name (ARN) of the container recipe that is used to configure
     ///   - description: The description of the image pipeline.
-    ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration that will be used to
-    ///   - enhancedImageMetadataEnabled: Collects additional information about the image being created, including the operating
+    ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration that configures and
+    ///   - dryRun: Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+    ///   - enhancedImageMetadataEnabled: Specifies whether to collect additional information about the image being created, including the operating
     ///   - executionRole: The name or Amazon Resource Name (ARN) for the IAM role you create that grants
-    ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe that will be used to configure
-    ///   - imageScanningConfiguration: Contains settings for vulnerability scans.
-    ///   - imageTags: The tags to be applied to the images produced by this pipeline.
-    ///   - imageTestsConfiguration: The image test configuration of the image pipeline.
-    ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration that will be used
+    ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe that configures
+    ///   - imageScanningConfiguration: Contains settings for vulnerability scans that Amazon Inspector runs against the test instance
+    ///   - imageTags: The tags that Image Builder applies to the Image Builder image resource that this
+    ///   - imageTestsConfiguration: Specifies the test settings that Image Builder applies to images that this
+    ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration that
     ///   - loggingConfiguration: Specifies the logging configuration for the image pipeline. Use this
-    ///   - name: The name of the image pipeline.
-    ///   - schedule: The schedule of the image pipeline.
-    ///   - status: The status of the image pipeline.
+    ///   - name: The name of the image pipeline. Pipeline names must be unique to your
+    ///   - schedule: The schedule of the image pipeline. If you don't provide a schedule, the
+    ///   - status: The status of the image pipeline. If you don't specify a status, it
     ///   - tags: The tags of the image pipeline.
-    ///   - workflows: Contains an array of workflow configuration objects.
+    ///   - workflows: The array of workflow configuration objects for builds that this pipeline
     ///   - logger: Logger use during operation
     @inlinable
     public func createImagePipeline(
@@ -444,6 +481,7 @@ public struct Imagebuilder: AWSService {
         containerRecipeArn: String? = nil,
         description: String? = nil,
         distributionConfigurationArn: String? = nil,
+        dryRun: Bool? = nil,
         enhancedImageMetadataEnabled: Bool? = nil,
         executionRole: String? = nil,
         imageRecipeArn: String? = nil,
@@ -464,6 +502,7 @@ public struct Imagebuilder: AWSService {
             containerRecipeArn: containerRecipeArn, 
             description: description, 
             distributionConfigurationArn: distributionConfigurationArn, 
+            dryRun: dryRun, 
             enhancedImageMetadataEnabled: enhancedImageMetadataEnabled, 
             executionRole: executionRole, 
             imageRecipeArn: imageRecipeArn, 
@@ -499,18 +538,19 @@ public struct Imagebuilder: AWSService {
     /// 			and assessed.
     ///
     /// Parameters:
-    ///   - additionalInstanceConfiguration: Specify additional settings and launch scripts for your build instances.
+    ///   - additionalInstanceConfiguration: The additional settings and launch scripts for your build instances.
     ///   - amiTags: Tags that are applied to the AMI that Image Builder creates during the Build phase
     ///   - amiWatermarks: The AMI watermark names to attach to the output AMI from this recipe.
-    ///   - blockDeviceMappings: The block device mappings of the image recipe.
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - components: The components included in the image recipe.
+    ///   - blockDeviceMappings: The block device mappings that Image Builder applies to the build instance and the
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+    ///   - components: The components included in the image recipe. Components are optional. A
     ///   - description: The description of the image recipe.
-    ///   - name: The name of the image recipe.
+    ///   - dryRun: Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+    ///   - name: The name of the image recipe. The recipe name, combined with the semantic
     ///   - parentImage: The base image for customizations specified in the image recipe. You can specify the
     ///   - semanticVersion: The semantic version of the image recipe. This version follows the semantic version
     ///   - tags: The tags of the image recipe.
-    ///   - workingDirectory: The working directory used during build and test workflows.
+    ///   - workingDirectory: The working directory used during build and test workflows. If you
     ///   - logger: Logger use during operation
     @inlinable
     public func createImageRecipe(
@@ -521,6 +561,7 @@ public struct Imagebuilder: AWSService {
         clientToken: String = CreateImageRecipeRequest.idempotencyToken(),
         components: [ComponentConfiguration]? = nil,
         description: String? = nil,
+        dryRun: Bool? = nil,
         name: String,
         parentImage: String,
         semanticVersion: String,
@@ -536,6 +577,7 @@ public struct Imagebuilder: AWSService {
             clientToken: clientToken, 
             components: components, 
             description: description, 
+            dryRun: dryRun, 
             name: name, 
             parentImage: parentImage, 
             semanticVersion: semanticVersion, 
@@ -563,26 +605,28 @@ public struct Imagebuilder: AWSService {
     /// 			the environment in which your image will be built and tested.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - description: The description of the infrastructure configuration.
-    ///   - instanceMetadataOptions: The instance metadata options that you can set for the HTTP requests that pipeline
+    ///   - dryRun: Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+    ///   - instanceMetadataOptions: The instance metadata service (IMDS) settings that Image Builder applies to the EC2
     ///   - instanceProfileName: The instance profile to associate with the instance used to customize your Amazon EC2
     ///   - instanceTypes: The instance types of the infrastructure configuration. You can specify one or more
     ///   - keyPair: The key pair of the infrastructure configuration. You can use this to log on to and
-    ///   - logging: The logging configuration of the infrastructure configuration.
-    ///   - name: The name of the infrastructure configuration.
-    ///   - placement: The instance placement settings that define where the instances that are launched
-    ///   - resourceTags: The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during the build process.
+    ///   - logging: The logging configuration of the infrastructure configuration. When you
+    ///   - name: The name of the infrastructure configuration. Infrastructure configuration
+    ///   - placement: The instance placement settings that define where the build and test
+    ///   - resourceTags: The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during
     ///   - securityGroupIds: The security group IDs to associate with the instance used to customize your Amazon EC2
-    ///   - snsTopicArn: The Amazon Resource Name (ARN) for the SNS topic to which we send image build event
-    ///   - subnetId: The subnet ID in which to place the instance used to customize your Amazon EC2 AMI.
+    ///   - snsTopicArn: The Amazon Resource Name (ARN) of the SNS topic to which Image Builder sends image build event notifications.
+    ///   - subnetId: The subnet ID in which to place the instance used to customize your Amazon EC2
     ///   - tags: The metadata tags to assign to the infrastructure configuration resource that Image Builder
-    ///   - terminateInstanceOnFailure: The terminate instance on failure setting of the infrastructure configuration. Set to
+    ///   - terminateInstanceOnFailure: Specifies whether to terminate the instance on failure. Set to
     ///   - logger: Logger use during operation
     @inlinable
     public func createInfrastructureConfiguration(
         clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(),
         description: String? = nil,
+        dryRun: Bool? = nil,
         instanceMetadataOptions: InstanceMetadataOptions? = nil,
         instanceProfileName: String,
         instanceTypes: [String]? = nil,
@@ -601,6 +645,7 @@ public struct Imagebuilder: AWSService {
         let input = CreateInfrastructureConfigurationRequest(
             clientToken: clientToken, 
             description: description, 
+            dryRun: dryRun, 
             instanceMetadataOptions: instanceMetadataOptions, 
             instanceProfileName: instanceProfileName, 
             instanceTypes: instanceTypes, 
@@ -618,7 +663,7 @@ public struct Imagebuilder: AWSService {
         return try await self.createInfrastructureConfiguration(input, logger: logger)
     }
 
-    /// Create a lifecycle policy resource.
+    /// Creates a lifecycle policy resource.
     @Sendable
     @inlinable
     public func createLifecyclePolicy(_ input: CreateLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLifecyclePolicyResponse {
@@ -631,23 +676,25 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Create a lifecycle policy resource.
+    /// Creates a lifecycle policy resource.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - description: Optional description for the lifecycle policy.
-    ///   - executionRole: The name or Amazon Resource Name (ARN) for the IAM role you create that grants
-    ///   - name: The name of the  lifecycle policy to create.
-    ///   - policyDetails: Configuration details for the lifecycle policy rules.
+    ///   - dryRun: Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
+    ///   - executionRole: The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access to run
+    ///   - name: The name of the lifecycle policy to create. Policy names must be unique to
+    ///   - policyDetails: Configuration details for the lifecycle policy rules. A policy can contain
     ///   - resourceSelection: Selection criteria for the resources that the lifecycle policy applies to.
-    ///   - resourceType: The type of Image Builder resource that the lifecycle policy applies to.
-    ///   - status: Indicates whether the lifecycle policy resource is enabled.
+    ///   - resourceType: The type of Image Builder resource that the lifecycle policy applies to. The resource
+    ///   - status: Indicates whether the lifecycle policy resource is enabled. If you don't
     ///   - tags: Tags to apply to the lifecycle policy resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func createLifecyclePolicy(
         clientToken: String = CreateLifecyclePolicyRequest.idempotencyToken(),
         description: String? = nil,
+        dryRun: Bool? = nil,
         executionRole: String,
         name: String,
         policyDetails: [LifecyclePolicyDetail],
@@ -660,6 +707,7 @@ public struct Imagebuilder: AWSService {
         let input = CreateLifecyclePolicyRequest(
             clientToken: clientToken, 
             description: description, 
+            dryRun: dryRun, 
             executionRole: executionRole, 
             name: name, 
             policyDetails: policyDetails, 
@@ -671,7 +719,11 @@ public struct Imagebuilder: AWSService {
         return try await self.createLifecyclePolicy(input, logger: logger)
     }
 
-    /// Create a new workflow or a new version of an existing workflow.
+    /// Creates a new workflow or a new version of an existing workflow. If a workflow
+    /// 			with the same name and semantic version already exists, and your request changes
+    /// 			its configuration, Image Builder creates a new build version.
+    /// 			If the configuration is identical to the latest build version, the request
+    /// 			fails because that workflow configuration already exists.
     @Sendable
     @inlinable
     public func createWorkflow(_ input: CreateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowResponse {
@@ -684,20 +736,24 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Create a new workflow or a new version of an existing workflow.
+    /// Creates a new workflow or a new version of an existing workflow. If a workflow
+    /// 			with the same name and semantic version already exists, and your request changes
+    /// 			its configuration, Image Builder creates a new build version.
+    /// 			If the configuration is identical to the latest build version, the request
+    /// 			fails because that workflow configuration already exists.
     ///
     /// Parameters:
     ///   - changeDescription: Describes what change has been made in this version of the workflow, or
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - data: Contains the UTF-8 encoded YAML document content for the workflow.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+    ///   - data: The UTF-8 encoded YAML document content for the workflow, up to
     ///   - description: Describes the workflow.
-    ///   - dryRun: Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
+    ///   - dryRun: Validates the required permissions and request parameters without performing the operation. If validation succeeds, the operation returns a DryRunOperationException error response.
     ///   - kmsKeyId: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this workflow resource.
-    ///   - name: The name of the workflow to create.
+    ///   - name: The name of the workflow to create. Image Builder generates the workflow ARN from a
     ///   - semanticVersion: The semantic version of this workflow resource. The semantic version syntax
     ///   - tags: Tags that apply to the workflow resource.
-    ///   - type: The phase in the image build process for which the workflow resource
-    ///   - uri: The uri of a YAML component document file. This must be an S3 URL
+    ///   - type: The image creation stage that this workflow applies to. Image Builder validates the
+    ///   - uri: The uri of a YAML workflow document file stored in Amazon S3. This must
     ///   - logger: Logger use during operation
     @inlinable
     public func createWorkflow(
@@ -730,7 +786,10 @@ public struct Imagebuilder: AWSService {
         return try await self.createWorkflow(input, logger: logger)
     }
 
-    /// Deletes a component build version.
+    /// Deletes a component build version. The request fails with
+    /// 			ResourceDependencyException if an image recipe or container
+    /// 			recipe references this component version. It also fails if the component
+    /// 			build version is shared with other accounts.
     @Sendable
     @inlinable
     public func deleteComponent(_ input: DeleteComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteComponentResponse {
@@ -743,7 +802,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Deletes a component build version.
+    /// Deletes a component build version. The request fails with
+    /// 			ResourceDependencyException if an image recipe or container
+    /// 			recipe references this component version. It also fails if the component
+    /// 			build version is shared with other accounts.
     ///
     /// Parameters:
     ///   - componentBuildVersionArn: The Amazon Resource Name (ARN) of the component build version to delete.
@@ -759,7 +821,9 @@ public struct Imagebuilder: AWSService {
         return try await self.deleteComponent(input, logger: logger)
     }
 
-    /// Deletes a container recipe.
+    /// Deletes a container recipe. The request fails with
+    /// 			ResourceDependencyException if the recipe is shared with other
+    /// 			accounts, or if an image pipeline references it.
     @Sendable
     @inlinable
     public func deleteContainerRecipe(_ input: DeleteContainerRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContainerRecipeResponse {
@@ -772,7 +836,9 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Deletes a container recipe.
+    /// Deletes a container recipe. The request fails with
+    /// 			ResourceDependencyException if the recipe is shared with other
+    /// 			accounts, or if an image pipeline references it.
     ///
     /// Parameters:
     ///   - containerRecipeArn: The Amazon Resource Name (ARN) of the container recipe to delete.
@@ -788,7 +854,10 @@ public struct Imagebuilder: AWSService {
         return try await self.deleteContainerRecipe(input, logger: logger)
     }
 
-    /// Deletes a distribution configuration.
+    /// Deletes a distribution configuration. You can't delete a configuration
+    /// 			that an image pipeline still references. The request fails with
+    /// 			ResourceDependencyException. Update or delete the referencing
+    /// 			pipelines first.
     @Sendable
     @inlinable
     public func deleteDistributionConfiguration(_ input: DeleteDistributionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDistributionConfigurationResponse {
@@ -801,7 +870,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Deletes a distribution configuration.
+    /// Deletes a distribution configuration. You can't delete a configuration
+    /// 			that an image pipeline still references. The request fails with
+    /// 			ResourceDependencyException. Update or delete the referencing
+    /// 			pipelines first.
     ///
     /// Parameters:
     ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration to delete.
@@ -820,7 +892,10 @@ public struct Imagebuilder: AWSService {
     /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container
     /// 			images that are created during the image build process. You must clean those up
     /// 			separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI
-    /// 			commands.   To deregister an EC2 Linux AMI, see Deregister your
+    /// 			commands. The request fails with ResourceDependencyException if the image
+    /// 			is shared with other accounts, or if other resources depend on it. It also
+    /// 			fails while the image build is still running. Cancel an in-progress build
+    /// 			with CancelImageCreation before you delete the image.   To deregister an EC2 Linux AMI, see Deregister your
     /// 						Linux AMI in the  Amazon EC2 User Guide .   To deregister an EC2 Windows AMI, see Deregister your
     /// 						Windows AMI in the  Amazon EC2 Windows Guide .   To delete a container image from Amazon ECR, see Deleting
     /// 						an image in the Amazon ECR User Guide.
@@ -839,7 +914,10 @@ public struct Imagebuilder: AWSService {
     /// Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container
     /// 			images that are created during the image build process. You must clean those up
     /// 			separately, using the appropriate Amazon EC2 or Amazon ECR console actions, or API or CLI
-    /// 			commands.   To deregister an EC2 Linux AMI, see Deregister your
+    /// 			commands. The request fails with ResourceDependencyException if the image
+    /// 			is shared with other accounts, or if other resources depend on it. It also
+    /// 			fails while the image build is still running. Cancel an in-progress build
+    /// 			with CancelImageCreation before you delete the image.   To deregister an EC2 Linux AMI, see Deregister your
     /// 						Linux AMI in the  Amazon EC2 User Guide .   To deregister an EC2 Windows AMI, see Deregister your
     /// 						Windows AMI in the  Amazon EC2 Windows Guide .   To delete a container image from Amazon ECR, see Deleting
     /// 						an image in the Amazon ECR User Guide.
@@ -858,7 +936,10 @@ public struct Imagebuilder: AWSService {
         return try await self.deleteImage(input, logger: logger)
     }
 
-    /// Deletes an image pipeline.
+    /// Deletes an image pipeline. Images that the pipeline created aren't
+    /// 			deleted - remove those separately with DeleteImage. You
+    /// 			can delete a pipeline while a build that it started is still running. The
+    /// 			build continues independently.
     @Sendable
     @inlinable
     public func deleteImagePipeline(_ input: DeleteImagePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImagePipelineResponse {
@@ -871,7 +952,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Deletes an image pipeline.
+    /// Deletes an image pipeline. Images that the pipeline created aren't
+    /// 			deleted - remove those separately with DeleteImage. You
+    /// 			can delete a pipeline while a build that it started is still running. The
+    /// 			build continues independently.
     ///
     /// Parameters:
     ///   - imagePipelineArn: The Amazon Resource Name (ARN) of the image pipeline to delete.
@@ -916,7 +1000,10 @@ public struct Imagebuilder: AWSService {
         return try await self.deleteImageRecipe(input, logger: logger)
     }
 
-    /// Deletes an infrastructure configuration.
+    /// Deletes an infrastructure configuration. You can't delete a configuration
+    /// 			that an image pipeline still references. The request fails with
+    /// 			ResourceDependencyException. Update or delete the referencing
+    /// 			pipelines first.
     @Sendable
     @inlinable
     public func deleteInfrastructureConfiguration(_ input: DeleteInfrastructureConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInfrastructureConfigurationResponse {
@@ -929,7 +1016,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Deletes an infrastructure configuration.
+    /// Deletes an infrastructure configuration. You can't delete a configuration
+    /// 			that an image pipeline still references. The request fails with
+    /// 			ResourceDependencyException. Update or delete the referencing
+    /// 			pipelines first.
     ///
     /// Parameters:
     ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration to delete.
@@ -945,7 +1035,11 @@ public struct Imagebuilder: AWSService {
         return try await self.deleteInfrastructureConfiguration(input, logger: logger)
     }
 
-    /// Delete the specified lifecycle policy resource.
+    /// Deletes the specified lifecycle policy resource. Deleting the policy removes
+    /// 			its schedule, so no further lifecycle runs occur for that policy. If a
+    /// 			lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion
+    /// 			doesn't revert actions that the policy already applied to your
+    /// 			resources.
     @Sendable
     @inlinable
     public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLifecyclePolicyResponse {
@@ -958,7 +1052,11 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Delete the specified lifecycle policy resource.
+    /// Deletes the specified lifecycle policy resource. Deleting the policy removes
+    /// 			its schedule, so no further lifecycle runs occur for that policy. If a
+    /// 			lifecycle execution is in progress for the policy, Image Builder cancels it. Deletion
+    /// 			doesn't revert actions that the policy already applied to your
+    /// 			resources.
     ///
     /// Parameters:
     ///   - lifecyclePolicyArn: The Amazon Resource Name (ARN) of the lifecycle policy resource to delete.
@@ -974,7 +1072,9 @@ public struct Imagebuilder: AWSService {
         return try await self.deleteLifecyclePolicy(input, logger: logger)
     }
 
-    /// Deletes a specific workflow resource.
+    /// Deletes a specific workflow resource. You can't delete a workflow build
+    /// 			version while an image pipeline references it. The request fails with
+    /// 			ResourceDependencyException.
     @Sendable
     @inlinable
     public func deleteWorkflow(_ input: DeleteWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkflowResponse {
@@ -987,7 +1087,9 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Deletes a specific workflow resource.
+    /// Deletes a specific workflow resource. You can't delete a workflow build
+    /// 			version while an image pipeline references it. The request fails with
+    /// 			ResourceDependencyException.
     ///
     /// Parameters:
     ///   - workflowBuildVersionArn: The Amazon Resource Name (ARN) of the workflow resource to delete.
@@ -1023,12 +1125,12 @@ public struct Imagebuilder: AWSService {
     /// 			phase on an image that has already been built.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration. The configuration
     ///   - executionRole: The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute
     ///   - loggingConfiguration: The logging configuration for the distribution.
-    ///   - sourceImage: The source image to distribute. Specify an AMI identifier,
-    ///   - tags: The tags to apply to the distributed image.
+    ///   - sourceImage: The source image to distribute. You can specify the source in any of the
+    ///   - tags: The tags to apply to the new Image Builder image resource that this operation
     ///   - logger: Logger use during operation
     @inlinable
     public func distributeImage(
@@ -1051,7 +1153,7 @@ public struct Imagebuilder: AWSService {
         return try await self.distributeImage(input, logger: logger)
     }
 
-    /// Gets a component object.
+    /// Retrieves a component object.
     @Sendable
     @inlinable
     public func getComponent(_ input: GetComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComponentResponse {
@@ -1064,10 +1166,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Gets a component object.
+    /// Retrieves a component object.
     ///
     /// Parameters:
-    ///   - componentBuildVersionArn: The Amazon Resource Name (ARN) of the component that you want to get. Regex requires
+    ///   - componentBuildVersionArn: The Amazon Resource Name (ARN) of the component that you want to get. You can specify a build
     ///   - logger: Logger use during operation
     @inlinable
     public func getComponent(
@@ -1080,7 +1182,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getComponent(input, logger: logger)
     }
 
-    /// Gets a component policy.
+    /// Retrieves a component policy.
     @Sendable
     @inlinable
     public func getComponentPolicy(_ input: GetComponentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComponentPolicyResponse {
@@ -1093,7 +1195,7 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Gets a component policy.
+    /// Retrieves a component policy.
     ///
     /// Parameters:
     ///   - componentArn: The Amazon Resource Name (ARN) of the component whose policy you want to
@@ -1167,7 +1269,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getContainerRecipePolicy(input, logger: logger)
     }
 
-    /// Gets a distribution configuration.
+    /// Retrieves a distribution configuration.
     @Sendable
     @inlinable
     public func getDistributionConfiguration(_ input: GetDistributionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionConfigurationResponse {
@@ -1180,7 +1282,7 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Gets a distribution configuration.
+    /// Retrieves a distribution configuration.
     ///
     /// Parameters:
     ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration that you want to
@@ -1196,7 +1298,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getDistributionConfiguration(input, logger: logger)
     }
 
-    /// Gets an image.
+    /// Retrieves an image.
     @Sendable
     @inlinable
     public func getImage(_ input: GetImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImageResponse {
@@ -1209,10 +1311,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Gets an image.
+    /// Retrieves an image.
     ///
     /// Parameters:
-    ///   - imageBuildVersionArn: The Amazon Resource Name (ARN) of the image that you want to get.
+    ///   - imageBuildVersionArn: The Amazon Resource Name (ARN) of the image that you want to get. You can specify a full build
     ///   - logger: Logger use during operation
     @inlinable
     public func getImage(
@@ -1225,7 +1327,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getImage(input, logger: logger)
     }
 
-    /// Gets an image pipeline.
+    /// Retrieves an image pipeline.
     @Sendable
     @inlinable
     public func getImagePipeline(_ input: GetImagePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImagePipelineResponse {
@@ -1238,7 +1340,7 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Gets an image pipeline.
+    /// Retrieves an image pipeline.
     ///
     /// Parameters:
     ///   - imagePipelineArn: The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve.
@@ -1254,7 +1356,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getImagePipeline(input, logger: logger)
     }
 
-    /// Gets an image policy.
+    /// Retrieves an image policy.
     @Sendable
     @inlinable
     public func getImagePolicy(_ input: GetImagePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImagePolicyResponse {
@@ -1267,7 +1369,7 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Gets an image policy.
+    /// Retrieves an image policy.
     ///
     /// Parameters:
     ///   - imageArn: The Amazon Resource Name (ARN) of the image whose policy you want to retrieve.
@@ -1283,7 +1385,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getImagePolicy(input, logger: logger)
     }
 
-    /// Gets an image recipe.
+    /// Retrieves an image recipe.
     @Sendable
     @inlinable
     public func getImageRecipe(_ input: GetImageRecipeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImageRecipeResponse {
@@ -1296,10 +1398,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Gets an image recipe.
+    /// Retrieves an image recipe.
     ///
     /// Parameters:
-    ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe that you want to retrieve.
+    ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. You can use the
     ///   - logger: Logger use during operation
     @inlinable
     public func getImageRecipe(
@@ -1312,7 +1414,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getImageRecipe(input, logger: logger)
     }
 
-    /// Gets an image recipe policy.
+    /// Retrieves an image recipe policy.
     @Sendable
     @inlinable
     public func getImageRecipePolicy(_ input: GetImageRecipePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImageRecipePolicyResponse {
@@ -1325,7 +1427,7 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Gets an image recipe policy.
+    /// Retrieves an image recipe policy.
     ///
     /// Parameters:
     ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe whose policy you want to
@@ -1341,7 +1443,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getImageRecipePolicy(input, logger: logger)
     }
 
-    /// Gets an infrastructure configuration.
+    /// Retrieves an infrastructure configuration.
     @Sendable
     @inlinable
     public func getInfrastructureConfiguration(_ input: GetInfrastructureConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInfrastructureConfigurationResponse {
@@ -1354,7 +1456,7 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Gets an infrastructure configuration.
+    /// Retrieves an infrastructure configuration.
     ///
     /// Parameters:
     ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration that you want to
@@ -1370,7 +1472,9 @@ public struct Imagebuilder: AWSService {
         return try await self.getInfrastructureConfiguration(input, logger: logger)
     }
 
-    /// Get the runtime information that was logged for a specific runtime instance of the lifecycle policy.
+    /// Retrieves runtime information for a lifecycle execution – a single run of
+    /// 			lifecycle actions that a lifecycle policy or a
+    /// 			StartResourceStateUpdate request started.
     @Sendable
     @inlinable
     public func getLifecycleExecution(_ input: GetLifecycleExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLifecycleExecutionResponse {
@@ -1383,10 +1487,12 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Get the runtime information that was logged for a specific runtime instance of the lifecycle policy.
+    /// Retrieves runtime information for a lifecycle execution – a single run of
+    /// 			lifecycle actions that a lifecycle policy or a
+    /// 			StartResourceStateUpdate request started.
     ///
     /// Parameters:
-    ///   - lifecycleExecutionId: Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
+    ///   - lifecycleExecutionId: The unique identifier for a runtime instance of the lifecycle policy.
     ///   - logger: Logger use during operation
     @inlinable
     public func getLifecycleExecution(
@@ -1399,7 +1505,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getLifecycleExecution(input, logger: logger)
     }
 
-    /// Get details for the specified image lifecycle policy.
+    /// Retrieves details for the specified image lifecycle policy.
     @Sendable
     @inlinable
     public func getLifecyclePolicy(_ input: GetLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLifecyclePolicyResponse {
@@ -1412,7 +1518,7 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Get details for the specified image lifecycle policy.
+    /// Retrieves details for the specified image lifecycle policy.
     ///
     /// Parameters:
     ///   - lifecyclePolicyArn: Specifies the Amazon Resource Name (ARN) of the image lifecycle policy resource to get.
@@ -1428,9 +1534,10 @@ public struct Imagebuilder: AWSService {
         return try await self.getLifecyclePolicy(input, logger: logger)
     }
 
-    /// Verify the subscription and perform resource dependency checks on the requested
-    /// 			Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the
-    /// 			components and their artifacts.
+    /// Verifies the subscription and performs resource dependency checks on the
+    /// 			requested Amazon Web Services Marketplace resource. The caller must be entitled to the resource. For
+    /// 			Amazon Web Services Marketplace components, the response contains fields to download the components
+    /// 			and their artifacts.
     @Sendable
     @inlinable
     public func getMarketplaceResource(_ input: GetMarketplaceResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMarketplaceResourceResponse {
@@ -1443,13 +1550,14 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Verify the subscription and perform resource dependency checks on the requested
-    /// 			Amazon Web Services Marketplace resource. For Amazon Web Services Marketplace components, the response contains fields to download the
-    /// 			components and their artifacts.
+    /// Verifies the subscription and performs resource dependency checks on the
+    /// 			requested Amazon Web Services Marketplace resource. The caller must be entitled to the resource. For
+    /// 			Amazon Web Services Marketplace components, the response contains fields to download the components
+    /// 			and their artifacts.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) that uniquely identifies an Amazon Web Services Marketplace resource.
-    ///   - resourceLocation: The bucket path that you can specify to download the resource from Amazon S3.
+    ///   - resourceLocation: The Amazon S3 location of the component artifact to retrieve, in
     ///   - resourceType: Specifies which type of Amazon Web Services Marketplace resource Image Builder retrieves.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1467,7 +1575,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getMarketplaceResource(input, logger: logger)
     }
 
-    /// Get a workflow resource object.
+    /// Retrieves a workflow resource object.
     @Sendable
     @inlinable
     public func getWorkflow(_ input: GetWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWorkflowResponse {
@@ -1480,10 +1588,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Get a workflow resource object.
+    /// Retrieves a workflow resource object.
     ///
     /// Parameters:
-    ///   - workflowBuildVersionArn: The Amazon Resource Name (ARN) of the workflow resource that you want to get.
+    ///   - workflowBuildVersionArn: The Amazon Resource Name (ARN) of the workflow resource that you want to get. You can specify a
     ///   - logger: Logger use during operation
     @inlinable
     public func getWorkflow(
@@ -1496,7 +1604,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getWorkflow(input, logger: logger)
     }
 
-    /// Get the runtime information that was logged for a specific runtime instance
+    /// Retrieves runtime information for a specific runtime instance
     /// 			of the workflow.
     @Sendable
     @inlinable
@@ -1510,7 +1618,7 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Get the runtime information that was logged for a specific runtime instance
+    /// Retrieves runtime information for a specific runtime instance
     /// 			of the workflow.
     ///
     /// Parameters:
@@ -1527,7 +1635,7 @@ public struct Imagebuilder: AWSService {
         return try await self.getWorkflowExecution(input, logger: logger)
     }
 
-    /// Get the runtime information that was logged for a specific runtime instance of
+    /// Retrieves runtime information for a specific runtime instance of
     /// 			the workflow step.
     @Sendable
     @inlinable
@@ -1541,11 +1649,11 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Get the runtime information that was logged for a specific runtime instance of
+    /// Retrieves runtime information for a specific runtime instance of
     /// 			the workflow step.
     ///
     /// Parameters:
-    ///   - stepExecutionId: Use the unique identifier for a specific runtime instance of the workflow step to
+    ///   - stepExecutionId: The unique identifier for the runtime instance of the workflow step that you
     ///   - logger: Logger use during operation
     @inlinable
     public func getWorkflowStepExecution(
@@ -1558,7 +1666,9 @@ public struct Imagebuilder: AWSService {
         return try await self.getWorkflowStepExecution(input, logger: logger)
     }
 
-    /// Imports a component and transforms its data into a component document.
+    /// Imports a component and transforms its data into a component document. For
+    /// 			the SHELL format, Image Builder wraps your script in a component
+    /// 			document with a single step that runs the script.
     @Sendable
     @inlinable
     public func importComponent(_ input: ImportComponentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportComponentResponse {
@@ -1571,21 +1681,23 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Imports a component and transforms its data into a component document.
+    /// Imports a component and transforms its data into a component document. For
+    /// 			the SHELL format, Image Builder wraps your script in a component
+    /// 			document with a single step that runs the script.
     ///
     /// Parameters:
     ///   - changeDescription: The change description of the component. This description indicates the change that
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - data: The data of the component. Used to specify the data inline. Either data
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+    ///   - data: The data of the component. For the SHELL format, this is the
     ///   - description: The description of the component. Describes the contents of the component.
     ///   - format: The format of the resource that you want to import as a component.
-    ///   - kmsKeyId: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
-    ///   - name: The name of the component.
+    ///   - kmsKeyId: The Amazon Resource Name (ARN) of the KMS key that is used to encrypt this component.
+    ///   - name: The name of the component. Image Builder generates the component ARN from a
     ///   - platform: The platform of the component.
     ///   - semanticVersion: The semantic version of the component. This version follows the semantic version
     ///   - tags: The tags of the component.
     ///   - type: The type of the component denotes whether the component is used to build the image, or
-    ///   - uri: The uri of the component. Must be an Amazon S3 URL and the requester must have permission
+    ///   - uri: The uri of the component. Must be an Amazon S3 URL and you must have permission
     ///   - logger: Logger use during operation
     @inlinable
     public func importComponent(
@@ -1620,8 +1732,11 @@ public struct Imagebuilder: AWSService {
         return try await self.importComponent(input, logger: logger)
     }
 
-    /// Import a Windows operating system image from a verified Microsoft ISO disk
-    /// 			file. The following disk images are supported:   Windows 11 Enterprise
+    /// Imports a Windows operating system image from a verified Microsoft ISO disk
+    /// 			file. The following disk images are supported:   Windows 11 Enterprise   The response returns as soon as Image Builder creates the new image resource in the
+    /// 			PENDING state. The conversion from ISO file to AMI then runs
+    /// 			asynchronously on an EC2 instance that Image Builder launches with the specified
+    /// 			infrastructure configuration.
     @Sendable
     @inlinable
     public func importDiskImage(_ input: ImportDiskImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportDiskImageResponse {
@@ -1634,22 +1749,25 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Import a Windows operating system image from a verified Microsoft ISO disk
-    /// 			file. The following disk images are supported:   Windows 11 Enterprise
+    /// Imports a Windows operating system image from a verified Microsoft ISO disk
+    /// 			file. The following disk images are supported:   Windows 11 Enterprise   The response returns as soon as Image Builder creates the new image resource in the
+    /// 			PENDING state. The conversion from ISO file to AMI then runs
+    /// 			asynchronously on an EC2 instance that Image Builder launches with the specified
+    /// 			infrastructure configuration.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - description: The description for your disk image import.
     ///   - executionRole: The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access
     ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for
-    ///   - loggingConfiguration: Define logging configuration for the image build process.
-    ///   - name: The name of the image resource that's created from the import.
-    ///   - osVersion: The operating system version for the imported image. Allowed values include
+    ///   - loggingConfiguration: The CloudWatch Logs log group where Image Builder sends the import logs. If you
+    ///   - name: The name of the image resource that's created from the import. Image Builder
+    ///   - osVersion: The operating system version for the imported image. The only supported
     ///   - platform: The operating system platform for the imported image. Allowed values include
     ///   - registerImageOptions: Configures Secure Boot and UEFI settings for the
     ///   - semanticVersion: The semantic version to attach to the image that's created during the import
     ///   - tags: Tags that are attached to image resources created from the import.
-    ///   - uri: The uri of the ISO disk file that's stored in Amazon S3.
+    ///   - uri: The uri of the ISO disk file that's stored in Amazon S3, in
     ///   - windowsConfiguration: Specifies Windows settings for ISO imports.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1687,12 +1805,15 @@ public struct Imagebuilder: AWSService {
         return try await self.importDiskImage(input, logger: logger)
     }
 
-    /// When you export your virtual machine (VM) from its virtualization environment, that
-    /// 			process creates a set of one or more disk container files that act as snapshots of your
-    /// 			VM’s environment, settings, and data. The Amazon EC2 API ImportImage
-    /// 			action uses those files to import your VM and create an AMI. To import using the CLI
-    /// 			command, see import-image  You can reference the task ID from the VM import to pull in the AMI that the import
-    /// 			created as the base image for your Image Builder recipe.
+    /// Creates an Image Builder image resource from an Amazon EC2 VM import task. The response
+    /// 			returns as soon as Image Builder creates the image resource in the
+    /// 			PENDING state. Image Builder then monitors the import task
+    /// 			asynchronously. When the task completes, Image Builder records the AMI that it
+    /// 			produced as the new image's output resource and marks the image
+    /// 			AVAILABLE. You can then use the imported image as the base
+    /// 			image for your recipes. To create the VM import task, use the Amazon EC2 API ImportImage
+    /// 			operation, or the import-image
+    /// 			CLI command.
     @Sendable
     @inlinable
     public func importVmImage(_ input: ImportVmImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportVmImageResponse {
@@ -1705,18 +1826,21 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// When you export your virtual machine (VM) from its virtualization environment, that
-    /// 			process creates a set of one or more disk container files that act as snapshots of your
-    /// 			VM’s environment, settings, and data. The Amazon EC2 API ImportImage
-    /// 			action uses those files to import your VM and create an AMI. To import using the CLI
-    /// 			command, see import-image  You can reference the task ID from the VM import to pull in the AMI that the import
-    /// 			created as the base image for your Image Builder recipe.
+    /// Creates an Image Builder image resource from an Amazon EC2 VM import task. The response
+    /// 			returns as soon as Image Builder creates the image resource in the
+    /// 			PENDING state. Image Builder then monitors the import task
+    /// 			asynchronously. When the task completes, Image Builder records the AMI that it
+    /// 			produced as the new image's output resource and marks the image
+    /// 			AVAILABLE. You can then use the imported image as the base
+    /// 			image for your recipes. To create the VM import task, use the Amazon EC2 API ImportImage
+    /// 			operation, or the import-image
+    /// 			CLI command.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - description: The description for the base image that is created by the import process.
-    ///   - loggingConfiguration: Define logging configuration for the image build process.
-    ///   - name: The name of the base image that is created by the import process.
+    ///   - loggingConfiguration: The CloudWatch Logs log group where Image Builder sends the import logs. For
+    ///   - name: The name of the base image that is created by the import process. Image Builder
     ///   - osVersion: The operating system version for the imported VM.
     ///   - platform: The operating system platform for the imported VM.
     ///   - semanticVersion: The semantic version to attach to the base image that was created during the import
@@ -1750,8 +1874,10 @@ public struct Imagebuilder: AWSService {
         return try await self.importVmImage(input, logger: logger)
     }
 
-    /// Returns the list of component build versions for the specified component
-    /// 			version Amazon Resource Name (ARN).
+    /// Returns a list of component build versions for the specified component
+    /// 			version ARN. You can only list build versions for components that your
+    /// 			account owns. Deprecated build versions aren't included in the
+    /// 			results.
     @Sendable
     @inlinable
     public func listComponentBuildVersions(_ input: ListComponentBuildVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentBuildVersionsResponse {
@@ -1764,13 +1890,15 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Returns the list of component build versions for the specified component
-    /// 			version Amazon Resource Name (ARN).
+    /// Returns a list of component build versions for the specified component
+    /// 			version ARN. You can only list build versions for components that your
+    /// 			account owns. Deprecated build versions aren't included in the
+    /// 			results.
     ///
     /// Parameters:
-    ///   - componentVersionArn: The component version Amazon Resource Name (ARN) whose versions you want to
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - componentVersionArn: The component version ARN whose build versions you want to list. The ARN
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listComponentBuildVersions(
@@ -1787,13 +1915,13 @@ public struct Imagebuilder: AWSService {
         return try await self.listComponentBuildVersions(input, logger: logger)
     }
 
-    /// Returns the list of components that can be filtered by name, or by using the listed
-    /// 				filters to streamline results. Newly created components can take up to
-    /// 			two minutes to appear in the ListComponents API Results.  The semantic version has four nodes: ../.
-    /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-    /// 	to specify the most recent versions or nodes when selecting the base image or components for your
-    /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-    /// 	wildcards.
+    /// Returns the list of components that you have access to. By default, the
+    /// 			response doesn't include components in the
+    /// 			DEPRECATED state. To list deprecated components, use the
+    /// 			status filter with the value DEPRECATED.  The semantic version has four nodes: ../.
+    /// 	You can assign values for the first three, and can filter on all of them.  Filtering: You can use wildcards (x) to specify the most recent versions or nodes when
+    /// 	selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes
+    /// 	to the right of the first wildcard must also be wildcards.
     @Sendable
     @inlinable
     public func listComponents(_ input: ListComponentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComponentsResponse {
@@ -1806,19 +1934,19 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Returns the list of components that can be filtered by name, or by using the listed
-    /// 				filters to streamline results. Newly created components can take up to
-    /// 			two minutes to appear in the ListComponents API Results.  The semantic version has four nodes: ../.
-    /// 	You can assign values for the first three, and can filter on all of them.  Filtering: With semantic versioning, you have the flexibility to use wildcards (x)
-    /// 	to specify the most recent versions or nodes when selecting the base image or components for your
-    /// 	recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be
-    /// 	wildcards.
+    /// Returns the list of components that you have access to. By default, the
+    /// 			response doesn't include components in the
+    /// 			DEPRECATED state. To list deprecated components, use the
+    /// 			status filter with the value DEPRECATED.  The semantic version has four nodes: ../.
+    /// 	You can assign values for the first three, and can filter on all of them.  Filtering: You can use wildcards (x) to specify the most recent versions or nodes when
+    /// 	selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes
+    /// 	to the right of the first wildcard must also be wildcards.
     ///
     /// Parameters:
-    ///   - byName: Returns the list of components for the specified name.
-    ///   - filters: Use the following filters to streamline results:    description     name     platform     supportedOsVersion     type     version
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - byName: Specifies whether to return one entry per component name, with all versions
+    ///   - filters: Use the following filters to streamline results:    description     name     platform     productCodes     status     supportedOsVersion     type     version
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - owner: Filters results based on the type of owner for the component. By default, this request
     ///   - logger: Logger use during operation
     @inlinable
@@ -1857,9 +1985,9 @@ public struct Imagebuilder: AWSService {
     ///
     /// Parameters:
     ///   - filters: Use the following filters to streamline results:    containerType     name     parentImage     platform
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
-    ///   - owner: Returns container recipes belonging to the specified owner, that have been shared with
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
+    ///   - owner: Returns container recipes belonging to the specified owner, that have been
     ///   - logger: Logger use during operation
     @inlinable
     public func listContainerRecipes(
@@ -1895,8 +2023,8 @@ public struct Imagebuilder: AWSService {
     ///
     /// Parameters:
     ///   - filters: You can filter on name to streamline results.
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listDistributionConfigurations(
@@ -1930,9 +2058,9 @@ public struct Imagebuilder: AWSService {
     ///
     /// Parameters:
     ///   - filters: Use the following filters to streamline results:    name     osVersion     platform     type     version
-    ///   - imageVersionArn: The Amazon Resource Name (ARN) of the image whose build versions you want to
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - imageVersionArn: The Amazon Resource Name (ARN) of the image version whose build versions you want to retrieve.
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listImageBuildVersions(
@@ -1951,7 +2079,7 @@ public struct Imagebuilder: AWSService {
         return try await self.listImageBuildVersions(input, logger: logger)
     }
 
-    /// List the Packages that are associated with an Image Build Version, as determined by
+    /// Lists the packages that are associated with an image build version, as determined by
     /// 			Amazon Web Services Systems Manager Inventory at build time.
     @Sendable
     @inlinable
@@ -1965,13 +2093,13 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// List the Packages that are associated with an Image Build Version, as determined by
+    /// Lists the packages that are associated with an image build version, as determined by
     /// 			Amazon Web Services Systems Manager Inventory at build time.
     ///
     /// Parameters:
-    ///   - imageBuildVersionArn: Filter results for the ListImagePackages request by the Image Build Version ARN
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - imageBuildVersionArn: The Amazon Resource Name (ARN) of the image build version whose packages you want to list. The
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listImagePackages(
@@ -2006,8 +2134,8 @@ public struct Imagebuilder: AWSService {
     /// Parameters:
     ///   - filters: Use the following filters to streamline results:    name     version
     ///   - imagePipelineArn: The Amazon Resource Name (ARN) of the image pipeline whose images you want to
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listImagePipelineImages(
@@ -2043,8 +2171,8 @@ public struct Imagebuilder: AWSService {
     ///
     /// Parameters:
     ///   - filters: Use the following filters to streamline results:    description     distributionConfigurationArn     imageRecipeArn     infrastructureConfigurationArn     name     status
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listImagePipelines(
@@ -2078,8 +2206,8 @@ public struct Imagebuilder: AWSService {
     ///
     /// Parameters:
     ///   - filters: Use the following filters to streamline results:    name     parentImage     platform
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - owner: You can specify the recipe owner to filter results by that owner. By default, this request will
     ///   - logger: Logger use during operation
     @inlinable
@@ -2103,7 +2231,7 @@ public struct Imagebuilder: AWSService {
     /// 			of key that Image Builder uses to group results. For example, if you want to get a list of
     /// 			findings by severity level for one of your pipelines, you might specify your pipeline
     /// 			with the imagePipelineArn filter. If you don't specify a filter, Image Builder
-    /// 			returns an aggregation for your account. To streamline results, you can use the following filters in your request:    accountId     imageBuildVersionArn     imagePipelineArn     vulnerabilityId
+    /// 			returns an aggregation for your account. To streamline results, you can use the following filters in your request:    imageBuildVersionArn     imagePipelineArn     vulnerabilityId
     @Sendable
     @inlinable
     public func listImageScanFindingAggregations(_ input: ListImageScanFindingAggregationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImageScanFindingAggregationsResponse {
@@ -2120,11 +2248,11 @@ public struct Imagebuilder: AWSService {
     /// 			of key that Image Builder uses to group results. For example, if you want to get a list of
     /// 			findings by severity level for one of your pipelines, you might specify your pipeline
     /// 			with the imagePipelineArn filter. If you don't specify a filter, Image Builder
-    /// 			returns an aggregation for your account. To streamline results, you can use the following filters in your request:    accountId     imageBuildVersionArn     imagePipelineArn     vulnerabilityId
+    /// 			returns an aggregation for your account. To streamline results, you can use the following filters in your request:    imageBuildVersionArn     imagePipelineArn     vulnerabilityId
     ///
     /// Parameters:
-    ///   - filter: 
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - filter: A filter name and value pair that determines the type of aggregation
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listImageScanFindingAggregations(
@@ -2139,7 +2267,8 @@ public struct Imagebuilder: AWSService {
         return try await self.listImageScanFindingAggregations(input, logger: logger)
     }
 
-    /// Returns a list of image scan findings for your account.
+    /// Returns a list of image scan findings for your account. Amazon Inspector generates the
+    /// 			findings when it scans images that have scanning enabled.
     @Sendable
     @inlinable
     public func listImageScanFindings(_ input: ListImageScanFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImageScanFindingsResponse {
@@ -2152,12 +2281,13 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of image scan findings for your account.
+    /// Returns a list of image scan findings for your account. Amazon Inspector generates the
+    /// 			findings when it scans images that have scanning enabled.
     ///
     /// Parameters:
     ///   - filters: An array of name value pairs that you can use to filter your results. You can use the
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listImageScanFindings(
@@ -2174,8 +2304,7 @@ public struct Imagebuilder: AWSService {
         return try await self.listImageScanFindings(input, logger: logger)
     }
 
-    /// Returns the list of images that you have access to. Newly created images can take up
-    /// 			to two minutes to appear in the ListImages API Results.
+    /// Returns the list of images that you have access to.
     @Sendable
     @inlinable
     public func listImages(_ input: ListImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImagesResponse {
@@ -2188,16 +2317,15 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Returns the list of images that you have access to. Newly created images can take up
-    /// 			to two minutes to appear in the ListImages API Results.
+    /// Returns the list of images that you have access to.
     ///
     /// Parameters:
-    ///   - byName: Requests a list of images with a specific recipe name.
+    ///   - byName: Specifies whether to return one entry per image name, with all versions of
     ///   - filters: Use the following filters to streamline results:    name     osVersion     platform     type     version
-    ///   - includeDeprecated: Includes deprecated images in the response list.
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
-    ///   - owner: The owner defines which images you want to list. By default, this request will only
+    ///   - includeDeprecated: Specifies whether to include deprecated Amazon-managed images in the
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
+    ///   - owner: Filters the list to images owned by you, by Amazon, or shared with you by other accounts.
     ///   - logger: Logger use during operation
     @inlinable
     public func listImages(
@@ -2237,8 +2365,8 @@ public struct Imagebuilder: AWSService {
     ///
     /// Parameters:
     ///   - filters: You can filter on name to streamline results.
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listInfrastructureConfigurations(
@@ -2255,7 +2383,7 @@ public struct Imagebuilder: AWSService {
         return try await self.listInfrastructureConfigurations(input, logger: logger)
     }
 
-    /// List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
+    /// Lists resources that the runtime instance of the image lifecycle identified for lifecycle actions.
     @Sendable
     @inlinable
     public func listLifecycleExecutionResources(_ input: ListLifecycleExecutionResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLifecycleExecutionResourcesResponse {
@@ -2268,13 +2396,13 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// List resources that the runtime instance of the image lifecycle identified for lifecycle actions.
+    /// Lists resources that the runtime instance of the image lifecycle identified for lifecycle actions.
     ///
     /// Parameters:
-    ///   - lifecycleExecutionId: Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
-    ///   - parentResourceId: You can  leave this empty to get a list of Image Builder resources that were identified for lifecycle actions. To get a list of associated resources that are impacted for an individual resource (the parent), specify
+    ///   - lifecycleExecutionId: The unique identifier for a runtime instance of the lifecycle policy.
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
+    ///   - parentResourceId: The Amazon Resource Name (ARN) of an image build version to get the output resources for,
     ///   - logger: Logger use during operation
     @inlinable
     public func listLifecycleExecutionResources(
@@ -2293,7 +2421,7 @@ public struct Imagebuilder: AWSService {
         return try await self.listLifecycleExecutionResources(input, logger: logger)
     }
 
-    /// Get the lifecycle runtime history for the specified resource.
+    /// Retrieves the lifecycle runtime history for the specified resource.
     @Sendable
     @inlinable
     public func listLifecycleExecutions(_ input: ListLifecycleExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLifecycleExecutionsResponse {
@@ -2306,12 +2434,12 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Get the lifecycle runtime history for the specified resource.
+    /// Retrieves the lifecycle runtime history for the specified resource.
     ///
     /// Parameters:
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to get a list of lifecycle runtime instances.
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to list lifecycle executions. Specify a
     ///   - logger: Logger use during operation
     @inlinable
     public func listLifecycleExecutions(
@@ -2328,7 +2456,7 @@ public struct Imagebuilder: AWSService {
         return try await self.listLifecycleExecutions(input, logger: logger)
     }
 
-    /// Get a list of lifecycle policies in your Amazon Web Services account.
+    /// Retrieves a list of lifecycle policies in your Amazon Web Services account.
     @Sendable
     @inlinable
     public func listLifecyclePolicies(_ input: ListLifecyclePoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLifecyclePoliciesResponse {
@@ -2341,12 +2469,12 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Get a list of lifecycle policies in your Amazon Web Services account.
+    /// Retrieves a list of lifecycle policies in your Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - filters: Streamline results based on one of the following values: Name,
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - filters: Use the following filters to streamline results: name,
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listLifecyclePolicies(
@@ -2392,8 +2520,9 @@ public struct Imagebuilder: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Get a list of workflow steps that are waiting for action for workflows
-    /// 			in your Amazon Web Services account.
+    /// Lists the workflow steps in your Amazon Web Services account that have paused at a
+    /// 			WaitForAction step, and are waiting for you to respond. To send
+    /// 			a response, call SendWorkflowStepAction.
     @Sendable
     @inlinable
     public func listWaitingWorkflowSteps(_ input: ListWaitingWorkflowStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWaitingWorkflowStepsResponse {
@@ -2406,12 +2535,13 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Get a list of workflow steps that are waiting for action for workflows
-    /// 			in your Amazon Web Services account.
+    /// Lists the workflow steps in your Amazon Web Services account that have paused at a
+    /// 			WaitForAction step, and are waiting for you to respond. To send
+    /// 			a response, call SendWorkflowStepAction.
     ///
     /// Parameters:
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listWaitingWorkflowSteps(
@@ -2442,8 +2572,8 @@ public struct Imagebuilder: AWSService {
     /// Returns a list of build versions for a specific workflow resource.
     ///
     /// Parameters:
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - workflowVersionArn: The Amazon Resource Name (ARN) of the workflow resource for which to get a list of build versions.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2480,8 +2610,8 @@ public struct Imagebuilder: AWSService {
     ///
     /// Parameters:
     ///   - imageBuildVersionArn: List all workflow runtime instances for the specified image build version
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - logger: Logger use during operation
     @inlinable
     public func listWorkflowExecutions(
@@ -2516,8 +2646,8 @@ public struct Imagebuilder: AWSService {
     /// 			that you specify in the request.
     ///
     /// Parameters:
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
     ///   - workflowExecutionId: The unique identifier that Image Builder assigned to keep track of runtime details
     ///   - logger: Logger use during operation
     @inlinable
@@ -2535,7 +2665,9 @@ public struct Imagebuilder: AWSService {
         return try await self.listWorkflowStepExecutions(input, logger: logger)
     }
 
-    /// Lists workflow build versions based on filtering parameters.
+    /// Lists workflow versions based on filtering parameters. To list the build
+    /// 			versions of a specific workflow version, call
+    /// 			ListWorkflowBuildVersions.
     @Sendable
     @inlinable
     public func listWorkflows(_ input: ListWorkflowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkflowsResponse {
@@ -2548,14 +2680,16 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Lists workflow build versions based on filtering parameters.
+    /// Lists workflow versions based on filtering parameters. To list the build
+    /// 			versions of a specific workflow version, call
+    /// 			ListWorkflowBuildVersions.
     ///
     /// Parameters:
-    ///   - byName: Specify all or part of the workflow name to streamline results.
-    ///   - filters: Used to streamline search results.
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - nextToken: A token to specify where to start paginating. This is the nextToken
-    ///   - owner: Used to get a list of workflow build version filtered by the identity of the creator.
+    ///   - byName: Specifies whether to return one entry per workflow name, with all versions of
+    ///   - filters: Filters to narrow the list of workflows. You can filter on
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - nextToken: A token to specify where to start paginating. Use the nextToken value
+    ///   - owner: Filters results based on the workflow owner. By default, this request returns
     ///   - logger: Logger use during operation
     @inlinable
     public func listWorkflows(
@@ -2576,9 +2710,10 @@ public struct Imagebuilder: AWSService {
         return try await self.listWorkflows(input, logger: logger)
     }
 
-    /// Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
-    /// 				PutComponentPolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
-    /// 			visible to all principals with whom the resource is shared.
+    /// Applies a policy to a component. The preferred way to share resources is with
+    /// 			the RAM API CreateResourceShare. If you use the PutComponentPolicy operation instead, you
+    /// 			must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+    /// 			isn't visible to the principals that it's shared with.
     @Sendable
     @inlinable
     public func putComponentPolicy(_ input: PutComponentPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutComponentPolicyResponse {
@@ -2591,9 +2726,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Applies a policy to a component. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
-    /// 				PutComponentPolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
-    /// 			visible to all principals with whom the resource is shared.
+    /// Applies a policy to a component. The preferred way to share resources is with
+    /// 			the RAM API CreateResourceShare. If you use the PutComponentPolicy operation instead, you
+    /// 			must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+    /// 			isn't visible to the principals that it's shared with.
     ///
     /// Parameters:
     ///   - componentArn: The Amazon Resource Name (ARN) of the component that this policy should be applied
@@ -2612,14 +2748,10 @@ public struct Imagebuilder: AWSService {
         return try await self.putComponentPolicy(input, logger: logger)
     }
 
-    /// Applies a policy to a container image. We recommend that you call the RAM API
-    /// 			CreateResourceShare
-    /// 			(https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share
-    /// 			resources. If you call the Image Builder API PutContainerImagePolicy, you must also
-    /// 			call the RAM API PromoteResourceShareCreatedFromPolicy
-    /// 			(https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
-    /// 			in order for the resource to be visible to all principals with whom the resource is
-    /// 			shared.
+    /// Applies a policy to a container recipe. The preferred way to share resources is with
+    /// 			the RAM API CreateResourceShare. If you use the PutContainerRecipePolicy operation instead, you
+    /// 			must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+    /// 			isn't visible to the principals that it's shared with.
     @Sendable
     @inlinable
     public func putContainerRecipePolicy(_ input: PutContainerRecipePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutContainerRecipePolicyResponse {
@@ -2632,14 +2764,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Applies a policy to a container image. We recommend that you call the RAM API
-    /// 			CreateResourceShare
-    /// 			(https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share
-    /// 			resources. If you call the Image Builder API PutContainerImagePolicy, you must also
-    /// 			call the RAM API PromoteResourceShareCreatedFromPolicy
-    /// 			(https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
-    /// 			in order for the resource to be visible to all principals with whom the resource is
-    /// 			shared.
+    /// Applies a policy to a container recipe. The preferred way to share resources is with
+    /// 			the RAM API CreateResourceShare. If you use the PutContainerRecipePolicy operation instead, you
+    /// 			must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+    /// 			isn't visible to the principals that it's shared with.
     ///
     /// Parameters:
     ///   - containerRecipeArn: The Amazon Resource Name (ARN) of the container recipe that this policy should be
@@ -2658,9 +2786,10 @@ public struct Imagebuilder: AWSService {
         return try await self.putContainerRecipePolicy(input, logger: logger)
     }
 
-    /// Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
-    /// 				PutImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
-    /// 			visible to all principals with whom the resource is shared.
+    /// Applies a policy to an image. The preferred way to share resources is with
+    /// 			the RAM API CreateResourceShare. If you use the PutImagePolicy operation instead, you
+    /// 			must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+    /// 			isn't visible to the principals that it's shared with.
     @Sendable
     @inlinable
     public func putImagePolicy(_ input: PutImagePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutImagePolicyResponse {
@@ -2673,13 +2802,14 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
-    /// 				PutImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
-    /// 			visible to all principals with whom the resource is shared.
+    /// Applies a policy to an image. The preferred way to share resources is with
+    /// 			the RAM API CreateResourceShare. If you use the PutImagePolicy operation instead, you
+    /// 			must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+    /// 			isn't visible to the principals that it's shared with.
     ///
     /// Parameters:
     ///   - imageArn: The Amazon Resource Name (ARN) of the image that this policy should be applied
-    ///   - policy: The policy to apply.
+    ///   - policy: The resource policy to apply to the image, as a JSON policy document.
     ///   - logger: Logger use during operation
     @inlinable
     public func putImagePolicy(
@@ -2694,9 +2824,10 @@ public struct Imagebuilder: AWSService {
         return try await self.putImagePolicy(input, logger: logger)
     }
 
-    /// Applies a policy to an image recipe. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
-    /// 				PutImageRecipePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
-    /// 			visible to all principals with whom the resource is shared.
+    /// Applies a policy to an image recipe. The preferred way to share resources is with
+    /// 			the RAM API CreateResourceShare. If you use the PutImageRecipePolicy operation instead, you
+    /// 			must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+    /// 			isn't visible to the principals that it's shared with.
     @Sendable
     @inlinable
     public func putImageRecipePolicy(_ input: PutImageRecipePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutImageRecipePolicyResponse {
@@ -2709,9 +2840,10 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Applies a policy to an image recipe. We recommend that you call the RAM API CreateResourceShare to share resources. If you call the Image Builder API
-    /// 				PutImageRecipePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy in order for the resource to be
-    /// 			visible to all principals with whom the resource is shared.
+    /// Applies a policy to an image recipe. The preferred way to share resources is with
+    /// 			the RAM API CreateResourceShare. If you use the PutImageRecipePolicy operation instead, you
+    /// 			must also call the RAM API PromoteResourceShareCreatedFromPolicy. Otherwise, the resource
+    /// 			isn't visible to the principals that it's shared with.
     ///
     /// Parameters:
     ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe that this policy should be applied
@@ -2730,7 +2862,11 @@ public struct Imagebuilder: AWSService {
         return try await self.putImageRecipePolicy(input, logger: logger)
     }
 
-    /// RetryImage retries an image distribution without rebuilding the image.
+    /// Retries a failed or canceled image build without rebuilding the phases
+    /// 			that already completed. The image re-runs asynchronously in place: the same
+    /// 			build version returns to the test or distribution phase where it failed and
+    /// 			continues from there. No new image build version is created. Retry is only
+    /// 			supported for AMI-based images.
     @Sendable
     @inlinable
     public func retryImage(_ input: RetryImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetryImageResponse {
@@ -2743,11 +2879,15 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// RetryImage retries an image distribution without rebuilding the image.
+    /// Retries a failed or canceled image build without rebuilding the phases
+    /// 			that already completed. The image re-runs asynchronously in place: the same
+    /// 			build version returns to the test or distribution phase where it failed and
+    /// 			continues from there. No new image build version is created. Retry is only
+    /// 			supported for AMI-based images.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - imageBuildVersionArn: The source image Amazon Resource Name (ARN) to retry.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+    ///   - imageBuildVersionArn: The Amazon Resource Name (ARN) of the image build version that you want to retry. The image
     ///   - logger: Logger use during operation
     @inlinable
     public func retryImage(
@@ -2762,8 +2902,10 @@ public struct Imagebuilder: AWSService {
         return try await self.retryImage(input, logger: logger)
     }
 
-    /// Pauses or resumes image creation when the associated workflow runs a
-    /// 			WaitForAction step.
+    /// Sends an action to a workflow step that has paused at a
+    /// 			WaitForAction step, so that image creation can continue.
+    /// 			To find the steps that are waiting for an action, call
+    /// 			ListWaitingWorkflowSteps.
     @Sendable
     @inlinable
     public func sendWorkflowStepAction(_ input: SendWorkflowStepActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendWorkflowStepActionResponse {
@@ -2776,15 +2918,17 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Pauses or resumes image creation when the associated workflow runs a
-    /// 			WaitForAction step.
+    /// Sends an action to a workflow step that has paused at a
+    /// 			WaitForAction step, so that image creation can continue.
+    /// 			To find the steps that are waiting for an action, call
+    /// 			ListWaitingWorkflowSteps.
     ///
     /// Parameters:
-    ///   - action: The action to perform on the paused workflow step. The workflow
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - action: The action to perform on the paused workflow step.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - imageBuildVersionArn: The Amazon Resource Name (ARN) of the image build version associated with the workflow
     ///   - reason: The reason for the action. This value is stored with the step
-    ///   - stepExecutionId: Uniquely identifies the workflow step that sent the step action.
+    ///   - stepExecutionId: Uniquely identifies the waiting workflow step that you send the action to.
     ///   - logger: Logger use during operation
     @inlinable
     public func sendWorkflowStepAction(
@@ -2805,7 +2949,11 @@ public struct Imagebuilder: AWSService {
         return try await self.sendWorkflowStepAction(input, logger: logger)
     }
 
-    /// Manually triggers a pipeline to create an image.
+    /// Manually triggers a pipeline to create an image. You can start a build
+    /// 			this way whether the pipeline is enabled or disabled. The response returns
+    /// 			as soon as Image Builder creates the new image resource and queues the build. Use
+    /// 			the returned imageBuildVersionArn with
+    /// 			GetImage to track build progress.
     @Sendable
     @inlinable
     public func startImagePipelineExecution(_ input: StartImagePipelineExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImagePipelineExecutionResponse {
@@ -2818,12 +2966,16 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Manually triggers a pipeline to create an image.
+    /// Manually triggers a pipeline to create an image. You can start a build
+    /// 			this way whether the pipeline is enabled or disabled. The response returns
+    /// 			as soon as Image Builder creates the new image resource and queues the build. Use
+    /// 			the returned imageBuildVersionArn with
+    /// 			GetImage to track build progress.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - imagePipelineArn: The Amazon Resource Name (ARN) of the image pipeline that you want to manually
-    ///   - tags: Specify tags for Image Builder to apply to the image resource that's created
+    ///   - tags: The tags for Image Builder to apply to the image resource that's created
     ///   - logger: Logger use during operation
     @inlinable
     public func startImagePipelineExecution(
@@ -2840,8 +2992,15 @@ public struct Imagebuilder: AWSService {
         return try await self.startImagePipelineExecution(input, logger: logger)
     }
 
-    /// Begin asynchronous resource state update for lifecycle changes to the
-    /// 			specified image resources.
+    /// Begins an ad-hoc state change for the specified image build version.
+    /// 			This is a one-time operation - if you schedule the update, it runs only
+    /// 			once. If the
+    /// 			request includes underlying resources, or schedules the update far enough in
+    /// 			the future, Image Builder runs the update as an asynchronous lifecycle execution and
+    /// 			returns its identifier. Otherwise, for target states other than
+    /// 			DELETED, the state change applies immediately. If a request
+    /// 			that starts a lifecycle execution arrives while the image already has one in
+    /// 			progress, Image Builder rejects it.
     @Sendable
     @inlinable
     public func startResourceStateUpdate(_ input: StartResourceStateUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartResourceStateUpdateResponse {
@@ -2854,17 +3013,24 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Begin asynchronous resource state update for lifecycle changes to the
-    /// 			specified image resources.
+    /// Begins an ad-hoc state change for the specified image build version.
+    /// 			This is a one-time operation - if you schedule the update, it runs only
+    /// 			once. If the
+    /// 			request includes underlying resources, or schedules the update far enough in
+    /// 			the future, Image Builder runs the update as an asynchronous lifecycle execution and
+    /// 			returns its identifier. Otherwise, for target states other than
+    /// 			DELETED, the state change applies immediately. If a request
+    /// 			that starts a lifecycle execution arrives while the image already has one in
+    /// 			progress, Image Builder rejects it.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - exclusionRules: Skip action on the image resource and associated resources if specified
-    ///   - executionRole: The name or Amazon Resource Name (ARN) of the IAM role that’s used to update image state.
-    ///   - includeResources: Specifies which image resources to include in the state update.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+    ///   - exclusionRules: Rules that Image Builder evaluates against each of the image's AMIs. Matching
+    ///   - executionRole: The name or Amazon Resource Name (ARN) of the IAM role that's used to update image state. You
+    ///   - includeResources: Specifies which underlying resources to update, in addition to the Image Builder
     ///   - resourceArn: The Amazon Resource Name (ARN) of the image build version to update. The
     ///   - state: Specifies the lifecycle action to take for this request. For AMI-based
-    ///   - updateAt: Specifies the timestamp when the state transition takes
+    ///   - updateAt: The timestamp that indicates when resources are updated by a lifecycle
     ///   - logger: Logger use during operation
     @inlinable
     public func startResourceStateUpdate(
@@ -2953,8 +3119,11 @@ public struct Imagebuilder: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates a new distribution configuration. Distribution configurations define and
-    /// 			configure the outputs of your pipeline.
+    /// Updates a distribution configuration. Distribution configurations define and
+    /// 			configure the outputs for your images, including the target Regions,
+    /// 			accounts, and settings for each Region.  This operation doesn't support selective updates. The request
+    /// 				replaces the stored configuration, so include every setting that you
+    /// 				want to keep.
     @Sendable
     @inlinable
     public func updateDistributionConfiguration(_ input: UpdateDistributionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDistributionConfigurationResponse {
@@ -2967,14 +3136,17 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Updates a new distribution configuration. Distribution configurations define and
-    /// 			configure the outputs of your pipeline.
+    /// Updates a distribution configuration. Distribution configurations define and
+    /// 			configure the outputs for your images, including the target Regions,
+    /// 			accounts, and settings for each Region.  This operation doesn't support selective updates. The request
+    /// 				replaces the stored configuration, so include every setting that you
+    /// 				want to keep.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - description: The description of the distribution configuration.
     ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration that you want to
-    ///   - distributions: The distributions of the distribution configuration.
+    ///   - distributions: The distribution settings for the configuration. Each entry defines how
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDistributionConfiguration(
@@ -2993,11 +3165,14 @@ public struct Imagebuilder: AWSService {
         return try await self.updateDistributionConfiguration(input, logger: logger)
     }
 
-    /// Updates an image pipeline. Image pipelines enable you to automate the creation and
+    /// Updates an image pipeline. Use image pipelines to automate the creation and
     /// 			distribution of images. You must specify exactly one recipe for your image, using either
-    /// 			a containerRecipeArn or an imageRecipeArn.  UpdateImagePipeline does not support selective updates for the pipeline. You must
-    /// 				specify all of the required properties in the update request, not just the
-    /// 				properties that have changed.
+    /// 			a containerRecipeArn or an imageRecipeArn. The
+    /// 			recipe must be the same type, image or container, as the pipeline's current
+    /// 			recipe.  UpdateImagePipeline does not support selective updates. The request
+    /// 				replaces the pipeline's entire configuration, so include every setting
+    /// 				that you want to keep. Any optional property that you omit is removed
+    /// 				or reset to its default.
     @Sendable
     @inlinable
     public func updateImagePipeline(_ input: UpdateImagePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateImagePipelineResponse {
@@ -3010,29 +3185,32 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Updates an image pipeline. Image pipelines enable you to automate the creation and
+    /// Updates an image pipeline. Use image pipelines to automate the creation and
     /// 			distribution of images. You must specify exactly one recipe for your image, using either
-    /// 			a containerRecipeArn or an imageRecipeArn.  UpdateImagePipeline does not support selective updates for the pipeline. You must
-    /// 				specify all of the required properties in the update request, not just the
-    /// 				properties that have changed.
+    /// 			a containerRecipeArn or an imageRecipeArn. The
+    /// 			recipe must be the same type, image or container, as the pipeline's current
+    /// 			recipe.  UpdateImagePipeline does not support selective updates. The request
+    /// 				replaces the pipeline's entire configuration, so include every setting
+    /// 				that you want to keep. Any optional property that you omit is removed
+    /// 				or reset to its default.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - containerRecipeArn: The Amazon Resource Name (ARN) of the container pipeline to update.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+    ///   - containerRecipeArn: The Amazon Resource Name (ARN) of the container recipe that is used to configure images
     ///   - description: The description of the image pipeline.
     ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration that Image Builder uses to
-    ///   - enhancedImageMetadataEnabled: Collects additional information about the image being created, including the operating
+    ///   - enhancedImageMetadataEnabled: Specifies whether to collect additional information about the image being created, including the operating
     ///   - executionRole: The name or Amazon Resource Name (ARN) for the IAM role you create that grants
     ///   - imagePipelineArn: The Amazon Resource Name (ARN) of the image pipeline that you want to update.
-    ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe that will be used to configure
-    ///   - imageScanningConfiguration: Contains settings for vulnerability scans.
-    ///   - imageTags: The tags to be applied to the images produced by this pipeline.
-    ///   - imageTestsConfiguration: The image test configuration of the image pipeline.
+    ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe that configures
+    ///   - imageScanningConfiguration: Contains settings for vulnerability scans that Amazon Inspector runs against the test instance
+    ///   - imageTags: The tags that Image Builder applies to the Image Builder image resource that this
+    ///   - imageTestsConfiguration: Specifies the test settings that Image Builder applies to images that this
     ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to
-    ///   - loggingConfiguration: Update logging configuration for the output image that's created when
-    ///   - schedule: The schedule of the image pipeline.
-    ///   - status: The status of the image pipeline.
-    ///   - workflows: Contains the workflows to run for the pipeline.
+    ///   - loggingConfiguration: Specifies the logging configuration for the image pipeline. Use this
+    ///   - schedule: The schedule of the image pipeline. Because the update replaces the entire
+    ///   - status: The status of the image pipeline. Defaults to ENABLED when
+    ///   - workflows: The array of workflow configuration objects for builds that this pipeline
     ///   - logger: Logger use during operation
     @inlinable
     public func updateImagePipeline(
@@ -3075,8 +3253,10 @@ public struct Imagebuilder: AWSService {
         return try await self.updateImagePipeline(input, logger: logger)
     }
 
-    /// Updates a new infrastructure configuration. An infrastructure configuration defines
-    /// 			the environment in which your image will be built and tested.
+    /// Updates an infrastructure configuration. An infrastructure configuration defines
+    /// 			the environment in which Image Builder builds and tests your image.  This operation doesn't support selective updates.
+    /// 				The request replaces the configuration, so include every setting that
+    /// 				you want to keep. Omitted optional properties are cleared.
     @Sendable
     @inlinable
     public func updateInfrastructureConfiguration(_ input: UpdateInfrastructureConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInfrastructureConfigurationResponse {
@@ -3089,24 +3269,26 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Updates a new infrastructure configuration. An infrastructure configuration defines
-    /// 			the environment in which your image will be built and tested.
+    /// Updates an infrastructure configuration. An infrastructure configuration defines
+    /// 			the environment in which Image Builder builds and tests your image.  This operation doesn't support selective updates.
+    /// 				The request replaces the configuration, so include every setting that
+    /// 				you want to keep. Omitted optional properties are cleared.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
     ///   - description: The description of the infrastructure configuration.
     ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration that you want to
-    ///   - instanceMetadataOptions: The instance metadata options that you can set for the HTTP requests that pipeline
+    ///   - instanceMetadataOptions: The instance metadata service (IMDS) settings that Image Builder applies to the EC2
     ///   - instanceProfileName: The instance profile to associate with the instance used to customize your Amazon EC2
     ///   - instanceTypes: The instance types of the infrastructure configuration. You can specify one or more
     ///   - keyPair: The key pair of the infrastructure configuration. You can use this to log on to and
-    ///   - logging: The logging configuration of the infrastructure configuration.
-    ///   - placement: The instance placement settings that define where the instances that are launched
-    ///   - resourceTags: The tags attached to the resource created by Image Builder.
+    ///   - logging: The logging configuration of the infrastructure configuration. When you
+    ///   - placement: The instance placement settings that define where the build and test
+    ///   - resourceTags: The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during
     ///   - securityGroupIds: The security group IDs to associate with the instance used to customize your Amazon EC2
-    ///   - snsTopicArn: The Amazon Resource Name (ARN) for the SNS topic to which we send image build event
-    ///   - subnetId: The subnet ID to place the instance used to customize your Amazon EC2 AMI in.
-    ///   - terminateInstanceOnFailure: The terminate instance on failure setting of the infrastructure configuration. Set to
+    ///   - snsTopicArn: The Amazon Resource Name (ARN) of the SNS topic to which Image Builder
+    ///   - subnetId: The subnet ID in which to place the instance used to customize your Amazon EC2
+    ///   - terminateInstanceOnFailure: Specifies whether to terminate the instance on failure. Set to
     ///   - logger: Logger use during operation
     @inlinable
     public func updateInfrastructureConfiguration(
@@ -3145,7 +3327,10 @@ public struct Imagebuilder: AWSService {
         return try await self.updateInfrastructureConfiguration(input, logger: logger)
     }
 
-    /// Update the specified lifecycle policy.
+    /// Updates the specified lifecycle policy. The request replaces the existing
+    /// 			policy configuration rather than merging changes, so re-specify every setting
+    /// 			that you want to keep. The resourceType must match the existing
+    /// 			policy's value.
     @Sendable
     @inlinable
     public func updateLifecyclePolicy(_ input: UpdateLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLifecyclePolicyResponse {
@@ -3158,17 +3343,20 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// Update the specified lifecycle policy.
+    /// Updates the specified lifecycle policy. The request replaces the existing
+    /// 			policy configuration rather than merging changes, so re-specify every setting
+    /// 			that you want to keep. The resourceType must match the existing
+    /// 			policy's value.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - description: Optional description for the lifecycle policy.
-    ///   - executionRole: The name or Amazon Resource Name (ARN) of the IAM role that Image Builder uses to update the
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
+    ///   - description: Optional description for the lifecycle policy. Because the update replaces the
+    ///   - executionRole: The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access
     ///   - lifecyclePolicyArn: The Amazon Resource Name (ARN) of the lifecycle policy resource.
     ///   - policyDetails: The configuration details for a lifecycle policy resource.
-    ///   - resourceSelection: Selection criteria for resources that the lifecycle policy applies to.
-    ///   - resourceType: The type of image resource that the lifecycle policy applies to.
-    ///   - status: Indicates whether the lifecycle policy resource is enabled.
+    ///   - resourceSelection: Selection criteria for resources that the lifecycle policy applies to. You
+    ///   - resourceType: The type of image resource that the lifecycle policy applies to. The value
+    ///   - status: Indicates whether the lifecycle policy resource is enabled. Defaults to
     ///   - logger: Logger use during operation
     @inlinable
     public func updateLifecyclePolicy(
@@ -3230,8 +3418,8 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listComponentBuildVersions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - componentVersionArn: The component version Amazon Resource Name (ARN) whose versions you want to
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - componentVersionArn: The component version ARN whose build versions you want to list. The ARN
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listComponentBuildVersionsPaginator(
@@ -3267,9 +3455,9 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listComponents(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - byName: Returns the list of components for the specified name.
-    ///   - filters: Use the following filters to streamline results:    description     name     platform     supportedOsVersion     type     version
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - byName: Specifies whether to return one entry per component name, with all versions
+    ///   - filters: Use the following filters to streamline results:    description     name     platform     productCodes     status     supportedOsVersion     type     version
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - owner: Filters results based on the type of owner for the component. By default, this request
     ///   - logger: Logger used for logging
     @inlinable
@@ -3311,8 +3499,8 @@ extension Imagebuilder {
     ///
     /// - Parameters:
     ///   - filters: Use the following filters to streamline results:    containerType     name     parentImage     platform
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - owner: Returns container recipes belonging to the specified owner, that have been shared with
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - owner: Returns container recipes belonging to the specified owner, that have been
     ///   - logger: Logger used for logging
     @inlinable
     public func listContainerRecipesPaginator(
@@ -3351,7 +3539,7 @@ extension Imagebuilder {
     ///
     /// - Parameters:
     ///   - filters: You can filter on name to streamline results.
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listDistributionConfigurationsPaginator(
@@ -3388,8 +3576,8 @@ extension Imagebuilder {
     ///
     /// - Parameters:
     ///   - filters: Use the following filters to streamline results:    name     osVersion     platform     type     version
-    ///   - imageVersionArn: The Amazon Resource Name (ARN) of the image whose build versions you want to
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - imageVersionArn: The Amazon Resource Name (ARN) of the image version whose build versions you want to retrieve.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listImageBuildVersionsPaginator(
@@ -3427,8 +3615,8 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listImagePackages(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - imageBuildVersionArn: Filter results for the ListImagePackages request by the Image Build Version ARN
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - imageBuildVersionArn: The Amazon Resource Name (ARN) of the image build version whose packages you want to list. The
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listImagePackagesPaginator(
@@ -3466,7 +3654,7 @@ extension Imagebuilder {
     /// - Parameters:
     ///   - filters: Use the following filters to streamline results:    name     version
     ///   - imagePipelineArn: The Amazon Resource Name (ARN) of the image pipeline whose images you want to
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listImagePipelineImagesPaginator(
@@ -3505,7 +3693,7 @@ extension Imagebuilder {
     ///
     /// - Parameters:
     ///   - filters: Use the following filters to streamline results:    description     distributionConfigurationArn     imageRecipeArn     infrastructureConfigurationArn     name     status
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listImagePipelinesPaginator(
@@ -3542,7 +3730,7 @@ extension Imagebuilder {
     ///
     /// - Parameters:
     ///   - filters: Use the following filters to streamline results:    name     parentImage     platform
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - owner: You can specify the recipe owner to filter results by that owner. By default, this request will
     ///   - logger: Logger used for logging
     @inlinable
@@ -3581,7 +3769,7 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listImageScanFindingAggregations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filter: 
+    ///   - filter: A filter name and value pair that determines the type of aggregation
     ///   - logger: Logger used for logging
     @inlinable
     public func listImageScanFindingAggregationsPaginator(
@@ -3616,7 +3804,7 @@ extension Imagebuilder {
     ///
     /// - Parameters:
     ///   - filters: An array of name value pairs that you can use to filter your results. You can use the
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listImageScanFindingsPaginator(
@@ -3652,11 +3840,11 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listImages(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - byName: Requests a list of images with a specific recipe name.
+    ///   - byName: Specifies whether to return one entry per image name, with all versions of
     ///   - filters: Use the following filters to streamline results:    name     osVersion     platform     type     version
-    ///   - includeDeprecated: Includes deprecated images in the response list.
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - owner: The owner defines which images you want to list. By default, this request will only
+    ///   - includeDeprecated: Specifies whether to include deprecated Amazon-managed images in the
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - owner: Filters the list to images owned by you, by Amazon, or shared with you by other accounts.
     ///   - logger: Logger used for logging
     @inlinable
     public func listImagesPaginator(
@@ -3699,7 +3887,7 @@ extension Imagebuilder {
     ///
     /// - Parameters:
     ///   - filters: You can filter on name to streamline results.
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listInfrastructureConfigurationsPaginator(
@@ -3735,9 +3923,9 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listLifecycleExecutionResources(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - lifecycleExecutionId: Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - parentResourceId: You can  leave this empty to get a list of Image Builder resources that were identified for lifecycle actions. To get a list of associated resources that are impacted for an individual resource (the parent), specify
+    ///   - lifecycleExecutionId: The unique identifier for a runtime instance of the lifecycle policy.
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - parentResourceId: The Amazon Resource Name (ARN) of an image build version to get the output resources for,
     ///   - logger: Logger used for logging
     @inlinable
     public func listLifecycleExecutionResourcesPaginator(
@@ -3775,8 +3963,8 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listLifecycleExecutions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to get a list of lifecycle runtime instances.
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to list lifecycle executions. Specify a
     ///   - logger: Logger used for logging
     @inlinable
     public func listLifecycleExecutionsPaginator(
@@ -3812,8 +4000,8 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listLifecyclePolicies(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Streamline results based on one of the following values: Name,
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - filters: Use the following filters to streamline results: name,
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listLifecyclePoliciesPaginator(
@@ -3849,7 +4037,7 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listWaitingWorkflowSteps(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listWaitingWorkflowStepsPaginator(
@@ -3883,7 +4071,7 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listWorkflowBuildVersions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - workflowVersionArn: The Amazon Resource Name (ARN) of the workflow resource for which to get a list of build versions.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3921,7 +4109,7 @@ extension Imagebuilder {
     ///
     /// - Parameters:
     ///   - imageBuildVersionArn: List all workflow runtime instances for the specified image build version
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listWorkflowExecutionsPaginator(
@@ -3957,7 +4145,7 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listWorkflowStepExecutions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: Specify the maximum number of items to return in a request.
+    ///   - maxResults: The maximum number of items to return in a single request.
     ///   - workflowExecutionId: The unique identifier that Image Builder assigned to keep track of runtime details
     ///   - logger: Logger used for logging
     @inlinable
@@ -3994,10 +4182,10 @@ extension Imagebuilder {
     /// Return PaginatorSequence for operation ``listWorkflows(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - byName: Specify all or part of the workflow name to streamline results.
-    ///   - filters: Used to streamline search results.
-    ///   - maxResults: Specify the maximum number of items to return in a request.
-    ///   - owner: Used to get a list of workflow build version filtered by the identity of the creator.
+    ///   - byName: Specifies whether to return one entry per workflow name, with all versions of
+    ///   - filters: Filters to narrow the list of workflows. You can filter on
+    ///   - maxResults: The maximum number of items to return in a single request.
+    ///   - owner: Filters results based on the workflow owner. By default, this request returns
     ///   - logger: Logger used for logging
     @inlinable
     public func listWorkflowsPaginator(

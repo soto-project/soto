@@ -25,6 +25,15 @@ import Foundation
 extension ConnectContactLens {
     // MARK: Enums
 
+    public enum ExtractedInformationFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failedSafetyGuidelines = "FAILED_SAFETY_GUIDELINES"
+        case insufficientConversationContent = "INSUFFICIENT_CONVERSATION_CONTENT"
+        case internalError = "INTERNAL_ERROR"
+        case maxPackageFeatureOnly = "MAX_PACKAGE_FEATURE_ONLY"
+        case quotaExceeded = "QUOTA_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PostContactSummaryFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failedSafetyGuidelines = "FAILED_SAFETY_GUIDELINES"
         case insufficientConversationContent = "INSUFFICIENT_CONVERSATION_CONTENT"
@@ -96,6 +105,54 @@ extension ConnectContactLens {
         private enum CodingKeys: String, CodingKey {
             case beginOffsetChar = "BeginOffsetChar"
             case endOffsetChar = "EndOffsetChar"
+        }
+    }
+
+    public struct ExtractedInformation: AWSDecodableShape {
+        /// The list of values extracted from the conversation for this extraction definition. This field is empty when a FailureCode is present.
+        public let extractedValues: [ExtractedInformationValue]?
+        /// The display label of the extraction definition that produced this result.
+        public let extractionDefinitionDisplayLabel: String?
+        /// The identifier of the extraction definition that produced this result.
+        public let extractionDefinitionId: String?
+        /// The name of the extraction definition that produced this result.
+        public let extractionDefinitionName: String?
+        /// If the information failed to be extracted, one of the following failure codes occurs:    QUOTA_EXCEEDED: The number of concurrent analytics jobs reached your service quota.    INSUFFICIENT_CONVERSATION_CONTENT: Information extraction requires a conversation with at least one turn from each participant.    FAILED_SAFETY_GUIDELINES: The extracted information cannot be provided because it failed to meet system safety guidelines.    INTERNAL_ERROR: Internal system error.    MAX_PACKAGE_FEATURE_ONLY: Information extraction is only available in Amazon Connect Customer instances.
+        public let failureCode: ExtractedInformationFailureCode?
+
+        @inlinable
+        public init(extractedValues: [ExtractedInformationValue]? = nil, extractionDefinitionDisplayLabel: String? = nil, extractionDefinitionId: String? = nil, extractionDefinitionName: String? = nil, failureCode: ExtractedInformationFailureCode? = nil) {
+            self.extractedValues = extractedValues
+            self.extractionDefinitionDisplayLabel = extractionDefinitionDisplayLabel
+            self.extractionDefinitionId = extractionDefinitionId
+            self.extractionDefinitionName = extractionDefinitionName
+            self.failureCode = failureCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case extractedValues = "ExtractedValues"
+            case extractionDefinitionDisplayLabel = "ExtractionDefinitionDisplayLabel"
+            case extractionDefinitionId = "ExtractionDefinitionId"
+            case extractionDefinitionName = "ExtractionDefinitionName"
+            case failureCode = "FailureCode"
+        }
+    }
+
+    public struct ExtractedInformationValue: AWSDecodableShape {
+        /// The text content of the extracted value.
+        public let content: String?
+        /// The sections in the conversation that indicate where the extracted value was found.
+        public let pointsOfInterest: [PointOfInterest]?
+
+        @inlinable
+        public init(content: String? = nil, pointsOfInterest: [PointOfInterest]? = nil) {
+            self.content = content
+            self.pointsOfInterest = pointsOfInterest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case pointsOfInterest = "PointsOfInterest"
         }
     }
 
@@ -173,9 +230,9 @@ extension ConnectContactLens {
     }
 
     public struct PointOfInterest: AWSDecodableShape {
-        /// The beginning offset in milliseconds where the category rule was detected.
+        /// The beginning offset (in milliseconds) where the match was detected.
         public let beginOffsetMillis: Int?
-        /// The ending offset in milliseconds where the category rule was detected.
+        /// The ending offset (in milliseconds) where the match was detected.
         public let endOffsetMillis: Int?
 
         @inlinable
@@ -193,7 +250,7 @@ extension ConnectContactLens {
     public struct PostContactSummary: AWSDecodableShape {
         /// The content of the summary.
         public let content: String?
-        /// If the summary failed to be generated, one of the following failure codes occurs:    QUOTA_EXCEEDED: The number of concurrent analytics jobs reached your service quota.    INSUFFICIENT_CONVERSATION_CONTENT: The conversation needs to have at least one turn from both the participants in order to generate the summary.    FAILED_SAFETY_GUIDELINES: The generated summary cannot be provided because it failed to meet system safety guidelines.    INVALID_ANALYSIS_CONFIGURATION: This code occurs when, for example, you're using a  language  that isn't supported by generative AI-powered post-contact summaries.     INTERNAL_ERROR: Internal system error.
+        /// If the summary failed to be generated, one of the following failure codes occurs:    QUOTA_EXCEEDED: The number of concurrent analytics jobs reached your service quota.    INSUFFICIENT_CONVERSATION_CONTENT: The conversation needs to have at least one turn from both the participants in order to generate the summary.    FAILED_SAFETY_GUIDELINES: The generated summary cannot be provided because it failed to meet system safety guidelines.    INVALID_ANALYSIS_CONFIGURATION: This code occurs when, for example, you're using a language that isn't supported by generative AI-powered post-contact summaries.     INTERNAL_ERROR: Internal system error.
         public let failureCode: PostContactSummaryFailureCode?
         /// Whether the summary was successfully COMPLETED or FAILED to be generated.
         public let status: PostContactSummaryStatus?
@@ -215,20 +272,24 @@ extension ConnectContactLens {
     public struct RealtimeContactAnalysisSegment: AWSDecodableShape {
         /// The matched category rules.
         public let categories: Categories?
+        /// The extracted information from the conversation.
+        public let extractedInformation: ExtractedInformation?
         /// Information about the post-contact summary.
         public let postContactSummary: PostContactSummary?
         /// The analyzed transcript.
         public let transcript: Transcript?
 
         @inlinable
-        public init(categories: Categories? = nil, postContactSummary: PostContactSummary? = nil, transcript: Transcript? = nil) {
+        public init(categories: Categories? = nil, extractedInformation: ExtractedInformation? = nil, postContactSummary: PostContactSummary? = nil, transcript: Transcript? = nil) {
             self.categories = categories
+            self.extractedInformation = extractedInformation
             self.postContactSummary = postContactSummary
             self.transcript = transcript
         }
 
         private enum CodingKeys: String, CodingKey {
             case categories = "Categories"
+            case extractedInformation = "ExtractedInformation"
             case postContactSummary = "PostContactSummary"
             case transcript = "Transcript"
         }

@@ -334,6 +334,45 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecoveryPlanExecutionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case drill = "DRILL"
+        case recovery = "RECOVERY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecoveryPlanExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case completed = "COMPLETED"
+        case created = "CREATED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecoveryPlanExecutionStepStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case executing = "EXECUTING"
+        case failed = "FAILED"
+        case notStarted = "NOT_STARTED"
+        case skipped = "SKIPPED"
+        case timedOut = "TIMED_OUT"
+        case waiting = "WAITING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecoveryPlanServerImpactLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case critical = "CRITICAL"
+        case optional = "OPTIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecoveryPlanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case invalid = "INVALID"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecoveryResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case associateFail = "ASSOCIATE_FAIL"
         case associateSuccess = "ASSOCIATE_SUCCESS"
@@ -397,6 +436,12 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
+    public enum SourceServerArchitecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case arm64 = "arm64"
+        case x8664 = "x86_64"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetInstanceTypeRightSizingMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case inAws = "IN_AWS"
@@ -419,6 +464,87 @@ extension Drs {
         case pending = "PENDING"
         case regular = "REGULAR"
         public var description: String { return self.rawValue }
+    }
+
+    public enum RecoveryPlanExecutionStepConfiguration: AWSDecodableShape, Sendable {
+        /// Configuration for a SERVER type step (with execution state like jobID).
+        case executionServerStepConfiguration(ExecutionServerStepConfiguration)
+        /// Configuration for a WAIT type step.
+        case waitStepConfiguration(WaitStepConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .executionServerStepConfiguration:
+                let value = try container.decode(ExecutionServerStepConfiguration.self, forKey: .executionServerStepConfiguration)
+                self = .executionServerStepConfiguration(value)
+            case .waitStepConfiguration:
+                let value = try container.decode(WaitStepConfiguration.self, forKey: .waitStepConfiguration)
+                self = .waitStepConfiguration(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionServerStepConfiguration = "executionServerStepConfiguration"
+            case waitStepConfiguration = "waitStepConfiguration"
+        }
+    }
+
+    public enum RecoveryPlanStepConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Configuration for a SERVER type step.
+        case serverStepConfiguration(ServerStepConfiguration)
+        /// Configuration for a WAIT type step.
+        case waitStepConfiguration(WaitStepConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .serverStepConfiguration:
+                let value = try container.decode(ServerStepConfiguration.self, forKey: .serverStepConfiguration)
+                self = .serverStepConfiguration(value)
+            case .waitStepConfiguration:
+                let value = try container.decode(WaitStepConfiguration.self, forKey: .waitStepConfiguration)
+                self = .waitStepConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .serverStepConfiguration(let value):
+                try container.encode(value, forKey: .serverStepConfiguration)
+            case .waitStepConfiguration(let value):
+                try container.encode(value, forKey: .waitStepConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .serverStepConfiguration(let value):
+                try value.validate(name: "\(name).serverStepConfiguration")
+            case .waitStepConfiguration(let value):
+                try value.validate(name: "\(name).waitStepConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverStepConfiguration = "serverStepConfiguration"
+            case waitStepConfiguration = "waitStepConfiguration"
+        }
     }
 
     // MARK: Shapes
@@ -509,6 +635,40 @@ extension Drs {
         private enum CodingKeys: String, CodingKey {
             case cores = "cores"
             case modelName = "modelName"
+        }
+    }
+
+    public struct CancelRecoveryPlanExecutionRequest: AWSEncodableShape {
+        /// The ARN of the Recovery Plan execution to cancel.
+        public let recoveryPlanExecutionArn: String
+
+        @inlinable
+        public init(recoveryPlanExecutionArn: String) {
+            self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecutionArn = "recoveryPlanExecutionArn"
+        }
+    }
+
+    public struct CancelRecoveryPlanExecutionResponse: AWSDecodableShape {
+        /// The cancelled Recovery Plan execution.
+        public let recoveryPlanExecution: RecoveryPlanExecution
+
+        @inlinable
+        public init(recoveryPlanExecution: RecoveryPlanExecution) {
+            self.recoveryPlanExecution = recoveryPlanExecution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecution = "recoveryPlanExecution"
         }
     }
 
@@ -683,6 +843,108 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case launchConfigurationTemplate = "launchConfigurationTemplate"
+        }
+    }
+
+    public struct CreateRecoveryPlanRequest: AWSEncodableShape {
+        /// A unique string provided to ensure request idempotency.
+        public let clientToken: String?
+        public let description: String?
+        public let name: String
+        /// The tags to apply to the Recovery Plan.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateRecoveryPlanRequest.idempotencyToken(), description: String? = nil, name: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9 _-]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateRecoveryPlanResponse: AWSDecodableShape {
+        public let recoveryPlan: RecoveryPlan
+
+        @inlinable
+        public init(recoveryPlan: RecoveryPlan) {
+            self.recoveryPlan = recoveryPlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlan = "recoveryPlan"
+        }
+    }
+
+    public struct CreateRecoveryPlanStepRequest: AWSEncodableShape {
+        /// A unique string provided to ensure request idempotency.
+        public let clientToken: String?
+        public let configuration: RecoveryPlanStepConfiguration
+        /// The ARN of the Recovery Plan to add the step to.
+        public let recoveryPlanArn: String
+        public let stepName: String
+        public let stepOrder: Int?
+
+        @inlinable
+        public init(clientToken: String? = CreateRecoveryPlanStepRequest.idempotencyToken(), configuration: RecoveryPlanStepConfiguration, recoveryPlanArn: String, stepName: String, stepOrder: Int? = nil) {
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.recoveryPlanArn = recoveryPlanArn
+            self.stepName = stepName
+            self.stepOrder = stepOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+            try self.validate(self.stepName, name: "stepName", parent: name, max: 256)
+            try self.validate(self.stepName, name: "stepName", parent: name, min: 1)
+            try self.validate(self.stepName, name: "stepName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9 _-]*$")
+            try self.validate(self.stepOrder, name: "stepOrder", parent: name, max: 20)
+            try self.validate(self.stepOrder, name: "stepOrder", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case recoveryPlanArn = "recoveryPlanArn"
+            case stepName = "stepName"
+            case stepOrder = "stepOrder"
+        }
+    }
+
+    public struct CreateRecoveryPlanStepResponse: AWSDecodableShape {
+        public let recoveryPlanStep: RecoveryPlanStep
+
+        @inlinable
+        public init(recoveryPlanStep: RecoveryPlanStep) {
+            self.recoveryPlanStep = recoveryPlanStep
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanStep = "recoveryPlanStep"
         }
     }
 
@@ -1069,6 +1331,108 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case recoveryInstanceID = "recoveryInstanceID"
+        }
+    }
+
+    public struct DeleteRecoveryPlanExecutionRequest: AWSEncodableShape {
+        /// The ARN of the Recovery Plan execution to delete.
+        public let recoveryPlanExecutionArn: String
+
+        @inlinable
+        public init(recoveryPlanExecutionArn: String) {
+            self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecutionArn = "recoveryPlanExecutionArn"
+        }
+    }
+
+    public struct DeleteRecoveryPlanExecutionResponse: AWSDecodableShape {
+        /// The ARN of the deleted Recovery Plan execution.
+        public let recoveryPlanExecutionArn: String
+
+        @inlinable
+        public init(recoveryPlanExecutionArn: String) {
+            self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecutionArn = "recoveryPlanExecutionArn"
+        }
+    }
+
+    public struct DeleteRecoveryPlanRequest: AWSEncodableShape {
+        /// The ARN of the Recovery Plan to delete.
+        public let recoveryPlanArn: String
+
+        @inlinable
+        public init(recoveryPlanArn: String) {
+            self.recoveryPlanArn = recoveryPlanArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanArn = "recoveryPlanArn"
+        }
+    }
+
+    public struct DeleteRecoveryPlanResponse: AWSDecodableShape {
+        /// The ARN of the deleted Recovery Plan.
+        public let recoveryPlanArn: String
+
+        @inlinable
+        public init(recoveryPlanArn: String) {
+            self.recoveryPlanArn = recoveryPlanArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanArn = "recoveryPlanArn"
+        }
+    }
+
+    public struct DeleteRecoveryPlanStepRequest: AWSEncodableShape {
+        /// The ARN of the Recovery Plan step to delete.
+        public let recoveryPlanStepArn: String
+
+        @inlinable
+        public init(recoveryPlanStepArn: String) {
+            self.recoveryPlanStepArn = recoveryPlanStepArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPlanStepArn, name: "recoveryPlanStepArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanStepArn, name: "recoveryPlanStepArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanStepArn, name: "recoveryPlanStepArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanStepArn = "recoveryPlanStepArn"
+        }
+    }
+
+    public struct DeleteRecoveryPlanStepResponse: AWSDecodableShape {
+        /// The ARN of the deleted Recovery Plan step.
+        public let recoveryPlanStepArn: String
+
+        @inlinable
+        public init(recoveryPlanStepArn: String) {
+            self.recoveryPlanStepArn = recoveryPlanStepArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanStepArn = "recoveryPlanStepArn"
         }
     }
 
@@ -1764,6 +2128,38 @@ extension Drs {
         }
     }
 
+    public struct ErrorDetail: AWSDecodableShape {
+        /// The error code.
+        public let code: String
+        /// The error message.
+        public let message: String
+
+        @inlinable
+        public init(code: String, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct ExecutionServerStepConfiguration: AWSDecodableShape {
+        /// The list of servers in this execution step.
+        public let servers: [RecoveryPlanExecutionServer]
+
+        @inlinable
+        public init(servers: [RecoveryPlanExecutionServer]) {
+            self.servers = servers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case servers = "servers"
+        }
+    }
+
     public struct ExportSourceNetworkCfnTemplateRequest: AWSEncodableShape {
         /// The Source Network ID to export its CloudFormation template to an S3 bucket.
         public let sourceNetworkID: String
@@ -1865,6 +2261,139 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case sourceServerID = "sourceServerID"
+        }
+    }
+
+    public struct GetRecoveryPlanExecutionRequest: AWSEncodableShape {
+        /// The ARN of the Recovery Plan execution.
+        public let recoveryPlanExecutionArn: String
+
+        @inlinable
+        public init(recoveryPlanExecutionArn: String) {
+            self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecutionArn = "recoveryPlanExecutionArn"
+        }
+    }
+
+    public struct GetRecoveryPlanExecutionResponse: AWSDecodableShape {
+        /// The Recovery Plan execution details.
+        public let recoveryPlanExecution: RecoveryPlanExecution
+
+        @inlinable
+        public init(recoveryPlanExecution: RecoveryPlanExecution) {
+            self.recoveryPlanExecution = recoveryPlanExecution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecution = "recoveryPlanExecution"
+        }
+    }
+
+    public struct GetRecoveryPlanExecutionStepRequest: AWSEncodableShape {
+        /// The ARN of the execution step.
+        public let recoveryPlanExecutionStepArn: String
+
+        @inlinable
+        public init(recoveryPlanExecutionStepArn: String) {
+            self.recoveryPlanExecutionStepArn = recoveryPlanExecutionStepArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPlanExecutionStepArn, name: "recoveryPlanExecutionStepArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanExecutionStepArn, name: "recoveryPlanExecutionStepArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanExecutionStepArn, name: "recoveryPlanExecutionStepArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecutionStepArn = "recoveryPlanExecutionStepArn"
+        }
+    }
+
+    public struct GetRecoveryPlanExecutionStepResponse: AWSDecodableShape {
+        public let recoveryPlanExecutionStep: RecoveryPlanExecutionStep
+
+        @inlinable
+        public init(recoveryPlanExecutionStep: RecoveryPlanExecutionStep) {
+            self.recoveryPlanExecutionStep = recoveryPlanExecutionStep
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecutionStep = "recoveryPlanExecutionStep"
+        }
+    }
+
+    public struct GetRecoveryPlanRequest: AWSEncodableShape {
+        /// The ARN of the Recovery Plan to retrieve.
+        public let recoveryPlanArn: String
+
+        @inlinable
+        public init(recoveryPlanArn: String) {
+            self.recoveryPlanArn = recoveryPlanArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanArn = "recoveryPlanArn"
+        }
+    }
+
+    public struct GetRecoveryPlanResponse: AWSDecodableShape {
+        public let recoveryPlan: RecoveryPlan
+
+        @inlinable
+        public init(recoveryPlan: RecoveryPlan) {
+            self.recoveryPlan = recoveryPlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlan = "recoveryPlan"
+        }
+    }
+
+    public struct GetRecoveryPlanStepRequest: AWSEncodableShape {
+        /// The ARN of the Recovery Plan step to retrieve.
+        public let recoveryPlanStepArn: String
+
+        @inlinable
+        public init(recoveryPlanStepArn: String) {
+            self.recoveryPlanStepArn = recoveryPlanStepArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPlanStepArn, name: "recoveryPlanStepArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanStepArn, name: "recoveryPlanStepArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanStepArn, name: "recoveryPlanStepArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanStepArn = "recoveryPlanStepArn"
+        }
+    }
+
+    public struct GetRecoveryPlanStepResponse: AWSDecodableShape {
+        public let recoveryPlanStep: RecoveryPlanStep
+
+        @inlinable
+        public init(recoveryPlanStep: RecoveryPlanStep) {
+            self.recoveryPlanStep = recoveryPlanStep
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanStep = "recoveryPlanStep"
         }
     }
 
@@ -2509,6 +3038,217 @@ extension Drs {
         private enum CodingKeys: String, CodingKey {
             case items = "items"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListRecoveryPlanExecutionStepsFilter: AWSEncodableShape {
+        /// Filter by execution step status.
+        public let status: RecoveryPlanExecutionStepStatus?
+
+        @inlinable
+        public init(status: RecoveryPlanExecutionStepStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct ListRecoveryPlanExecutionStepsRequest: AWSEncodableShape {
+        /// Filters for listing execution steps.
+        public let filter: ListRecoveryPlanExecutionStepsFilter?
+        /// Maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ARN of the Recovery Plan execution.
+        public let recoveryPlanExecutionArn: String
+
+        @inlinable
+        public init(filter: ListRecoveryPlanExecutionStepsFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, recoveryPlanExecutionArn: String) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanExecutionArn, name: "recoveryPlanExecutionArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case recoveryPlanExecutionArn = "recoveryPlanExecutionArn"
+        }
+    }
+
+    public struct ListRecoveryPlanExecutionStepsResponse: AWSDecodableShape {
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The list of execution steps.
+        public let recoveryPlanExecutionSteps: [RecoveryPlanExecutionStepSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, recoveryPlanExecutionSteps: [RecoveryPlanExecutionStepSummary]) {
+            self.nextToken = nextToken
+            self.recoveryPlanExecutionSteps = recoveryPlanExecutionSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case recoveryPlanExecutionSteps = "recoveryPlanExecutionSteps"
+        }
+    }
+
+    public struct ListRecoveryPlanExecutionsRequest: AWSEncodableShape {
+        /// Maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// Filter executions by Recovery Plan ARN.
+        public let recoveryPlanArn: String?
+        /// Filter executions by status.
+        public let status: RecoveryPlanExecutionStatus?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, recoveryPlanArn: String? = nil, status: RecoveryPlanExecutionStatus? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.recoveryPlanArn = recoveryPlanArn
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case recoveryPlanArn = "recoveryPlanArn"
+            case status = "status"
+        }
+    }
+
+    public struct ListRecoveryPlanExecutionsResponse: AWSDecodableShape {
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The list of Recovery Plan executions.
+        public let recoveryPlanExecutions: [RecoveryPlanExecutionSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, recoveryPlanExecutions: [RecoveryPlanExecutionSummary]) {
+            self.nextToken = nextToken
+            self.recoveryPlanExecutions = recoveryPlanExecutions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case recoveryPlanExecutions = "recoveryPlanExecutions"
+        }
+    }
+
+    public struct ListRecoveryPlanStepsRequest: AWSEncodableShape {
+        /// Maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ARN of the Recovery Plan.
+        public let recoveryPlanArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, recoveryPlanArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.recoveryPlanArn = recoveryPlanArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case recoveryPlanArn = "recoveryPlanArn"
+        }
+    }
+
+    public struct ListRecoveryPlanStepsResponse: AWSDecodableShape {
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The list of Recovery Plan steps.
+        public let recoveryPlanSteps: [RecoveryPlanStep]
+
+        @inlinable
+        public init(nextToken: String? = nil, recoveryPlanSteps: [RecoveryPlanStep]) {
+            self.nextToken = nextToken
+            self.recoveryPlanSteps = recoveryPlanSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case recoveryPlanSteps = "recoveryPlanSteps"
+        }
+    }
+
+    public struct ListRecoveryPlansRequest: AWSEncodableShape {
+        /// Maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListRecoveryPlansResponse: AWSDecodableShape {
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The list of Recovery Plans.
+        public let recoveryPlans: [RecoveryPlanSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, recoveryPlans: [RecoveryPlanSummary]) {
+            self.nextToken = nextToken
+            self.recoveryPlans = recoveryPlans
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case recoveryPlans = "recoveryPlans"
         }
     }
 
@@ -3183,6 +3923,325 @@ extension Drs {
         }
     }
 
+    public struct RecoveryPlan: AWSDecodableShape {
+        /// The timestamp when the Recovery Plan was created.
+        public let createdAt: String
+        public let description: String?
+        public let name: String
+        /// The ARN of the Recovery Plan.
+        public let recoveryPlanArn: String
+        /// The status of the Recovery Plan.
+        public let status: RecoveryPlanStatus
+        /// The tags associated with the Recovery Plan.
+        public let tags: [String: String]?
+        /// The timestamp when the Recovery Plan was last updated.
+        public let updatedAt: String
+
+        @inlinable
+        public init(createdAt: String, description: String? = nil, name: String, recoveryPlanArn: String, status: RecoveryPlanStatus, tags: [String: String]? = nil, updatedAt: String) {
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.recoveryPlanArn = recoveryPlanArn
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case description = "description"
+            case name = "name"
+            case recoveryPlanArn = "recoveryPlanArn"
+            case status = "status"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct RecoveryPlanExecution: AWSDecodableShape {
+        /// The timestamp when the execution completed.
+        public let completedAt: String?
+        /// Error details if the execution failed.
+        public let errorDetail: ErrorDetail?
+        /// The execution mode.
+        public let mode: RecoveryPlanExecutionMode
+        /// The ARN of the Recovery Plan being executed.
+        public let recoveryPlanArn: String
+        /// The ARN of the Recovery Plan execution.
+        public let recoveryPlanExecutionArn: String
+        /// The timestamp when the execution started.
+        public let startedAt: String
+        /// The execution status.
+        public let status: RecoveryPlanExecutionStatus
+        /// The tags associated with the Recovery Plan execution.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(completedAt: String? = nil, errorDetail: ErrorDetail? = nil, mode: RecoveryPlanExecutionMode, recoveryPlanArn: String, recoveryPlanExecutionArn: String, startedAt: String, status: RecoveryPlanExecutionStatus, tags: [String: String]? = nil) {
+            self.completedAt = completedAt
+            self.errorDetail = errorDetail
+            self.mode = mode
+            self.recoveryPlanArn = recoveryPlanArn
+            self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+            self.startedAt = startedAt
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completedAt = "completedAt"
+            case errorDetail = "errorDetail"
+            case mode = "mode"
+            case recoveryPlanArn = "recoveryPlanArn"
+            case recoveryPlanExecutionArn = "recoveryPlanExecutionArn"
+            case startedAt = "startedAt"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
+    public struct RecoveryPlanExecutionServer: AWSDecodableShape {
+        /// Defaults to CRITICAL if not specified.
+        public let impactLevel: RecoveryPlanServerImpactLevel?
+        /// The DRS recovery job ID. Populated when recovery is initiated for this server.
+        public let jobID: String?
+        /// The ARN of the source server.
+        public let serverArn: String
+
+        @inlinable
+        public init(impactLevel: RecoveryPlanServerImpactLevel? = nil, jobID: String? = nil, serverArn: String) {
+            self.impactLevel = impactLevel
+            self.jobID = jobID
+            self.serverArn = serverArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impactLevel = "impactLevel"
+            case jobID = "jobID"
+            case serverArn = "serverArn"
+        }
+    }
+
+    public struct RecoveryPlanExecutionSourceServer: AWSEncodableShape {
+        /// The ID of the recovery snapshot to use.
+        public let recoverySnapshotID: String
+        /// The ID of the source server.
+        public let sourceServerID: String
+
+        @inlinable
+        public init(recoverySnapshotID: String, sourceServerID: String) {
+            self.recoverySnapshotID = recoverySnapshotID
+            self.sourceServerID = sourceServerID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoverySnapshotID, name: "recoverySnapshotID", parent: name, max: 21)
+            try self.validate(self.recoverySnapshotID, name: "recoverySnapshotID", parent: name, min: 21)
+            try self.validate(self.recoverySnapshotID, name: "recoverySnapshotID", parent: name, pattern: "^pit-[0-9a-zA-Z]{17}$")
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoverySnapshotID = "recoverySnapshotID"
+            case sourceServerID = "sourceServerID"
+        }
+    }
+
+    public struct RecoveryPlanExecutionStep: AWSDecodableShape {
+        /// The number of times this step has been attempted.
+        public let attempt: Int
+        public let configuration: RecoveryPlanExecutionStepConfiguration
+        /// The timestamp when the execution step was created.
+        public let createdAt: String
+        /// Error details if the step failed.
+        public let errorDetail: ErrorDetail?
+        /// The ARN of the execution step.
+        public let recoveryPlanExecutionStepArn: String
+        /// The status of the execution step.
+        public let status: RecoveryPlanExecutionStepStatus
+        public let stepIndex: Int
+        public let stepName: String
+        /// The timestamp when the execution step was last updated.
+        public let updatedAt: String
+
+        @inlinable
+        public init(attempt: Int, configuration: RecoveryPlanExecutionStepConfiguration, createdAt: String, errorDetail: ErrorDetail? = nil, recoveryPlanExecutionStepArn: String, status: RecoveryPlanExecutionStepStatus, stepIndex: Int, stepName: String, updatedAt: String) {
+            self.attempt = attempt
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.errorDetail = errorDetail
+            self.recoveryPlanExecutionStepArn = recoveryPlanExecutionStepArn
+            self.status = status
+            self.stepIndex = stepIndex
+            self.stepName = stepName
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attempt = "attempt"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case errorDetail = "errorDetail"
+            case recoveryPlanExecutionStepArn = "recoveryPlanExecutionStepArn"
+            case status = "status"
+            case stepIndex = "stepIndex"
+            case stepName = "stepName"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct RecoveryPlanExecutionStepSummary: AWSDecodableShape {
+        public let configuration: RecoveryPlanExecutionStepConfiguration
+        /// Error details if the step failed.
+        public let errorDetail: ErrorDetail?
+        /// The ARN of the execution step.
+        public let recoveryPlanExecutionStepArn: String
+        /// The status of the execution step.
+        public let status: RecoveryPlanExecutionStepStatus
+        public let stepIndex: Int
+        public let stepName: String
+
+        @inlinable
+        public init(configuration: RecoveryPlanExecutionStepConfiguration, errorDetail: ErrorDetail? = nil, recoveryPlanExecutionStepArn: String, status: RecoveryPlanExecutionStepStatus, stepIndex: Int, stepName: String) {
+            self.configuration = configuration
+            self.errorDetail = errorDetail
+            self.recoveryPlanExecutionStepArn = recoveryPlanExecutionStepArn
+            self.status = status
+            self.stepIndex = stepIndex
+            self.stepName = stepName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case errorDetail = "errorDetail"
+            case recoveryPlanExecutionStepArn = "recoveryPlanExecutionStepArn"
+            case status = "status"
+            case stepIndex = "stepIndex"
+            case stepName = "stepName"
+        }
+    }
+
+    public struct RecoveryPlanExecutionSummary: AWSDecodableShape {
+        /// Error details if the execution failed.
+        public let errorDetail: ErrorDetail?
+        /// The execution mode.
+        public let mode: RecoveryPlanExecutionMode
+        /// The ARN of the Recovery Plan.
+        public let recoveryPlanArn: String
+        /// The ARN of the Recovery Plan execution.
+        public let recoveryPlanExecutionArn: String
+        /// The timestamp when the execution started.
+        public let startedAt: String
+        /// The execution status.
+        public let status: RecoveryPlanExecutionStatus
+
+        @inlinable
+        public init(errorDetail: ErrorDetail? = nil, mode: RecoveryPlanExecutionMode, recoveryPlanArn: String, recoveryPlanExecutionArn: String, startedAt: String, status: RecoveryPlanExecutionStatus) {
+            self.errorDetail = errorDetail
+            self.mode = mode
+            self.recoveryPlanArn = recoveryPlanArn
+            self.recoveryPlanExecutionArn = recoveryPlanExecutionArn
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetail = "errorDetail"
+            case mode = "mode"
+            case recoveryPlanArn = "recoveryPlanArn"
+            case recoveryPlanExecutionArn = "recoveryPlanExecutionArn"
+            case startedAt = "startedAt"
+            case status = "status"
+        }
+    }
+
+    public struct RecoveryPlanServer: AWSEncodableShape & AWSDecodableShape {
+        /// Defaults to CRITICAL if not specified.
+        public let impactLevel: RecoveryPlanServerImpactLevel?
+        /// The ARN of the source server.
+        public let serverArn: String
+
+        @inlinable
+        public init(impactLevel: RecoveryPlanServerImpactLevel? = nil, serverArn: String) {
+            self.impactLevel = impactLevel
+            self.serverArn = serverArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serverArn, name: "serverArn", parent: name, max: 2048)
+            try self.validate(self.serverArn, name: "serverArn", parent: name, min: 20)
+            try self.validate(self.serverArn, name: "serverArn", parent: name, pattern: "^arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impactLevel = "impactLevel"
+            case serverArn = "serverArn"
+        }
+    }
+
+    public struct RecoveryPlanStep: AWSDecodableShape {
+        public let configuration: RecoveryPlanStepConfiguration
+        /// The timestamp when the step was created.
+        public let createdAt: String
+        /// The ARN of the Recovery Plan step.
+        public let recoveryPlanStepArn: String
+        public let stepName: String
+        public let stepOrder: Int
+        /// The timestamp when the step was last updated.
+        public let updatedAt: String
+
+        @inlinable
+        public init(configuration: RecoveryPlanStepConfiguration, createdAt: String, recoveryPlanStepArn: String, stepName: String, stepOrder: Int, updatedAt: String) {
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.recoveryPlanStepArn = recoveryPlanStepArn
+            self.stepName = stepName
+            self.stepOrder = stepOrder
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case recoveryPlanStepArn = "recoveryPlanStepArn"
+            case stepName = "stepName"
+            case stepOrder = "stepOrder"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct RecoveryPlanSummary: AWSDecodableShape {
+        /// The timestamp when the Recovery Plan was created.
+        public let createdAt: String
+        public let name: String
+        /// The ARN of the Recovery Plan.
+        public let recoveryPlanArn: String
+        /// The status of the Recovery Plan.
+        public let status: RecoveryPlanStatus
+        /// The timestamp when the Recovery Plan was last updated.
+        public let updatedAt: String
+
+        @inlinable
+        public init(createdAt: String, name: String, recoveryPlanArn: String, status: RecoveryPlanStatus, updatedAt: String) {
+            self.createdAt = createdAt
+            self.name = name
+            self.recoveryPlanArn = recoveryPlanArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case name = "name"
+            case recoveryPlanArn = "recoveryPlanArn"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct RecoverySnapshot: AWSDecodableShape {
         /// A list of EBS snapshots.
         public let ebsSnapshots: [String]?
@@ -3210,6 +4269,51 @@ extension Drs {
             case snapshotID = "snapshotID"
             case sourceServerID = "sourceServerID"
             case timestamp = "timestamp"
+        }
+    }
+
+    public struct ReorderRecoveryPlanStepsRequest: AWSEncodableShape {
+        /// Ordered list of all step ARNs representing the desired sequence.
+        public let orderedStepArns: [String]
+        /// The ARN of the Recovery Plan.
+        public let recoveryPlanArn: String
+
+        @inlinable
+        public init(orderedStepArns: [String], recoveryPlanArn: String) {
+            self.orderedStepArns = orderedStepArns
+            self.recoveryPlanArn = recoveryPlanArn
+        }
+
+        public func validate(name: String) throws {
+            try self.orderedStepArns.forEach {
+                try validate($0, name: "orderedStepArns[]", parent: name, max: 2048)
+                try validate($0, name: "orderedStepArns[]", parent: name, min: 20)
+                try validate($0, name: "orderedStepArns[]", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+            }
+            try self.validate(self.orderedStepArns, name: "orderedStepArns", parent: name, max: 20)
+            try self.validate(self.orderedStepArns, name: "orderedStepArns", parent: name, min: 1)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case orderedStepArns = "orderedStepArns"
+            case recoveryPlanArn = "recoveryPlanArn"
+        }
+    }
+
+    public struct ReorderRecoveryPlanStepsResponse: AWSDecodableShape {
+        /// The steps with updated order.
+        public let recoveryPlanSteps: [RecoveryPlanStep]
+
+        @inlinable
+        public init(recoveryPlanSteps: [RecoveryPlanStep]) {
+            self.recoveryPlanSteps = recoveryPlanSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanSteps = "recoveryPlanSteps"
         }
     }
 
@@ -3461,6 +4565,39 @@ extension Drs {
         }
     }
 
+    public struct RetryRecoveryPlanExecutionStepRequest: AWSEncodableShape {
+        /// The ARN of the execution step to retry.
+        public let recoveryPlanExecutionStepArn: String
+
+        @inlinable
+        public init(recoveryPlanExecutionStepArn: String) {
+            self.recoveryPlanExecutionStepArn = recoveryPlanExecutionStepArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPlanExecutionStepArn, name: "recoveryPlanExecutionStepArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanExecutionStepArn, name: "recoveryPlanExecutionStepArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanExecutionStepArn, name: "recoveryPlanExecutionStepArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecutionStepArn = "recoveryPlanExecutionStepArn"
+        }
+    }
+
+    public struct RetryRecoveryPlanExecutionStepResponse: AWSDecodableShape {
+        public let recoveryPlanExecutionStep: RecoveryPlanExecutionStep
+
+        @inlinable
+        public init(recoveryPlanExecutionStep: RecoveryPlanExecutionStep) {
+            self.recoveryPlanExecutionStep = recoveryPlanExecutionStep
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecutionStep = "recoveryPlanExecutionStep"
+        }
+    }
+
     public struct ReverseReplicationRequest: AWSEncodableShape {
         /// The ID of the Recovery Instance that we want to reverse the replication for.
         public let recoveryInstanceID: String
@@ -3492,6 +4629,28 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case reversedDirectionSourceServerArn = "reversedDirectionSourceServerArn"
+        }
+    }
+
+    public struct ServerStepConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of servers to recover in this step.
+        public let servers: [RecoveryPlanServer]
+
+        @inlinable
+        public init(servers: [RecoveryPlanServer]) {
+            self.servers = servers
+        }
+
+        public func validate(name: String) throws {
+            try self.servers.forEach {
+                try $0.validate(name: "\(name).servers[]")
+            }
+            try self.validate(self.servers, name: "servers", parent: name, max: 100)
+            try self.validate(self.servers, name: "servers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case servers = "servers"
         }
     }
 
@@ -3634,6 +4793,8 @@ extension Drs {
     }
 
     public struct SourceProperties: AWSDecodableShape {
+        /// The architecture of the Source Server.
+        public let architecture: SourceServerArchitecture?
         /// An array of CPUs.
         public let cpus: [CPU]?
         /// An array of disks.
@@ -3654,7 +4815,8 @@ extension Drs {
         public let supportsNitroInstances: Bool?
 
         @inlinable
-        public init(cpus: [CPU]? = nil, disks: [Disk]? = nil, identificationHints: IdentificationHints? = nil, lastUpdatedDateTime: String? = nil, networkInterfaces: [NetworkInterface]? = nil, os: OS? = nil, ramBytes: Int64? = nil, recommendedInstanceType: String? = nil, supportsNitroInstances: Bool? = nil) {
+        public init(architecture: SourceServerArchitecture? = nil, cpus: [CPU]? = nil, disks: [Disk]? = nil, identificationHints: IdentificationHints? = nil, lastUpdatedDateTime: String? = nil, networkInterfaces: [NetworkInterface]? = nil, os: OS? = nil, ramBytes: Int64? = nil, recommendedInstanceType: String? = nil, supportsNitroInstances: Bool? = nil) {
+            self.architecture = architecture
             self.cpus = cpus
             self.disks = disks
             self.identificationHints = identificationHints
@@ -3667,6 +4829,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case architecture = "architecture"
             case cpus = "cpus"
             case disks = "disks"
             case identificationHints = "identificationHints"
@@ -3836,6 +4999,65 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case job = "job"
+        }
+    }
+
+    public struct StartRecoveryPlanExecutionRequest: AWSEncodableShape {
+        /// A unique string provided to ensure request idempotency.
+        public let clientToken: String?
+        /// The execution mode (DRILL or RECOVERY).
+        public let mode: RecoveryPlanExecutionMode
+        /// The ARN of the Recovery Plan to execute.
+        public let recoveryPlanArn: String
+        /// Optional list of source servers with specific recovery snapshots. If not provided, the latest snapshot is used for each server.
+        public let sourceServers: [RecoveryPlanExecutionSourceServer]?
+        /// The tags to apply to the Recovery Plan execution.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = StartRecoveryPlanExecutionRequest.idempotencyToken(), mode: RecoveryPlanExecutionMode, recoveryPlanArn: String, sourceServers: [RecoveryPlanExecutionSourceServer]? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.mode = mode
+            self.recoveryPlanArn = recoveryPlanArn
+            self.sourceServers = sourceServers
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+            try self.sourceServers?.forEach {
+                try $0.validate(name: "\(name).sourceServers[]")
+            }
+            try self.validate(self.sourceServers, name: "sourceServers", parent: name, max: 200)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case mode = "mode"
+            case recoveryPlanArn = "recoveryPlanArn"
+            case sourceServers = "sourceServers"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartRecoveryPlanExecutionResponse: AWSDecodableShape {
+        /// The started Recovery Plan execution.
+        public let recoveryPlanExecution: RecoveryPlanExecution
+
+        @inlinable
+        public init(recoveryPlanExecution: RecoveryPlanExecution) {
+            self.recoveryPlanExecution = recoveryPlanExecution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecution = "recoveryPlanExecution"
         }
     }
 
@@ -4466,6 +5688,144 @@ extension Drs {
         }
     }
 
+    public struct UpdateRecoveryPlanExecutionStepRequest: AWSEncodableShape {
+        /// The ARN of the execution step to update.
+        public let recoveryPlanExecutionStepArn: String
+        /// Full replacement of the server list. Only allowed when the step is in NOT_STARTED status (Server type steps only).
+        public let servers: [RecoveryPlanServer]?
+        /// Only SKIPPED is accepted. Step must be in NOT_STARTED or FAILED status.
+        public let status: RecoveryPlanExecutionStepStatus?
+        /// Updated wait duration. Only allowed when the step is in NOT_STARTED status (Wait type steps only).
+        public let waitDurationMinutes: Int?
+
+        @inlinable
+        public init(recoveryPlanExecutionStepArn: String, servers: [RecoveryPlanServer]? = nil, status: RecoveryPlanExecutionStepStatus? = nil, waitDurationMinutes: Int? = nil) {
+            self.recoveryPlanExecutionStepArn = recoveryPlanExecutionStepArn
+            self.servers = servers
+            self.status = status
+            self.waitDurationMinutes = waitDurationMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPlanExecutionStepArn, name: "recoveryPlanExecutionStepArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanExecutionStepArn, name: "recoveryPlanExecutionStepArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanExecutionStepArn, name: "recoveryPlanExecutionStepArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+            try self.servers?.forEach {
+                try $0.validate(name: "\(name).servers[]")
+            }
+            try self.validate(self.servers, name: "servers", parent: name, max: 100)
+            try self.validate(self.servers, name: "servers", parent: name, min: 1)
+            try self.validate(self.waitDurationMinutes, name: "waitDurationMinutes", parent: name, max: 120)
+            try self.validate(self.waitDurationMinutes, name: "waitDurationMinutes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecutionStepArn = "recoveryPlanExecutionStepArn"
+            case servers = "servers"
+            case status = "status"
+            case waitDurationMinutes = "waitDurationMinutes"
+        }
+    }
+
+    public struct UpdateRecoveryPlanExecutionStepResponse: AWSDecodableShape {
+        public let recoveryPlanExecutionStep: RecoveryPlanExecutionStep
+
+        @inlinable
+        public init(recoveryPlanExecutionStep: RecoveryPlanExecutionStep) {
+            self.recoveryPlanExecutionStep = recoveryPlanExecutionStep
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanExecutionStep = "recoveryPlanExecutionStep"
+        }
+    }
+
+    public struct UpdateRecoveryPlanRequest: AWSEncodableShape {
+        public let description: String?
+        public let name: String?
+        /// The ARN of the Recovery Plan to update.
+        public let recoveryPlanArn: String
+
+        @inlinable
+        public init(description: String? = nil, name: String? = nil, recoveryPlanArn: String) {
+            self.description = description
+            self.name = name
+            self.recoveryPlanArn = recoveryPlanArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9 _-]*$")
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanArn, name: "recoveryPlanArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case recoveryPlanArn = "recoveryPlanArn"
+        }
+    }
+
+    public struct UpdateRecoveryPlanResponse: AWSDecodableShape {
+        public let recoveryPlan: RecoveryPlan
+
+        @inlinable
+        public init(recoveryPlan: RecoveryPlan) {
+            self.recoveryPlan = recoveryPlan
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlan = "recoveryPlan"
+        }
+    }
+
+    public struct UpdateRecoveryPlanStepRequest: AWSEncodableShape {
+        public let configuration: RecoveryPlanStepConfiguration?
+        /// The ARN of the Recovery Plan step to update.
+        public let recoveryPlanStepArn: String
+        public let stepName: String?
+
+        @inlinable
+        public init(configuration: RecoveryPlanStepConfiguration? = nil, recoveryPlanStepArn: String, stepName: String? = nil) {
+            self.configuration = configuration
+            self.recoveryPlanStepArn = recoveryPlanStepArn
+            self.stepName = stepName
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.validate(self.recoveryPlanStepArn, name: "recoveryPlanStepArn", parent: name, max: 2048)
+            try self.validate(self.recoveryPlanStepArn, name: "recoveryPlanStepArn", parent: name, min: 20)
+            try self.validate(self.recoveryPlanStepArn, name: "recoveryPlanStepArn", parent: name, pattern: "^arn:aws(-[a-z0-9]+)*:drs:[a-z0-9-]+:[0-9]{12}:[a-zA-Z0-9_/.-]+$")
+            try self.validate(self.stepName, name: "stepName", parent: name, max: 256)
+            try self.validate(self.stepName, name: "stepName", parent: name, min: 1)
+            try self.validate(self.stepName, name: "stepName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9 _-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case recoveryPlanStepArn = "recoveryPlanStepArn"
+            case stepName = "stepName"
+        }
+    }
+
+    public struct UpdateRecoveryPlanStepResponse: AWSDecodableShape {
+        public let recoveryPlanStep: RecoveryPlanStep
+
+        @inlinable
+        public init(recoveryPlanStep: RecoveryPlanStep) {
+            self.recoveryPlanStep = recoveryPlanStep
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recoveryPlanStep = "recoveryPlanStep"
+        }
+    }
+
     public struct UpdateReplicationConfigurationRequest: AWSEncodableShape {
         /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
         public let associateDefaultSecurityGroup: Bool?
@@ -4727,6 +6087,24 @@ extension Drs {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case name = "name"
+        }
+    }
+
+    public struct WaitStepConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let waitDurationMinutes: Int
+
+        @inlinable
+        public init(waitDurationMinutes: Int) {
+            self.waitDurationMinutes = waitDurationMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.waitDurationMinutes, name: "waitDurationMinutes", parent: name, max: 120)
+            try self.validate(self.waitDurationMinutes, name: "waitDurationMinutes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case waitDurationMinutes = "waitDurationMinutes"
         }
     }
 

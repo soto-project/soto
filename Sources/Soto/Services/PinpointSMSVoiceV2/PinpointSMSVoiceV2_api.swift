@@ -40,7 +40,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -61,6 +61,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "PinpointSMSVoiceV2",
             serviceName: "PinpointSMSVoiceV2",
+            sdkId: "Pinpoint SMS Voice V2",
             serviceIdentifier: "sms-voice",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2022-03-31",
@@ -588,7 +589,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.createRegistrationAssociation(input, logger: logger)
     }
 
-    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
+    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
     @Sendable
     @inlinable
     public func createRegistrationAttachment(_ input: CreateRegistrationAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRegistrationAttachmentResult {
@@ -601,10 +602,10 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
+    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
     ///
     /// Parameters:
-    ///   - attachmentBody: The registration file to upload. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG.
+    ///   - attachmentBody: The registration file to upload. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG.
     ///   - attachmentUrl: Registration files have to be stored in an Amazon S3 bucket. The URI to use when sending is in the format s3://BucketName/FileName.
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     ///   - tags: An array of tags (key and value pairs) to associate with the registration attachment.
@@ -2409,6 +2410,59 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.getResourcePolicy(input, logger: logger)
     }
 
+    /// Search available phone numbers from aggregator inventory, optionally filtered by pattern.
+    /// If NumberPreference is omitted, returns unfiltered available numbers.
+    /// Returns empty list (not an exception) when no numbers match.
+    /// ResourceNotFoundException is thrown only for invalid RegistrationId (campaign not found).
+    @Sendable
+    @inlinable
+    public func listAvailablePhoneNumbers(_ input: ListAvailablePhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAvailablePhoneNumbersResult {
+        try await self.client.execute(
+            operation: "ListAvailablePhoneNumbers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Search available phone numbers from aggregator inventory, optionally filtered by pattern.
+    /// If NumberPreference is omitted, returns unfiltered available numbers.
+    /// Returns empty list (not an exception) when no numbers match.
+    /// ResourceNotFoundException is thrown only for invalid RegistrationId (campaign not found).
+    ///
+    /// Parameters:
+    ///   - isoCountryCode: The two-character code, in ISO 3166-1 alpha-2 format, for the country or region in which to search for available phone numbers. This operation currently supports only US.
+    ///   - maxResults: The maximum number of results to return per page. If you don't specify a value, the default is 10.
+    ///   - nextToken: The token returned from a previous request to retrieve the next page of results.
+    ///   - numberCapabilities: The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned.
+    ///   - numberPreference: Optional. If omitted, returns unfiltered available numbers.
+    ///   - numberType: The type of phone number to search for.
+    ///   - registrationId: The registration associated with the request. A registration is required for regulated number types. You can specify either:   The unique identifier of the registration.   The Amazon Resource Name (ARN) of the registration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAvailablePhoneNumbers(
+        isoCountryCode: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        numberCapabilities: [NumberCapability],
+        numberPreference: [NumberPreferenceItem]? = nil,
+        numberType: SearchableNumberType,
+        registrationId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAvailablePhoneNumbersResult {
+        let input = ListAvailablePhoneNumbersRequest(
+            isoCountryCode: isoCountryCode, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            numberCapabilities: numberCapabilities, 
+            numberPreference: numberPreference, 
+            numberType: numberType, 
+            registrationId: registrationId
+        )
+        return try await self.listAvailablePhoneNumbers(input, logger: logger)
+    }
+
     /// Lists countries that support notify messaging. You can optionally filter by channel, use case, or tier.
     @Sendable
     @inlinable
@@ -2892,6 +2946,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - isoCountryCode: The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     ///   - messageType: The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     ///   - numberCapabilities: Indicates if the phone number will be used for text messages, voice messages, or both.
+    ///   - numberPreference: An optional selection preference used to request a specific phone number, such as a number that starts with, ends with, or contains a particular digit pattern. You can specify at most one preference. Number preferences apply only to TEN_DLC requests in the US.
     ///   - numberType: The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL.
     ///   - optOutListName: The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - poolId: The pool to associated with the phone number. You can use the PoolId or PoolArn.   If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
@@ -2906,6 +2961,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         isoCountryCode: String,
         messageType: MessageType,
         numberCapabilities: [NumberCapability],
+        numberPreference: [NumberPreferenceItem]? = nil,
         numberType: RequestableNumberType,
         optOutListName: String? = nil,
         poolId: String? = nil,
@@ -2920,6 +2976,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             isoCountryCode: isoCountryCode, 
             messageType: messageType, 
             numberCapabilities: numberCapabilities, 
+            numberPreference: numberPreference, 
             numberType: numberType, 
             optOutListName: optOutListName, 
             poolId: poolId, 

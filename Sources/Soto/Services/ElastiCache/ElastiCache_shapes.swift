@@ -1584,24 +1584,31 @@ extension ElastiCache {
     }
 
     public struct CreateGlobalReplicationGroupMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
         /// Provides details of the Global datastore
         public let globalReplicationGroupDescription: String?
         /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions.  For a full list of Amazon Regions and their respective Global datastore iD prefixes, see Using the Amazon CLI with Global datastores .
         public let globalReplicationGroupIdSuffix: String?
         /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster. This value is stored as a lowercase string.
         public let primaryReplicationGroupId: String?
+        /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
 
         @inlinable
-        public init(globalReplicationGroupDescription: String? = nil, globalReplicationGroupIdSuffix: String? = nil, primaryReplicationGroupId: String? = nil) {
+        public init(globalReplicationGroupDescription: String? = nil, globalReplicationGroupIdSuffix: String? = nil, primaryReplicationGroupId: String? = nil, tags: [Tag]? = nil) {
             self.globalReplicationGroupDescription = globalReplicationGroupDescription
             self.globalReplicationGroupIdSuffix = globalReplicationGroupIdSuffix
             self.primaryReplicationGroupId = primaryReplicationGroupId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case globalReplicationGroupDescription = "GlobalReplicationGroupDescription"
             case globalReplicationGroupIdSuffix = "GlobalReplicationGroupIdSuffix"
             case primaryReplicationGroupId = "PrimaryReplicationGroupId"
+            case tags = "Tags"
         }
     }
 

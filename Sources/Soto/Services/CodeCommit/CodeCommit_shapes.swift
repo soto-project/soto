@@ -62,6 +62,13 @@ extension CodeCommit {
         public var description: String { return self.rawValue }
     }
 
+    public enum DiffChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case add = "ADD"
+        case context = "CONTEXT"
+        case delete = "DELETE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FileModeTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case executable = "EXECUTABLE"
         case normal = "NORMAL"
@@ -1801,6 +1808,62 @@ extension CodeCommit {
         }
     }
 
+    public struct DiffChange: AWSDecodableShape {
+        /// The 1-based line number in the after blob. This field is omitted for DELETE lines.
+        public let afterLineNumber: Int?
+        /// The 1-based line number in the before blob. This field is omitted for ADD lines.
+        public let beforeLineNumber: Int?
+        /// The text content of the line, without the trailing newline.
+        public let content: String?
+        /// The type of change for this line. Possible values:    CONTEXT – Unchanged line included for surrounding context.    ADD – Line added in the after blob.    DELETE – Line removed from the before blob.
+        public let type: DiffChangeType?
+
+        @inlinable
+        public init(afterLineNumber: Int? = nil, beforeLineNumber: Int? = nil, content: String? = nil, type: DiffChangeType? = nil) {
+            self.afterLineNumber = afterLineNumber
+            self.beforeLineNumber = beforeLineNumber
+            self.content = content
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterLineNumber = "afterLineNumber"
+            case beforeLineNumber = "beforeLineNumber"
+            case content = "content"
+            case type = "type"
+        }
+    }
+
+    public struct DiffHunk: AWSDecodableShape {
+        /// The number of lines from the after blob covered by this hunk, including any context lines.
+        public let afterLineCount: Int?
+        /// The 1-based line number in the after blob where this hunk begins. When the hunk consists entirely of deletions, afterLineCount is 0.
+        public let afterStartLine: Int?
+        /// The number of lines from the before blob covered by this hunk, including any context lines.
+        public let beforeLineCount: Int?
+        /// The 1-based line number in the before blob where this hunk begins. When the hunk consists entirely of additions, beforeLineCount is 0.
+        public let beforeStartLine: Int?
+        /// An ordered list of line-level changes that make up this hunk. Each entry indicates whether the line is unchanged context, an addition, or a deletion.
+        public let changes: [DiffChange]?
+
+        @inlinable
+        public init(afterLineCount: Int? = nil, afterStartLine: Int? = nil, beforeLineCount: Int? = nil, beforeStartLine: Int? = nil, changes: [DiffChange]? = nil) {
+            self.afterLineCount = afterLineCount
+            self.afterStartLine = afterStartLine
+            self.beforeLineCount = beforeLineCount
+            self.beforeStartLine = beforeStartLine
+            self.changes = changes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterLineCount = "afterLineCount"
+            case afterStartLine = "afterStartLine"
+            case beforeLineCount = "beforeLineCount"
+            case beforeStartLine = "beforeStartLine"
+            case changes = "changes"
+        }
+    }
+
     public struct Difference: AWSDecodableShape {
         /// Information about an afterBlob data type object, including the ID,  the file mode permission code, and the path.
         public let afterBlob: BlobMetadata?
@@ -2076,6 +2139,80 @@ extension CodeCommit {
 
         private enum CodingKeys: String, CodingKey {
             case approvalRuleTemplate = "approvalRuleTemplate"
+        }
+    }
+
+    public struct GetBlobDifferencesInput: AWSEncodableShape {
+        /// The ID of the "after" (destination) blob in the diff. Typically the value of afterBlob.blobId from a Difference object returned by GetDifferences.
+        public let afterBlobId: String
+        /// The ID of the "before" (source) blob in the diff. Typically the value of beforeBlob.blobId from a Difference object returned by GetDifferences. If you do not specify a value, the operation returns a diff against an empty before-state. This is equivalent to treating the file as newly added.
+        public let beforeBlobId: String?
+        /// The number of unchanged lines of context to include before and after each block of changes in a hunk. Valid values are 0 through 20. Defaults to 3.
+        public let contextLines: Int?
+        /// Specifies whether to ignore whitespace-only changes when computing the diff. When true, the operation treats lines that differ only in whitespace as unchanged. Defaults to false.
+        public let ignoreWhitespace: Bool?
+        /// The maximum number of DiffHunk entries to return in a single response page. Defaults to 100.
+        public let maxResults: Int?
+        /// An enumeration token that returns the next batch of results when present in a request.
+        public let nextToken: String?
+        /// The name of the repository that contains the blobs to compare.
+        public let repositoryName: String
+
+        @inlinable
+        public init(afterBlobId: String, beforeBlobId: String? = nil, contextLines: Int? = nil, ignoreWhitespace: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, repositoryName: String) {
+            self.afterBlobId = afterBlobId
+            self.beforeBlobId = beforeBlobId
+            self.contextLines = contextLines
+            self.ignoreWhitespace = ignoreWhitespace
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^[\\w\\.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterBlobId = "afterBlobId"
+            case beforeBlobId = "beforeBlobId"
+            case contextLines = "contextLines"
+            case ignoreWhitespace = "ignoreWhitespace"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct GetBlobDifferencesOutput: AWSDecodableShape {
+        /// The size, in bytes, of the blob identified by afterBlobId.
+        public let afterBlobSize: Int64
+        /// The size, in bytes, of the blob identified by beforeBlobId. Returns 0 when you do not specify beforeBlobId.
+        public let beforeBlobSize: Int64?
+        /// An ordered list of diff hunks. Each hunk represents a contiguous run of changed and adjacent context lines. The list is empty when the blobs are identical or when the content is binary. The list is also empty when a paginated request has already returned all hunks in earlier pages, in which case NextToken is also null.
+        public let hunks: [DiffHunk]
+        /// Specifies whether the operation treated the diff content as binary. When true, the operation does not compute a line-level diff and hunks is empty.
+        public let isBinary: Bool
+        /// An enumeration token that can be used in a request to return the next batch of DiffHunk entries. null when the response contains the final page of the diff.
+        public let nextToken: String?
+
+        @inlinable
+        public init(afterBlobSize: Int64, beforeBlobSize: Int64? = nil, hunks: [DiffHunk], isBinary: Bool, nextToken: String? = nil) {
+            self.afterBlobSize = afterBlobSize
+            self.beforeBlobSize = beforeBlobSize
+            self.hunks = hunks
+            self.isBinary = isBinary
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterBlobSize = "afterBlobSize"
+            case beforeBlobSize = "beforeBlobSize"
+            case hunks = "hunks"
+            case isBinary = "isBinary"
+            case nextToken = "NextToken"
         }
     }
 
@@ -5565,6 +5702,7 @@ public struct CodeCommitErrorType: AWSErrorType {
         case tipsDivergenceExceededException = "TipsDivergenceExceededException"
         case titleRequiredException = "TitleRequiredException"
         case tooManyTagsException = "TooManyTagsException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -5964,6 +6102,8 @@ public struct CodeCommitErrorType: AWSErrorType {
     public static var titleRequiredException: Self { .init(.titleRequiredException) }
     /// The maximum number of tags for an CodeCommit resource has been exceeded.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// The specified input is either not valid, or it could not be validated.
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension CodeCommitErrorType: Equatable {

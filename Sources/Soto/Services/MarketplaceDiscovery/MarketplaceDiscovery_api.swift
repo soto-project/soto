@@ -40,7 +40,7 @@ public struct MarketplaceDiscovery: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct MarketplaceDiscovery: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "MarketplaceDiscovery",
+            sdkId: "Marketplace Discovery",
             serviceIdentifier: "discovery-marketplace",
             signingName: "aws-marketplace",
             serviceProtocol: .restjson,
@@ -96,14 +97,17 @@ public struct MarketplaceDiscovery: AWSService {
     ///
     /// Parameters:
     ///   - listingId: The unique identifier of the listing to retrieve.
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - logger: Logger use during operation
     @inlinable
     public func getListing(
         listingId: String,
+        locale: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetListingOutput {
         let input = GetListingInput(
-            listingId: listingId
+            listingId: listingId, 
+            locale: locale
         )
         return try await self.getListing(input, logger: logger)
     }
@@ -124,14 +128,17 @@ public struct MarketplaceDiscovery: AWSService {
     /// Provides details about an offer, such as the pricing model, seller of record, availability dates, badges, and associated products.
     ///
     /// Parameters:
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - offerId: The unique identifier of the offer to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getOffer(
+        locale: String? = nil,
         offerId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetOfferOutput {
         let input = GetOfferInput(
+            locale: locale, 
             offerId: offerId
         )
         return try await self.getOffer(input, logger: logger)
@@ -153,14 +160,17 @@ public struct MarketplaceDiscovery: AWSService {
     /// Provides details about an offer set, which is a bundle of offers across multiple products. Includes the seller, availability dates, buyer notes, and associated product-offer pairs.
     ///
     /// Parameters:
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - offerSetId: The unique identifier of the offer set to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getOfferSet(
+        locale: String? = nil,
         offerSetId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetOfferSetOutput {
         let input = GetOfferSetInput(
+            locale: locale, 
             offerSetId: offerSetId
         )
         return try await self.getOfferSet(input, logger: logger)
@@ -182,18 +192,21 @@ public struct MarketplaceDiscovery: AWSService {
     /// Returns the terms attached to an offer, such as pricing terms (usage-based, contract, BYOL, free trial), legal terms, payment schedules, validity terms, support terms, and renewal terms.
     ///
     /// Parameters:
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to get more results.
     ///   - nextToken: If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
     ///   - offerId: The unique identifier of the offer whose terms to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getOfferTerms(
+        locale: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         offerId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetOfferTermsOutput {
         let input = GetOfferTermsInput(
+            locale: locale, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             offerId: offerId
@@ -217,14 +230,17 @@ public struct MarketplaceDiscovery: AWSService {
     /// Provides details about a product, such as descriptions, highlights, categories, fulfillment option summaries, promotional media, and seller engagement options.
     ///
     /// Parameters:
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - productId: The unique identifier of the product to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getProduct(
+        locale: String? = nil,
         productId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetProductOutput {
         let input = GetProductInput(
+            locale: locale, 
             productId: productId
         )
         return try await self.getProduct(input, logger: logger)
@@ -246,18 +262,21 @@ public struct MarketplaceDiscovery: AWSService {
     /// Returns the fulfillment options available for a product, including deployment details such as version information, operating systems, usage instructions, and release notes.
     ///
     /// Parameters:
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to get more results.
     ///   - nextToken: If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
     ///   - productId: The unique identifier of the product for which to list fulfillment options.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFulfillmentOptions(
+        locale: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         productId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListFulfillmentOptionsOutput {
         let input = ListFulfillmentOptionsInput(
+            locale: locale, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             productId: productId
@@ -282,18 +301,21 @@ public struct MarketplaceDiscovery: AWSService {
     ///
     /// Parameters:
     ///   - filters: Filters to narrow the results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to get more results.
     ///   - nextToken: If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPurchaseOptions(
         filters: [PurchaseOptionFilter]? = nil,
+        locale: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListPurchaseOptionsOutput {
         let input = ListPurchaseOptionsInput(
             filters: filters, 
+            locale: locale, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -318,6 +340,7 @@ public struct MarketplaceDiscovery: AWSService {
     /// Parameters:
     ///   - facetTypes: A list of specific facet types to retrieve. If empty or null, all available facets are returned.
     ///   - filters: Filters to apply before retrieving facets. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - nextToken: If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
     ///   - searchText: The search query text to filter listings before retrieving facets.
     ///   - logger: Logger use during operation
@@ -325,6 +348,7 @@ public struct MarketplaceDiscovery: AWSService {
     public func searchFacets(
         facetTypes: [SearchFacetType]? = nil,
         filters: [SearchFilter]? = nil,
+        locale: String? = nil,
         nextToken: String? = nil,
         searchText: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -332,6 +356,7 @@ public struct MarketplaceDiscovery: AWSService {
         let input = SearchFacetsInput(
             facetTypes: facetTypes, 
             filters: filters, 
+            locale: locale, 
             nextToken: nextToken, 
             searchText: searchText
         )
@@ -355,6 +380,7 @@ public struct MarketplaceDiscovery: AWSService {
     ///
     /// Parameters:
     ///   - filters: Filters to narrow search results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to get more results.
     ///   - nextToken: If nextToken is returned, there are more results available. Make the call again using the returned token to retrieve the next page.
     ///   - searchText: The search query text to find relevant listings.
@@ -364,6 +390,7 @@ public struct MarketplaceDiscovery: AWSService {
     @inlinable
     public func searchListings(
         filters: [SearchFilter]? = nil,
+        locale: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         searchText: String? = nil,
@@ -373,6 +400,7 @@ public struct MarketplaceDiscovery: AWSService {
     ) async throws -> SearchListingsOutput {
         let input = SearchListingsInput(
             filters: filters, 
+            locale: locale, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             searchText: searchText, 
@@ -417,16 +445,19 @@ extension MarketplaceDiscovery {
     /// Return PaginatorSequence for operation ``getOfferTerms(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to get more results.
     ///   - offerId: The unique identifier of the offer whose terms to retrieve.
     ///   - logger: Logger used for logging
     @inlinable
     public func getOfferTermsPaginator(
+        locale: String? = nil,
         maxResults: Int? = nil,
         offerId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetOfferTermsInput, GetOfferTermsOutput> {
         let input = GetOfferTermsInput(
+            locale: locale, 
             maxResults: maxResults, 
             offerId: offerId
         )
@@ -454,16 +485,19 @@ extension MarketplaceDiscovery {
     /// Return PaginatorSequence for operation ``listFulfillmentOptions(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to get more results.
     ///   - productId: The unique identifier of the product for which to list fulfillment options.
     ///   - logger: Logger used for logging
     @inlinable
     public func listFulfillmentOptionsPaginator(
+        locale: String? = nil,
         maxResults: Int? = nil,
         productId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListFulfillmentOptionsInput, ListFulfillmentOptionsOutput> {
         let input = ListFulfillmentOptionsInput(
+            locale: locale, 
             maxResults: maxResults, 
             productId: productId
         )
@@ -492,16 +526,19 @@ extension MarketplaceDiscovery {
     ///
     /// - Parameters:
     ///   - filters: Filters to narrow the results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to get more results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPurchaseOptionsPaginator(
         filters: [PurchaseOptionFilter]? = nil,
+        locale: String? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListPurchaseOptionsInput, ListPurchaseOptionsOutput> {
         let input = ListPurchaseOptionsInput(
             filters: filters, 
+            locale: locale, 
             maxResults: maxResults
         )
         return self.listPurchaseOptionsPaginator(input, logger: logger)
@@ -530,18 +567,21 @@ extension MarketplaceDiscovery {
     /// - Parameters:
     ///   - facetTypes: A list of specific facet types to retrieve. If empty or null, all available facets are returned.
     ///   - filters: Filters to apply before retrieving facets. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - searchText: The search query text to filter listings before retrieving facets.
     ///   - logger: Logger used for logging
     @inlinable
     public func searchFacetsPaginator(
         facetTypes: [SearchFacetType]? = nil,
         filters: [SearchFilter]? = nil,
+        locale: String? = nil,
         searchText: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<SearchFacetsInput, SearchFacetsOutput> {
         let input = SearchFacetsInput(
             facetTypes: facetTypes, 
             filters: filters, 
+            locale: locale, 
             searchText: searchText
         )
         return self.searchFacetsPaginator(input, logger: logger)
@@ -569,6 +609,7 @@ extension MarketplaceDiscovery {
     ///
     /// - Parameters:
     ///   - filters: Filters to narrow search results. Multiple filters are combined with AND logic. Multiple values within the same filter are combined with OR logic.
+    ///   - locale: A BCP 47 language tag or comma-separated priority list specifying the preferred locale for response content. See Locale for supported values, constraints, fallback behavior, and the default locale. If omitted, the service returns content in the default locale.
     ///   - maxResults: The maximum number of results that are returned per call. You can use nextToken to get more results.
     ///   - searchText: The search query text to find relevant listings.
     ///   - sortBy: The field to sort results by. Valid values are RELEVANCE and AVERAGE_CUSTOMER_RATING.
@@ -577,6 +618,7 @@ extension MarketplaceDiscovery {
     @inlinable
     public func searchListingsPaginator(
         filters: [SearchFilter]? = nil,
+        locale: String? = nil,
         maxResults: Int? = nil,
         searchText: String? = nil,
         sortBy: SearchListingsSortBy? = nil,
@@ -585,6 +627,7 @@ extension MarketplaceDiscovery {
     ) -> AWSClient.PaginatorSequence<SearchListingsInput, SearchListingsOutput> {
         let input = SearchListingsInput(
             filters: filters, 
+            locale: locale, 
             maxResults: maxResults, 
             searchText: searchText, 
             sortBy: sortBy, 
@@ -598,6 +641,7 @@ extension MarketplaceDiscovery.GetOfferTermsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> MarketplaceDiscovery.GetOfferTermsInput {
         return .init(
+            locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token,
             offerId: self.offerId
@@ -609,6 +653,7 @@ extension MarketplaceDiscovery.ListFulfillmentOptionsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> MarketplaceDiscovery.ListFulfillmentOptionsInput {
         return .init(
+            locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token,
             productId: self.productId
@@ -621,6 +666,7 @@ extension MarketplaceDiscovery.ListPurchaseOptionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MarketplaceDiscovery.ListPurchaseOptionsInput {
         return .init(
             filters: self.filters,
+            locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -633,6 +679,7 @@ extension MarketplaceDiscovery.SearchFacetsInput: AWSPaginateToken {
         return .init(
             facetTypes: self.facetTypes,
             filters: self.filters,
+            locale: self.locale,
             nextToken: token,
             searchText: self.searchText
         )
@@ -644,6 +691,7 @@ extension MarketplaceDiscovery.SearchListingsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> MarketplaceDiscovery.SearchListingsInput {
         return .init(
             filters: self.filters,
+            locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token,
             searchText: self.searchText,

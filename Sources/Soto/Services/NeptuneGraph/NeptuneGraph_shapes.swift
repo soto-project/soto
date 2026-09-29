@@ -581,7 +581,7 @@ extension NeptuneGraph {
         public let parquetType: ParquetType?
         /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
         public let publicConnectivity: Bool?
-        /// The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2.   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
+        /// The number of replicas in other AZs to provision on the new graph after import. Default = 1, Min = 0, Max = 2.   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
         public let replicaCount: Int?
         /// The ARN of the IAM role that will allow access to the data that is to be imported.
         public let roleArn: String
@@ -2077,13 +2077,16 @@ extension NeptuneGraph {
     }
 
     public struct ListImportTasksInput: AWSEncodableShape {
+        /// The unique identifier of the Neptune Analytics graph. When provided, the service returns only import tasks associated with this graph. If not specified, the service returns all import tasks.
+        public let graphIdentifier: String?
         /// The total number of records to return in the command's output. If the total number of records available is more than the value specified, nextToken is provided in the command's output. To resume pagination, provide the nextToken output value in the nextToken argument of a subsequent command. Do not use the nextToken response element directly outside of the Amazon CLI.
         public let maxResults: Int?
         /// Pagination token used to paginate output. When this value is provided as input, the service returns results from where the previous response left off. When this value is present in output, it indicates that there are more results to retrieve.
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(graphIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.graphIdentifier = graphIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2091,11 +2094,13 @@ extension NeptuneGraph {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.graphIdentifier, key: "graphIdentifier")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.graphIdentifier, name: "graphIdentifier", parent: name, pattern: "^g-[a-z0-9]{10}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)

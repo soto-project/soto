@@ -40,7 +40,7 @@ public struct DocDB: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct DocDB: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "DocDB",
+            sdkId: "DocDB",
             serviceIdentifier: "rds",
             serviceProtocol: .query,
             apiVersion: "2014-10-31",
@@ -295,6 +296,7 @@ public struct DocDB: AWSService {
     /// Parameters:
     ///   - availabilityZones: A list of Amazon EC2 Availability Zones that instances in the cluster can be created in.
     ///   - backupRetentionPeriod: The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.
+    ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
     ///   - dbClusterIdentifier: The cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.    The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.    Example: my-cluster
     ///   - dbClusterParameterGroupName: The name of the cluster parameter group to associate with this cluster.
     ///   - dbSubnetGroupName: A subnet group to associate with this cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
@@ -323,6 +325,7 @@ public struct DocDB: AWSService {
     public func createDBCluster(
         availabilityZones: [String]? = nil,
         backupRetentionPeriod: Int? = nil,
+        copyTagsToSnapshot: Bool? = nil,
         dbClusterIdentifier: String? = nil,
         dbClusterParameterGroupName: String? = nil,
         dbSubnetGroupName: String? = nil,
@@ -351,6 +354,7 @@ public struct DocDB: AWSService {
         let input = CreateDBClusterMessage(
             availabilityZones: availabilityZones, 
             backupRetentionPeriod: backupRetentionPeriod, 
+            copyTagsToSnapshot: copyTagsToSnapshot, 
             dbClusterIdentifier: dbClusterIdentifier, 
             dbClusterParameterGroupName: dbClusterParameterGroupName, 
             dbSubnetGroupName: dbSubnetGroupName, 
@@ -1629,6 +1633,7 @@ public struct DocDB: AWSService {
     ///   - applyImmediately: A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
     ///   - backupRetentionPeriod: The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35.
     ///   - cloudwatchLogsExportConfiguration: The configuration setting for the log types to be enabled for export to Amazon CloudWatch Logs for a specific instance or cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs are exported (or not exported) to CloudWatch Logs.
+    ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them.
     ///   - dbClusterIdentifier: The cluster identifier for the cluster that is being modified. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.
     ///   - dbClusterParameterGroupName: The name of the cluster parameter group to use for the cluster.
     ///   - deletionProtection: Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
@@ -1652,6 +1657,7 @@ public struct DocDB: AWSService {
         applyImmediately: Bool? = nil,
         backupRetentionPeriod: Int? = nil,
         cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil,
+        copyTagsToSnapshot: Bool? = nil,
         dbClusterIdentifier: String? = nil,
         dbClusterParameterGroupName: String? = nil,
         deletionProtection: Bool? = nil,
@@ -1675,6 +1681,7 @@ public struct DocDB: AWSService {
             applyImmediately: applyImmediately, 
             backupRetentionPeriod: backupRetentionPeriod, 
             cloudwatchLogsExportConfiguration: cloudwatchLogsExportConfiguration, 
+            copyTagsToSnapshot: copyTagsToSnapshot, 
             dbClusterIdentifier: dbClusterIdentifier, 
             dbClusterParameterGroupName: dbClusterParameterGroupName, 
             deletionProtection: deletionProtection, 
@@ -2118,6 +2125,7 @@ public struct DocDB: AWSService {
     ///
     /// Parameters:
     ///   - availabilityZones: Provides the list of Amazon EC2 Availability Zones that instances in the restored DB cluster can be created in.
+    ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them.
     ///   - dbClusterIdentifier: The name of the cluster to create from the snapshot or cluster snapshot. This parameter isn't case sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-snapshot-id
     ///   - dbClusterParameterGroupName: The name of the DB cluster parameter group to associate with this DB cluster.  Type: String.         Required: No. If this argument is omitted, the default DB cluster parameter group is used. If supplied, must match the name of an existing default DB cluster parameter group. The string must consist of from 1 to 255 letters, numbers or hyphens. Its first character must be a letter, and it cannot end with a hyphen or contain two consecutive hyphens.
     ///   - dbSubnetGroupName: The name of the subnet group to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
@@ -2137,6 +2145,7 @@ public struct DocDB: AWSService {
     @inlinable
     public func restoreDBClusterFromSnapshot(
         availabilityZones: [String]? = nil,
+        copyTagsToSnapshot: Bool? = nil,
         dbClusterIdentifier: String? = nil,
         dbClusterParameterGroupName: String? = nil,
         dbSubnetGroupName: String? = nil,
@@ -2156,6 +2165,7 @@ public struct DocDB: AWSService {
     ) async throws -> RestoreDBClusterFromSnapshotResult {
         let input = RestoreDBClusterFromSnapshotMessage(
             availabilityZones: availabilityZones, 
+            copyTagsToSnapshot: copyTagsToSnapshot, 
             dbClusterIdentifier: dbClusterIdentifier, 
             dbClusterParameterGroupName: dbClusterParameterGroupName, 
             dbSubnetGroupName: dbSubnetGroupName, 
@@ -2191,6 +2201,7 @@ public struct DocDB: AWSService {
     /// Restores a cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target cluster is created from the source cluster with the same configuration as the original cluster, except that the new cluster is created with the default security group.
     ///
     /// Parameters:
+    ///   - copyTagsToSnapshot: Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them.
     ///   - dbClusterIdentifier: The name of the new cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
     ///   - dbSubnetGroupName: The subnet group name to use for the new cluster. Constraints: If provided, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
     ///   - deletionProtection: Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
@@ -2209,6 +2220,7 @@ public struct DocDB: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func restoreDBClusterToPointInTime(
+        copyTagsToSnapshot: Bool? = nil,
         dbClusterIdentifier: String? = nil,
         dbSubnetGroupName: String? = nil,
         deletionProtection: Bool? = nil,
@@ -2227,6 +2239,7 @@ public struct DocDB: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RestoreDBClusterToPointInTimeResult {
         let input = RestoreDBClusterToPointInTimeMessage(
+            copyTagsToSnapshot: copyTagsToSnapshot, 
             dbClusterIdentifier: dbClusterIdentifier, 
             dbSubnetGroupName: dbSubnetGroupName, 
             deletionProtection: deletionProtection, 

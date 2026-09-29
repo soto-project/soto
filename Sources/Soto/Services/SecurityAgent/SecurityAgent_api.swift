@@ -40,7 +40,7 @@ public struct SecurityAgent: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -60,6 +60,7 @@ public struct SecurityAgent: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             serviceName: "SecurityAgent",
+            sdkId: "SecurityAgent",
             serviceIdentifier: "securityagent",
             serviceProtocol: .restjson,
             apiVersion: "2025-09-06",
@@ -887,6 +888,9 @@ public struct SecurityAgent: AWSService {
     ///   - assets: The assets to include in the code review, such as documents and source code.
     ///   - codeRemediationStrategy: The code remediation strategy for the code review. Valid values are AUTOMATIC and DISABLED.
     ///   - logConfig: The CloudWatch Logs configuration for the code review.
+    ///   - maxTaskHours: The maximum number of billable task hours allowed for jobs started from this code review. Must be a positive number. If not set, jobs run to completion with no budget cap.
+    ///   - reportDestination: The destination for publishing scan reports to an integrated document provider.
+    ///   - reportFilters: The report-generation filters applied when the report is exported.
     ///   - serviceRole: The IAM service role to use for the code review.
     ///   - title: The title of the code review.
     ///   - validationMode: The validation mode for the code review. Valid values are SIMULATED and DISABLED.
@@ -897,6 +901,9 @@ public struct SecurityAgent: AWSService {
         assets: Assets,
         codeRemediationStrategy: CodeRemediationStrategy? = nil,
         logConfig: CloudWatchLog? = nil,
+        maxTaskHours: Double? = nil,
+        reportDestination: ReportDestination? = nil,
+        reportFilters: ReportFilters? = nil,
         serviceRole: String? = nil,
         title: String,
         validationMode: ValidationMode? = nil,
@@ -907,6 +914,9 @@ public struct SecurityAgent: AWSService {
             assets: assets, 
             codeRemediationStrategy: codeRemediationStrategy, 
             logConfig: logConfig, 
+            maxTaskHours: maxTaskHours, 
+            reportDestination: reportDestination, 
+            reportFilters: reportFilters, 
             serviceRole: serviceRole, 
             title: title, 
             validationMode: validationMode
@@ -1017,11 +1027,15 @@ public struct SecurityAgent: AWSService {
     /// Parameters:
     ///   - agentSpaceId: The unique identifier of the agent space to create the pentest in.
     ///   - assets: The assets to include in the pentest, such as endpoints, actors, documents, and source code.
+    ///   - cicdConfiguration: The CI/CD pentesting configuration to apply to the pentest.
     ///   - codeRemediationStrategy: The code remediation strategy for the pentest. Valid values are AUTOMATIC and DISABLED.
     ///   - disableManagedSkills: A list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
     ///   - excludeRiskTypes: The list of risk types to exclude from the pentest.
     ///   - logConfig: The CloudWatch Logs configuration for the pentest.
+    ///   - maxTaskHours: The maximum number of billable task hours allowed for jobs started from this pentest. Must be a positive number. If not set, jobs run to completion with no budget cap.
     ///   - networkTrafficConfig: The network traffic configuration for the pentest, including custom headers and traffic rules.
+    ///   - reportDestination: The destination for publishing scan reports to an integrated document provider.
+    ///   - reportFilters: The report-generation filters applied when the report is exported.
     ///   - serviceRole: The IAM service role to use for the pentest.
     ///   - title: The title of the pentest.
     ///   - vpcConfig: The VPC configuration for the pentest.
@@ -1030,11 +1044,15 @@ public struct SecurityAgent: AWSService {
     public func createPentest(
         agentSpaceId: String,
         assets: Assets? = nil,
+        cicdConfiguration: CiCdConfiguration? = nil,
         codeRemediationStrategy: CodeRemediationStrategy? = nil,
         disableManagedSkills: [SkillType]? = nil,
         excludeRiskTypes: [RiskType]? = nil,
         logConfig: CloudWatchLog? = nil,
+        maxTaskHours: Double? = nil,
         networkTrafficConfig: NetworkTrafficConfig? = nil,
+        reportDestination: ReportDestination? = nil,
+        reportFilters: ReportFilters? = nil,
         serviceRole: String? = nil,
         title: String,
         vpcConfig: VpcConfig? = nil,
@@ -1043,11 +1061,15 @@ public struct SecurityAgent: AWSService {
         let input = CreatePentestInput(
             agentSpaceId: agentSpaceId, 
             assets: assets, 
+            cicdConfiguration: cicdConfiguration, 
             codeRemediationStrategy: codeRemediationStrategy, 
             disableManagedSkills: disableManagedSkills, 
             excludeRiskTypes: excludeRiskTypes, 
             logConfig: logConfig, 
+            maxTaskHours: maxTaskHours, 
             networkTrafficConfig: networkTrafficConfig, 
+            reportDestination: reportDestination, 
+            reportFilters: reportFilters, 
             serviceRole: serviceRole, 
             title: title, 
             vpcConfig: vpcConfig
@@ -1743,6 +1765,47 @@ public struct SecurityAgent: AWSService {
         return try await self.initiateProviderRegistration(input, logger: logger)
     }
 
+    /// Returns a paginated list of the email MFA messages received for an actor at its server-generated email address, most recent first.
+    @Sendable
+    @inlinable
+    public func listActorMessages(_ input: ListActorMessagesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListActorMessagesOutput {
+        try await self.client.execute(
+            operation: "ListActorMessages", 
+            path: "/ListActorMessages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of the email MFA messages received for an actor at its server-generated email address, most recent first.
+    ///
+    /// Parameters:
+    ///   - actorIdentifier: The identifier of the actor whose messages to list. The identifier is case-insensitive.
+    ///   - agentSpaceId: The unique identifier of the agent space that owns the pentest.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - nextToken: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    ///   - pentestId: The unique identifier of the pentest that the actor belongs to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listActorMessages(
+        actorIdentifier: String,
+        agentSpaceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        pentestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListActorMessagesOutput {
+        let input = ListActorMessagesInput(
+            actorIdentifier: actorIdentifier, 
+            agentSpaceId: agentSpaceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            pentestId: pentestId
+        )
+        return try await self.listActorMessages(input, logger: logger)
+    }
+
     /// Returns a paginated list of agent space summaries in your account.
     @Sendable
     @inlinable
@@ -2234,6 +2297,7 @@ public struct SecurityAgent: AWSService {
     ///
     /// Parameters:
     ///   - agentSpaceId: The unique identifier of the agent space.
+    ///   - jobType: Filters the returned pentest jobs to only those of the specified job type.
     ///   - maxResults: The maximum number of results to return in a single call.
     ///   - nextToken: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
     ///   - pentestId: The unique identifier of the pentest to list jobs for.
@@ -2241,6 +2305,7 @@ public struct SecurityAgent: AWSService {
     @inlinable
     public func listPentestJobsForPentest(
         agentSpaceId: String,
+        jobType: JobType? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         pentestId: String,
@@ -2248,6 +2313,7 @@ public struct SecurityAgent: AWSService {
     ) async throws -> ListPentestJobsForPentestOutput {
         let input = ListPentestJobsForPentestInput(
             agentSpaceId: agentSpaceId, 
+            jobType: jobType, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             pentestId: pentestId
@@ -2692,17 +2758,26 @@ public struct SecurityAgent: AWSService {
     ///
     /// Parameters:
     ///   - agentSpaceId: The unique identifier of the agent space.
+    ///   - jobType: The type of pentest job to start. Valid values are FULL, REVALIDATION, and CICD. When set to REVALIDATION, the selectedFindingIds parameter is required. When set to CICD, the scopeChanges parameter defines the code changes to test.
     ///   - pentestId: The unique identifier of the pentest to start a job for.
+    ///   - scopeChanges: The code changes that define the scope of a CI/CD pentest job. Provide this when starting a job with jobType CICD to test only the changes in the current pipeline run.
+    ///   - selectedFindingIds: The list of finding identifiers to revalidate. Required when jobType is REVALIDATION. Each finding must belong to the same agent space and pentest.
     ///   - logger: Logger use during operation
     @inlinable
     public func startPentestJob(
         agentSpaceId: String,
+        jobType: JobType? = nil,
         pentestId: String,
+        scopeChanges: [ScopeChange]? = nil,
+        selectedFindingIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartPentestJobOutput {
         let input = StartPentestJobInput(
             agentSpaceId: agentSpaceId, 
-            pentestId: pentestId
+            jobType: jobType, 
+            pentestId: pentestId, 
+            scopeChanges: scopeChanges, 
+            selectedFindingIds: selectedFindingIds
         )
         return try await self.startPentestJob(input, logger: logger)
     }
@@ -2999,6 +3074,9 @@ public struct SecurityAgent: AWSService {
     ///   - codeRemediationStrategy: The updated code remediation strategy for the code review.
     ///   - codeReviewId: The unique identifier of the code review to update.
     ///   - logConfig: The updated CloudWatch Logs configuration for the code review.
+    ///   - maxTaskHours: The updated maximum number of billable task hours allowed for jobs started from this code review.
+    ///   - reportDestination: The destination for publishing scan reports to an integrated document provider.
+    ///   - reportFilters: The report-generation filters applied when the report is exported.
     ///   - serviceRole: The updated IAM service role for the code review.
     ///   - title: The updated title of the code review.
     ///   - validationMode: The updated validation mode for the code review. Valid values are SIMULATED and DISABLED.
@@ -3010,6 +3088,9 @@ public struct SecurityAgent: AWSService {
         codeRemediationStrategy: CodeRemediationStrategy? = nil,
         codeReviewId: String,
         logConfig: CloudWatchLog? = nil,
+        maxTaskHours: Double? = nil,
+        reportDestination: ReportDestination? = nil,
+        reportFilters: ReportFilters? = nil,
         serviceRole: String? = nil,
         title: String? = nil,
         validationMode: ValidationMode? = nil,
@@ -3021,6 +3102,9 @@ public struct SecurityAgent: AWSService {
             codeRemediationStrategy: codeRemediationStrategy, 
             codeReviewId: codeReviewId, 
             logConfig: logConfig, 
+            maxTaskHours: maxTaskHours, 
+            reportDestination: reportDestination, 
+            reportFilters: reportFilters, 
             serviceRole: serviceRole, 
             title: title, 
             validationMode: validationMode
@@ -3140,12 +3224,16 @@ public struct SecurityAgent: AWSService {
     /// Parameters:
     ///   - agentSpaceId: The unique identifier of the agent space that contains the pentest.
     ///   - assets: The updated assets for the pentest.
+    ///   - cicdConfiguration: The updated CI/CD pentesting configuration to apply to the pentest.
     ///   - codeRemediationStrategy: The updated code remediation strategy for the pentest.
     ///   - disableManagedSkills: The updated list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
     ///   - excludeRiskTypes: The updated list of risk types to exclude from the pentest.
     ///   - logConfig: The updated CloudWatch Logs configuration for the pentest.
+    ///   - maxTaskHours: The updated maximum number of billable task hours allowed for jobs started from this pentest.
     ///   - networkTrafficConfig: The updated network traffic configuration for the pentest.
     ///   - pentestId: The unique identifier of the pentest to update.
+    ///   - reportDestination: The destination for publishing scan reports to an integrated document provider.
+    ///   - reportFilters: The report-generation filters applied when the report is exported.
     ///   - serviceRole: The updated IAM service role for the pentest.
     ///   - title: The updated title of the pentest.
     ///   - vpcConfig: The updated VPC configuration for the pentest.
@@ -3154,12 +3242,16 @@ public struct SecurityAgent: AWSService {
     public func updatePentest(
         agentSpaceId: String,
         assets: Assets? = nil,
+        cicdConfiguration: CiCdConfiguration? = nil,
         codeRemediationStrategy: CodeRemediationStrategy? = nil,
         disableManagedSkills: [SkillType]? = nil,
         excludeRiskTypes: [RiskType]? = nil,
         logConfig: CloudWatchLog? = nil,
+        maxTaskHours: Double? = nil,
         networkTrafficConfig: NetworkTrafficConfig? = nil,
         pentestId: String,
+        reportDestination: ReportDestination? = nil,
+        reportFilters: ReportFilters? = nil,
         serviceRole: String? = nil,
         title: String? = nil,
         vpcConfig: VpcConfig? = nil,
@@ -3168,12 +3260,16 @@ public struct SecurityAgent: AWSService {
         let input = UpdatePentestInput(
             agentSpaceId: agentSpaceId, 
             assets: assets, 
+            cicdConfiguration: cicdConfiguration, 
             codeRemediationStrategy: codeRemediationStrategy, 
             disableManagedSkills: disableManagedSkills, 
             excludeRiskTypes: excludeRiskTypes, 
             logConfig: logConfig, 
+            maxTaskHours: maxTaskHours, 
             networkTrafficConfig: networkTrafficConfig, 
             pentestId: pentestId, 
+            reportDestination: reportDestination, 
+            reportFilters: reportFilters, 
             serviceRole: serviceRole, 
             title: title, 
             vpcConfig: vpcConfig
@@ -3377,6 +3473,7 @@ public struct SecurityAgent: AWSService {
     ///   - assets: The updated assets for the threat model.
     ///   - description: The updated description of the application or system being threat modeled.
     ///   - logConfig: The updated CloudWatch Logs configuration for the threat model.
+    ///   - reportDestination: The destination for publishing scan reports to an integrated document provider.
     ///   - scopeDocs: The updated scoped documents for the agent to focus on during threat modeling.
     ///   - serviceRole: The updated IAM service role for the threat model.
     ///   - threatModelId: The unique identifier of the threat model to update.
@@ -3388,6 +3485,7 @@ public struct SecurityAgent: AWSService {
         assets: Assets? = nil,
         description: String? = nil,
         logConfig: CloudWatchLog? = nil,
+        reportDestination: ReportDestination? = nil,
         scopeDocs: [DocumentInfo]? = nil,
         serviceRole: String? = nil,
         threatModelId: String,
@@ -3399,6 +3497,7 @@ public struct SecurityAgent: AWSService {
             assets: assets, 
             description: description, 
             logConfig: logConfig, 
+            reportDestination: reportDestination, 
             scopeDocs: scopeDocs, 
             serviceRole: serviceRole, 
             threatModelId: threatModelId, 
@@ -3450,6 +3549,49 @@ extension SecurityAgent {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SecurityAgent {
+    /// Return PaginatorSequence for operation ``listActorMessages(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listActorMessagesPaginator(
+        _ input: ListActorMessagesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListActorMessagesInput, ListActorMessagesOutput> {
+        return .init(
+            input: input,
+            command: self.listActorMessages,
+            inputKey: \ListActorMessagesInput.nextToken,
+            outputKey: \ListActorMessagesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listActorMessages(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - actorIdentifier: The identifier of the actor whose messages to list. The identifier is case-insensitive.
+    ///   - agentSpaceId: The unique identifier of the agent space that owns the pentest.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - pentestId: The unique identifier of the pentest that the actor belongs to.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listActorMessagesPaginator(
+        actorIdentifier: String,
+        agentSpaceId: String,
+        maxResults: Int? = nil,
+        pentestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListActorMessagesInput, ListActorMessagesOutput> {
+        let input = ListActorMessagesInput(
+            actorIdentifier: actorIdentifier, 
+            agentSpaceId: agentSpaceId, 
+            maxResults: maxResults, 
+            pentestId: pentestId
+        )
+        return self.listActorMessagesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAgentSpaces(_:logger:)``.
     ///
     /// - Parameters:
@@ -3970,18 +4112,21 @@ extension SecurityAgent {
     ///
     /// - Parameters:
     ///   - agentSpaceId: The unique identifier of the agent space.
+    ///   - jobType: Filters the returned pentest jobs to only those of the specified job type.
     ///   - maxResults: The maximum number of results to return in a single call.
     ///   - pentestId: The unique identifier of the pentest to list jobs for.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPentestJobsForPentestPaginator(
         agentSpaceId: String,
+        jobType: JobType? = nil,
         maxResults: Int? = nil,
         pentestId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListPentestJobsForPentestInput, ListPentestJobsForPentestOutput> {
         let input = ListPentestJobsForPentestInput(
             agentSpaceId: agentSpaceId, 
+            jobType: jobType, 
             maxResults: maxResults, 
             pentestId: pentestId
         )
@@ -4325,6 +4470,19 @@ extension SecurityAgent {
     }
 }
 
+extension SecurityAgent.ListActorMessagesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityAgent.ListActorMessagesInput {
+        return .init(
+            actorIdentifier: self.actorIdentifier,
+            agentSpaceId: self.agentSpaceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pentestId: self.pentestId
+        )
+    }
+}
+
 extension SecurityAgent.ListAgentSpacesInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SecurityAgent.ListAgentSpacesInput {
@@ -4480,6 +4638,7 @@ extension SecurityAgent.ListPentestJobsForPentestInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> SecurityAgent.ListPentestJobsForPentestInput {
         return .init(
             agentSpaceId: self.agentSpaceId,
+            jobType: self.jobType,
             maxResults: self.maxResults,
             nextToken: token,
             pentestId: self.pentestId

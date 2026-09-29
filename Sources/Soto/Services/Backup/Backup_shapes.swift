@@ -25,6 +25,17 @@ import Foundation
 extension Backup {
     // MARK: Enums
 
+    public enum AccessPointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case disassociated = "DISASSOCIATED"
+        case disassociating = "DISASSOCIATING"
+        case expired = "EXPIRED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AggregationPeriod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fourteenDays = "FOURTEEN_DAYS"
         case oneDay = "ONE_DAY"
@@ -61,6 +72,12 @@ extension Backup {
     }
 
     public enum BackupVaultEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessPointAvailable = "ACCESS_POINT_AVAILABLE"
+        case accessPointCreationFailed = "ACCESS_POINT_CREATION_FAILED"
+        case accessPointDeleted = "ACCESS_POINT_DELETED"
+        case accessPointDeletionFailed = "ACCESS_POINT_DELETION_FAILED"
+        case accessPointDisassociated = "ACCESS_POINT_DISASSOCIATED"
+        case accessPointExpired = "ACCESS_POINT_EXPIRED"
         case backupJobCompleted = "BACKUP_JOB_COMPLETED"
         case backupJobExpired = "BACKUP_JOB_EXPIRED"
         case backupJobFailed = "BACKUP_JOB_FAILED"
@@ -949,7 +966,7 @@ extension Backup {
         public let maxRetentionDays: Int64?
         /// The Backup Vault Lock setting that specifies the minimum retention period that the vault retains its recovery points. If this parameter is not specified, Vault Lock does not enforce a minimum retention period. If specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or longer than the minimum retention period. If the job's retention period is shorter than that minimum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. Recovery points already stored in the vault prior to Vault Lock are not affected.
         public let minRetentionDays: Int64?
-        /// The number of recovery points that are stored in a backup vault.
+        /// The number of recovery points that are stored in a backup vault. Recovery point count value displayed in the console can be an approximation.
         public let numberOfRecoveryPoints: Int64?
         /// The current state of the vault.
         public let vaultState: VaultState?
@@ -1343,6 +1360,73 @@ extension Backup {
             case resourceType = "ResourceType"
             case startTime = "StartTime"
             case state = "State"
+        }
+    }
+
+    public struct CreateBackupAccessPointRequest: AWSEncodableShape {
+        /// Metadata for the backup access point. For continuous (point-in-time) recovery points, you must include an AccessPointInTime timestamp (in format 2021-11-27T03:30:27Z). The access point provides access to the content present in the backup at that specific time. You can specify any time within the continuous backup's retention period, up to the latest restorable time. For snapshot recovery points, do not include AccessPointInTime.
+        public let accessPointMetadata: [String: String]?
+        /// An optional resource-based policy, in JSON format, to apply to the underlying Amazon S3 access point. The policy controls how backup data can be accessed through the access point. If you do not specify a policy, access is governed by the caller's IAM permissions. For more information, see Configuring IAM policies for using access points in the Amazon S3 User Guide.
+        public let accessPointPolicy: String?
+        /// The name of the backup access point. This name is shared with the Amazon S3 access point namespace. It must be unique within your account and Region and cannot conflict with an existing Amazon S3 access point. For more information about access point naming, see Access points naming rules, restrictions, and limitations in the Amazon S3 User Guide.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the recovery point for which to create the backup access point. The recovery point must be an Amazon S3 recovery point in the AVAILABLE, STOPPED, or COMPLETED state.
+        public let recoveryPointArn: String
+        /// The tags to assign to the backup access point.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(accessPointMetadata: [String: String]? = nil, accessPointPolicy: String? = nil, name: String, recoveryPointArn: String, tags: [String: String]? = nil) {
+            self.accessPointMetadata = accessPointMetadata
+            self.accessPointPolicy = accessPointPolicy
+            self.name = name
+            self.recoveryPointArn = recoveryPointArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.accessPointMetadata?.forEach {
+                try validate($0.key, name: "accessPointMetadata.key", parent: name, min: 1)
+                try validate($0.value, name: "accessPointMetadata[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.accessPointPolicy, name: "accessPointPolicy", parent: name, max: 200000)
+            try self.validate(self.accessPointPolicy, name: "accessPointPolicy", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\da-z]{1}[\\da-z-]{1,48}[\\da-z]{1}(?<!-s3alias)(?<!-ext-s3alias)$")
+            try self.validate(self.recoveryPointArn, name: "recoveryPointArn", parent: name, pattern: "^(arn:aws[a-z-]*:[a-z-\\d]+:[a-z-\\d]+:).+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointMetadata = "AccessPointMetadata"
+            case accessPointPolicy = "AccessPointPolicy"
+            case name = "Name"
+            case recoveryPointArn = "RecoveryPointArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateBackupAccessPointResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the created backup access point.
+        public let accessPointArn: String
+        /// The current status of the backup access point. A newly created backup access point begins in the CREATING state and becomes usable when it reaches AVAILABLE.
+        public let status: AccessPointStatus
+
+        @inlinable
+        public init(accessPointArn: String, status: AccessPointStatus) {
+            self.accessPointArn = accessPointArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "AccessPointArn"
+            case status = "Status"
         }
     }
 
@@ -2007,6 +2091,28 @@ extension Backup {
         }
     }
 
+    public struct DeleteBackupAccessPointInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the backup access point to delete.
+        public let accessPointArn: String
+
+        @inlinable
+        public init(accessPointArn: String) {
+            self.accessPointArn = accessPointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessPointArn, key: "AccessPointArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessPointArn, name: "accessPointArn", parent: name, pattern: "^(arn:aws[a-z-]*:backup:[a-z-\\d]+:\\d{12}:accesspoint/)[\\da-z]{1}[\\da-z-]{1,48}[\\da-z]{1}(?<!-s3alias)(?<!-ext-s3alias)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteBackupPlanInput: AWSEncodableShape {
         /// Uniquely identifies a backup plan.
         public let backupPlanId: String
@@ -2316,6 +2422,82 @@ extension Backup {
             case context = "Context"
             case message = "Message"
             case type = "Type"
+        }
+    }
+
+    public struct DescribeBackupAccessPointInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the backup access point to describe.
+        public let accessPointArn: String
+
+        @inlinable
+        public init(accessPointArn: String) {
+            self.accessPointArn = accessPointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.accessPointArn, key: "AccessPointArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessPointArn, name: "accessPointArn", parent: name, pattern: "^(arn:aws[a-z-]*:backup:[a-z-\\d]+:\\d{12}:accesspoint/)[\\da-z]{1}[\\da-z-]{1,48}[\\da-z]{1}(?<!-s3alias)(?<!-ext-s3alias)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeBackupAccessPointResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the backup access point.
+        public let accessPointArn: String
+        /// Metadata for the backup access point. After the backup access point reaches the AVAILABLE status, this map contains S3AccessPointArn and S3AccessPointAlias, which you use with standard Amazon S3 read APIs to access the backup data. For continuous recovery points, this map also contains AccessPointInTime (in format 2021-11-27T03:30:27Z). The access point provides access to the content present in the backup at that specific time.
+        public let accessPointMetadata: [String: String]?
+        /// The Amazon Resource Name (ARN) of the backup vault that contains the recovery point.
+        public let backupVaultArn: String?
+        /// The name of the backup vault that contains the recovery point.
+        public let backupVaultName: String
+        /// The date and time that the backup access point was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationTime: Date
+        /// The name of the backup access point.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the recovery point that the backup access point provides access to.
+        public let recoveryPointArn: String
+        /// The Amazon Resource Name (ARN) of the resource that was backed up, such as an Amazon S3 bucket.
+        public let resourceArn: String
+        /// The type of Amazon Web Services resource associated with the recovery point. For example, S3 for Amazon Simple Storage Service.
+        public let resourceType: String
+        /// The current status of the backup access point.
+        public let status: AccessPointStatus
+        /// A message that provides additional detail about the status of the backup access point, such as the reason a creation or deletion attempt failed.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(accessPointArn: String, accessPointMetadata: [String: String]? = nil, backupVaultArn: String? = nil, backupVaultName: String, creationTime: Date, name: String, recoveryPointArn: String, resourceArn: String, resourceType: String, status: AccessPointStatus, statusMessage: String? = nil) {
+            self.accessPointArn = accessPointArn
+            self.accessPointMetadata = accessPointMetadata
+            self.backupVaultArn = backupVaultArn
+            self.backupVaultName = backupVaultName
+            self.creationTime = creationTime
+            self.name = name
+            self.recoveryPointArn = recoveryPointArn
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "AccessPointArn"
+            case accessPointMetadata = "AccessPointMetadata"
+            case backupVaultArn = "BackupVaultArn"
+            case backupVaultName = "BackupVaultName"
+            case creationTime = "CreationTime"
+            case name = "Name"
+            case recoveryPointArn = "RecoveryPointArn"
+            case resourceArn = "ResourceArn"
+            case resourceType = "ResourceType"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 
@@ -4446,6 +4628,205 @@ extension Backup {
         }
     }
 
+    public struct ListAccessPointsMember: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the backup access point.
+        public let accessPointArn: String
+        /// Metadata for the backup access point. After the backup access point reaches the AVAILABLE status, this map contains S3AccessPointArn and S3AccessPointAlias, which you use with standard Amazon S3 read APIs to access the backup data. For continuous recovery points, this map also contains AccessPointInTime (in format 2021-11-27T03:30:27Z). The access point provides access to the content present in the backup at that specific time.
+        public let accessPointMetadata: [String: String]
+        /// The Amazon Resource Name (ARN) of the backup vault that contains the recovery point.
+        public let backupVaultArn: String?
+        /// The name of the backup vault that contains the recovery point.
+        public let backupVaultName: String
+        /// The date and time that the backup access point was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationTime: Date
+        /// The name of the backup access point.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of the recovery point that the backup access point provides access to.
+        public let recoveryPointArn: String
+        /// The Amazon Resource Name (ARN) of the resource that was backed up, such as an Amazon S3 bucket.
+        public let resourceArn: String
+        /// The type of Amazon Web Services resource associated with the recovery point. For example, S3 for Amazon Simple Storage Service.
+        public let resourceType: String
+        /// The current status of the backup access point.
+        public let status: AccessPointStatus
+        /// A message that provides additional detail about the status of the backup access point, such as the reason a creation or deletion attempt failed.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(accessPointArn: String, accessPointMetadata: [String: String], backupVaultArn: String? = nil, backupVaultName: String, creationTime: Date, name: String, recoveryPointArn: String, resourceArn: String, resourceType: String, status: AccessPointStatus, statusMessage: String? = nil) {
+            self.accessPointArn = accessPointArn
+            self.accessPointMetadata = accessPointMetadata
+            self.backupVaultArn = backupVaultArn
+            self.backupVaultName = backupVaultName
+            self.creationTime = creationTime
+            self.name = name
+            self.recoveryPointArn = recoveryPointArn
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "AccessPointArn"
+            case accessPointMetadata = "AccessPointMetadata"
+            case backupVaultArn = "BackupVaultArn"
+            case backupVaultName = "BackupVaultName"
+            case creationTime = "CreationTime"
+            case name = "Name"
+            case recoveryPointArn = "RecoveryPointArn"
+            case resourceArn = "ResourceArn"
+            case resourceType = "ResourceType"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ListBackupAccessPointsByRecoveryPointRequest: AWSEncodableShape {
+        /// The maximum number of items to be returned.
+        public let maxResults: Int?
+        /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the recovery point whose backup access points you want to list.
+        public let recoveryPointArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, recoveryPointArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.recoveryPointArn = recoveryPointArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.recoveryPointArn, key: "RecoveryPointArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.recoveryPointArn, name: "recoveryPointArn", parent: name, pattern: "^(arn:aws[a-z-]*:[a-z-\\d]+:[a-z-\\d]+:).+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListBackupAccessPointsByRecoveryPointResponse: AWSDecodableShape {
+        /// A list of backup access points, each containing metadata such as its name, ARN, status, and associated recovery point.
+        public let backupAccessPoints: [ListAccessPointsMember]
+        /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(backupAccessPoints: [ListAccessPointsMember], nextToken: String? = nil) {
+            self.backupAccessPoints = backupAccessPoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupAccessPoints = "BackupAccessPoints"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListBackupAccessPointsByResourceRequest: AWSEncodableShape {
+        /// The maximum number of items to be returned.
+        public let maxResults: Int?
+        /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the resource whose backup access points you want to list.
+        public let resourceArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^(arn:aws[a-z-]*:[a-z-\\d]+:).+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListBackupAccessPointsByResourceResponse: AWSDecodableShape {
+        /// A list of backup access points, each containing metadata such as its name, ARN, status, and associated recovery point.
+        public let backupAccessPoints: [ListAccessPointsMember]
+        /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(backupAccessPoints: [ListAccessPointsMember], nextToken: String? = nil) {
+            self.backupAccessPoints = backupAccessPoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupAccessPoints = "BackupAccessPoints"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListBackupAccessPointsRequest: AWSEncodableShape {
+        /// The maximum number of items to be returned.
+        public let maxResults: Int?
+        /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListBackupAccessPointsResponse: AWSDecodableShape {
+        /// A list of backup access points, each containing metadata such as its name, ARN, status, and associated recovery point.
+        public let backupAccessPoints: [ListAccessPointsMember]
+        /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(backupAccessPoints: [ListAccessPointsMember], nextToken: String? = nil) {
+            self.backupAccessPoints = backupAccessPoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupAccessPoints = "BackupAccessPoints"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListBackupJobSummariesInput: AWSEncodableShape {
         /// Returns the job count for the specified account. If the request is sent from a member account or an account  not part of Amazon Web Services Organizations, jobs within requestor's account  will be returned. Root, admin, and delegated administrator accounts can use  the value ANY to return job counts from every account in the  organization.  AGGREGATE_ALL aggregates job counts  from all accounts within the authenticated organization,  then returns the sum.
         public let accountId: String?
@@ -5406,7 +5787,7 @@ extension Backup {
     }
 
     public struct ListRecoveryPointsByResourceInput: AWSEncodableShape {
-        /// This attribute filters recovery points based on ownership. If this is  set to TRUE, the response will contain recovery points associated  with the selected resources that are managed by Backup. If this is set to FALSE, the response will contain all  recovery points associated with the selected resource. Type: Boolean
+        /// This attribute filters recovery points based on ownership. If this is  set to TRUE, the response will contain recovery points associated  with the selected resources that are managed by Backup. If this is set to FALSE, the response will contain all  recovery points associated with the selected resource, except for EBS snapshots copied within the same Region and account. Type: Boolean
         public let managedByAWSBackupOnly: Bool?
         /// The maximum number of items to be returned.  Amazon RDS requires a value of at least 20.
         public let maxResults: Int?
@@ -7212,7 +7593,7 @@ extension Backup {
         public let includeVaults: [String]?
         /// These are the types of recovery points. Include SNAPSHOT to restore only snapshot recovery points; include CONTINUOUS to restore continuous recovery points (point in time restore / PITR); use both to restore either a snapshot or a continuous recovery point. The recovery point will be determined by the value for Algorithm.
         public let recoveryPointTypes: [RestoreTestingRecoveryPointType]?
-        /// Accepted values are integers from 1 to 365.
+        /// Accepted values are integers from 1 to 365. If not included, the value defaults to 30. The selection window is calculated from the actual job execution time, not the plan's scheduled start time.
         public let selectionWindowDays: Int?
 
         @inlinable

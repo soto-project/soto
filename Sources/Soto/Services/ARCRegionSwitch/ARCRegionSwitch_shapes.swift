@@ -107,6 +107,7 @@ extension ARCRegionSwitch {
         case parallel = "Parallel"
         case rdsCreateCrossRegionReplica = "RdsCreateCrossRegionReplica"
         case rdsPromoteReadReplica = "RdsPromoteReadReplica"
+        case rdsSwitchoverReadReplica = "RdsSwitchoverReadReplica"
         case regionSwitch = "ARCRegionSwitchPlan"
         case route53HealthCheck = "Route53HealthCheck"
         case routingControl = "ARCRoutingControl"
@@ -203,6 +204,11 @@ extension ARCRegionSwitch {
         public var description: String { return self.rawValue }
     }
 
+    public enum RdsUngracefulBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case promoteReadReplica = "promoteReadReplica"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecoveryApproach: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activeActive = "activeActive"
         case activePassive = "activePassive"
@@ -236,6 +242,15 @@ extension ARCRegionSwitch {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceQuotaWarningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case denied = "denied"
+        case insufficientPermissions = "insufficientPermissions"
+        case maxAccountRequestsExceeded = "maxAccountRequestsExceeded"
+        case maxRegionSwitchRequestsExceeded = "maxRegionSwitchRequestsExceeded"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StepStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "canceled"
         case completed = "completed"
@@ -258,6 +273,12 @@ extension ARCRegionSwitch {
     public enum UpdatePlanExecutionStepAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case skip = "skip"
         case switchToUngraceful = "switchToUngraceful"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WaitELBTargetGroupHealthy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -298,6 +319,8 @@ extension ARCRegionSwitch {
         case rdsCreateCrossRegionReadReplicaConfig(RdsCreateCrossRegionReplicaConfiguration)
         /// An Amazon RDS promote read replica execution block.
         case rdsPromoteReadReplicaConfig(RdsPromoteReadReplicaConfiguration)
+        /// An Amazon RDS switchover read replica execution block.
+        case rdsSwitchoverReadReplicaConfig(RdsSwitchoverReadReplicaConfiguration)
         /// A Region switch plan execution block.
         case regionSwitchPlanConfig(RegionSwitchPlanConfiguration)
         /// The Amazon Route 53 health check configuration.
@@ -358,6 +381,9 @@ extension ARCRegionSwitch {
             case .rdsPromoteReadReplicaConfig:
                 let value = try container.decode(RdsPromoteReadReplicaConfiguration.self, forKey: .rdsPromoteReadReplicaConfig)
                 self = .rdsPromoteReadReplicaConfig(value)
+            case .rdsSwitchoverReadReplicaConfig:
+                let value = try container.decode(RdsSwitchoverReadReplicaConfiguration.self, forKey: .rdsSwitchoverReadReplicaConfig)
+                self = .rdsSwitchoverReadReplicaConfig(value)
             case .regionSwitchPlanConfig:
                 let value = try container.decode(RegionSwitchPlanConfiguration.self, forKey: .regionSwitchPlanConfig)
                 self = .regionSwitchPlanConfig(value)
@@ -400,6 +426,8 @@ extension ARCRegionSwitch {
                 try container.encode(value, forKey: .rdsCreateCrossRegionReadReplicaConfig)
             case .rdsPromoteReadReplicaConfig(let value):
                 try container.encode(value, forKey: .rdsPromoteReadReplicaConfig)
+            case .rdsSwitchoverReadReplicaConfig(let value):
+                try container.encode(value, forKey: .rdsSwitchoverReadReplicaConfig)
             case .regionSwitchPlanConfig(let value):
                 try container.encode(value, forKey: .regionSwitchPlanConfig)
             case .route53HealthCheckConfig(let value):
@@ -437,6 +465,8 @@ extension ARCRegionSwitch {
                 try value.validate(name: "\(name).rdsCreateCrossRegionReadReplicaConfig")
             case .rdsPromoteReadReplicaConfig(let value):
                 try value.validate(name: "\(name).rdsPromoteReadReplicaConfig")
+            case .rdsSwitchoverReadReplicaConfig(let value):
+                try value.validate(name: "\(name).rdsSwitchoverReadReplicaConfig")
             case .regionSwitchPlanConfig(let value):
                 try value.validate(name: "\(name).regionSwitchPlanConfig")
             case .route53HealthCheckConfig(let value):
@@ -462,6 +492,7 @@ extension ARCRegionSwitch {
             case parallelConfig = "parallelConfig"
             case rdsCreateCrossRegionReadReplicaConfig = "rdsCreateCrossRegionReadReplicaConfig"
             case rdsPromoteReadReplicaConfig = "rdsPromoteReadReplicaConfig"
+            case rdsSwitchoverReadReplicaConfig = "rdsSwitchoverReadReplicaConfig"
             case regionSwitchPlanConfig = "regionSwitchPlanConfig"
             case route53HealthCheckConfig = "route53HealthCheckConfig"
         }
@@ -934,6 +965,8 @@ extension ARCRegionSwitch {
         /// An array that specifies the Amazon Web Services Regions for a Region switch plan. Specify two Regions.
         public let regions: [String]
         public let reportConfiguration: ReportConfiguration?
+        /// Specifies whether to enable service quota checks for the Region switch plan.
+        public let serviceQuotaChecksEnabled: Bool?
         /// The tags to apply to the Region switch plan.
         public let tags: [String: String]?
         /// The triggers associated with a Region switch plan.
@@ -942,7 +975,7 @@ extension ARCRegionSwitch {
         public let workflows: [Workflow]
 
         @inlinable
-        public init(associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, name: String, primaryRegion: String? = nil, recoveryApproach: RecoveryApproach, recoveryTimeObjectiveMinutes: Int? = nil, regions: [String], reportConfiguration: ReportConfiguration? = nil, tags: [String: String]? = nil, triggers: [Trigger]? = nil, workflows: [Workflow]) {
+        public init(associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, name: String, primaryRegion: String? = nil, recoveryApproach: RecoveryApproach, recoveryTimeObjectiveMinutes: Int? = nil, regions: [String], reportConfiguration: ReportConfiguration? = nil, serviceQuotaChecksEnabled: Bool? = nil, tags: [String: String]? = nil, triggers: [Trigger]? = nil, workflows: [Workflow]) {
             self.associatedAlarms = associatedAlarms
             self.description = description
             self.executionRole = executionRole
@@ -952,6 +985,7 @@ extension ARCRegionSwitch {
             self.recoveryTimeObjectiveMinutes = recoveryTimeObjectiveMinutes
             self.regions = regions
             self.reportConfiguration = reportConfiguration
+            self.serviceQuotaChecksEnabled = serviceQuotaChecksEnabled
             self.tags = tags
             self.triggers = triggers
             self.workflows = workflows
@@ -996,6 +1030,7 @@ extension ARCRegionSwitch {
             case recoveryTimeObjectiveMinutes = "recoveryTimeObjectiveMinutes"
             case regions = "regions"
             case reportConfiguration = "reportConfiguration"
+            case serviceQuotaChecksEnabled = "serviceQuotaChecksEnabled"
             case tags = "tags"
             case triggers = "triggers"
             case workflows = "workflows"
@@ -1147,14 +1182,17 @@ extension ARCRegionSwitch {
         public let timeoutMinutes: Int?
         /// The settings for ungraceful execution.
         public let ungraceful: Ec2Ungraceful?
+        /// If enabled, the step completes only after each attached ELB target group reports a healthy target count that matches the group's new desired capacity calculated in the step.
+        public let waitELBTargetGroupHealthy: WaitELBTargetGroupHealthy?
 
         @inlinable
-        public init(asgs: [Asg], capacityMonitoringApproach: Ec2AsgCapacityMonitoringApproach? = nil, targetPercent: Int? = nil, timeoutMinutes: Int? = nil, ungraceful: Ec2Ungraceful? = nil) {
+        public init(asgs: [Asg], capacityMonitoringApproach: Ec2AsgCapacityMonitoringApproach? = nil, targetPercent: Int? = nil, timeoutMinutes: Int? = nil, ungraceful: Ec2Ungraceful? = nil, waitELBTargetGroupHealthy: WaitELBTargetGroupHealthy? = nil) {
             self.asgs = asgs
             self.capacityMonitoringApproach = capacityMonitoringApproach
             self.targetPercent = targetPercent
             self.timeoutMinutes = timeoutMinutes
             self.ungraceful = ungraceful
+            self.waitELBTargetGroupHealthy = waitELBTargetGroupHealthy
         }
 
         public func validate(name: String) throws {
@@ -1171,6 +1209,7 @@ extension ARCRegionSwitch {
             case targetPercent = "targetPercent"
             case timeoutMinutes = "timeoutMinutes"
             case ungraceful = "ungraceful"
+            case waitELBTargetGroupHealthy = "waitELBTargetGroupHealthy"
         }
     }
 
@@ -1199,14 +1238,17 @@ extension ARCRegionSwitch {
         public let timeoutMinutes: Int?
         /// The settings for ungraceful execution.
         public let ungraceful: EcsUngraceful?
+        /// If enabled, the step completes only after each attached ELB target group reports a healthy target count that matches the service's new desired task count calculated in the step.
+        public let waitELBTargetGroupHealthy: WaitELBTargetGroupHealthy?
 
         @inlinable
-        public init(capacityMonitoringApproach: EcsCapacityMonitoringApproach? = nil, services: [Service], targetPercent: Int? = nil, timeoutMinutes: Int? = nil, ungraceful: EcsUngraceful? = nil) {
+        public init(capacityMonitoringApproach: EcsCapacityMonitoringApproach? = nil, services: [Service], targetPercent: Int? = nil, timeoutMinutes: Int? = nil, ungraceful: EcsUngraceful? = nil, waitELBTargetGroupHealthy: WaitELBTargetGroupHealthy? = nil) {
             self.capacityMonitoringApproach = capacityMonitoringApproach
             self.services = services
             self.targetPercent = targetPercent
             self.timeoutMinutes = timeoutMinutes
             self.ungraceful = ungraceful
+            self.waitELBTargetGroupHealthy = waitELBTargetGroupHealthy
         }
 
         public func validate(name: String) throws {
@@ -1223,6 +1265,7 @@ extension ARCRegionSwitch {
             case targetPercent = "targetPercent"
             case timeoutMinutes = "timeoutMinutes"
             case ungraceful = "ungraceful"
+            case waitELBTargetGroupHealthy = "waitELBTargetGroupHealthy"
         }
     }
 
@@ -2201,6 +2244,57 @@ extension ARCRegionSwitch {
         }
     }
 
+    public struct ListServiceQuotaWarningsRequest: AWSEncodableShape {
+        /// The maximum number of results to return with this call. Valid values are 1 to 100. If you don't specify a value, the operation returns up to the maximum number of results.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+        public let nextToken: String?
+        /// The Amazon Resource Names (ARNs) of the plans to return service quota warnings for. You can specify up to 100 plan ARNs. Region switch ignores any plan ARN that you can't access. If you omit this parameter, Region switch returns the warnings for all of your accessible plans.
+        public let planArns: [String]?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, planArns: [String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.planArns = planArns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.planArns?.forEach {
+                try validate($0, name: "planArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:arc-region-switch::[0-9]{12}:plan/([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,30}[a-zA-Z0-9])?):([a-z0-9]{6})$")
+            }
+            try self.validate(self.planArns, name: "planArns", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case planArns = "planArns"
+        }
+    }
+
+    public struct ListServiceQuotaWarningsResponse: AWSDecodableShape {
+        /// A pagination token. A response may contain no results while still including a nextToken. Continue paginating until nextToken is null to retrieve all results.
+        public let nextToken: String?
+        /// The service quota warnings for the plans that you can access.
+        public let serviceQuotaWarningSummaries: [ServiceQuotaWarningSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, serviceQuotaWarningSummaries: [ServiceQuotaWarningSummary]) {
+            self.nextToken = nextToken
+            self.serviceQuotaWarningSummaries = serviceQuotaWarningSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case serviceQuotaWarningSummaries = "serviceQuotaWarningSummaries"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String
@@ -2359,6 +2453,8 @@ extension ARCRegionSwitch {
         public let regions: [String]
         /// The report configuration for a plan.
         public let reportConfiguration: ReportConfiguration?
+        /// Indicates whether service quota checks are enabled for the Region switch plan. When enabled, Region switch compares the applied service quota values across the plan's Amazon Web Services Regions and creates a warning when a quota in one Region is lower than the value required for the matching resource in another Region. Service quota checks are advisory and don't prevent you from creating, evaluating, or executing a plan.
+        public let serviceQuotaChecksEnabled: Bool?
         /// The triggers for a plan.
         public let triggers: [Trigger]?
         /// The timestamp when the plan was last updated.
@@ -2369,7 +2465,7 @@ extension ARCRegionSwitch {
         public let workflows: [Workflow]
 
         @inlinable
-        public init(arn: String, associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, name: String, owner: String, primaryRegion: String? = nil, recoveryApproach: RecoveryApproach, recoveryTimeObjectiveMinutes: Int? = nil, regions: [String], reportConfiguration: ReportConfiguration? = nil, triggers: [Trigger]? = nil, updatedAt: Date? = nil, version: String? = nil, workflows: [Workflow]) {
+        public init(arn: String, associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, name: String, owner: String, primaryRegion: String? = nil, recoveryApproach: RecoveryApproach, recoveryTimeObjectiveMinutes: Int? = nil, regions: [String], reportConfiguration: ReportConfiguration? = nil, serviceQuotaChecksEnabled: Bool? = nil, triggers: [Trigger]? = nil, updatedAt: Date? = nil, version: String? = nil, workflows: [Workflow]) {
             self.arn = arn
             self.associatedAlarms = associatedAlarms
             self.description = description
@@ -2381,6 +2477,7 @@ extension ARCRegionSwitch {
             self.recoveryTimeObjectiveMinutes = recoveryTimeObjectiveMinutes
             self.regions = regions
             self.reportConfiguration = reportConfiguration
+            self.serviceQuotaChecksEnabled = serviceQuotaChecksEnabled
             self.triggers = triggers
             self.updatedAt = updatedAt
             self.version = version
@@ -2399,6 +2496,7 @@ extension ARCRegionSwitch {
             case recoveryTimeObjectiveMinutes = "recoveryTimeObjectiveMinutes"
             case regions = "regions"
             case reportConfiguration = "reportConfiguration"
+            case serviceQuotaChecksEnabled = "serviceQuotaChecksEnabled"
             case triggers = "triggers"
             case updatedAt = "updatedAt"
             case version = "version"
@@ -2471,6 +2569,58 @@ extension ARCRegionSwitch {
             case dbInstanceArnMap = "dbInstanceArnMap"
             case externalId = "externalId"
             case timeoutMinutes = "timeoutMinutes"
+        }
+    }
+
+    public struct RdsSwitchoverReadReplicaConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The cross-account role for the configuration.
+        public let crossAccountRole: String?
+        /// A map of database instance ARNs for each Region in the plan.
+        public let dbInstanceArnMap: [String: String]
+        /// The external ID (secret key) for the configuration.
+        public let externalId: String?
+        /// The timeout value specified for the configuration.
+        public let timeoutMinutes: Int?
+        /// The ungraceful execution settings for the configuration.
+        public let ungraceful: RdsUngraceful?
+
+        @inlinable
+        public init(crossAccountRole: String? = nil, dbInstanceArnMap: [String: String], externalId: String? = nil, timeoutMinutes: Int? = nil, ungraceful: RdsUngraceful? = nil) {
+            self.crossAccountRole = crossAccountRole
+            self.dbInstanceArnMap = dbInstanceArnMap
+            self.externalId = externalId
+            self.timeoutMinutes = timeoutMinutes
+            self.ungraceful = ungraceful
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.dbInstanceArnMap.forEach {
+                try validate($0.key, name: "dbInstanceArnMap.key", parent: name, pattern: "^[a-z]{2}-[a-z-]+-\\d+$")
+                try validate($0.value, name: "dbInstanceArnMap[\"\($0.key)\"]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:rds:[a-z0-9-]+:\\d{12}:db:[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossAccountRole = "crossAccountRole"
+            case dbInstanceArnMap = "dbInstanceArnMap"
+            case externalId = "externalId"
+            case timeoutMinutes = "timeoutMinutes"
+            case ungraceful = "ungraceful"
+        }
+    }
+
+    public struct RdsUngraceful: AWSEncodableShape & AWSDecodableShape {
+        /// The ungraceful behavior to perform if switching to ungraceful execution.
+        public let ungraceful: RdsUngracefulBehavior?
+
+        @inlinable
+        public init(ungraceful: RdsUngracefulBehavior? = nil) {
+            self.ungraceful = ungraceful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ungraceful = "ungraceful"
         }
     }
 
@@ -2725,6 +2875,64 @@ extension ARCRegionSwitch {
             case crossAccountRole = "crossAccountRole"
             case externalId = "externalId"
             case serviceArn = "serviceArn"
+        }
+    }
+
+    public struct ServiceQuotaWarningSummary: AWSDecodableShape {
+        /// The Amazon Web Services account ID that owns the plan that the warning applies to.
+        public let accountId: String
+        /// The ID of the support case associated with the quota increase request, if Region switch submitted one for this quota.
+        public let caseId: String?
+        /// The time (UTC) when Region switch last checked this quota.
+        public let lastCheckedAt: Date?
+        /// The Amazon Resource Name (ARN) of the plan that the warning applies to.
+        public let planArn: String
+        /// The quota code of the quota that the warning applies to, as defined in Service Quotas.
+        public let quotaCode: String?
+        /// The name of the quota that the warning applies to, as defined in Service Quotas.
+        public let quotaName: String?
+        /// The Amazon Web Services Region that the quota applies to.
+        public let quotaRegion: String
+        /// The ID of the quota increase request that Region switch submitted, if it submitted one for this quota.
+        public let requestId: String?
+        /// The service code of the service that the quota belongs to, as defined in Service Quotas. For example, ec2.
+        public let serviceCode: String?
+        /// The status of the service quota warning.
+        public let status: ServiceQuotaWarningStatus
+        /// The time (UTC) when Region switch created this warning.
+        public let warningCreatedAt: Date?
+        /// A message that describes the service quota warning.
+        public let warningMessage: String?
+
+        @inlinable
+        public init(accountId: String, caseId: String? = nil, lastCheckedAt: Date? = nil, planArn: String, quotaCode: String? = nil, quotaName: String? = nil, quotaRegion: String, requestId: String? = nil, serviceCode: String? = nil, status: ServiceQuotaWarningStatus, warningCreatedAt: Date? = nil, warningMessage: String? = nil) {
+            self.accountId = accountId
+            self.caseId = caseId
+            self.lastCheckedAt = lastCheckedAt
+            self.planArn = planArn
+            self.quotaCode = quotaCode
+            self.quotaName = quotaName
+            self.quotaRegion = quotaRegion
+            self.requestId = requestId
+            self.serviceCode = serviceCode
+            self.status = status
+            self.warningCreatedAt = warningCreatedAt
+            self.warningMessage = warningMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case caseId = "caseId"
+            case lastCheckedAt = "lastCheckedAt"
+            case planArn = "planArn"
+            case quotaCode = "quotaCode"
+            case quotaName = "quotaName"
+            case quotaRegion = "quotaRegion"
+            case requestId = "requestId"
+            case serviceCode = "serviceCode"
+            case status = "status"
+            case warningCreatedAt = "warningCreatedAt"
+            case warningMessage = "warningMessage"
         }
     }
 
@@ -3070,19 +3278,22 @@ extension ARCRegionSwitch {
         public let recoveryTimeObjectiveMinutes: Int?
         /// The updated report configuration for the plan.
         public let reportConfiguration: ReportConfiguration?
+        /// Specifies whether service quota checks are enabled for the Region switch plan.
+        public let serviceQuotaChecksEnabled: Bool?
         /// The updated conditions that can automatically trigger the execution of the plan.
         public let triggers: [Trigger]?
         /// The updated workflows for the Region switch plan.
         public let workflows: [Workflow]
 
         @inlinable
-        public init(arn: String, associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, recoveryTimeObjectiveMinutes: Int? = nil, reportConfiguration: ReportConfiguration? = nil, triggers: [Trigger]? = nil, workflows: [Workflow]) {
+        public init(arn: String, associatedAlarms: [String: AssociatedAlarm]? = nil, description: String? = nil, executionRole: String, recoveryTimeObjectiveMinutes: Int? = nil, reportConfiguration: ReportConfiguration? = nil, serviceQuotaChecksEnabled: Bool? = nil, triggers: [Trigger]? = nil, workflows: [Workflow]) {
             self.arn = arn
             self.associatedAlarms = associatedAlarms
             self.description = description
             self.executionRole = executionRole
             self.recoveryTimeObjectiveMinutes = recoveryTimeObjectiveMinutes
             self.reportConfiguration = reportConfiguration
+            self.serviceQuotaChecksEnabled = serviceQuotaChecksEnabled
             self.triggers = triggers
             self.workflows = workflows
         }
@@ -3109,6 +3320,7 @@ extension ARCRegionSwitch {
             case executionRole = "executionRole"
             case recoveryTimeObjectiveMinutes = "recoveryTimeObjectiveMinutes"
             case reportConfiguration = "reportConfiguration"
+            case serviceQuotaChecksEnabled = "serviceQuotaChecksEnabled"
             case triggers = "triggers"
             case workflows = "workflows"
         }

@@ -40,7 +40,7 @@ public struct ARCRegionSwitch: AWSService {
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -61,6 +61,7 @@ public struct ARCRegionSwitch: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "ArcRegionSwitch",
             serviceName: "ARCRegionSwitch",
+            sdkId: "ARC Region switch",
             serviceIdentifier: "arc-region-switch",
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2022-07-26",
@@ -180,6 +181,7 @@ public struct ARCRegionSwitch: AWSService {
     ///   - recoveryTimeObjectiveMinutes: Optionally, you can specify an recovery time objective for a Region switch plan, in minutes.
     ///   - regions: An array that specifies the Amazon Web Services Regions for a Region switch plan. Specify two Regions.
     ///   - reportConfiguration: 
+    ///   - serviceQuotaChecksEnabled: Specifies whether to enable service quota checks for the Region switch plan.
     ///   - tags: The tags to apply to the Region switch plan.
     ///   - triggers: The triggers associated with a Region switch plan.
     ///   - workflows: An array of workflows included in a Region switch plan.
@@ -195,6 +197,7 @@ public struct ARCRegionSwitch: AWSService {
         recoveryTimeObjectiveMinutes: Int? = nil,
         regions: [String],
         reportConfiguration: ReportConfiguration? = nil,
+        serviceQuotaChecksEnabled: Bool? = nil,
         tags: [String: String]? = nil,
         triggers: [Trigger]? = nil,
         workflows: [Workflow],
@@ -210,6 +213,7 @@ public struct ARCRegionSwitch: AWSService {
             recoveryTimeObjectiveMinutes: recoveryTimeObjectiveMinutes, 
             regions: regions, 
             reportConfiguration: reportConfiguration, 
+            serviceQuotaChecksEnabled: serviceQuotaChecksEnabled, 
             tags: tags, 
             triggers: triggers, 
             workflows: workflows
@@ -602,6 +606,41 @@ public struct ARCRegionSwitch: AWSService {
         return try await self.listRoute53HealthChecksInRegion(input, logger: logger)
     }
 
+    /// Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
+    @Sendable
+    @inlinable
+    public func listServiceQuotaWarnings(_ input: ListServiceQuotaWarningsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceQuotaWarningsResponse {
+        try await self.client.execute(
+            operation: "ListServiceQuotaWarnings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return with this call. Valid values are 1 to 100. If you don't specify a value, the operation returns up to the maximum number of results.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+    ///   - planArns: The Amazon Resource Names (ARNs) of the plans to return service quota warnings for. You can specify up to 100 plan ARNs. Region switch ignores any plan ARN that you can't access. If you omit this parameter, Region switch returns the warnings for all of your accessible plans.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listServiceQuotaWarnings(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        planArns: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListServiceQuotaWarningsResponse {
+        let input = ListServiceQuotaWarningsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            planArns: planArns
+        )
+        return try await self.listServiceQuotaWarnings(input, logger: logger)
+    }
+
     /// Lists the tags attached to a Region switch resource.
     @Sendable
     @inlinable
@@ -767,6 +806,7 @@ public struct ARCRegionSwitch: AWSService {
     ///   - executionRole: The updated IAM role ARN that grants Region switch the permissions needed to execute the plan steps.
     ///   - recoveryTimeObjectiveMinutes: The updated target recovery time objective (RTO) in minutes for the plan.
     ///   - reportConfiguration: The updated report configuration for the plan.
+    ///   - serviceQuotaChecksEnabled: Specifies whether service quota checks are enabled for the Region switch plan.
     ///   - triggers: The updated conditions that can automatically trigger the execution of the plan.
     ///   - workflows: The updated workflows for the Region switch plan.
     ///   - logger: Logger use during operation
@@ -778,6 +818,7 @@ public struct ARCRegionSwitch: AWSService {
         executionRole: String,
         recoveryTimeObjectiveMinutes: Int? = nil,
         reportConfiguration: ReportConfiguration? = nil,
+        serviceQuotaChecksEnabled: Bool? = nil,
         triggers: [Trigger]? = nil,
         workflows: [Workflow],
         logger: Logger = AWSClient.loggingDisabled        
@@ -789,6 +830,7 @@ public struct ARCRegionSwitch: AWSService {
             executionRole: executionRole, 
             recoveryTimeObjectiveMinutes: recoveryTimeObjectiveMinutes, 
             reportConfiguration: reportConfiguration, 
+            serviceQuotaChecksEnabled: serviceQuotaChecksEnabled, 
             triggers: triggers, 
             workflows: workflows
         )
@@ -1201,6 +1243,43 @@ extension ARCRegionSwitch {
         )
         return self.listRoute53HealthChecksInRegionPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listServiceQuotaWarnings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceQuotaWarningsPaginator(
+        _ input: ListServiceQuotaWarningsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServiceQuotaWarningsRequest, ListServiceQuotaWarningsResponse> {
+        return .init(
+            input: input,
+            command: self.listServiceQuotaWarnings,
+            inputKey: \ListServiceQuotaWarningsRequest.nextToken,
+            outputKey: \ListServiceQuotaWarningsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listServiceQuotaWarnings(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return with this call. Valid values are 1 to 100. If you don't specify a value, the operation returns up to the maximum number of results.
+    ///   - planArns: The Amazon Resource Names (ARNs) of the plans to return service quota warnings for. You can specify up to 100 plan ARNs. Region switch ignores any plan ARN that you can't access. If you omit this parameter, Region switch returns the warnings for all of your accessible plans.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceQuotaWarningsPaginator(
+        maxResults: Int? = nil,
+        planArns: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListServiceQuotaWarningsRequest, ListServiceQuotaWarningsResponse> {
+        let input = ListServiceQuotaWarningsRequest(
+            maxResults: maxResults, 
+            planArns: planArns
+        )
+        return self.listServiceQuotaWarningsPaginator(input, logger: logger)
+    }
 }
 
 extension ARCRegionSwitch.GetPlanEvaluationStatusRequest: AWSPaginateToken {
@@ -1293,6 +1372,17 @@ extension ARCRegionSwitch.ListRoute53HealthChecksRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             recordName: self.recordName
+        )
+    }
+}
+
+extension ARCRegionSwitch.ListServiceQuotaWarningsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ARCRegionSwitch.ListServiceQuotaWarningsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            planArns: self.planArns
         )
     }
 }

@@ -39,7 +39,7 @@ public struct MTurk: AWSService {
     /// - parameters:
     ///     - client: AWSClient used to process requests
     ///     - partition: AWS partition where service resides, standard (.aws), china (.awscn), government (.awsusgov).
-    ///     - endpoint: Custom endpoint URL to use instead of standard AWS servers
+    ///     - endpoint: Custom endpoint URL to use instead of environment overrides or standard AWS servers
     ///     - middleware: Middleware chain used to edit requests before they are sent and responses before they are decoded 
     ///     - timeout: Timeout value for HTTP requests
     ///     - byteBufferAllocator: Allocator for ByteBuffers
@@ -59,6 +59,7 @@ public struct MTurk: AWSService {
             partition: partition,
             amzTarget: "MTurkRequesterServiceV20170117",
             serviceName: "MTurk",
+            sdkId: "MTurk",
             serviceIdentifier: "mturk-requester",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-17",

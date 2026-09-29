@@ -246,11 +246,9 @@ extension IVSRealTime {
         public let hlsConfiguration: ParticipantRecordingHlsConfiguration?
         /// Types of media to be recorded. Default: AUDIO_VIDEO.
         public let mediaTypes: [ParticipantRecordingMediaType]?
-        /// If a stage publisher disconnects and then reconnects within the specified interval,
-        /// 	  the multiple recordings will be considered a single recording and merged together. The default value is 0, which disables merging.
+        /// If a stage publisher disconnects and then reconnects within the specified interval, the multiple recordings will be considered a single recording and merged together. The default value is 0, which disables merging.
         public let recordingReconnectWindowSeconds: Int?
-        /// Optional field to disable replica participant recording. If this is set to false when a
-        /// 	  participant is a replica, replica participants are not recorded. Default: true.
+        /// Optional field to disable replica participant recording. If this is set to false when a participant is a replica, replica participants are not recorded. Default: true.
         public let recordParticipantReplicas: Bool?
         /// ARN of the StorageConfiguration resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a Stage is created or updated. To disable individual participant recording, set this to ""; other fields in this object will get reset to their defaults when sending "".
         public let storageConfigurationArn: String
@@ -546,8 +544,7 @@ extension IVSRealTime {
         public let redundantIngest: Bool?
         /// ARN of the stage with which the IngestConfiguration is associated.
         public let stageArn: String?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented
-        /// 	 there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
         /// Customer-assigned name to help identify the participant using the IngestConfiguration; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let userId: String?
@@ -591,12 +588,46 @@ extension IVSRealTime {
     }
 
     public struct CreateIngestConfigurationResponse: AWSDecodableShape {
+        /// See Access-Control-Allow-Origin in the MDN Web Docs.
+        public let accessControlAllowOrigin: String?
+        /// See Access-Control-Expose-Headers in the MDN Web Docs.
+        public let accessControlExposeHeaders: String?
+        /// See Cache-Control in the MDN Web Docs.
+        public let cacheControl: String?
+        /// See Content-Security-Policy in the MDN Web Docs.
+        public let contentSecurityPolicy: String?
         /// The IngestConfiguration that was created.
         public let ingestConfiguration: IngestConfiguration?
+        /// See Strict-Transport-Security in the MDN Web Docs.
+        public let strictTransportSecurity: String?
+        /// See X-Content-Type-Options in the MDN Web Docs.
+        public let xContentTypeOptions: String?
+        /// See X-Frame-Options in the MDN Web Docs.
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(ingestConfiguration: IngestConfiguration? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, ingestConfiguration: IngestConfiguration? = nil, strictTransportSecurity: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.ingestConfiguration = ingestConfiguration
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.ingestConfiguration = try container.decodeIfPresent(IngestConfiguration.self, forKey: .ingestConfiguration)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -723,8 +754,7 @@ extension IVSRealTime {
         public let name: String?
         /// A complex type that contains a storage configuration for where recorded video will be stored.
         public let s3: S3StorageConfiguration
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies
-        /// 	 in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         @inlinable
@@ -999,8 +1029,7 @@ extension IVSRealTime {
     }
 
     public struct DisconnectParticipantRequest: AWSEncodableShape {
-        /// Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for
-        /// 	    streams using RTMP ingest).
+        /// Identifier of the participant to be disconnected. IVS assigns this; it is returned by CreateParticipantToken (for streams using WebRTC ingest) or CreateIngestConfiguration (for streams using RTMP ingest).
         public let participantId: String
         /// Description of why this participant is being disconnected.
         public let reason: String?
@@ -1083,13 +1112,11 @@ extension IVSRealTime {
     }
 
     public struct Event: AWSDecodableShape {
-        /// ID of the session within the destination stage. Applicable only if the event name is
-        /// 	  REPLICATION_STARTED or REPLICATION_STOPPED.
+        /// ID of the session within the destination stage. Applicable only if the event name is REPLICATION_STARTED or REPLICATION_STOPPED.
         public let destinationSessionId: String?
-        /// ARN of the stage where the participant is replicated. Applicable only if the event name is
-        /// 	  REPLICATION_STARTED or REPLICATION_STOPPED.
+        /// ARN of the stage where the participant is replicated. Applicable only if the event name is REPLICATION_STARTED or REPLICATION_STOPPED.
         public let destinationStageArn: String?
-        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null.    B_FRAME_PRESENT — The participant's stream includes B-frames. For details, see  IVS RTMP Publishing.    BITRATE_EXCEEDED — The participant exceeded the maximum supported bitrate. For details, see  Service Quotas.    INSUFFICIENT_CAPABILITIES — The participant tried to take an action that the participant’s token is not allowed to do. For details on participant capabilities, see the capabilities field in CreateParticipantToken.    INTERNAL_SERVER_EXCEPTION — The participant failed to publish to the stage due to an internal server error.    INVALID_AUDIO_CODEC — The participant is using an invalid audio codec. For details, see  Stream Ingest.    INVALID_INPUT — The participant is using an invalid input stream.    INVALID_PROTOCOL — The participant's IngestConfiguration resource is configured for RTMPS but they tried streaming with RTMP. For details, see IVS RTMP Publishing.    INVALID_STREAM_KEY — The participant is using an invalid stream key. For details, see  IVS RTMP Publishing.    INVALID_VIDEO_CODEC — The participant is using an invalid video codec. For details, see  Stream Ingest.    PUBLISHER_NOT_FOUND — The participant tried to subscribe to a publisher that doesn’t exist.    QUOTA_EXCEEDED — The number of participants who want to publish/subscribe to a stage exceeds the quota. For details, see  Service Quotas.    RESOLUTION_EXCEEDED — The participant exceeded the maximum supported resolution. For details, see  Service Quotas.    REUSE_OF_STREAM_KEY — The participant tried to use a stream key that is associated with another active stage session.    STREAM_DURATION_EXCEEDED — The participant exceeded the maximum allowed stream duration. For details, see  Service Quotas.
+        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null.    B_FRAME_PRESENT — The participant's stream includes B-frames. For details, see  IVS RTMP Publishing.    BITRATE_EXCEEDED — The participant exceeded the maximum supported bitrate. For details, see  Service Quotas.    INSUFFICIENT_CAPABILITIES — The participant tried to take an action that the participant’s token is not allowed to do. For details on participant capabilities, see the capabilities field in CreateParticipantToken.    INTERNAL_SERVER_EXCEPTION — The participant failed to publish to the stage due to an internal server error.    INVALID_AUDIO_CODEC — The participant is using an invalid audio codec. For details, see  Stream Ingest.    INVALID_INPUT — The participant is using an invalid input stream.    INVALID_PROTOCOL — The participant's IngestConfiguration resource is configured for RTMPS but they tried streaming with RTMP. For details, see  IVS RTMP Publishing.    INVALID_STREAM_KEY — The participant is using an invalid stream key. For details, see  IVS RTMP Publishing.    INVALID_VIDEO_CODEC — The participant is using an invalid video codec. For details, see  Stream Ingest.    PUBLISHER_NOT_FOUND — The participant tried to subscribe to a publisher that doesn’t exist.    QUOTA_EXCEEDED — The number of participants who want to publish/subscribe to a stage exceeds the quota. For details, see  Service Quotas.    RESOLUTION_EXCEEDED — The participant exceeded the maximum supported resolution. For details, see  Service Quotas.    REUSE_OF_STREAM_KEY — The participant tried to use a stream key that is associated with another active stage session.    STREAM_DURATION_EXCEEDED — The participant exceeded the maximum allowed stream duration. For details, see  Service Quotas.
         public let errorCode: EventErrorCode?
         /// ISO 8601 timestamp (returned as a string) for when the event occurred.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1104,8 +1131,7 @@ extension IVSRealTime {
         public let previousToken: ExchangedParticipantToken?
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public let remoteParticipantId: String?
-        /// If true, this indicates the participantId is a replicated participant.
-        /// 	  If this is a subscribe event, then this flag refers to remoteParticipantId. Default: false.
+        /// If true, this indicates the participantId is a replicated participant. If this is a subscribe event, then this flag refers to remoteParticipantId. Default: false.
         public let replica: Bool?
 
         @inlinable
@@ -1282,7 +1308,7 @@ extension IVSRealTime {
 
         public func validate(name: String) throws {
             try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
-            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 16)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 16)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^st-[a-zA-Z0-9]+$")
@@ -1462,8 +1488,7 @@ extension IVSRealTime {
         public let gridGap: Int?
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public let omitStoppedVideo: Bool?
-        /// Attribute name in  ParticipantTokenConfiguration identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based
-        /// 	on their arrival time into the stage.
+        /// Attribute name in ParticipantTokenConfiguration identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based on their arrival time into the stage.
         public let participantOrderAttribute: String?
         /// Sets the non-featured participant display mode, to control the aspect ratio of video tiles. VIDEO is 16:9, SQUARE is 1:1, and PORTRAIT is 3:4. Default: VIDEO.
         public let videoAspectRatio: VideoAspectRatio?
@@ -1559,8 +1584,7 @@ extension IVSRealTime {
         public let participantId: String
         /// Indicates whether redundant ingest is enabled for the ingest configuration.
         public let redundantIngest: Bool?
-        /// A list of redundant ingest credentials, present only when redundantIngest is set to true. See Redundant Ingest in
-        /// 	  IVS RTMP Publishing for details.
+        /// A list of redundant ingest credentials, present only when redundantIngest is set to true. See Redundant Ingest in IVS RTMP Publishing for details.
         public let redundantIngestCredentials: [RedundantIngestCredential]?
         /// ARN of the stage with which the IngestConfiguration is associated.
         public let stageArn: String
@@ -1895,7 +1919,7 @@ extension IVSRealTime {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
             try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
-            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.sessionId, name: "sessionId", parent: name, max: 16)
             try self.validate(self.sessionId, name: "sessionId", parent: name, min: 16)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^st-[a-zA-Z0-9]+$")
@@ -1936,9 +1960,7 @@ extension IVSRealTime {
         public let maxResults: Int?
         /// The first participant to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
-        /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by
-        /// 		CreateParticipantToken
-        /// 		or the jti (JWT ID) used to create a self signed token.
+        /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token.
         public let participantId: String
         /// ARN of the stage where the participant is publishing.
         public let sourceStageArn: String
@@ -1957,7 +1979,7 @@ extension IVSRealTime {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]*$")
             try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
-            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, max: 128)
             try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, min: 1)
             try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
@@ -1990,14 +2012,13 @@ extension IVSRealTime {
     }
 
     public struct ListParticipantsRequest: AWSEncodableShape {
-        /// Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
+        /// Filters the response list to only show participants who published during the stage session. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
         public let filterByPublished: Bool?
-        /// Filters the response list to only show participants with the specified recording state. Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
+        /// Filters the response list to only show participants with the specified recording state. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
         public let filterByRecordingState: ParticipantRecordingFilterByRecordingState?
-        /// Filters the response list to only show participants in the specified state.  Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
+        /// Filters the response list to only show participants in the specified state. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request.
         public let filterByState: ParticipantState?
-        /// Filters the response list to match the specified user ID.  Only one of filterByUserId, filterByPublished,  filterByState, or filterByRecordingState can be provided per request.
-        /// 	    A userId is a customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems.
+        /// Filters the response list to match the specified user ID. Only one of filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided per request. A userId is a customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems.
         public let filterByUserId: String?
         /// Maximum number of results to return. Default: 50.
         public let maxResults: Int?
@@ -2201,11 +2222,9 @@ extension IVSRealTime {
     }
 
     public struct ListStorageConfigurationsRequest: AWSEncodableShape {
-        /// Maximum number of storage configurations to return. Default: your service quota or 100,
-        /// 	  whichever is smaller.
+        /// Maximum number of storage configurations to return. Default: your service quota or 100, whichever is smaller.
         public let maxResults: Int?
-        /// The first storage configuration to retrieve. This is used for pagination;
-        /// 	  see the nextToken response field.
+        /// The first storage configuration to retrieve. This is used for pagination; see the nextToken response field.
         public let nextToken: String?
 
         @inlinable
@@ -2309,11 +2328,7 @@ extension IVSRealTime {
         public let published: Bool?
         /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
         public let recordingS3BucketName: String?
-        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled. If individual participant recording merge is enabled, and if a stage publisher
-        /// 		 disconnects from a stage and then reconnects, IVS tries to record to the same S3 prefix as
-        /// 		 the previous session. See
-        ///
-        /// 		 Merge Fragmented Individual Participant Recordings.
+        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled. If individual participant recording merge is enabled, and if a stage publisher disconnects from a stage and then reconnects, IVS tries to record to the same S3 prefix as the previous session. See  Merge Fragmented Individual Participant Recordings.
         public let recordingS3Prefix: String?
         /// The participant’s recording state.
         public let recordingState: ParticipantRecordingState?
@@ -2387,9 +2402,7 @@ extension IVSRealTime {
     }
 
     public struct ParticipantRecordingHlsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Defines the target duration for recorded segments generated when recording a stage participant.
-        /// 	  Segments may have durations longer than the specified value when needed to ensure each segment begins with a keyframe.
-        /// 	  Default: 6.
+        /// Defines the target duration for recorded segments generated when recording a stage participant. Segments may have durations longer than the specified value when needed to ensure each segment begins with a keyframe. Default: 6.
         public let targetSegmentDurationSeconds: Int?
 
         @inlinable
@@ -2412,10 +2425,7 @@ extension IVSRealTime {
         public let destinationSessionId: String
         /// ARN of the stage where the participant is replicated.
         public let destinationStageArn: String
-        /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by
-        /// 		CreateParticipantToken
-        /// 		or the jti (JWT ID) used to
-        /// 				  create a self signed token.
+        /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to  create a self signed token.
         public let participantId: String
         /// Replica’s current replication state.
         public let replicationState: ReplicationState
@@ -2654,8 +2664,7 @@ extension IVSRealTime {
         public let gridGap: Int?
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public let omitStoppedVideo: Bool?
-        /// Attribute name in  ParticipantTokenConfiguration identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based
-        /// 	on their arrival time into the stage.
+        /// Attribute name in ParticipantTokenConfiguration identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based on their arrival time into the stage.
         public let participantOrderAttribute: String?
         /// Defines PiP behavior when all participants have left: STATIC (maintains original position/size) or DYNAMIC (expands to full composition). Default: STATIC.
         public let pipBehavior: PipBehavior?
@@ -3173,21 +3182,13 @@ extension IVSRealTime {
     }
 
     public struct StartParticipantReplicationRequest: AWSEncodableShape {
-        /// Application-provided attributes to set on the replicated participant in the destination stage.
-        /// 	  Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total.
-        /// 	  This field is exposed to all stage participants and should not be used for personally identifying,
-        /// 	  confidential, or sensitive information.  These attributes are merged with any attributes set for this participant when creating the token.
-        /// 	  If there is overlap in keys, the values in these attributes are replaced.
+        /// Application-provided attributes to set on the replicated participant in the destination stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.  These attributes are merged with any attributes set for this participant when creating the token. If there is overlap in keys, the values in these attributes are replaced.
         public let attributes: [String: String]?
         /// ARN of the stage to which the participant will be replicated.
         public let destinationStageArn: String
-        /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by
-        /// 		CreateParticipantToken
-        /// 		or the jti (JWT ID) used to create a self signed token.
-        ///
+        /// Participant ID of the publisher that will be replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to create a self signed token.
         public let participantId: String
-        /// If the participant disconnects and then reconnects within the specified interval, replication will continue to be ACTIVE.
-        /// 	  Default: 0.
+        /// If the participant disconnects and then reconnects within the specified interval, replication will continue to be ACTIVE. Default: 0.
         public let reconnectWindowSeconds: Int?
         /// ARN of the stage where the participant is publishing.
         public let sourceStageArn: String
@@ -3206,7 +3207,7 @@ extension IVSRealTime {
             try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, min: 1)
             try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
             try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
-            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.reconnectWindowSeconds, name: "reconnectWindowSeconds", parent: name, max: 300)
             try self.validate(self.reconnectWindowSeconds, name: "reconnectWindowSeconds", parent: name, min: 0)
             try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, max: 128)
@@ -3291,10 +3292,7 @@ extension IVSRealTime {
     public struct StopParticipantReplicationRequest: AWSEncodableShape {
         /// ARN of the stage where the participant has been replicated.
         public let destinationStageArn: String
-        /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by
-        /// 		CreateParticipantToken
-        /// 		or the jti (JWT ID) used to
-        /// 				  create a self signed token.
+        /// Participant ID of the publisher that has been replicated. This is assigned by IVS and returned by CreateParticipantToken or the jti (JWT ID) used to  create a self signed token.
         public let participantId: String
         /// ARN of the stage where the participant is publishing.
         public let sourceStageArn: String
@@ -3311,7 +3309,7 @@ extension IVSRealTime {
             try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, min: 1)
             try self.validate(self.destinationStageArn, name: "destinationStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
             try self.validate(self.participantId, name: "participantId", parent: name, max: 64)
-            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.participantId, name: "participantId", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
             try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, max: 128)
             try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, min: 1)
             try self.validate(self.sourceStageArn, name: "sourceStageArn", parent: name, pattern: "^arn:aws:ivs:[a-z0-9-]+:[0-9]+:stage/[a-zA-Z0-9-]+$")
@@ -3525,12 +3523,46 @@ extension IVSRealTime {
     }
 
     public struct UpdateIngestConfigurationResponse: AWSDecodableShape {
+        /// See Access-Control-Allow-Origin in the MDN Web Docs.
+        public let accessControlAllowOrigin: String?
+        /// See Access-Control-Expose-Headers in the MDN Web Docs.
+        public let accessControlExposeHeaders: String?
+        /// See Cache-Control in the MDN Web Docs.
+        public let cacheControl: String?
+        /// See Content-Security-Policy in the MDN Web Docs.
+        public let contentSecurityPolicy: String?
         /// The updated IngestConfiguration.
         public let ingestConfiguration: IngestConfiguration?
+        /// See Strict-Transport-Security in the MDN Web Docs.
+        public let strictTransportSecurity: String?
+        /// See X-Content-Type-Options in the MDN Web Docs.
+        public let xContentTypeOptions: String?
+        /// See X-Frame-Options in the MDN Web Docs.
+        public let xFrameOptions: String?
 
         @inlinable
-        public init(ingestConfiguration: IngestConfiguration? = nil) {
+        public init(accessControlAllowOrigin: String? = nil, accessControlExposeHeaders: String? = nil, cacheControl: String? = nil, contentSecurityPolicy: String? = nil, ingestConfiguration: IngestConfiguration? = nil, strictTransportSecurity: String? = nil, xContentTypeOptions: String? = nil, xFrameOptions: String? = nil) {
+            self.accessControlAllowOrigin = accessControlAllowOrigin
+            self.accessControlExposeHeaders = accessControlExposeHeaders
+            self.cacheControl = cacheControl
+            self.contentSecurityPolicy = contentSecurityPolicy
             self.ingestConfiguration = ingestConfiguration
+            self.strictTransportSecurity = strictTransportSecurity
+            self.xContentTypeOptions = xContentTypeOptions
+            self.xFrameOptions = xFrameOptions
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.accessControlAllowOrigin = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Allow-Origin")
+            self.accessControlExposeHeaders = try response.decodeHeaderIfPresent(String.self, key: "Access-Control-Expose-Headers")
+            self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
+            self.contentSecurityPolicy = try response.decodeHeaderIfPresent(String.self, key: "Content-Security-Policy")
+            self.ingestConfiguration = try container.decodeIfPresent(IngestConfiguration.self, forKey: .ingestConfiguration)
+            self.strictTransportSecurity = try response.decodeHeaderIfPresent(String.self, key: "Strict-Transport-Security")
+            self.xContentTypeOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Content-Type-Options")
+            self.xFrameOptions = try response.decodeHeaderIfPresent(String.self, key: "X-Frame-Options")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3697,12 +3729,19 @@ public struct IVSRealTimeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// User does not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Updating or deleting a resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Unexpected error during processing of request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Your account is pending verification.
     public static var pendingVerification: Self { .init(.pendingVerification) }
+    /// Request references a resource which does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Request would cause a service quota to be exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

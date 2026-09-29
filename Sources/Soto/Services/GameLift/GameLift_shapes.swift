@@ -323,6 +323,10 @@ extension GameLift {
         case c7i8Xlarge = "c7i.8xlarge"
         case c7iLarge = "c7i.large"
         case c7iXlarge = "c7i.xlarge"
+        case c8a2Xlarge = "c8a.2xlarge"
+        case c8aLarge = "c8a.large"
+        case c8aMedium = "c8a.medium"
+        case c8aXlarge = "c8a.xlarge"
         case c8g12Xlarge = "c8g.12xlarge"
         case c8g16Xlarge = "c8g.16xlarge"
         case c8g24Xlarge = "c8g.24xlarge"
@@ -333,6 +337,13 @@ extension GameLift {
         case c8gLarge = "c8g.large"
         case c8gMedium = "c8g.medium"
         case c8gXlarge = "c8g.xlarge"
+        case c8i2Xlarge = "c8i.2xlarge"
+        case c8iLarge = "c8i.large"
+        case c8iXlarge = "c8i.xlarge"
+        case c9g2Xlarge = "c9g.2xlarge"
+        case c9gLarge = "c9g.large"
+        case c9gMedium = "c9g.medium"
+        case c9gXlarge = "c9g.xlarge"
         case g5g16Xlarge = "g5g.16xlarge"
         case g5g2Xlarge = "g5g.2xlarge"
         case g5g4Xlarge = "g5g.4xlarge"
@@ -494,6 +505,10 @@ extension GameLift {
         case m7i8Xlarge = "m7i.8xlarge"
         case m7iLarge = "m7i.large"
         case m7iXlarge = "m7i.xlarge"
+        case m8a2Xlarge = "m8a.2xlarge"
+        case m8aLarge = "m8a.large"
+        case m8aMedium = "m8a.medium"
+        case m8aXlarge = "m8a.xlarge"
         case m8g12Xlarge = "m8g.12xlarge"
         case m8g16Xlarge = "m8g.16xlarge"
         case m8g24Xlarge = "m8g.24xlarge"
@@ -504,6 +519,12 @@ extension GameLift {
         case m8gLarge = "m8g.large"
         case m8gMedium = "m8g.medium"
         case m8gXlarge = "m8g.xlarge"
+        case m8i2Xlarge = "m8i.2xlarge"
+        case m8iLarge = "m8i.large"
+        case m8iXlarge = "m8i.xlarge"
+        case m9g2Xlarge = "m9g.2xlarge"
+        case m9gLarge = "m9g.large"
+        case m9gXlarge = "m9g.xlarge"
         case r32Xlarge = "r3.2xlarge"
         case r34Xlarge = "r3.4xlarge"
         case r38Xlarge = "r3.8xlarge"
@@ -1419,10 +1440,10 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
-            try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: "\\S")
+            try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: "^.*\\S.*$")
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "^[a-zA-Z0-9-\\.]+$")
@@ -2017,7 +2038,7 @@ extension GameLift {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*\\S.*$")
             try self.routingStrategy?.validate(name: "\(name).routingStrategy")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -2410,7 +2431,7 @@ extension GameLift {
             try self.anywhereConfiguration?.validate(name: "\(name).anywhereConfiguration")
             try self.validate(self.buildId, name: "buildId", parent: name, max: 512)
             try self.validate(self.buildId, name: "buildId", parent: name, min: 1)
-            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+$")
+            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^(build-\\S+|arn:.*:build\\/build-\\S+)$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.ec2InboundPermissions?.forEach {
@@ -2442,7 +2463,7 @@ extension GameLift {
             try self.runtimeConfiguration?.validate(name: "\(name).runtimeConfiguration")
             try self.validate(self.scriptId, name: "scriptId", parent: name, max: 512)
             try self.validate(self.scriptId, name: "scriptId", parent: name, min: 1)
-            try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+$")
+            try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^(script-\\S+|arn:.*:script\\/script-\\S+)$")
             try self.validate(self.serverLaunchParameters, name: "serverLaunchParameters", parent: name, max: 1024)
             try self.validate(self.serverLaunchParameters, name: "serverLaunchParameters", parent: name, min: 1)
             try self.validate(self.serverLaunchParameters, name: "serverLaunchParameters", parent: name, pattern: "^[A-Za-z0-9_:.+\\/\\\\\\- =@;{},?'\\[\\]\"]+$")
@@ -2689,7 +2710,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 512)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
-            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
+            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^(alias-\\S+|arn:.*:alias\\/alias-\\S+)$")
             try self.validate(self.creatorId, name: "creatorId", parent: name, max: 1024)
             try self.validate(self.creatorId, name: "creatorId", parent: name, min: 1)
             try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
@@ -2942,12 +2963,12 @@ extension GameLift {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-\\.]*$")
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
-            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "^[a-zA-Z0-9:_/-]*(.fifo)?$")
+            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "^[a-zA-Z0-9:_/-]*(\\.fifo)?$")
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, max: 43200)
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, min: 1)
-            try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*$")
+            try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "^([a-zA-Z0-9-\\.]*|arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -3284,7 +3305,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 512)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
-            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
+            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^(alias-\\S+|arn:.*:alias\\/alias-\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3304,7 +3325,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.buildId, name: "buildId", parent: name, max: 512)
             try self.validate(self.buildId, name: "buildId", parent: name, min: 1)
-            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+$")
+            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^(build-\\S+|arn:.*:build\\/build-\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3458,7 +3479,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3493,7 +3514,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3517,7 +3538,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.locationName, name: "locationName", parent: name, max: 128)
             try self.validate(self.locationName, name: "locationName", parent: name, min: 1)
-            try self.validate(self.locationName, name: "locationName", parent: name, pattern: "^custom-[A-Za-z0-9\\-]+|^arn:.*:location\\/custom-\\S+$")
+            try self.validate(self.locationName, name: "locationName", parent: name, pattern: "^(custom-[A-Za-z0-9\\-]+|arn:.*:location\\/custom-\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3541,7 +3562,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9-\\.]*|arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3565,7 +3586,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9-\\.]*|arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3615,7 +3636,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.scriptId, name: "scriptId", parent: name, max: 512)
             try self.validate(self.scriptId, name: "scriptId", parent: name, min: 1)
-            try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+$")
+            try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^(script-\\S+|arn:.*:script\\/script-\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3737,7 +3758,7 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.validate(self.computeName, name: "computeName", parent: name, max: 1024)
-            try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$|^arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$")
+            try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^([a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?|arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?)$")
             try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
             try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
@@ -3768,7 +3789,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "^[a-zA-Z0-9-\\.]+$")
@@ -3792,7 +3813,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 512)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
-            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
+            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^(alias-\\S+|arn:.*:alias\\/alias-\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3826,7 +3847,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.buildId, name: "buildId", parent: name, max: 512)
             try self.validate(self.buildId, name: "buildId", parent: name, min: 1)
-            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+$")
+            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^(build-\\S+|arn:.*:build\\/build-\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3862,7 +3883,7 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.validate(self.computeName, name: "computeName", parent: name, max: 1024)
-            try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$|^arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$")
+            try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^([a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?|arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?)$")
             try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
             try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
@@ -3984,7 +4005,7 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.validate(self.computeName, name: "computeName", parent: name, max: 1024)
-            try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$|^arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$")
+            try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^([a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?|arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?)$")
             try self.validate(self.containerName, name: "containerName", parent: name, max: 128)
             try self.validate(self.containerName, name: "containerName", parent: name, min: 1)
             try self.validate(self.containerName, name: "containerName", parent: name, pattern: "^[a-zA-Z0-9\\-_]+$")
@@ -4562,7 +4583,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4599,7 +4620,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "^[a-zA-Z0-9-\\.]+$")
@@ -4632,7 +4653,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
             try self.instanceIds?.forEach {
                 try validate($0, name: "instanceIds[]", parent: name, max: 19)
                 try validate($0, name: "instanceIds[]", parent: name, min: 19)
@@ -4715,7 +4736,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 512)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
-            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
+            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^(alias-\\S+|arn:.*:alias\\/alias-\\S+)$")
             try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
             try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
@@ -4815,7 +4836,7 @@ extension GameLift {
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 256)
                 try validate($0, name: "names[]", parent: name, min: 1)
-                try validate($0, name: "names[]", parent: name, pattern: "^[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+$")
+                try validate($0, name: "names[]", parent: name, pattern: "^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+)$")
             }
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -4876,7 +4897,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 512)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
-            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
+            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^(alias-\\S+|arn:.*:alias\\/alias-\\S+)$")
             try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
             try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
@@ -5008,13 +5029,13 @@ extension GameLift {
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 256)
                 try validate($0, name: "names[]", parent: name, min: 1)
-                try validate($0, name: "names[]", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*$")
+                try validate($0, name: "names[]", parent: name, pattern: "^([a-zA-Z0-9-\\.]*|arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*)$")
             }
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, min: 1)
-            try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*$")
+            try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "^([a-zA-Z0-9-\\.]*|arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5099,7 +5120,7 @@ extension GameLift {
             try self.names?.forEach {
                 try validate($0, name: "names[]", parent: name, max: 256)
                 try validate($0, name: "names[]", parent: name, min: 1)
-                try validate($0, name: "names[]", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*$")
+                try validate($0, name: "names[]", parent: name, pattern: "^([a-zA-Z0-9-\\.]*|arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*)$")
             }
             try self.validate(self.names, name: "names", parent: name, max: 10)
             try self.validate(self.names, name: "names", parent: name, min: 1)
@@ -5306,7 +5327,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.scriptId, name: "scriptId", parent: name, max: 512)
             try self.validate(self.scriptId, name: "scriptId", parent: name, min: 1)
-            try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+$")
+            try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^(script-\\S+|arn:.*:script\\/script-\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6441,7 +6462,7 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.validate(self.computeName, name: "computeName", parent: name, max: 1024)
-            try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$|^arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$")
+            try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^([a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?|arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?)$")
             try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
             try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
@@ -6505,7 +6526,7 @@ extension GameLift {
 
         public func validate(name: String) throws {
             try self.validate(self.computeName, name: "computeName", parent: name, max: 1024)
-            try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$|^arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?$")
+            try self.validate(self.computeName, name: "computeName", parent: name, pattern: "^([a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?|arn:.*:compute\\/[a-zA-Z0-9\\-]+(\\/[a-zA-Z0-9\\-]+)?)$")
             try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
             try self.validate(self.fleetId, name: "fleetId", parent: name, min: 1)
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^[a-z]*fleet-[a-zA-Z0-9\\-]+$|^arn:.*:[a-z]*fleet\\/[a-z]*fleet-[a-zA-Z0-9\\-]+$")
@@ -7260,13 +7281,13 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.buildId, name: "buildId", parent: name, max: 512)
             try self.validate(self.buildId, name: "buildId", parent: name, min: 1)
-            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+$")
+            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^(build-\\S+|arn:.*:build\\/build-\\S+)$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.scriptId, name: "scriptId", parent: name, max: 512)
             try self.validate(self.scriptId, name: "scriptId", parent: name, min: 1)
-            try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+$")
+            try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^(script-\\S+|arn:.*:script\\/script-\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7358,7 +7379,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -8306,13 +8327,13 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.connectionInfo, name: "connectionInfo", parent: name, max: 512)
             try self.validate(self.connectionInfo, name: "connectionInfo", parent: name, min: 1)
-            try self.validate(self.connectionInfo, name: "connectionInfo", parent: name, pattern: "\\S")
+            try self.validate(self.connectionInfo, name: "connectionInfo", parent: name, pattern: "^.*\\S.*$")
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
-            try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: "\\S")
+            try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: "^.*\\S.*$")
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "^[a-zA-Z0-9-\\.]+$")
@@ -8356,7 +8377,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.buildId, name: "buildId", parent: name, max: 512)
             try self.validate(self.buildId, name: "buildId", parent: name, min: 1)
-            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+$")
+            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^(build-\\S+|arn:.*:build\\/build-\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8394,7 +8415,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 512)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
-            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
+            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^(alias-\\S+|arn:.*:alias\\/alias-\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8458,7 +8479,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
             try self.validate(self.resumeActions, name: "resumeActions", parent: name, max: 1)
             try self.validate(self.resumeActions, name: "resumeActions", parent: name, min: 1)
         }
@@ -8716,7 +8737,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 512)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
-            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
+            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^(alias-\\S+|arn:.*:alias\\/alias-\\S+)$")
             try self.validate(self.filterExpression, name: "filterExpression", parent: name, max: 1024)
             try self.validate(self.filterExpression, name: "filterExpression", parent: name, min: 1)
             try self.validate(self.fleetId, name: "fleetId", parent: name, max: 512)
@@ -8891,7 +8912,7 @@ extension GameLift {
             try self.validate(self.gameSessionName, name: "gameSessionName", parent: name, min: 1)
             try self.validate(self.gameSessionQueueName, name: "gameSessionQueueName", parent: name, max: 256)
             try self.validate(self.gameSessionQueueName, name: "gameSessionQueueName", parent: name, min: 1)
-            try self.validate(self.gameSessionQueueName, name: "gameSessionQueueName", parent: name, pattern: "^[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+$")
+            try self.validate(self.gameSessionQueueName, name: "gameSessionQueueName", parent: name, pattern: "^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+)$")
             try self.validate(self.maximumPlayerSessionCount, name: "maximumPlayerSessionCount", parent: name, min: 0)
             try self.validate(self.placementId, name: "placementId", parent: name, max: 48)
             try self.validate(self.placementId, name: "placementId", parent: name, min: 1)
@@ -8950,7 +8971,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.configurationName, name: "configurationName", parent: name, max: 256)
             try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
-            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*$")
+            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^([a-zA-Z0-9-\\.]*|arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*)$")
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, max: 512)
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, min: 1)
             try self.validate(self.gameSessionArn, name: "gameSessionArn", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
@@ -9001,7 +9022,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.configurationName, name: "configurationName", parent: name, max: 256)
             try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
-            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*$")
+            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^([a-zA-Z0-9-\\.]*|arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*)$")
             try self.players?.forEach {
                 try $0.validate(name: "\(name).players[]")
             }
@@ -9296,7 +9317,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
             try self.validate(self.suspendActions, name: "suspendActions", parent: name, max: 1)
             try self.validate(self.suspendActions, name: "suspendActions", parent: name, min: 1)
         }
@@ -9516,12 +9537,12 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.aliasId, name: "aliasId", parent: name, max: 512)
             try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
-            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^alias-\\S+|^arn:.*:alias\\/alias-\\S+$")
+            try self.validate(self.aliasId, name: "aliasId", parent: name, pattern: "^(alias-\\S+|arn:.*:alias\\/alias-\\S+)$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*\\S.*$")
             try self.routingStrategy?.validate(name: "\(name).routingStrategy")
         }
 
@@ -9565,7 +9586,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.buildId, name: "buildId", parent: name, max: 512)
             try self.validate(self.buildId, name: "buildId", parent: name, min: 1)
-            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+$")
+            try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^(build-\\S+|arn:.*:build\\/build-\\S+)$")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, max: 1024)
@@ -10006,7 +10027,7 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
             try self.instanceDefinitions?.forEach {
                 try $0.validate(name: "\(name).instanceDefinitions[]")
             }
@@ -10064,10 +10085,10 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, max: 1024)
             try self.validate(self.gameServerData, name: "gameServerData", parent: name, min: 1)
-            try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: "\\S")
+            try self.validate(self.gameServerData, name: "gameServerData", parent: name, pattern: "^.*\\S.*$")
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, max: 256)
             try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, min: 1)
-            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^[a-zA-Z0-9-\\.]+|^arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+$")
+            try self.validate(self.gameServerGroupName, name: "gameServerGroupName", parent: name, pattern: "^([a-zA-Z0-9-\\.]+|arn:.*:gameservergroup\\/[a-zA-Z0-9-\\.]+)$")
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, max: 128)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, min: 3)
             try self.validate(self.gameServerId, name: "gameServerId", parent: name, pattern: "^[a-zA-Z0-9-\\.]+$")
@@ -10198,7 +10219,7 @@ extension GameLift {
             try self.filterConfiguration?.validate(name: "\(name).filterConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-]+|^arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9-]+|arn:.*:gamesessionqueue\\/[a-zA-Z0-9-]+)$")
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "^[a-zA-Z0-9:_-]*(\\.fifo)?$")
             try self.playerLatencyPolicies?.forEach {
@@ -10302,14 +10323,14 @@ extension GameLift {
             }
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([a-zA-Z0-9-\\.]*|arn:.*:matchmakingconfiguration\\/[a-zA-Z0-9-\\.]*)$")
             try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, max: 300)
-            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "^[a-zA-Z0-9:_/-]*(.fifo)?$")
+            try self.validate(self.notificationTarget, name: "notificationTarget", parent: name, pattern: "^[a-zA-Z0-9:_/-]*(\\.fifo)?$")
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, max: 43200)
             try self.validate(self.requestTimeoutSeconds, name: "requestTimeoutSeconds", parent: name, min: 1)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, max: 256)
             try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, min: 1)
-            try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "^[a-zA-Z0-9-\\.]*|^arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*$")
+            try self.validate(self.ruleSetName, name: "ruleSetName", parent: name, pattern: "^([a-zA-Z0-9-\\.]*|arn:.*:matchmakingruleset\\/[a-zA-Z0-9-\\.]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10409,7 +10430,7 @@ extension GameLift {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.scriptId, name: "scriptId", parent: name, max: 512)
             try self.validate(self.scriptId, name: "scriptId", parent: name, min: 1)
-            try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^script-\\S+|^arn:.*:script\\/script-\\S+$")
+            try self.validate(self.scriptId, name: "scriptId", parent: name, pattern: "^(script-\\S+|arn:.*:script\\/script-\\S+)$")
             try self.storageLocation?.validate(name: "\(name).storageLocation")
             try self.validate(self.version, name: "version", parent: name, max: 1024)
             try self.validate(self.version, name: "version", parent: name, min: 1)

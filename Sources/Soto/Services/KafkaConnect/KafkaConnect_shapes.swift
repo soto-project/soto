@@ -27,6 +27,9 @@ extension KafkaConnect {
 
     public enum ConnectorOperationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pending = "PENDING"
+        case restartComplete = "RESTART_COMPLETE"
+        case restartFailed = "RESTART_FAILED"
+        case restartInProgress = "RESTART_IN_PROGRESS"
         case rollbackComplete = "ROLLBACK_COMPLETE"
         case rollbackFailed = "ROLLBACK_FAILED"
         case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
@@ -56,6 +59,7 @@ extension KafkaConnect {
 
     public enum ConnectorOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case isolateConnector = "ISOLATE_CONNECTOR"
+        case restartConnector = "RESTART_CONNECTOR"
         case restoreConnector = "RESTORE_CONNECTOR"
         case updateConnectorConfiguration = "UPDATE_CONNECTOR_CONFIGURATION"
         case updateWorkerSetting = "UPDATE_WORKER_SETTING"
@@ -66,6 +70,7 @@ extension KafkaConnect {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case restarting = "RESTARTING"
         case running = "RUNNING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
@@ -1758,6 +1763,46 @@ extension KafkaConnect {
         private enum CodingKeys: String, CodingKey {
             case mcuCount = "mcuCount"
             case workerCount = "workerCount"
+        }
+    }
+
+    public struct RestartConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector that you want to restart.
+        public let connectorArn: String
+        /// Specifies whether to restart only the connector's failed tasks. If true, the operation restarts only the tasks that are currently in a failed state, and healthy tasks continue running. If false or not specified, the operation restarts the connector and all of its tasks.
+        public let onlyFailedTasks: Bool?
+
+        @inlinable
+        public init(connectorArn: String, onlyFailedTasks: Bool? = nil) {
+            self.connectorArn = connectorArn
+            self.onlyFailedTasks = onlyFailedTasks
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorArn, key: "connectorArn")
+            request.encodeQuery(self.onlyFailedTasks, key: "onlyFailedTasks")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RestartConnectorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let connectorArn: String?
+        /// The Amazon Resource Name (ARN) of the connector operation created to perform the restart.
+        public let connectorOperationArn: String?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorOperationArn: String? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorOperationArn = connectorOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "connectorArn"
+            case connectorOperationArn = "connectorOperationArn"
         }
     }
 
