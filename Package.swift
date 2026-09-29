@@ -3054,20 +3054,24 @@ let package = Package(
         // Service extensions
         .target(
             name: "SotoCognitoIdentity",
-            dependencies: [.product(name: "SotoCore", package: "soto-core"), "_SotoCognitoIdentityGenerated"],
+            dependencies: [
+                .product(name: "SotoCore", package: "soto-core"), "_SotoCognitoIdentityGenerated"
+            ],
             path: "./Sources/Soto/Extensions/CognitoIdentity",
             swiftSettings: swiftSettings
         ),
         .target(
             name: "SotoDynamoDB",
-            dependencies: [.product(name: "SotoCore", package: "soto-core"), "_SotoDynamoDBGenerated"],
+            dependencies: [
+                .product(name: "SotoCore", package: "soto-core"), "_SotoDynamoDBGenerated"
+            ],
             path: "./Sources/Soto/Extensions/DynamoDB",
             swiftSettings: swiftSettings
         ),
         .target(
             name: "SotoS3",
             dependencies: [
-                .product(name: "SotoCore", package: "soto-core"), .product(name: "_NIOFileSystem", package: "swift-nio"), "_SotoS3Generated",
+                .product(name: "SotoCore", package: "soto-core"), .product(name: "_NIOFileSystem", package: "swift-nio"), "_SotoS3Generated"
             ],
             path: "./Sources/Soto/Extensions/S3",
             swiftSettings: swiftSettings
@@ -3075,7 +3079,7 @@ let package = Package(
         .target(
             name: "SotoSTS",
             dependencies: [
-                .product(name: "SotoCore", package: "soto-core"), .product(name: "_NIOFileSystem", package: "swift-nio"), "_SotoSTSGenerated",
+                .product(name: "SotoCore", package: "soto-core"), .product(name: "_NIOFileSystem", package: "swift-nio"), "_SotoSTSGenerated"
             ],
             path: "./Sources/Soto/Extensions/STS",
             swiftSettings: swiftSettings
