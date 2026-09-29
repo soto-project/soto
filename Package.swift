@@ -461,7 +461,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.15.0"),
+        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.16.0"),
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.100.0"),
     ],
     targets: [
@@ -3066,13 +3066,17 @@ let package = Package(
         ),
         .target(
             name: "SotoS3",
-            dependencies: [.product(name: "SotoCore", package: "soto-core"), .product(name: "_NIOFileSystem", package: "swift-nio"), "_SotoS3Generated"],
+            dependencies: [
+                .product(name: "SotoCore", package: "soto-core"), .product(name: "_NIOFileSystem", package: "swift-nio"), "_SotoS3Generated",
+            ],
             path: "./Sources/Soto/Extensions/S3",
             swiftSettings: swiftSettings
         ),
         .target(
             name: "SotoSTS",
-            dependencies: [.product(name: "SotoCore", package: "soto-core"), .product(name: "_NIOFileSystem", package: "swift-nio"), "_SotoSTSGenerated"],
+            dependencies: [
+                .product(name: "SotoCore", package: "soto-core"), .product(name: "_NIOFileSystem", package: "swift-nio"), "_SotoSTSGenerated",
+            ],
             path: "./Sources/Soto/Extensions/STS",
             swiftSettings: swiftSettings
         ),
