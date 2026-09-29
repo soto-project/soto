@@ -16,9 +16,9 @@ import Atomics
 import Logging
 import NIOConcurrencyHelpers
 import NIOCore
-import NIOFileSystem
 import NIOPosix
 import SotoCore
+import _NIOFileSystem
 
 extension S3ErrorType {
     public enum MultipartError: Error {

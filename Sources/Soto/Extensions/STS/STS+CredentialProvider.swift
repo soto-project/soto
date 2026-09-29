@@ -14,9 +14,9 @@
 
 import AsyncHTTPClient
 import NIOCore
-import NIOFileSystem
 import NIOPosix
 import SotoCore
+import _NIOFileSystem
 
 import struct Foundation.Date
 import typealias Foundation.TimeInterval
