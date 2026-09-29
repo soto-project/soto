@@ -1,4 +1,4 @@
-#!/usr/bin/env swift-sh
+#!/usr/bin/env swift-sh    
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Soto for AWS open source project
@@ -29,7 +29,7 @@ struct GeneratePackage {
         let library = try await MustacheLibrary(directory: "./scripts/templates/generate-package")
         let servicesFolder = try Folder(path: "./Sources/Soto/Services")
         let extensionsFolder = try Folder(path: "./Sources/Soto/Extensions")
-        let testFolder = try Folder(path: "./Tests/SotoTests/Services")
+        let testFolder = try Folder(path: "./IntegrationTests/Tests/IntegrationTests/Services")
         let currentFolder = try Folder(path: ".")
 
         let extensionSubfolders = extensionsFolder.subfolders

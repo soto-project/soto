@@ -34,7 +34,7 @@ let package = Package(
 {{/targets}}
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.9.0")
+        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.14.0")
     ],
     targets: [
 {{#targets}}
@@ -66,12 +66,13 @@ let package = Package(
 {{/extensionTargets}}
 
         .testTarget(
-            name: "SotoTests",
+            name: "IntegrationTests",
             dependencies: [
 {{#testTargets}}
                 "Soto{{.}}",
 {{/testTargets}}
-            ]
+            ],
+            path: "IntegrationTests/Tests/IntegrationTests"
         ),
     ]
 )
