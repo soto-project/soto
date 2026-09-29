@@ -61,7 +61,7 @@ let package = Package(
         .target(
             name: "Soto{{name}}",
             dependencies: [
-                {{#dependencies}}{{.}}, {{/dependencies}}"_Soto{{name}}Generated"
+                {{#dependencies}}{{.}}, {{/dependencies}}"_Soto{{name}}Generated",
             ],
             path: "./Sources/Soto/Extensions/{{name}}",
             swiftSettings: swiftSettings
