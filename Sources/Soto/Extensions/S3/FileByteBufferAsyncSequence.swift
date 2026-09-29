@@ -16,6 +16,7 @@ import NIOCore
 import NIOPosix
 
 /// An AsyncSequence that returns the contents of a file in fixed size ByteBuffers
+@available(*, deprecated, message: "Use ReadFileHandle.readChunks instead")
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 public struct FileByteBufferAsyncSequence: AsyncSequence {
     public typealias Element = ByteBuffer
@@ -70,6 +71,7 @@ public struct FileByteBufferAsyncSequence: AsyncSequence {
     }
 }
 
+@available(*, deprecated, message: "Use ReadFileHandle.readChunks instead")
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 // Cannot set this to Sendable as it contains a `NIOFileHandle` but the context that this is
 // used in is a fairly limited situation and will not cause an issue

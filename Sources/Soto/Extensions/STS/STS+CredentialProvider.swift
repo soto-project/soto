@@ -14,6 +14,7 @@
 
 import AsyncHTTPClient
 import NIOCore
+import NIOFileSystem
 import NIOPosix
 import SotoCore
 
@@ -164,21 +165,18 @@ extension STS {
 
         /// Load web identity token file
         static func loadTokenFile(_ tokenFile: String) async throws -> String {
-            let threadPool = NIOThreadPool(numberOfThreads: 1)
-            threadPool.start()
-            defer { threadPool.shutdownGracefully { _ in } }
-            let fileIO = NonBlockingFileIO(threadPool: threadPool)
+            let fileSystem = FileSystem(threadPool: .singleton)
 
-            let fileBuffer = try await loadFile(path: tokenFile, using: fileIO)
+            let fileBuffer = try await loadFile(path: tokenFile, using: fileSystem)
             let token = String(buffer: fileBuffer)
             return token
         }
 
         /// Load a file from disk without blocking the current thread
         /// - Returns: file contents in a byte-buffer
-        static func loadFile(path: String, using fileIO: NonBlockingFileIO) async throws -> ByteBuffer {
-            try await fileIO.withFileRegion(path: path) { region in
-                try await fileIO.read(fileRegion: region, allocator: ByteBufferAllocator())
+        static func loadFile(path: String, using fileSystem: FileSystem) async throws -> ByteBuffer {
+            try await fileSystem.withFileHandle(forReadingAt: .init(path)) { readHandle in
+                try await readHandle.readToEnd(maximumSizeAllowed: .megabytes(1))
             }
         }
     }
