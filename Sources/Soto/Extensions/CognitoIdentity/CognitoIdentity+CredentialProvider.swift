@@ -29,10 +29,11 @@ extension CognitoIdentity {
             identityPoolId: String,
             identityProvider: IdentityProviderFactory,
             region: Region,
+            retryPolicy: RetryPolicyFactory,
             httpClient: any AWSHTTPClient,
             logger: Logger = AWSClient.loggingDisabled
         ) {
-            self.client = AWSClient(credentialProvider: .empty, httpClient: httpClient, logger: logger)
+            self.client = AWSClient(credentialProvider: .empty, retryPolicy: retryPolicy, httpClient: httpClient, logger: logger)
             self.cognitoIdentity = CognitoIdentity(client: self.client, region: region)
             self.identityPoolId = identityPoolId
             let context = IdentityProviderFactory.Context(cognitoIdentity: self.cognitoIdentity, identityPoolId: identityPoolId, logger: logger)
@@ -77,6 +78,7 @@ extension CredentialProviderFactory {
         identityPoolId: String,
         logins: [String: String]?,
         region: Region,
+        retryPolicy: RetryPolicyFactory = .default,
         logger: Logger = AWSClient.loggingDisabled
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -84,6 +86,7 @@ extension CredentialProviderFactory {
                 identityPoolId: identityPoolId,
                 identityProvider: .static(logins: logins),
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient,
                 logger: logger
             )
@@ -115,11 +118,13 @@ extension CredentialProviderFactory {
     ///   - identityPoolId: Identity pool to get identity from
     ///   - identityProvider: Identiy Provider object
     ///   - region: Region where we can find the identity pool
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
     ///   - logger: Logger
     public static func cognitoIdentity(
         identityPoolId: String,
         identityProvider: IdentityProviderFactory,
         region: Region,
+        retryPolicy: RetryPolicyFactory = .default,
         logger: Logger = AWSClient.loggingDisabled
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -127,6 +132,7 @@ extension CredentialProviderFactory {
                 identityPoolId: identityPoolId,
                 identityProvider: identityProvider,
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient,
                 logger: logger
             )

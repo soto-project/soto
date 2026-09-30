@@ -461,7 +461,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.16.0"),
+        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.17.0"),
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.100.0"),
     ],
     targets: [

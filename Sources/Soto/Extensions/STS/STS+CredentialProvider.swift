@@ -60,9 +60,10 @@ extension STS {
             requestProvider: RequestProvider<STS.AssumeRoleRequest>,
             credentialProvider: CredentialProviderFactory,
             region: Region,
+            retryPolicy: RetryPolicyFactory,
             httpClient: any AWSHTTPClient
         ) {
-            self.client = AWSClient(credentialProvider: credentialProvider, httpClient: httpClient)
+            self.client = AWSClient(credentialProvider: credentialProvider, retryPolicy: retryPolicy, httpClient: httpClient)
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
         }
@@ -86,8 +87,13 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.AssumeRoleWithSAMLRequest>, region: Region, httpClient: any AWSHTTPClient) {
-            self.client = AWSClient(credentialProvider: .empty, httpClient: httpClient)
+        init(
+            requestProvider: RequestProvider<STS.AssumeRoleWithSAMLRequest>,
+            region: Region,
+            retryPolicy: RetryPolicyFactory,
+            httpClient: any AWSHTTPClient
+        ) {
+            self.client = AWSClient(credentialProvider: .empty, retryPolicy: retryPolicy, httpClient: httpClient)
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
         }
@@ -111,8 +117,13 @@ extension STS {
         let client: AWSClient
         let sts: STS
 
-        init(requestProvider: RequestProvider<STS.AssumeRoleWithWebIdentityRequest>, region: Region, httpClient: any AWSHTTPClient) {
-            self.client = AWSClient(credentialProvider: .empty, httpClient: httpClient)
+        init(
+            requestProvider: RequestProvider<STS.AssumeRoleWithWebIdentityRequest>,
+            region: Region,
+            retryPolicy: RetryPolicyFactory,
+            httpClient: any AWSHTTPClient
+        ) {
+            self.client = AWSClient(credentialProvider: .empty, retryPolicy: retryPolicy, httpClient: httpClient)
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
         }
@@ -135,7 +146,7 @@ extension STS {
     struct AssumeRoleWithWebIdentityTokenFileCredentialProvider: CredentialProvider {
         let webIdentityProvider: AssumeRoleWithWebIdentityCredentialProvider
 
-        init?(region: Region, context: CredentialProviderFactory.Context) {
+        init?(region: Region, context: CredentialProviderFactory.Context, retryPolicy: RetryPolicyFactory) {
             guard let tokenFile = Environment["AWS_WEB_IDENTITY_TOKEN_FILE"] else { return nil }
             guard let roleArn = Environment["AWS_ROLE_ARN"] else { return nil }
             let sessionName = Environment["AWS_ROLE_SESSION_NAME"]
@@ -150,6 +161,7 @@ extension STS {
                     )
                 },
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient
             )
         }
@@ -191,9 +203,10 @@ extension STS {
             requestProvider: RequestProvider<STS.GetFederationTokenRequest>,
             credentialProvider: CredentialProviderFactory,
             region: Region,
+            retryPolicy: RetryPolicyFactory,
             httpClient: any AWSHTTPClient
         ) {
-            self.client = AWSClient(credentialProvider: credentialProvider, httpClient: httpClient)
+            self.client = AWSClient(credentialProvider: credentialProvider, retryPolicy: retryPolicy, httpClient: httpClient)
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
         }
@@ -221,9 +234,10 @@ extension STS {
             requestProvider: RequestProvider<STS.GetSessionTokenRequest>,
             credentialProvider: CredentialProviderFactory,
             region: Region,
+            retryPolicy: RetryPolicyFactory,
             httpClient: any AWSHTTPClient
         ) {
-            self.client = AWSClient(credentialProvider: credentialProvider, httpClient: httpClient)
+            self.client = AWSClient(credentialProvider: credentialProvider, retryPolicy: retryPolicy, httpClient: httpClient)
             self.sts = STS(client: self.client, region: region)
             self.requestProvider = requestProvider
         }
@@ -251,16 +265,19 @@ extension CredentialProviderFactory {
     ///   - request: AssumeRole request structure
     ///   - credentialProvider: Credential provider used in client that runs the AssumeRole operation
     ///   - region: Region to run request in
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
     public static func stsAssumeRole(
         request: STS.AssumeRoleRequest,
         credentialProvider: CredentialProviderFactory = .default,
-        region: Region
+        region: Region,
+        retryPolicy: RetryPolicyFactory = .default
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleCredentialProvider(
                 requestProvider: .static(request),
                 credentialProvider: credentialProvider,
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient
             )
             return RotatingCredentialProvider(context: context, provider: provider)
@@ -274,10 +291,12 @@ extension CredentialProviderFactory {
     /// - Parameters:
     ///   - credentialProvider: Credential provider used in client that runs the AssumeRole operation
     ///   - region: Region to run request in
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
     ///   - requestProvider: Function that returns an AssumeRole request struct
     public static func stsAssumeRole(
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
+        retryPolicy: RetryPolicyFactory = .default,
         requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleRequest
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -285,6 +304,7 @@ extension CredentialProviderFactory {
                 requestProvider: .dynamic(requestProvider),
                 credentialProvider: credentialProvider,
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient
             )
             return RotatingCredentialProvider(context: context, provider: provider)
@@ -298,9 +318,19 @@ extension CredentialProviderFactory {
     /// - Parameters:
     ///   - request: AssumeRoleWithSAML request struct
     ///   - region: Region to run request in
-    public static func stsSAML(request: STS.AssumeRoleWithSAMLRequest, region: Region) -> CredentialProviderFactory {
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
+    public static func stsSAML(
+        request: STS.AssumeRoleWithSAMLRequest,
+        region: Region,
+        retryPolicy: RetryPolicyFactory = .default
+    ) -> CredentialProviderFactory {
         .custom { context in
-            let provider = STS.AssumeRoleWithSAMLCredentialProvider(requestProvider: .static(request), region: region, httpClient: context.httpClient)
+            let provider = STS.AssumeRoleWithSAMLCredentialProvider(
+                requestProvider: .static(request),
+                region: region,
+                retryPolicy: retryPolicy,
+                httpClient: context.httpClient
+            )
             return RotatingCredentialProvider(context: context, provider: provider)
         }
     }
@@ -311,15 +341,18 @@ extension CredentialProviderFactory {
     ///
     /// - Parameters:
     ///   - region: Region to run request in
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
     ///   - requestProvider: Function that returns an AssumeRoleWithSAML request struct
     public static func stsSAML(
         region: Region,
+        retryPolicy: RetryPolicyFactory = .default,
         requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleWithSAMLRequest
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithSAMLCredentialProvider(
                 requestProvider: .dynamic(requestProvider),
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient
             )
             return RotatingCredentialProvider(context: context, provider: provider)
@@ -333,11 +366,17 @@ extension CredentialProviderFactory {
     /// - Parameters:
     ///   - request: AssumeRoleWithWebIdentity request struct
     ///   - region: Region to run request in
-    public static func stsWebIdentity(request: STS.AssumeRoleWithWebIdentityRequest, region: Region) -> CredentialProviderFactory {
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
+    public static func stsWebIdentity(
+        request: STS.AssumeRoleWithWebIdentityRequest,
+        region: Region,
+        retryPolicy: RetryPolicyFactory = .default
+    ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(
                 requestProvider: .static(request),
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient
             )
             return RotatingCredentialProvider(context: context, provider: provider)
@@ -350,15 +389,18 @@ extension CredentialProviderFactory {
     ///
     /// - Parameters:
     ///   - region: Region to run request in
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
     ///   - requestProvider: Function that returns an AssumeRoleWithWebIdentity request struct
     public static func stsWebIdentity(
         region: Region,
+        retryPolicy: RetryPolicyFactory = .default,
         requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleWithWebIdentityRequest
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(
                 requestProvider: .dynamic(requestProvider),
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient
             )
             return RotatingCredentialProvider(context: context, provider: provider)
@@ -372,11 +414,19 @@ extension CredentialProviderFactory {
     ///
     /// - Parameters:
     ///   - region: Region to run request in
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
     public static func stsWebIdentityTokenFile(
-        region: Region
+        region: Region,
+        retryPolicy: RetryPolicyFactory = .default
     ) -> CredentialProviderFactory {
         .custom { context in
-            guard let provider = STS.AssumeRoleWithWebIdentityTokenFileCredentialProvider(region: region, context: context) else {
+            guard
+                let provider = STS.AssumeRoleWithWebIdentityTokenFileCredentialProvider(
+                    region: region,
+                    context: context,
+                    retryPolicy: retryPolicy
+                )
+            else {
                 return NullCredentialProvider()
             }
             return RotatingCredentialProvider(context: context, provider: provider)
@@ -391,16 +441,19 @@ extension CredentialProviderFactory {
     ///   - request: AssumeRole request structure
     ///   - credentialProvider: Credential provider used in client that runs the GetFederationToken operation
     ///   - region: Region to run request in
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
     public static func stsFederationToken(
         request: STS.GetFederationTokenRequest,
         credentialProvider: CredentialProviderFactory = .default,
-        region: Region
+        region: Region,
+        retryPolicy: RetryPolicyFactory = .default
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.FederatedTokenCredentialProvider(
                 requestProvider: .static(request),
                 credentialProvider: credentialProvider,
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient
             )
             return RotatingCredentialProvider(context: context, provider: provider)
@@ -415,16 +468,19 @@ extension CredentialProviderFactory {
     ///   - request: SessionToken request structure
     ///   - credentialProvider: Credential provider used in client that runs the GetSessionToken operation
     ///   - region: Region to run request in
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
     public static func stsSessionToken(
         request: STS.GetSessionTokenRequest,
         credentialProvider: CredentialProviderFactory = .default,
-        region: Region
+        region: Region,
+        retryPolicy: RetryPolicyFactory = .default
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.SessionTokenCredentialProvider(
                 requestProvider: .static(request),
                 credentialProvider: credentialProvider,
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient
             )
             return RotatingCredentialProvider(context: context, provider: provider)
@@ -438,10 +494,12 @@ extension CredentialProviderFactory {
     /// - Parameters:
     ///   - credentialProvider: Credential provider used in client that runs the GetSessionToken operation
     ///   - region: Region to run request in
+    ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
     ///   - requestProvider: Function that returns a SessionToken request structure
     public static func stsSessionToken(
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
+        retryPolicy: RetryPolicyFactory = .default,
         requestProvider: @escaping @Sendable () async throws -> STS.GetSessionTokenRequest
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -449,6 +507,7 @@ extension CredentialProviderFactory {
                 requestProvider: .dynamic(requestProvider),
                 credentialProvider: credentialProvider,
                 region: region,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient
             )
             return RotatingCredentialProvider(context: context, provider: provider)
