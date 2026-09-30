@@ -151,5 +151,3 @@ extension S3 {
         return (client, s3)
     }
 }
-
-extension RetryPolicyFactory: @retroactive @unchecked Sendable {}

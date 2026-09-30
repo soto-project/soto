@@ -140,5 +140,3 @@ extension CredentialProviderFactory {
         }
     }
 }
-
-extension RetryPolicyFactory: @retroactive @unchecked Sendable {}
