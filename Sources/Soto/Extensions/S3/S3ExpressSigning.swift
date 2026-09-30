@@ -25,10 +25,11 @@ struct S3ExpressCredentialProvider: CredentialProvider {
         bucket: String,
         region: Region,
         credentialProvider: CredentialProviderFactory,
+        retryPolicy: RetryPolicyFactory,
         httpClient: any AWSHTTPClient,
         logger: Logger = AWSClient.loggingDisabled
     ) {
-        let client = AWSClient(credentialProvider: credentialProvider, httpClient: httpClient, logger: logger)
+        let client = AWSClient(credentialProvider: credentialProvider, retryPolicy: retryPolicy, httpClient: httpClient, logger: logger)
         self.s3 = S3(client: client, region: region)
         self.bucket = bucket
         self.ownsClient = true
@@ -95,6 +96,7 @@ extension CredentialProviderFactory {
     public static func s3Express(
         bucket: String,
         region: Region,
+        retryPolicy: RetryPolicyFactory = .default,
         credentialProvider: CredentialProviderFactory = .default
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -102,6 +104,7 @@ extension CredentialProviderFactory {
                 bucket: bucket,
                 region: region,
                 credentialProvider: credentialProvider,
+                retryPolicy: retryPolicy,
                 httpClient: context.httpClient,
                 logger: context.logger
             )
@@ -148,3 +151,5 @@ extension S3 {
         return (client, s3)
     }
 }
+
+extension RetryPolicyFactory: @retroactive @unchecked Sendable {}
