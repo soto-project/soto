@@ -571,6 +571,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacityReservationLaunchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case launchable = "launchable"
+        case unlaunchable = "unlaunchable"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapacityReservationModificationQuoteState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case expired = "expired"
@@ -10614,6 +10620,11 @@ extension EC2 {
         /// 			Information about the interruption configuration and association with the source reservation for interruptible Capacity Reservations.
         ///
         public let interruptionInfo: InterruptionInfo?
+        ///  Only supported for UltraServers.  Indicates whether you can launch instances into the Capacity Reservation. A Capacity
+        /// 			Reservation can have the following launch statuses:    launchable - You can launch instances into the Capacity
+        /// 					Reservation.    unlaunchable - You can't launch instances into the Capacity
+        /// 					Reservation. For example, the Capacity Reservation is not active.
+        public let launchStatus: CapacityReservationLaunchStatus?
         /// The start date that you originally requested for the Capacity Reservation, in the ISO8601
         /// 			format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). This value doesn't
         /// 			change when you push out the start date.
@@ -10670,7 +10681,7 @@ extension EC2 {
         public let zeroSizePreference: ZeroSizePreference?
 
         @inlinable
-        public init(adjustmentDetails: CapacityReservationAdjustmentDetails? = nil, adjustmentStatus: CapacityReservationAdjustmentStatus? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, interruptible: Bool? = nil, interruptibleCapacityAllocation: InterruptibleCapacityAllocation? = nil, interruptionInfo: InterruptionInfo? = nil, originalStartDate: Date? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil, zeroSizePreference: ZeroSizePreference? = nil) {
+        public init(adjustmentDetails: CapacityReservationAdjustmentDetails? = nil, adjustmentStatus: CapacityReservationAdjustmentStatus? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, interruptible: Bool? = nil, interruptibleCapacityAllocation: InterruptibleCapacityAllocation? = nil, interruptionInfo: InterruptionInfo? = nil, launchStatus: CapacityReservationLaunchStatus? = nil, originalStartDate: Date? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil, zeroSizePreference: ZeroSizePreference? = nil) {
             self.adjustmentDetails = adjustmentDetails
             self.adjustmentStatus = adjustmentStatus
             self.availabilityZone = availabilityZone
@@ -10694,6 +10705,7 @@ extension EC2 {
             self.interruptible = interruptible
             self.interruptibleCapacityAllocation = interruptibleCapacityAllocation
             self.interruptionInfo = interruptionInfo
+            self.launchStatus = launchStatus
             self.originalStartDate = originalStartDate
             self.outpostArn = outpostArn
             self.ownerId = ownerId
@@ -10732,6 +10744,7 @@ extension EC2 {
             case interruptible = "interruptible"
             case interruptibleCapacityAllocation = "interruptibleCapacityAllocation"
             case interruptionInfo = "interruptionInfo"
+            case launchStatus = "launchStatus"
             case originalStartDate = "originalStartDate"
             case outpostArn = "outpostArn"
             case ownerId = "ownerId"
@@ -12629,7 +12642,7 @@ extension EC2 {
 
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in Amazon EC2 API requests in the Amazon EC2 API Reference.
         public let clientToken: String?
-        /// Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts   Default: Your user-defined AMI tags are not copied.
+        /// Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts, except tags with the ec2:SharedTag/ prefix. For more information about tag sharing, see Sharing tags in the Amazon EC2 User Guide.   Default: Your user-defined AMI tags are not copied.
         public let copyImageTags: Bool?
         /// A description for the new AMI.
         public let description: String?

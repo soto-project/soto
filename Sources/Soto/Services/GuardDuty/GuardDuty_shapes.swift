@@ -262,6 +262,8 @@ extension GuardDuty {
         case ec2AgentManagement = "EC2_AGENT_MANAGEMENT"
         case ecsFargateAgentManagement = "ECS_FARGATE_AGENT_MANAGEMENT"
         case eksAddonManagement = "EKS_ADDON_MANAGEMENT"
+        /// RDS Data Activity Monitoring, which monitors data activity on supported Amazon RDS database engines to detect potentially unauthorized access to your data.
+        case rdsDataRisk = "RDS_DATA_RISK"
         public var description: String { return self.rawValue }
     }
 
@@ -512,6 +514,11 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case guarddutyPolicy = "GUARDDUTY_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ManagementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoManaged = "AUTO_MANAGED"
         case disabled = "DISABLED"
@@ -553,6 +560,8 @@ extension GuardDuty {
         case ec2AgentManagement = "EC2_AGENT_MANAGEMENT"
         case ecsFargateAgentManagement = "ECS_FARGATE_AGENT_MANAGEMENT"
         case eksAddonManagement = "EKS_ADDON_MANAGEMENT"
+        /// RDS Data Activity Monitoring, which monitors data activity on supported Amazon RDS database engines to detect potentially unauthorized access to your data.
+        case rdsDataRisk = "RDS_DATA_RISK"
         public var description: String { return self.rawValue }
     }
 
@@ -780,6 +789,14 @@ extension GuardDuty {
         case fargateRuntimeMonitoring = "FARGATE_RUNTIME_MONITORING"
         case flowLogs = "FLOW_LOGS"
         case lambdaNetworkLogs = "LAMBDA_NETWORK_LOGS"
+        /// Usage attributed to RDS Data Activity Monitoring for Amazon Aurora DSQL Limitless databases.
+        case rdsDataActivityDbiProtectionLimitless = "RDS_DATA_ACTIVITY_DBI_PROTECTION_LIMITLESS"
+        /// Usage attributed to RDS Data Activity Monitoring for provisioned Amazon RDS databases.
+        case rdsDataActivityDbiProtectionProvisioned = "RDS_DATA_ACTIVITY_DBI_PROTECTION_PROVISIONED"
+        /// Usage attributed to RDS Data Activity Monitoring for Amazon Aurora Serverless databases.
+        case rdsDataActivityDbiProtectionServerless = "RDS_DATA_ACTIVITY_DBI_PROTECTION_SERVERLESS"
+        /// Usage attributed to RDS Protection database infrastructure monitoring for Amazon Aurora DSQL Limitless databases.
+        case rdsDbiProtectionLimitless = "RDS_DBI_PROTECTION_LIMITLESS"
         case rdsDbiProtectionProvisioned = "RDS_DBI_PROTECTION_PROVISIONED"
         case rdsDbiProtectionServerless = "RDS_DBI_PROTECTION_SERVERLESS"
         case rdsLoginEvents = "RDS_LOGIN_EVENTS"
@@ -4175,6 +4192,8 @@ extension GuardDuty {
     }
 
     public struct DetectorAdditionalConfigurationResult: AWSDecodableShape {
+        /// Indicates what manages the additional configuration. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the additional configuration.
+        public let managedBy: ManagedBy?
         /// Name of the additional configuration.
         public let name: FeatureAdditionalConfiguration?
         /// Status of the additional configuration.
@@ -4183,13 +4202,15 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(name: FeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(managedBy: ManagedBy? = nil, name: FeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -4221,6 +4242,8 @@ extension GuardDuty {
     public struct DetectorFeatureConfigurationResult: AWSDecodableShape {
         /// Additional configuration for a resource.
         public let additionalConfiguration: [DetectorAdditionalConfigurationResult]?
+        /// Indicates what manages the feature. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the feature.
+        public let managedBy: ManagedBy?
         /// Indicates the name of the feature that can be enabled for the detector.
         public let name: DetectorFeatureResult?
         /// Indicates the status of the feature that is enabled for the detector.
@@ -4229,8 +4252,9 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(additionalConfiguration: [DetectorAdditionalConfigurationResult]? = nil, name: DetectorFeatureResult? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(additionalConfiguration: [DetectorAdditionalConfigurationResult]? = nil, managedBy: ManagedBy? = nil, name: DetectorFeatureResult? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
             self.additionalConfiguration = additionalConfiguration
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -4238,6 +4262,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case additionalConfiguration = "additionalConfiguration"
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -8788,6 +8813,8 @@ extension GuardDuty {
     }
 
     public struct MemberAdditionalConfigurationResult: AWSDecodableShape {
+        /// Indicates what manages the additional configuration. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the additional configuration.
+        public let managedBy: ManagedBy?
         /// Indicates the name of the additional configuration that is set for the member account.
         public let name: OrgFeatureAdditionalConfiguration?
         /// Indicates the status of the additional configuration that is set for the member account.
@@ -8796,13 +8823,15 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(name: OrgFeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(managedBy: ManagedBy? = nil, name: OrgFeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -8864,6 +8893,8 @@ extension GuardDuty {
     public struct MemberFeaturesConfigurationResult: AWSDecodableShape {
         /// Indicates the additional configuration of the feature that is configured for the member account.
         public let additionalConfiguration: [MemberAdditionalConfigurationResult]?
+        /// Indicates what manages the feature. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the feature.
+        public let managedBy: ManagedBy?
         /// Indicates the name of the feature that is enabled for the detector.
         public let name: OrgFeature?
         /// Indicates the status of the feature that is enabled for the detector.
@@ -8872,8 +8903,9 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(additionalConfiguration: [MemberAdditionalConfigurationResult]? = nil, name: OrgFeature? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(additionalConfiguration: [MemberAdditionalConfigurationResult]? = nil, managedBy: ManagedBy? = nil, name: OrgFeature? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
             self.additionalConfiguration = additionalConfiguration
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -8881,6 +8913,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case additionalConfiguration = "additionalConfiguration"
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"

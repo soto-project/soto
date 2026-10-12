@@ -923,6 +923,7 @@ extension SageMaker {
         case mlC7GLarge = "ml.c7g.large"
         case mlC7GMedium = "ml.c7g.medium"
         case mlC7GXlarge = "ml.c7g.xlarge"
+        case mlC8A16Xlarge = "ml.c8a.16xlarge"
         case mlC8G12Xlarge = "ml.c8g.12xlarge"
         case mlC8G16Xlarge = "ml.c8g.16xlarge"
         case mlC8G24Xlarge = "ml.c8g.24xlarge"
@@ -1036,6 +1037,7 @@ extension SageMaker {
         case mlM7I8Xlarge = "ml.m7i.8xlarge"
         case mlM7ILarge = "ml.m7i.large"
         case mlM7IXlarge = "ml.m7i.xlarge"
+        case mlM8A16Xlarge = "ml.m8a.16xlarge"
         case mlM8G12Xlarge = "ml.m8g.12xlarge"
         case mlM8G16Xlarge = "ml.m8g.16xlarge"
         case mlM8G24Xlarge = "ml.m8g.24xlarge"
@@ -1229,6 +1231,13 @@ extension SageMaker {
     public enum DataSourceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case salesforceGenie = "SalesforceGenie"
         case snowflake = "Snowflake"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatabaseConfigurationRollbackStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notApplicable = "NotApplicable"
+        case revertFailed = "RevertFailed"
+        case reverted = "Reverted"
         public var description: String { return self.rawValue }
     }
 
@@ -2696,6 +2705,12 @@ extension SageMaker {
         case mlC7I48Xlarge = "ml.c7i.48xlarge"
         case mlC7I4Xlarge = "ml.c7i.4xlarge"
         case mlC7I8Xlarge = "ml.c7i.8xlarge"
+        case mlC7IFlex12Xlarge = "ml.c7i-flex.12xlarge"
+        case mlC7IFlex16Xlarge = "ml.c7i-flex.16xlarge"
+        case mlC7IFlex2Xlarge = "ml.c7i-flex.2xlarge"
+        case mlC7IFlex4Xlarge = "ml.c7i-flex.4xlarge"
+        case mlC7IFlex8Xlarge = "ml.c7i-flex.8xlarge"
+        case mlC7IFlexXlarge = "ml.c7i-flex.xlarge"
         case mlC7ILarge = "ml.c7i.large"
         case mlC7IXlarge = "ml.c7i.xlarge"
         case mlC8I12Xlarge = "ml.c8i.12xlarge"
@@ -2707,6 +2722,12 @@ extension SageMaker {
         case mlC8I4Xlarge = "ml.c8i.4xlarge"
         case mlC8I8Xlarge = "ml.c8i.8xlarge"
         case mlC8I96Xlarge = "ml.c8i.96xlarge"
+        case mlC8IFlex12Xlarge = "ml.c8i-flex.12xlarge"
+        case mlC8IFlex16Xlarge = "ml.c8i-flex.16xlarge"
+        case mlC8IFlex2Xlarge = "ml.c8i-flex.2xlarge"
+        case mlC8IFlex4Xlarge = "ml.c8i-flex.4xlarge"
+        case mlC8IFlex8Xlarge = "ml.c8i-flex.8xlarge"
+        case mlC8IFlexXlarge = "ml.c8i-flex.xlarge"
         case mlC8IXlarge = "ml.c8i.xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
@@ -2777,6 +2798,13 @@ extension SageMaker {
         case mlM7I48Xlarge = "ml.m7i.48xlarge"
         case mlM7I4Xlarge = "ml.m7i.4xlarge"
         case mlM7I8Xlarge = "ml.m7i.8xlarge"
+        case mlM7IFlex12Xlarge = "ml.m7i-flex.12xlarge"
+        case mlM7IFlex16Xlarge = "ml.m7i-flex.16xlarge"
+        case mlM7IFlex2Xlarge = "ml.m7i-flex.2xlarge"
+        case mlM7IFlex4Xlarge = "ml.m7i-flex.4xlarge"
+        case mlM7IFlex8Xlarge = "ml.m7i-flex.8xlarge"
+        case mlM7IFlexLarge = "ml.m7i-flex.large"
+        case mlM7IFlexXlarge = "ml.m7i-flex.xlarge"
         case mlM7ILarge = "ml.m7i.large"
         case mlM7IXlarge = "ml.m7i.xlarge"
         case mlM8I12Xlarge = "ml.m8i.12xlarge"
@@ -2788,6 +2816,13 @@ extension SageMaker {
         case mlM8I4Xlarge = "ml.m8i.4xlarge"
         case mlM8I8Xlarge = "ml.m8i.8xlarge"
         case mlM8I96Xlarge = "ml.m8i.96xlarge"
+        case mlM8IFlex12Xlarge = "ml.m8i-flex.12xlarge"
+        case mlM8IFlex16Xlarge = "ml.m8i-flex.16xlarge"
+        case mlM8IFlex2Xlarge = "ml.m8i-flex.2xlarge"
+        case mlM8IFlex4Xlarge = "ml.m8i-flex.4xlarge"
+        case mlM8IFlex8Xlarge = "ml.m8i-flex.8xlarge"
+        case mlM8IFlexLarge = "ml.m8i-flex.large"
+        case mlM8IFlexXlarge = "ml.m8i-flex.xlarge"
         case mlM8ILarge = "ml.m8i.large"
         case mlM8IXlarge = "ml.m8i.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
@@ -2840,6 +2875,13 @@ extension SageMaker {
         case mlR8I4Xlarge = "ml.r8i.4xlarge"
         case mlR8I8Xlarge = "ml.r8i.8xlarge"
         case mlR8I96Xlarge = "ml.r8i.96xlarge"
+        case mlR8IFlex12Xlarge = "ml.r8i-flex.12xlarge"
+        case mlR8IFlex16Xlarge = "ml.r8i-flex.16xlarge"
+        case mlR8IFlex2Xlarge = "ml.r8i-flex.2xlarge"
+        case mlR8IFlex4Xlarge = "ml.r8i-flex.4xlarge"
+        case mlR8IFlex8Xlarge = "ml.r8i-flex.8xlarge"
+        case mlR8IFlexLarge = "ml.r8i-flex.large"
+        case mlR8IFlexXlarge = "ml.r8i-flex.xlarge"
         case mlR8ILarge = "ml.r8i.large"
         case mlR8IXlarge = "ml.r8i.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
@@ -3524,6 +3566,24 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum SlurmHealthComponent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case slurmdbd = "Slurmdbd"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlurmHealthReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case daemonDisabled = "DaemonDisabled"
+        case daemonDown = "DaemonDown"
+        case dbUnreachable = "DbUnreachable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlurmHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case healthy = "Healthy"
+        case unhealthy = "Unhealthy"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SoftwareUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -3897,6 +3957,12 @@ extension SageMaker {
         case mlC7I48Xlarge = "ml.c7i.48xlarge"
         case mlC7I4Xlarge = "ml.c7i.4xlarge"
         case mlC7I8Xlarge = "ml.c7i.8xlarge"
+        case mlC7IFlex12Xlarge = "ml.c7i-flex.12xlarge"
+        case mlC7IFlex16Xlarge = "ml.c7i-flex.16xlarge"
+        case mlC7IFlex2Xlarge = "ml.c7i-flex.2xlarge"
+        case mlC7IFlex4Xlarge = "ml.c7i-flex.4xlarge"
+        case mlC7IFlex8Xlarge = "ml.c7i-flex.8xlarge"
+        case mlC7IFlexXlarge = "ml.c7i-flex.xlarge"
         case mlC7ILarge = "ml.c7i.large"
         case mlC7IXlarge = "ml.c7i.xlarge"
         case mlC8I12Xlarge = "ml.c8i.12xlarge"
@@ -3908,6 +3974,12 @@ extension SageMaker {
         case mlC8I4Xlarge = "ml.c8i.4xlarge"
         case mlC8I8Xlarge = "ml.c8i.8xlarge"
         case mlC8I96Xlarge = "ml.c8i.96xlarge"
+        case mlC8IFlex12Xlarge = "ml.c8i-flex.12xlarge"
+        case mlC8IFlex16Xlarge = "ml.c8i-flex.16xlarge"
+        case mlC8IFlex2Xlarge = "ml.c8i-flex.2xlarge"
+        case mlC8IFlex4Xlarge = "ml.c8i-flex.4xlarge"
+        case mlC8IFlex8Xlarge = "ml.c8i-flex.8xlarge"
+        case mlC8IFlexXlarge = "ml.c8i-flex.xlarge"
         case mlC8IXlarge = "ml.c8i.xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
@@ -3978,6 +4050,13 @@ extension SageMaker {
         case mlM7I48Xlarge = "ml.m7i.48xlarge"
         case mlM7I4Xlarge = "ml.m7i.4xlarge"
         case mlM7I8Xlarge = "ml.m7i.8xlarge"
+        case mlM7IFlex12Xlarge = "ml.m7i-flex.12xlarge"
+        case mlM7IFlex16Xlarge = "ml.m7i-flex.16xlarge"
+        case mlM7IFlex2Xlarge = "ml.m7i-flex.2xlarge"
+        case mlM7IFlex4Xlarge = "ml.m7i-flex.4xlarge"
+        case mlM7IFlex8Xlarge = "ml.m7i-flex.8xlarge"
+        case mlM7IFlexLarge = "ml.m7i-flex.large"
+        case mlM7IFlexXlarge = "ml.m7i-flex.xlarge"
         case mlM7ILarge = "ml.m7i.large"
         case mlM7IXlarge = "ml.m7i.xlarge"
         case mlM8I12Xlarge = "ml.m8i.12xlarge"
@@ -3989,6 +4068,13 @@ extension SageMaker {
         case mlM8I4Xlarge = "ml.m8i.4xlarge"
         case mlM8I8Xlarge = "ml.m8i.8xlarge"
         case mlM8I96Xlarge = "ml.m8i.96xlarge"
+        case mlM8IFlex12Xlarge = "ml.m8i-flex.12xlarge"
+        case mlM8IFlex16Xlarge = "ml.m8i-flex.16xlarge"
+        case mlM8IFlex2Xlarge = "ml.m8i-flex.2xlarge"
+        case mlM8IFlex4Xlarge = "ml.m8i-flex.4xlarge"
+        case mlM8IFlex8Xlarge = "ml.m8i-flex.8xlarge"
+        case mlM8IFlexLarge = "ml.m8i-flex.large"
+        case mlM8IFlexXlarge = "ml.m8i-flex.xlarge"
         case mlM8ILarge = "ml.m8i.large"
         case mlM8IXlarge = "ml.m8i.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
@@ -4050,6 +4136,13 @@ extension SageMaker {
         case mlR8I4Xlarge = "ml.r8i.4xlarge"
         case mlR8I8Xlarge = "ml.r8i.8xlarge"
         case mlR8I96Xlarge = "ml.r8i.96xlarge"
+        case mlR8IFlex12Xlarge = "ml.r8i-flex.12xlarge"
+        case mlR8IFlex16Xlarge = "ml.r8i-flex.16xlarge"
+        case mlR8IFlex2Xlarge = "ml.r8i-flex.2xlarge"
+        case mlR8IFlex4Xlarge = "ml.r8i-flex.4xlarge"
+        case mlR8IFlex8Xlarge = "ml.r8i-flex.8xlarge"
+        case mlR8IFlexLarge = "ml.r8i-flex.large"
+        case mlR8IFlexXlarge = "ml.r8i-flex.xlarge"
         case mlR8ILarge = "ml.r8i.large"
         case mlR8IXlarge = "ml.r8i.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
@@ -4699,12 +4792,16 @@ extension SageMaker {
     public enum EventMetadata: AWSDecodableShape, Sendable {
         /// Metadata specific to cluster-level events.
         case cluster(ClusterMetadata)
+        /// Metadata specific to events about the external Slurm accounting database of the cluster.
+        case databaseConfiguration(DatabaseConfigurationMetadata)
         /// Metadata specific to instance-level events.
         case instance(InstanceMetadata)
         /// Metadata specific to instance group-level events.
         case instanceGroup(InstanceGroupMetadata)
         /// Metadata related to instance group scaling events.
         case instanceGroupScaling(InstanceGroupScalingMetadata)
+        /// Metadata specific to events about the health of the Slurm components on the controller node of the cluster.
+        case slurmHealth(SlurmHealthMetadata)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -4719,6 +4816,9 @@ extension SageMaker {
             case .cluster:
                 let value = try container.decode(ClusterMetadata.self, forKey: .cluster)
                 self = .cluster(value)
+            case .databaseConfiguration:
+                let value = try container.decode(DatabaseConfigurationMetadata.self, forKey: .databaseConfiguration)
+                self = .databaseConfiguration(value)
             case .instance:
                 let value = try container.decode(InstanceMetadata.self, forKey: .instance)
                 self = .instance(value)
@@ -4728,14 +4828,19 @@ extension SageMaker {
             case .instanceGroupScaling:
                 let value = try container.decode(InstanceGroupScalingMetadata.self, forKey: .instanceGroupScaling)
                 self = .instanceGroupScaling(value)
+            case .slurmHealth:
+                let value = try container.decode(SlurmHealthMetadata.self, forKey: .slurmHealth)
+                self = .slurmHealth(value)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "Cluster"
+            case databaseConfiguration = "DatabaseConfiguration"
             case instance = "Instance"
             case instanceGroup = "InstanceGroup"
             case instanceGroupScaling = "InstanceGroupScaling"
+            case slurmHealth = "SlurmHealth"
         }
     }
 
@@ -9223,6 +9328,46 @@ extension SageMaker {
         }
     }
 
+    public struct ClusterAccountingDatabase: AWSEncodableShape & AWSDecodableShape {
+        /// The hostname or endpoint of the accounting database, such as the endpoint of an Amazon RDS for MySQL or Aurora MySQL database. The database must be reachable from the subnets and security groups that you configure for the cluster.
+        public let endpoint: String
+        /// The name of the database schema that stores the Slurm accounting data. The default is slurm_acct_db_ followed by the cluster ID from the cluster ARN, for example slurm_acct_db_a1b2c3d4e5f6.
+        public let name: String?
+        /// The port that the accounting database listens on. The default is 3306.
+        public let port: Int?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the user name and password for the accounting database. The database user must be able to create the schema and to read from and write to it.
+        public let secretArn: String
+
+        @inlinable
+        public init(endpoint: String, name: String? = nil, port: Int? = nil, secretArn: String) {
+            self.endpoint = endpoint
+            self.name = name
+            self.port = port
+            self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpoint, name: "endpoint", parent: name, max: 255)
+            try self.validate(self.endpoint, name: "endpoint", parent: name, min: 1)
+            try self.validate(self.endpoint, name: "endpoint", parent: name, pattern: "^(?=.{1,255}$)([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?)(\\.[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?)*$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9$_]+$")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 20)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:aws[a-z\\-]*:secretsmanager:[a-z0-9\\-]*:[0-9]{12}:secret:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+            case name = "Name"
+            case port = "Port"
+            case secretArn = "SecretArn"
+        }
+    }
+
     public struct ClusterAutoPatchConfig: AWSEncodableShape {
         /// The deployment configuration for rolling patch updates, including rollback settings and batch sizes. Only applicable when using a rolling patching strategy.
         public let deploymentConfig: DeploymentConfiguration?
@@ -10255,6 +10400,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.eks?.validate(name: "\(name).eks")
+            try self.slurm?.validate(name: "\(name).slurm")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10284,15 +10430,23 @@ extension SageMaker {
     }
 
     public struct ClusterOrchestratorSlurmConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The external database that stores the Slurm accounting data for the cluster, such as job history, associations, and usage. When you omit this field, Slurm accounting uses a database on the cluster's controller node.  This field is only supported for clusters using Continuous as the NodeProvisioningMode.
+        public let accountingDatabase: ClusterAccountingDatabase?
         /// The strategy for managing partitions for the Slurm configuration. Valid values are Managed, Overwrite, and Merge.
         public let slurmConfigStrategy: ClusterSlurmConfigStrategy?
 
         @inlinable
-        public init(slurmConfigStrategy: ClusterSlurmConfigStrategy? = nil) {
+        public init(accountingDatabase: ClusterAccountingDatabase? = nil, slurmConfigStrategy: ClusterSlurmConfigStrategy? = nil) {
+            self.accountingDatabase = accountingDatabase
             self.slurmConfigStrategy = slurmConfigStrategy
         }
 
+        public func validate(name: String) throws {
+            try self.accountingDatabase?.validate(name: "\(name).accountingDatabase")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case accountingDatabase = "AccountingDatabase"
             case slurmConfigStrategy = "SlurmConfigStrategy"
         }
     }
@@ -12238,7 +12392,7 @@ extension SageMaker {
         public let clusterArn: String?
         /// Description of the cluster policy.
         public let description: String?
-        /// Name for the cluster policy.
+        /// The name for the cluster policy. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
         public let name: String?
         /// Configuration about the monitoring schedule.
         public let schedulerConfig: SchedulerConfig?
@@ -12430,7 +12584,7 @@ extension SageMaker {
         public let computeQuotaTarget: ComputeQuotaTarget?
         /// Description of the compute allocation definition.
         public let description: String?
-        /// Name to the compute allocation definition.
+        /// The name of the compute allocation definition. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
         public let name: String?
         /// Tags of the compute allocation definition.
         public let tags: [Tag]?
@@ -17139,6 +17293,28 @@ extension SageMaker {
             case datasetSource = "DatasetSource"
             case fileSystemDataSource = "FileSystemDataSource"
             case s3DataSource = "S3DataSource"
+        }
+    }
+
+    public struct DatabaseConfigurationMetadata: AWSDecodableShape {
+        /// Additional information about a change that succeeded, such as an action to take on the cluster.
+        public let advisory: String?
+        /// An error message describing why the accounting database change failed, and how to resolve it.
+        public let failureMessage: String?
+        /// Whether HyperPod restored the previous accounting database configuration after the change failed. Valid values:    NotApplicable: The change failed before HyperPod modified the cluster, for example because the database could not be reached or rejected the credentials, so there was nothing to restore.    Reverted: The change failed after it was applied, and HyperPod restored the previous configuration. The cluster continues to use the previous accounting database.    RevertFailed: The change failed and HyperPod could not restore the previous configuration, so Slurm accounting on the cluster might not be working.   This field is omitted when the change succeeds.
+        public let rollbackStatus: DatabaseConfigurationRollbackStatus?
+
+        @inlinable
+        public init(advisory: String? = nil, failureMessage: String? = nil, rollbackStatus: DatabaseConfigurationRollbackStatus? = nil) {
+            self.advisory = advisory
+            self.failureMessage = failureMessage
+            self.rollbackStatus = rollbackStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advisory = "Advisory"
+            case failureMessage = "FailureMessage"
+            case rollbackStatus = "RollbackStatus"
         }
     }
 
@@ -25025,9 +25201,9 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.trainingPlanName, name: "trainingPlanName", parent: name, max: 64)
+            try self.validate(self.trainingPlanName, name: "trainingPlanName", parent: name, max: 2048)
             try self.validate(self.trainingPlanName, name: "trainingPlanName", parent: name, min: 1)
-            try self.validate(self.trainingPlanName, name: "trainingPlanName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.trainingPlanName, name: "trainingPlanName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:training-plan/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -46708,6 +46884,28 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case seed = "Seed"
+        }
+    }
+
+    public struct SlurmHealthMetadata: AWSDecodableShape {
+        /// The Slurm component that the health information describes. The valid value is Slurmdbd, the Slurm accounting daemon.
+        public let component: SlurmHealthComponent?
+        /// The reason the component is unhealthy. Valid values:    DaemonDown: The daemon is not running, so job accounting records are not being written.    DaemonDisabled: The daemon is running and its accounting database is responding, but the daemon is not enabled to start automatically. Job accounting stops the next time the controller node restarts.    DbUnreachable: The daemon is running, but its accounting database did not respond. Job accounting records might not be written.   This field is omitted when the component is healthy.
+        public let reason: SlurmHealthReason?
+        /// The health of the component. Valid values are Healthy and Unhealthy.
+        public let status: SlurmHealthStatus?
+
+        @inlinable
+        public init(component: SlurmHealthComponent? = nil, reason: SlurmHealthReason? = nil, status: SlurmHealthStatus? = nil) {
+            self.component = component
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case component = "Component"
+            case reason = "Reason"
+            case status = "Status"
         }
     }
 

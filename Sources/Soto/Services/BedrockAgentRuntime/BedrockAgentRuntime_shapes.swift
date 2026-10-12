@@ -254,6 +254,7 @@ extension BedrockAgentRuntime {
 
     public enum FoundationModelConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bedrockFoundationModel = "BEDROCK_FOUNDATION_MODEL"
+        case mantleFoundationModel = "MANTLE_FOUNDATION_MODEL"
         public var description: String { return self.rawValue }
     }
 
@@ -4803,21 +4804,26 @@ extension BedrockAgentRuntime {
     public struct FoundationModelConfiguration: AWSEncodableShape {
         /// The Bedrock foundation model configuration.
         public let bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration?
+        /// The Mantle foundation model configuration.
+        public let mantleFoundationModelConfiguration: MantleFoundationModelConfiguration?
         /// The type of foundation model configuration.
         public let type: FoundationModelConfigurationType
 
         @inlinable
-        public init(bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration? = nil, type: FoundationModelConfigurationType) {
+        public init(bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration? = nil, mantleFoundationModelConfiguration: MantleFoundationModelConfiguration? = nil, type: FoundationModelConfigurationType) {
             self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.mantleFoundationModelConfiguration = mantleFoundationModelConfiguration
             self.type = type
         }
 
         public func validate(name: String) throws {
             try self.bedrockFoundationModelConfiguration?.validate(name: "\(name).bedrockFoundationModelConfiguration")
+            try self.mantleFoundationModelConfiguration?.validate(name: "\(name).mantleFoundationModelConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case bedrockFoundationModelConfiguration = "bedrockFoundationModelConfiguration"
+            case mantleFoundationModelConfiguration = "mantleFoundationModelConfiguration"
             case type = "type"
         }
     }
@@ -7348,6 +7354,50 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case bedrockRerankingConfiguration = "bedrockRerankingConfiguration"
             case type = "type"
+        }
+    }
+
+    public struct MantleFoundationModelConfiguration: AWSEncodableShape {
+        /// The model configuration containing the model ARN and project ID.
+        public let modelConfiguration: MantleFoundationModelModelConfiguration
+
+        @inlinable
+        public init(modelConfiguration: MantleFoundationModelModelConfiguration) {
+            self.modelConfiguration = modelConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.modelConfiguration.validate(name: "\(name).modelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelConfiguration = "modelConfiguration"
+        }
+    }
+
+    public struct MantleFoundationModelModelConfiguration: AWSEncodableShape {
+        /// The ARN of the Mantle foundation model.
+        public let modelArn: String
+        /// The Amazon Bedrock project ID used for billing and usage attribution. If you don't specify a value, the service uses the default project.
+        public let projectId: String?
+
+        @inlinable
+        public init(modelArn: String, projectId: String? = nil) {
+            self.modelArn = modelArn
+            self.projectId = projectId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+            try self.validate(self.projectId, name: "projectId", parent: name, max: 128)
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^(proj_[a-zA-Z0-9]+|default)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "modelArn"
+            case projectId = "projectId"
         }
     }
 

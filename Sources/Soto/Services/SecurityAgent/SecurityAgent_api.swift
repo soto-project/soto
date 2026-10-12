@@ -944,7 +944,7 @@ public struct SecurityAgent: AWSService {
     ///   - integrationDisplayName: The display name for the integration.
     ///   - kmsKeyId: The identifier of the AWS KMS key to use for encrypting data associated with the integration.
     ///   - privateConnectionName: The name of an active private connection used to reach a self-hosted provider instance over private networking. Specify this when the instance is not publicly reachable.
-    ///   - provider: The integration provider. Currently, only GITHUB is supported.
+    ///   - provider: The integration provider.
     ///   - tags: The tags to associate with the integration.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1037,6 +1037,7 @@ public struct SecurityAgent: AWSService {
     ///   - reportDestination: The destination for publishing scan reports to an integrated document provider.
     ///   - reportFilters: The report-generation filters applied when the report is exported.
     ///   - serviceRole: The IAM service role to use for the pentest.
+    ///   - testScope: 
     ///   - title: The title of the pentest.
     ///   - vpcConfig: The VPC configuration for the pentest.
     ///   - logger: Logger use during operation
@@ -1054,6 +1055,7 @@ public struct SecurityAgent: AWSService {
         reportDestination: ReportDestination? = nil,
         reportFilters: ReportFilters? = nil,
         serviceRole: String? = nil,
+        testScope: TestScope? = nil,
         title: String,
         vpcConfig: VpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1071,6 +1073,7 @@ public struct SecurityAgent: AWSService {
             reportDestination: reportDestination, 
             reportFilters: reportFilters, 
             serviceRole: serviceRole, 
+            testScope: testScope, 
             title: title, 
             vpcConfig: vpcConfig
         )
@@ -1752,15 +1755,27 @@ public struct SecurityAgent: AWSService {
     /// Initiates the OAuth registration flow with a third-party provider. Returns a redirect URL and CSRF state token for completing the authorization.
     ///
     /// Parameters:
-    ///   - provider: The provider to initiate registration with. Currently, only GITHUB is supported.
+    ///   - clientId: The client ID of the OAuth application registered on your self-managed provider instance.
+    ///   - clientSecret: The client secret of the OAuth application registered on your self-managed provider instance.
+    ///   - organizationName: The name of the organization to connect.
+    ///   - provider: The provider to initiate registration with.
+    ///   - targetUrl: The HTTPS URL of a self-managed provider instance. Omit for SaaS providers.
     ///   - logger: Logger use during operation
     @inlinable
     public func initiateProviderRegistration(
+        clientId: String? = nil,
+        clientSecret: String? = nil,
+        organizationName: String? = nil,
         provider: Provider,
+        targetUrl: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InitiateProviderRegistrationOutput {
         let input = InitiateProviderRegistrationInput(
-            provider: provider
+            clientId: clientId, 
+            clientSecret: clientSecret, 
+            organizationName: organizationName, 
+            provider: provider, 
+            targetUrl: targetUrl
         )
         return try await self.initiateProviderRegistration(input, logger: logger)
     }
@@ -3206,6 +3221,38 @@ public struct SecurityAgent: AWSService {
         return try await self.updateIntegratedResources(input, logger: logger)
     }
 
+    /// Creates an integration's webhook, or rotates the HMAC signing secret of an existing one. The secret is returned only once, in this response, and cannot be retrieved again.
+    @Sendable
+    @inlinable
+    public func updateIntegration(_ input: UpdateIntegrationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIntegrationOutput {
+        try await self.client.execute(
+            operation: "UpdateIntegration", 
+            path: "/UpdateIntegration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an integration's webhook, or rotates the HMAC signing secret of an existing one. The secret is returned only once, in this response, and cannot be retrieved again.
+    ///
+    /// Parameters:
+    ///   - integrationId: The ID of the integration whose webhook you want to create or rotate.
+    ///   - webhookAction: The action to perform on the integration's webhook.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIntegration(
+        integrationId: String,
+        webhookAction: WebhookAction,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIntegrationOutput {
+        let input = UpdateIntegrationInput(
+            integrationId: integrationId, 
+            webhookAction: webhookAction
+        )
+        return try await self.updateIntegration(input, logger: logger)
+    }
+
     /// Updates an existing pentest configuration.
     @Sendable
     @inlinable
@@ -3235,6 +3282,7 @@ public struct SecurityAgent: AWSService {
     ///   - reportDestination: The destination for publishing scan reports to an integrated document provider.
     ///   - reportFilters: The report-generation filters applied when the report is exported.
     ///   - serviceRole: The updated IAM service role for the pentest.
+    ///   - testScope: 
     ///   - title: The updated title of the pentest.
     ///   - vpcConfig: The updated VPC configuration for the pentest.
     ///   - logger: Logger use during operation
@@ -3253,6 +3301,7 @@ public struct SecurityAgent: AWSService {
         reportDestination: ReportDestination? = nil,
         reportFilters: ReportFilters? = nil,
         serviceRole: String? = nil,
+        testScope: TestScope? = nil,
         title: String? = nil,
         vpcConfig: VpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3271,6 +3320,7 @@ public struct SecurityAgent: AWSService {
             reportDestination: reportDestination, 
             reportFilters: reportFilters, 
             serviceRole: serviceRole, 
+            testScope: testScope, 
             title: title, 
             vpcConfig: vpcConfig
         )

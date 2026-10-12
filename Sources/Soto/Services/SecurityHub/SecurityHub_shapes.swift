@@ -203,6 +203,42 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case findings = "FINDINGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDenied = "ACCESS_DENIED"
+        case internalError = "INTERNAL_ERROR"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExposureImpact: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case reduces = "Reduces"
+        case resolves = "Resolves"
+        case unchanged = "Unchanged"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExposureSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case critical = "Critical"
+        case high = "High"
+        case informational = "Informational"
+        case low = "Low"
+        case medium = "Medium"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FeatureName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case networkScanning = "NETWORK_SCANNING"
         public var description: String { return self.rawValue }
@@ -217,6 +253,125 @@ extension SecurityHub {
     public enum FindingHistoryUpdateSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case batchImportFindings = "BATCH_IMPORT_FINDINGS"
         case batchUpdateFindings = "BATCH_UPDATE_FINDINGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FindingsExportFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case csv = "CSV"
+        case ocsfJson = "OCSF_JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FindingsSelectableField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activityId = "activity_id"
+        case activityName = "activity_name"
+        case className = "class_name"
+        case cloudAccountName = "cloud.account.name"
+        case cloudAccountUid = "cloud.account.uid"
+        case cloudProvider = "cloud.provider"
+        case cloudRegion = "cloud.region"
+        case comment = "comment"
+        case complianceAssessmentsCategory = "compliance.assessments.category"
+        case complianceAssessmentsMeetsCriteria = "compliance.assessments.meets_criteria"
+        case complianceAssessmentsName = "compliance.assessments.name"
+        case complianceControl = "compliance.control"
+        case complianceControlParameters = "compliance.control_parameters"
+        case complianceStandards = "compliance.standards"
+        case complianceStatus = "compliance.status"
+        case complianceStatusId = "compliance.status_id"
+        case confidenceScore = "confidence_score"
+        case databucketEncryptionDetailsAlgorithm = "databucket.encryption_details.algorithm"
+        case databucketEncryptionDetailsKeyUid = "databucket.encryption_details.key_uid"
+        case databucketFileDataClassificationsClassifierDetailsType = "databucket.file.data_classifications.classifier_details.type"
+        case databucketTags = "databucket.tags"
+        case evidencesActorUserAccountUid = "evidences.actor.user.account.uid"
+        case evidencesApiOperation = "evidences.api.operation"
+        case evidencesApiResponseCode = "evidences.api.response.code"
+        case evidencesApiResponseErrorMessage = "evidences.api.response.error_message"
+        case evidencesApiServiceName = "evidences.api.service.name"
+        case evidencesConnectionInfoDirection = "evidences.connection_info.direction"
+        case evidencesConnectionInfoProtocolName = "evidences.connection_info.protocol_name"
+        case evidencesDstEndpointAutonomousSystemName = "evidences.dst_endpoint.autonomous_system.name"
+        case evidencesDstEndpointAutonomousSystemNumber = "evidences.dst_endpoint.autonomous_system.number"
+        case evidencesDstEndpointIp = "evidences.dst_endpoint.ip"
+        case evidencesDstEndpointLocationCity = "evidences.dst_endpoint.location.city"
+        case evidencesDstEndpointLocationCountry = "evidences.dst_endpoint.location.country"
+        case evidencesDstEndpointPort = "evidences.dst_endpoint.port"
+        case evidencesSrcEndpointAutonomousSystemName = "evidences.src_endpoint.autonomous_system.name"
+        case evidencesSrcEndpointAutonomousSystemNumber = "evidences.src_endpoint.autonomous_system.number"
+        case evidencesSrcEndpointHostname = "evidences.src_endpoint.hostname"
+        case evidencesSrcEndpointIp = "evidences.src_endpoint.ip"
+        case evidencesSrcEndpointLocationCity = "evidences.src_endpoint.location.city"
+        case evidencesSrcEndpointLocationCountry = "evidences.src_endpoint.location.country"
+        case evidencesSrcEndpointPort = "evidences.src_endpoint.port"
+        case findingInfoAnalyticName = "finding_info.analytic.name"
+        case findingInfoCreatedTimeDt = "finding_info.created_time_dt"
+        case findingInfoDesc = "finding_info.desc"
+        case findingInfoFirstSeenTimeDt = "finding_info.first_seen_time_dt"
+        case findingInfoLastSeenTimeDt = "finding_info.last_seen_time_dt"
+        case findingInfoModifiedTimeDt = "finding_info.modified_time_dt"
+        case findingInfoRelatedEventsCount = "finding_info.related_events_count"
+        case findingInfoRelatedEventsProductUid = "finding_info.related_events.product.uid"
+        case findingInfoRelatedEventsTitle = "finding_info.related_events.title"
+        case findingInfoRelatedEventsTraitsCategory = "finding_info.related_events.traits.category"
+        case findingInfoRelatedEventsUid = "finding_info.related_events.uid"
+        case findingInfoSrcUrl = "finding_info.src_url"
+        case findingInfoTags = "finding_info.tags"
+        case findingInfoTitle = "finding_info.title"
+        case findingInfoTypes = "finding_info.types"
+        case findingInfoUid = "finding_info.uid"
+        case malwareName = "malware.name"
+        case malwareScanInfoUid = "malware_scan_info.uid"
+        case malwareSeverity = "malware.severity"
+        case metadataProductFeatureUid = "metadata.product.feature.uid"
+        case metadataProductName = "metadata.product.name"
+        case metadataProductUid = "metadata.product.uid"
+        case metadataProductVendorName = "metadata.product.vendor_name"
+        case metadataUid = "metadata.uid"
+        case remediationDesc = "remediation.desc"
+        case remediationReferences = "remediation.references"
+        case resourcesCloudFunctionLayersUidAlt = "resources.cloud_function.layers.uid_alt"
+        case resourcesCloudFunctionRuntime = "resources.cloud_function.runtime"
+        case resourcesCloudFunctionUserUid = "resources.cloud_function.user.uid"
+        case resourcesCloudPartition = "resources.cloud_partition"
+        case resourcesDeviceEncryptionDetailsKeyUid = "resources.device.encryption_details.key_uid"
+        case resourcesDeviceImageUid = "resources.device.image.uid"
+        case resourcesImageArchitecture = "resources.image.architecture"
+        case resourcesImageCreatedTimeDt = "resources.image.created_time_dt"
+        case resourcesImageInUseCount = "resources.image.in_use_count"
+        case resourcesImageLastUsedTimeDt = "resources.image.last_used_time_dt"
+        case resourcesImageRegistryUid = "resources.image.registry_uid"
+        case resourcesImageRepositoryName = "resources.image.repository_name"
+        case resourcesImageUid = "resources.image.uid"
+        case resourcesModifiedTimeDt = "resources.modified_time_dt"
+        case resourcesName = "resources.name"
+        case resourcesOwnerAccountName = "resources.owner.account.name"
+        case resourcesOwnerAccountUid = "resources.owner.account.uid"
+        case resourcesOwnerOrgUid = "resources.owner.org.uid"
+        case resourcesProvider = "resources.provider"
+        case resourcesRegion = "resources.region"
+        case resourcesSubnetInfoUid = "resources.subnet_info.uid"
+        case resourcesTags = "resources.tags"
+        case resourcesType = "resources.type"
+        case resourcesUid = "resources.uid"
+        case resourcesVpcUid = "resources.vpc_uid"
+        case severity = "severity"
+        case severityId = "severity_id"
+        case status = "status"
+        case statusId = "status_id"
+        case vendorAttributesSeverity = "vendor_attributes.severity"
+        case vendorAttributesSeverityId = "vendor_attributes.severity_id"
+        case vulnerabilitiesAffectedCodeFilePath = "vulnerabilities.affected_code.file.path"
+        case vulnerabilitiesAffectedPackagesName = "vulnerabilities.affected_packages.name"
+        case vulnerabilitiesCveCvssBaseScore = "vulnerabilities.cve.cvss.base_score"
+        case vulnerabilitiesCveCvssVendorName = "vulnerabilities.cve.cvss.vendor_name"
+        case vulnerabilitiesCveCvssVersion = "vulnerabilities.cve.cvss.version"
+        case vulnerabilitiesCveEpssScore = "vulnerabilities.cve.epss.score"
+        case vulnerabilitiesCveUid = "vulnerabilities.cve.uid"
+        case vulnerabilitiesFixCoverage = "vulnerabilities.fix_coverage"
+        case vulnerabilitiesIsExploitAvailable = "vulnerabilities.is_exploit_available"
+        case vulnerabilitiesIsFixAvailable = "vulnerabilities.is_fix_available"
+        case vulnerabilitiesRelatedVulnerabilities = "vulnerabilities.related_vulnerabilities"
         public var description: String { return self.rawValue }
     }
 
@@ -289,6 +444,19 @@ extension SecurityHub {
         case vendorAttributesSeverity = "vendor_attributes.severity"
         case vulnerabilitiesAffectedPackagesName = "vulnerabilities.affected_packages.name"
         case vulnerabilitiesFixCoverage = "vulnerabilities.fix_coverage"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuidanceFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "All"
+        case awsCli = "AwsCli"
+        case cdk = "Cdk"
+        case cli = "Cli"
+        case cloudformation = "CloudFormation"
+        case iac = "IaC"
+        case python = "Python"
+        case template = "Template"
+        case terraform = "Terraform"
         public var description: String { return self.rawValue }
     }
 
@@ -538,6 +706,31 @@ extension SecurityHub {
     public enum RegionAvailabilityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RemediationPriority: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case critical = "Critical"
+        case high = "High"
+        case low = "Low"
+        case medium = "Medium"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RemediationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case new = "New"
+        case resolved = "Resolved"
+        case updated = "Updated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RemediationStringField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case priority = "Priority"
+        case resourceCloudProvider = "Resource.CloudProvider"
+        case resourceId = "Resource.Id"
+        case resourceOwnerAccountId = "Resource.ResourceOwnerAccountId"
+        case resourceType = "Resource.Type"
+        case status = "Status"
         public var description: String { return self.rawValue }
     }
 
@@ -15386,7 +15579,7 @@ extension SecurityHub {
         }
     }
 
-    public struct AwsOrganizationScope: AWSEncodableShape {
+    public struct AwsOrganizationScope: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier (ID) of the organizational unit (OU) (for example, ou-ab12-cd345678). The OU must exist within the delegated administrator's own organization. When specified, the results include only data from accounts in this OU.
         public let organizationalUnitId: String?
         /// The unique identifier (ID) of the organization (for example, o-abcd1234567890). The organization must be the delegated administrator's own organization. If you omit this value and provide OrganizationalUnitId, Security Hub uses the caller's organization ID.
@@ -22121,6 +22314,48 @@ extension SecurityHub {
         }
     }
 
+    public struct CancelExportJobV2Request: AWSEncodableShape {
+        /// The unique identifier of the export job to cancel. This is the value returned by StartExportJobV2.
+        public let exportJobId: String
+
+        @inlinable
+        public init(exportJobId: String) {
+            self.exportJobId = exportJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.exportJobId, key: "ExportJobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exportJobId, name: "exportJobId", parent: name, max: 64)
+            try self.validate(self.exportJobId, name: "exportJobId", parent: name, min: 1)
+            try self.validate(self.exportJobId, name: "exportJobId", parent: name, pattern: "^[a-z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelExportJobV2Response: AWSDecodableShape {
+        /// The unique identifier of the export job.
+        public let exportJobId: String?
+        /// The state of the export job after the cancel request.
+        public let status: ExportStatus?
+
+        @inlinable
+        public init(exportJobId: String? = nil, status: ExportStatus? = nil) {
+            self.exportJobId = exportJobId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportJobId = "ExportJobId"
+            case status = "Status"
+        }
+    }
+
     public struct Cell: AWSEncodableShape & AWSDecodableShape {
         /// For a Microsoft Excel workbook, provides the location of the cell, as an absolute cell reference, that contains the data. For example, Sheet2!C5 for cell C5 on Sheet2.
         public let cellReference: String?
@@ -24735,6 +24970,112 @@ extension SecurityHub {
         }
     }
 
+    public struct ExportScopes: AWSEncodableShape & AWSDecodableShape {
+        /// A list of Organizations scopes to include in the export. Each entry in the list specifies an organization or organizational unit to include for the delegated administrator's account. If the list specifies multiple entries, the entries are combined using OR logic.
+        public let awsOrganizations: [AwsOrganizationScope]?
+
+        @inlinable
+        public init(awsOrganizations: [AwsOrganizationScope]? = nil) {
+            self.awsOrganizations = awsOrganizations
+        }
+
+        public func validate(name: String) throws {
+            try self.awsOrganizations?.forEach {
+                try $0.validate(name: "\(name).awsOrganizations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsOrganizations = "AwsOrganizations"
+        }
+    }
+
+    public struct ExportSummary: AWSDecodableShape {
+        /// The category of data that the export job produces.
+        public let dataType: ExportDataType?
+        /// The destination that the export job writes to.
+        public let destination: ExportDestination?
+        /// The time when the export job reached a terminal state. Absent while the job is RUNNING. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// The unique identifier of the export job.
+        public let exportJobId: String?
+        /// A code that classifies why the export job failed. Present only when Status is FAILED.
+        public let failureCode: ExportFailureCode?
+        /// A human-readable message about why the export job failed. Present only when Status is FAILED.
+        public let failureMessage: String?
+        /// The user-provided name of the export job, if one was specified.
+        public let name: String?
+        /// The output configuration of the export job. For findings exports, this reports the output format. Present only for findings exports; absent for other data types.
+        public let outputConfiguration: ExportOutputSummary?
+        /// The organization scopes that the export job was started with, echoed verbatim. Absent if the caller didn't supply Scopes.
+        public let scopes: ExportScopes?
+        /// The time when the export job was created. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// The current state of the export job.
+        public let status: ExportStatus?
+
+        @inlinable
+        public init(dataType: ExportDataType? = nil, destination: ExportDestination? = nil, endedAt: Date? = nil, exportJobId: String? = nil, failureCode: ExportFailureCode? = nil, failureMessage: String? = nil, name: String? = nil, outputConfiguration: ExportOutputSummary? = nil, scopes: ExportScopes? = nil, startedAt: Date? = nil, status: ExportStatus? = nil) {
+            self.dataType = dataType
+            self.destination = destination
+            self.endedAt = endedAt
+            self.exportJobId = exportJobId
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.name = name
+            self.outputConfiguration = outputConfiguration
+            self.scopes = scopes
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
+            case destination = "Destination"
+            case endedAt = "EndedAt"
+            case exportJobId = "ExportJobId"
+            case failureCode = "FailureCode"
+            case failureMessage = "FailureMessage"
+            case name = "Name"
+            case outputConfiguration = "OutputConfiguration"
+            case scopes = "Scopes"
+            case startedAt = "StartedAt"
+            case status = "Status"
+        }
+    }
+
+    public struct ExposureFinding: AWSDecodableShape {
+        /// The impact resolving a remediation target has on the exposure finding.    Reduces specifies that resolving the remediation target lowers the severity of the exposure finding, but does not resolve it.    Resolves specifies that resolving the remediation target resolves the exposure finding.    Unchanged specifies that resolving the remediation target does not change the severity of the exposure finding.
+        public let impact: ExposureImpact?
+        /// The unique identifier (ID) of the Security Hub exposure finding, found under the metadata.uid field of the finding.
+        public let metadataUid: String?
+        /// The severity of the exposure finding before the remediation target is resolved.
+        public let previousSeverity: ExposureSeverity?
+        /// The severity of the exposure finding after the remediation target is resolved.
+        public let projectedSeverity: ExposureSeverity?
+        /// The title of the exposure finding.
+        public let title: String?
+
+        @inlinable
+        public init(impact: ExposureImpact? = nil, metadataUid: String? = nil, previousSeverity: ExposureSeverity? = nil, projectedSeverity: ExposureSeverity? = nil, title: String? = nil) {
+            self.impact = impact
+            self.metadataUid = metadataUid
+            self.previousSeverity = previousSeverity
+            self.projectedSeverity = projectedSeverity
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impact = "Impact"
+            case metadataUid = "MetadataUid"
+            case previousSeverity = "PreviousSeverity"
+            case projectedSeverity = "ProjectedSeverity"
+            case title = "Title"
+        }
+    }
+
     public struct ExternalIntegrationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the connector that establishes the integration.
         public let connectorArn: String?
@@ -24983,6 +25324,48 @@ extension SecurityHub {
         }
     }
 
+    public struct FindingsOutput: AWSEncodableShape & AWSDecodableShape {
+        /// An optional set of OCSF finding filters that restrict which findings are exported. The filter structure is the same as the one used by GetFindingsV2. If you omit this member, Security Hub exports all findings available to the caller. When echoed by GetExportJobV2, relative date ranges are returned unresolved.
+        public let filters: OcsfFindingFilters?
+        /// The output format of the export. CSV produces comma-separated rows that are suitable for spreadsheets and analysis tools. OCSF_JSON produces newline-delimited JSON records in the Open Cybersecurity Schema Framework (OCSF) format used elsewhere in Security Hub.
+        public let format: FindingsExportFormat?
+        /// The OCSF finding fields to include in the export, specified as OCSF field paths (for example, finding_info.title or severity). You can specify from 1 to 50 fields. Whether this parameter is required depends on the value of Format:    CSV – Required. The field paths that you specify become the columns of the output, in the order that you provide them. If you omit this parameter, the request returns a ValidationException.    OCSF_JSON – Not supported. This format includes each finding in full, so field selection doesn't apply. If you specify this parameter, the request returns a ValidationException.
+        public let selectedFields: [FindingsSelectableField]?
+
+        @inlinable
+        public init(filters: OcsfFindingFilters? = nil, format: FindingsExportFormat? = nil, selectedFields: [FindingsSelectableField]? = nil) {
+            self.filters = filters
+            self.format = format
+            self.selectedFields = selectedFields
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.selectedFields, name: "selectedFields", parent: name, max: 50)
+            try self.validate(self.selectedFields, name: "selectedFields", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case format = "Format"
+            case selectedFields = "SelectedFields"
+        }
+    }
+
+    public struct FindingsOutputSummary: AWSDecodableShape {
+        /// The output format of the export. CSV produces comma-separated rows that are suitable for spreadsheets and analysis tools. OCSF_JSON produces newline-delimited JSON records in the Open Cybersecurity Schema Framework (OCSF) format used elsewhere in Security Hub.
+        public let format: FindingsExportFormat?
+
+        @inlinable
+        public init(format: FindingsExportFormat? = nil) {
+            self.format = format
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+        }
+    }
+
     public struct FindingsTrendsCompositeFilter: AWSEncodableShape {
         /// A list of nested composite filters that you can use to create complex filter conditions for findings trend data.
         public let nestedCompositeFilters: [FindingsTrendsCompositeFilter]?
@@ -25179,7 +25562,7 @@ extension SecurityHub {
         /// The date and time at which the free trial period began.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startedAt: Date?
-        /// Whether the free trial period is currently active. Valid values:    ACTIVE specifies that the free trial period is ongoing.    INACTIVE specifies that the free trial period has ended, or that it never started.   To determine whether a trial has expired, compare ExpiresAt to the current time.
+        /// Specifies whether the free trial period is currently active. Valid values:    ACTIVE specifies that the free trial period is ongoing.    INACTIVE specifies that the free trial period has ended, or that it never started.   To determine whether a trial has expired, compare ExpiresAt to the current time.
         public let status: FreeTrialStatusValue?
 
         @inlinable
@@ -25736,6 +26119,86 @@ extension SecurityHub {
         }
     }
 
+    public struct GetExportJobV2Request: AWSEncodableShape {
+        /// The unique identifier of the export job to retrieve. This is the value returned by StartExportJobV2.
+        public let exportJobId: String
+
+        @inlinable
+        public init(exportJobId: String) {
+            self.exportJobId = exportJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.exportJobId, key: "ExportJobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.exportJobId, name: "exportJobId", parent: name, max: 64)
+            try self.validate(self.exportJobId, name: "exportJobId", parent: name, min: 1)
+            try self.validate(self.exportJobId, name: "exportJobId", parent: name, pattern: "^[a-z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetExportJobV2Response: AWSDecodableShape {
+        /// The category of data that the export job produces.
+        public let dataType: ExportDataType?
+        /// The destination that the export job writes to.
+        public let destination: ExportDestination?
+        /// The time when the export job reached a terminal state (SUCCEEDED, FAILED, or CANCELLED). This parameter is absent while the job is RUNNING. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// The unique identifier of the export job.
+        public let exportJobId: String?
+        /// A code that classifies why the export job failed. Present only when Status is FAILED.
+        public let failureCode: ExportFailureCode?
+        /// A human-readable message that provides more detail about why the export job failed. Present only when Status is FAILED.
+        public let failureMessage: String?
+        /// The user-provided name of the export job, if one was specified when the job was started.
+        public let name: String?
+        /// The output configuration that the export job was started with, including the format and any filters or selected fields.
+        public let outputConfiguration: ExportOutput?
+        /// The organization scopes that the export job was started with, echoed verbatim. This parameter is absent if the caller didn't supply Scopes. It contains only the organization or organizational unit (OU) identifiers that the caller submitted; it never contains resolved member-account identifiers.
+        public let scopes: ExportScopes?
+        /// The time when the export job was created. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// The current state of the export job.
+        public let status: ExportStatus?
+
+        @inlinable
+        public init(dataType: ExportDataType? = nil, destination: ExportDestination? = nil, endedAt: Date? = nil, exportJobId: String? = nil, failureCode: ExportFailureCode? = nil, failureMessage: String? = nil, name: String? = nil, outputConfiguration: ExportOutput? = nil, scopes: ExportScopes? = nil, startedAt: Date? = nil, status: ExportStatus? = nil) {
+            self.dataType = dataType
+            self.destination = destination
+            self.endedAt = endedAt
+            self.exportJobId = exportJobId
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.name = name
+            self.outputConfiguration = outputConfiguration
+            self.scopes = scopes
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
+            case destination = "Destination"
+            case endedAt = "EndedAt"
+            case exportJobId = "ExportJobId"
+            case failureCode = "FailureCode"
+            case failureMessage = "FailureMessage"
+            case name = "Name"
+            case outputConfiguration = "OutputConfiguration"
+            case scopes = "Scopes"
+            case startedAt = "StartedAt"
+            case status = "Status"
+        }
+    }
+
     public struct GetFindingAggregatorRequest: AWSEncodableShape {
         /// The ARN of the finding aggregator to return details for. To obtain the ARN, use ListFindingAggregators.
         public let findingAggregatorArn: String
@@ -26280,6 +26743,72 @@ extension SecurityHub {
             case recommendationType = "RecommendationType"
             case resourceArn = "ResourceArn"
             case status = "Status"
+        }
+    }
+
+    public struct GetRemediationsV2Request: AWSEncodableShape {
+        /// Filters remediation targets based on a set of criteria. You can't use Filters together with TargetUid or MetadataUid.
+        public let filters: RemediationFilters?
+        /// The format of the remediation guidance examples to return. Valid values are All, AwsCli, Cli, Python, Terraform, Cdk, CloudFormation, IaC, and Template. If you don't specify a value, all formats are returned. Applies only when ShowGuidance is true.
+        public let guidanceFormat: GuidanceFormat?
+        /// The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+        public let maxResults: Int?
+        /// The unique identifier (ID) of the Security Hub exposure finding, found under the metadata.uid field of the finding. Returns the remediation targets associated with that finding. You can't use MetadataUid together with TargetUid or Filters.
+        public let metadataUid: String?
+        /// The token used to paginate the remediations target list returned. On your first call to GetRemediationsV2, omit this parameter or set it to NULL. For subsequent calls, use the NextToken value returned in the previous response to retrieve the next page of results.
+        public let nextToken: String?
+        /// Specifies whether to show remediation target guidance.
+        public let showGuidance: Bool?
+        /// The unique identifier (ID) of an existing remediation target to return. Returns the single matching target. You can't use TargetUid together with MetadataUid or Filters.
+        public let targetUid: String?
+
+        @inlinable
+        public init(filters: RemediationFilters? = nil, guidanceFormat: GuidanceFormat? = nil, maxResults: Int? = nil, metadataUid: String? = nil, nextToken: String? = nil, showGuidance: Bool? = nil, targetUid: String? = nil) {
+            self.filters = filters
+            self.guidanceFormat = guidanceFormat
+            self.maxResults = maxResults
+            self.metadataUid = metadataUid
+            self.nextToken = nextToken
+            self.showGuidance = showGuidance
+            self.targetUid = targetUid
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.validate(name: "\(name).filters")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metadataUid, name: "metadataUid", parent: name, max: 2048)
+            try self.validate(self.metadataUid, name: "metadataUid", parent: name, min: 1)
+            try self.validate(self.targetUid, name: "targetUid", parent: name, max: 2048)
+            try self.validate(self.targetUid, name: "targetUid", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case guidanceFormat = "GuidanceFormat"
+            case maxResults = "MaxResults"
+            case metadataUid = "MetadataUid"
+            case nextToken = "NextToken"
+            case showGuidance = "ShowGuidance"
+            case targetUid = "TargetUid"
+        }
+    }
+
+    public struct GetRemediationsV2Response: AWSDecodableShape {
+        /// An array of remediation targets returned by the operation.
+        public let items: [RemediationV2Item]?
+        /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [RemediationV2Item]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
         }
     }
 
@@ -27046,6 +27575,24 @@ extension SecurityHub {
         }
     }
 
+    public struct KbArticle: AWSDecodableShape {
+        /// The title of the KbArticle.
+        public let title: String?
+        /// The URL of the KbArticle.
+        public let url: String?
+
+        @inlinable
+        public init(title: String? = nil, url: String? = nil) {
+            self.title = title
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case title = "Title"
+            case url = "Url"
+        }
+    }
+
     public struct KeywordFilter: AWSEncodableShape & AWSDecodableShape {
         /// A value for the keyword.
         public let value: String?
@@ -27462,6 +28009,122 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case productSubscriptions = "ProductSubscriptions"
+        }
+    }
+
+    public struct ListExportJobsV2Request: AWSEncodableShape {
+        /// Filters the results to export jobs that produce the specified data type.
+        public let dataType: ExportDataType?
+        /// The maximum number of results to return in a single call. Valid range is 1–20.
+        public let maxResults: Int?
+        /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+        public let nextToken: String?
+        /// Filters the results to export jobs that have the specified status.
+        public let status: ExportStatus?
+
+        @inlinable
+        public init(dataType: ExportDataType? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: ExportStatus? = nil) {
+            self.dataType = dataType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.dataType, key: "DataType")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.status, key: "Status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExportJobsV2Response: AWSDecodableShape {
+        /// The export jobs that match the request, as ExportSummary objects.
+        public let items: [ExportSummary]?
+        /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ExportSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExposuresByRemediationV2Request: AWSEncodableShape {
+        /// The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
+        public let maxResults: Int?
+        /// The token used to paginate the exposures list returned. On your first call to ListExposuresByRemediationV2, omit this parameter or set it to NULL. For subsequent calls, use the NextToken value returned in the previous response to retrieve the next page of results.
+        public let nextToken: String?
+        /// The unique identifier (ID) of an existing remediation target to list exposure findings for.
+        public let targetUid: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, targetUid: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.targetUid = targetUid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.targetUid, name: "targetUid", parent: name, max: 2048)
+            try self.validate(self.targetUid, name: "targetUid", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case targetUid = "TargetUid"
+        }
+    }
+
+    public struct ListExposuresByRemediationV2Response: AWSDecodableShape {
+        /// An array of exposure findings returned by the operation.
+        public let items: [ExposureFinding]?
+        /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+        public let nextToken: String?
+        /// Provides comprehensive details about a resource.
+        public let resource: RemediationResource?
+        /// The unique identifier (ID) of the remediation target that the exposure findings are associated with.
+        public let targetUid: String?
+        /// The total count of exposure findings associated with the remediation target.
+        public let totalCount: Int?
+        /// The specific trait associated with the remediation target.
+        public let trait: RemediationTrait?
+
+        @inlinable
+        public init(items: [ExposureFinding]? = nil, nextToken: String? = nil, resource: RemediationResource? = nil, targetUid: String? = nil, totalCount: Int? = nil, trait: RemediationTrait? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+            self.resource = resource
+            self.targetUid = targetUid
+            self.totalCount = totalCount
+            self.trait = trait
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+            case resource = "Resource"
+            case targetUid = "TargetUid"
+            case totalCount = "TotalCount"
+            case trait = "Trait"
         }
     }
 
@@ -29187,6 +29850,502 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case recommendation = "Recommendation"
+        }
+    }
+
+    public struct RemediationCompositeFilter: AWSEncodableShape {
+        /// Enables filtering based on string field values.
+        public let stringFilters: [RemediationStringFilter]?
+
+        @inlinable
+        public init(stringFilters: [RemediationStringFilter]? = nil) {
+            self.stringFilters = stringFilters
+        }
+
+        public func validate(name: String) throws {
+            try self.stringFilters?.forEach {
+                try $0.validate(name: "\(name).stringFilters[]")
+            }
+            try self.validate(self.stringFilters, name: "stringFilters", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stringFilters = "StringFilters"
+        }
+    }
+
+    public struct RemediationFilters: AWSEncodableShape {
+        /// A collection of complex filtering conditions that can be applied to remediation target data.
+        public let compositeFilters: [RemediationCompositeFilter]?
+
+        @inlinable
+        public init(compositeFilters: [RemediationCompositeFilter]? = nil) {
+            self.compositeFilters = compositeFilters
+        }
+
+        public func validate(name: String) throws {
+            try self.compositeFilters?.forEach {
+                try $0.validate(name: "\(name).compositeFilters[]")
+            }
+            try self.validate(self.compositeFilters, name: "compositeFilters", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compositeFilters = "CompositeFilters"
+        }
+    }
+
+    public struct RemediationGuidance: AWSDecodableShape {
+        /// The context behind the remediation target's existence and guidance.
+        public let context: RemediationGuidanceContext?
+        /// Provided remediation guidance examples in different formats that can be run for remediating the target.
+        public let examples: RemediationGuidanceExamples?
+        /// The metadata of the remediation guidance.
+        public let metadata: RemediationGuidanceMetadata?
+        /// The remediation pattern of the remediation target.
+        public let pattern: String?
+        /// The specification of the remediation target guidance. This outlines required resource parameters and permissions, remediation steps, and the end state.
+        public let specification: RemediationGuidanceSpecification?
+        /// The name of the remediation target type.
+        public let targetTypeName: String?
+        /// The guidance version.
+        public let version: String?
+
+        @inlinable
+        public init(context: RemediationGuidanceContext? = nil, examples: RemediationGuidanceExamples? = nil, metadata: RemediationGuidanceMetadata? = nil, pattern: String? = nil, specification: RemediationGuidanceSpecification? = nil, targetTypeName: String? = nil, version: String? = nil) {
+            self.context = context
+            self.examples = examples
+            self.metadata = metadata
+            self.pattern = pattern
+            self.specification = specification
+            self.targetTypeName = targetTypeName
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "Context"
+            case examples = "Examples"
+            case metadata = "Metadata"
+            case pattern = "Pattern"
+            case specification = "Specification"
+            case targetTypeName = "TargetTypeName"
+            case version = "Version"
+        }
+    }
+
+    public struct RemediationGuidanceContext: AWSDecodableShape {
+        /// The scope of the resources affected by the resolution of the remediation target.
+        public let affectedScope: String?
+        /// An array of prerequisite steps in resolving the remediation target.
+        public let prerequisites: [String]?
+        /// Explains the cause which directly created the remediation target.
+        public let problemStatement: String?
+        /// An assessment of the existing risk the remediation target creates.
+        public let riskAssessment: String?
+
+        @inlinable
+        public init(affectedScope: String? = nil, prerequisites: [String]? = nil, problemStatement: String? = nil, riskAssessment: String? = nil) {
+            self.affectedScope = affectedScope
+            self.prerequisites = prerequisites
+            self.problemStatement = problemStatement
+            self.riskAssessment = riskAssessment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedScope = "AffectedScope"
+            case prerequisites = "Prerequisites"
+            case problemStatement = "ProblemStatement"
+            case riskAssessment = "RiskAssessment"
+        }
+    }
+
+    public struct RemediationGuidanceExamples: AWSDecodableShape {
+        /// An CLI snippet version of the example.
+        public let awsCli: String?
+        /// A CDK snippet version of the example.
+        public let cdk: String?
+        /// A CLI snippet version of the example.
+        public let cli: String?
+        /// A CloudFormation snippet version of the example.
+        public let cloudFormation: String?
+        /// An IaC snippet version of the example.
+        public let iaC: String?
+        /// A Python snippet version of the example.
+        public let python: String?
+        /// A Template snippet version of the example.
+        public let template: String?
+        /// A Terraform snippet version of the example.
+        public let terraform: String?
+
+        @inlinable
+        public init(awsCli: String? = nil, cdk: String? = nil, cli: String? = nil, cloudFormation: String? = nil, iaC: String? = nil, python: String? = nil, template: String? = nil, terraform: String? = nil) {
+            self.awsCli = awsCli
+            self.cdk = cdk
+            self.cli = cli
+            self.cloudFormation = cloudFormation
+            self.iaC = iaC
+            self.python = python
+            self.template = template
+            self.terraform = terraform
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsCli = "AwsCli"
+            case cdk = "Cdk"
+            case cli = "Cli"
+            case cloudFormation = "CloudFormation"
+            case iaC = "IaC"
+            case python = "Python"
+            case template = "Template"
+            case terraform = "Terraform"
+        }
+    }
+
+    public struct RemediationGuidanceMetadata: AWSDecodableShape {
+        /// The extent to which the guidance can be automated, for example Full.
+        public let automationLevel: String?
+        /// The exposure type of the related exposure findings.
+        public let exposureType: String?
+        /// When the fix takes effect, for example Immediate or Deferred.
+        public let fixEffect: String?
+        /// Timestamp of when the guidance was generated. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see Timestamps.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var generatedAt: Date?
+        /// Specifies whether human review is required.
+        public let humanReviewRequired: Bool?
+        /// The resource type of the remediation target.
+        public let resourceType: String?
+        /// The extent to which changes made in accordance with the guidance can be reversed, for example Fully reversible.
+        public let reversibility: String?
+        /// The risk when implementing the guidance provided.
+        public let riskLevel: String?
+        /// The titles of traits this guidance applies to.
+        public let traitTitles: [String]?
+        /// Verification status of the guidance.
+        public let verificationStatus: String?
+
+        @inlinable
+        public init(automationLevel: String? = nil, exposureType: String? = nil, fixEffect: String? = nil, generatedAt: Date? = nil, humanReviewRequired: Bool? = nil, resourceType: String? = nil, reversibility: String? = nil, riskLevel: String? = nil, traitTitles: [String]? = nil, verificationStatus: String? = nil) {
+            self.automationLevel = automationLevel
+            self.exposureType = exposureType
+            self.fixEffect = fixEffect
+            self.generatedAt = generatedAt
+            self.humanReviewRequired = humanReviewRequired
+            self.resourceType = resourceType
+            self.reversibility = reversibility
+            self.riskLevel = riskLevel
+            self.traitTitles = traitTitles
+            self.verificationStatus = verificationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automationLevel = "AutomationLevel"
+            case exposureType = "ExposureType"
+            case fixEffect = "FixEffect"
+            case generatedAt = "GeneratedAt"
+            case humanReviewRequired = "HumanReviewRequired"
+            case resourceType = "ResourceType"
+            case reversibility = "Reversibility"
+            case riskLevel = "RiskLevel"
+            case traitTitles = "TraitTitles"
+            case verificationStatus = "VerificationStatus"
+        }
+    }
+
+    public struct RemediationGuidanceSpecification: AWSDecodableShape {
+        /// The expected end state of the associated resources after completion of the steps.
+        public let expectedEndState: String?
+        /// An array of the parameters used in running the steps provided.
+        public let parameters: [RemediationParameter]?
+        /// An array of required permissions to run the steps.
+        public let requiredPermissions: [String]?
+        /// An array of ordered steps for resolving the remediation targets.
+        public let steps: [RemediationStep]?
+
+        @inlinable
+        public init(expectedEndState: String? = nil, parameters: [RemediationParameter]? = nil, requiredPermissions: [String]? = nil, steps: [RemediationStep]? = nil) {
+            self.expectedEndState = expectedEndState
+            self.parameters = parameters
+            self.requiredPermissions = requiredPermissions
+            self.steps = steps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expectedEndState = "ExpectedEndState"
+            case parameters = "Parameters"
+            case requiredPermissions = "RequiredPermissions"
+            case steps = "Steps"
+        }
+    }
+
+    public struct RemediationOutcome: AWSDecodableShape {
+        /// The number of associated exposure findings that are resolved by remediating the target.
+        public let resolvedFindingsCount: Int?
+        /// The number of associated exposure findings whose severity is reduced by remediating the target.
+        public let severityReductionFindingsCount: Int?
+        /// The number of associated exposure findings whose severity is unchanged by remediating the target.
+        public let severityUnchangedCount: Int?
+
+        @inlinable
+        public init(resolvedFindingsCount: Int? = nil, severityReductionFindingsCount: Int? = nil, severityUnchangedCount: Int? = nil) {
+            self.resolvedFindingsCount = resolvedFindingsCount
+            self.severityReductionFindingsCount = severityReductionFindingsCount
+            self.severityUnchangedCount = severityUnchangedCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolvedFindingsCount = "ResolvedFindingsCount"
+            case severityReductionFindingsCount = "SeverityReductionFindingsCount"
+            case severityUnchangedCount = "SeverityUnchangedCount"
+        }
+    }
+
+    public struct RemediationParameter: AWSDecodableShape {
+        /// A description of the parameter.
+        public let description: String?
+        /// The name of the parameter.
+        public let name: String?
+        /// Specifies whether the parameter is required for running the guidance steps.
+        public let required: Bool?
+        /// The type of the parameter.
+        public let type: String?
+
+        @inlinable
+        public init(description: String? = nil, name: String? = nil, required: Bool? = nil, type: String? = nil) {
+            self.description = description
+            self.name = name
+            self.required = required
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case required = "Required"
+            case type = "Type"
+        }
+    }
+
+    public struct RemediationResource: AWSDecodableShape {
+        /// The Amazon Web Services account that recorded the resource data in Security Hub.
+        public let accountId: String?
+        /// The cloud provider where the resource exists.    AWS specifies that the resource exists in Amazon Web Services.    Azure specifies that the resource exists in Microsoft Azure.
+        public let cloudProvider: CloudProviderName?
+        /// The unique identifier for a resource.
+        public let id: String?
+        /// The name of the resource.
+        public let name: String?
+        /// The Amazon Web Services Region in which Security Hub recorded the resource data.
+        public let region: String?
+        /// The global identifier used to identify a resource.
+        public let resourceGuid: String?
+        /// The identifier of the cloud account that owns the resource. For Amazon Web Services resources, this is the Amazon Web Services account ID. For Azure resources, this is the Azure subscription ID.
+        public let resourceOwnerAccountId: String?
+        /// The identifier of the cloud organization that owns the resource. For Amazon Web Services resources, this is the Organizations ID. For Azure resources, this is the Azure tenant ID.
+        public let resourceOwnerOrgId: String?
+        /// The native cloud region where the resource is located. For Amazon Web Services, this is an Amazon Web Services Region (for example, us-east-1). For Azure resources, this is the Azure region (for example, westus2). This field is always included.
+        public let resourceRegion: String?
+        /// The type of the resource.
+        public let type: String?
+
+        @inlinable
+        public init(accountId: String? = nil, cloudProvider: CloudProviderName? = nil, id: String? = nil, name: String? = nil, region: String? = nil, resourceGuid: String? = nil, resourceOwnerAccountId: String? = nil, resourceOwnerOrgId: String? = nil, resourceRegion: String? = nil, type: String? = nil) {
+            self.accountId = accountId
+            self.cloudProvider = cloudProvider
+            self.id = id
+            self.name = name
+            self.region = region
+            self.resourceGuid = resourceGuid
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
+            self.resourceRegion = resourceRegion
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case cloudProvider = "CloudProvider"
+            case id = "Id"
+            case name = "Name"
+            case region = "Region"
+            case resourceGuid = "ResourceGuid"
+            case resourceOwnerAccountId = "ResourceOwnerAccountId"
+            case resourceOwnerOrgId = "ResourceOwnerOrgId"
+            case resourceRegion = "ResourceRegion"
+            case type = "Type"
+        }
+    }
+
+    public struct RemediationStep: AWSDecodableShape {
+        /// The action to be taken for this step.
+        public let action: String?
+        /// A description of what the step does.
+        public let description: String?
+        /// The inverse of the step, to be used if the step needs to be rolled back.
+        public let inverse: String?
+        /// The logic behind the existence of this step.
+        public let logic: String?
+        /// The phase of the remediation plan that this step belongs to (for example, FIX).
+        public let phase: String?
+        /// Which service this step is performed in.
+        public let service: String?
+        /// The action to take after the step to verify its success.
+        public let verifyAfter: String?
+
+        @inlinable
+        public init(action: String? = nil, description: String? = nil, inverse: String? = nil, logic: String? = nil, phase: String? = nil, service: String? = nil, verifyAfter: String? = nil) {
+            self.action = action
+            self.description = description
+            self.inverse = inverse
+            self.logic = logic
+            self.phase = phase
+            self.service = service
+            self.verifyAfter = verifyAfter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case description = "Description"
+            case inverse = "Inverse"
+            case logic = "Logic"
+            case phase = "Phase"
+            case service = "Service"
+            case verifyAfter = "VerifyAfter"
+        }
+    }
+
+    public struct RemediationStringFilter: AWSEncodableShape {
+        /// The name of the filter field. Valid values are Resource.Type, Priority, Status, Resource.Id, Resource.ResourceOwnerAccountId, and Resource.CloudProvider.
+        public let fieldName: RemediationStringField?
+        /// The string filter definition.
+        public let filter: RemediationStringFilterCondition?
+
+        @inlinable
+        public init(fieldName: RemediationStringField? = nil, filter: RemediationStringFilterCondition? = nil) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case filter = "Filter"
+        }
+    }
+
+    public struct RemediationStringFilterCondition: AWSEncodableShape {
+        /// The value the string filter is comparing against.
+        public let value: String?
+
+        @inlinable
+        public init(value: String? = nil) {
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+        }
+    }
+
+    public struct RemediationSummaryDetail: AWSDecodableShape {
+        /// A summarized action to take for the remediation target.
+        public let action: String?
+        /// A description of the remediation target.
+        public let description: String?
+        /// Specifies whether the effect of this target is immediate.
+        public let isImmediate: Bool?
+        /// An array of KbArticle objects.
+        public let kbArticles: [KbArticle]?
+        /// An array of steps to be taken after remediation.
+        public let postRemediationSteps: [String]?
+
+        @inlinable
+        public init(action: String? = nil, description: String? = nil, isImmediate: Bool? = nil, kbArticles: [KbArticle]? = nil, postRemediationSteps: [String]? = nil) {
+            self.action = action
+            self.description = description
+            self.isImmediate = isImmediate
+            self.kbArticles = kbArticles
+            self.postRemediationSteps = postRemediationSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case description = "Description"
+            case isImmediate = "IsImmediate"
+            case kbArticles = "KbArticles"
+            case postRemediationSteps = "PostRemediationSteps"
+        }
+    }
+
+    public struct RemediationTrait: AWSDecodableShape {
+        /// The trait title.
+        public let title: String?
+        /// The trait type.
+        public let type: String?
+
+        @inlinable
+        public init(title: String? = nil, type: String? = nil) {
+            self.title = title
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case title = "Title"
+            case type = "Type"
+        }
+    }
+
+    public struct RemediationV2Item: AWSDecodableShape {
+        /// The remediation target's guidance. Returned only when ShowGuidance is true in the request.
+        public let guidance: RemediationGuidance?
+        /// The outcome of the remediation target's resolution.
+        public let outcome: RemediationOutcome?
+        /// The remediation target's priority. Valid values are Critical, High, Medium, and Low.
+        public let priority: RemediationPriority?
+        /// A summary of the remediation target.
+        public let remediationSummary: RemediationSummaryDetail?
+        /// The remediation target's associated resource.
+        public let resource: RemediationResource?
+        /// The current status of the remediation target.    New specifies that the remediation target was newly identified.    Updated specifies that the remediation target changed after it was identified.    Resolved specifies that the remediation target is no longer present.
+        public let status: RemediationStatus?
+        /// The unique identifier (ID) of the remediation target.
+        public let targetUid: String?
+        /// The trait associated with the remediation target.
+        public let trait: RemediationTrait?
+        /// The remediation target's last updated timestamp. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see Timestamps.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(guidance: RemediationGuidance? = nil, outcome: RemediationOutcome? = nil, priority: RemediationPriority? = nil, remediationSummary: RemediationSummaryDetail? = nil, resource: RemediationResource? = nil, status: RemediationStatus? = nil, targetUid: String? = nil, trait: RemediationTrait? = nil, updatedAt: Date? = nil) {
+            self.guidance = guidance
+            self.outcome = outcome
+            self.priority = priority
+            self.remediationSummary = remediationSummary
+            self.resource = resource
+            self.status = status
+            self.targetUid = targetUid
+            self.trait = trait
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guidance = "Guidance"
+            case outcome = "Outcome"
+            case priority = "Priority"
+            case remediationSummary = "RemediationSummary"
+            case resource = "Resource"
+            case status = "Status"
+            case targetUid = "TargetUid"
+            case trait = "Trait"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -31009,6 +32168,34 @@ extension SecurityHub {
         }
     }
 
+    public struct S3ExportDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket that Security Hub writes the export to. You must own the bucket, and its bucket policy must grant the Security Hub service principal (exportv2.securityhub.amazonaws.com) permission to write objects. For the required bucket policy, see the Examples section of StartExportJobV2.
+        public let bucketArn: String?
+        /// The ARN of the Amazon Web Services KMS key that Security Hub uses to encrypt the export objects with server-side encryption. The key policy must allow the Security Hub service principal (exportv2.securityhub.amazonaws.com) to use the key through Amazon S3. For the required key policy, see the Examples section of StartExportJobV2. The key must meet all of the following requirements:   It must be a symmetric key with a key usage of ENCRYPT_DECRYPT.   It must be a single-Region key. Multi-Region keys, whose key IDs begin with mrk-, are rejected.   You must specify the full key ARN. Key IDs and aliases are rejected.   The key must be in the same Amazon Web Services account as the export job.   The key must be in the same Amazon Web Services Region as the export job.   The key must be in the aws, aws-cn, or aws-us-gov partition.
+        public let kmsKeyArn: String?
+        /// An optional key prefix that Security Hub prepends to the Amazon S3 object keys of the export output. Use a prefix to organize exports within the bucket. The value can be up to 512 characters.
+        public let objectPrefix: String?
+
+        @inlinable
+        public init(bucketArn: String? = nil, kmsKeyArn: String? = nil, objectPrefix: String? = nil) {
+            self.bucketArn = bucketArn
+            self.kmsKeyArn = kmsKeyArn
+            self.objectPrefix = objectPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketArn, name: "bucketArn", parent: name, pattern: "\\S")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "\\S")
+            try self.validate(self.objectPrefix, name: "objectPrefix", parent: name, max: 512)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketArn = "BucketArn"
+            case kmsKeyArn = "KmsKeyArn"
+            case objectPrefix = "ObjectPrefix"
+        }
+    }
+
     public struct SecurityControl: AWSDecodableShape {
         ///  The description of a security control across standards. This typically summarizes how Security Hub CSPM evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
         public let description: String?
@@ -32115,6 +33302,61 @@ extension SecurityHub {
         public init() {}
     }
 
+    public struct StartExportJobV2Request: AWSEncodableShape {
+        /// A unique identifier used to ensure idempotency.
+        public let clientToken: String?
+        /// The destination that Security Hub writes the export to. You must specify exactly one destination type. Currently, the only supported type is Amazon S3.
+        public let destination: ExportDestination?
+        /// An optional, user-provided name for the export job that helps you identify it in ListExportJobsV2 results. The value can be 1–256 characters. Alphanumeric characters, spaces, and the following ASCII characters are permitted: . _ , : ( ) / + -.
+        public let name: String?
+        /// Specifies what data to export and how to format it. You must specify exactly one output type. Currently, the only supported type is Findings.
+        public let outputConfiguration: ExportOutput?
+        /// Limits the export to findings from specific organizational units (OUs) or from the delegated administrator's organization. Only the delegated administrator account can use this parameter; other accounts that specify it receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator exports findings from all accounts across the entire organization, and other accounts export only their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If you specify multiple entries, Security Hub combines them using OR logic.
+        public let scopes: ExportScopes?
+
+        @inlinable
+        public init(clientToken: String? = StartExportJobV2Request.idempotencyToken(), destination: ExportDestination? = nil, name: String? = nil, outputConfiguration: ExportOutput? = nil, scopes: ExportScopes? = nil) {
+            self.clientToken = clientToken
+            self.destination = destination
+            self.name = name
+            self.outputConfiguration = outputConfiguration
+            self.scopes = scopes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]{1,64}$")
+            try self.destination?.validate(name: "\(name).destination")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.outputConfiguration?.validate(name: "\(name).outputConfiguration")
+            try self.scopes?.validate(name: "\(name).scopes")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case destination = "Destination"
+            case name = "Name"
+            case outputConfiguration = "OutputConfiguration"
+            case scopes = "Scopes"
+        }
+    }
+
+    public struct StartExportJobV2Response: AWSDecodableShape {
+        /// The unique identifier of the export job that Security Hub started. Use this value with GetExportJobV2 or CancelExportJobV2.
+        public let exportJobId: String?
+
+        @inlinable
+        public init(exportJobId: String? = nil) {
+            self.exportJobId = exportJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportJobId = "ExportJobId"
+        }
+    }
+
     public struct StatelessCustomActionDefinition: AWSEncodableShape & AWSDecodableShape {
         /// Information about metrics to publish to CloudWatch.
         public let publishMetricAction: StatelessCustomPublishMetricAction?
@@ -32217,7 +33459,7 @@ extension SecurityHub {
     }
 
     public struct StringFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The condition to apply to a string value when filtering Security Hub CSPM findings. To search for values that have the filter value, use one of the following comparison operators:   To search for values that include the filter value, use CONTAINS. For example, the filter Title CONTAINS CloudFront matches findings that have a Title that includes the string CloudFront.   To search for values that exactly match the filter value, use EQUALS. For example, the filter AwsAccountId EQUALS 123456789012 only matches findings that have an account ID of 123456789012.   To search for values that start with the filter value, use PREFIX. For example, the filter ResourceRegion PREFIX us matches findings that have a ResourceRegion that starts with us. A ResourceRegion that starts with a different value, such as af, ap, or ca, doesn't match.    CONTAINS, EQUALS, and PREFIX filters on the same field are joined by OR. A finding matches if it matches any one of those filters. For example, the filters Title CONTAINS CloudFront OR Title CONTAINS CloudWatch match a finding that includes either CloudFront, CloudWatch, or both strings in the title. To search for values that don’t have the filter value, use one of the following comparison operators:   To search for values that exclude the filter value, use NOT_CONTAINS. For example, the filter Title NOT_CONTAINS CloudFront matches findings that have a Title that excludes the string CloudFront.   To search for values other than the filter value, use NOT_EQUALS. For example, the filter AwsAccountId NOT_EQUALS 123456789012 only matches findings that have an account ID other than 123456789012.   To search for values that don't start with the filter value, use PREFIX_NOT_EQUALS. For example, the filter ResourceRegion PREFIX_NOT_EQUALS us matches findings with a ResourceRegion that starts with a value other than us.    NOT_CONTAINS, NOT_EQUALS, and PREFIX_NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Title NOT_CONTAINS CloudFront AND Title NOT_CONTAINS CloudWatch match a finding that excludes both CloudFront and CloudWatch in the title. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly, you can't provide both an EQUALS filter and a NOT_EQUALS or PREFIX_NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with other NOT_CONTAINS filters.  You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field. Security Hub CSPM first processes the PREFIX filters, and then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filters, Security Hub CSPM first identifies findings that have resource types that start with either AwsIam or AwsEc2. It then excludes findings that have a resource type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.    ResourceType PREFIX AwsIam     ResourceType PREFIX AwsEc2     ResourceType NOT_EQUALS AwsIamPolicy     ResourceType NOT_EQUALS AwsEc2NetworkInterface    The CONTAINS operator works with automation rules V1 and V2. The NOT_CONTAINS operator works only with automation rules V1. The CONTAINS_WORD operator works only in the GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourcesStatisticsV2 APIs. For more information, see Automation rules in the Security Hub CSPM User Guide.
+        /// The condition to apply to a string value when filtering Security Hub CSPM findings. To search for values that have the filter value, use one of the following comparison operators:   To search for values that include the filter value, use CONTAINS. For example, the filter Title CONTAINS CloudFront matches findings that have a Title that includes the string CloudFront.   To search for values that contain a word matching the filter value, regardless of case, use CONTAINS_WORD. For example, the filter Title CONTAINS_WORD lambda matches a finding whose Title is GuardDuty Lambda Protection, because the Title contains the word Lambda. Including special characters in the filter value might produce unexpected search results.   To search for values that exactly match the filter value, use EQUALS. For example, the filter AwsAccountId EQUALS 123456789012 only matches findings that have an account ID of 123456789012.   To search for values that start with the filter value, use PREFIX. For example, the filter ResourceRegion PREFIX us matches findings that have a ResourceRegion that starts with us. A ResourceRegion that starts with a different value, such as af, ap, or ca, doesn't match.    CONTAINS, EQUALS, and PREFIX filters on the same field are joined by OR. A finding matches if it matches any one of those filters. For example, the filters Title CONTAINS CloudFront OR Title CONTAINS CloudWatch match a finding that includes either CloudFront, CloudWatch, or both strings in the title. To search for values that don’t have the filter value, use one of the following comparison operators:   To search for values that exclude the filter value, use NOT_CONTAINS. For example, the filter Title NOT_CONTAINS CloudFront matches findings that have a Title that excludes the string CloudFront.   To search for values other than the filter value, use NOT_EQUALS. For example, the filter AwsAccountId NOT_EQUALS 123456789012 only matches findings that have an account ID other than 123456789012.   To search for values that don't start with the filter value, use PREFIX_NOT_EQUALS. For example, the filter ResourceRegion PREFIX_NOT_EQUALS us matches findings with a ResourceRegion that starts with a value other than us.    NOT_CONTAINS, NOT_EQUALS, and PREFIX_NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Title NOT_CONTAINS CloudFront AND Title NOT_CONTAINS CloudWatch match a finding that excludes both CloudFront and CloudWatch in the title. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly, you can't provide both an EQUALS filter and a NOT_EQUALS or PREFIX_NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with other NOT_CONTAINS filters.  You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field. Security Hub CSPM first processes the PREFIX filters, and then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filters, Security Hub CSPM first identifies findings that have resource types that start with either AwsIam or AwsEc2. It then excludes findings that have a resource type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.    ResourceType PREFIX AwsIam     ResourceType PREFIX AwsEc2     ResourceType NOT_EQUALS AwsIamPolicy     ResourceType NOT_EQUALS AwsEc2NetworkInterface    The CONTAINS operator works with automation rules V1 and V2. The NOT_CONTAINS operator works only with automation rules V1. The CONTAINS_WORD operator works only in the GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourcesStatisticsV2 APIs. For more information, see Automation rules in the Security Hub CSPM User Guide.
         public let comparison: StringFilterComparison?
         /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub CSPM. If you provide security hub as the filter value, there's no match.
         public let value: String?
@@ -33701,6 +34943,56 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case azure = "Azure"
+        }
+    }
+
+    public struct ExportDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Simple Storage Service (Amazon S3) bucket and Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Security Hub uses to write the export.
+        public let s3: S3ExportDestination?
+
+        @inlinable
+        public init(s3: S3ExportDestination? = nil) {
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3?.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "S3"
+        }
+    }
+
+    public struct ExportOutput: AWSEncodableShape & AWSDecodableShape {
+        /// Configures an export of Security Hub findings, including the output format and any filters or selected fields.
+        public let findings: FindingsOutput?
+
+        @inlinable
+        public init(findings: FindingsOutput? = nil) {
+            self.findings = findings
+        }
+
+        public func validate(name: String) throws {
+            try self.findings?.validate(name: "\(name).findings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "Findings"
+        }
+    }
+
+    public struct ExportOutputSummary: AWSDecodableShape {
+        /// The output configuration summary for a findings export.
+        public let findings: FindingsOutputSummary?
+
+        @inlinable
+        public init(findings: FindingsOutputSummary? = nil) {
+            self.findings = findings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "Findings"
         }
     }
 

@@ -1142,6 +1142,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum HierarchyFilterMatchOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HistogramBinType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binCount = "BIN_COUNT"
         case binWidth = "BIN_WIDTH"
@@ -8738,6 +8744,8 @@ extension QuickSight {
         public let addOrRunAnomalyDetectionForAnalyses: CapabilityState?
         /// The ability to perform actions using Adobe Marketing Agent connectors.
         public let adobeAction: CapabilityState?
+        /// The ability to create, update, and share Adobe Analytics data sources.
+        public let adobeAnalyticsDataSource: CapabilityState?
         /// The ability to perform actions using Airtable connectors.
         public let airtableAction: CapabilityState?
         /// The ability to perform actions using Bedrock Agent connectors.
@@ -8756,6 +8764,10 @@ extension QuickSight {
         public let apps: CapabilityState?
         /// The ability to perform actions using Asana connectors.
         public let asanaAction: CapabilityState?
+        /// The ability to create, update, and share Amazon Athena data sources.
+        public let athenaDataSource: CapabilityState?
+        /// The ability to create, update, and share Amazon Aurora data sources.
+        public let auroraDataSource: CapabilityState?
         /// The ability to perform automate-related actions.
         public let automate: CapabilityState?
         /// The ability to perform actions using BambooHR connectors.
@@ -8783,6 +8795,8 @@ extension QuickSight {
         /// The ability to perform actions using Atlassian Confluence Cloud connectors.
         public let confluenceAction: CapabilityState?
         public let confluenceKnowledgeBase: CapabilityState?
+        /// The ability to create Adobe Analytics data sources.
+        public let createAdobeAnalyticsDataSource: CapabilityState?
         /// The ability to create and update Adobe Marketing Agent actions.
         public let createAndUpdateAdobeAction: CapabilityState?
         /// The ability to create and update Airtable actions.
@@ -8840,6 +8854,8 @@ extension QuickSight {
         public let createAndUpdateGithubAction: CapabilityState?
         /// The ability to create and update Gmail actions.
         public let createAndUpdateGmailAction: CapabilityState?
+        /// The ability to create and update Gong actions.
+        public let createAndUpdateGongAction: CapabilityState?
         /// The ability to create and update Google Analytics actions.
         public let createAndUpdateGoogleAnalyticsAction: CapabilityState?
         /// The ability to create and update Google Calendar actions.
@@ -8948,24 +8964,126 @@ extension QuickSight {
         public let createAndUpdateZoomAction: CapabilityState?
         /// The ability to create and update ZoomInfo Agent actions.
         public let createAndUpdateZoomInfoAction: CapabilityState?
+        /// The ability to create Amazon Athena data sources.
+        public let createAthenaDataSource: CapabilityState?
+        /// The ability to create Amazon Aurora data sources.
+        public let createAuroraDataSource: CapabilityState?
         /// The ability to create chat agents.
         public let createChatAgents: CapabilityState?
         /// The ability to Create Executive Summary
         public let createDashboardExecutiveSummaryWithQ: CapabilityState?
+        /// The ability to create Databricks data sources.
+        public let createDatabricksDataSource: CapabilityState?
+        /// The ability to create Db2 data sources.
+        public let createDb2DataSource: CapabilityState?
+        /// The ability to create Denodo data sources.
+        public let createDenodoDataSource: CapabilityState?
+        /// The ability to create Amazon DocumentDB data sources.
+        public let createDocumentDbDataSource: CapabilityState?
+        /// The ability to create Dremio data sources.
+        public let createDremioDataSource: CapabilityState?
+        /// The ability to create Amazon DynamoDB data sources.
+        public let createDynamoDbDataSource: CapabilityState?
+        /// The ability to create Exasol data sources.
+        public let createExasolDataSource: CapabilityState?
+        /// The ability to create file data sources.
+        public let createFileDataSource: CapabilityState?
+        /// The ability to create GitHub data sources.
+        public let createGitHubDataSource: CapabilityState?
+        /// The ability to create Google Analytics data sources.
+        public let createGoogleAnalyticsDataSource: CapabilityState?
+        /// The ability to create Google BigQuery data sources.
+        public let createGoogleBigQueryDataSource: CapabilityState?
+        /// The ability to create Google Sheets data sources.
+        public let createGoogleSheetsDataSource: CapabilityState?
+        /// The ability to create Impala data sources.
+        public let createImpalaDataSource: CapabilityState?
+        /// The ability to create Jira data sources.
+        public let createJiraDataSource: CapabilityState?
+        /// The ability to create MariaDB data sources.
+        public let createMariaDbDataSource: CapabilityState?
+        /// The ability to create MongoDB Atlas data sources.
+        public let createMongoAtlasDataSource: CapabilityState?
+        /// The ability to create MongoDB data sources.
+        public let createMongoDbDataSource: CapabilityState?
+        /// The ability to create MySQL data sources.
+        public let createMySqlDataSource: CapabilityState?
+        /// The ability to create Amazon OpenSearch Service data sources.
+        public let createOpenSearchDataSource: CapabilityState?
+        /// The ability to create Oracle data sources.
+        public let createOracleDataSource: CapabilityState?
+        /// The ability to create PayPal data sources.
+        public let createPayPalDataSource: CapabilityState?
+        /// The ability to create PostgreSQL data sources.
+        public let createPostgreSqlDataSource: CapabilityState?
+        /// The ability to create Presto data sources.
+        public let createPrestoDataSource: CapabilityState?
+        /// The ability to create Amazon QuickSight data sources.
+        public let createRadiantDataSource: CapabilityState?
+        /// The ability to create auto-discovered Amazon RDS data sources.
+        public let createRdsDataSource: CapabilityState?
+        /// The ability to create auto-discovered Amazon Redshift data sources.
+        public let createRedshiftAutoDiscoveredDataSource: CapabilityState?
+        /// The ability to create manually configured Amazon Redshift data sources.
+        public let createRedshiftManualDataSource: CapabilityState?
+        /// The ability to create Amazon S3 Analytics data sources.
+        public let createS3AnalyticsDataSource: CapabilityState?
+        /// The ability to create Amazon S3 data sources.
+        public let createS3DataSource: CapabilityState?
+        /// The ability to create Amazon S3 Tables data sources.
+        public let createS3TablesDataSource: CapabilityState?
+        /// The ability to create Salesforce data sources.
+        public let createSalesforceDataSource: CapabilityState?
+        /// The ability to create SAP HANA data sources.
+        public let createSapHanaDataSource: CapabilityState?
+        /// The ability to create ServiceNow data sources.
+        public let createServiceNowDataSource: CapabilityState?
         /// The ability to create shared folders.
         public let createSharedFolders: CapabilityState?
+        /// The ability to create Snowflake data sources.
+        public let createSnowflakeDataSource: CapabilityState?
         /// The ability to create spaces.
         public let createSpaces: CapabilityState?
+        /// The ability to create Spark data sources.
+        public let createSparkDataSource: CapabilityState?
         /// The ability to create a SPICE dataset.
         public let createSPICEDataset: CapabilityState?
+        /// The ability to create SQL Server data sources.
+        public let createSqlServerDataSource: CapabilityState?
+        /// The ability to create Square data sources.
+        public let createSquareDataSource: CapabilityState?
+        /// The ability to create Starburst data sources.
+        public let createStarburstDataSource: CapabilityState?
+        /// The ability to create Teradata data sources.
+        public let createTeradataDataSource: CapabilityState?
+        /// The ability to create Amazon Timestream data sources.
+        public let createTimestreamDataSource: CapabilityState?
+        /// The ability to create Trino data sources.
+        public let createTrinoDataSource: CapabilityState?
+        /// The ability to create Twitter data sources.
+        public let createTwitterDataSource: CapabilityState?
         /// The ability to perform dashboard-related actions.
         public let dashboard: CapabilityState?
+        /// The ability to create, update, and share Databricks data sources.
+        public let databricksDataSource: CapabilityState?
+        /// The ability to create, update, and share Db2 data sources.
+        public let db2DataSource: CapabilityState?
+        /// The ability to create, update, and share Denodo data sources.
+        public let denodoDataSource: CapabilityState?
+        /// The ability to create, update, and share Amazon DocumentDB data sources.
+        public let documentDbDataSource: CapabilityState?
+        /// The ability to create, update, and share Dremio data sources.
+        public let dremioDataSource: CapabilityState?
         /// The ability to perform actions using Dropbox connectors.
         public let dropboxAction: CapabilityState?
         /// The ability to perform actions using Dun and Bradstreet connectors.
         public let dunAndBradstreetAction: CapabilityState?
+        /// The ability to create, update, and share Amazon DynamoDB data sources.
+        public let dynamoDbDataSource: CapabilityState?
         /// The ability to Edit Visual with AI
         public let editVisualWithQ: CapabilityState?
+        /// The ability to create, update, and share Exasol data sources.
+        public let exasolDataSource: CapabilityState?
         /// The ability to export to CSV files from the UI.
         public let exportToCsv: CapabilityState?
         /// The ability to export to CSV files in scheduled email reports.
@@ -8984,6 +9102,8 @@ extension QuickSight {
         public let factSetAction: CapabilityState?
         /// The ability to perform actions using Figma connectors.
         public let figmaAction: CapabilityState?
+        /// The ability to create, update, and share file data sources.
+        public let fileDataSource: CapabilityState?
         /// The ability to perform flow-related actions.
         public let flow: CapabilityState?
         /// The ability to generate analysis using AI
@@ -8992,10 +9112,18 @@ extension QuickSight {
         public let genericHTTPAction: CapabilityState?
         /// The ability to perform actions using GitHub connectors.
         public let githubAction: CapabilityState?
+        /// The ability to create, update, and share GitHub data sources.
+        public let gitHubDataSource: CapabilityState?
         /// The ability to perform actions using Gmail connectors.
         public let gmailAction: CapabilityState?
+        /// The ability to perform actions using Gong connectors.
+        public let gongAction: CapabilityState?
         /// The ability to perform actions using Google Analytics connectors.
         public let googleAnalyticsAction: CapabilityState?
+        /// The ability to create, update, and share Google Analytics data sources.
+        public let googleAnalyticsDataSource: CapabilityState?
+        /// The ability to create, update, and share Google BigQuery data sources.
+        public let googleBigQueryDataSource: CapabilityState?
         /// The ability to perform actions using Google Calendar connectors.
         public let googleCalendarAction: CapabilityState?
         /// The ability to perform actions using Google Chat connectors.
@@ -9009,6 +9137,8 @@ extension QuickSight {
         public let googleMeetAction: CapabilityState?
         /// The ability to perform actions using Google Sheets connectors.
         public let googleSheetsAction: CapabilityState?
+        /// The ability to create, update, and share Google Sheets data sources.
+        public let googleSheetsDataSource: CapabilityState?
         /// The ability to perform actions using Google Slides connectors.
         public let googleSlidesAction: CapabilityState?
         /// The ability to perform actions using HG Insights Agent connectors.
@@ -9018,6 +9148,8 @@ extension QuickSight {
         /// The ability to perform actions using HuggingFace connectors.
         public let huggingFaceAction: CapabilityState?
         public let idcKnowledgeBase: CapabilityState?
+        /// The ability to create, update, and share Impala data sources.
+        public let impalaDataSource: CapabilityState?
         /// The ability to create, view, edit, delete, and run inbound email triggers for flows and automations.
         public let inboundEmailTrigger: CapabilityState?
         /// The ability to include content in scheduled email reports.
@@ -9028,22 +9160,32 @@ extension QuickSight {
         public let invokeAppsAIInference: CapabilityState?
         /// The ability to perform actions using Jira connectors.
         public let jiraAction: CapabilityState?
+        /// The ability to create, update, and share Jira data sources.
+        public let jiraDataSource: CapabilityState?
         /// The ability to use knowledge bases to specify content from external applications.
         public let knowledgeBase: CapabilityState?
         /// The ability to perform actions using Linear connectors.
         public let linearAction: CapabilityState?
         /// The ability to create, update, delete and view shared folders (both restricted and unrestricted), ability to add any asset to shared folders, and ability to share the folders.  Note: This does not prevent inheriting access to assets that others share with them through folder membership.
         public let manageSharedFolders: CapabilityState?
+        /// The ability to create, update, and share MariaDB data sources.
+        public let mariaDbDataSource: CapabilityState?
         /// The ability to perform actions using Model Context Protocol connectors.
         public let mcpAction: CapabilityState?
         /// The ability to perform actions using Monday connectors.
         public let mondayAction: CapabilityState?
+        /// The ability to create, update, and share MongoDB Atlas data sources.
+        public let mongoAtlasDataSource: CapabilityState?
+        /// The ability to create, update, and share MongoDB data sources.
+        public let mongoDbDataSource: CapabilityState?
         /// The ability to perform actions using Moody's GenAI Ready Data connectors.
         public let moodysAction: CapabilityState?
         /// The ability to perform actions using Microsoft Outlook connectors.
         public let msExchangeAction: CapabilityState?
         /// The ability to perform actions using Microsoft Teams connectors.
         public let msTeamsAction: CapabilityState?
+        /// The ability to create, update, and share MySQL data sources.
+        public let mySqlDataSource: CapabilityState?
         /// The ability to perform actions using New Relic connectors.
         public let newRelicAction: CapabilityState?
         /// The ability to perform actions using Notion connectors.
@@ -9055,12 +9197,22 @@ extension QuickSight {
         public let oneNoteAction: CapabilityState?
         /// The ability to perform actions using OpenAPI Specification connectors.
         public let openAPIAction: CapabilityState?
+        /// The ability to create, update, and share Amazon OpenSearch Service data sources.
+        public let openSearchDataSource: CapabilityState?
+        /// The ability to create, update, and share Oracle data sources.
+        public let oracleDataSource: CapabilityState?
         /// The ability to perform actions using PagerDuty Advance connectors.
         public let pagerDutyAction: CapabilityState?
         /// The ability to perform actions using PagerDuty Agent connectors.
         public let pagerDutyAgentAction: CapabilityState?
+        /// The ability to create, update, and share PayPal data sources.
+        public let payPalDataSource: CapabilityState?
         /// The ability to use UI Agent step to perform tasks on public websites.
         public let performFlowUiTask: CapabilityState?
+        /// The ability to create, update, and share PostgreSQL data sources.
+        public let postgreSqlDataSource: CapabilityState?
+        /// The ability to create, update, and share Presto data sources.
+        public let prestoDataSource: CapabilityState?
         /// The ability to print reports.
         public let printReports: CapabilityState?
         /// The ability to enable approvals for flow share.
@@ -9070,13 +9222,29 @@ extension QuickSight {
         public let quickBooksAction: CapabilityState?
         /// The ability to create, view, edit, delete, and run Quick event triggers for flows and automations.
         public let quickEventTrigger: CapabilityState?
+        /// The ability to create, update, and share Amazon QuickSight data sources.
+        public let radiantDataSource: CapabilityState?
+        /// The ability to create, update, and share auto-discovered Amazon RDS data sources.
+        public let rdsDataSource: CapabilityState?
+        /// The ability to create, update, and share auto-discovered Amazon Redshift data sources.
+        public let redshiftAutoDiscoveredDataSource: CapabilityState?
+        /// The ability to create, update, and share manually configured Amazon Redshift data sources.
+        public let redshiftManualDataSource: CapabilityState?
         /// The ability to rename shared folders.
         public let renameSharedFolders: CapabilityState?
         /// The ability to perform research-related actions.
         public let research: CapabilityState?
+        /// The ability to create, update, and share Amazon S3 Analytics data sources.
+        public let s3AnalyticsDataSource: CapabilityState?
+        /// The ability to create, update, and share Amazon S3 data sources.
+        public let s3DataSource: CapabilityState?
         public let s3KnowledgeBase: CapabilityState?
+        /// The ability to create, update, and share Amazon S3 Tables data sources.
+        public let s3TablesDataSource: CapabilityState?
         /// The ability to perform actions using Salesforce connectors.
         public let salesforceAction: CapabilityState?
+        /// The ability to create, update, and share Salesforce data sources.
+        public let salesforceDataSource: CapabilityState?
         /// The ability to perform actions using S&P Global Energy connectors.
         public let sandPGlobalEnergyAction: CapabilityState?
         /// The ability to perform actions using S&P Global Market Intelligence connectors.
@@ -9085,6 +9253,8 @@ extension QuickSight {
         public let sapBillOfMaterialAction: CapabilityState?
         /// The ability to perform actions using SAP Business Partner connectors.
         public let sapBusinessPartnerAction: CapabilityState?
+        /// The ability to create, update, and share SAP HANA data sources.
+        public let sapHanaDataSource: CapabilityState?
         /// The ability to perform actions using SAP Material Stock connectors.
         public let sapMaterialStockAction: CapabilityState?
         /// The ability to perform actions using SAP Physical Inventory connectors.
@@ -9099,8 +9269,12 @@ extension QuickSight {
         public let selfUpgradeUserRole: CapabilityState?
         /// The ability to perform actions using ServiceNow connectors.
         public let serviceNowAction: CapabilityState?
+        /// The ability to create, update, and share ServiceNow data sources.
+        public let serviceNowDataSource: CapabilityState?
         /// The ability to share Adobe Marketing Agent actions.
         public let shareAdobeAction: CapabilityState?
+        /// The ability to share Adobe Analytics data sources.
+        public let shareAdobeAnalyticsDataSource: CapabilityState?
         /// The ability to share Airtable actions.
         public let shareAirtableAction: CapabilityState?
         /// The ability to share Bedrock Agent actions.
@@ -9117,6 +9291,10 @@ extension QuickSight {
         public let shareApps: CapabilityState?
         /// The ability to share Asana actions.
         public let shareAsanaAction: CapabilityState?
+        /// The ability to share Amazon Athena data sources.
+        public let shareAthenaDataSource: CapabilityState?
+        /// The ability to share Amazon Aurora data sources.
+        public let shareAuroraDataSource: CapabilityState?
         /// The ability to share BambooHR actions.
         public let shareBambooHRAction: CapabilityState?
         public let shareBedrockManagedKnowledgeBase: CapabilityState?
@@ -9142,26 +9320,50 @@ extension QuickSight {
         public let shareConfluenceKnowledgeBase: CapabilityState?
         /// The ability to share dashboards.
         public let shareDashboards: CapabilityState?
+        /// The ability to share Databricks data sources.
+        public let shareDatabricksDataSource: CapabilityState?
         /// The ability to share datasets.
         public let shareDatasets: CapabilityState?
         /// The ability to share data sources.
         public let shareDataSources: CapabilityState?
+        /// The ability to share Db2 data sources.
+        public let shareDb2DataSource: CapabilityState?
+        /// The ability to share Denodo data sources.
+        public let shareDenodoDataSource: CapabilityState?
+        /// The ability to share Amazon DocumentDB data sources.
+        public let shareDocumentDbDataSource: CapabilityState?
+        /// The ability to share Dremio data sources.
+        public let shareDremioDataSource: CapabilityState?
         /// The ability to share Dropbox actions.
         public let shareDropboxAction: CapabilityState?
         /// The ability to share Dun and Bradstreet actions.
         public let shareDunAndBradstreetAction: CapabilityState?
+        /// The ability to share Amazon DynamoDB data sources.
+        public let shareDynamoDbDataSource: CapabilityState?
+        /// The ability to share Exasol data sources.
+        public let shareExasolDataSource: CapabilityState?
         /// The ability to share FactSet actions.
         public let shareFactSetAction: CapabilityState?
         /// The ability to share Figma actions.
         public let shareFigmaAction: CapabilityState?
+        /// The ability to share file data sources.
+        public let shareFileDataSource: CapabilityState?
         /// The ability to share REST API connection actions.
         public let shareGenericHTTPAction: CapabilityState?
         /// The ability to share GitHub actions.
         public let shareGithubAction: CapabilityState?
+        /// The ability to share GitHub data sources.
+        public let shareGitHubDataSource: CapabilityState?
         /// The ability to share Gmail actions.
         public let shareGmailAction: CapabilityState?
+        /// The ability to share Gong actions.
+        public let shareGongAction: CapabilityState?
         /// The ability to share Google Analytics actions.
         public let shareGoogleAnalyticsAction: CapabilityState?
+        /// The ability to share Google Analytics data sources.
+        public let shareGoogleAnalyticsDataSource: CapabilityState?
+        /// The ability to share Google BigQuery data sources.
+        public let shareGoogleBigQueryDataSource: CapabilityState?
         /// The ability to share Google Calendar actions.
         public let shareGoogleCalendarAction: CapabilityState?
         /// The ability to share Google Chat actions.
@@ -9175,6 +9377,8 @@ extension QuickSight {
         public let shareGoogleMeetAction: CapabilityState?
         /// The ability to share Google Sheets actions.
         public let shareGoogleSheetsAction: CapabilityState?
+        /// The ability to share Google Sheets data sources.
+        public let shareGoogleSheetsDataSource: CapabilityState?
         /// The ability to share Google Slides actions.
         public let shareGoogleSlidesAction: CapabilityState?
         /// The ability to share HG Insights Agent actions.
@@ -9184,23 +9388,35 @@ extension QuickSight {
         /// The ability to share HuggingFace actions.
         public let shareHuggingFaceAction: CapabilityState?
         public let shareIDCKnowledgeBase: CapabilityState?
+        /// The ability to share Impala data sources.
+        public let shareImpalaDataSource: CapabilityState?
         /// The ability to share Intercom actions.
         public let shareIntercomAction: CapabilityState?
         /// The ability to share Jira actions.
         public let shareJiraAction: CapabilityState?
+        /// The ability to share Jira data sources.
+        public let shareJiraDataSource: CapabilityState?
         public let shareKnowledgeBases: CapabilityState?
         /// The ability to share Linear actions.
         public let shareLinearAction: CapabilityState?
+        /// The ability to share MariaDB data sources.
+        public let shareMariaDbDataSource: CapabilityState?
         /// The ability to share Model Context Protocol actions.
         public let shareMCPAction: CapabilityState?
         /// The ability to share Monday actions.
         public let shareMondayAction: CapabilityState?
+        /// The ability to share MongoDB Atlas data sources.
+        public let shareMongoAtlasDataSource: CapabilityState?
+        /// The ability to share MongoDB data sources.
+        public let shareMongoDbDataSource: CapabilityState?
         /// The ability to share Moody's GenAI Ready Data actions.
         public let shareMoodysAction: CapabilityState?
         /// The ability to share Microsoft Outlook actions.
         public let shareMSExchangeAction: CapabilityState?
         /// The ability to share Microsoft Teams actions.
         public let shareMSTeamsAction: CapabilityState?
+        /// The ability to share MySQL data sources.
+        public let shareMySqlDataSource: CapabilityState?
         /// The ability to share New Relic actions.
         public let shareNewRelicAction: CapabilityState?
         /// The ability to share Notion actions.
@@ -9212,19 +9428,45 @@ extension QuickSight {
         public let shareOneNoteAction: CapabilityState?
         /// The ability to share OpenAPI Specification actions.
         public let shareOpenAPIAction: CapabilityState?
+        /// The ability to share Amazon OpenSearch Service data sources.
+        public let shareOpenSearchDataSource: CapabilityState?
+        /// The ability to share Oracle data sources.
+        public let shareOracleDataSource: CapabilityState?
         /// The ability to share PagerDuty Advance actions.
         public let sharePagerDutyAction: CapabilityState?
         /// The ability to share PagerDuty Agent actions.
         public let sharePagerDutyAgentAction: CapabilityState?
+        /// The ability to share PayPal data sources.
+        public let sharePayPalDataSource: CapabilityState?
         /// The ability to perform actions using Microsoft SharePoint Online connectors.
         public let sharePointAction: CapabilityState?
         public let sharePointKnowledgeBase: CapabilityState?
+        /// The ability to share PostgreSQL data sources.
+        public let sharePostgreSqlDataSource: CapabilityState?
+        /// The ability to share Presto data sources.
+        public let sharePrestoDataSource: CapabilityState?
         public let shareQBusinessKnowledgeBase: CapabilityState?
         /// The ability to share QuickBooks actions.
         public let shareQuickBooksAction: CapabilityState?
+        /// The ability to share Amazon QuickSight data sources.
+        public let shareRadiantDataSource: CapabilityState?
+        /// The ability to share auto-discovered Amazon RDS data sources.
+        public let shareRdsDataSource: CapabilityState?
+        /// The ability to share auto-discovered Amazon Redshift data sources.
+        public let shareRedshiftAutoDiscoveredDataSource: CapabilityState?
+        /// The ability to share manually configured Amazon Redshift data sources.
+        public let shareRedshiftManualDataSource: CapabilityState?
+        /// The ability to share Amazon S3 Analytics data sources.
+        public let shareS3AnalyticsDataSource: CapabilityState?
+        /// The ability to share Amazon S3 data sources.
+        public let shareS3DataSource: CapabilityState?
         public let shareS3KnowledgeBase: CapabilityState?
+        /// The ability to share Amazon S3 Tables data sources.
+        public let shareS3TablesDataSource: CapabilityState?
         /// The ability to share Salesforce actions.
         public let shareSalesforceAction: CapabilityState?
+        /// The ability to share Salesforce data sources.
+        public let shareSalesforceDataSource: CapabilityState?
         /// The ability to share S&P Global Energy actions.
         public let shareSandPGlobalEnergyAction: CapabilityState?
         /// The ability to share S&P Global Market Intelligence actions.
@@ -9233,6 +9475,8 @@ extension QuickSight {
         public let shareSAPBillOfMaterialAction: CapabilityState?
         /// The ability to share SAP Business Partner actions.
         public let shareSAPBusinessPartnerAction: CapabilityState?
+        /// The ability to share SAP HANA data sources.
+        public let shareSapHanaDataSource: CapabilityState?
         /// The ability to share SAP Material Stock actions.
         public let shareSAPMaterialStockAction: CapabilityState?
         /// The ability to share SAP Physical Inventory actions.
@@ -9241,6 +9485,8 @@ extension QuickSight {
         public let shareSAPProductMasterDataAction: CapabilityState?
         /// The ability to share ServiceNow actions.
         public let shareServiceNowAction: CapabilityState?
+        /// The ability to share ServiceNow data sources.
+        public let shareServiceNowDataSource: CapabilityState?
         /// The ability to share Microsoft SharePoint Online actions.
         public let shareSharePointAction: CapabilityState?
         public let shareSharePointKnowledgeBase: CapabilityState?
@@ -9252,10 +9498,28 @@ extension QuickSight {
         public let shareSmartsheetAction: CapabilityState?
         /// The ability to share Snowflake Cortex Agent actions.
         public let shareSnowFlakeAction: CapabilityState?
+        /// The ability to share Snowflake data sources.
+        public let shareSnowflakeDataSource: CapabilityState?
         /// The ability to share spaces with other users and groups.
         public let shareSpaces: CapabilityState?
+        /// The ability to share Spark data sources.
+        public let shareSparkDataSource: CapabilityState?
+        /// The ability to share SQL Server data sources.
+        public let shareSqlServerDataSource: CapabilityState?
+        /// The ability to share Square data sources.
+        public let shareSquareDataSource: CapabilityState?
+        /// The ability to share Starburst data sources.
+        public let shareStarburstDataSource: CapabilityState?
+        /// The ability to share Teradata data sources.
+        public let shareTeradataDataSource: CapabilityState?
         /// The ability to share Textract actions.
         public let shareTextractAction: CapabilityState?
+        /// The ability to share Amazon Timestream data sources.
+        public let shareTimestreamDataSource: CapabilityState?
+        /// The ability to share Trino data sources.
+        public let shareTrinoDataSource: CapabilityState?
+        /// The ability to share Twitter data sources.
+        public let shareTwitterDataSource: CapabilityState?
         /// The ability to share Visier Agent actions.
         public let shareVisierAgentAction: CapabilityState?
         public let shareWebCrawlerKnowledgeBase: CapabilityState?
@@ -9277,18 +9541,126 @@ extension QuickSight {
         public let smartsheetAction: CapabilityState?
         /// The ability to perform actions using Snowflake Cortex Agent connectors.
         public let snowFlakeAction: CapabilityState?
+        /// The ability to create, update, and share Snowflake data sources.
+        public let snowflakeDataSource: CapabilityState?
         /// The ability to perform space-related actions.
         public let space: CapabilityState?
+        /// The ability to create, update, and share Spark data sources.
+        public let sparkDataSource: CapabilityState?
+        /// The ability to create, update, and share SQL Server data sources.
+        public let sqlServerDataSource: CapabilityState?
+        /// The ability to create, update, and share Square data sources.
+        public let squareDataSource: CapabilityState?
+        /// The ability to create, update, and share Starburst data sources.
+        public let starburstDataSource: CapabilityState?
         /// The ability to perform Story-related actions.
         public let story: CapabilityState?
         /// The ability to subscribe to email reports.
         public let subscribeDashboardEmailReports: CapabilityState?
+        /// The ability to create, update, and share Teradata data sources.
+        public let teradataDataSource: CapabilityState?
         /// The ability to perform actions using Textract connectors.
         public let textractAction: CapabilityState?
+        /// The ability to create, update, and share Amazon Timestream data sources.
+        public let timestreamDataSource: CapabilityState?
         /// The ability to perform Topic-related actions.
         public let topic: CapabilityState?
         /// The ability to manage trigger-related settings for flows and automations.
         public let trigger: CapabilityState?
+        /// The ability to create, update, and share Trino data sources.
+        public let trinoDataSource: CapabilityState?
+        /// The ability to create, update, and share Twitter data sources.
+        public let twitterDataSource: CapabilityState?
+        /// The ability to update Adobe Analytics data sources.
+        public let updateAdobeAnalyticsDataSource: CapabilityState?
+        /// The ability to update Amazon Athena data sources.
+        public let updateAthenaDataSource: CapabilityState?
+        /// The ability to update Amazon Aurora data sources.
+        public let updateAuroraDataSource: CapabilityState?
+        /// The ability to update Databricks data sources.
+        public let updateDatabricksDataSource: CapabilityState?
+        /// The ability to update Db2 data sources.
+        public let updateDb2DataSource: CapabilityState?
+        /// The ability to update Denodo data sources.
+        public let updateDenodoDataSource: CapabilityState?
+        /// The ability to update Amazon DocumentDB data sources.
+        public let updateDocumentDbDataSource: CapabilityState?
+        /// The ability to update Dremio data sources.
+        public let updateDremioDataSource: CapabilityState?
+        /// The ability to update Amazon DynamoDB data sources.
+        public let updateDynamoDbDataSource: CapabilityState?
+        /// The ability to update Exasol data sources.
+        public let updateExasolDataSource: CapabilityState?
+        /// The ability to update file data sources.
+        public let updateFileDataSource: CapabilityState?
+        /// The ability to update GitHub data sources.
+        public let updateGitHubDataSource: CapabilityState?
+        /// The ability to update Google Analytics data sources.
+        public let updateGoogleAnalyticsDataSource: CapabilityState?
+        /// The ability to update Google BigQuery data sources.
+        public let updateGoogleBigQueryDataSource: CapabilityState?
+        /// The ability to update Google Sheets data sources.
+        public let updateGoogleSheetsDataSource: CapabilityState?
+        /// The ability to update Impala data sources.
+        public let updateImpalaDataSource: CapabilityState?
+        /// The ability to update Jira data sources.
+        public let updateJiraDataSource: CapabilityState?
+        /// The ability to update MariaDB data sources.
+        public let updateMariaDbDataSource: CapabilityState?
+        /// The ability to update MongoDB Atlas data sources.
+        public let updateMongoAtlasDataSource: CapabilityState?
+        /// The ability to update MongoDB data sources.
+        public let updateMongoDbDataSource: CapabilityState?
+        /// The ability to update MySQL data sources.
+        public let updateMySqlDataSource: CapabilityState?
+        /// The ability to update Amazon OpenSearch Service data sources.
+        public let updateOpenSearchDataSource: CapabilityState?
+        /// The ability to update Oracle data sources.
+        public let updateOracleDataSource: CapabilityState?
+        /// The ability to update PayPal data sources.
+        public let updatePayPalDataSource: CapabilityState?
+        /// The ability to update PostgreSQL data sources.
+        public let updatePostgreSqlDataSource: CapabilityState?
+        /// The ability to update Presto data sources.
+        public let updatePrestoDataSource: CapabilityState?
+        /// The ability to update Amazon QuickSight data sources.
+        public let updateRadiantDataSource: CapabilityState?
+        /// The ability to update auto-discovered Amazon RDS data sources.
+        public let updateRdsDataSource: CapabilityState?
+        /// The ability to update auto-discovered Amazon Redshift data sources.
+        public let updateRedshiftAutoDiscoveredDataSource: CapabilityState?
+        /// The ability to update manually configured Amazon Redshift data sources.
+        public let updateRedshiftManualDataSource: CapabilityState?
+        /// The ability to update Amazon S3 Analytics data sources.
+        public let updateS3AnalyticsDataSource: CapabilityState?
+        /// The ability to update Amazon S3 data sources.
+        public let updateS3DataSource: CapabilityState?
+        /// The ability to update Amazon S3 Tables data sources.
+        public let updateS3TablesDataSource: CapabilityState?
+        /// The ability to update Salesforce data sources.
+        public let updateSalesforceDataSource: CapabilityState?
+        /// The ability to update SAP HANA data sources.
+        public let updateSapHanaDataSource: CapabilityState?
+        /// The ability to update ServiceNow data sources.
+        public let updateServiceNowDataSource: CapabilityState?
+        /// The ability to update Snowflake data sources.
+        public let updateSnowflakeDataSource: CapabilityState?
+        /// The ability to update Spark data sources.
+        public let updateSparkDataSource: CapabilityState?
+        /// The ability to update SQL Server data sources.
+        public let updateSqlServerDataSource: CapabilityState?
+        /// The ability to update Square data sources.
+        public let updateSquareDataSource: CapabilityState?
+        /// The ability to update Starburst data sources.
+        public let updateStarburstDataSource: CapabilityState?
+        /// The ability to update Teradata data sources.
+        public let updateTeradataDataSource: CapabilityState?
+        /// The ability to update Amazon Timestream data sources.
+        public let updateTimestreamDataSource: CapabilityState?
+        /// The ability to update Trino data sources.
+        public let updateTrinoDataSource: CapabilityState?
+        /// The ability to update Twitter data sources.
+        public let updateTwitterDataSource: CapabilityState?
         /// The ability to use Adobe Marketing Agent actions.
         public let useAdobeAction: CapabilityState?
         /// The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research.
@@ -9347,6 +9719,8 @@ extension QuickSight {
         public let useGithubAction: CapabilityState?
         /// The ability to use Gmail actions.
         public let useGmailAction: CapabilityState?
+        /// The ability to use Gong actions.
+        public let useGongAction: CapabilityState?
         /// The ability to use Google Analytics actions.
         public let useGoogleAnalyticsAction: CapabilityState?
         /// The ability to use Google Calendar actions.
@@ -9473,11 +9847,12 @@ extension QuickSight {
         public let zoomInfoAction: CapabilityState?
 
         @inlinable
-        public init(accessAppsNativeDataStore: CapabilityState? = nil, action: CapabilityState? = nil, addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, adobeAction: CapabilityState? = nil, airtableAction: CapabilityState? = nil, amazonBedrockARSAction: CapabilityState? = nil, amazonBedrockFSAction: CapabilityState? = nil, amazonBedrockKRSAction: CapabilityState? = nil, amazonSThreeAction: CapabilityState? = nil, analysis: CapabilityState? = nil, approveFlowShareRequests: CapabilityState? = nil, apps: CapabilityState? = nil, asanaAction: CapabilityState? = nil, automate: CapabilityState? = nil, bambooHRAction: CapabilityState? = nil, bedrockManagedKnowledgeBase: CapabilityState? = nil, beeAction: CapabilityState? = nil, boxAgentAction: CapabilityState? = nil, boxKnowledgeBase: CapabilityState? = nil, buildCalculatedFieldWithQ: CapabilityState? = nil, canvaAgentAction: CapabilityState? = nil, chatAgent: CapabilityState? = nil, ciscoWebexMeetingsAction: CapabilityState? = nil, ciscoWebexVidcastAction: CapabilityState? = nil, comprehendAction: CapabilityState? = nil, comprehendMedicalAction: CapabilityState? = nil, confluenceAction: CapabilityState? = nil, confluenceKnowledgeBase: CapabilityState? = nil, createAndUpdateAdobeAction: CapabilityState? = nil, createAndUpdateAirtableAction: CapabilityState? = nil, createAndUpdateAmazonBedrockARSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockFSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockKRSAction: CapabilityState? = nil, createAndUpdateAmazonSThreeAction: CapabilityState? = nil, createAndUpdateApps: CapabilityState? = nil, createAndUpdateAsanaAction: CapabilityState? = nil, createAndUpdateBambooHRAction: CapabilityState? = nil, createAndUpdateBedrockManagedKnowledgeBase: CapabilityState? = nil, createAndUpdateBeeAction: CapabilityState? = nil, createAndUpdateBoxAgentAction: CapabilityState? = nil, createAndUpdateBoxKnowledgeBase: CapabilityState? = nil, createAndUpdateCanvaAgentAction: CapabilityState? = nil, createAndUpdateCiscoWebexMeetingsAction: CapabilityState? = nil, createAndUpdateCiscoWebexVidcastAction: CapabilityState? = nil, createAndUpdateComprehendAction: CapabilityState? = nil, createAndUpdateComprehendMedicalAction: CapabilityState? = nil, createAndUpdateConfluenceAction: CapabilityState? = nil, createAndUpdateConfluenceKnowledgeBase: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateDropboxAction: CapabilityState? = nil, createAndUpdateDunAndBradstreetAction: CapabilityState? = nil, createAndUpdateFactSetAction: CapabilityState? = nil, createAndUpdateFigmaAction: CapabilityState? = nil, createAndUpdateGenericHTTPAction: CapabilityState? = nil, createAndUpdateGithubAction: CapabilityState? = nil, createAndUpdateGmailAction: CapabilityState? = nil, createAndUpdateGoogleAnalyticsAction: CapabilityState? = nil, createAndUpdateGoogleCalendarAction: CapabilityState? = nil, createAndUpdateGoogleChatAction: CapabilityState? = nil, createAndUpdateGoogleDocsAction: CapabilityState? = nil, createAndUpdateGoogleDriveAction: CapabilityState? = nil, createAndUpdateGoogleDriveKnowledgeBase: CapabilityState? = nil, createAndUpdateGoogleMeetAction: CapabilityState? = nil, createAndUpdateGoogleSheetsAction: CapabilityState? = nil, createAndUpdateGoogleSlidesAction: CapabilityState? = nil, createAndUpdateHGInsightsAction: CapabilityState? = nil, createAndUpdateHubspotAction: CapabilityState? = nil, createAndUpdateHuggingFaceAction: CapabilityState? = nil, createAndUpdateIDCKnowledgeBase: CapabilityState? = nil, createAndUpdateIntercomAction: CapabilityState? = nil, createAndUpdateJiraAction: CapabilityState? = nil, createAndUpdateKnowledgeBases: CapabilityState? = nil, createAndUpdateLinearAction: CapabilityState? = nil, createAndUpdateMCPAction: CapabilityState? = nil, createAndUpdateMondayAction: CapabilityState? = nil, createAndUpdateMoodysAction: CapabilityState? = nil, createAndUpdateMSExchangeAction: CapabilityState? = nil, createAndUpdateMSTeamsAction: CapabilityState? = nil, createAndUpdateNewRelicAction: CapabilityState? = nil, createAndUpdateNotionAction: CapabilityState? = nil, createAndUpdateOneDriveAction: CapabilityState? = nil, createAndUpdateOneDriveKnowledgeBase: CapabilityState? = nil, createAndUpdateOneNoteAction: CapabilityState? = nil, createAndUpdateOpenAPIAction: CapabilityState? = nil, createAndUpdatePagerDutyAction: CapabilityState? = nil, createAndUpdatePagerDutyAgentAction: CapabilityState? = nil, createAndUpdateQBusinessKnowledgeBase: CapabilityState? = nil, createAndUpdateQuickBooksAction: CapabilityState? = nil, createAndUpdateS3KnowledgeBase: CapabilityState? = nil, createAndUpdateSalesforceAction: CapabilityState? = nil, createAndUpdateSandPGlobalEnergyAction: CapabilityState? = nil, createAndUpdateSandPGMIAction: CapabilityState? = nil, createAndUpdateSAPBillOfMaterialAction: CapabilityState? = nil, createAndUpdateSAPBusinessPartnerAction: CapabilityState? = nil, createAndUpdateSAPMaterialStockAction: CapabilityState? = nil, createAndUpdateSAPPhysicalInventoryAction: CapabilityState? = nil, createAndUpdateSAPProductMasterDataAction: CapabilityState? = nil, createAndUpdateServiceNowAction: CapabilityState? = nil, createAndUpdateSharePointAction: CapabilityState? = nil, createAndUpdateSharePointKnowledgeBase: CapabilityState? = nil, createAndUpdateShopifyAction: CapabilityState? = nil, createAndUpdateSlackAction: CapabilityState? = nil, createAndUpdateSmartsheetAction: CapabilityState? = nil, createAndUpdateSnowFlakeAction: CapabilityState? = nil, createAndUpdateTextractAction: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createAndUpdateVisierAgentAction: CapabilityState? = nil, createAndUpdateWebCrawlerKnowledgeBase: CapabilityState? = nil, createAndUpdateWhatsAppAction: CapabilityState? = nil, createAndUpdateZapierAction: CapabilityState? = nil, createAndUpdateZendeskAction: CapabilityState? = nil, createAndUpdateZoomAction: CapabilityState? = nil, createAndUpdateZoomInfoAction: CapabilityState? = nil, createChatAgents: CapabilityState? = nil, createDashboardExecutiveSummaryWithQ: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSpaces: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, dashboard: CapabilityState? = nil, dropboxAction: CapabilityState? = nil, dunAndBradstreetAction: CapabilityState? = nil, editVisualWithQ: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, extension: CapabilityState? = nil, factSetAction: CapabilityState? = nil, figmaAction: CapabilityState? = nil, flow: CapabilityState? = nil, generateAnalyses: CapabilityState? = nil, genericHTTPAction: CapabilityState? = nil, githubAction: CapabilityState? = nil, gmailAction: CapabilityState? = nil, googleAnalyticsAction: CapabilityState? = nil, googleCalendarAction: CapabilityState? = nil, googleChatAction: CapabilityState? = nil, googleDocsAction: CapabilityState? = nil, googleDriveAction: CapabilityState? = nil, googleDriveKnowledgeBase: CapabilityState? = nil, googleMeetAction: CapabilityState? = nil, googleSheetsAction: CapabilityState? = nil, googleSlidesAction: CapabilityState? = nil, hgInsightsAction: CapabilityState? = nil, hubspotAction: CapabilityState? = nil, huggingFaceAction: CapabilityState? = nil, idcKnowledgeBase: CapabilityState? = nil, inboundEmailTrigger: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, intercomAction: CapabilityState? = nil, invokeAppsAIInference: CapabilityState? = nil, jiraAction: CapabilityState? = nil, knowledgeBase: CapabilityState? = nil, linearAction: CapabilityState? = nil, manageSharedFolders: CapabilityState? = nil, mcpAction: CapabilityState? = nil, mondayAction: CapabilityState? = nil, moodysAction: CapabilityState? = nil, msExchangeAction: CapabilityState? = nil, msTeamsAction: CapabilityState? = nil, newRelicAction: CapabilityState? = nil, notionAction: CapabilityState? = nil, oneDriveAction: CapabilityState? = nil, oneDriveKnowledgeBase: CapabilityState? = nil, oneNoteAction: CapabilityState? = nil, openAPIAction: CapabilityState? = nil, pagerDutyAction: CapabilityState? = nil, pagerDutyAgentAction: CapabilityState? = nil, performFlowUiTask: CapabilityState? = nil, printReports: CapabilityState? = nil, publishWithoutApproval: CapabilityState? = nil, qBusinessKnowledgeBase: CapabilityState? = nil, quickBooksAction: CapabilityState? = nil, quickEventTrigger: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, research: CapabilityState? = nil, s3KnowledgeBase: CapabilityState? = nil, salesforceAction: CapabilityState? = nil, sandPGlobalEnergyAction: CapabilityState? = nil, sandPGMIAction: CapabilityState? = nil, sapBillOfMaterialAction: CapabilityState? = nil, sapBusinessPartnerAction: CapabilityState? = nil, sapMaterialStockAction: CapabilityState? = nil, sapPhysicalInventoryAction: CapabilityState? = nil, sapProductMasterDataAction: CapabilityState? = nil, scenario: CapabilityState? = nil, scheduleTrigger: CapabilityState? = nil, selfUpgradeUserRole: CapabilityState? = nil, serviceNowAction: CapabilityState? = nil, shareAdobeAction: CapabilityState? = nil, shareAirtableAction: CapabilityState? = nil, shareAmazonBedrockARSAction: CapabilityState? = nil, shareAmazonBedrockFSAction: CapabilityState? = nil, shareAmazonBedrockKRSAction: CapabilityState? = nil, shareAmazonSThreeAction: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareApps: CapabilityState? = nil, shareAsanaAction: CapabilityState? = nil, shareBambooHRAction: CapabilityState? = nil, shareBedrockManagedKnowledgeBase: CapabilityState? = nil, shareBeeAction: CapabilityState? = nil, shareBoxAgentAction: CapabilityState? = nil, shareBoxKnowledgeBase: CapabilityState? = nil, shareCanvaAgentAction: CapabilityState? = nil, shareChatAgents: CapabilityState? = nil, shareCiscoWebexMeetingsAction: CapabilityState? = nil, shareCiscoWebexVidcastAction: CapabilityState? = nil, shareComprehendAction: CapabilityState? = nil, shareComprehendMedicalAction: CapabilityState? = nil, shareConfluenceAction: CapabilityState? = nil, shareConfluenceKnowledgeBase: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, shareDropboxAction: CapabilityState? = nil, shareDunAndBradstreetAction: CapabilityState? = nil, shareFactSetAction: CapabilityState? = nil, shareFigmaAction: CapabilityState? = nil, shareGenericHTTPAction: CapabilityState? = nil, shareGithubAction: CapabilityState? = nil, shareGmailAction: CapabilityState? = nil, shareGoogleAnalyticsAction: CapabilityState? = nil, shareGoogleCalendarAction: CapabilityState? = nil, shareGoogleChatAction: CapabilityState? = nil, shareGoogleDocsAction: CapabilityState? = nil, shareGoogleDriveAction: CapabilityState? = nil, shareGoogleDriveKnowledgeBase: CapabilityState? = nil, shareGoogleMeetAction: CapabilityState? = nil, shareGoogleSheetsAction: CapabilityState? = nil, shareGoogleSlidesAction: CapabilityState? = nil, shareHGInsightsAction: CapabilityState? = nil, shareHubspotAction: CapabilityState? = nil, shareHuggingFaceAction: CapabilityState? = nil, shareIDCKnowledgeBase: CapabilityState? = nil, shareIntercomAction: CapabilityState? = nil, shareJiraAction: CapabilityState? = nil, shareKnowledgeBases: CapabilityState? = nil, shareLinearAction: CapabilityState? = nil, shareMCPAction: CapabilityState? = nil, shareMondayAction: CapabilityState? = nil, shareMoodysAction: CapabilityState? = nil, shareMSExchangeAction: CapabilityState? = nil, shareMSTeamsAction: CapabilityState? = nil, shareNewRelicAction: CapabilityState? = nil, shareNotionAction: CapabilityState? = nil, shareOneDriveAction: CapabilityState? = nil, shareOneDriveKnowledgeBase: CapabilityState? = nil, shareOneNoteAction: CapabilityState? = nil, shareOpenAPIAction: CapabilityState? = nil, sharePagerDutyAction: CapabilityState? = nil, sharePagerDutyAgentAction: CapabilityState? = nil, sharePointAction: CapabilityState? = nil, sharePointKnowledgeBase: CapabilityState? = nil, shareQBusinessKnowledgeBase: CapabilityState? = nil, shareQuickBooksAction: CapabilityState? = nil, shareS3KnowledgeBase: CapabilityState? = nil, shareSalesforceAction: CapabilityState? = nil, shareSandPGlobalEnergyAction: CapabilityState? = nil, shareSandPGMIAction: CapabilityState? = nil, shareSAPBillOfMaterialAction: CapabilityState? = nil, shareSAPBusinessPartnerAction: CapabilityState? = nil, shareSAPMaterialStockAction: CapabilityState? = nil, shareSAPPhysicalInventoryAction: CapabilityState? = nil, shareSAPProductMasterDataAction: CapabilityState? = nil, shareServiceNowAction: CapabilityState? = nil, shareSharePointAction: CapabilityState? = nil, shareSharePointKnowledgeBase: CapabilityState? = nil, shareShopifyAction: CapabilityState? = nil, shareSlackAction: CapabilityState? = nil, shareSmartsheetAction: CapabilityState? = nil, shareSnowFlakeAction: CapabilityState? = nil, shareSpaces: CapabilityState? = nil, shareTextractAction: CapabilityState? = nil, shareVisierAgentAction: CapabilityState? = nil, shareWebCrawlerKnowledgeBase: CapabilityState? = nil, shareWhatsAppAction: CapabilityState? = nil, shareZapierAction: CapabilityState? = nil, shareZendeskAction: CapabilityState? = nil, shareZoomAction: CapabilityState? = nil, shareZoomInfoAction: CapabilityState? = nil, shopifyAction: CapabilityState? = nil, slackAction: CapabilityState? = nil, smartsheetAction: CapabilityState? = nil, snowFlakeAction: CapabilityState? = nil, space: CapabilityState? = nil, story: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, textractAction: CapabilityState? = nil, topic: CapabilityState? = nil, trigger: CapabilityState? = nil, useAdobeAction: CapabilityState? = nil, useAgentWebSearch: CapabilityState? = nil, useAirtableAction: CapabilityState? = nil, useAmazonBedrockARSAction: CapabilityState? = nil, useAmazonBedrockFSAction: CapabilityState? = nil, useAmazonBedrockKRSAction: CapabilityState? = nil, useAmazonSThreeAction: CapabilityState? = nil, useAsanaAction: CapabilityState? = nil, useBambooHRAction: CapabilityState? = nil, useBedrockManagedKnowledgeBase: CapabilityState? = nil, useBedrockModels: CapabilityState? = nil, useBeeAction: CapabilityState? = nil, useBoxAgentAction: CapabilityState? = nil, useBoxKnowledgeBase: CapabilityState? = nil, useBrowserExtension: CapabilityState? = nil, useCanvaAgentAction: CapabilityState? = nil, useCiscoWebexMeetingsAction: CapabilityState? = nil, useCiscoWebexVidcastAction: CapabilityState? = nil, useComprehendAction: CapabilityState? = nil, useComprehendMedicalAction: CapabilityState? = nil, useConfluenceAction: CapabilityState? = nil, useConfluenceKnowledgeBase: CapabilityState? = nil, useDropboxAction: CapabilityState? = nil, useDunAndBradstreetAction: CapabilityState? = nil, useExcelAddInExtension: CapabilityState? = nil, useFactSetAction: CapabilityState? = nil, useFigmaAction: CapabilityState? = nil, useGenericHTTPAction: CapabilityState? = nil, useGithubAction: CapabilityState? = nil, useGmailAction: CapabilityState? = nil, useGoogleAnalyticsAction: CapabilityState? = nil, useGoogleCalendarAction: CapabilityState? = nil, useGoogleChatAction: CapabilityState? = nil, useGoogleDocsAction: CapabilityState? = nil, useGoogleDriveAction: CapabilityState? = nil, useGoogleDriveKnowledgeBase: CapabilityState? = nil, useGoogleMeetAction: CapabilityState? = nil, useGoogleSheetsAction: CapabilityState? = nil, useGoogleSlidesAction: CapabilityState? = nil, useHGInsightsAction: CapabilityState? = nil, useHubspotAction: CapabilityState? = nil, useHuggingFaceAction: CapabilityState? = nil, useIDCKnowledgeBase: CapabilityState? = nil, useIntercomAction: CapabilityState? = nil, useJiraAction: CapabilityState? = nil, useLinearAction: CapabilityState? = nil, useMCPAction: CapabilityState? = nil, useMondayAction: CapabilityState? = nil, useMoodysAction: CapabilityState? = nil, useMSExchangeAction: CapabilityState? = nil, useMSTeamsAction: CapabilityState? = nil, useNewRelicAction: CapabilityState? = nil, useNotionAction: CapabilityState? = nil, useOneDriveAction: CapabilityState? = nil, useOneDriveKnowledgeBase: CapabilityState? = nil, useOneNoteAction: CapabilityState? = nil, useOpenAPIAction: CapabilityState? = nil, useOutlookAddInExtension: CapabilityState? = nil, usePagerDutyAction: CapabilityState? = nil, usePagerDutyAgentAction: CapabilityState? = nil, usePowerpointAddInExtension: CapabilityState? = nil, useQBusinessKnowledgeBase: CapabilityState? = nil, useQuickBooksAction: CapabilityState? = nil, useS3KnowledgeBase: CapabilityState? = nil, useSalesforceAction: CapabilityState? = nil, useSandPGlobalEnergyAction: CapabilityState? = nil, useSandPGMIAction: CapabilityState? = nil, useSAPBillOfMaterialAction: CapabilityState? = nil, useSAPBusinessPartnerAction: CapabilityState? = nil, useSAPMaterialStockAction: CapabilityState? = nil, useSAPPhysicalInventoryAction: CapabilityState? = nil, useSAPProductMasterDataAction: CapabilityState? = nil, useServiceNowAction: CapabilityState? = nil, useSharePointAction: CapabilityState? = nil, useSharePointKnowledgeBase: CapabilityState? = nil, useShopifyAction: CapabilityState? = nil, useSlackAction: CapabilityState? = nil, useSmartsheetAction: CapabilityState? = nil, useSnowFlakeAction: CapabilityState? = nil, useTextractAction: CapabilityState? = nil, useVisierAgentAction: CapabilityState? = nil, useWebCrawlerKnowledgeBase: CapabilityState? = nil, useWhatsAppAction: CapabilityState? = nil, useWordAddInExtension: CapabilityState? = nil, useZapierAction: CapabilityState? = nil, useZendeskAction: CapabilityState? = nil, useZoomAction: CapabilityState? = nil, useZoomInfoAction: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil, visierAgentAction: CapabilityState? = nil, webCrawlerKnowledgeBase: CapabilityState? = nil, whatsAppAction: CapabilityState? = nil, zapierAction: CapabilityState? = nil, zendeskAction: CapabilityState? = nil, zoomAction: CapabilityState? = nil, zoomInfoAction: CapabilityState? = nil) {
+        public init(accessAppsNativeDataStore: CapabilityState? = nil, action: CapabilityState? = nil, addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, adobeAction: CapabilityState? = nil, adobeAnalyticsDataSource: CapabilityState? = nil, airtableAction: CapabilityState? = nil, amazonBedrockARSAction: CapabilityState? = nil, amazonBedrockFSAction: CapabilityState? = nil, amazonBedrockKRSAction: CapabilityState? = nil, amazonSThreeAction: CapabilityState? = nil, analysis: CapabilityState? = nil, approveFlowShareRequests: CapabilityState? = nil, apps: CapabilityState? = nil, asanaAction: CapabilityState? = nil, athenaDataSource: CapabilityState? = nil, auroraDataSource: CapabilityState? = nil, automate: CapabilityState? = nil, bambooHRAction: CapabilityState? = nil, bedrockManagedKnowledgeBase: CapabilityState? = nil, beeAction: CapabilityState? = nil, boxAgentAction: CapabilityState? = nil, boxKnowledgeBase: CapabilityState? = nil, buildCalculatedFieldWithQ: CapabilityState? = nil, canvaAgentAction: CapabilityState? = nil, chatAgent: CapabilityState? = nil, ciscoWebexMeetingsAction: CapabilityState? = nil, ciscoWebexVidcastAction: CapabilityState? = nil, comprehendAction: CapabilityState? = nil, comprehendMedicalAction: CapabilityState? = nil, confluenceAction: CapabilityState? = nil, confluenceKnowledgeBase: CapabilityState? = nil, createAdobeAnalyticsDataSource: CapabilityState? = nil, createAndUpdateAdobeAction: CapabilityState? = nil, createAndUpdateAirtableAction: CapabilityState? = nil, createAndUpdateAmazonBedrockARSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockFSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockKRSAction: CapabilityState? = nil, createAndUpdateAmazonSThreeAction: CapabilityState? = nil, createAndUpdateApps: CapabilityState? = nil, createAndUpdateAsanaAction: CapabilityState? = nil, createAndUpdateBambooHRAction: CapabilityState? = nil, createAndUpdateBedrockManagedKnowledgeBase: CapabilityState? = nil, createAndUpdateBeeAction: CapabilityState? = nil, createAndUpdateBoxAgentAction: CapabilityState? = nil, createAndUpdateBoxKnowledgeBase: CapabilityState? = nil, createAndUpdateCanvaAgentAction: CapabilityState? = nil, createAndUpdateCiscoWebexMeetingsAction: CapabilityState? = nil, createAndUpdateCiscoWebexVidcastAction: CapabilityState? = nil, createAndUpdateComprehendAction: CapabilityState? = nil, createAndUpdateComprehendMedicalAction: CapabilityState? = nil, createAndUpdateConfluenceAction: CapabilityState? = nil, createAndUpdateConfluenceKnowledgeBase: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateDropboxAction: CapabilityState? = nil, createAndUpdateDunAndBradstreetAction: CapabilityState? = nil, createAndUpdateFactSetAction: CapabilityState? = nil, createAndUpdateFigmaAction: CapabilityState? = nil, createAndUpdateGenericHTTPAction: CapabilityState? = nil, createAndUpdateGithubAction: CapabilityState? = nil, createAndUpdateGmailAction: CapabilityState? = nil, createAndUpdateGongAction: CapabilityState? = nil, createAndUpdateGoogleAnalyticsAction: CapabilityState? = nil, createAndUpdateGoogleCalendarAction: CapabilityState? = nil, createAndUpdateGoogleChatAction: CapabilityState? = nil, createAndUpdateGoogleDocsAction: CapabilityState? = nil, createAndUpdateGoogleDriveAction: CapabilityState? = nil, createAndUpdateGoogleDriveKnowledgeBase: CapabilityState? = nil, createAndUpdateGoogleMeetAction: CapabilityState? = nil, createAndUpdateGoogleSheetsAction: CapabilityState? = nil, createAndUpdateGoogleSlidesAction: CapabilityState? = nil, createAndUpdateHGInsightsAction: CapabilityState? = nil, createAndUpdateHubspotAction: CapabilityState? = nil, createAndUpdateHuggingFaceAction: CapabilityState? = nil, createAndUpdateIDCKnowledgeBase: CapabilityState? = nil, createAndUpdateIntercomAction: CapabilityState? = nil, createAndUpdateJiraAction: CapabilityState? = nil, createAndUpdateKnowledgeBases: CapabilityState? = nil, createAndUpdateLinearAction: CapabilityState? = nil, createAndUpdateMCPAction: CapabilityState? = nil, createAndUpdateMondayAction: CapabilityState? = nil, createAndUpdateMoodysAction: CapabilityState? = nil, createAndUpdateMSExchangeAction: CapabilityState? = nil, createAndUpdateMSTeamsAction: CapabilityState? = nil, createAndUpdateNewRelicAction: CapabilityState? = nil, createAndUpdateNotionAction: CapabilityState? = nil, createAndUpdateOneDriveAction: CapabilityState? = nil, createAndUpdateOneDriveKnowledgeBase: CapabilityState? = nil, createAndUpdateOneNoteAction: CapabilityState? = nil, createAndUpdateOpenAPIAction: CapabilityState? = nil, createAndUpdatePagerDutyAction: CapabilityState? = nil, createAndUpdatePagerDutyAgentAction: CapabilityState? = nil, createAndUpdateQBusinessKnowledgeBase: CapabilityState? = nil, createAndUpdateQuickBooksAction: CapabilityState? = nil, createAndUpdateS3KnowledgeBase: CapabilityState? = nil, createAndUpdateSalesforceAction: CapabilityState? = nil, createAndUpdateSandPGlobalEnergyAction: CapabilityState? = nil, createAndUpdateSandPGMIAction: CapabilityState? = nil, createAndUpdateSAPBillOfMaterialAction: CapabilityState? = nil, createAndUpdateSAPBusinessPartnerAction: CapabilityState? = nil, createAndUpdateSAPMaterialStockAction: CapabilityState? = nil, createAndUpdateSAPPhysicalInventoryAction: CapabilityState? = nil, createAndUpdateSAPProductMasterDataAction: CapabilityState? = nil, createAndUpdateServiceNowAction: CapabilityState? = nil, createAndUpdateSharePointAction: CapabilityState? = nil, createAndUpdateSharePointKnowledgeBase: CapabilityState? = nil, createAndUpdateShopifyAction: CapabilityState? = nil, createAndUpdateSlackAction: CapabilityState? = nil, createAndUpdateSmartsheetAction: CapabilityState? = nil, createAndUpdateSnowFlakeAction: CapabilityState? = nil, createAndUpdateTextractAction: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createAndUpdateVisierAgentAction: CapabilityState? = nil, createAndUpdateWebCrawlerKnowledgeBase: CapabilityState? = nil, createAndUpdateWhatsAppAction: CapabilityState? = nil, createAndUpdateZapierAction: CapabilityState? = nil, createAndUpdateZendeskAction: CapabilityState? = nil, createAndUpdateZoomAction: CapabilityState? = nil, createAndUpdateZoomInfoAction: CapabilityState? = nil, createAthenaDataSource: CapabilityState? = nil, createAuroraDataSource: CapabilityState? = nil, createChatAgents: CapabilityState? = nil, createDashboardExecutiveSummaryWithQ: CapabilityState? = nil, createDatabricksDataSource: CapabilityState? = nil, createDb2DataSource: CapabilityState? = nil, createDenodoDataSource: CapabilityState? = nil, createDocumentDbDataSource: CapabilityState? = nil, createDremioDataSource: CapabilityState? = nil, createDynamoDbDataSource: CapabilityState? = nil, createExasolDataSource: CapabilityState? = nil, createFileDataSource: CapabilityState? = nil, createGitHubDataSource: CapabilityState? = nil, createGoogleAnalyticsDataSource: CapabilityState? = nil, createGoogleBigQueryDataSource: CapabilityState? = nil, createGoogleSheetsDataSource: CapabilityState? = nil, createImpalaDataSource: CapabilityState? = nil, createJiraDataSource: CapabilityState? = nil, createMariaDbDataSource: CapabilityState? = nil, createMongoAtlasDataSource: CapabilityState? = nil, createMongoDbDataSource: CapabilityState? = nil, createMySqlDataSource: CapabilityState? = nil, createOpenSearchDataSource: CapabilityState? = nil, createOracleDataSource: CapabilityState? = nil, createPayPalDataSource: CapabilityState? = nil, createPostgreSqlDataSource: CapabilityState? = nil, createPrestoDataSource: CapabilityState? = nil, createRadiantDataSource: CapabilityState? = nil, createRdsDataSource: CapabilityState? = nil, createRedshiftAutoDiscoveredDataSource: CapabilityState? = nil, createRedshiftManualDataSource: CapabilityState? = nil, createS3AnalyticsDataSource: CapabilityState? = nil, createS3DataSource: CapabilityState? = nil, createS3TablesDataSource: CapabilityState? = nil, createSalesforceDataSource: CapabilityState? = nil, createSapHanaDataSource: CapabilityState? = nil, createServiceNowDataSource: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSnowflakeDataSource: CapabilityState? = nil, createSpaces: CapabilityState? = nil, createSparkDataSource: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, createSqlServerDataSource: CapabilityState? = nil, createSquareDataSource: CapabilityState? = nil, createStarburstDataSource: CapabilityState? = nil, createTeradataDataSource: CapabilityState? = nil, createTimestreamDataSource: CapabilityState? = nil, createTrinoDataSource: CapabilityState? = nil, createTwitterDataSource: CapabilityState? = nil, dashboard: CapabilityState? = nil, databricksDataSource: CapabilityState? = nil, db2DataSource: CapabilityState? = nil, denodoDataSource: CapabilityState? = nil, documentDbDataSource: CapabilityState? = nil, dremioDataSource: CapabilityState? = nil, dropboxAction: CapabilityState? = nil, dunAndBradstreetAction: CapabilityState? = nil, dynamoDbDataSource: CapabilityState? = nil, editVisualWithQ: CapabilityState? = nil, exasolDataSource: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, extension: CapabilityState? = nil, factSetAction: CapabilityState? = nil, figmaAction: CapabilityState? = nil, fileDataSource: CapabilityState? = nil, flow: CapabilityState? = nil, generateAnalyses: CapabilityState? = nil, genericHTTPAction: CapabilityState? = nil, githubAction: CapabilityState? = nil, gitHubDataSource: CapabilityState? = nil, gmailAction: CapabilityState? = nil, gongAction: CapabilityState? = nil, googleAnalyticsAction: CapabilityState? = nil, googleAnalyticsDataSource: CapabilityState? = nil, googleBigQueryDataSource: CapabilityState? = nil, googleCalendarAction: CapabilityState? = nil, googleChatAction: CapabilityState? = nil, googleDocsAction: CapabilityState? = nil, googleDriveAction: CapabilityState? = nil, googleDriveKnowledgeBase: CapabilityState? = nil, googleMeetAction: CapabilityState? = nil, googleSheetsAction: CapabilityState? = nil, googleSheetsDataSource: CapabilityState? = nil, googleSlidesAction: CapabilityState? = nil, hgInsightsAction: CapabilityState? = nil, hubspotAction: CapabilityState? = nil, huggingFaceAction: CapabilityState? = nil, idcKnowledgeBase: CapabilityState? = nil, impalaDataSource: CapabilityState? = nil, inboundEmailTrigger: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, intercomAction: CapabilityState? = nil, invokeAppsAIInference: CapabilityState? = nil, jiraAction: CapabilityState? = nil, jiraDataSource: CapabilityState? = nil, knowledgeBase: CapabilityState? = nil, linearAction: CapabilityState? = nil, manageSharedFolders: CapabilityState? = nil, mariaDbDataSource: CapabilityState? = nil, mcpAction: CapabilityState? = nil, mondayAction: CapabilityState? = nil, mongoAtlasDataSource: CapabilityState? = nil, mongoDbDataSource: CapabilityState? = nil, moodysAction: CapabilityState? = nil, msExchangeAction: CapabilityState? = nil, msTeamsAction: CapabilityState? = nil, mySqlDataSource: CapabilityState? = nil, newRelicAction: CapabilityState? = nil, notionAction: CapabilityState? = nil, oneDriveAction: CapabilityState? = nil, oneDriveKnowledgeBase: CapabilityState? = nil, oneNoteAction: CapabilityState? = nil, openAPIAction: CapabilityState? = nil, openSearchDataSource: CapabilityState? = nil, oracleDataSource: CapabilityState? = nil, pagerDutyAction: CapabilityState? = nil, pagerDutyAgentAction: CapabilityState? = nil, payPalDataSource: CapabilityState? = nil, performFlowUiTask: CapabilityState? = nil, postgreSqlDataSource: CapabilityState? = nil, prestoDataSource: CapabilityState? = nil, printReports: CapabilityState? = nil, publishWithoutApproval: CapabilityState? = nil, qBusinessKnowledgeBase: CapabilityState? = nil, quickBooksAction: CapabilityState? = nil, quickEventTrigger: CapabilityState? = nil, radiantDataSource: CapabilityState? = nil, rdsDataSource: CapabilityState? = nil, redshiftAutoDiscoveredDataSource: CapabilityState? = nil, redshiftManualDataSource: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, research: CapabilityState? = nil, s3AnalyticsDataSource: CapabilityState? = nil, s3DataSource: CapabilityState? = nil, s3KnowledgeBase: CapabilityState? = nil, s3TablesDataSource: CapabilityState? = nil, salesforceAction: CapabilityState? = nil, salesforceDataSource: CapabilityState? = nil, sandPGlobalEnergyAction: CapabilityState? = nil, sandPGMIAction: CapabilityState? = nil, sapBillOfMaterialAction: CapabilityState? = nil, sapBusinessPartnerAction: CapabilityState? = nil, sapHanaDataSource: CapabilityState? = nil, sapMaterialStockAction: CapabilityState? = nil, sapPhysicalInventoryAction: CapabilityState? = nil, sapProductMasterDataAction: CapabilityState? = nil, scenario: CapabilityState? = nil, scheduleTrigger: CapabilityState? = nil, selfUpgradeUserRole: CapabilityState? = nil, serviceNowAction: CapabilityState? = nil, serviceNowDataSource: CapabilityState? = nil, shareAdobeAction: CapabilityState? = nil, shareAdobeAnalyticsDataSource: CapabilityState? = nil, shareAirtableAction: CapabilityState? = nil, shareAmazonBedrockARSAction: CapabilityState? = nil, shareAmazonBedrockFSAction: CapabilityState? = nil, shareAmazonBedrockKRSAction: CapabilityState? = nil, shareAmazonSThreeAction: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareApps: CapabilityState? = nil, shareAsanaAction: CapabilityState? = nil, shareAthenaDataSource: CapabilityState? = nil, shareAuroraDataSource: CapabilityState? = nil, shareBambooHRAction: CapabilityState? = nil, shareBedrockManagedKnowledgeBase: CapabilityState? = nil, shareBeeAction: CapabilityState? = nil, shareBoxAgentAction: CapabilityState? = nil, shareBoxKnowledgeBase: CapabilityState? = nil, shareCanvaAgentAction: CapabilityState? = nil, shareChatAgents: CapabilityState? = nil, shareCiscoWebexMeetingsAction: CapabilityState? = nil, shareCiscoWebexVidcastAction: CapabilityState? = nil, shareComprehendAction: CapabilityState? = nil, shareComprehendMedicalAction: CapabilityState? = nil, shareConfluenceAction: CapabilityState? = nil, shareConfluenceKnowledgeBase: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatabricksDataSource: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, shareDb2DataSource: CapabilityState? = nil, shareDenodoDataSource: CapabilityState? = nil, shareDocumentDbDataSource: CapabilityState? = nil, shareDremioDataSource: CapabilityState? = nil, shareDropboxAction: CapabilityState? = nil, shareDunAndBradstreetAction: CapabilityState? = nil, shareDynamoDbDataSource: CapabilityState? = nil, shareExasolDataSource: CapabilityState? = nil, shareFactSetAction: CapabilityState? = nil, shareFigmaAction: CapabilityState? = nil, shareFileDataSource: CapabilityState? = nil, shareGenericHTTPAction: CapabilityState? = nil, shareGithubAction: CapabilityState? = nil, shareGitHubDataSource: CapabilityState? = nil, shareGmailAction: CapabilityState? = nil, shareGongAction: CapabilityState? = nil, shareGoogleAnalyticsAction: CapabilityState? = nil, shareGoogleAnalyticsDataSource: CapabilityState? = nil, shareGoogleBigQueryDataSource: CapabilityState? = nil, shareGoogleCalendarAction: CapabilityState? = nil, shareGoogleChatAction: CapabilityState? = nil, shareGoogleDocsAction: CapabilityState? = nil, shareGoogleDriveAction: CapabilityState? = nil, shareGoogleDriveKnowledgeBase: CapabilityState? = nil, shareGoogleMeetAction: CapabilityState? = nil, shareGoogleSheetsAction: CapabilityState? = nil, shareGoogleSheetsDataSource: CapabilityState? = nil, shareGoogleSlidesAction: CapabilityState? = nil, shareHGInsightsAction: CapabilityState? = nil, shareHubspotAction: CapabilityState? = nil, shareHuggingFaceAction: CapabilityState? = nil, shareIDCKnowledgeBase: CapabilityState? = nil, shareImpalaDataSource: CapabilityState? = nil, shareIntercomAction: CapabilityState? = nil, shareJiraAction: CapabilityState? = nil, shareJiraDataSource: CapabilityState? = nil, shareKnowledgeBases: CapabilityState? = nil, shareLinearAction: CapabilityState? = nil, shareMariaDbDataSource: CapabilityState? = nil, shareMCPAction: CapabilityState? = nil, shareMondayAction: CapabilityState? = nil, shareMongoAtlasDataSource: CapabilityState? = nil, shareMongoDbDataSource: CapabilityState? = nil, shareMoodysAction: CapabilityState? = nil, shareMSExchangeAction: CapabilityState? = nil, shareMSTeamsAction: CapabilityState? = nil, shareMySqlDataSource: CapabilityState? = nil, shareNewRelicAction: CapabilityState? = nil, shareNotionAction: CapabilityState? = nil, shareOneDriveAction: CapabilityState? = nil, shareOneDriveKnowledgeBase: CapabilityState? = nil, shareOneNoteAction: CapabilityState? = nil, shareOpenAPIAction: CapabilityState? = nil, shareOpenSearchDataSource: CapabilityState? = nil, shareOracleDataSource: CapabilityState? = nil, sharePagerDutyAction: CapabilityState? = nil, sharePagerDutyAgentAction: CapabilityState? = nil, sharePayPalDataSource: CapabilityState? = nil, sharePointAction: CapabilityState? = nil, sharePointKnowledgeBase: CapabilityState? = nil, sharePostgreSqlDataSource: CapabilityState? = nil, sharePrestoDataSource: CapabilityState? = nil, shareQBusinessKnowledgeBase: CapabilityState? = nil, shareQuickBooksAction: CapabilityState? = nil, shareRadiantDataSource: CapabilityState? = nil, shareRdsDataSource: CapabilityState? = nil, shareRedshiftAutoDiscoveredDataSource: CapabilityState? = nil, shareRedshiftManualDataSource: CapabilityState? = nil, shareS3AnalyticsDataSource: CapabilityState? = nil, shareS3DataSource: CapabilityState? = nil, shareS3KnowledgeBase: CapabilityState? = nil, shareS3TablesDataSource: CapabilityState? = nil, shareSalesforceAction: CapabilityState? = nil, shareSalesforceDataSource: CapabilityState? = nil, shareSandPGlobalEnergyAction: CapabilityState? = nil, shareSandPGMIAction: CapabilityState? = nil, shareSAPBillOfMaterialAction: CapabilityState? = nil, shareSAPBusinessPartnerAction: CapabilityState? = nil, shareSapHanaDataSource: CapabilityState? = nil, shareSAPMaterialStockAction: CapabilityState? = nil, shareSAPPhysicalInventoryAction: CapabilityState? = nil, shareSAPProductMasterDataAction: CapabilityState? = nil, shareServiceNowAction: CapabilityState? = nil, shareServiceNowDataSource: CapabilityState? = nil, shareSharePointAction: CapabilityState? = nil, shareSharePointKnowledgeBase: CapabilityState? = nil, shareShopifyAction: CapabilityState? = nil, shareSlackAction: CapabilityState? = nil, shareSmartsheetAction: CapabilityState? = nil, shareSnowFlakeAction: CapabilityState? = nil, shareSnowflakeDataSource: CapabilityState? = nil, shareSpaces: CapabilityState? = nil, shareSparkDataSource: CapabilityState? = nil, shareSqlServerDataSource: CapabilityState? = nil, shareSquareDataSource: CapabilityState? = nil, shareStarburstDataSource: CapabilityState? = nil, shareTeradataDataSource: CapabilityState? = nil, shareTextractAction: CapabilityState? = nil, shareTimestreamDataSource: CapabilityState? = nil, shareTrinoDataSource: CapabilityState? = nil, shareTwitterDataSource: CapabilityState? = nil, shareVisierAgentAction: CapabilityState? = nil, shareWebCrawlerKnowledgeBase: CapabilityState? = nil, shareWhatsAppAction: CapabilityState? = nil, shareZapierAction: CapabilityState? = nil, shareZendeskAction: CapabilityState? = nil, shareZoomAction: CapabilityState? = nil, shareZoomInfoAction: CapabilityState? = nil, shopifyAction: CapabilityState? = nil, slackAction: CapabilityState? = nil, smartsheetAction: CapabilityState? = nil, snowFlakeAction: CapabilityState? = nil, snowflakeDataSource: CapabilityState? = nil, space: CapabilityState? = nil, sparkDataSource: CapabilityState? = nil, sqlServerDataSource: CapabilityState? = nil, squareDataSource: CapabilityState? = nil, starburstDataSource: CapabilityState? = nil, story: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, teradataDataSource: CapabilityState? = nil, textractAction: CapabilityState? = nil, timestreamDataSource: CapabilityState? = nil, topic: CapabilityState? = nil, trigger: CapabilityState? = nil, trinoDataSource: CapabilityState? = nil, twitterDataSource: CapabilityState? = nil, updateAdobeAnalyticsDataSource: CapabilityState? = nil, updateAthenaDataSource: CapabilityState? = nil, updateAuroraDataSource: CapabilityState? = nil, updateDatabricksDataSource: CapabilityState? = nil, updateDb2DataSource: CapabilityState? = nil, updateDenodoDataSource: CapabilityState? = nil, updateDocumentDbDataSource: CapabilityState? = nil, updateDremioDataSource: CapabilityState? = nil, updateDynamoDbDataSource: CapabilityState? = nil, updateExasolDataSource: CapabilityState? = nil, updateFileDataSource: CapabilityState? = nil, updateGitHubDataSource: CapabilityState? = nil, updateGoogleAnalyticsDataSource: CapabilityState? = nil, updateGoogleBigQueryDataSource: CapabilityState? = nil, updateGoogleSheetsDataSource: CapabilityState? = nil, updateImpalaDataSource: CapabilityState? = nil, updateJiraDataSource: CapabilityState? = nil, updateMariaDbDataSource: CapabilityState? = nil, updateMongoAtlasDataSource: CapabilityState? = nil, updateMongoDbDataSource: CapabilityState? = nil, updateMySqlDataSource: CapabilityState? = nil, updateOpenSearchDataSource: CapabilityState? = nil, updateOracleDataSource: CapabilityState? = nil, updatePayPalDataSource: CapabilityState? = nil, updatePostgreSqlDataSource: CapabilityState? = nil, updatePrestoDataSource: CapabilityState? = nil, updateRadiantDataSource: CapabilityState? = nil, updateRdsDataSource: CapabilityState? = nil, updateRedshiftAutoDiscoveredDataSource: CapabilityState? = nil, updateRedshiftManualDataSource: CapabilityState? = nil, updateS3AnalyticsDataSource: CapabilityState? = nil, updateS3DataSource: CapabilityState? = nil, updateS3TablesDataSource: CapabilityState? = nil, updateSalesforceDataSource: CapabilityState? = nil, updateSapHanaDataSource: CapabilityState? = nil, updateServiceNowDataSource: CapabilityState? = nil, updateSnowflakeDataSource: CapabilityState? = nil, updateSparkDataSource: CapabilityState? = nil, updateSqlServerDataSource: CapabilityState? = nil, updateSquareDataSource: CapabilityState? = nil, updateStarburstDataSource: CapabilityState? = nil, updateTeradataDataSource: CapabilityState? = nil, updateTimestreamDataSource: CapabilityState? = nil, updateTrinoDataSource: CapabilityState? = nil, updateTwitterDataSource: CapabilityState? = nil, useAdobeAction: CapabilityState? = nil, useAgentWebSearch: CapabilityState? = nil, useAirtableAction: CapabilityState? = nil, useAmazonBedrockARSAction: CapabilityState? = nil, useAmazonBedrockFSAction: CapabilityState? = nil, useAmazonBedrockKRSAction: CapabilityState? = nil, useAmazonSThreeAction: CapabilityState? = nil, useAsanaAction: CapabilityState? = nil, useBambooHRAction: CapabilityState? = nil, useBedrockManagedKnowledgeBase: CapabilityState? = nil, useBedrockModels: CapabilityState? = nil, useBeeAction: CapabilityState? = nil, useBoxAgentAction: CapabilityState? = nil, useBoxKnowledgeBase: CapabilityState? = nil, useBrowserExtension: CapabilityState? = nil, useCanvaAgentAction: CapabilityState? = nil, useCiscoWebexMeetingsAction: CapabilityState? = nil, useCiscoWebexVidcastAction: CapabilityState? = nil, useComprehendAction: CapabilityState? = nil, useComprehendMedicalAction: CapabilityState? = nil, useConfluenceAction: CapabilityState? = nil, useConfluenceKnowledgeBase: CapabilityState? = nil, useDropboxAction: CapabilityState? = nil, useDunAndBradstreetAction: CapabilityState? = nil, useExcelAddInExtension: CapabilityState? = nil, useFactSetAction: CapabilityState? = nil, useFigmaAction: CapabilityState? = nil, useGenericHTTPAction: CapabilityState? = nil, useGithubAction: CapabilityState? = nil, useGmailAction: CapabilityState? = nil, useGongAction: CapabilityState? = nil, useGoogleAnalyticsAction: CapabilityState? = nil, useGoogleCalendarAction: CapabilityState? = nil, useGoogleChatAction: CapabilityState? = nil, useGoogleDocsAction: CapabilityState? = nil, useGoogleDriveAction: CapabilityState? = nil, useGoogleDriveKnowledgeBase: CapabilityState? = nil, useGoogleMeetAction: CapabilityState? = nil, useGoogleSheetsAction: CapabilityState? = nil, useGoogleSlidesAction: CapabilityState? = nil, useHGInsightsAction: CapabilityState? = nil, useHubspotAction: CapabilityState? = nil, useHuggingFaceAction: CapabilityState? = nil, useIDCKnowledgeBase: CapabilityState? = nil, useIntercomAction: CapabilityState? = nil, useJiraAction: CapabilityState? = nil, useLinearAction: CapabilityState? = nil, useMCPAction: CapabilityState? = nil, useMondayAction: CapabilityState? = nil, useMoodysAction: CapabilityState? = nil, useMSExchangeAction: CapabilityState? = nil, useMSTeamsAction: CapabilityState? = nil, useNewRelicAction: CapabilityState? = nil, useNotionAction: CapabilityState? = nil, useOneDriveAction: CapabilityState? = nil, useOneDriveKnowledgeBase: CapabilityState? = nil, useOneNoteAction: CapabilityState? = nil, useOpenAPIAction: CapabilityState? = nil, useOutlookAddInExtension: CapabilityState? = nil, usePagerDutyAction: CapabilityState? = nil, usePagerDutyAgentAction: CapabilityState? = nil, usePowerpointAddInExtension: CapabilityState? = nil, useQBusinessKnowledgeBase: CapabilityState? = nil, useQuickBooksAction: CapabilityState? = nil, useS3KnowledgeBase: CapabilityState? = nil, useSalesforceAction: CapabilityState? = nil, useSandPGlobalEnergyAction: CapabilityState? = nil, useSandPGMIAction: CapabilityState? = nil, useSAPBillOfMaterialAction: CapabilityState? = nil, useSAPBusinessPartnerAction: CapabilityState? = nil, useSAPMaterialStockAction: CapabilityState? = nil, useSAPPhysicalInventoryAction: CapabilityState? = nil, useSAPProductMasterDataAction: CapabilityState? = nil, useServiceNowAction: CapabilityState? = nil, useSharePointAction: CapabilityState? = nil, useSharePointKnowledgeBase: CapabilityState? = nil, useShopifyAction: CapabilityState? = nil, useSlackAction: CapabilityState? = nil, useSmartsheetAction: CapabilityState? = nil, useSnowFlakeAction: CapabilityState? = nil, useTextractAction: CapabilityState? = nil, useVisierAgentAction: CapabilityState? = nil, useWebCrawlerKnowledgeBase: CapabilityState? = nil, useWhatsAppAction: CapabilityState? = nil, useWordAddInExtension: CapabilityState? = nil, useZapierAction: CapabilityState? = nil, useZendeskAction: CapabilityState? = nil, useZoomAction: CapabilityState? = nil, useZoomInfoAction: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil, visierAgentAction: CapabilityState? = nil, webCrawlerKnowledgeBase: CapabilityState? = nil, whatsAppAction: CapabilityState? = nil, zapierAction: CapabilityState? = nil, zendeskAction: CapabilityState? = nil, zoomAction: CapabilityState? = nil, zoomInfoAction: CapabilityState? = nil) {
             self.accessAppsNativeDataStore = accessAppsNativeDataStore
             self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
             self.adobeAction = adobeAction
+            self.adobeAnalyticsDataSource = adobeAnalyticsDataSource
             self.airtableAction = airtableAction
             self.amazonBedrockARSAction = amazonBedrockARSAction
             self.amazonBedrockFSAction = amazonBedrockFSAction
@@ -9487,6 +9862,8 @@ extension QuickSight {
             self.approveFlowShareRequests = approveFlowShareRequests
             self.apps = apps
             self.asanaAction = asanaAction
+            self.athenaDataSource = athenaDataSource
+            self.auroraDataSource = auroraDataSource
             self.automate = automate
             self.bambooHRAction = bambooHRAction
             self.bedrockManagedKnowledgeBase = bedrockManagedKnowledgeBase
@@ -9502,6 +9879,7 @@ extension QuickSight {
             self.comprehendMedicalAction = comprehendMedicalAction
             self.confluenceAction = confluenceAction
             self.confluenceKnowledgeBase = confluenceKnowledgeBase
+            self.createAdobeAnalyticsDataSource = createAdobeAnalyticsDataSource
             self.createAndUpdateAdobeAction = createAndUpdateAdobeAction
             self.createAndUpdateAirtableAction = createAndUpdateAirtableAction
             self.createAndUpdateAmazonBedrockARSAction = createAndUpdateAmazonBedrockARSAction
@@ -9532,6 +9910,7 @@ extension QuickSight {
             self.createAndUpdateGenericHTTPAction = createAndUpdateGenericHTTPAction
             self.createAndUpdateGithubAction = createAndUpdateGithubAction
             self.createAndUpdateGmailAction = createAndUpdateGmailAction
+            self.createAndUpdateGongAction = createAndUpdateGongAction
             self.createAndUpdateGoogleAnalyticsAction = createAndUpdateGoogleAnalyticsAction
             self.createAndUpdateGoogleCalendarAction = createAndUpdateGoogleCalendarAction
             self.createAndUpdateGoogleChatAction = createAndUpdateGoogleChatAction
@@ -9590,15 +9969,66 @@ extension QuickSight {
             self.createAndUpdateZendeskAction = createAndUpdateZendeskAction
             self.createAndUpdateZoomAction = createAndUpdateZoomAction
             self.createAndUpdateZoomInfoAction = createAndUpdateZoomInfoAction
+            self.createAthenaDataSource = createAthenaDataSource
+            self.createAuroraDataSource = createAuroraDataSource
             self.createChatAgents = createChatAgents
             self.createDashboardExecutiveSummaryWithQ = createDashboardExecutiveSummaryWithQ
+            self.createDatabricksDataSource = createDatabricksDataSource
+            self.createDb2DataSource = createDb2DataSource
+            self.createDenodoDataSource = createDenodoDataSource
+            self.createDocumentDbDataSource = createDocumentDbDataSource
+            self.createDremioDataSource = createDremioDataSource
+            self.createDynamoDbDataSource = createDynamoDbDataSource
+            self.createExasolDataSource = createExasolDataSource
+            self.createFileDataSource = createFileDataSource
+            self.createGitHubDataSource = createGitHubDataSource
+            self.createGoogleAnalyticsDataSource = createGoogleAnalyticsDataSource
+            self.createGoogleBigQueryDataSource = createGoogleBigQueryDataSource
+            self.createGoogleSheetsDataSource = createGoogleSheetsDataSource
+            self.createImpalaDataSource = createImpalaDataSource
+            self.createJiraDataSource = createJiraDataSource
+            self.createMariaDbDataSource = createMariaDbDataSource
+            self.createMongoAtlasDataSource = createMongoAtlasDataSource
+            self.createMongoDbDataSource = createMongoDbDataSource
+            self.createMySqlDataSource = createMySqlDataSource
+            self.createOpenSearchDataSource = createOpenSearchDataSource
+            self.createOracleDataSource = createOracleDataSource
+            self.createPayPalDataSource = createPayPalDataSource
+            self.createPostgreSqlDataSource = createPostgreSqlDataSource
+            self.createPrestoDataSource = createPrestoDataSource
+            self.createRadiantDataSource = createRadiantDataSource
+            self.createRdsDataSource = createRdsDataSource
+            self.createRedshiftAutoDiscoveredDataSource = createRedshiftAutoDiscoveredDataSource
+            self.createRedshiftManualDataSource = createRedshiftManualDataSource
+            self.createS3AnalyticsDataSource = createS3AnalyticsDataSource
+            self.createS3DataSource = createS3DataSource
+            self.createS3TablesDataSource = createS3TablesDataSource
+            self.createSalesforceDataSource = createSalesforceDataSource
+            self.createSapHanaDataSource = createSapHanaDataSource
+            self.createServiceNowDataSource = createServiceNowDataSource
             self.createSharedFolders = createSharedFolders
+            self.createSnowflakeDataSource = createSnowflakeDataSource
             self.createSpaces = createSpaces
+            self.createSparkDataSource = createSparkDataSource
             self.createSPICEDataset = createSPICEDataset
+            self.createSqlServerDataSource = createSqlServerDataSource
+            self.createSquareDataSource = createSquareDataSource
+            self.createStarburstDataSource = createStarburstDataSource
+            self.createTeradataDataSource = createTeradataDataSource
+            self.createTimestreamDataSource = createTimestreamDataSource
+            self.createTrinoDataSource = createTrinoDataSource
+            self.createTwitterDataSource = createTwitterDataSource
             self.dashboard = dashboard
+            self.databricksDataSource = databricksDataSource
+            self.db2DataSource = db2DataSource
+            self.denodoDataSource = denodoDataSource
+            self.documentDbDataSource = documentDbDataSource
+            self.dremioDataSource = dremioDataSource
             self.dropboxAction = dropboxAction
             self.dunAndBradstreetAction = dunAndBradstreetAction
+            self.dynamoDbDataSource = dynamoDbDataSource
             self.editVisualWithQ = editVisualWithQ
+            self.exasolDataSource = exasolDataSource
             self.exportToCsv = exportToCsv
             self.exportToCsvInScheduledReports = exportToCsvInScheduledReports
             self.exportToExcel = exportToExcel
@@ -9608,12 +10038,17 @@ extension QuickSight {
             self.`extension` = `extension`
             self.factSetAction = factSetAction
             self.figmaAction = figmaAction
+            self.fileDataSource = fileDataSource
             self.flow = flow
             self.generateAnalyses = generateAnalyses
             self.genericHTTPAction = genericHTTPAction
             self.githubAction = githubAction
+            self.gitHubDataSource = gitHubDataSource
             self.gmailAction = gmailAction
+            self.gongAction = gongAction
             self.googleAnalyticsAction = googleAnalyticsAction
+            self.googleAnalyticsDataSource = googleAnalyticsDataSource
+            self.googleBigQueryDataSource = googleBigQueryDataSource
             self.googleCalendarAction = googleCalendarAction
             self.googleChatAction = googleChatAction
             self.googleDocsAction = googleDocsAction
@@ -9621,46 +10056,67 @@ extension QuickSight {
             self.googleDriveKnowledgeBase = googleDriveKnowledgeBase
             self.googleMeetAction = googleMeetAction
             self.googleSheetsAction = googleSheetsAction
+            self.googleSheetsDataSource = googleSheetsDataSource
             self.googleSlidesAction = googleSlidesAction
             self.hgInsightsAction = hgInsightsAction
             self.hubspotAction = hubspotAction
             self.huggingFaceAction = huggingFaceAction
             self.idcKnowledgeBase = idcKnowledgeBase
+            self.impalaDataSource = impalaDataSource
             self.inboundEmailTrigger = inboundEmailTrigger
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
             self.intercomAction = intercomAction
             self.invokeAppsAIInference = invokeAppsAIInference
             self.jiraAction = jiraAction
+            self.jiraDataSource = jiraDataSource
             self.knowledgeBase = knowledgeBase
             self.linearAction = linearAction
             self.manageSharedFolders = manageSharedFolders
+            self.mariaDbDataSource = mariaDbDataSource
             self.mcpAction = mcpAction
             self.mondayAction = mondayAction
+            self.mongoAtlasDataSource = mongoAtlasDataSource
+            self.mongoDbDataSource = mongoDbDataSource
             self.moodysAction = moodysAction
             self.msExchangeAction = msExchangeAction
             self.msTeamsAction = msTeamsAction
+            self.mySqlDataSource = mySqlDataSource
             self.newRelicAction = newRelicAction
             self.notionAction = notionAction
             self.oneDriveAction = oneDriveAction
             self.oneDriveKnowledgeBase = oneDriveKnowledgeBase
             self.oneNoteAction = oneNoteAction
             self.openAPIAction = openAPIAction
+            self.openSearchDataSource = openSearchDataSource
+            self.oracleDataSource = oracleDataSource
             self.pagerDutyAction = pagerDutyAction
             self.pagerDutyAgentAction = pagerDutyAgentAction
+            self.payPalDataSource = payPalDataSource
             self.performFlowUiTask = performFlowUiTask
+            self.postgreSqlDataSource = postgreSqlDataSource
+            self.prestoDataSource = prestoDataSource
             self.printReports = printReports
             self.publishWithoutApproval = publishWithoutApproval
             self.qBusinessKnowledgeBase = qBusinessKnowledgeBase
             self.quickBooksAction = quickBooksAction
             self.quickEventTrigger = quickEventTrigger
+            self.radiantDataSource = radiantDataSource
+            self.rdsDataSource = rdsDataSource
+            self.redshiftAutoDiscoveredDataSource = redshiftAutoDiscoveredDataSource
+            self.redshiftManualDataSource = redshiftManualDataSource
             self.renameSharedFolders = renameSharedFolders
             self.research = research
+            self.s3AnalyticsDataSource = s3AnalyticsDataSource
+            self.s3DataSource = s3DataSource
             self.s3KnowledgeBase = s3KnowledgeBase
+            self.s3TablesDataSource = s3TablesDataSource
             self.salesforceAction = salesforceAction
+            self.salesforceDataSource = salesforceDataSource
             self.sandPGlobalEnergyAction = sandPGlobalEnergyAction
             self.sandPGMIAction = sandPGMIAction
             self.sapBillOfMaterialAction = sapBillOfMaterialAction
             self.sapBusinessPartnerAction = sapBusinessPartnerAction
+            self.sapHanaDataSource = sapHanaDataSource
             self.sapMaterialStockAction = sapMaterialStockAction
             self.sapPhysicalInventoryAction = sapPhysicalInventoryAction
             self.sapProductMasterDataAction = sapProductMasterDataAction
@@ -9668,7 +10124,9 @@ extension QuickSight {
             self.scheduleTrigger = scheduleTrigger
             self.selfUpgradeUserRole = selfUpgradeUserRole
             self.serviceNowAction = serviceNowAction
+            self.serviceNowDataSource = serviceNowDataSource
             self.shareAdobeAction = shareAdobeAction
+            self.shareAdobeAnalyticsDataSource = shareAdobeAnalyticsDataSource
             self.shareAirtableAction = shareAirtableAction
             self.shareAmazonBedrockARSAction = shareAmazonBedrockARSAction
             self.shareAmazonBedrockFSAction = shareAmazonBedrockFSAction
@@ -9677,6 +10135,8 @@ extension QuickSight {
             self.shareAnalyses = shareAnalyses
             self.shareApps = shareApps
             self.shareAsanaAction = shareAsanaAction
+            self.shareAthenaDataSource = shareAthenaDataSource
+            self.shareAuroraDataSource = shareAuroraDataSource
             self.shareBambooHRAction = shareBambooHRAction
             self.shareBedrockManagedKnowledgeBase = shareBedrockManagedKnowledgeBase
             self.shareBeeAction = shareBeeAction
@@ -9691,16 +10151,28 @@ extension QuickSight {
             self.shareConfluenceAction = shareConfluenceAction
             self.shareConfluenceKnowledgeBase = shareConfluenceKnowledgeBase
             self.shareDashboards = shareDashboards
+            self.shareDatabricksDataSource = shareDatabricksDataSource
             self.shareDatasets = shareDatasets
             self.shareDataSources = shareDataSources
+            self.shareDb2DataSource = shareDb2DataSource
+            self.shareDenodoDataSource = shareDenodoDataSource
+            self.shareDocumentDbDataSource = shareDocumentDbDataSource
+            self.shareDremioDataSource = shareDremioDataSource
             self.shareDropboxAction = shareDropboxAction
             self.shareDunAndBradstreetAction = shareDunAndBradstreetAction
+            self.shareDynamoDbDataSource = shareDynamoDbDataSource
+            self.shareExasolDataSource = shareExasolDataSource
             self.shareFactSetAction = shareFactSetAction
             self.shareFigmaAction = shareFigmaAction
+            self.shareFileDataSource = shareFileDataSource
             self.shareGenericHTTPAction = shareGenericHTTPAction
             self.shareGithubAction = shareGithubAction
+            self.shareGitHubDataSource = shareGitHubDataSource
             self.shareGmailAction = shareGmailAction
+            self.shareGongAction = shareGongAction
             self.shareGoogleAnalyticsAction = shareGoogleAnalyticsAction
+            self.shareGoogleAnalyticsDataSource = shareGoogleAnalyticsDataSource
+            self.shareGoogleBigQueryDataSource = shareGoogleBigQueryDataSource
             self.shareGoogleCalendarAction = shareGoogleCalendarAction
             self.shareGoogleChatAction = shareGoogleChatAction
             self.shareGoogleDocsAction = shareGoogleDocsAction
@@ -9708,50 +10180,81 @@ extension QuickSight {
             self.shareGoogleDriveKnowledgeBase = shareGoogleDriveKnowledgeBase
             self.shareGoogleMeetAction = shareGoogleMeetAction
             self.shareGoogleSheetsAction = shareGoogleSheetsAction
+            self.shareGoogleSheetsDataSource = shareGoogleSheetsDataSource
             self.shareGoogleSlidesAction = shareGoogleSlidesAction
             self.shareHGInsightsAction = shareHGInsightsAction
             self.shareHubspotAction = shareHubspotAction
             self.shareHuggingFaceAction = shareHuggingFaceAction
             self.shareIDCKnowledgeBase = shareIDCKnowledgeBase
+            self.shareImpalaDataSource = shareImpalaDataSource
             self.shareIntercomAction = shareIntercomAction
             self.shareJiraAction = shareJiraAction
+            self.shareJiraDataSource = shareJiraDataSource
             self.shareKnowledgeBases = shareKnowledgeBases
             self.shareLinearAction = shareLinearAction
+            self.shareMariaDbDataSource = shareMariaDbDataSource
             self.shareMCPAction = shareMCPAction
             self.shareMondayAction = shareMondayAction
+            self.shareMongoAtlasDataSource = shareMongoAtlasDataSource
+            self.shareMongoDbDataSource = shareMongoDbDataSource
             self.shareMoodysAction = shareMoodysAction
             self.shareMSExchangeAction = shareMSExchangeAction
             self.shareMSTeamsAction = shareMSTeamsAction
+            self.shareMySqlDataSource = shareMySqlDataSource
             self.shareNewRelicAction = shareNewRelicAction
             self.shareNotionAction = shareNotionAction
             self.shareOneDriveAction = shareOneDriveAction
             self.shareOneDriveKnowledgeBase = shareOneDriveKnowledgeBase
             self.shareOneNoteAction = shareOneNoteAction
             self.shareOpenAPIAction = shareOpenAPIAction
+            self.shareOpenSearchDataSource = shareOpenSearchDataSource
+            self.shareOracleDataSource = shareOracleDataSource
             self.sharePagerDutyAction = sharePagerDutyAction
             self.sharePagerDutyAgentAction = sharePagerDutyAgentAction
+            self.sharePayPalDataSource = sharePayPalDataSource
             self.sharePointAction = sharePointAction
             self.sharePointKnowledgeBase = sharePointKnowledgeBase
+            self.sharePostgreSqlDataSource = sharePostgreSqlDataSource
+            self.sharePrestoDataSource = sharePrestoDataSource
             self.shareQBusinessKnowledgeBase = shareQBusinessKnowledgeBase
             self.shareQuickBooksAction = shareQuickBooksAction
+            self.shareRadiantDataSource = shareRadiantDataSource
+            self.shareRdsDataSource = shareRdsDataSource
+            self.shareRedshiftAutoDiscoveredDataSource = shareRedshiftAutoDiscoveredDataSource
+            self.shareRedshiftManualDataSource = shareRedshiftManualDataSource
+            self.shareS3AnalyticsDataSource = shareS3AnalyticsDataSource
+            self.shareS3DataSource = shareS3DataSource
             self.shareS3KnowledgeBase = shareS3KnowledgeBase
+            self.shareS3TablesDataSource = shareS3TablesDataSource
             self.shareSalesforceAction = shareSalesforceAction
+            self.shareSalesforceDataSource = shareSalesforceDataSource
             self.shareSandPGlobalEnergyAction = shareSandPGlobalEnergyAction
             self.shareSandPGMIAction = shareSandPGMIAction
             self.shareSAPBillOfMaterialAction = shareSAPBillOfMaterialAction
             self.shareSAPBusinessPartnerAction = shareSAPBusinessPartnerAction
+            self.shareSapHanaDataSource = shareSapHanaDataSource
             self.shareSAPMaterialStockAction = shareSAPMaterialStockAction
             self.shareSAPPhysicalInventoryAction = shareSAPPhysicalInventoryAction
             self.shareSAPProductMasterDataAction = shareSAPProductMasterDataAction
             self.shareServiceNowAction = shareServiceNowAction
+            self.shareServiceNowDataSource = shareServiceNowDataSource
             self.shareSharePointAction = shareSharePointAction
             self.shareSharePointKnowledgeBase = shareSharePointKnowledgeBase
             self.shareShopifyAction = shareShopifyAction
             self.shareSlackAction = shareSlackAction
             self.shareSmartsheetAction = shareSmartsheetAction
             self.shareSnowFlakeAction = shareSnowFlakeAction
+            self.shareSnowflakeDataSource = shareSnowflakeDataSource
             self.shareSpaces = shareSpaces
+            self.shareSparkDataSource = shareSparkDataSource
+            self.shareSqlServerDataSource = shareSqlServerDataSource
+            self.shareSquareDataSource = shareSquareDataSource
+            self.shareStarburstDataSource = shareStarburstDataSource
+            self.shareTeradataDataSource = shareTeradataDataSource
             self.shareTextractAction = shareTextractAction
+            self.shareTimestreamDataSource = shareTimestreamDataSource
+            self.shareTrinoDataSource = shareTrinoDataSource
+            self.shareTwitterDataSource = shareTwitterDataSource
             self.shareVisierAgentAction = shareVisierAgentAction
             self.shareWebCrawlerKnowledgeBase = shareWebCrawlerKnowledgeBase
             self.shareWhatsAppAction = shareWhatsAppAction
@@ -9763,12 +10266,66 @@ extension QuickSight {
             self.slackAction = slackAction
             self.smartsheetAction = smartsheetAction
             self.snowFlakeAction = snowFlakeAction
+            self.snowflakeDataSource = snowflakeDataSource
             self.space = space
+            self.sparkDataSource = sparkDataSource
+            self.sqlServerDataSource = sqlServerDataSource
+            self.squareDataSource = squareDataSource
+            self.starburstDataSource = starburstDataSource
             self.story = story
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
+            self.teradataDataSource = teradataDataSource
             self.textractAction = textractAction
+            self.timestreamDataSource = timestreamDataSource
             self.topic = topic
             self.trigger = trigger
+            self.trinoDataSource = trinoDataSource
+            self.twitterDataSource = twitterDataSource
+            self.updateAdobeAnalyticsDataSource = updateAdobeAnalyticsDataSource
+            self.updateAthenaDataSource = updateAthenaDataSource
+            self.updateAuroraDataSource = updateAuroraDataSource
+            self.updateDatabricksDataSource = updateDatabricksDataSource
+            self.updateDb2DataSource = updateDb2DataSource
+            self.updateDenodoDataSource = updateDenodoDataSource
+            self.updateDocumentDbDataSource = updateDocumentDbDataSource
+            self.updateDremioDataSource = updateDremioDataSource
+            self.updateDynamoDbDataSource = updateDynamoDbDataSource
+            self.updateExasolDataSource = updateExasolDataSource
+            self.updateFileDataSource = updateFileDataSource
+            self.updateGitHubDataSource = updateGitHubDataSource
+            self.updateGoogleAnalyticsDataSource = updateGoogleAnalyticsDataSource
+            self.updateGoogleBigQueryDataSource = updateGoogleBigQueryDataSource
+            self.updateGoogleSheetsDataSource = updateGoogleSheetsDataSource
+            self.updateImpalaDataSource = updateImpalaDataSource
+            self.updateJiraDataSource = updateJiraDataSource
+            self.updateMariaDbDataSource = updateMariaDbDataSource
+            self.updateMongoAtlasDataSource = updateMongoAtlasDataSource
+            self.updateMongoDbDataSource = updateMongoDbDataSource
+            self.updateMySqlDataSource = updateMySqlDataSource
+            self.updateOpenSearchDataSource = updateOpenSearchDataSource
+            self.updateOracleDataSource = updateOracleDataSource
+            self.updatePayPalDataSource = updatePayPalDataSource
+            self.updatePostgreSqlDataSource = updatePostgreSqlDataSource
+            self.updatePrestoDataSource = updatePrestoDataSource
+            self.updateRadiantDataSource = updateRadiantDataSource
+            self.updateRdsDataSource = updateRdsDataSource
+            self.updateRedshiftAutoDiscoveredDataSource = updateRedshiftAutoDiscoveredDataSource
+            self.updateRedshiftManualDataSource = updateRedshiftManualDataSource
+            self.updateS3AnalyticsDataSource = updateS3AnalyticsDataSource
+            self.updateS3DataSource = updateS3DataSource
+            self.updateS3TablesDataSource = updateS3TablesDataSource
+            self.updateSalesforceDataSource = updateSalesforceDataSource
+            self.updateSapHanaDataSource = updateSapHanaDataSource
+            self.updateServiceNowDataSource = updateServiceNowDataSource
+            self.updateSnowflakeDataSource = updateSnowflakeDataSource
+            self.updateSparkDataSource = updateSparkDataSource
+            self.updateSqlServerDataSource = updateSqlServerDataSource
+            self.updateSquareDataSource = updateSquareDataSource
+            self.updateStarburstDataSource = updateStarburstDataSource
+            self.updateTeradataDataSource = updateTeradataDataSource
+            self.updateTimestreamDataSource = updateTimestreamDataSource
+            self.updateTrinoDataSource = updateTrinoDataSource
+            self.updateTwitterDataSource = updateTwitterDataSource
             self.useAdobeAction = useAdobeAction
             self.useAgentWebSearch = useAgentWebSearch
             self.useAirtableAction = useAirtableAction
@@ -9799,6 +10356,7 @@ extension QuickSight {
             self.useGenericHTTPAction = useGenericHTTPAction
             self.useGithubAction = useGithubAction
             self.useGmailAction = useGmailAction
+            self.useGongAction = useGongAction
             self.useGoogleAnalyticsAction = useGoogleAnalyticsAction
             self.useGoogleCalendarAction = useGoogleCalendarAction
             self.useGoogleChatAction = useGoogleChatAction
@@ -9872,6 +10430,7 @@ extension QuickSight {
             case action = "Action"
             case addOrRunAnomalyDetectionForAnalyses = "AddOrRunAnomalyDetectionForAnalyses"
             case adobeAction = "AdobeAction"
+            case adobeAnalyticsDataSource = "AdobeAnalyticsDataSource"
             case airtableAction = "AirtableAction"
             case amazonBedrockARSAction = "AmazonBedrockARSAction"
             case amazonBedrockFSAction = "AmazonBedrockFSAction"
@@ -9881,6 +10440,8 @@ extension QuickSight {
             case approveFlowShareRequests = "ApproveFlowShareRequests"
             case apps = "Apps"
             case asanaAction = "AsanaAction"
+            case athenaDataSource = "AthenaDataSource"
+            case auroraDataSource = "AuroraDataSource"
             case automate = "Automate"
             case bambooHRAction = "BambooHRAction"
             case bedrockManagedKnowledgeBase = "BedrockManagedKnowledgeBase"
@@ -9896,6 +10457,7 @@ extension QuickSight {
             case comprehendMedicalAction = "ComprehendMedicalAction"
             case confluenceAction = "ConfluenceAction"
             case confluenceKnowledgeBase = "ConfluenceKnowledgeBase"
+            case createAdobeAnalyticsDataSource = "CreateAdobeAnalyticsDataSource"
             case createAndUpdateAdobeAction = "CreateAndUpdateAdobeAction"
             case createAndUpdateAirtableAction = "CreateAndUpdateAirtableAction"
             case createAndUpdateAmazonBedrockARSAction = "CreateAndUpdateAmazonBedrockARSAction"
@@ -9926,6 +10488,7 @@ extension QuickSight {
             case createAndUpdateGenericHTTPAction = "CreateAndUpdateGenericHTTPAction"
             case createAndUpdateGithubAction = "CreateAndUpdateGithubAction"
             case createAndUpdateGmailAction = "CreateAndUpdateGmailAction"
+            case createAndUpdateGongAction = "CreateAndUpdateGongAction"
             case createAndUpdateGoogleAnalyticsAction = "CreateAndUpdateGoogleAnalyticsAction"
             case createAndUpdateGoogleCalendarAction = "CreateAndUpdateGoogleCalendarAction"
             case createAndUpdateGoogleChatAction = "CreateAndUpdateGoogleChatAction"
@@ -9984,15 +10547,66 @@ extension QuickSight {
             case createAndUpdateZendeskAction = "CreateAndUpdateZendeskAction"
             case createAndUpdateZoomAction = "CreateAndUpdateZoomAction"
             case createAndUpdateZoomInfoAction = "CreateAndUpdateZoomInfoAction"
+            case createAthenaDataSource = "CreateAthenaDataSource"
+            case createAuroraDataSource = "CreateAuroraDataSource"
             case createChatAgents = "CreateChatAgents"
             case createDashboardExecutiveSummaryWithQ = "CreateDashboardExecutiveSummaryWithQ"
+            case createDatabricksDataSource = "CreateDatabricksDataSource"
+            case createDb2DataSource = "CreateDb2DataSource"
+            case createDenodoDataSource = "CreateDenodoDataSource"
+            case createDocumentDbDataSource = "CreateDocumentDbDataSource"
+            case createDremioDataSource = "CreateDremioDataSource"
+            case createDynamoDbDataSource = "CreateDynamoDbDataSource"
+            case createExasolDataSource = "CreateExasolDataSource"
+            case createFileDataSource = "CreateFileDataSource"
+            case createGitHubDataSource = "CreateGitHubDataSource"
+            case createGoogleAnalyticsDataSource = "CreateGoogleAnalyticsDataSource"
+            case createGoogleBigQueryDataSource = "CreateGoogleBigQueryDataSource"
+            case createGoogleSheetsDataSource = "CreateGoogleSheetsDataSource"
+            case createImpalaDataSource = "CreateImpalaDataSource"
+            case createJiraDataSource = "CreateJiraDataSource"
+            case createMariaDbDataSource = "CreateMariaDbDataSource"
+            case createMongoAtlasDataSource = "CreateMongoAtlasDataSource"
+            case createMongoDbDataSource = "CreateMongoDbDataSource"
+            case createMySqlDataSource = "CreateMySqlDataSource"
+            case createOpenSearchDataSource = "CreateOpenSearchDataSource"
+            case createOracleDataSource = "CreateOracleDataSource"
+            case createPayPalDataSource = "CreatePayPalDataSource"
+            case createPostgreSqlDataSource = "CreatePostgreSqlDataSource"
+            case createPrestoDataSource = "CreatePrestoDataSource"
+            case createRadiantDataSource = "CreateRadiantDataSource"
+            case createRdsDataSource = "CreateRdsDataSource"
+            case createRedshiftAutoDiscoveredDataSource = "CreateRedshiftAutoDiscoveredDataSource"
+            case createRedshiftManualDataSource = "CreateRedshiftManualDataSource"
+            case createS3AnalyticsDataSource = "CreateS3AnalyticsDataSource"
+            case createS3DataSource = "CreateS3DataSource"
+            case createS3TablesDataSource = "CreateS3TablesDataSource"
+            case createSalesforceDataSource = "CreateSalesforceDataSource"
+            case createSapHanaDataSource = "CreateSapHanaDataSource"
+            case createServiceNowDataSource = "CreateServiceNowDataSource"
             case createSharedFolders = "CreateSharedFolders"
+            case createSnowflakeDataSource = "CreateSnowflakeDataSource"
             case createSpaces = "CreateSpaces"
+            case createSparkDataSource = "CreateSparkDataSource"
             case createSPICEDataset = "CreateSPICEDataset"
+            case createSqlServerDataSource = "CreateSqlServerDataSource"
+            case createSquareDataSource = "CreateSquareDataSource"
+            case createStarburstDataSource = "CreateStarburstDataSource"
+            case createTeradataDataSource = "CreateTeradataDataSource"
+            case createTimestreamDataSource = "CreateTimestreamDataSource"
+            case createTrinoDataSource = "CreateTrinoDataSource"
+            case createTwitterDataSource = "CreateTwitterDataSource"
             case dashboard = "Dashboard"
+            case databricksDataSource = "DatabricksDataSource"
+            case db2DataSource = "Db2DataSource"
+            case denodoDataSource = "DenodoDataSource"
+            case documentDbDataSource = "DocumentDbDataSource"
+            case dremioDataSource = "DremioDataSource"
             case dropboxAction = "DropboxAction"
             case dunAndBradstreetAction = "DunAndBradstreetAction"
+            case dynamoDbDataSource = "DynamoDbDataSource"
             case editVisualWithQ = "EditVisualWithQ"
+            case exasolDataSource = "ExasolDataSource"
             case exportToCsv = "ExportToCsv"
             case exportToCsvInScheduledReports = "ExportToCsvInScheduledReports"
             case exportToExcel = "ExportToExcel"
@@ -10002,12 +10616,17 @@ extension QuickSight {
             case `extension` = "Extension"
             case factSetAction = "FactSetAction"
             case figmaAction = "FigmaAction"
+            case fileDataSource = "FileDataSource"
             case flow = "Flow"
             case generateAnalyses = "GenerateAnalyses"
             case genericHTTPAction = "GenericHTTPAction"
             case githubAction = "GithubAction"
+            case gitHubDataSource = "GitHubDataSource"
             case gmailAction = "GmailAction"
+            case gongAction = "GongAction"
             case googleAnalyticsAction = "GoogleAnalyticsAction"
+            case googleAnalyticsDataSource = "GoogleAnalyticsDataSource"
+            case googleBigQueryDataSource = "GoogleBigQueryDataSource"
             case googleCalendarAction = "GoogleCalendarAction"
             case googleChatAction = "GoogleChatAction"
             case googleDocsAction = "GoogleDocsAction"
@@ -10015,46 +10634,67 @@ extension QuickSight {
             case googleDriveKnowledgeBase = "GoogleDriveKnowledgeBase"
             case googleMeetAction = "GoogleMeetAction"
             case googleSheetsAction = "GoogleSheetsAction"
+            case googleSheetsDataSource = "GoogleSheetsDataSource"
             case googleSlidesAction = "GoogleSlidesAction"
             case hgInsightsAction = "HGInsightsAction"
             case hubspotAction = "HubspotAction"
             case huggingFaceAction = "HuggingFaceAction"
             case idcKnowledgeBase = "IDCKnowledgeBase"
+            case impalaDataSource = "ImpalaDataSource"
             case inboundEmailTrigger = "InboundEmailTrigger"
             case includeContentInScheduledReportsEmail = "IncludeContentInScheduledReportsEmail"
             case intercomAction = "IntercomAction"
             case invokeAppsAIInference = "InvokeAppsAIInference"
             case jiraAction = "JiraAction"
+            case jiraDataSource = "JiraDataSource"
             case knowledgeBase = "KnowledgeBase"
             case linearAction = "LinearAction"
             case manageSharedFolders = "ManageSharedFolders"
+            case mariaDbDataSource = "MariaDbDataSource"
             case mcpAction = "MCPAction"
             case mondayAction = "MondayAction"
+            case mongoAtlasDataSource = "MongoAtlasDataSource"
+            case mongoDbDataSource = "MongoDbDataSource"
             case moodysAction = "MoodysAction"
             case msExchangeAction = "MSExchangeAction"
             case msTeamsAction = "MSTeamsAction"
+            case mySqlDataSource = "MySqlDataSource"
             case newRelicAction = "NewRelicAction"
             case notionAction = "NotionAction"
             case oneDriveAction = "OneDriveAction"
             case oneDriveKnowledgeBase = "OneDriveKnowledgeBase"
             case oneNoteAction = "OneNoteAction"
             case openAPIAction = "OpenAPIAction"
+            case openSearchDataSource = "OpenSearchDataSource"
+            case oracleDataSource = "OracleDataSource"
             case pagerDutyAction = "PagerDutyAction"
             case pagerDutyAgentAction = "PagerDutyAgentAction"
+            case payPalDataSource = "PayPalDataSource"
             case performFlowUiTask = "PerformFlowUiTask"
+            case postgreSqlDataSource = "PostgreSqlDataSource"
+            case prestoDataSource = "PrestoDataSource"
             case printReports = "PrintReports"
             case publishWithoutApproval = "PublishWithoutApproval"
             case qBusinessKnowledgeBase = "QBusinessKnowledgeBase"
             case quickBooksAction = "QuickBooksAction"
             case quickEventTrigger = "QuickEventTrigger"
+            case radiantDataSource = "RadiantDataSource"
+            case rdsDataSource = "RdsDataSource"
+            case redshiftAutoDiscoveredDataSource = "RedshiftAutoDiscoveredDataSource"
+            case redshiftManualDataSource = "RedshiftManualDataSource"
             case renameSharedFolders = "RenameSharedFolders"
             case research = "Research"
+            case s3AnalyticsDataSource = "S3AnalyticsDataSource"
+            case s3DataSource = "S3DataSource"
             case s3KnowledgeBase = "S3KnowledgeBase"
+            case s3TablesDataSource = "S3TablesDataSource"
             case salesforceAction = "SalesforceAction"
+            case salesforceDataSource = "SalesforceDataSource"
             case sandPGlobalEnergyAction = "SandPGlobalEnergyAction"
             case sandPGMIAction = "SandPGMIAction"
             case sapBillOfMaterialAction = "SAPBillOfMaterialAction"
             case sapBusinessPartnerAction = "SAPBusinessPartnerAction"
+            case sapHanaDataSource = "SapHanaDataSource"
             case sapMaterialStockAction = "SAPMaterialStockAction"
             case sapPhysicalInventoryAction = "SAPPhysicalInventoryAction"
             case sapProductMasterDataAction = "SAPProductMasterDataAction"
@@ -10062,7 +10702,9 @@ extension QuickSight {
             case scheduleTrigger = "ScheduleTrigger"
             case selfUpgradeUserRole = "SelfUpgradeUserRole"
             case serviceNowAction = "ServiceNowAction"
+            case serviceNowDataSource = "ServiceNowDataSource"
             case shareAdobeAction = "ShareAdobeAction"
+            case shareAdobeAnalyticsDataSource = "ShareAdobeAnalyticsDataSource"
             case shareAirtableAction = "ShareAirtableAction"
             case shareAmazonBedrockARSAction = "ShareAmazonBedrockARSAction"
             case shareAmazonBedrockFSAction = "ShareAmazonBedrockFSAction"
@@ -10071,6 +10713,8 @@ extension QuickSight {
             case shareAnalyses = "ShareAnalyses"
             case shareApps = "ShareApps"
             case shareAsanaAction = "ShareAsanaAction"
+            case shareAthenaDataSource = "ShareAthenaDataSource"
+            case shareAuroraDataSource = "ShareAuroraDataSource"
             case shareBambooHRAction = "ShareBambooHRAction"
             case shareBedrockManagedKnowledgeBase = "ShareBedrockManagedKnowledgeBase"
             case shareBeeAction = "ShareBeeAction"
@@ -10085,16 +10729,28 @@ extension QuickSight {
             case shareConfluenceAction = "ShareConfluenceAction"
             case shareConfluenceKnowledgeBase = "ShareConfluenceKnowledgeBase"
             case shareDashboards = "ShareDashboards"
+            case shareDatabricksDataSource = "ShareDatabricksDataSource"
             case shareDatasets = "ShareDatasets"
             case shareDataSources = "ShareDataSources"
+            case shareDb2DataSource = "ShareDb2DataSource"
+            case shareDenodoDataSource = "ShareDenodoDataSource"
+            case shareDocumentDbDataSource = "ShareDocumentDbDataSource"
+            case shareDremioDataSource = "ShareDremioDataSource"
             case shareDropboxAction = "ShareDropboxAction"
             case shareDunAndBradstreetAction = "ShareDunAndBradstreetAction"
+            case shareDynamoDbDataSource = "ShareDynamoDbDataSource"
+            case shareExasolDataSource = "ShareExasolDataSource"
             case shareFactSetAction = "ShareFactSetAction"
             case shareFigmaAction = "ShareFigmaAction"
+            case shareFileDataSource = "ShareFileDataSource"
             case shareGenericHTTPAction = "ShareGenericHTTPAction"
             case shareGithubAction = "ShareGithubAction"
+            case shareGitHubDataSource = "ShareGitHubDataSource"
             case shareGmailAction = "ShareGmailAction"
+            case shareGongAction = "ShareGongAction"
             case shareGoogleAnalyticsAction = "ShareGoogleAnalyticsAction"
+            case shareGoogleAnalyticsDataSource = "ShareGoogleAnalyticsDataSource"
+            case shareGoogleBigQueryDataSource = "ShareGoogleBigQueryDataSource"
             case shareGoogleCalendarAction = "ShareGoogleCalendarAction"
             case shareGoogleChatAction = "ShareGoogleChatAction"
             case shareGoogleDocsAction = "ShareGoogleDocsAction"
@@ -10102,50 +10758,81 @@ extension QuickSight {
             case shareGoogleDriveKnowledgeBase = "ShareGoogleDriveKnowledgeBase"
             case shareGoogleMeetAction = "ShareGoogleMeetAction"
             case shareGoogleSheetsAction = "ShareGoogleSheetsAction"
+            case shareGoogleSheetsDataSource = "ShareGoogleSheetsDataSource"
             case shareGoogleSlidesAction = "ShareGoogleSlidesAction"
             case shareHGInsightsAction = "ShareHGInsightsAction"
             case shareHubspotAction = "ShareHubspotAction"
             case shareHuggingFaceAction = "ShareHuggingFaceAction"
             case shareIDCKnowledgeBase = "ShareIDCKnowledgeBase"
+            case shareImpalaDataSource = "ShareImpalaDataSource"
             case shareIntercomAction = "ShareIntercomAction"
             case shareJiraAction = "ShareJiraAction"
+            case shareJiraDataSource = "ShareJiraDataSource"
             case shareKnowledgeBases = "ShareKnowledgeBases"
             case shareLinearAction = "ShareLinearAction"
+            case shareMariaDbDataSource = "ShareMariaDbDataSource"
             case shareMCPAction = "ShareMCPAction"
             case shareMondayAction = "ShareMondayAction"
+            case shareMongoAtlasDataSource = "ShareMongoAtlasDataSource"
+            case shareMongoDbDataSource = "ShareMongoDbDataSource"
             case shareMoodysAction = "ShareMoodysAction"
             case shareMSExchangeAction = "ShareMSExchangeAction"
             case shareMSTeamsAction = "ShareMSTeamsAction"
+            case shareMySqlDataSource = "ShareMySqlDataSource"
             case shareNewRelicAction = "ShareNewRelicAction"
             case shareNotionAction = "ShareNotionAction"
             case shareOneDriveAction = "ShareOneDriveAction"
             case shareOneDriveKnowledgeBase = "ShareOneDriveKnowledgeBase"
             case shareOneNoteAction = "ShareOneNoteAction"
             case shareOpenAPIAction = "ShareOpenAPIAction"
+            case shareOpenSearchDataSource = "ShareOpenSearchDataSource"
+            case shareOracleDataSource = "ShareOracleDataSource"
             case sharePagerDutyAction = "SharePagerDutyAction"
             case sharePagerDutyAgentAction = "SharePagerDutyAgentAction"
+            case sharePayPalDataSource = "SharePayPalDataSource"
             case sharePointAction = "SharePointAction"
             case sharePointKnowledgeBase = "SharePointKnowledgeBase"
+            case sharePostgreSqlDataSource = "SharePostgreSqlDataSource"
+            case sharePrestoDataSource = "SharePrestoDataSource"
             case shareQBusinessKnowledgeBase = "ShareQBusinessKnowledgeBase"
             case shareQuickBooksAction = "ShareQuickBooksAction"
+            case shareRadiantDataSource = "ShareRadiantDataSource"
+            case shareRdsDataSource = "ShareRdsDataSource"
+            case shareRedshiftAutoDiscoveredDataSource = "ShareRedshiftAutoDiscoveredDataSource"
+            case shareRedshiftManualDataSource = "ShareRedshiftManualDataSource"
+            case shareS3AnalyticsDataSource = "ShareS3AnalyticsDataSource"
+            case shareS3DataSource = "ShareS3DataSource"
             case shareS3KnowledgeBase = "ShareS3KnowledgeBase"
+            case shareS3TablesDataSource = "ShareS3TablesDataSource"
             case shareSalesforceAction = "ShareSalesforceAction"
+            case shareSalesforceDataSource = "ShareSalesforceDataSource"
             case shareSandPGlobalEnergyAction = "ShareSandPGlobalEnergyAction"
             case shareSandPGMIAction = "ShareSandPGMIAction"
             case shareSAPBillOfMaterialAction = "ShareSAPBillOfMaterialAction"
             case shareSAPBusinessPartnerAction = "ShareSAPBusinessPartnerAction"
+            case shareSapHanaDataSource = "ShareSapHanaDataSource"
             case shareSAPMaterialStockAction = "ShareSAPMaterialStockAction"
             case shareSAPPhysicalInventoryAction = "ShareSAPPhysicalInventoryAction"
             case shareSAPProductMasterDataAction = "ShareSAPProductMasterDataAction"
             case shareServiceNowAction = "ShareServiceNowAction"
+            case shareServiceNowDataSource = "ShareServiceNowDataSource"
             case shareSharePointAction = "ShareSharePointAction"
             case shareSharePointKnowledgeBase = "ShareSharePointKnowledgeBase"
             case shareShopifyAction = "ShareShopifyAction"
             case shareSlackAction = "ShareSlackAction"
             case shareSmartsheetAction = "ShareSmartsheetAction"
             case shareSnowFlakeAction = "ShareSnowFlakeAction"
+            case shareSnowflakeDataSource = "ShareSnowflakeDataSource"
             case shareSpaces = "ShareSpaces"
+            case shareSparkDataSource = "ShareSparkDataSource"
+            case shareSqlServerDataSource = "ShareSqlServerDataSource"
+            case shareSquareDataSource = "ShareSquareDataSource"
+            case shareStarburstDataSource = "ShareStarburstDataSource"
+            case shareTeradataDataSource = "ShareTeradataDataSource"
             case shareTextractAction = "ShareTextractAction"
+            case shareTimestreamDataSource = "ShareTimestreamDataSource"
+            case shareTrinoDataSource = "ShareTrinoDataSource"
+            case shareTwitterDataSource = "ShareTwitterDataSource"
             case shareVisierAgentAction = "ShareVisierAgentAction"
             case shareWebCrawlerKnowledgeBase = "ShareWebCrawlerKnowledgeBase"
             case shareWhatsAppAction = "ShareWhatsAppAction"
@@ -10157,12 +10844,66 @@ extension QuickSight {
             case slackAction = "SlackAction"
             case smartsheetAction = "SmartsheetAction"
             case snowFlakeAction = "SnowFlakeAction"
+            case snowflakeDataSource = "SnowflakeDataSource"
             case space = "Space"
+            case sparkDataSource = "SparkDataSource"
+            case sqlServerDataSource = "SqlServerDataSource"
+            case squareDataSource = "SquareDataSource"
+            case starburstDataSource = "StarburstDataSource"
             case story = "Story"
             case subscribeDashboardEmailReports = "SubscribeDashboardEmailReports"
+            case teradataDataSource = "TeradataDataSource"
             case textractAction = "TextractAction"
+            case timestreamDataSource = "TimestreamDataSource"
             case topic = "Topic"
             case trigger = "Trigger"
+            case trinoDataSource = "TrinoDataSource"
+            case twitterDataSource = "TwitterDataSource"
+            case updateAdobeAnalyticsDataSource = "UpdateAdobeAnalyticsDataSource"
+            case updateAthenaDataSource = "UpdateAthenaDataSource"
+            case updateAuroraDataSource = "UpdateAuroraDataSource"
+            case updateDatabricksDataSource = "UpdateDatabricksDataSource"
+            case updateDb2DataSource = "UpdateDb2DataSource"
+            case updateDenodoDataSource = "UpdateDenodoDataSource"
+            case updateDocumentDbDataSource = "UpdateDocumentDbDataSource"
+            case updateDremioDataSource = "UpdateDremioDataSource"
+            case updateDynamoDbDataSource = "UpdateDynamoDbDataSource"
+            case updateExasolDataSource = "UpdateExasolDataSource"
+            case updateFileDataSource = "UpdateFileDataSource"
+            case updateGitHubDataSource = "UpdateGitHubDataSource"
+            case updateGoogleAnalyticsDataSource = "UpdateGoogleAnalyticsDataSource"
+            case updateGoogleBigQueryDataSource = "UpdateGoogleBigQueryDataSource"
+            case updateGoogleSheetsDataSource = "UpdateGoogleSheetsDataSource"
+            case updateImpalaDataSource = "UpdateImpalaDataSource"
+            case updateJiraDataSource = "UpdateJiraDataSource"
+            case updateMariaDbDataSource = "UpdateMariaDbDataSource"
+            case updateMongoAtlasDataSource = "UpdateMongoAtlasDataSource"
+            case updateMongoDbDataSource = "UpdateMongoDbDataSource"
+            case updateMySqlDataSource = "UpdateMySqlDataSource"
+            case updateOpenSearchDataSource = "UpdateOpenSearchDataSource"
+            case updateOracleDataSource = "UpdateOracleDataSource"
+            case updatePayPalDataSource = "UpdatePayPalDataSource"
+            case updatePostgreSqlDataSource = "UpdatePostgreSqlDataSource"
+            case updatePrestoDataSource = "UpdatePrestoDataSource"
+            case updateRadiantDataSource = "UpdateRadiantDataSource"
+            case updateRdsDataSource = "UpdateRdsDataSource"
+            case updateRedshiftAutoDiscoveredDataSource = "UpdateRedshiftAutoDiscoveredDataSource"
+            case updateRedshiftManualDataSource = "UpdateRedshiftManualDataSource"
+            case updateS3AnalyticsDataSource = "UpdateS3AnalyticsDataSource"
+            case updateS3DataSource = "UpdateS3DataSource"
+            case updateS3TablesDataSource = "UpdateS3TablesDataSource"
+            case updateSalesforceDataSource = "UpdateSalesforceDataSource"
+            case updateSapHanaDataSource = "UpdateSapHanaDataSource"
+            case updateServiceNowDataSource = "UpdateServiceNowDataSource"
+            case updateSnowflakeDataSource = "UpdateSnowflakeDataSource"
+            case updateSparkDataSource = "UpdateSparkDataSource"
+            case updateSqlServerDataSource = "UpdateSqlServerDataSource"
+            case updateSquareDataSource = "UpdateSquareDataSource"
+            case updateStarburstDataSource = "UpdateStarburstDataSource"
+            case updateTeradataDataSource = "UpdateTeradataDataSource"
+            case updateTimestreamDataSource = "UpdateTimestreamDataSource"
+            case updateTrinoDataSource = "UpdateTrinoDataSource"
+            case updateTwitterDataSource = "UpdateTwitterDataSource"
             case useAdobeAction = "UseAdobeAction"
             case useAgentWebSearch = "UseAgentWebSearch"
             case useAirtableAction = "UseAirtableAction"
@@ -10193,6 +10934,7 @@ extension QuickSight {
             case useGenericHTTPAction = "UseGenericHTTPAction"
             case useGithubAction = "UseGithubAction"
             case useGmailAction = "UseGmailAction"
+            case useGongAction = "UseGongAction"
             case useGoogleAnalyticsAction = "UseGoogleAnalyticsAction"
             case useGoogleCalendarAction = "UseGoogleCalendarAction"
             case useGoogleChatAction = "UseGoogleChatAction"
@@ -18496,16 +19238,22 @@ extension QuickSight {
     }
 
     public struct DatabricksParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The authentication type that you want to use for your connection. This parameter accepts OAuth and non-OAuth authentication types.
+        public let authenticationType: AuthenticationType?
         /// The host name of the Databricks data source.
         public let host: String
+        /// An object that contains information needed to create a data source connection between an Quick Sight account and Databricks.
+        public let oAuthParameters: OAuthParameters?
         /// The port for the Databricks data source.
         public let port: Int
         /// The HTTP path of the Databricks data source.
         public let sqlEndpointPath: String
 
         @inlinable
-        public init(host: String, port: Int, sqlEndpointPath: String) {
+        public init(authenticationType: AuthenticationType? = nil, host: String, oAuthParameters: OAuthParameters? = nil, port: Int, sqlEndpointPath: String) {
+            self.authenticationType = authenticationType
             self.host = host
+            self.oAuthParameters = oAuthParameters
             self.port = port
             self.sqlEndpointPath = sqlEndpointPath
         }
@@ -18513,6 +19261,7 @@ extension QuickSight {
         public func validate(name: String) throws {
             try self.validate(self.host, name: "host", parent: name, max: 256)
             try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.oAuthParameters?.validate(name: "\(name).oAuthParameters")
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
             try self.validate(self.sqlEndpointPath, name: "sqlEndpointPath", parent: name, max: 4096)
@@ -18520,7 +19269,9 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationType = "AuthenticationType"
             case host = "Host"
+            case oAuthParameters = "OAuthParameters"
             case port = "Port"
             case sqlEndpointPath = "SqlEndpointPath"
         }
@@ -19257,6 +20008,10 @@ extension QuickSight {
         public let defaultDateTimePickerOptions: DefaultDateTimePickerControlOptions?
         /// The default options that correspond to the Dropdown filter control type.
         public let defaultDropdownOptions: DefaultFilterDropDownControlOptions?
+        /// The default options that correspond to the HierarchyDropdown filter control type.
+        public let defaultHierarchyDropdown: DefaultHierarchyFilterDropDownControlOptions?
+        /// The default options that correspond to the HierarchyList filter control type.
+        public let defaultHierarchyList: DefaultHierarchyFilterListControlOptions?
         /// The default options that correspond to the List filter control type.
         public let defaultListOptions: DefaultFilterListControlOptions?
         /// The default options that correspond to the RelativeDateTime filter control type.
@@ -19269,9 +20024,11 @@ extension QuickSight {
         public let defaultTextFieldOptions: DefaultTextFieldControlOptions?
 
         @inlinable
-        public init(defaultDateTimePickerOptions: DefaultDateTimePickerControlOptions? = nil, defaultDropdownOptions: DefaultFilterDropDownControlOptions? = nil, defaultListOptions: DefaultFilterListControlOptions? = nil, defaultRelativeDateTimeOptions: DefaultRelativeDateTimeControlOptions? = nil, defaultSliderOptions: DefaultSliderControlOptions? = nil, defaultTextAreaOptions: DefaultTextAreaControlOptions? = nil, defaultTextFieldOptions: DefaultTextFieldControlOptions? = nil) {
+        public init(defaultDateTimePickerOptions: DefaultDateTimePickerControlOptions? = nil, defaultDropdownOptions: DefaultFilterDropDownControlOptions? = nil, defaultHierarchyDropdown: DefaultHierarchyFilterDropDownControlOptions? = nil, defaultHierarchyList: DefaultHierarchyFilterListControlOptions? = nil, defaultListOptions: DefaultFilterListControlOptions? = nil, defaultRelativeDateTimeOptions: DefaultRelativeDateTimeControlOptions? = nil, defaultSliderOptions: DefaultSliderControlOptions? = nil, defaultTextAreaOptions: DefaultTextAreaControlOptions? = nil, defaultTextFieldOptions: DefaultTextFieldControlOptions? = nil) {
             self.defaultDateTimePickerOptions = defaultDateTimePickerOptions
             self.defaultDropdownOptions = defaultDropdownOptions
+            self.defaultHierarchyDropdown = defaultHierarchyDropdown
+            self.defaultHierarchyList = defaultHierarchyList
             self.defaultListOptions = defaultListOptions
             self.defaultRelativeDateTimeOptions = defaultRelativeDateTimeOptions
             self.defaultSliderOptions = defaultSliderOptions
@@ -19282,6 +20039,8 @@ extension QuickSight {
         public func validate(name: String) throws {
             try self.defaultDateTimePickerOptions?.validate(name: "\(name).defaultDateTimePickerOptions")
             try self.defaultDropdownOptions?.validate(name: "\(name).defaultDropdownOptions")
+            try self.defaultHierarchyDropdown?.validate(name: "\(name).defaultHierarchyDropdown")
+            try self.defaultHierarchyList?.validate(name: "\(name).defaultHierarchyList")
             try self.defaultListOptions?.validate(name: "\(name).defaultListOptions")
             try self.defaultRelativeDateTimeOptions?.validate(name: "\(name).defaultRelativeDateTimeOptions")
             try self.defaultSliderOptions?.validate(name: "\(name).defaultSliderOptions")
@@ -19292,6 +20051,8 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case defaultDateTimePickerOptions = "DefaultDateTimePickerOptions"
             case defaultDropdownOptions = "DefaultDropdownOptions"
+            case defaultHierarchyDropdown = "DefaultHierarchyDropdown"
+            case defaultHierarchyList = "DefaultHierarchyList"
             case defaultListOptions = "DefaultListOptions"
             case defaultRelativeDateTimeOptions = "DefaultRelativeDateTimeOptions"
             case defaultSliderOptions = "DefaultSliderOptions"
@@ -19421,6 +20182,84 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case canvasSizeOptions = "CanvasSizeOptions"
+        }
+    }
+
+    public struct DefaultHierarchyFilterDropDownControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the Apply button on a HierarchyFilterDropDownControl.
+        public let commitMode: CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public let controlSortConfigurations: [ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
+        /// The display options of a control.
+        public let displayOptions: HierarchyFilterDropDownControlDisplayOptions?
+        /// The type of the DefaultHierarchyFilterDropDownControlOptions. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from a dropdown menu.    SINGLE_SELECT: The user can select a single entry from a dropdown menu.
+        public let type: SheetControlListType?
+
+        @inlinable
+        public init(commitMode: CommitMode? = nil, controlSortConfigurations: [ControlSortConfiguration]? = nil, controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: HierarchyFilterDropDownControlDisplayOptions? = nil, type: SheetControlListType? = nil) {
+            self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
+            self.displayOptions = displayOptions
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.controlSortConfigurations?.forEach {
+                try $0.validate(name: "\(name).controlSortConfigurations[]")
+            }
+            try self.validate(self.controlSortConfigurations, name: "controlSortConfigurations", parent: name, max: 1)
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitMode = "CommitMode"
+            case controlSortConfigurations = "ControlSortConfigurations"
+            case controlTitleFormatText = "ControlTitleFormatText"
+            case displayOptions = "DisplayOptions"
+            case type = "Type"
+        }
+    }
+
+    public struct DefaultHierarchyFilterListControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the Apply button on a HierarchyFilterListControl.
+        public let commitMode: CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public let controlSortConfigurations: [ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
+        /// The display options of a control.
+        public let displayOptions: HierarchyFilterListControlDisplayOptions?
+        /// The type of the DefaultHierarchyFilterListControlOptions. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from the list.    SINGLE_SELECT: The user can select a single entry from the list.
+        public let type: SheetControlListType?
+
+        @inlinable
+        public init(commitMode: CommitMode? = nil, controlSortConfigurations: [ControlSortConfiguration]? = nil, controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: HierarchyFilterListControlDisplayOptions? = nil, type: SheetControlListType? = nil) {
+            self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
+            self.displayOptions = displayOptions
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.controlSortConfigurations?.forEach {
+                try $0.validate(name: "\(name).controlSortConfigurations[]")
+            }
+            try self.validate(self.controlSortConfigurations, name: "controlSortConfigurations", parent: name, max: 1)
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitMode = "CommitMode"
+            case controlSortConfigurations = "ControlSortConfigurations"
+            case controlTitleFormatText = "ControlTitleFormatText"
+            case displayOptions = "DisplayOptions"
+            case type = "Type"
         }
     }
 
@@ -28152,6 +28991,8 @@ extension QuickSight {
     public struct Filter: AWSEncodableShape & AWSDecodableShape {
         /// A CategoryFilter filters text values. For more information, see Adding text filters in the Amazon Quick Suite User Guide.
         public let categoryFilter: CategoryFilter?
+        /// A HierarchyFilter filters data by drilling down through an ordered list of columns. Each level in the list narrows the data by one column, and the selected values at each level determine which values are available at the next.
+        public let hierarchyFilter: HierarchyFilter?
         /// A NestedFilter filters data with a subset of data that is defined by the nested inner filter.
         public let nestedFilter: NestedFilter?
         /// A NumericEqualityFilter filters numeric values that equal or do not equal a given numeric value.
@@ -28168,8 +29009,9 @@ extension QuickSight {
         public let topBottomFilter: TopBottomFilter?
 
         @inlinable
-        public init(categoryFilter: CategoryFilter? = nil, nestedFilter: NestedFilter? = nil, numericEqualityFilter: NumericEqualityFilter? = nil, numericRangeFilter: NumericRangeFilter? = nil, relativeDatesFilter: RelativeDatesFilter? = nil, timeEqualityFilter: TimeEqualityFilter? = nil, timeRangeFilter: TimeRangeFilter? = nil, topBottomFilter: TopBottomFilter? = nil) {
+        public init(categoryFilter: CategoryFilter? = nil, hierarchyFilter: HierarchyFilter? = nil, nestedFilter: NestedFilter? = nil, numericEqualityFilter: NumericEqualityFilter? = nil, numericRangeFilter: NumericRangeFilter? = nil, relativeDatesFilter: RelativeDatesFilter? = nil, timeEqualityFilter: TimeEqualityFilter? = nil, timeRangeFilter: TimeRangeFilter? = nil, topBottomFilter: TopBottomFilter? = nil) {
             self.categoryFilter = categoryFilter
+            self.hierarchyFilter = hierarchyFilter
             self.nestedFilter = nestedFilter
             self.numericEqualityFilter = numericEqualityFilter
             self.numericRangeFilter = numericRangeFilter
@@ -28181,6 +29023,7 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.categoryFilter?.validate(name: "\(name).categoryFilter")
+            try self.hierarchyFilter?.validate(name: "\(name).hierarchyFilter")
             try self.nestedFilter?.validate(name: "\(name).nestedFilter")
             try self.numericEqualityFilter?.validate(name: "\(name).numericEqualityFilter")
             try self.numericRangeFilter?.validate(name: "\(name).numericRangeFilter")
@@ -28192,6 +29035,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case categoryFilter = "CategoryFilter"
+            case hierarchyFilter = "HierarchyFilter"
             case nestedFilter = "NestedFilter"
             case numericEqualityFilter = "NumericEqualityFilter"
             case numericRangeFilter = "NumericRangeFilter"
@@ -28235,6 +29079,10 @@ extension QuickSight {
         public let dateTimePicker: FilterDateTimePickerControl?
         /// A control to display a dropdown list with buttons that are used to select a single value.
         public let dropdown: FilterDropDownControl?
+        /// A control from a hierarchy filter that displays the hierarchy as a dropdown list. You can expand a value to see and select the values beneath it, and select either a single value or multiple values.
+        public let hierarchyDropdown: HierarchyFilterDropDownControl?
+        /// A control from a hierarchy filter that displays the hierarchy as a list. You can expand a value to see and select the values beneath it, and select either a single value or multiple values.
+        public let hierarchyList: HierarchyFilterListControl?
         /// A control to display a list of buttons or boxes. This is used to select either a single value or multiple values.
         public let list: FilterListControl?
         /// A control from a date filter that is used to specify the relative date.
@@ -28247,10 +29095,12 @@ extension QuickSight {
         public let textField: FilterTextFieldControl?
 
         @inlinable
-        public init(crossSheet: FilterCrossSheetControl? = nil, dateTimePicker: FilterDateTimePickerControl? = nil, dropdown: FilterDropDownControl? = nil, list: FilterListControl? = nil, relativeDateTime: FilterRelativeDateTimeControl? = nil, slider: FilterSliderControl? = nil, textArea: FilterTextAreaControl? = nil, textField: FilterTextFieldControl? = nil) {
+        public init(crossSheet: FilterCrossSheetControl? = nil, dateTimePicker: FilterDateTimePickerControl? = nil, dropdown: FilterDropDownControl? = nil, hierarchyDropdown: HierarchyFilterDropDownControl? = nil, hierarchyList: HierarchyFilterListControl? = nil, list: FilterListControl? = nil, relativeDateTime: FilterRelativeDateTimeControl? = nil, slider: FilterSliderControl? = nil, textArea: FilterTextAreaControl? = nil, textField: FilterTextFieldControl? = nil) {
             self.crossSheet = crossSheet
             self.dateTimePicker = dateTimePicker
             self.dropdown = dropdown
+            self.hierarchyDropdown = hierarchyDropdown
+            self.hierarchyList = hierarchyList
             self.list = list
             self.relativeDateTime = relativeDateTime
             self.slider = slider
@@ -28262,6 +29112,8 @@ extension QuickSight {
             try self.crossSheet?.validate(name: "\(name).crossSheet")
             try self.dateTimePicker?.validate(name: "\(name).dateTimePicker")
             try self.dropdown?.validate(name: "\(name).dropdown")
+            try self.hierarchyDropdown?.validate(name: "\(name).hierarchyDropdown")
+            try self.hierarchyList?.validate(name: "\(name).hierarchyList")
             try self.list?.validate(name: "\(name).list")
             try self.relativeDateTime?.validate(name: "\(name).relativeDateTime")
             try self.slider?.validate(name: "\(name).slider")
@@ -28273,6 +29125,8 @@ extension QuickSight {
             case crossSheet = "CrossSheet"
             case dateTimePicker = "DateTimePicker"
             case dropdown = "Dropdown"
+            case hierarchyDropdown = "HierarchyDropdown"
+            case hierarchyList = "HierarchyList"
             case list = "List"
             case relativeDateTime = "RelativeDateTime"
             case slider = "Slider"
@@ -32583,6 +33437,295 @@ extension QuickSight {
             case title = "Title"
             case visualContentAltText = "VisualContentAltText"
             case visualId = "VisualId"
+        }
+    }
+
+    public struct HierarchyFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The column that anchors the filter. This column determines the dataset that the whole filter applies to, so every column in HierarchyLevels and in HierarchyTree must belong to the same dataset.
+        public let column: ColumnIdentifier
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public let defaultFilterControlConfiguration: DefaultFilterControlConfiguration?
+        /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
+        public let filterId: String
+        /// The ordered list of columns that defines the drill-down path of the filter. The first level is the top of the hierarchy. You can specify a maximum of 5 levels.
+        public let hierarchyLevels: [HierarchyFilterLevel]
+        /// The tree of selected values for the filter. Each node records the values that are selected at one level of the hierarchy, and its children record the selections beneath those values. Omit this attribute to define the drill-down path without restricting any values.
+        public let hierarchyTree: HierarchyFilterNode?
+        /// Determines whether the values selected in HierarchyTree are kept or removed. Choose one of the following options:    INCLUDE: Keep only the selected values.    EXCLUDE: Remove the selected values.
+        public let matchOperator: HierarchyFilterMatchOperator
+        /// This option determines how null values should be treated when filtering data.    ALL_VALUES: Include null values in filtered results.    NULLS_ONLY: Only include null values in filtered results.    NON_NULLS_ONLY: Exclude null values from filtered results.
+        public let nullOption: FilterNullOption
+
+        @inlinable
+        public init(column: ColumnIdentifier, defaultFilterControlConfiguration: DefaultFilterControlConfiguration? = nil, filterId: String, hierarchyLevels: [HierarchyFilterLevel], hierarchyTree: HierarchyFilterNode? = nil, matchOperator: HierarchyFilterMatchOperator, nullOption: FilterNullOption) {
+            self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
+            self.filterId = filterId
+            self.hierarchyLevels = hierarchyLevels
+            self.hierarchyTree = hierarchyTree
+            self.matchOperator = matchOperator
+            self.nullOption = nullOption
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+            try self.defaultFilterControlConfiguration?.validate(name: "\(name).defaultFilterControlConfiguration")
+            try self.validate(self.filterId, name: "filterId", parent: name, max: 512)
+            try self.validate(self.filterId, name: "filterId", parent: name, min: 1)
+            try self.validate(self.filterId, name: "filterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.hierarchyLevels.forEach {
+                try $0.validate(name: "\(name).hierarchyLevels[]")
+            }
+            try self.validate(self.hierarchyLevels, name: "hierarchyLevels", parent: name, max: 5)
+            try self.validate(self.hierarchyLevels, name: "hierarchyLevels", parent: name, min: 1)
+            try self.hierarchyTree?.validate(name: "\(name).hierarchyTree")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+            case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
+            case filterId = "FilterId"
+            case hierarchyLevels = "HierarchyLevels"
+            case hierarchyTree = "HierarchyTree"
+            case matchOperator = "MatchOperator"
+            case nullOption = "NullOption"
+        }
+    }
+
+    public struct HierarchyFilterDropDownControl: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the Apply button on a HierarchyFilterDropDownControl.
+        public let commitMode: CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public let controlSortConfigurations: [ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
+        /// The display options of a control.
+        public let displayOptions: HierarchyFilterDropDownControlDisplayOptions?
+        /// The ID of the HierarchyFilterDropDownControl.
+        public let filterControlId: String
+        /// The source filter ID of the HierarchyFilterDropDownControl. This must be the FilterId of a HierarchyFilter.
+        public let sourceFilterId: String
+        /// The title of the HierarchyFilterDropDownControl.
+        public let title: String?
+        /// The type of the HierarchyFilterDropDownControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from a dropdown menu.    SINGLE_SELECT: The user can select a single entry from a dropdown menu.
+        public let type: SheetControlListType?
+
+        @inlinable
+        public init(commitMode: CommitMode? = nil, controlSortConfigurations: [ControlSortConfiguration]? = nil, controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: HierarchyFilterDropDownControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String? = nil, type: SheetControlListType? = nil) {
+            self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.sourceFilterId = sourceFilterId
+            self.title = title
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.controlSortConfigurations?.forEach {
+                try $0.validate(name: "\(name).controlSortConfigurations[]")
+            }
+            try self.validate(self.controlSortConfigurations, name: "controlSortConfigurations", parent: name, max: 1)
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, max: 512)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitMode = "CommitMode"
+            case controlSortConfigurations = "ControlSortConfigurations"
+            case controlTitleFormatText = "ControlTitleFormatText"
+            case displayOptions = "DisplayOptions"
+            case filterControlId = "FilterControlId"
+            case sourceFilterId = "SourceFilterId"
+            case title = "Title"
+            case type = "Type"
+        }
+    }
+
+    public struct HierarchyFilterDropDownControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of info icon label options.
+        public let infoIconLabelOptions: SheetControlInfoIconLabelOptions?
+        /// The options to configure the title visibility, name, and font size.
+        public let titleOptions: LabelOptions?
+
+        @inlinable
+        public init(infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, titleOptions: LabelOptions? = nil) {
+            self.infoIconLabelOptions = infoIconLabelOptions
+            self.titleOptions = titleOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.infoIconLabelOptions?.validate(name: "\(name).infoIconLabelOptions")
+            try self.titleOptions?.validate(name: "\(name).titleOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infoIconLabelOptions = "InfoIconLabelOptions"
+            case titleOptions = "TitleOptions"
+        }
+    }
+
+    public struct HierarchyFilterLevel: AWSEncodableShape & AWSDecodableShape {
+        /// The column that this level of the hierarchy drills down by. This column must belong to the same dataset as HierarchyFilter$Column.
+        public let column: ColumnIdentifier
+
+        @inlinable
+        public init(column: ColumnIdentifier) {
+            self.column = column
+        }
+
+        public func validate(name: String) throws {
+            try self.column.validate(name: "\(name).column")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case column = "Column"
+        }
+    }
+
+    public struct HierarchyFilterListControl: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the Apply button on a HierarchyFilterListControl.
+        public let commitMode: CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public let controlSortConfigurations: [ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
+        /// The display options of a control.
+        public let displayOptions: HierarchyFilterListControlDisplayOptions?
+        /// The ID of the HierarchyFilterListControl.
+        public let filterControlId: String
+        /// The source filter ID of the HierarchyFilterListControl. This must be the FilterId of a HierarchyFilter.
+        public let sourceFilterId: String
+        /// The title of the HierarchyFilterListControl.
+        public let title: String?
+        /// The type of the HierarchyFilterListControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from the list.    SINGLE_SELECT: The user can select a single entry from the list.
+        public let type: SheetControlListType?
+
+        @inlinable
+        public init(commitMode: CommitMode? = nil, controlSortConfigurations: [ControlSortConfiguration]? = nil, controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: HierarchyFilterListControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String? = nil, type: SheetControlListType? = nil) {
+            self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
+            self.displayOptions = displayOptions
+            self.filterControlId = filterControlId
+            self.sourceFilterId = sourceFilterId
+            self.title = title
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.controlSortConfigurations?.forEach {
+                try $0.validate(name: "\(name).controlSortConfigurations[]")
+            }
+            try self.validate(self.controlSortConfigurations, name: "controlSortConfigurations", parent: name, max: 1)
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
+            try self.displayOptions?.validate(name: "\(name).displayOptions")
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
+            try self.validate(self.filterControlId, name: "filterControlId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, max: 512)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
+            try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.validate(self.title, name: "title", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commitMode = "CommitMode"
+            case controlSortConfigurations = "ControlSortConfigurations"
+            case controlTitleFormatText = "ControlTitleFormatText"
+            case displayOptions = "DisplayOptions"
+            case filterControlId = "FilterControlId"
+            case sourceFilterId = "SourceFilterId"
+            case title = "Title"
+            case type = "Type"
+        }
+    }
+
+    public struct HierarchyFilterListControlDisplayOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of info icon label options.
+        public let infoIconLabelOptions: SheetControlInfoIconLabelOptions?
+        /// The configuration of the search options in a hierarchy list control.
+        public let searchOptions: HierarchyFilterListControlSearchOptions?
+        /// The options to configure the title visibility, name, and font size.
+        public let titleOptions: LabelOptions?
+
+        @inlinable
+        public init(infoIconLabelOptions: SheetControlInfoIconLabelOptions? = nil, searchOptions: HierarchyFilterListControlSearchOptions? = nil, titleOptions: LabelOptions? = nil) {
+            self.infoIconLabelOptions = infoIconLabelOptions
+            self.searchOptions = searchOptions
+            self.titleOptions = titleOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.infoIconLabelOptions?.validate(name: "\(name).infoIconLabelOptions")
+            try self.titleOptions?.validate(name: "\(name).titleOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infoIconLabelOptions = "InfoIconLabelOptions"
+            case searchOptions = "SearchOptions"
+            case titleOptions = "TitleOptions"
+        }
+    }
+
+    public struct HierarchyFilterListControlSearchOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The visibility configuration of the search options in a hierarchy list control.
+        public let visibility: Visibility?
+
+        @inlinable
+        public init(visibility: Visibility? = nil) {
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct HierarchyFilterNode: AWSEncodableShape & AWSDecodableShape {
+        /// The nodes that record the selections at the next level of the hierarchy. You can specify a maximum of 1,000 children per node.
+        public let children: [HierarchyFilterNode]?
+        /// The column that this node selects values from. This column must match the column of the corresponding level in HierarchyFilter$HierarchyLevels. The node at depth 1 must match the first level, the node at depth 2 must match the second level, and so on.
+        public let column: ColumnIdentifier
+        /// The values that are selected at this level of the hierarchy. You can specify a maximum of 2,000 values per node.
+        public let hierarchyValues: [String]?
+        /// The value in the parent node's HierarchyValues that this node belongs to. When a parent selects several values, each of its children repeats one of them here to identify which branch of the hierarchy that child describes. Omit this attribute on the root node of HierarchyTree, which has no parent.
+        public let parentValue: String?
+
+        @inlinable
+        public init(children: [HierarchyFilterNode]? = nil, column: ColumnIdentifier, hierarchyValues: [String]? = nil, parentValue: String? = nil) {
+            self.children = children
+            self.column = column
+            self.hierarchyValues = hierarchyValues
+            self.parentValue = parentValue
+        }
+
+        public func validate(name: String) throws {
+            try self.children?.forEach {
+                try $0.validate(name: "\(name).children[]")
+            }
+            try self.validate(self.children, name: "children", parent: name, max: 1000)
+            try self.column.validate(name: "\(name).column")
+            try self.hierarchyValues?.forEach {
+                try validate($0, name: "hierarchyValues[]", parent: name, max: 512)
+            }
+            try self.validate(self.hierarchyValues, name: "hierarchyValues", parent: name, max: 2000)
+            try self.validate(self.parentValue, name: "parentValue", parent: name, max: 512)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case children = "Children"
+            case column = "Column"
+            case hierarchyValues = "HierarchyValues"
+            case parentValue = "ParentValue"
         }
     }
 

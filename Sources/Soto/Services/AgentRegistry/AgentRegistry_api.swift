@@ -162,7 +162,7 @@ public struct AgentRegistry: AWSService {
     ///  Searches the discoverable registry records in a registry using a natural language query. Returns metadata for the matching records ordered by relevance.
     ///
     /// Parameters:
-    ///   - filters:  An optional structured JSON metadata filter that narrows the search results. Supports the field-level operators $eq, $ne, and $in, and the logical operators $and and $or on filterable fields.  You can also filter on custom metadata fields using the customMetadata.{key} prefix. For example, to filter by a custom metadata field: {"customMetadata.environment": {"$eq": "production"}}. Filter values must be strings, so match a boolean field on its string form: {"customMetadata.requiresApproval": {"$eq": "true"}}.
+    ///   - filters:  An optional structured JSON metadata filter that narrows the search results. Supports the field-level operators $eq, $ne, and $in, and the logical operators $and and $or on filterable fields.  Specifies additional filtering on custom metadata fields using the customMetadata.{key} prefix. For example, to filter by a custom metadata field: {"customMetadata.environment": {"$eq": "production"}}. For a Boolean field, you can also use a native JSON boolean value, for example: {"customMetadata.requiresApproval": {"$eq": true}}.
     ///   - maxResults:  The maximum number of results to return. Valid values are 1 through 20. The default value is 10.
     ///   - registryIds:  The registry identifiers to search within. Currently, you must specify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the registry ID.
     ///   - searchQuery:  The natural language query to search for matching registry records.

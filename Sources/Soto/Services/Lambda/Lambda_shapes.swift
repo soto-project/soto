@@ -179,6 +179,7 @@ extension Lambda {
     public enum KafkaSchemaRegistryAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basicAuth = "BASIC_AUTH"
         case clientCertificateTlsAuth = "CLIENT_CERTIFICATE_TLS_AUTH"
+        case oauthbearerAuth = "OAUTHBEARER_AUTH"
         case serverRootCaCertificate = "SERVER_ROOT_CA_CERTIFICATE"
         public var description: String { return self.rawValue }
     }
@@ -397,6 +398,13 @@ extension Lambda {
     public enum SourceAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basicAuth = "BASIC_AUTH"
         case clientCertificateTlsAuth = "CLIENT_CERTIFICATE_TLS_AUTH"
+        case iamAuth = "IAM_AUTH"
+        case iamOauthbearerAuth = "IAM_OAUTHBEARER_AUTH"
+        case oauthbearerAudience = "OAUTHBEARER_AUDIENCE"
+        case oauthbearerAuth = "OAUTHBEARER_AUTH"
+        case oauthbearerIdentityPool = "OAUTHBEARER_IDENTITY_POOL"
+        case oauthbearerLogicalCluster = "OAUTHBEARER_LOGICAL_CLUSTER"
+        case oauthbearerScope = "OAUTHBEARER_SCOPE"
         case saslScram256Auth = "SASL_SCRAM_256_AUTH"
         case saslScram512Auth = "SASL_SCRAM_512_AUTH"
         case serverRootCaCertificate = "SERVER_ROOT_CA_CERTIFICATE"
@@ -2729,7 +2737,7 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(runtime/|function:)[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
             try self.validate(self.revisionId, name: "revisionId", parent: name, max: 36)
             try self.validate(self.revisionId, name: "revisionId", parent: name, min: 36)
             try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -5062,7 +5070,7 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(runtime/|function:)[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5719,7 +5727,7 @@ extension Lambda {
     }
 
     public struct KafkaSchemaRegistryAccessConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  The type of authentication Lambda uses to access your schema registry.
+        ///  The type of authentication Lambda uses to access your schema registry.     BASIC_AUTH – The Secrets Manager ARN of your secret key used for basic authentication with your Confluent schema registry.    CLIENT_CERTIFICATE_TLS_AUTH – The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication with your Confluent schema registry.    SERVER_ROOT_CA_CERTIFICATE – The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption with your Confluent schema registry.    OAUTHBEARER_AUTH – The Secrets Manager ARN of your secret key containing the OAuth 2.0 credentials that Lambda uses to acquire an access token for your Confluent schema registry. For the contents of the secret, see Configuring the OAuth secret.
         public let type: KafkaSchemaRegistryAuthType?
         ///  The URI of the secret (Secrets Manager secret ARN) to authenticate with your schema registry.
         public let uri: String?
@@ -6146,7 +6154,7 @@ extension Lambda {
         public let marker: String?
         /// Maximum number of executions to return (1-1000). Default is 100.
         public let maxItems: Int?
-        /// The function version or alias. If not specified, lists executions for the $LATEST version.
+        /// The function version to filter executions by. If you don't specify a qualifier, this operation returns executions across all versions of the Lambda function.
         public let qualifier: String?
         /// Set to true to return results in chronological order (oldest first). Default is false.
         public let reverseOrder: Bool?
@@ -7689,7 +7697,7 @@ extension Lambda {
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(runtime/|function:)[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
             try self.validate(self.revisionId, name: "revisionId", parent: name, max: 36)
             try self.validate(self.revisionId, name: "revisionId", parent: name, min: 36)
             try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -8263,7 +8271,7 @@ extension Lambda {
             try self.validate(self.callbackId, name: "callbackId", parent: name, max: 1024)
             try self.validate(self.callbackId, name: "callbackId", parent: name, min: 1)
             try self.validate(self.callbackId, name: "callbackId", parent: name, pattern: "^[A-Za-z0-9+/]+={0,2}$")
-            try self.validate(self.result, name: "result", parent: name, max: 262144)
+            try self.validate(self.result, name: "result", parent: name, max: 1048576)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8423,7 +8431,7 @@ extension Lambda {
     }
 
     public struct SourceAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH – (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET – (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP – (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH – (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST –- (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source. This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH – (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
+        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH – (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET – (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP – (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH – (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST –- (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source. This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH – (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.     OAUTHBEARER_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the OAuth 2.0 credentials that Lambda uses for SASL/OAUTHBEARER authentication with your Apache Kafka brokers. For the contents of the secret, see Configuring the OAuth secret.    OAUTHBEARER_SCOPE – (Self-managed Apache Kafka) The OAuth 2.0 scope that Lambda requests when it acquires an access token. The URI field holds the scope value, not a secret ARN. This type requires OAUTHBEARER_AUTH.    OAUTHBEARER_AUDIENCE – (Self-managed Apache Kafka) The OAuth 2.0 audience that Lambda requests when it acquires an access token. The URI field holds the audience value, not a secret ARN. This type requires either OAUTHBEARER_AUTH or IAM_OAUTHBEARER_AUTH.    OAUTHBEARER_LOGICAL_CLUSTER – (Self-managed Apache Kafka) The logical cluster identifier that Lambda sends to a Confluent Cloud broker. The URI field holds the identifier, not a secret ARN. This type requires OAUTHBEARER_AUTH.    OAUTHBEARER_IDENTITY_POOL – (Self-managed Apache Kafka) The identity pool identifier that Lambda sends to a Confluent Cloud broker. The URI field holds the identifier, not a secret ARN. This type requires OAUTHBEARER_AUTH.    IAM_AUTH – (Self-managed Apache Kafka) Authenticate with Identity and Access Management (IAM). Your function's execution role signs each connection, so there is no secret to provide. Omit the URI field for this type.    IAM_OAUTHBEARER_AUTH – (Self-managed Apache Kafka) Authenticate with an Amazon Web Services web identity token over SASL/OAUTHBEARER. Lambda requests the token for your function's execution role, so there is no secret to provide. Omit the URI field for this type. This type requires OAUTHBEARER_AUDIENCE and does not support the other OAUTHBEARER types.
         public let type: SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public let uri: String?

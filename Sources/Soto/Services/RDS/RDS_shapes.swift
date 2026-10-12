@@ -1308,6 +1308,7 @@ extension RDS {
 
     public struct CreateBlueGreenDeploymentRequest: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TargetResourceConfigurationsEncoding: ArrayCoderProperties { public static let member = "TargetResourceConfiguration" }
 
         /// The name of the blue/green deployment. Constraints:   Can't be the same as an existing blue/green deployment name in the same account and Amazon Web Services Region.
         public let blueGreenDeploymentName: String?
@@ -1328,6 +1329,9 @@ extension RDS {
         public let targetEngineVersion: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to allocate for the green DB instance. For information about valid IOPS values, see Amazon RDS DB instance storage in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora blue/green deployments.
         public let targetIops: Int?
+        /// Specifies resource-level configuration overrides for the green environment. Each entry identifies a resource in the blue environment by its Amazon Resource Name (ARN). It defines the desired configuration for the corresponding resource in the green environment. Any resource that you don't include in this parameter retains the same configuration as its counterpart in the blue environment. Use this parameter when one or more resources in the green environment require a different configuration than what they have in the blue environment. Constraints:   You can't specify the same SourceArn in more than one entry.
+        @OptionalCustomCoding<ArrayCoder<_TargetResourceConfigurationsEncoding, TargetResourceConfiguration>>
+        public var targetResourceConfigurations: [TargetResourceConfiguration]?
         /// The storage throughput value for the green DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora blue/green deployments.
         public let targetStorageThroughput: Int?
         /// The storage type to associate with the green DB instance. Valid Values: gp2 | gp3 | io1 | io2  This setting doesn't apply to Amazon Aurora blue/green deployments.
@@ -1336,7 +1340,7 @@ extension RDS {
         public let upgradeTargetStorageConfig: Bool?
 
         @inlinable
-        public init(blueGreenDeploymentName: String? = nil, source: String? = nil, tags: [Tag]? = nil, targetAllocatedStorage: Int? = nil, targetDBClusterParameterGroupName: String? = nil, targetDBInstanceClass: String? = nil, targetDBParameterGroupName: String? = nil, targetEngineVersion: String? = nil, targetIops: Int? = nil, targetStorageThroughput: Int? = nil, targetStorageType: String? = nil, upgradeTargetStorageConfig: Bool? = nil) {
+        public init(blueGreenDeploymentName: String? = nil, source: String? = nil, tags: [Tag]? = nil, targetAllocatedStorage: Int? = nil, targetDBClusterParameterGroupName: String? = nil, targetDBInstanceClass: String? = nil, targetDBParameterGroupName: String? = nil, targetEngineVersion: String? = nil, targetIops: Int? = nil, targetResourceConfigurations: [TargetResourceConfiguration]? = nil, targetStorageThroughput: Int? = nil, targetStorageType: String? = nil, upgradeTargetStorageConfig: Bool? = nil) {
             self.blueGreenDeploymentName = blueGreenDeploymentName
             self.source = source
             self.tags = tags
@@ -1346,6 +1350,7 @@ extension RDS {
             self.targetDBParameterGroupName = targetDBParameterGroupName
             self.targetEngineVersion = targetEngineVersion
             self.targetIops = targetIops
+            self.targetResourceConfigurations = targetResourceConfigurations
             self.targetStorageThroughput = targetStorageThroughput
             self.targetStorageType = targetStorageType
             self.upgradeTargetStorageConfig = upgradeTargetStorageConfig
@@ -1370,6 +1375,10 @@ extension RDS {
             try self.validate(self.targetEngineVersion, name: "targetEngineVersion", parent: name, max: 64)
             try self.validate(self.targetEngineVersion, name: "targetEngineVersion", parent: name, min: 1)
             try self.validate(self.targetEngineVersion, name: "targetEngineVersion", parent: name, pattern: "^[0-9A-Za-z-_.]+$")
+            try self.targetResourceConfigurations?.forEach {
+                try $0.validate(name: "\(name).targetResourceConfigurations[]")
+            }
+            try self.validate(self.targetResourceConfigurations, name: "targetResourceConfigurations", parent: name, max: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1382,6 +1391,7 @@ extension RDS {
             case targetDBParameterGroupName = "TargetDBParameterGroupName"
             case targetEngineVersion = "TargetEngineVersion"
             case targetIops = "TargetIops"
+            case targetResourceConfigurations = "TargetResourceConfigurations"
             case targetStorageThroughput = "TargetStorageThroughput"
             case targetStorageType = "TargetStorageType"
             case upgradeTargetStorageConfig = "UpgradeTargetStorageConfig"
@@ -14910,6 +14920,33 @@ extension RDS {
             case description = "Description"
             case reason = "Reason"
             case state = "State"
+        }
+    }
+
+    public struct TargetResourceConfiguration: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the DB cluster or DB instance in the blue environment to which this configuration applies.
+        public let sourceArn: String
+        /// The Amazon Web Services KMS key identifier for encryption of the corresponding resource in the green environment. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. Specify this setting in either of the following cases:   You want the green resource to use a different KMS key than the blue resource.   The blue resource is unencrypted and you want to encrypt the green resource.   For Aurora, encryption applies at the DB cluster level. Specify a DB cluster ARN in SourceArn. All DB instances in that cluster use the same KMS key. For RDS, encryption applies at the DB instance level. Specify a DB instance ARN in SourceArn. To encrypt read replicas, include a separate entry for each one. Each entry can specify a different KMS key.
+        public let targetKmsKeyId: String?
+
+        @inlinable
+        public init(sourceArn: String, targetKmsKeyId: String? = nil) {
+            self.sourceArn = sourceArn
+            self.targetKmsKeyId = targetKmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 255)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 39)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:aws[a-z-]*:rds(-[a-z]+)?:[a-z0-9-]*:[0-9]{12}:(cluster|db):[a-zA-Z][a-zA-Z0-9-]{0,62}$")
+            try self.validate(self.targetKmsKeyId, name: "targetKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.targetKmsKeyId, name: "targetKmsKeyId", parent: name, min: 1)
+            try self.validate(self.targetKmsKeyId, name: "targetKmsKeyId", parent: name, pattern: "^[a-zA-Z0-9_:\\-\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "SourceArn"
+            case targetKmsKeyId = "TargetKmsKeyId"
         }
     }
 

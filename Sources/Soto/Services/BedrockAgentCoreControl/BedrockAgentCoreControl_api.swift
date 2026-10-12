@@ -889,6 +889,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
     ///
     /// Parameters:
+    ///   - certificateConfigurations: The private certificate authority (CA) configurations for the gateway target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certificate authority configuration in this list.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
     ///   - credentialProviderConfigurations: The credential provider configurations for the target. These configurations specify how the gateway authenticates with the target endpoint.
     ///   - description: The description of the gateway target.
@@ -900,6 +901,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createGatewayTarget(
+        certificateConfigurations: [CertificateConfiguration]? = nil,
         clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(),
         credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil,
         description: String? = nil,
@@ -911,6 +913,7 @@ public struct BedrockAgentCoreControl: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGatewayTargetResponse {
         let input = CreateGatewayTargetRequest(
+            certificateConfigurations: certificateConfigurations, 
             clientToken: clientToken, 
             credentialProviderConfigurations: credentialProviderConfigurations, 
             description: description, 
@@ -5434,7 +5437,7 @@ public struct BedrockAgentCoreControl: AWSService {
         bundleId: String,
         bundleName: String? = nil,
         clientToken: String? = UpdateConfigurationBundleRequest.idempotencyToken(),
-        commitMessage: String? = nil,
+        commitMessage: String,
         components: [String: ComponentConfiguration]? = nil,
         createdBy: VersionCreatedBySource? = nil,
         description: String? = nil,
@@ -5775,6 +5778,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Updates an existing gateway target. You cannot update a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before updating the target.
     ///
     /// Parameters:
+    ///   - certificateConfigurations: The private certificate authority (CA) configurations for the gateway target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certificate authority configuration in this list. To remove a previously configured certificate authority, omit this field on update.
     ///   - credentialProviderConfigurations: The updated credential provider configurations for the gateway target.
     ///   - description: The updated description for the gateway target.
     ///   - gatewayIdentifier: The unique identifier of the gateway associated with the target.
@@ -5786,6 +5790,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGatewayTarget(
+        certificateConfigurations: [CertificateConfiguration]? = nil,
         credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil,
         description: String? = nil,
         gatewayIdentifier: String,
@@ -5797,6 +5802,7 @@ public struct BedrockAgentCoreControl: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateGatewayTargetResponse {
         let input = UpdateGatewayTargetRequest(
+            certificateConfigurations: certificateConfigurations, 
             credentialProviderConfigurations: credentialProviderConfigurations, 
             description: description, 
             gatewayIdentifier: gatewayIdentifier, 

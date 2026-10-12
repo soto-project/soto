@@ -1052,8 +1052,7 @@ extension GlobalAccelerator {
         /// 			bucket.
         public let flowLogsS3Bucket: String?
         /// The prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if
-        /// 			FlowLogsEnabled is true. If you don’t specify a prefix, the flow logs are stored in the
-        /// 			root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
+        /// 			FlowLogsEnabled is true. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
         public let flowLogsS3Prefix: String?
 
         @inlinable
@@ -1926,7 +1925,28 @@ extension GlobalAccelerator {
         }
     }
 
+    public struct IpAddressDetail: AWSDecodableShape {
+        /// The static IP address.
+        public let ipAddress: String?
+        /// The network zone that the specified IP address is located on.
+        public let networkZone: String?
+
+        @inlinable
+        public init(ipAddress: String? = nil, networkZone: String? = nil) {
+            self.ipAddress = ipAddress
+            self.networkZone = networkZone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "IpAddress"
+            case networkZone = "NetworkZone"
+        }
+    }
+
     public struct IpSet: AWSDecodableShape {
+        /// The array of IP addresses in the IP address set, with detailed information about the IP addresses.
+        /// 		An IP address set can have a maximum of two IP addresses.
+        public let ipAddressDetails: [IpAddressDetail]?
         /// The array of IP addresses in the IP address set. An IP address set can have a maximum of two IP addresses.
         public let ipAddresses: [String]?
         /// The types of IP addresses included in this IP set.
@@ -1935,7 +1955,8 @@ extension GlobalAccelerator {
         public let ipFamily: String?
 
         @inlinable
-        public init(ipAddresses: [String]? = nil, ipAddressFamily: IpAddressFamily? = nil) {
+        public init(ipAddressDetails: [IpAddressDetail]? = nil, ipAddresses: [String]? = nil, ipAddressFamily: IpAddressFamily? = nil) {
+            self.ipAddressDetails = ipAddressDetails
             self.ipAddresses = ipAddresses
             self.ipAddressFamily = ipAddressFamily
             self.ipFamily = nil
@@ -1943,13 +1964,15 @@ extension GlobalAccelerator {
 
         @available(*, deprecated, message: "Members ipFamily have been deprecated")
         @inlinable
-        public init(ipAddresses: [String]? = nil, ipAddressFamily: IpAddressFamily? = nil, ipFamily: String? = nil) {
+        public init(ipAddressDetails: [IpAddressDetail]? = nil, ipAddresses: [String]? = nil, ipAddressFamily: IpAddressFamily? = nil, ipFamily: String? = nil) {
+            self.ipAddressDetails = ipAddressDetails
             self.ipAddresses = ipAddresses
             self.ipAddressFamily = ipAddressFamily
             self.ipFamily = ipFamily
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipAddressDetails = "IpAddressDetails"
             case ipAddresses = "IpAddresses"
             case ipAddressFamily = "IpAddressFamily"
             case ipFamily = "IpFamily"
@@ -3070,8 +3093,7 @@ extension GlobalAccelerator {
         /// 		bucket.
         public let flowLogsS3Bucket: String?
         /// Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if
-        /// 		FlowLogsEnabled is true.  If you don’t specify a prefix, the flow logs are stored in the
-        /// 		root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
+        /// 		FlowLogsEnabled is true.  If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
         public let flowLogsS3Prefix: String?
 
         @inlinable

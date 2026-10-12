@@ -136,6 +136,7 @@ extension ObservabilityAdmin {
         case awsBedrockAgentcoreCodeInterpreter = "AWS::BedrockAgentCore::CodeInterpreter"
         case awsBedrockAgentcoreGateway = "AWS::BedrockAgentCore::Gateway"
         case awsBedrockAgentcoreMemory = "AWS::BedrockAgentCore::Memory"
+        case awsBedrockAgentcorePaymentManager = "AWS::BedrockAgentCore::PaymentManager"
         case awsBedrockAgentcoreRuntime = "AWS::BedrockAgentCore::Runtime"
         case awsBedrockAgentcoreWorkloadIdentity = "AWS::BedrockAgentCore::WorkloadIdentity"
         case awsBedrockKnowledgebase = "AWS::Bedrock::KnowledgeBase"
@@ -2703,7 +2704,7 @@ extension ObservabilityAdmin {
         public let elbLoadBalancerLoggingParameters: ELBLoadBalancerLoggingParameters?
         ///  The Amazon Resource Name (ARN) of the customer-managed Amazon Web Services KMS key used to encrypt the log groups created during telemetry rule remediation.
         public let kmsKeyArn: String?
-        /// The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases or Elastic Load Balancing Application Load Balancers.
+        /// The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases, Amazon Bedrock AgentCore payment managers, or Elastic Load Balancing Application Load Balancers.
         public let logDeliveryParameters: LogDeliveryParameters?
         ///  Configuration parameters specific to MSK monitoring when MSK is the resource type.
         public let mskMonitoringParameters: MskMonitoringParameters?
@@ -2873,7 +2874,7 @@ extension ObservabilityAdmin {
         public let destinationConfiguration: TelemetryDestinationConfiguration?
         ///  An optional list of Amazon Web Services Regions where this telemetry rule should be replicated. When specified, the rule is created in the home region and automatically replicated to all listed regions. Mutually exclusive with AllRegions.
         public let regions: [String]?
-        ///  The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, or AWS::Bedrock::KnowledgeBase).
+        ///  The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Bedrock::KnowledgeBase, or AWS::BedrockAgentCore::PaymentManager).
         public let resourceType: ResourceType?
         ///  The organizational scope to which the rule applies, specified using accounts or organizational units.
         public let scope: String?

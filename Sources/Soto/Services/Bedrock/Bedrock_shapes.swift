@@ -2405,7 +2405,7 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.values.forEach {
                 try $0.validate(name: "\(name).values[]")
             }
@@ -2451,7 +2451,7 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.value, name: "value", parent: name, max: 64)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2480,10 +2480,10 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.validate(self.type, name: "type", parent: name, max: 64)
             try self.validate(self.type, name: "type", parent: name, min: 1)
-            try self.validate(self.type, name: "type", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.type, name: "type", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2925,7 +2925,7 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.values.forEach {
                 try $0.validate(name: "\(name).values[]")
             }
@@ -2957,7 +2957,7 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.value, name: "value", parent: name, max: 64)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3004,10 +3004,10 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.validate(self.type, name: "type", parent: name, max: 64)
             try self.validate(self.type, name: "type", parent: name, min: 1)
-            try self.validate(self.type, name: "type", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.type, name: "type", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3063,7 +3063,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3097,7 +3097,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.value, name: "value", parent: name, max: 64)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3117,7 +3117,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3680,10 +3680,10 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.validate(self.newName, name: "newName", parent: name, max: 64)
             try self.validate(self.newName, name: "newName", parent: name, min: 1)
-            try self.validate(self.newName, name: "newName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.newName, name: "newName", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.values.forEach {
                 try $0.validate(name: "\(name).values[]")
             }
@@ -3732,10 +3732,10 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.newValue, name: "newValue", parent: name, max: 64)
             try self.validate(self.newValue, name: "newValue", parent: name, min: 1)
-            try self.validate(self.newValue, name: "newValue", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.newValue, name: "newValue", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.validate(self.value, name: "value", parent: name, max: 64)
             try self.validate(self.value, name: "value", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3765,10 +3765,10 @@ extension Bedrock {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
             try self.validate(self.newName, name: "newName", parent: name, max: 64)
             try self.validate(self.newName, name: "newName", parent: name, min: 1)
-            try self.validate(self.newName, name: "newName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+            try self.validate(self.newName, name: "newName", parent: name, pattern: "^\\p{L}[\\p{L}\\p{M}0-9_]*( [\\p{L}\\p{M}0-9_]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {

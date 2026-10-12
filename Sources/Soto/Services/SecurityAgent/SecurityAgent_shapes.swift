@@ -229,6 +229,7 @@ extension SecurityAgent {
     }
 
     public enum Provider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azureDevops = "AZURE_DEVOPS"
         case bitbucket = "BITBUCKET"
         case confluence = "CONFLUENCE"
         case github = "GITHUB"
@@ -429,6 +430,14 @@ extension SecurityAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum TestScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// A generative AI application.
+        case generativeAiApp = "GENERATIVE_AI_APP"
+        /// A traditional web application.
+        case webApp = "WEB_APP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ThreatActor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Threat was created or updated by an agent.
         case agent = "AGENT"
@@ -453,6 +462,32 @@ extension SecurityAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum TriggerEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// A draft pull request is opened or updated.
+        case pullRequestDraft = "PULL_REQUEST_DRAFT"
+        /// A label is added to a pull request. A filter group that selects this event must include a LABEL filter with the INCLUDE match mode, and a review starts only when the added label matches it.
+        case pullRequestLabelAdded = "PULL_REQUEST_LABEL_ADDED"
+        /// A pull request that isn't a draft is opened, updated, or marked ready for review.
+        case pullRequestReadyForReview = "PULL_REQUEST_READY_FOR_REVIEW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerFilterMatchMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The filter passes when no value fully matches any pattern.
+        case exclude = "EXCLUDE"
+        /// The filter passes when a value fully matches at least one pattern.
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The labels on the pull request.
+        case label = "LABEL"
+        /// The name of the pull request's target branch, for example main.
+        case targetBranch = "TARGET_BRANCH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UserRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Default member role with standard permissions.
         case member = "MEMBER"
@@ -471,6 +506,14 @@ extension SecurityAgent {
         case notValidated = "NOT_VALIDATED"
         case validating = "VALIDATING"
         case validationFailed = "VALIDATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WebhookAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Create the webhook if one does not already exist. Returns the payload URL and the signing secret.
+        case createIfAbsent = "CREATE_IF_ABSENT"
+        /// Generate a new signing secret for the existing webhook, keeping the same payload URL. Returns the new secret.
+        case rotate = "ROTATE"
         public var description: String { return self.rawValue }
     }
 
@@ -534,6 +577,8 @@ extension SecurityAgent {
     }
 
     public enum IntegratedResource: AWSEncodableShape, Sendable {
+        /// The Azure DevOps repository resource information.
+        case azureDevOpsRepository(AzureDevOpsRepositoryResource)
         case bitbucketRepository(BitbucketRepositoryResource)
         case confluenceDocument(ConfluenceDocumentResource)
         /// The GitHub repository resource information.
@@ -543,6 +588,8 @@ extension SecurityAgent {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .azureDevOpsRepository(let value):
+                try container.encode(value, forKey: .azureDevOpsRepository)
             case .bitbucketRepository(let value):
                 try container.encode(value, forKey: .bitbucketRepository)
             case .confluenceDocument(let value):
@@ -555,6 +602,7 @@ extension SecurityAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case azureDevOpsRepository = "azureDevOpsRepository"
             case bitbucketRepository = "bitbucketRepository"
             case confluenceDocument = "confluenceDocument"
             case githubRepository = "githubRepository"
@@ -563,6 +611,8 @@ extension SecurityAgent {
     }
 
     public enum IntegratedResourceMetadata: AWSDecodableShape, Sendable {
+        /// The Azure DevOps repository metadata.
+        case azureDevOpsRepository(AzureDevOpsRepositoryMetadata)
         case bitbucketRepository(BitbucketRepositoryMetadata)
         case confluenceDocument(ConfluenceDocumentMetadata)
         /// The GitHub repository metadata.
@@ -579,6 +629,9 @@ extension SecurityAgent {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .azureDevOpsRepository:
+                let value = try container.decode(AzureDevOpsRepositoryMetadata.self, forKey: .azureDevOpsRepository)
+                self = .azureDevOpsRepository(value)
             case .bitbucketRepository:
                 let value = try container.decode(BitbucketRepositoryMetadata.self, forKey: .bitbucketRepository)
                 self = .bitbucketRepository(value)
@@ -595,6 +648,7 @@ extension SecurityAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case azureDevOpsRepository = "azureDevOpsRepository"
             case bitbucketRepository = "bitbucketRepository"
             case confluenceDocument = "confluenceDocument"
             case githubRepository = "githubRepository"
@@ -647,8 +701,12 @@ extension SecurityAgent {
     }
 
     public enum ProviderInput: AWSEncodableShape, Sendable {
+        /// The Azure DevOps-specific input for creating an integration.
+        case azureDevOps(AzureDevOpsIntegrationInput)
         /// The configuration for a Bitbucket integration.
         case bitbucket(BitbucketIntegrationInput)
+        /// The Bitbucket Data Center-specific input for creating an integration.
+        case bitbucketDataCenter(BitbucketDataCenterIntegrationInput)
         /// The configuration for a Confluence integration.
         case confluence(ConfluenceIntegrationInput)
         /// The GitHub-specific input for creating an integration.
@@ -659,8 +717,12 @@ extension SecurityAgent {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .azureDevOps(let value):
+                try container.encode(value, forKey: .azureDevOps)
             case .bitbucket(let value):
                 try container.encode(value, forKey: .bitbucket)
+            case .bitbucketDataCenter(let value):
+                try container.encode(value, forKey: .bitbucketDataCenter)
             case .confluence(let value):
                 try container.encode(value, forKey: .confluence)
             case .github(let value):
@@ -671,7 +733,9 @@ extension SecurityAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case azureDevOps = "azureDevOps"
             case bitbucket = "bitbucket"
+            case bitbucketDataCenter = "bitbucketDataCenter"
             case confluence = "confluence"
             case github = "github"
             case gitlab = "gitlab"
@@ -679,6 +743,8 @@ extension SecurityAgent {
     }
 
     public enum ProviderResourceCapabilities: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Azure DevOps-specific resource capabilities.
+        case azureDevOps(AzureDevOpsResourceCapabilities)
         case bitbucket(BitbucketResourceCapabilities)
         case confluence(ConfluenceResourceCapabilities)
         /// The GitHub-specific resource capabilities.
@@ -695,6 +761,9 @@ extension SecurityAgent {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .azureDevOps:
+                let value = try container.decode(AzureDevOpsResourceCapabilities.self, forKey: .azureDevOps)
+                self = .azureDevOps(value)
             case .bitbucket:
                 let value = try container.decode(BitbucketResourceCapabilities.self, forKey: .bitbucket)
                 self = .bitbucket(value)
@@ -713,6 +782,8 @@ extension SecurityAgent {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .azureDevOps(let value):
+                try container.encode(value, forKey: .azureDevOps)
             case .bitbucket(let value):
                 try container.encode(value, forKey: .bitbucket)
             case .confluence(let value):
@@ -724,7 +795,23 @@ extension SecurityAgent {
             }
         }
 
+        public func validate(name: String) throws {
+            switch self {
+            case .azureDevOps(let value):
+                try value.validate(name: "\(name).azureDevOps")
+            case .bitbucket(let value):
+                try value.validate(name: "\(name).bitbucket")
+            case .github(let value):
+                try value.validate(name: "\(name).github")
+            case .gitlab(let value):
+                try value.validate(name: "\(name).gitlab")
+            default:
+                break
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case azureDevOps = "azureDevOps"
             case bitbucket = "bitbucket"
             case confluence = "confluence"
             case github = "github"
@@ -1087,6 +1174,110 @@ extension SecurityAgent {
         private enum CodingKeys: String, CodingKey {
             case providerType = "providerType"
             case value = "value"
+        }
+    }
+
+    public struct AzureDevOpsIntegrationInput: AWSEncodableShape {
+        /// The OAuth 2.0 authorization code returned to your redirect URL after the connection is authorized.
+        public let code: String
+        /// The name of the Azure DevOps organization to connect, for example my-org.
+        public let organizationName: String
+        /// The CSRF state value returned by InitiateProviderRegistration and echoed back on the authorization redirect.
+        public let state: String
+
+        @inlinable
+        public init(code: String, organizationName: String, state: String) {
+            self.code = code
+            self.organizationName = organizationName
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case organizationName = "organizationName"
+            case state = "state"
+        }
+    }
+
+    public struct AzureDevOpsRepositoryMetadata: AWSDecodableShape {
+        public let accessType: AccessType?
+        public let name: String
+        /// The name of the Azure DevOps organization that owns the repository.
+        public let organization: String
+        /// The name of the Azure DevOps project that contains the repository.
+        public let project: String?
+        /// The GUID of the Azure DevOps project that contains the repository.
+        public let projectId: String?
+        public let providerResourceId: String
+
+        @inlinable
+        public init(accessType: AccessType? = nil, name: String, organization: String, project: String? = nil, projectId: String? = nil, providerResourceId: String) {
+            self.accessType = accessType
+            self.name = name
+            self.organization = organization
+            self.project = project
+            self.projectId = projectId
+            self.providerResourceId = providerResourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessType = "accessType"
+            case name = "name"
+            case organization = "organization"
+            case project = "project"
+            case projectId = "projectId"
+            case providerResourceId = "providerResourceId"
+        }
+    }
+
+    public struct AzureDevOpsRepositoryResource: AWSEncodableShape {
+        public let name: String
+        /// The name of the Azure DevOps organization that owns the repository.
+        public let organization: String
+        /// The name of the Azure DevOps project that contains the repository.
+        public let project: String?
+
+        @inlinable
+        public init(name: String, organization: String, project: String? = nil) {
+            self.name = name
+            self.organization = organization
+            self.project = project
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case organization = "organization"
+            case project = "project"
+        }
+    }
+
+    public struct AzureDevOpsResourceCapabilities: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to post code review comments on pull requests.
+        public let leaveComments: Bool?
+        /// Whether to create pull requests with automated fixes.
+        public let remediateCode: Bool?
+        /// The filter groups that control which pull request events start an automatic code review when leaveComments is enabled. A review starts when any group matches. If you omit this, a review starts on PULL_REQUEST_READY_FOR_REVIEW events.
+        public let triggerFilterGroups: [TriggerFilterGroup]?
+
+        @inlinable
+        public init(leaveComments: Bool? = nil, remediateCode: Bool? = nil, triggerFilterGroups: [TriggerFilterGroup]? = nil) {
+            self.leaveComments = leaveComments
+            self.remediateCode = remediateCode
+            self.triggerFilterGroups = triggerFilterGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.triggerFilterGroups?.forEach {
+                try $0.validate(name: "\(name).triggerFilterGroups[]")
+            }
+            try self.validate(self.triggerFilterGroups, name: "triggerFilterGroups", parent: name, max: 5)
+            try self.validate(self.triggerFilterGroups, name: "triggerFilterGroups", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case leaveComments = "leaveComments"
+            case remediateCode = "remediateCode"
+            case triggerFilterGroups = "triggerFilterGroups"
         }
     }
 
@@ -1940,6 +2131,28 @@ extension SecurityAgent {
         }
     }
 
+    public struct BitbucketDataCenterIntegrationInput: AWSEncodableShape {
+        /// The OAuth 2.0 authorization code returned to your redirect URL after the connection is authorized.
+        public let code: String
+        /// The CSRF state value returned by InitiateProviderRegistration and echoed back on the authorization redirect.
+        public let state: String
+        /// The HTTPS URL of your Bitbucket Data Center instance, for example https://bitbucket.example.com.
+        public let targetUrl: String
+
+        @inlinable
+        public init(code: String, state: String, targetUrl: String) {
+            self.code = code
+            self.state = state
+            self.targetUrl = targetUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case state = "state"
+            case targetUrl = "targetUrl"
+        }
+    }
+
     public struct BitbucketIntegrationInput: AWSEncodableShape {
         /// The OAuth 2.0 authorization code returned from the consent redirect.
         public let code: String
@@ -2011,16 +2224,28 @@ extension SecurityAgent {
         public let leaveComments: Bool?
         /// Whether to create pull requests with automated fixes.
         public let remediateCode: Bool?
+        /// The filter groups that control which pull request events start an automatic code review when leaveComments is enabled. A review starts when any group matches. If you omit this, a review starts on PULL_REQUEST_READY_FOR_REVIEW events.
+        public let triggerFilterGroups: [TriggerFilterGroup]?
 
         @inlinable
-        public init(leaveComments: Bool? = nil, remediateCode: Bool? = nil) {
+        public init(leaveComments: Bool? = nil, remediateCode: Bool? = nil, triggerFilterGroups: [TriggerFilterGroup]? = nil) {
             self.leaveComments = leaveComments
             self.remediateCode = remediateCode
+            self.triggerFilterGroups = triggerFilterGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.triggerFilterGroups?.forEach {
+                try $0.validate(name: "\(name).triggerFilterGroups[]")
+            }
+            try self.validate(self.triggerFilterGroups, name: "triggerFilterGroups", parent: name, max: 5)
+            try self.validate(self.triggerFilterGroups, name: "triggerFilterGroups", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case leaveComments = "leaveComments"
             case remediateCode = "remediateCode"
+            case triggerFilterGroups = "triggerFilterGroups"
         }
     }
 
@@ -2833,7 +3058,7 @@ extension SecurityAgent {
         public let kmsKeyId: String?
         /// The name of an active private connection used to reach a self-hosted provider instance over private networking. Specify this when the instance is not publicly reachable.
         public let privateConnectionName: String?
-        /// The integration provider. Currently, only GITHUB is supported.
+        /// The integration provider.
         public let provider: Provider
         /// The tags to associate with the integration.
         public let tags: [String: String]?
@@ -2931,13 +3156,14 @@ extension SecurityAgent {
         public let reportFilters: ReportFilters?
         /// The IAM service role to use for the pentest.
         public let serviceRole: String?
+        public let testScope: TestScope?
         /// The title of the pentest.
         public let title: String
         /// The VPC configuration for the pentest.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String, vpcConfig: VpcConfig? = nil) {
+        public init(agentSpaceId: String, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, testScope: TestScope? = nil, title: String, vpcConfig: VpcConfig? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.cicdConfiguration = cicdConfiguration
@@ -2950,6 +3176,7 @@ extension SecurityAgent {
             self.reportDestination = reportDestination
             self.reportFilters = reportFilters
             self.serviceRole = serviceRole
+            self.testScope = testScope
             self.title = title
             self.vpcConfig = vpcConfig
         }
@@ -2972,6 +3199,7 @@ extension SecurityAgent {
             case reportDestination = "reportDestination"
             case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
+            case testScope = "testScope"
             case title = "title"
             case vpcConfig = "vpcConfig"
         }
@@ -2998,13 +3226,14 @@ extension SecurityAgent {
         public let reportFilters: ReportFilters?
         /// The IAM service role used for the pentest.
         public let serviceRole: String?
+        public let testScope: TestScope?
         /// The title of the pentest.
         public let title: String?
         /// The date and time the pentest was last updated, in UTC format.
         public let updatedAt: Date?
 
         @inlinable
-        public init(agentSpaceId: String? = nil, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, createdAt: Date? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, pentestId: String? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String? = nil, updatedAt: Date? = nil) {
+        public init(agentSpaceId: String? = nil, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, createdAt: Date? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, pentestId: String? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, testScope: TestScope? = nil, title: String? = nil, updatedAt: Date? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.cicdConfiguration = cicdConfiguration
@@ -3015,6 +3244,7 @@ extension SecurityAgent {
             self.reportDestination = reportDestination
             self.reportFilters = reportFilters
             self.serviceRole = serviceRole
+            self.testScope = testScope
             self.title = title
             self.updatedAt = updatedAt
         }
@@ -3030,6 +3260,7 @@ extension SecurityAgent {
             case reportDestination = "reportDestination"
             case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
+            case testScope = "testScope"
             case title = "title"
             case updatedAt = "updatedAt"
         }
@@ -4060,6 +4291,8 @@ extension SecurityAgent {
         public let pentestJobId: String?
         /// The reasoning behind the finding, explaining why it was identified as a vulnerability.
         public let reasoning: String?
+        /// The suggested fix for the finding, describing the changes recommended to remediate the vulnerability, with example code or configuration.
+        public let remediationCode: String?
         /// The list of pentest job identifiers for revalidation jobs that retested this finding.
         public let revalidationJobIds: [String]?
         /// The risk level of the finding. Valid values include UNKNOWN, INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
@@ -4080,7 +4313,7 @@ extension SecurityAgent {
         public let verificationScript: VerificationScript?
 
         @inlinable
-        public init(agentSpaceId: String, alignmentRationale: String? = nil, attackScript: String? = nil, codeLocations: [CodeLocation]? = nil, codeRemediationTask: CodeRemediationTask? = nil, codeReviewId: String? = nil, codeReviewJobId: String? = nil, confidence: ConfidenceLevel? = nil, createdAt: Date? = nil, customerNote: String? = nil, description: String? = nil, findingId: String, lastUpdatedBy: String? = nil, name: String? = nil, originalFindingId: String? = nil, pentestId: String? = nil, pentestJobId: String? = nil, reasoning: String? = nil, revalidationJobIds: [String]? = nil, riskLevel: RiskLevel? = nil, riskScore: String? = nil, riskType: String? = nil, status: FindingStatus? = nil, taskId: String? = nil, updatedAt: Date? = nil, validationStatus: ValidationStatus? = nil, verificationScript: VerificationScript? = nil) {
+        public init(agentSpaceId: String, alignmentRationale: String? = nil, attackScript: String? = nil, codeLocations: [CodeLocation]? = nil, codeRemediationTask: CodeRemediationTask? = nil, codeReviewId: String? = nil, codeReviewJobId: String? = nil, confidence: ConfidenceLevel? = nil, createdAt: Date? = nil, customerNote: String? = nil, description: String? = nil, findingId: String, lastUpdatedBy: String? = nil, name: String? = nil, originalFindingId: String? = nil, pentestId: String? = nil, pentestJobId: String? = nil, reasoning: String? = nil, remediationCode: String? = nil, revalidationJobIds: [String]? = nil, riskLevel: RiskLevel? = nil, riskScore: String? = nil, riskType: String? = nil, status: FindingStatus? = nil, taskId: String? = nil, updatedAt: Date? = nil, validationStatus: ValidationStatus? = nil, verificationScript: VerificationScript? = nil) {
             self.agentSpaceId = agentSpaceId
             self.alignmentRationale = alignmentRationale
             self.attackScript = attackScript
@@ -4099,6 +4332,7 @@ extension SecurityAgent {
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
             self.reasoning = reasoning
+            self.remediationCode = remediationCode
             self.revalidationJobIds = revalidationJobIds
             self.riskLevel = riskLevel
             self.riskScore = riskScore
@@ -4129,6 +4363,7 @@ extension SecurityAgent {
             case pentestId = "pentestId"
             case pentestJobId = "pentestJobId"
             case reasoning = "reasoning"
+            case remediationCode = "remediationCode"
             case revalidationJobIds = "revalidationJobIds"
             case riskLevel = "riskLevel"
             case riskScore = "riskScore"
@@ -4334,9 +4569,11 @@ extension SecurityAgent {
         public let providerType: ProviderType
         /// The HTTPS URL of the customer self-hosted instance, such as a GitHub Enterprise Server or self-managed GitLab instance. This value is absent for SaaS integrations.
         public let targetUrl: String?
+        /// The payload URL of the integration's webhook, once it has been created. The signing secret is never returned on a read.
+        public let webhookUrl: String?
 
         @inlinable
-        public init(displayName: String? = nil, installationId: String, integrationId: String, kmsKeyId: String? = nil, privateConnectionName: String? = nil, provider: Provider, providerType: ProviderType, targetUrl: String? = nil) {
+        public init(displayName: String? = nil, installationId: String, integrationId: String, kmsKeyId: String? = nil, privateConnectionName: String? = nil, provider: Provider, providerType: ProviderType, targetUrl: String? = nil, webhookUrl: String? = nil) {
             self.displayName = displayName
             self.installationId = installationId
             self.integrationId = integrationId
@@ -4345,6 +4582,7 @@ extension SecurityAgent {
             self.provider = provider
             self.providerType = providerType
             self.targetUrl = targetUrl
+            self.webhookUrl = webhookUrl
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4356,6 +4594,7 @@ extension SecurityAgent {
             case provider = "provider"
             case providerType = "providerType"
             case targetUrl = "targetUrl"
+            case webhookUrl = "webhookUrl"
         }
     }
 
@@ -4502,16 +4741,28 @@ extension SecurityAgent {
         public let leaveComments: Bool?
         /// Indicates whether the integration can create code remediation pull requests.
         public let remediateCode: Bool?
+        /// The filter groups that control which pull request events start an automatic code review when leaveComments is enabled. A review starts when any group matches. If you omit this, a review starts on PULL_REQUEST_READY_FOR_REVIEW events.
+        public let triggerFilterGroups: [TriggerFilterGroup]?
 
         @inlinable
-        public init(leaveComments: Bool? = nil, remediateCode: Bool? = nil) {
+        public init(leaveComments: Bool? = nil, remediateCode: Bool? = nil, triggerFilterGroups: [TriggerFilterGroup]? = nil) {
             self.leaveComments = leaveComments
             self.remediateCode = remediateCode
+            self.triggerFilterGroups = triggerFilterGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.triggerFilterGroups?.forEach {
+                try $0.validate(name: "\(name).triggerFilterGroups[]")
+            }
+            try self.validate(self.triggerFilterGroups, name: "triggerFilterGroups", parent: name, max: 5)
+            try self.validate(self.triggerFilterGroups, name: "triggerFilterGroups", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case leaveComments = "leaveComments"
             case remediateCode = "remediateCode"
+            case triggerFilterGroups = "triggerFilterGroups"
         }
     }
 
@@ -4586,16 +4837,28 @@ extension SecurityAgent {
         public let leaveComments: Bool?
         /// Whether to create merge requests with automated fixes.
         public let remediateCode: Bool?
+        /// The filter groups that control which merge request events start an automatic code review when leaveComments is enabled. A review starts when any group matches. If you omit this, a review starts on PULL_REQUEST_READY_FOR_REVIEW events.
+        public let triggerFilterGroups: [TriggerFilterGroup]?
 
         @inlinable
-        public init(leaveComments: Bool? = nil, remediateCode: Bool? = nil) {
+        public init(leaveComments: Bool? = nil, remediateCode: Bool? = nil, triggerFilterGroups: [TriggerFilterGroup]? = nil) {
             self.leaveComments = leaveComments
             self.remediateCode = remediateCode
+            self.triggerFilterGroups = triggerFilterGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.triggerFilterGroups?.forEach {
+                try $0.validate(name: "\(name).triggerFilterGroups[]")
+            }
+            try self.validate(self.triggerFilterGroups, name: "triggerFilterGroups", parent: name, max: 5)
+            try self.validate(self.triggerFilterGroups, name: "triggerFilterGroups", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case leaveComments = "leaveComments"
             case remediateCode = "remediateCode"
+            case triggerFilterGroups = "triggerFilterGroups"
         }
     }
 
@@ -4672,16 +4935,32 @@ extension SecurityAgent {
     }
 
     public struct InitiateProviderRegistrationInput: AWSEncodableShape {
-        /// The provider to initiate registration with. Currently, only GITHUB is supported.
+        /// The client ID of the OAuth application registered on your self-managed provider instance.
+        public let clientId: String?
+        /// The client secret of the OAuth application registered on your self-managed provider instance.
+        public let clientSecret: String?
+        /// The name of the organization to connect.
+        public let organizationName: String?
+        /// The provider to initiate registration with.
         public let provider: Provider
+        /// The HTTPS URL of a self-managed provider instance. Omit for SaaS providers.
+        public let targetUrl: String?
 
         @inlinable
-        public init(provider: Provider) {
+        public init(clientId: String? = nil, clientSecret: String? = nil, organizationName: String? = nil, provider: Provider, targetUrl: String? = nil) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.organizationName = organizationName
             self.provider = provider
+            self.targetUrl = targetUrl
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientId = "clientId"
+            case clientSecret = "clientSecret"
+            case organizationName = "organizationName"
             case provider = "provider"
+            case targetUrl = "targetUrl"
         }
     }
 
@@ -4755,6 +5034,10 @@ extension SecurityAgent {
             self.resource = resource
         }
 
+        public func validate(name: String) throws {
+            try self.capabilities?.validate(name: "\(name).capabilities")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case capabilities = "capabilities"
             case resource = "resource"
@@ -4798,9 +5081,11 @@ extension SecurityAgent {
         public let providerType: ProviderType
         /// The HTTPS URL of the customer self-hosted instance, such as a GitHub Enterprise Server or self-managed GitLab instance. This value is absent for SaaS integrations.
         public let targetUrl: String?
+        /// The payload URL of the integration's webhook, once it has been created. The signing secret is never returned on a read.
+        public let webhookUrl: String?
 
         @inlinable
-        public init(displayName: String, installationId: String, integrationId: String, privateConnectionName: String? = nil, provider: Provider, providerType: ProviderType, targetUrl: String? = nil) {
+        public init(displayName: String, installationId: String, integrationId: String, privateConnectionName: String? = nil, provider: Provider, providerType: ProviderType, targetUrl: String? = nil, webhookUrl: String? = nil) {
             self.displayName = displayName
             self.installationId = installationId
             self.integrationId = integrationId
@@ -4808,6 +5093,7 @@ extension SecurityAgent {
             self.provider = provider
             self.providerType = providerType
             self.targetUrl = targetUrl
+            self.webhookUrl = webhookUrl
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4818,6 +5104,7 @@ extension SecurityAgent {
             case provider = "provider"
             case providerType = "providerType"
             case targetUrl = "targetUrl"
+            case webhookUrl = "webhookUrl"
         }
     }
 
@@ -6022,6 +6309,7 @@ extension SecurityAgent {
         public let reportFilters: ReportFilters?
         /// The IAM service role used for the pentest.
         public let serviceRole: String?
+        public let testScope: TestScope?
         /// The title of the pentest.
         public let title: String
         /// The date and time the pentest was last updated, in UTC format.
@@ -6030,7 +6318,7 @@ extension SecurityAgent {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets, cicdConfiguration: CiCdConfiguration? = nil, cleanUpStrategy: CleanUpStrategy? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, createdAt: Date? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, pentestId: String, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String, updatedAt: Date? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(agentSpaceId: String, assets: Assets, cicdConfiguration: CiCdConfiguration? = nil, cleanUpStrategy: CleanUpStrategy? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, createdAt: Date? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, pentestId: String, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, testScope: TestScope? = nil, title: String, updatedAt: Date? = nil, vpcConfig: VpcConfig? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.cicdConfiguration = cicdConfiguration
@@ -6046,6 +6334,7 @@ extension SecurityAgent {
             self.reportDestination = reportDestination
             self.reportFilters = reportFilters
             self.serviceRole = serviceRole
+            self.testScope = testScope
             self.title = title
             self.updatedAt = updatedAt
             self.vpcConfig = vpcConfig
@@ -6067,6 +6356,7 @@ extension SecurityAgent {
             case reportDestination = "reportDestination"
             case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
+            case testScope = "testScope"
             case title = "title"
             case updatedAt = "updatedAt"
             case vpcConfig = "vpcConfig"
@@ -6133,6 +6423,7 @@ extension SecurityAgent {
         public let status: JobStatus?
         /// The list of steps in the pentest job execution.
         public let steps: [Step]?
+        public let testScope: TestScope?
         /// The title of the pentest job.
         public let title: String?
         /// The trust anchors used to validate target endpoint TLS certificates during the pentest job.
@@ -6143,7 +6434,7 @@ extension SecurityAgent {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(actors: [Actor]? = nil, allowedDomains: [Endpoint]? = nil, cicdConfiguration: CiCdConfiguration? = nil, cleanUpStrategy: CleanUpStrategy? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, createdAt: Date? = nil, disableManagedSkills: [SkillType]? = nil, documents: [DocumentInfo]? = nil, endpoints: [Endpoint]? = nil, errorInformation: ErrorInformation? = nil, excludePaths: [Endpoint]? = nil, excludeRiskTypes: [RiskType]? = nil, executionContext: [ExecutionContext]? = nil, integratedRepositories: [IntegratedRepository]? = nil, jobType: JobType? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, overview: String? = nil, pentestId: String? = nil, pentestJobId: String? = nil, reportDestination: ReportDestination? = nil, reportUrl: String? = nil, scopeChanges: [ScopeChange]? = nil, scopeResult: ScopeResult? = nil, selectedFindingIds: [String]? = nil, serviceRole: String? = nil, sourceCode: [SourceCodeRepository]? = nil, status: JobStatus? = nil, steps: [Step]? = nil, title: String? = nil, trustedCaCertificates: [TrustedCaCertificate]? = nil, updatedAt: Date? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(actors: [Actor]? = nil, allowedDomains: [Endpoint]? = nil, cicdConfiguration: CiCdConfiguration? = nil, cleanUpStrategy: CleanUpStrategy? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, createdAt: Date? = nil, disableManagedSkills: [SkillType]? = nil, documents: [DocumentInfo]? = nil, endpoints: [Endpoint]? = nil, errorInformation: ErrorInformation? = nil, excludePaths: [Endpoint]? = nil, excludeRiskTypes: [RiskType]? = nil, executionContext: [ExecutionContext]? = nil, integratedRepositories: [IntegratedRepository]? = nil, jobType: JobType? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, overview: String? = nil, pentestId: String? = nil, pentestJobId: String? = nil, reportDestination: ReportDestination? = nil, reportUrl: String? = nil, scopeChanges: [ScopeChange]? = nil, scopeResult: ScopeResult? = nil, selectedFindingIds: [String]? = nil, serviceRole: String? = nil, sourceCode: [SourceCodeRepository]? = nil, status: JobStatus? = nil, steps: [Step]? = nil, testScope: TestScope? = nil, title: String? = nil, trustedCaCertificates: [TrustedCaCertificate]? = nil, updatedAt: Date? = nil, vpcConfig: VpcConfig? = nil) {
             self.actors = actors
             self.allowedDomains = allowedDomains
             self.cicdConfiguration = cicdConfiguration
@@ -6174,6 +6465,7 @@ extension SecurityAgent {
             self.sourceCode = sourceCode
             self.status = status
             self.steps = steps
+            self.testScope = testScope
             self.title = title
             self.trustedCaCertificates = trustedCaCertificates
             self.updatedAt = updatedAt
@@ -6211,6 +6503,7 @@ extension SecurityAgent {
             case sourceCode = "sourceCode"
             case status = "status"
             case steps = "steps"
+            case testScope = "testScope"
             case title = "title"
             case trustedCaCertificates = "trustedCaCertificates"
             case updatedAt = "updatedAt"
@@ -7155,6 +7448,20 @@ extension SecurityAgent {
         }
     }
 
+    public struct TestScope: AWSEncodableShape & AWSDecodableShape {
+        /// The category of application under test.
+        public let type: TestScopeType
+
+        @inlinable
+        public init(type: TestScopeType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
     public struct Threat: AWSDecodableShape {
         /// The DFD element this threat is anchored to.
         public let anchor: ThreatAnchorShape?
@@ -7653,6 +7960,66 @@ extension SecurityAgent {
         }
     }
 
+    public struct TriggerFilter: AWSEncodableShape & AWSDecodableShape {
+        /// Whether the value must match the patterns. The default is INCLUDE.
+        public let matchMode: TriggerFilterMatchMode?
+        /// The regular expressions to match against the value.
+        public let patterns: [String]
+        /// The pull request value to match.
+        public let type: TriggerFilterType
+
+        @inlinable
+        public init(matchMode: TriggerFilterMatchMode? = nil, patterns: [String], type: TriggerFilterType) {
+            self.matchMode = matchMode
+            self.patterns = patterns
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.patterns.forEach {
+                try validate($0, name: "patterns[]", parent: name, max: 256)
+                try validate($0, name: "patterns[]", parent: name, min: 1)
+                try validate($0, name: "patterns[]", parent: name, pattern: "^[^\\x00-\\x1F\\x7F-\\x9F]+$")
+            }
+            try self.validate(self.patterns, name: "patterns", parent: name, max: 20)
+            try self.validate(self.patterns, name: "patterns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchMode = "matchMode"
+            case patterns = "patterns"
+            case type = "type"
+        }
+    }
+
+    public struct TriggerFilterGroup: AWSEncodableShape & AWSDecodableShape {
+        /// Passes when the pull request event is one of the listed events. If you omit this, the group matches PULL_REQUEST_READY_FOR_REVIEW and PULL_REQUEST_DRAFT events only.
+        public let events: [TriggerEvent]?
+        /// Passes when every filter passes. If you omit this, the group matches its events on any target branch and with any labels.
+        public let filters: [TriggerFilter]?
+
+        @inlinable
+        public init(events: [TriggerEvent]? = nil, filters: [TriggerFilter]? = nil) {
+            self.events = events
+            self.filters = filters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.events, name: "events", parent: name, max: 10)
+            try self.validate(self.events, name: "events", parent: name, min: 1)
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 5)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "events"
+            case filters = "filters"
+        }
+    }
+
     public struct TrustedCaCertificate: AWSEncodableShape & AWSDecodableShape {
         /// The source that Security Agent reads the certificate from.
         public let source: CaCertificateSource
@@ -8003,6 +8370,12 @@ extension SecurityAgent {
             self.items = items
         }
 
+        public func validate(name: String) throws {
+            try self.items.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case agentSpaceId = "agentSpaceId"
             case integrationId = "integrationId"
@@ -8012,6 +8385,46 @@ extension SecurityAgent {
 
     public struct UpdateIntegratedResourcesOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateIntegrationInput: AWSEncodableShape {
+        /// The ID of the integration whose webhook you want to create or rotate.
+        public let integrationId: String
+        /// The action to perform on the integration's webhook.
+        public let webhookAction: WebhookAction
+
+        @inlinable
+        public init(integrationId: String, webhookAction: WebhookAction) {
+            self.integrationId = integrationId
+            self.webhookAction = webhookAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationId = "integrationId"
+            case webhookAction = "webhookAction"
+        }
+    }
+
+    public struct UpdateIntegrationOutput: AWSDecodableShape {
+        /// The ID of the integration.
+        public let integrationId: String
+        /// The HMAC signing secret for the webhook. Returned only once, in this response; it is never returned again.
+        public let secret: String?
+        /// The payload URL to configure on your provider instance. Returned when a webhook is created; unchanged by a rotate.
+        public let webhookUrl: String?
+
+        @inlinable
+        public init(integrationId: String, secret: String? = nil, webhookUrl: String? = nil) {
+            self.integrationId = integrationId
+            self.secret = secret
+            self.webhookUrl = webhookUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationId = "integrationId"
+            case secret = "secret"
+            case webhookUrl = "webhookUrl"
+        }
     }
 
     public struct UpdatePentestInput: AWSEncodableShape {
@@ -8041,13 +8454,14 @@ extension SecurityAgent {
         public let reportFilters: ReportFilters?
         /// The updated IAM service role for the pentest.
         public let serviceRole: String?
+        public let testScope: TestScope?
         /// The updated title of the pentest.
         public let title: String?
         /// The updated VPC configuration for the pentest.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(agentSpaceId: String, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, pentestId: String, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(agentSpaceId: String, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, codeRemediationStrategy: CodeRemediationStrategy? = nil, disableManagedSkills: [SkillType]? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, maxTaskHours: Double? = nil, networkTrafficConfig: NetworkTrafficConfig? = nil, pentestId: String, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, testScope: TestScope? = nil, title: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.cicdConfiguration = cicdConfiguration
@@ -8061,6 +8475,7 @@ extension SecurityAgent {
             self.reportDestination = reportDestination
             self.reportFilters = reportFilters
             self.serviceRole = serviceRole
+            self.testScope = testScope
             self.title = title
             self.vpcConfig = vpcConfig
         }
@@ -8084,6 +8499,7 @@ extension SecurityAgent {
             case reportDestination = "reportDestination"
             case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
+            case testScope = "testScope"
             case title = "title"
             case vpcConfig = "vpcConfig"
         }
@@ -8110,13 +8526,14 @@ extension SecurityAgent {
         public let reportFilters: ReportFilters?
         /// The IAM service role used for the pentest.
         public let serviceRole: String?
+        public let testScope: TestScope?
         /// The title of the pentest.
         public let title: String?
         /// The date and time the pentest was last updated, in UTC format.
         public let updatedAt: Date?
 
         @inlinable
-        public init(agentSpaceId: String? = nil, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, createdAt: Date? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, pentestId: String? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, title: String? = nil, updatedAt: Date? = nil) {
+        public init(agentSpaceId: String? = nil, assets: Assets? = nil, cicdConfiguration: CiCdConfiguration? = nil, createdAt: Date? = nil, excludeRiskTypes: [RiskType]? = nil, logConfig: CloudWatchLog? = nil, pentestId: String? = nil, reportDestination: ReportDestination? = nil, reportFilters: ReportFilters? = nil, serviceRole: String? = nil, testScope: TestScope? = nil, title: String? = nil, updatedAt: Date? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
             self.cicdConfiguration = cicdConfiguration
@@ -8127,6 +8544,7 @@ extension SecurityAgent {
             self.reportDestination = reportDestination
             self.reportFilters = reportFilters
             self.serviceRole = serviceRole
+            self.testScope = testScope
             self.title = title
             self.updatedAt = updatedAt
         }
@@ -8142,6 +8560,7 @@ extension SecurityAgent {
             case reportDestination = "reportDestination"
             case reportFilters = "reportFilters"
             case serviceRole = "serviceRole"
+            case testScope = "testScope"
             case title = "title"
             case updatedAt = "updatedAt"
         }

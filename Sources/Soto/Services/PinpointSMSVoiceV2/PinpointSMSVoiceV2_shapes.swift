@@ -364,6 +364,8 @@ extension PinpointSMSVoiceV2 {
         case landline = "LANDLINE"
         case mobile = "MOBILE"
         case other = "OTHER"
+        case prepaid = "PREPAID"
+        case voip = "VOIP"
         public var description: String { return self.rawValue }
     }
 
@@ -1064,11 +1066,14 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct CarrierLookupRequest: AWSEncodableShape {
+        /// Specifies whether the service cleanses the phone number that you provide. When set to true, the service normalizes the phone number according to the destination country's national numbering plan and dialing rules. The service returns the cleansed number in E.164 format in the E164PhoneNumber field and returns the number that you provided in the OriginalPhoneNumber field.
+        public let enableCleansing: Bool?
         /// The phone number that you want to retrieve information about. You can provide the phone number in various formats including special characters such as parentheses, brackets, spaces, hyphens, periods, and commas. The service automatically converts the input to E164 format for processing.
         public let phoneNumber: String
 
         @inlinable
-        public init(phoneNumber: String) {
+        public init(enableCleansing: Bool? = nil, phoneNumber: String) {
+            self.enableCleansing = enableCleansing
             self.phoneNumber = phoneNumber
         }
 
@@ -1079,6 +1084,7 @@ extension PinpointSMSVoiceV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableCleansing = "EnableCleansing"
             case phoneNumber = "PhoneNumber"
         }
     }
@@ -1098,11 +1104,13 @@ extension PinpointSMSVoiceV2 {
         public let mcc: String?
         /// The phone number's mobile network code, for mobile phone number types.
         public let mnc: String?
-        /// Describes the type of phone number. Valid values are: MOBILE, LANDLINE, OTHER, and INVALID. Avoid sending SMS or voice messages to INVALID phone numbers, as these numbers are unlikely to belong to actual recipients.
+        /// The phone number exactly as you supplied it in the request. This field is returned only when you set EnableCleansing to true, the phone number was cleansed, and a normalized E.164 phone number was returned in the E164PhoneNumber field.
+        public let originalPhoneNumber: String?
+        /// Describes the type of phone number. Valid values are: MOBILE, LANDLINE, VOIP, PREPAID, OTHER, and INVALID. Avoid sending SMS or voice messages to INVALID phone numbers, as these numbers are unlikely to belong to actual recipients.
         public let phoneNumberType: PhoneNumberType
 
         @inlinable
-        public init(carrier: String? = nil, country: String? = nil, dialingCountryCode: String? = nil, e164PhoneNumber: String, isoCountryCode: String? = nil, mcc: String? = nil, mnc: String? = nil, phoneNumberType: PhoneNumberType) {
+        public init(carrier: String? = nil, country: String? = nil, dialingCountryCode: String? = nil, e164PhoneNumber: String, isoCountryCode: String? = nil, mcc: String? = nil, mnc: String? = nil, originalPhoneNumber: String? = nil, phoneNumberType: PhoneNumberType) {
             self.carrier = carrier
             self.country = country
             self.dialingCountryCode = dialingCountryCode
@@ -1110,6 +1118,7 @@ extension PinpointSMSVoiceV2 {
             self.isoCountryCode = isoCountryCode
             self.mcc = mcc
             self.mnc = mnc
+            self.originalPhoneNumber = originalPhoneNumber
             self.phoneNumberType = phoneNumberType
         }
 
@@ -1121,6 +1130,7 @@ extension PinpointSMSVoiceV2 {
             case isoCountryCode = "IsoCountryCode"
             case mcc = "MCC"
             case mnc = "MNC"
+            case originalPhoneNumber = "OriginalPhoneNumber"
             case phoneNumberType = "PhoneNumberType"
         }
     }
@@ -5350,8 +5360,7 @@ extension PinpointSMSVoiceV2 {
         public let nextToken: String?
         /// The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned.
         public let numberCapabilities: [NumberCapability]
-        /// Optional. If omitted, returns unfiltered available numbers.
-        /// Max 1 element for List API.
+        /// An optional selection preference used to return only phone numbers that match a specific digit pattern, such as numbers that start with, end with, or contain a particular sequence. You can specify at most one preference. Number preferences apply only to TEN_DLC numbers in the US.
         public let numberPreference: [NumberPreferenceItem]?
         /// The type of phone number to search for.
         public let numberType: SearchableNumberType

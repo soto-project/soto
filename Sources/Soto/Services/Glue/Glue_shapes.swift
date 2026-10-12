@@ -873,6 +873,7 @@ extension Glue {
         case authorizationCode = "AUTHORIZATION_CODE"
         case clientCredentials = "CLIENT_CREDENTIALS"
         case jwtBearer = "JWT_BEARER"
+        case refreshToken = "REFRESH_TOKEN"
         public var description: String { return self.rawValue }
     }
 
@@ -6198,6 +6199,8 @@ extension Glue {
     }
 
     public struct Crawler: AWSDecodableShape {
+        /// The ID of the Data Catalog in which the crawler's output is stored.
+        public let catalogId: String?
         /// A list of UTF-8 strings that specify the custom classifiers that are associated  with the crawler.
         public let classifiers: [String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
@@ -6240,7 +6243,8 @@ extension Glue {
         public let version: Int64?
 
         @inlinable
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: Date? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String? = nil, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
+        public init(catalogId: String? = nil, classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: Date? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String? = nil, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
+            self.catalogId = catalogId
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlElapsedTime = crawlElapsedTime
@@ -6264,6 +6268,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
             case classifiers = "Classifiers"
             case configuration = "Configuration"
             case crawlElapsedTime = "CrawlElapsedTime"
@@ -6727,6 +6732,8 @@ extension Glue {
     }
 
     public struct CreateCrawlerRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog in which to store the crawler's output. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogId: String?
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
@@ -6759,7 +6766,8 @@ extension Glue {
         public let targets: CrawlerTargets
 
         @inlinable
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
+        public init(catalogId: String? = nil, classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
+            self.catalogId = catalogId
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
@@ -6778,6 +6786,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.classifiers?.forEach {
                 try validate($0, name: "classifiers[]", parent: name, max: 255)
                 try validate($0, name: "classifiers[]", parent: name, min: 1)
@@ -6801,6 +6812,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
             case classifiers = "Classifiers"
             case configuration = "Configuration"
             case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
@@ -10661,18 +10673,24 @@ extension Glue {
     }
 
     public struct DeleteColumnStatisticsTaskSettingsRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The name of the table for which to delete column statistics.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -10682,6 +10700,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
         }
@@ -14343,6 +14362,8 @@ extension Glue {
     }
 
     public struct GetColumnStatisticsTaskRunsRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The maximum size of the response.
@@ -14353,7 +14374,8 @@ extension Glue {
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -14361,6 +14383,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
@@ -14369,6 +14394,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -14395,18 +14421,24 @@ extension Glue {
     }
 
     public struct GetColumnStatisticsTaskSettingsRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The name of the table for which to retrieve column statistics.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -14416,6 +14448,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
         }
@@ -17268,6 +17301,81 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case statement = "Statement"
+        }
+    }
+
+    public struct GetSystemLogsForJobRunRequest: AWSEncodableShape {
+        /// The name of the job.
+        public let jobName: String
+        /// The ID of the job run.
+        public let runId: String
+
+        @inlinable
+        public init(jobName: String, runId: String) {
+            self.jobName = jobName
+            self.runId = runId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.runId, name: "runId", parent: name, max: 255)
+            try self.validate(self.runId, name: "runId", parent: name, min: 1)
+            try self.validate(self.runId, name: "runId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case runId = "RunId"
+        }
+    }
+
+    public struct GetSystemLogsForJobRunResponse: AWSDecodableShape {
+        /// The URL to download the system logs for the job run.
+        public let systemLogsUrl: String?
+
+        @inlinable
+        public init(systemLogsUrl: String? = nil) {
+            self.systemLogsUrl = systemLogsUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case systemLogsUrl = "SystemLogsUrl"
+        }
+    }
+
+    public struct GetSystemLogsForSessionRequest: AWSEncodableShape {
+        /// The ID of the session.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct GetSystemLogsForSessionResponse: AWSDecodableShape {
+        /// The URL to download the system logs for the session.
+        public let systemLogsUrl: String?
+
+        @inlinable
+        public init(systemLogsUrl: String? = nil) {
+            self.systemLogsUrl = systemLogsUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case systemLogsUrl = "SystemLogsUrl"
         }
     }
 
@@ -23626,7 +23734,7 @@ extension Glue {
     public struct OAuth2Properties: AWSDecodableShape {
         /// The client application type. For example, AWS_MANAGED or USER_MANAGED.
         public let oAuth2ClientApplication: OAuth2ClientApplication?
-        /// The OAuth2 grant type. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
+        /// The OAuth2 grant type. For example, AUTHORIZATION_CODE, JWT_BEARER, REFRESH_TOKEN, or CLIENT_CREDENTIALS.
         public let oAuth2GrantType: OAuth2GrantType?
         /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
         public let tokenUrl: String?
@@ -23656,7 +23764,7 @@ extension Glue {
         public let oAuth2ClientApplication: OAuth2ClientApplication?
         /// The credentials used when the authentication type is OAuth2 authentication.
         public let oAuth2Credentials: OAuth2Credentials?
-        /// The OAuth2 grant type in the CreateConnection request. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
+        /// The OAuth2 grant type in the CreateConnection request. For example, AUTHORIZATION_CODE, JWT_BEARER, REFRESH_TOKEN, or CLIENT_CREDENTIALS.
         public let oAuth2GrantType: OAuth2GrantType?
         /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
         public let tokenUrl: String?
@@ -28986,18 +29094,24 @@ extension Glue {
     }
 
     public struct StartColumnStatisticsTaskRunScheduleRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The name of the table for which to start a column statistic task run schedule.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -29007,6 +29121,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
         }
@@ -29848,24 +29963,31 @@ extension Glue {
     }
 
     public struct StopColumnStatisticsTaskRunRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The name of the table.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
         }
@@ -29876,18 +29998,24 @@ extension Glue {
     }
 
     public struct StopColumnStatisticsTaskRunScheduleRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The name of the table for which to stop a column statistic task run schedule.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -29897,6 +30025,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
         }
@@ -31935,6 +32064,8 @@ extension Glue {
     }
 
     public struct UpdateCrawlerRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog in which to store the crawler's output. If you omit this value, the existing value on the crawler is preserved.
+        public let catalogId: String?
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
@@ -31965,7 +32096,8 @@ extension Glue {
         public let targets: CrawlerTargets?
 
         @inlinable
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
+        public init(catalogId: String? = nil, classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
+            self.catalogId = catalogId
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
@@ -31983,6 +32115,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.classifiers?.forEach {
                 try validate($0, name: "classifiers[]", parent: name, max: 255)
                 try validate($0, name: "classifiers[]", parent: name, min: 1)
@@ -32000,6 +32135,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
             case classifiers = "Classifiers"
             case configuration = "Configuration"
             case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
@@ -33574,6 +33710,8 @@ extension Glue {
     public struct ViewDefinition: AWSDecodableShape {
         /// The definer of a view in SQL.
         public let definer: String?
+        /// Specifies whether the materialized view is managed by Glue.
+        public let isManaged: Bool?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
         public let isProtected: Bool?
         /// Sets the method used for the most recent refresh.
@@ -33596,8 +33734,9 @@ extension Glue {
         public let viewVersionToken: String?
 
         @inlinable
-        public init(definer: String? = nil, isProtected: Bool? = nil, lastRefreshType: LastRefreshType? = nil, refreshSeconds: Int64? = nil, representations: [ViewRepresentation]? = nil, sparkPipelineInfo: [String: String]? = nil, subObjects: [String]? = nil, subObjectsStatistics: [SubObjectStatistics]? = nil, subObjectVersionIds: [Int64]? = nil, viewVersionId: Int64? = nil, viewVersionToken: String? = nil) {
+        public init(definer: String? = nil, isManaged: Bool? = nil, isProtected: Bool? = nil, lastRefreshType: LastRefreshType? = nil, refreshSeconds: Int64? = nil, representations: [ViewRepresentation]? = nil, sparkPipelineInfo: [String: String]? = nil, subObjects: [String]? = nil, subObjectsStatistics: [SubObjectStatistics]? = nil, subObjectVersionIds: [Int64]? = nil, viewVersionId: Int64? = nil, viewVersionToken: String? = nil) {
             self.definer = definer
+            self.isManaged = isManaged
             self.isProtected = isProtected
             self.lastRefreshType = lastRefreshType
             self.refreshSeconds = refreshSeconds
@@ -33612,6 +33751,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case definer = "Definer"
+            case isManaged = "IsManaged"
             case isProtected = "IsProtected"
             case lastRefreshType = "LastRefreshType"
             case refreshSeconds = "RefreshSeconds"
@@ -33628,6 +33768,8 @@ extension Glue {
     public struct ViewDefinitionInput: AWSEncodableShape {
         /// The definer of a view in SQL.
         public let definer: String?
+        /// Specifies whether the materialized view is managed by Glue.
+        public let isManaged: Bool?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
         public let isProtected: Bool?
         /// The type of the materialized view's last refresh. Valid values: Full,  Incremental.
@@ -33650,8 +33792,9 @@ extension Glue {
         public let viewVersionToken: String?
 
         @inlinable
-        public init(definer: String? = nil, isProtected: Bool? = nil, lastRefreshType: LastRefreshType? = nil, refreshSeconds: Int64? = nil, representations: [ViewRepresentationInput]? = nil, sparkPipelineInfo: [String: String]? = nil, subObjects: [String]? = nil, subObjectsStatistics: [SubObjectStatistics]? = nil, subObjectVersionIds: [Int64]? = nil, viewVersionId: Int64? = nil, viewVersionToken: String? = nil) {
+        public init(definer: String? = nil, isManaged: Bool? = nil, isProtected: Bool? = nil, lastRefreshType: LastRefreshType? = nil, refreshSeconds: Int64? = nil, representations: [ViewRepresentationInput]? = nil, sparkPipelineInfo: [String: String]? = nil, subObjects: [String]? = nil, subObjectsStatistics: [SubObjectStatistics]? = nil, subObjectVersionIds: [Int64]? = nil, viewVersionId: Int64? = nil, viewVersionToken: String? = nil) {
             self.definer = definer
+            self.isManaged = isManaged
             self.isProtected = isProtected
             self.lastRefreshType = lastRefreshType
             self.refreshSeconds = refreshSeconds
@@ -33696,6 +33839,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case definer = "Definer"
+            case isManaged = "IsManaged"
             case isProtected = "IsProtected"
             case lastRefreshType = "LastRefreshType"
             case refreshSeconds = "RefreshSeconds"
