@@ -240,31 +240,44 @@ extension S3 {
     }
 
     private func shortDateFormat(date: Date) -> String {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions.insert(.withYear)
-        formatter.formatOptions.insert(.withMonth)
-        formatter.formatOptions.insert(.withDay)
-        formatter.formatOptions.remove(.withTime)
-        formatter.formatOptions.remove(.withTimeZone)
-        formatter.formatOptions.remove(.withDashSeparatorInDate)
+        #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+        if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
+            return Date.ISO8601FormatStyle().day().month().year().dateSeparator(.omitted).format(date)
+        } else {
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions.insert(.withYear)
+            formatter.formatOptions.insert(.withMonth)
+            formatter.formatOptions.insert(.withDay)
+            formatter.formatOptions.remove(.withTime)
+            formatter.formatOptions.remove(.withTimeZone)
+            formatter.formatOptions.remove(.withDashSeparatorInDate)
+            formatter.formatOptions.remove(.withColonSeparatorInTime)
 
-        let formattedDate = formatter.string(from: date)
-
-        return formattedDate
+            return formatter.string(from: date)
+        }
+        #else
+        return Date.ISO8601FormatStyle().day().month().year().dateSeparator(.omitted).format(date)
+        #endif
     }
 
     private func longDateFormat(date: Date) -> String {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions.insert(.withYear)
-        formatter.formatOptions.insert(.withMonth)
-        formatter.formatOptions.insert(.withDay)
-        formatter.formatOptions.insert(.withTime)
-        formatter.formatOptions.insert(.withTimeZone)
-        formatter.formatOptions.remove(.withDashSeparatorInDate)
-        formatter.formatOptions.remove(.withColonSeparatorInTime)
+        #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+        if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
+            return Date.ISO8601FormatStyle().dateSeparator(.omitted).timeSeparator(.omitted).format(date)
+        } else {
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions.insert(.withYear)
+            formatter.formatOptions.insert(.withMonth)
+            formatter.formatOptions.insert(.withDay)
+            formatter.formatOptions.insert(.withTime)
+            formatter.formatOptions.insert(.withTimeZone)
+            formatter.formatOptions.remove(.withDashSeparatorInDate)
+            formatter.formatOptions.remove(.withColonSeparatorInTime)
 
-        let formattedDate = formatter.string(from: date)
-
-        return formattedDate
+            return formatter.string(from: date)
+        }
+        #else
+        return Date.ISO8601FormatStyle().dateSeparator(.omitted).timeSeparator(.omitted).format(date)
+        #endif
     }
 }
