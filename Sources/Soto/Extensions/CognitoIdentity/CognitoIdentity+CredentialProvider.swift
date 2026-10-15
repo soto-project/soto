@@ -15,8 +15,11 @@
 import AsyncHTTPClient
 import SotoCore
 
-import struct Foundation.Date
-import typealias Foundation.TimeInterval
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
+#endif
 
 extension CognitoIdentity {
     struct IdentityCredentialProvider: CredentialProvider {

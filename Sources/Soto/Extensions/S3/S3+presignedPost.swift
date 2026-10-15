@@ -13,9 +13,14 @@
 //===----------------------------------------------------------------------===//
 
 import Crypto
-import Foundation
 import Logging
 @_spi(SotoInternal) import SotoSignerV4
+
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
+#endif
 
 extension S3ErrorType {
     public enum presignedPost: Error {
