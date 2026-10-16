@@ -469,7 +469,7 @@ class S3Tests: XCTestCase {
 
         let name = TestEnvironment.generateResourceName()
         let s3Url = URL(
-            string: "https://\(name).s3.us-east-1.amazonaws.com/\(name)!=%25+/(*)_.txt"
+            string: "https://\(name).s3.us-east-1.amazonaws.com/\(name)!=%+/(*)_.txt"
         )!
 
         try await testBucket(name) { _ in

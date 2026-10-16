@@ -18,9 +18,11 @@ import NIOPosix
 import SotoCore
 import _NIOFileSystem
 
-import struct Foundation.Date
-import typealias Foundation.TimeInterval
-import struct Foundation.UUID
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
+#endif
 
 /// Credential Provider that holds an AWSClient
 protocol CredentialProviderWithClient: CredentialProvider {

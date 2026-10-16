@@ -12,7 +12,11 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 public class DynamoDBDecoder {
     /// The strategy to use for decoding `Date` values.
@@ -705,11 +709,15 @@ extension _DynamoDBDecoder {
         case .iso8601:
             let string = try self.unbox(attribute, as: String.self)
             let date: Date?
+            #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
             if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
                 date = try? Date(string, strategy: .iso8601)
             } else {
                 date = _iso8601DateFormatter.date(from: string)
             }
+            #else
+            date = try? Date(string, strategy: .iso8601)
+            #endif
             guard let date else {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(codingPath: self.codingPath, debugDescription: "Expected date string to be ISO8601-formatted.")
@@ -740,8 +748,10 @@ extension _DynamoDBDecoder {
     }
 }
 
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
 nonisolated(unsafe) let _iso8601DateFormatter: ISO8601DateFormatter = {
     let formatter = ISO8601DateFormatter()
     formatter.formatOptions = .withInternetDateTime
     return formatter
 }()
+#endif

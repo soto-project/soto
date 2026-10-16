@@ -12,7 +12,11 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 public class DynamoDBEncoder {
     /// The strategy to use for encoding `Date` values.
@@ -519,11 +523,15 @@ extension _DynamoDBEncoder {
         case .secondsSince1970:
             return .n(date.timeIntervalSince1970.description)
         case .iso8601:
+            #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
             if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
                 return .s(date.formatted(.iso8601))
             } else {
                 return .s(_iso8601DateFormatter.string(from: date))
             }
+            #else
+            return .s(date.formatted(.iso8601))
+            #endif
         case .custom(let closure):
             return closure(date, self)
         }
