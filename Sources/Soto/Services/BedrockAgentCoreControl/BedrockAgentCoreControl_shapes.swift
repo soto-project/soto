@@ -1061,6 +1061,56 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public enum CertificateConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Amazon S3 location of the PEM-encoded private CA certificate.
+        case s3(S3CertificateConfiguration)
+        /// The Amazon Web Services Secrets Manager location of the PEM-encoded private CA certificate.
+        case secretsManager(SecretsManagerCertificateConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .s3:
+                let value = try container.decode(S3CertificateConfiguration.self, forKey: .s3)
+                self = .s3(value)
+            case .secretsManager:
+                let value = try container.decode(SecretsManagerCertificateConfiguration.self, forKey: .secretsManager)
+                self = .secretsManager(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .s3(let value):
+                try container.encode(value, forKey: .s3)
+            case .secretsManager(let value):
+                try container.encode(value, forKey: .secretsManager)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .s3(let value):
+                try value.validate(name: "\(name).s3")
+            case .secretsManager(let value):
+                try value.validate(name: "\(name).secretsManager")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+            case secretsManager = "secretsManager"
+        }
+    }
+
     public enum ClaimMatchValueType: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The string value to match for.
         case matchValueString(String)
@@ -6581,6 +6631,8 @@ extension BedrockAgentCoreControl {
     }
 
     public struct CreateGatewayTargetRequest: AWSEncodableShape {
+        /// The private certificate authority (CA) configurations for the gateway target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certificate authority configuration in this list.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
         /// The credential provider configurations for the target. These configurations specify how the gateway authenticates with the target endpoint.
@@ -6599,7 +6651,8 @@ extension BedrockAgentCoreControl {
         public let targetConfiguration: TargetConfiguration
 
         @inlinable
-        public init(clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(), credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String? = nil, privateEndpoint: PrivateEndpoint? = nil, targetConfiguration: TargetConfiguration) {
+        public init(certificateConfigurations: [CertificateConfiguration]? = nil, clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(), credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String? = nil, privateEndpoint: PrivateEndpoint? = nil, targetConfiguration: TargetConfiguration) {
+            self.certificateConfigurations = certificateConfigurations
             self.clientToken = clientToken
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -6613,6 +6666,7 @@ extension BedrockAgentCoreControl {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.certificateConfigurations, forKey: .certificateConfigurations)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.credentialProviderConfigurations, forKey: .credentialProviderConfigurations)
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -6624,6 +6678,11 @@ extension BedrockAgentCoreControl {
         }
 
         public func validate(name: String) throws {
+            try self.certificateConfigurations?.forEach {
+                try $0.validate(name: "\(name).certificateConfigurations[]")
+            }
+            try self.validate(self.certificateConfigurations, name: "certificateConfigurations", parent: name, max: 1)
+            try self.validate(self.certificateConfigurations, name: "certificateConfigurations", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
@@ -6642,6 +6701,7 @@ extension BedrockAgentCoreControl {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateConfigurations = "certificateConfigurations"
             case clientToken = "clientToken"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
@@ -6655,6 +6715,8 @@ extension BedrockAgentCoreControl {
     public struct CreateGatewayTargetResponse: AWSDecodableShape {
         /// OAuth2 authorization data for the created gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
         public let authorizationData: AuthorizationData?
+        /// The private certificate authority (CA) configurations for the gateway target.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// The timestamp when the target was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -6690,8 +6752,9 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(authorizationData: AuthorizationData? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(authorizationData: AuthorizationData? = nil, certificateConfigurations: [CertificateConfiguration]? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.authorizationData = authorizationData
+            self.certificateConfigurations = certificateConfigurations
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -6711,6 +6774,7 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case authorizationData = "authorizationData"
+            case certificateConfigurations = "certificateConfigurations"
             case createdAt = "createdAt"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
@@ -8782,18 +8846,22 @@ extension BedrockAgentCoreControl {
     }
 
     public struct DeleteConfigurationBundleResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the deleted configuration bundle.
+        public let bundleArn: String?
         /// The unique identifier of the deleted configuration bundle.
         public let bundleId: String
         /// The status of the configuration bundle deletion operation.
         public let status: ConfigurationBundleStatus
 
         @inlinable
-        public init(bundleId: String, status: ConfigurationBundleStatus) {
+        public init(bundleArn: String? = nil, bundleId: String, status: ConfigurationBundleStatus) {
+            self.bundleArn = bundleArn
             self.bundleId = bundleId
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bundleArn = "bundleArn"
             case bundleId = "bundleId"
             case status = "status"
         }
@@ -10689,7 +10757,7 @@ extension BedrockAgentCoreControl {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 170)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:policy-engine\\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9_]{10}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:policy-engine\\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9_]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10841,6 +10909,8 @@ extension BedrockAgentCoreControl {
     public struct GatewayTarget: AWSDecodableShape {
         /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
         public let authorizationData: AuthorizationData?
+        /// The private certificate authority (CA) configurations for the gateway target.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// The date and time at which the target was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -10874,8 +10944,9 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(authorizationData: AuthorizationData? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(authorizationData: AuthorizationData? = nil, certificateConfigurations: [CertificateConfiguration]? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.authorizationData = authorizationData
+            self.certificateConfigurations = certificateConfigurations
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -10895,6 +10966,7 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case authorizationData = "authorizationData"
+            case certificateConfigurations = "certificateConfigurations"
             case createdAt = "createdAt"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
@@ -12238,6 +12310,8 @@ extension BedrockAgentCoreControl {
     public struct GetGatewayTargetResponse: AWSDecodableShape {
         /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
         public let authorizationData: AuthorizationData?
+        /// The private certificate authority (CA) configurations for the gateway target.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// The timestamp when the gateway target was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -12272,8 +12346,9 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(authorizationData: AuthorizationData? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(authorizationData: AuthorizationData? = nil, certificateConfigurations: [CertificateConfiguration]? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.authorizationData = authorizationData
+            self.certificateConfigurations = certificateConfigurations
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -12293,6 +12368,7 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case authorizationData = "authorizationData"
+            case certificateConfigurations = "certificateConfigurations"
             case createdAt = "createdAt"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
@@ -19957,6 +20033,29 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public struct S3CertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The account ID of the Amazon S3 bucket owner. This ID is used for cross-account access to the bucket.
+        public let bucketOwnerAccountId: String?
+        /// The URI of the Amazon S3 object that contains the PEM-encoded certificate.
+        public let uri: String
+
+        @inlinable
+        public init(bucketOwnerAccountId: String? = nil, uri: String) {
+            self.bucketOwnerAccountId = bucketOwnerAccountId
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^s3://.{1,2043}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketOwnerAccountId = "bucketOwnerAccountId"
+            case uri = "uri"
+        }
+    }
+
     public struct S3Configuration: AWSEncodableShape & AWSDecodableShape {
         /// The account ID of the Amazon S3 bucket owner. This ID is used for cross-account access to the bucket.
         public let bucketOwnerAccountId: String?
@@ -20214,6 +20313,24 @@ extension BedrockAgentCoreControl {
         private enum CodingKeys: String, CodingKey {
             case jsonKey = "jsonKey"
             case secretId = "secretId"
+        }
+    }
+
+    public struct SecretsManagerCertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the PEM-encoded certificate.
+        public let secretArn: String
+
+        @inlinable
+        public init(secretArn: String) {
+            self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:aws(-[^:]+)?:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArn = "secretArn"
         }
     }
 
@@ -22094,7 +22211,7 @@ extension BedrockAgentCoreControl {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
         /// A commit message describing the changes in this version.
-        public let commitMessage: String?
+        public let commitMessage: String
         /// The updated component configurations. Creates a new version of the bundle.
         public let components: [String: ComponentConfiguration]?
         /// The source that created this version, including the source name and optional ARN.
@@ -22107,7 +22224,7 @@ extension BedrockAgentCoreControl {
         public let parentVersionIds: [String]
 
         @inlinable
-        public init(branchName: String? = nil, bundleId: String, bundleName: String? = nil, clientToken: String? = UpdateConfigurationBundleRequest.idempotencyToken(), commitMessage: String? = nil, components: [String: ComponentConfiguration]? = nil, createdBy: VersionCreatedBySource? = nil, description: String? = nil, kmsKeyArn: String? = nil, parentVersionIds: [String]) {
+        public init(branchName: String? = nil, bundleId: String, bundleName: String? = nil, clientToken: String? = UpdateConfigurationBundleRequest.idempotencyToken(), commitMessage: String, components: [String: ComponentConfiguration]? = nil, createdBy: VersionCreatedBySource? = nil, description: String? = nil, kmsKeyArn: String? = nil, parentVersionIds: [String]) {
             self.branchName = branchName
             self.bundleId = bundleId
             self.bundleName = bundleName
@@ -22127,7 +22244,7 @@ extension BedrockAgentCoreControl {
             request.encodePath(self.bundleId, key: "bundleId")
             try container.encodeIfPresent(self.bundleName, forKey: .bundleName)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
-            try container.encodeIfPresent(self.commitMessage, forKey: .commitMessage)
+            try container.encode(self.commitMessage, forKey: .commitMessage)
             try container.encodeIfPresent(self.components, forKey: .components)
             try container.encodeIfPresent(self.createdBy, forKey: .createdBy)
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -22909,6 +23026,8 @@ extension BedrockAgentCoreControl {
     }
 
     public struct UpdateGatewayTargetRequest: AWSEncodableShape {
+        /// The private certificate authority (CA) configurations for the gateway target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certificate authority configuration in this list. To remove a previously configured certificate authority, omit this field on update.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// The updated credential provider configurations for the gateway target.
         public let credentialProviderConfigurations: [CredentialProviderConfiguration]?
         /// The updated description for the gateway target.
@@ -22926,7 +23045,8 @@ extension BedrockAgentCoreControl {
         public let targetId: String
 
         @inlinable
-        public init(credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String? = nil, privateEndpoint: PrivateEndpoint? = nil, targetConfiguration: TargetConfiguration, targetId: String) {
+        public init(certificateConfigurations: [CertificateConfiguration]? = nil, credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String? = nil, privateEndpoint: PrivateEndpoint? = nil, targetConfiguration: TargetConfiguration, targetId: String) {
+            self.certificateConfigurations = certificateConfigurations
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayIdentifier = gatewayIdentifier
@@ -22940,6 +23060,7 @@ extension BedrockAgentCoreControl {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.certificateConfigurations, forKey: .certificateConfigurations)
             try container.encodeIfPresent(self.credentialProviderConfigurations, forKey: .credentialProviderConfigurations)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.gatewayIdentifier, key: "gatewayIdentifier")
@@ -22951,6 +23072,11 @@ extension BedrockAgentCoreControl {
         }
 
         public func validate(name: String) throws {
+            try self.certificateConfigurations?.forEach {
+                try $0.validate(name: "\(name).certificateConfigurations[]")
+            }
+            try self.validate(self.certificateConfigurations, name: "certificateConfigurations", parent: name, max: 1)
+            try self.validate(self.certificateConfigurations, name: "certificateConfigurations", parent: name, min: 1)
             try self.credentialProviderConfigurations?.forEach {
                 try $0.validate(name: "\(name).credentialProviderConfigurations[]")
             }
@@ -22967,6 +23093,7 @@ extension BedrockAgentCoreControl {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateConfigurations = "certificateConfigurations"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
             case metadataConfiguration = "metadataConfiguration"
@@ -22979,6 +23106,8 @@ extension BedrockAgentCoreControl {
     public struct UpdateGatewayTargetResponse: AWSDecodableShape {
         /// OAuth2 authorization data for the updated gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
         public let authorizationData: AuthorizationData?
+        /// The private certificate authority (CA) configurations for the gateway target.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// The timestamp when the gateway target was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -23013,8 +23142,9 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(authorizationData: AuthorizationData? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(authorizationData: AuthorizationData? = nil, certificateConfigurations: [CertificateConfiguration]? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.authorizationData = authorizationData
+            self.certificateConfigurations = certificateConfigurations
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -23034,6 +23164,7 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case authorizationData = "authorizationData"
+            case certificateConfigurations = "certificateConfigurations"
             case createdAt = "createdAt"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"

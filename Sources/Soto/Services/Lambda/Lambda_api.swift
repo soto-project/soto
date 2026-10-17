@@ -2013,7 +2013,7 @@ public struct Lambda: AWSService {
     ///   - functionName: The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
     ///   - marker: Pagination token from a previous request to continue retrieving results.
     ///   - maxItems: Maximum number of executions to return (1-1000). Default is 100.
-    ///   - qualifier: The function version or alias. If not specified, lists executions for the $LATEST version.
+    ///   - qualifier: The function version to filter executions by. If you don't specify a qualifier, this operation returns executions across all versions of the Lambda function.
     ///   - reverseOrder: Set to true to return results in chronological order (oldest first). Default is false.
     ///   - startedAfter: Filter executions that started after this timestamp (ISO 8601 format).
     ///   - startedBefore: Filter executions that started before this timestamp (ISO 8601 format).
@@ -3676,7 +3676,7 @@ extension Lambda {
     ///   - durableExecutionName: Filter executions by name. Only executions with names that matches this string are returned.
     ///   - functionName: The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
     ///   - maxItems: Maximum number of executions to return (1-1000). Default is 100.
-    ///   - qualifier: The function version or alias. If not specified, lists executions for the $LATEST version.
+    ///   - qualifier: The function version to filter executions by. If you don't specify a qualifier, this operation returns executions across all versions of the Lambda function.
     ///   - reverseOrder: Set to true to return results in chronological order (oldest first). Default is false.
     ///   - startedAfter: Filter executions that started after this timestamp (ISO 8601 format).
     ///   - startedBefore: Filter executions that started before this timestamp (ISO 8601 format).

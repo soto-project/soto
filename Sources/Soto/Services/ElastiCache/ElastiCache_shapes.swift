@@ -72,6 +72,12 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "public"
+        case vpc = "vpc"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataStorageUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gb = "GB"
         public var description: String { return self.rawValue }
@@ -1871,6 +1877,8 @@ extension ElastiCache {
 
         /// Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
         public let cacheUsageLimits: CacheUsageLimits?
+        /// The connection type for the serverless cache. Must be either vpc | public. Use vpc to access the cache through a VPC endpoint, or public to access the cache over the internet. If not specified, defaults to vpc. This value cannot be changed after the serverless cache is created. Setting this to public requires Valkey 9 or above.
+        public let connectionType: ConnectionType?
         /// The daily time that snapshots will be created from the new serverless cache. By default this number is populated with  0, i.e. no snapshots will be created on an automatic daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
         public let dailySnapshotTime: String?
         /// User-provided description for the serverless cache.   The default is NULL, i.e. if no description is provided then an empty string will be returned.  The maximum length is 255 characters.
@@ -1903,8 +1911,9 @@ extension ElastiCache {
         public let userGroupId: String?
 
         @inlinable
-        public init(cacheUsageLimits: CacheUsageLimits? = nil, dailySnapshotTime: String? = nil, description: String? = nil, engine: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, networkType: NetworkType? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotArnsToRestore: [String]? = nil, snapshotRetentionLimit: Int? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, userGroupId: String? = nil) {
+        public init(cacheUsageLimits: CacheUsageLimits? = nil, connectionType: ConnectionType? = nil, dailySnapshotTime: String? = nil, description: String? = nil, engine: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, networkType: NetworkType? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotArnsToRestore: [String]? = nil, snapshotRetentionLimit: Int? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, userGroupId: String? = nil) {
             self.cacheUsageLimits = cacheUsageLimits
+            self.connectionType = connectionType
             self.dailySnapshotTime = dailySnapshotTime
             self.description = description
             self.engine = engine
@@ -1922,6 +1931,7 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case cacheUsageLimits = "CacheUsageLimits"
+            case connectionType = "ConnectionType"
             case dailySnapshotTime = "DailySnapshotTime"
             case description = "Description"
             case engine = "Engine"
@@ -5771,6 +5781,8 @@ extension ElastiCache {
         public let arn: String?
         /// The cache usage limit for the serverless cache.
         public let cacheUsageLimits: CacheUsageLimits?
+        /// The connection type for the serverless cache. Must be either vpc | public. If not specified, defaults to vpc.
+        public let connectionType: ConnectionType?
         /// When the serverless cache was created.
         public let createTime: Date?
         /// The daily time that a cache snapshot will be created. Default is NULL, i.e. snapshots will not be created at a specific time on a daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
@@ -5807,9 +5819,10 @@ extension ElastiCache {
         public let userGroupId: String?
 
         @inlinable
-        public init(arn: String? = nil, cacheUsageLimits: CacheUsageLimits? = nil, createTime: Date? = nil, dailySnapshotTime: String? = nil, description: String? = nil, endpoint: Endpoint? = nil, engine: String? = nil, fullEngineVersion: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, networkType: NetworkType? = nil, readerEndpoint: Endpoint? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotRetentionLimit: Int? = nil, status: String? = nil, storageEncryptionType: StorageEncryptionType? = nil, subnetIds: [String]? = nil, userGroupId: String? = nil) {
+        public init(arn: String? = nil, cacheUsageLimits: CacheUsageLimits? = nil, connectionType: ConnectionType? = nil, createTime: Date? = nil, dailySnapshotTime: String? = nil, description: String? = nil, endpoint: Endpoint? = nil, engine: String? = nil, fullEngineVersion: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, networkType: NetworkType? = nil, readerEndpoint: Endpoint? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotRetentionLimit: Int? = nil, status: String? = nil, storageEncryptionType: StorageEncryptionType? = nil, subnetIds: [String]? = nil, userGroupId: String? = nil) {
             self.arn = arn
             self.cacheUsageLimits = cacheUsageLimits
+            self.connectionType = connectionType
             self.createTime = createTime
             self.dailySnapshotTime = dailySnapshotTime
             self.description = description
@@ -5832,6 +5845,7 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case cacheUsageLimits = "CacheUsageLimits"
+            case connectionType = "ConnectionType"
             case createTime = "CreateTime"
             case dailySnapshotTime = "DailySnapshotTime"
             case description = "Description"

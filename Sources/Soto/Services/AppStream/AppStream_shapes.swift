@@ -4427,6 +4427,8 @@ extension AppStream {
         public let imagePermissions: ImagePermissions?
         /// Indicates whether the image is shared with another account ID.
         public let imageSharedWithOthers: ImageSharedWithOthers?
+        /// The software metadata associated with the image.
+        public let imageSoftwareMetadata: ImageSoftwareMetadata?
         /// The type of the image. Images created through AMI import have type "custom", while WorkSpaces Applications provided images have type "native". Custom images support additional instance types including GeneralPurpose, MemoryOptimized, ComputeOptimized, and Accelerated instance families.
         public let imageType: ImageType?
         /// Indicates whether the image is using the latest WorkSpaces Applications agent version or not.
@@ -4449,7 +4451,7 @@ extension AppStream {
         public let visibility: VisibilityType?
 
         @inlinable
-        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, imageType: ImageType? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, managedSoftwareIncluded: Bool? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
+        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, imageSoftwareMetadata: ImageSoftwareMetadata? = nil, imageType: ImageType? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, managedSoftwareIncluded: Bool? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -4463,6 +4465,7 @@ extension AppStream {
             self.imageErrors = imageErrors
             self.imagePermissions = imagePermissions
             self.imageSharedWithOthers = imageSharedWithOthers
+            self.imageSoftwareMetadata = imageSoftwareMetadata
             self.imageType = imageType
             self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
             self.managedSoftwareIncluded = managedSoftwareIncluded
@@ -4489,6 +4492,7 @@ extension AppStream {
             case imageErrors = "ImageErrors"
             case imagePermissions = "ImagePermissions"
             case imageSharedWithOthers = "ImageSharedWithOthers"
+            case imageSoftwareMetadata = "ImageSoftwareMetadata"
             case imageType = "ImageType"
             case latestAppstreamAgentVersion = "LatestAppstreamAgentVersion"
             case managedSoftwareIncluded = "ManagedSoftwareIncluded"
@@ -4628,6 +4632,20 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case allowFleet = "allowFleet"
             case allowImageBuilder = "allowImageBuilder"
+        }
+    }
+
+    public struct ImageSoftwareMetadata: AWSDecodableShape {
+        /// The version of the NVIDIA GRID driver installed on the image. This field is empty if no NVIDIA GRID driver is installed.
+        public let nvidiaGridDriverVersion: String?
+
+        @inlinable
+        public init(nvidiaGridDriverVersion: String? = nil) {
+            self.nvidiaGridDriverVersion = nvidiaGridDriverVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nvidiaGridDriverVersion = "nvidiaGridDriverVersion"
         }
     }
 

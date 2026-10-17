@@ -3175,6 +3175,51 @@ public struct Deadline: AWSService {
         return try await self.listLimits(input, logger: logger)
     }
 
+    /// Lists the Deadline Cloud resource memberships associated with a specified IAM Identity Center principal, optionally filtered by the requested resource types.
+    @Sendable
+    @inlinable
+    public func listMemberships(_ input: ListMembershipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMembershipsResponse {
+        try await self.client.execute(
+            operation: "ListMemberships", 
+            path: "/2023-10-12/memberships", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Lists the Deadline Cloud resource memberships associated with a specified IAM Identity Center principal, optionally filtered by the requested resource types.
+    ///
+    /// Parameters:
+    ///   - identityCenterRegion: The Region of the IAM Identity Center instance. If not provided, the service defaults to the Amazon Web Services Region in which you make the request.
+    ///   - identityStoreId: The identity store ID that contains the principal. This parameter is required for callers that do not use a monitor session.
+    ///   - maxResults: The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    ///   - nextToken: The token for the next set of results, or null to start from the beginning.
+    ///   - principalId: The ID of the IAM Identity Center principal whose Deadline Cloud resource memberships you want to list.
+    ///   - resourceTypes: The resource types to include when listing the principal's memberships. If not specified, memberships for all supported resource types are returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMemberships(
+        identityCenterRegion: String? = nil,
+        identityStoreId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        principalId: String,
+        resourceTypes: [MembershipResourceType]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMembershipsResponse {
+        let input = ListMembershipsRequest(
+            identityCenterRegion: identityCenterRegion, 
+            identityStoreId: identityStoreId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            principalId: principalId, 
+            resourceTypes: resourceTypes
+        )
+        return try await self.listMemberships(input, logger: logger)
+    }
+
     /// Lists metered products.
     @Sendable
     @inlinable
@@ -4183,7 +4228,7 @@ public struct Deadline: AWSService {
     ///   - resourceIds: A list of fleet IDs or queue IDs to gather statistics for.
     ///   - startTime: The Linux timestamp of the date and time that the statistics start.
     ///   - statistics: One to four statistics to return.
-    ///   - timezone: The timezone to use for the statistics. Use UTC notation such as "UTC+8."
+    ///   - timezone: The time zone to use for the statistics. Use UTC notation such as "UTC+8."
     ///   - logger: Logger use during operation
     @inlinable
     public func startSessionsStatisticsAggregation(
@@ -4372,7 +4417,7 @@ public struct Deadline: AWSService {
         return try await self.updateFarm(input, logger: logger)
     }
 
-    /// Updates a fleet.
+    /// Updates a fleet.  Workers that are running when you call UpdateFleet keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take effect immediately. To make sure that all workers use the new configuration, set maxWorkerCount to 0, use the ListWorkers operation to confirm that the fleet has no workers, and then restore maxWorkerCount.
     @Sendable
     @inlinable
     public func updateFleet(_ input: UpdateFleetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFleetResponse {
@@ -4386,7 +4431,7 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Updates a fleet.
+    /// Updates a fleet.  Workers that are running when you call UpdateFleet keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take effect immediately. To make sure that all workers use the new configuration, set maxWorkerCount to 0, use the ListWorkers operation to confirm that the fleet has no workers, and then restore maxWorkerCount.
     ///
     /// Parameters:
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
@@ -5559,6 +5604,52 @@ extension Deadline {
         return self.listLimitsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listMemberships(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMembershipsPaginator(
+        _ input: ListMembershipsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMembershipsRequest, ListMembershipsResponse> {
+        return .init(
+            input: input,
+            command: self.listMemberships,
+            inputKey: \ListMembershipsRequest.nextToken,
+            outputKey: \ListMembershipsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMemberships(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - identityCenterRegion: The Region of the IAM Identity Center instance. If not provided, the service defaults to the Amazon Web Services Region in which you make the request.
+    ///   - identityStoreId: The identity store ID that contains the principal. This parameter is required for callers that do not use a monitor session.
+    ///   - maxResults: The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    ///   - principalId: The ID of the IAM Identity Center principal whose Deadline Cloud resource memberships you want to list.
+    ///   - resourceTypes: The resource types to include when listing the principal's memberships. If not specified, memberships for all supported resource types are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMembershipsPaginator(
+        identityCenterRegion: String? = nil,
+        identityStoreId: String? = nil,
+        maxResults: Int? = nil,
+        principalId: String,
+        resourceTypes: [MembershipResourceType]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMembershipsRequest, ListMembershipsResponse> {
+        let input = ListMembershipsRequest(
+            identityCenterRegion: identityCenterRegion, 
+            identityStoreId: identityStoreId, 
+            maxResults: maxResults, 
+            principalId: principalId, 
+            resourceTypes: resourceTypes
+        )
+        return self.listMembershipsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listMeteredProducts(_:logger:)``.
     ///
     /// - Parameters:
@@ -6451,6 +6542,20 @@ extension Deadline.ListLimitsRequest: AWSPaginateToken {
             farmId: self.farmId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Deadline.ListMembershipsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Deadline.ListMembershipsRequest {
+        return .init(
+            identityCenterRegion: self.identityCenterRegion,
+            identityStoreId: self.identityStoreId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            principalId: self.principalId,
+            resourceTypes: self.resourceTypes
         )
     }
 }

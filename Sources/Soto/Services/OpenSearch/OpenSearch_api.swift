@@ -3198,6 +3198,7 @@ public struct OpenSearch: AWSService {
     /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
     ///
     /// Parameters:
+    ///   - acceptedWarnings: A list of advisory warning codes to accept for this configuration change. By default, any advisory warning blocks the change. Include the code of each warning you want to accept so the change can proceed. You can find warning codes in the ValidationFailures list returned by DescribeDomainChangeProgress and DescribeDryRunProgress. Critical validation failures cannot be accepted and always block the change. If you omit this parameter or pass an empty list, all warnings block the change. For more information, see Validating a domain update.
     ///   - accessPolicies: Identity and Access Management (IAM) access policy as a JSON-formatted string.
     ///   - advancedOptions: Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:    "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether explicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true.    "indices.fielddata.cache.size": "80"  - Note the use of a string rather than a boolean. Specifies the percentage of heap space allocated to field data. Default is unbounded.    "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error.   For more information, see Advanced cluster parameters.
     ///   - advancedSecurityOptions: Options for fine-grained access control.
@@ -3226,6 +3227,7 @@ public struct OpenSearch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDomainConfig(
+        acceptedWarnings: [String]? = nil,
         accessPolicies: String? = nil,
         advancedOptions: [String: String]? = nil,
         advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil,
@@ -3254,6 +3256,7 @@ public struct OpenSearch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDomainConfigResponse {
         let input = UpdateDomainConfigRequest(
+            acceptedWarnings: acceptedWarnings, 
             accessPolicies: accessPolicies, 
             advancedOptions: advancedOptions, 
             advancedSecurityOptions: advancedSecurityOptions, 

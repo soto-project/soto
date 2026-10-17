@@ -2627,7 +2627,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in Amazon EC2 API requests in the Amazon EC2 API Reference.
-    ///   - copyImageTags: Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts   Default: Your user-defined AMI tags are not copied.
+    ///   - copyImageTags: Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts, except tags with the ec2:SharedTag/ prefix. For more information about tag sharing, see Sharing tags in the Amazon EC2 User Guide.   Default: Your user-defined AMI tags are not copied.
     ///   - description: A description for the new AMI.
     ///   - destinationAvailabilityZone: The Local Zone for the new AMI (for example, cn-north-1-pkx-1a). Only one of DestinationAvailabilityZone, DestinationAvailabilityZoneId, or DestinationOutpostArn can be specified.
     ///   - destinationAvailabilityZoneId: The ID of the Local Zone for the new AMI (for example, cnn1-pkx1-az1). Only one of DestinationAvailabilityZone, DestinationAvailabilityZoneId, or DestinationOutpostArn can be specified.

@@ -457,6 +457,7 @@ extension MediaLive {
 
     public enum CloudWatchAlarmTemplateTargetResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudfrontDistribution = "CLOUDFRONT_DISTRIBUTION"
+        case elementalInferenceFeed = "ELEMENTAL_INFERENCE_FEED"
         case mediaconnectFlow = "MEDIACONNECT_FLOW"
         case medialiveChannel = "MEDIALIVE_CHANNEL"
         case medialiveInputDevice = "MEDIALIVE_INPUT_DEVICE"

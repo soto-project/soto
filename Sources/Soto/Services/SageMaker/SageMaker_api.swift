@@ -1033,7 +1033,7 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - clusterArn: ARN of the cluster.
     ///   - description: Description of the cluster policy.
-    ///   - name: Name for the cluster policy.
+    ///   - name: The name for the cluster policy. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
     ///   - schedulerConfig: Configuration about the monitoring schedule.
     ///   - tags: Tags of the cluster policy.
     ///   - logger: Logger use during operation
@@ -1162,7 +1162,7 @@ public struct SageMaker: AWSService {
     ///   - computeQuotaConfig: Configuration of the compute allocation definition. This includes the resource sharing option, and the setting to preempt low priority tasks.
     ///   - computeQuotaTarget: The target entity to allocate compute resources to.
     ///   - description: Description of the compute allocation definition.
-    ///   - name: Name to the compute allocation definition.
+    ///   - name: The name of the compute allocation definition. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
     ///   - tags: Tags of the compute allocation definition.
     ///   - logger: Logger use during operation
     @inlinable

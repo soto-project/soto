@@ -1215,6 +1215,7 @@ public struct Glue: AWSService {
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
     ///
     /// Parameters:
+    ///   - catalogId: The ID of the Data Catalog in which to store the crawler's output. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - classifiers: A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
     ///   - configuration: Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
     ///   - crawlerSecurityConfiguration: The name of the SecurityConfiguration structure to be used by this crawler.
@@ -1233,6 +1234,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createCrawler(
+        catalogId: String? = nil,
         classifiers: [String]? = nil,
         configuration: String? = nil,
         crawlerSecurityConfiguration: String? = nil,
@@ -1251,6 +1253,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCrawlerResponse {
         let input = CreateCrawlerRequest(
+            catalogId: catalogId, 
             classifiers: classifiers, 
             configuration: configuration, 
             crawlerSecurityConfiguration: crawlerSecurityConfiguration, 
@@ -2699,16 +2702,19 @@ public struct Glue: AWSService {
     /// Deletes settings for a column statistics task.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - tableName: The name of the table for which to delete column statistics.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteColumnStatisticsTaskSettings(
+        catalogID: String? = nil,
         databaseName: String,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteColumnStatisticsTaskSettingsResponse {
         let input = DeleteColumnStatisticsTaskSettingsRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             tableName: tableName
         )
@@ -4314,6 +4320,7 @@ public struct Glue: AWSService {
     /// Retrieves information about all runs associated with the specified table.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - maxResults: The maximum size of the response.
     ///   - nextToken: A continuation token, if this is a continuation call.
@@ -4321,6 +4328,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getColumnStatisticsTaskRuns(
+        catalogID: String? = nil,
         databaseName: String,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -4328,6 +4336,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetColumnStatisticsTaskRunsResponse {
         let input = GetColumnStatisticsTaskRunsRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -4352,16 +4361,19 @@ public struct Glue: AWSService {
     /// Gets settings for a column statistics task.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - tableName: The name of the table for which to retrieve column statistics.
     ///   - logger: Logger use during operation
     @inlinable
     public func getColumnStatisticsTaskSettings(
+        catalogID: String? = nil,
         databaseName: String,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetColumnStatisticsTaskSettingsResponse {
         let input = GetColumnStatisticsTaskSettingsRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             tableName: tableName
         )
@@ -6166,6 +6178,67 @@ public struct Glue: AWSService {
             sessionId: sessionId
         )
         return try await self.getStatement(input, logger: logger)
+    }
+
+    /// Retrieves the system logs for a job run.
+    @Sendable
+    @inlinable
+    public func getSystemLogsForJobRun(_ input: GetSystemLogsForJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSystemLogsForJobRunResponse {
+        try await self.client.execute(
+            operation: "GetSystemLogsForJobRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the system logs for a job run.
+    ///
+    /// Parameters:
+    ///   - jobName: The name of the job.
+    ///   - runId: The ID of the job run.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSystemLogsForJobRun(
+        jobName: String,
+        runId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSystemLogsForJobRunResponse {
+        let input = GetSystemLogsForJobRunRequest(
+            jobName: jobName, 
+            runId: runId
+        )
+        return try await self.getSystemLogsForJobRun(input, logger: logger)
+    }
+
+    /// Retrieves the system logs for an interactive session.
+    @Sendable
+    @inlinable
+    public func getSystemLogsForSession(_ input: GetSystemLogsForSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSystemLogsForSessionResponse {
+        try await self.client.execute(
+            operation: "GetSystemLogsForSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the system logs for an interactive session.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSystemLogsForSession(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSystemLogsForSessionResponse {
+        let input = GetSystemLogsForSessionRequest(
+            id: id
+        )
+        return try await self.getSystemLogsForSession(input, logger: logger)
     }
 
     /// Retrieves the Table definition in a Data Catalog for a specified table.
@@ -8990,16 +9063,19 @@ public struct Glue: AWSService {
     /// Starts a column statistics task run schedule.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - tableName: The name of the table for which to start a column statistic task run schedule.
     ///   - logger: Logger use during operation
     @inlinable
     public func startColumnStatisticsTaskRunSchedule(
+        catalogID: String? = nil,
         databaseName: String,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartColumnStatisticsTaskRunScheduleResponse {
         let input = StartColumnStatisticsTaskRunScheduleRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             tableName: tableName
         )
@@ -9472,16 +9548,19 @@ public struct Glue: AWSService {
     /// Stops a task run for the specified table.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - tableName: The name of the table.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopColumnStatisticsTaskRun(
+        catalogID: String? = nil,
         databaseName: String,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StopColumnStatisticsTaskRunResponse {
         let input = StopColumnStatisticsTaskRunRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             tableName: tableName
         )
@@ -9504,16 +9583,19 @@ public struct Glue: AWSService {
     /// Stops a column statistics task run schedule.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - tableName: The name of the table for which to stop a column statistic task run schedule.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopColumnStatisticsTaskRunSchedule(
+        catalogID: String? = nil,
         databaseName: String,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StopColumnStatisticsTaskRunScheduleResponse {
         let input = StopColumnStatisticsTaskRunScheduleRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             tableName: tableName
         )
@@ -10128,6 +10210,7 @@ public struct Glue: AWSService {
     /// Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
     ///
     /// Parameters:
+    ///   - catalogId: The ID of the Data Catalog in which to store the crawler's output. If you omit this value, the existing value on the crawler is preserved.
     ///   - classifiers: A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
     ///   - configuration: Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
     ///   - crawlerSecurityConfiguration: The name of the SecurityConfiguration structure to be used by this crawler.
@@ -10145,6 +10228,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCrawler(
+        catalogId: String? = nil,
         classifiers: [String]? = nil,
         configuration: String? = nil,
         crawlerSecurityConfiguration: String? = nil,
@@ -10162,6 +10246,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateCrawlerResponse {
         let input = UpdateCrawlerRequest(
+            catalogId: catalogId, 
             classifiers: classifiers, 
             configuration: configuration, 
             crawlerSecurityConfiguration: crawlerSecurityConfiguration, 
@@ -11213,18 +11298,21 @@ extension Glue {
     /// Return PaginatorSequence for operation ``getColumnStatisticsTaskRuns(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - maxResults: The maximum size of the response.
     ///   - tableName: The name of the table.
     ///   - logger: Logger used for logging
     @inlinable
     public func getColumnStatisticsTaskRunsPaginator(
+        catalogID: String? = nil,
         databaseName: String,
         maxResults: Int? = nil,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetColumnStatisticsTaskRunsRequest, GetColumnStatisticsTaskRunsResponse> {
         let input = GetColumnStatisticsTaskRunsRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             maxResults: maxResults, 
             tableName: tableName
@@ -13188,6 +13276,7 @@ extension Glue.GetColumnStatisticsTaskRunsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Glue.GetColumnStatisticsTaskRunsRequest {
         return .init(
+            catalogID: self.catalogID,
             databaseName: self.databaseName,
             maxResults: self.maxResults,
             nextToken: token,

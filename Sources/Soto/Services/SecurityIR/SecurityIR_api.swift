@@ -427,6 +427,41 @@ public struct SecurityIR: AWSService {
         return try await self.getCaseAttachmentUploadUrl(input, logger: logger)
     }
 
+    /// Returns finding-lifecycle metrics for a membership over a date range.
+    @Sendable
+    @inlinable
+    public func getFindingMetrics(_ input: GetFindingMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingMetricsResponse {
+        try await self.client.execute(
+            operation: "GetFindingMetrics", 
+            path: "/v1/membership/{membershipId}/finding-metrics", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns finding-lifecycle metrics for a membership over a date range.
+    ///
+    /// Parameters:
+    ///   - endDate: The end of the day-aligned UTC window, inclusive.
+    ///   - membershipId: The membership ID to retrieve metrics for.
+    ///   - startDate: The start of the day-aligned UTC window, inclusive.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFindingMetrics(
+        endDate: Date,
+        membershipId: String,
+        startDate: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFindingMetricsResponse {
+        let input = GetFindingMetricsRequest(
+            endDate: endDate, 
+            membershipId: membershipId, 
+            startDate: startDate
+        )
+        return try await self.getFindingMetrics(input, logger: logger)
+    }
+
     /// Returns the attributes of a membership.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_GetMembership.html
     @Sendable

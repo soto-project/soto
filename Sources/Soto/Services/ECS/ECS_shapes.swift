@@ -2079,7 +2079,7 @@ extension ECS {
         public let cluster: String?
         /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
         public let cpu: String?
-        /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the default is X86_64. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Make sure that the container image that you specify supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+        /// The CPU architecture that the task runs on. If you don't specify a value, the default is X86_64. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Ensure that the container image you specify supports the architecture you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture together with taskDefinitionArn.
         public let cpuArchitecture: ExpressCpuArchitecture?
         /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
         public let executionRoleArn: String?
@@ -4933,7 +4933,7 @@ extension ECS {
     public struct ExpressGatewayServiceConfiguration: AWSDecodableShape {
         /// The CPU allocation for tasks in this service revision.
         public let cpu: String?
-        /// The CPU architecture that the tasks in this service revision run on. This is the architecture from the task definition that the service revision uses, so it reflects the default or the previously configured architecture when the request that created the revision didn't specify one. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   This value isn't returned when the task definition for the service revision doesn't specify a runtime platform. Because the architecture comes from each service revision's own task definition, revisions of the same service can report different architectures.
+        /// The CPU architecture that the task runs on. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Different service revisions can report different architectures. This value isn't returned when the service uses a customer-provided task definition that doesn't specify a CPU architecture.
         public let cpuArchitecture: ExpressCpuArchitecture?
         /// The Unix timestamp for when this service revision was created.
         public let createdAt: Date?
@@ -7675,14 +7675,18 @@ extension ECS {
     public struct ResolvedConfiguration: AWSDecodableShape {
         /// The resolved load balancer configuration for the service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
         public let loadBalancers: [ServiceRevisionLoadBalancer]?
+        /// The resolved VPC Lattice configuration for the service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
+        public let vpcLatticeConfigurations: [ServiceRevisionVpcLatticeConfiguration]?
 
         @inlinable
-        public init(loadBalancers: [ServiceRevisionLoadBalancer]? = nil) {
+        public init(loadBalancers: [ServiceRevisionLoadBalancer]? = nil, vpcLatticeConfigurations: [ServiceRevisionVpcLatticeConfiguration]? = nil) {
             self.loadBalancers = loadBalancers
+            self.vpcLatticeConfigurations = vpcLatticeConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
             case loadBalancers = "loadBalancers"
+            case vpcLatticeConfigurations = "vpcLatticeConfigurations"
         }
     }
 
@@ -8807,6 +8811,24 @@ extension ECS {
             case requestedTaskCount = "requestedTaskCount"
             case requestedTestTrafficWeight = "requestedTestTrafficWeight"
             case runningTaskCount = "runningTaskCount"
+        }
+    }
+
+    public struct ServiceRevisionVpcLatticeConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the production listener rule or listener that directs traffic to the target group associated with the service revision.
+        public let productionListenerRule: String?
+        /// The Amazon Resource Name (ARN) of the target group associated with the service revision.
+        public let targetGroupArn: String?
+
+        @inlinable
+        public init(productionListenerRule: String? = nil, targetGroupArn: String? = nil) {
+            self.productionListenerRule = productionListenerRule
+            self.targetGroupArn = targetGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productionListenerRule = "productionListenerRule"
+            case targetGroupArn = "targetGroupArn"
         }
     }
 
@@ -10222,7 +10244,7 @@ extension ECS {
     public struct UpdateExpressGatewayServiceRequest: AWSEncodableShape {
         /// The number of CPU units used by the task.
         public let cpu: String?
-        /// The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the service keeps the architecture that it currently runs on. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Changing the architecture starts a new deployment that replaces the running tasks. Make sure that the container image that the service uses supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+        /// The CPU architecture that the task runs on. If you don't specify a value, the service keeps its current architecture. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Changing the architecture starts a new deployment that replaces the running tasks. Ensure that the container image you specify supports the architecture you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture together with taskDefinitionArn.
         public let cpuArchitecture: ExpressCpuArchitecture?
         /// The Amazon Resource Name (ARN) of the task execution role for the Express service.
         public let executionRoleArn: String?
@@ -10702,7 +10724,30 @@ extension ECS {
         }
     }
 
+    public struct VpcLatticeAdvancedConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the alternate target group associated with the VPC Lattice Configuration for Amazon ECS blue/green deployments.
+        public let alternateTargetGroupArn: String?
+        /// The Amazon Resource Name (ARN) that identifies the production listener rule or listener for routing production traffic.
+        public let productionListenerRule: String?
+        /// The Amazon Resource Name (ARN) that identifies the test listener rule or listener for routing test traffic.
+        public let testListenerRule: String?
+
+        @inlinable
+        public init(alternateTargetGroupArn: String? = nil, productionListenerRule: String? = nil, testListenerRule: String? = nil) {
+            self.alternateTargetGroupArn = alternateTargetGroupArn
+            self.productionListenerRule = productionListenerRule
+            self.testListenerRule = testListenerRule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alternateTargetGroupArn = "alternateTargetGroupArn"
+            case productionListenerRule = "productionListenerRule"
+            case testListenerRule = "testListenerRule"
+        }
+    }
+
     public struct VpcLatticeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let advancedConfiguration: VpcLatticeAdvancedConfiguration?
         /// The name of the port mapping to register in the VPC Lattice target group. This is the name of the portMapping you defined in your task definition.
         public let portName: String
         /// The ARN of the IAM role to associate with this VPC Lattice configuration. This is the Amazon ECS infrastructure IAM role that is used to manage your VPC Lattice infrastructure.
@@ -10711,13 +10756,15 @@ extension ECS {
         public let targetGroupArn: String
 
         @inlinable
-        public init(portName: String, roleArn: String, targetGroupArn: String) {
+        public init(advancedConfiguration: VpcLatticeAdvancedConfiguration? = nil, portName: String, roleArn: String, targetGroupArn: String) {
+            self.advancedConfiguration = advancedConfiguration
             self.portName = portName
             self.roleArn = roleArn
             self.targetGroupArn = targetGroupArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedConfiguration = "advancedConfiguration"
             case portName = "portName"
             case roleArn = "roleArn"
             case targetGroupArn = "targetGroupArn"
