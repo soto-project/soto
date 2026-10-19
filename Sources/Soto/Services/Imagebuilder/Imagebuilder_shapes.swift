@@ -489,6 +489,35 @@ extension Imagebuilder {
         }
     }
 
+    public struct AutoScalingGroupConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of seconds that Image Builder waits for an instance to become available in the
+        /// 			group before the build fails. If you set this value to 0 or omit it, the build fails as
+        /// 			soon as the group has no instance available.
+        public let capacityWaitTimeoutSeconds: Int?
+        /// The name of the Auto Scaling group, in the same account and Amazon Web Services Region as the
+        /// 			infrastructure configuration. To specify a group, you must have permissions to describe
+        /// 			it.
+        public let name: String
+
+        @inlinable
+        public init(capacityWaitTimeoutSeconds: Int? = nil, name: String) {
+            self.capacityWaitTimeoutSeconds = capacityWaitTimeoutSeconds
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacityWaitTimeoutSeconds, name: "capacityWaitTimeoutSeconds", parent: name, max: 3600)
+            try self.validate(self.capacityWaitTimeoutSeconds, name: "capacityWaitTimeoutSeconds", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityWaitTimeoutSeconds = "capacityWaitTimeoutSeconds"
+            case name = "name"
+        }
+    }
+
     public struct CancelImageCreationRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier you provide to ensure that the operation runs no more than one time. If you retry a request with the same client
         /// 	   token, Image Builder returns the original response without running the operation again. For more
@@ -2078,6 +2107,13 @@ extension Imagebuilder {
         /// 			names that differ only in case, spaces, or underscores count as the same
         /// 			name.
         public let name: String
+        /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of
+        /// 			launching a new instance. This applies only to the build phase. To use this feature, the execution role for the build must have permissions to
+        /// 			describe the Auto Scaling group, tag the instance while it's still in the group, and
+        /// 			detach it from the group. For more information, see Build on an
+        /// 				instance from an Auto Scaling group in the EC2 Image Builder User
+        /// 				Guide.
+        public let parentInstance: ParentInstanceConfiguration?
         /// The instance placement settings that define where the build and test
         /// 			instances that Image Builder launches during image creation run. These settings
         /// 			don't affect instances that you launch from the output image.
@@ -2106,13 +2142,17 @@ extension Imagebuilder {
         /// The metadata tags to assign to the infrastructure configuration resource that Image Builder
         /// 			creates as output. Tags are formatted as key value pairs.
         public let tags: [String: String]?
+        /// Specifies whether Image Builder terminates build and test instances when image creation
+        /// 			ends without a failure (success, cancellation, or expiration). Defaults to
+        /// 			true.
+        public let terminateInstanceOnCompletion: Bool?
         /// Specifies whether to terminate the instance on failure. Set to
         /// 			false if you want Image Builder to retain the instance used to configure your AMI if the build or
         /// 			test phase of your workflow fails. Defaults to true.
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
-        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, parentInstance: ParentInstanceConfiguration? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnCompletion: Bool? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
@@ -2122,12 +2162,14 @@ extension Imagebuilder {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.parentInstance = parentInstance
             self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
             self.tags = tags
+            self.terminateInstanceOnCompletion = terminateInstanceOnCompletion
             self.terminateInstanceOnFailure = terminateInstanceOnFailure
         }
 
@@ -2144,6 +2186,7 @@ extension Imagebuilder {
             try self.validate(self.keyPair, name: "keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
+            try self.parentInstance?.validate(name: "\(name).parentInstance")
             try self.placement?.validate(name: "\(name).placement")
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
@@ -2180,12 +2223,14 @@ extension Imagebuilder {
             case keyPair = "keyPair"
             case logging = "logging"
             case name = "name"
+            case parentInstance = "parentInstance"
             case placement = "placement"
             case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"
             case tags = "tags"
+            case terminateInstanceOnCompletion = "terminateInstanceOnCompletion"
             case terminateInstanceOnFailure = "terminateInstanceOnFailure"
         }
     }
@@ -5551,6 +5596,9 @@ extension Imagebuilder {
         public let logging: Logging?
         /// The name of the infrastructure configuration.
         public let name: String?
+        /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of
+        /// 			launching a new instance. This applies only to the build phase.
+        public let parentInstance: ParentInstanceConfiguration?
         /// The instance placement settings that define where the build and test
         /// 			instances that Image Builder launches during image creation run. These settings
         /// 			don't affect instances that you launch from the output image.
@@ -5570,13 +5618,16 @@ extension Imagebuilder {
         public let subnetId: String?
         /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
+        /// Specifies whether Image Builder terminates build and test instances when image creation
+        /// 			ends without a failure.
+        public let terminateInstanceOnCompletion: Bool?
         /// Indicates whether Image Builder terminates the build and test instances when the image
         /// 			build fails. When false, Image Builder retains the instance so that you
         /// 			can debug it.
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
-        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(arn: String? = nil, dateCreated: String? = nil, dateUpdated: String? = nil, description: String? = nil, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String? = nil, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String? = nil, parentInstance: ParentInstanceConfiguration? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnCompletion: Bool? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.arn = arn
             self.dateCreated = dateCreated
             self.dateUpdated = dateUpdated
@@ -5587,12 +5638,14 @@ extension Imagebuilder {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.parentInstance = parentInstance
             self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
             self.tags = tags
+            self.terminateInstanceOnCompletion = terminateInstanceOnCompletion
             self.terminateInstanceOnFailure = terminateInstanceOnFailure
         }
 
@@ -5607,12 +5660,14 @@ extension Imagebuilder {
             case keyPair = "keyPair"
             case logging = "logging"
             case name = "name"
+            case parentInstance = "parentInstance"
             case placement = "placement"
             case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"
             case tags = "tags"
+            case terminateInstanceOnCompletion = "terminateInstanceOnCompletion"
             case terminateInstanceOnFailure = "terminateInstanceOnFailure"
         }
     }
@@ -7944,6 +7999,25 @@ extension Imagebuilder {
         }
     }
 
+    public struct ParentInstanceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from. This is
+        /// 			required when you specify parentInstance.
+        public let autoScalingGroup: AutoScalingGroupConfiguration
+
+        @inlinable
+        public init(autoScalingGroup: AutoScalingGroupConfiguration) {
+            self.autoScalingGroup = autoScalingGroup
+        }
+
+        public func validate(name: String) throws {
+            try self.autoScalingGroup.validate(name: "\(name).autoScalingGroup")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroup = "autoScalingGroup"
+        }
+    }
+
     public struct PipelineLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the CloudWatch Logs log group name for image build logs.
         /// 			The log group name can contain alphanumeric characters, hyphens,
@@ -9218,6 +9292,13 @@ extension Imagebuilder {
         /// 			configure S3 logs, Image Builder writes logs from the build and test process to the
         /// 			specified bucket under the key prefix.
         public let logging: Logging?
+        /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of
+        /// 			launching a new instance. This applies only to the build phase. To use this feature, the execution role for the build must have permissions to
+        /// 			describe the Auto Scaling group, tag the instance while it's still in the group, and
+        /// 			detach it from the group. For more information, see Build on an
+        /// 				instance from an Auto Scaling group in the EC2 Image Builder User
+        /// 				Guide.
+        public let parentInstance: ParentInstanceConfiguration?
         /// The instance placement settings that define where the build and test
         /// 			instances that Image Builder launches during image creation run. These settings
         /// 			don't affect instances that you launch from the output image.
@@ -9243,13 +9324,17 @@ extension Imagebuilder {
         /// 			more security group IDs in securityGroupIds. Otherwise, the
         /// 			request fails.
         public let subnetId: String?
+        /// Specifies whether Image Builder terminates build and test instances when image creation
+        /// 			ends without a failure (success, cancellation, or expiration). Defaults to
+        /// 			true.
+        public let terminateInstanceOnCompletion: Bool?
         /// Specifies whether to terminate the instance on failure. Set to
         /// 			false if you want Image Builder to retain the instance used to configure your AMI if the build or
         /// 			test phase of your workflow fails. Defaults to true.
         public let terminateInstanceOnFailure: Bool?
 
         @inlinable
-        public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
+        public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceMetadataOptions: InstanceMetadataOptions? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, parentInstance: ParentInstanceConfiguration? = nil, placement: Placement? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnCompletion: Bool? = nil, terminateInstanceOnFailure: Bool? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
@@ -9258,11 +9343,13 @@ extension Imagebuilder {
             self.instanceTypes = instanceTypes
             self.keyPair = keyPair
             self.logging = logging
+            self.parentInstance = parentInstance
             self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
+            self.terminateInstanceOnCompletion = terminateInstanceOnCompletion
             self.terminateInstanceOnFailure = terminateInstanceOnFailure
         }
 
@@ -9279,6 +9366,7 @@ extension Imagebuilder {
             try self.validate(self.keyPair, name: "keyPair", parent: name, max: 1024)
             try self.validate(self.keyPair, name: "keyPair", parent: name, min: 1)
             try self.logging?.validate(name: "\(name).logging")
+            try self.parentInstance?.validate(name: "\(name).parentInstance")
             try self.placement?.validate(name: "\(name).placement")
             try self.resourceTags?.forEach {
                 try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
@@ -9306,11 +9394,13 @@ extension Imagebuilder {
             case instanceTypes = "instanceTypes"
             case keyPair = "keyPair"
             case logging = "logging"
+            case parentInstance = "parentInstance"
             case placement = "placement"
             case resourceTags = "resourceTags"
             case securityGroupIds = "securityGroupIds"
             case snsTopicArn = "snsTopicArn"
             case subnetId = "subnetId"
+            case terminateInstanceOnCompletion = "terminateInstanceOnCompletion"
             case terminateInstanceOnFailure = "terminateInstanceOnFailure"
         }
     }

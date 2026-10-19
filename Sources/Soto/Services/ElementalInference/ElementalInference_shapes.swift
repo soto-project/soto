@@ -50,6 +50,12 @@ extension ElementalInference {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExtendedAnalysisMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FeedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
@@ -293,15 +299,19 @@ extension ElementalInference {
     }
 
     public struct ContextualMetadataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether Elemental Inference generates a descriptive summary of the media content for this output.  Valid values:   ENABLED (default) – Elemental Inference generates a descriptive summary along with IAB taxonomy and GARM suitability classifications.    DISABLED – No descriptive summary is generated.
+        /// Specifies whether Elemental Inference generates extended analysis of the media content for this output. Extended analysis identifies the people, environments, brands, and on-screen text in the media content. This setting is independent of summaryGeneration.  Valid values:   ENABLED (default) – Elemental Inference populates the people, environments, brands, and on-screen text fields.    DISABLED – Elemental Inference doesn't populate the people, environments, brands, and on-screen text fields.
+        public let extendedAnalysis: ExtendedAnalysisMode?
+        /// Specifies whether Elemental Inference generates a descriptive summary of the media content for this output, along with the objects and actions that it detects. This setting is independent of extendedAnalysis.  Valid values:   ENABLED (default) – Elemental Inference populates the summary, objects, and actions fields, along with the IAB taxonomy and GARM suitability classifications.    DISABLED – Elemental Inference doesn't populate the summary, objects, and actions fields.
         public let summaryGeneration: SummaryGenerationMode?
 
         @inlinable
-        public init(summaryGeneration: SummaryGenerationMode? = nil) {
+        public init(extendedAnalysis: ExtendedAnalysisMode? = nil, summaryGeneration: SummaryGenerationMode? = nil) {
+            self.extendedAnalysis = extendedAnalysis
             self.summaryGeneration = summaryGeneration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case extendedAnalysis = "extendedAnalysis"
             case summaryGeneration = "summaryGeneration"
         }
     }

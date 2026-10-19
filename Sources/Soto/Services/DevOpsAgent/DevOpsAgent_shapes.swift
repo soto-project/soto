@@ -70,6 +70,17 @@ extension DevOpsAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case friday = "FRIDAY"
+        case monday = "MONDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        case thursday = "THURSDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventChannelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Webhook-based event channel
         case webhook = "webhook"
@@ -125,6 +136,12 @@ extension DevOpsAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum IncludedData: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allData = "ALL_DATA"
+        case metadataOnly = "METADATA_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dualStack = "DUAL_STACK"
         case ipv4 = "IPV4"
@@ -137,6 +154,7 @@ extension DevOpsAgent {
         case apiKey = "api-key"
         /// Bearer token authentication (RFC 6750).
         case bearerToken = "bearer-token"
+        case customHeaders = "custom-headers"
         /// OAuth 2.0 three-legged authorization flow.
         case oauth3Lo = "oauth-3lo"
         /// OAuth 2.0 client credentials flow.
@@ -643,6 +661,8 @@ extension DevOpsAgent {
         case authorizationDiscovery(MCPServerAuthorizationDiscoveryConfig)
         /// MCP server configuration with Bearer token (RFC 6750).
         case bearerToken(MCPServerBearerTokenConfig)
+        /// MCP server configuration with one or more custom authentication headers.
+        case customHeaders(MCPServerCustomHeadersConfig)
         /// MCP server configuration with OAuth 3LO.
         case oAuth3LO(MCPServerOAuth3LOConfig)
         /// MCP server configuration with OAuth client credentials.
@@ -657,6 +677,8 @@ extension DevOpsAgent {
                 try container.encode(value, forKey: .authorizationDiscovery)
             case .bearerToken(let value):
                 try container.encode(value, forKey: .bearerToken)
+            case .customHeaders(let value):
+                try container.encode(value, forKey: .customHeaders)
             case .oAuth3LO(let value):
                 try container.encode(value, forKey: .oAuth3LO)
             case .oAuthClientCredentials(let value):
@@ -668,6 +690,8 @@ extension DevOpsAgent {
             switch self {
             case .apiKey(let value):
                 try value.validate(name: "\(name).apiKey")
+            case .customHeaders(let value):
+                try value.validate(name: "\(name).customHeaders")
             case .oAuth3LO(let value):
                 try value.validate(name: "\(name).oAuth3LO")
             case .oAuthClientCredentials(let value):
@@ -681,6 +705,7 @@ extension DevOpsAgent {
             case apiKey = "apiKey"
             case authorizationDiscovery = "authorizationDiscovery"
             case bearerToken = "bearerToken"
+            case customHeaders = "customHeaders"
             case oAuth3LO = "oAuth3LO"
             case oAuthClientCredentials = "oAuthClientCredentials"
         }
@@ -748,6 +773,55 @@ extension DevOpsAgent {
         }
     }
 
+    public enum Recurrence: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The window recurs every day
+        case daily(DailyRecurrence)
+        /// The window recurs once per month
+        case monthly(MonthlyRecurrence)
+        /// The window recurs once per week
+        case weekly(WeeklyRecurrence)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .daily:
+                let value = try container.decode(DailyRecurrence.self, forKey: .daily)
+                self = .daily(value)
+            case .monthly:
+                let value = try container.decode(MonthlyRecurrence.self, forKey: .monthly)
+                self = .monthly(value)
+            case .weekly:
+                let value = try container.decode(WeeklyRecurrence.self, forKey: .weekly)
+                self = .weekly(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .daily(let value):
+                try container.encode(value, forKey: .daily)
+            case .monthly(let value):
+                try container.encode(value, forKey: .monthly)
+            case .weekly(let value):
+                try container.encode(value, forKey: .weekly)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daily = "daily"
+            case monthly = "monthly"
+            case weekly = "weekly"
+        }
+    }
+
     public enum RemoteAgentAuthorizationConfig: AWSEncodableShape, Sendable {
         /// Remote agent configuration with API key authentication.
         case apiKey(RemoteAgentAPIKeyConfig)
@@ -783,6 +857,56 @@ extension DevOpsAgent {
             case apiKey = "apiKey"
             case bearerToken = "bearerToken"
             case oAuthClientCredentials = "oAuthClientCredentials"
+        }
+    }
+
+    public enum ScheduleSpec: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Runs on an EventBridge cron or rate cadence
+        case cron(CronSchedule)
+        /// Runs within a recurring time-of-day window
+        case timeRange(TimeRangeSchedule)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cron:
+                let value = try container.decode(CronSchedule.self, forKey: .cron)
+                self = .cron(value)
+            case .timeRange:
+                let value = try container.decode(TimeRangeSchedule.self, forKey: .timeRange)
+                self = .timeRange(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cron(let value):
+                try container.encode(value, forKey: .cron)
+            case .timeRange(let value):
+                try container.encode(value, forKey: .timeRange)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .cron(let value):
+                try value.validate(name: "\(name).cron")
+            case .timeRange(let value):
+                try value.validate(name: "\(name).timeRange")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cron = "cron"
+            case timeRange = "timeRange"
         }
     }
 
@@ -919,6 +1043,8 @@ extension DevOpsAgent {
         case mcpserversplunk(MCPServerSplunkConfiguration)
         /// PagerDuty integration configuration
         case pagerduty(PagerDutyConfiguration)
+        /// Release management network environment configuration
+        case releaseManagement(ReleaseManagementConfiguration)
         /// Remote A2A agent integration configuration (token-based auth).
         case remoteagent(RemoteAgentConfiguration)
         /// Remote A2A agent integration configuration (SigV4 auth).
@@ -982,6 +1108,9 @@ extension DevOpsAgent {
             case .pagerduty:
                 let value = try container.decode(PagerDutyConfiguration.self, forKey: .pagerduty)
                 self = .pagerduty(value)
+            case .releaseManagement:
+                let value = try container.decode(ReleaseManagementConfiguration.self, forKey: .releaseManagement)
+                self = .releaseManagement(value)
             case .remoteagent:
                 let value = try container.decode(RemoteAgentConfiguration.self, forKey: .remoteagent)
                 self = .remoteagent(value)
@@ -1031,6 +1160,8 @@ extension DevOpsAgent {
                 try container.encode(value, forKey: .mcpserversplunk)
             case .pagerduty(let value):
                 try container.encode(value, forKey: .pagerduty)
+            case .releaseManagement(let value):
+                try container.encode(value, forKey: .releaseManagement)
             case .remoteagent(let value):
                 try container.encode(value, forKey: .remoteagent)
             case .remoteagentsigv4(let value):
@@ -1062,6 +1193,8 @@ extension DevOpsAgent {
                 try value.validate(name: "\(name).mcpserversigv4")
             case .pagerduty(let value):
                 try value.validate(name: "\(name).pagerduty")
+            case .releaseManagement(let value):
+                try value.validate(name: "\(name).releaseManagement")
             case .slack(let value):
                 try value.validate(name: "\(name).slack")
             case .sourceAws(let value):
@@ -1086,6 +1219,7 @@ extension DevOpsAgent {
             case mcpserversigv4 = "mcpserversigv4"
             case mcpserversplunk = "mcpserversplunk"
             case pagerduty = "pagerduty"
+            case releaseManagement = "releaseManagement"
             case remoteagent = "remoteagent"
             case remoteagentsigv4 = "remoteagentsigv4"
             case servicenow = "servicenow"
@@ -1266,10 +1400,10 @@ extension DevOpsAgent {
         public func validate(name: String) throws {
             try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, max: 255)
             try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, min: 1)
-            try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
             try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, max: 255)
             try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, min: 1)
-            try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2286,6 +2420,29 @@ extension DevOpsAgent {
         }
     }
 
+    public struct CronSchedule: AWSEncodableShape & AWSDecodableShape {
+        /// EventBridge cron or rate expression that anchors the flexible window
+        public let expression: String
+
+        @inlinable
+        public init(expression: String) {
+            self.expression = expression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 256)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "expression"
+        }
+    }
+
+    public struct DailyRecurrence: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DatadogServiceDetails: AWSEncodableShape {
         /// Datadog MCP server authorization configuration (only authorization discovery is supported).
         public let authorizationConfig: DatadogAuthorizationConfig
@@ -2792,7 +2949,7 @@ extension DevOpsAgent {
             try self.validate(self.idpClientSecret, name: "idpClientSecret", parent: name, min: 1)
             try self.validate(self.operatorAppRoleArn, name: "operatorAppRoleArn", parent: name, max: 255)
             try self.validate(self.operatorAppRoleArn, name: "operatorAppRoleArn", parent: name, min: 1)
-            try self.validate(self.operatorAppRoleArn, name: "operatorAppRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.operatorAppRoleArn, name: "operatorAppRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2934,6 +3091,7 @@ extension DevOpsAgent {
     public struct GetAccountUsageOutput: AWSDecodableShape {
         /// Monthly evaluation hours usage and limit for an account
         public let monthlyAccountEvaluationHours: UsageMetric?
+        public let monthlyAccountGraderHours: UsageMetric?
         /// Monthly investigation hours usage and limit for an account
         public let monthlyAccountInvestigationHours: UsageMetric?
         /// Monthly on-demand hours usage and limit for an account
@@ -2948,8 +3106,9 @@ extension DevOpsAgent {
         public var usagePeriodStartTime: Date
 
         @inlinable
-        public init(monthlyAccountEvaluationHours: UsageMetric? = nil, monthlyAccountInvestigationHours: UsageMetric? = nil, monthlyAccountOnDemandHours: UsageMetric? = nil, monthlyAccountSystemLearningHours: UsageMetric? = nil, usagePeriodEndTime: Date, usagePeriodStartTime: Date) {
+        public init(monthlyAccountEvaluationHours: UsageMetric? = nil, monthlyAccountGraderHours: UsageMetric? = nil, monthlyAccountInvestigationHours: UsageMetric? = nil, monthlyAccountOnDemandHours: UsageMetric? = nil, monthlyAccountSystemLearningHours: UsageMetric? = nil, usagePeriodEndTime: Date, usagePeriodStartTime: Date) {
             self.monthlyAccountEvaluationHours = monthlyAccountEvaluationHours
+            self.monthlyAccountGraderHours = monthlyAccountGraderHours
             self.monthlyAccountInvestigationHours = monthlyAccountInvestigationHours
             self.monthlyAccountOnDemandHours = monthlyAccountOnDemandHours
             self.monthlyAccountSystemLearningHours = monthlyAccountSystemLearningHours
@@ -2959,6 +3118,7 @@ extension DevOpsAgent {
 
         private enum CodingKeys: String, CodingKey {
             case monthlyAccountEvaluationHours = "monthlyAccountEvaluationHours"
+            case monthlyAccountGraderHours = "monthlyAccountGraderHours"
             case monthlyAccountInvestigationHours = "monthlyAccountInvestigationHours"
             case monthlyAccountOnDemandHours = "monthlyAccountOnDemandHours"
             case monthlyAccountSystemLearningHours = "monthlyAccountSystemLearningHours"
@@ -2970,16 +3130,20 @@ extension DevOpsAgent {
     public struct GetAgentSpaceInput: AWSEncodableShape {
         /// The unique identifier of the AgentSpace
         public let agentSpaceId: String
+        /// How much data to include in the response.
+        public let includedData: IncludedData?
 
         @inlinable
-        public init(agentSpaceId: String) {
+        public init(agentSpaceId: String, includedData: IncludedData? = nil) {
             self.agentSpaceId = agentSpaceId
+            self.includedData = includedData
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.agentSpaceId, key: "agentSpaceId")
+            request.encodeQuery(self.includedData, key: "includedData")
         }
 
         public func validate(name: String) throws {
@@ -3431,6 +3595,8 @@ extension DevOpsAgent {
         /// The GitHub repository owner name.
         public let owner: String
         public let ownerType: GithubRepoOwnerType
+        /// The identifier of the release management association that this repository maps to for automatic verification testing.
+        public let releaseManagementAssociationId: String?
         /// Associated Github repo ID
         public let repoId: String
         /// Associated Github repo name
@@ -3439,10 +3605,11 @@ extension DevOpsAgent {
         public let runtimeRoleArn: String?
 
         @inlinable
-        public init(instanceIdentifier: String? = nil, owner: String, ownerType: GithubRepoOwnerType, repoId: String, repoName: String) {
+        public init(instanceIdentifier: String? = nil, owner: String, ownerType: GithubRepoOwnerType, releaseManagementAssociationId: String? = nil, repoId: String, repoName: String) {
             self.instanceIdentifier = instanceIdentifier
             self.owner = owner
             self.ownerType = ownerType
+            self.releaseManagementAssociationId = releaseManagementAssociationId
             self.repoId = repoId
             self.repoName = repoName
             self.runtimeRoleArn = nil
@@ -3450,25 +3617,30 @@ extension DevOpsAgent {
 
         @available(*, deprecated, message: "Members runtimeRoleArn have been deprecated")
         @inlinable
-        public init(instanceIdentifier: String? = nil, owner: String, ownerType: GithubRepoOwnerType, repoId: String, repoName: String, runtimeRoleArn: String? = nil) {
+        public init(instanceIdentifier: String? = nil, owner: String, ownerType: GithubRepoOwnerType, releaseManagementAssociationId: String? = nil, repoId: String, repoName: String, runtimeRoleArn: String? = nil) {
             self.instanceIdentifier = instanceIdentifier
             self.owner = owner
             self.ownerType = ownerType
+            self.releaseManagementAssociationId = releaseManagementAssociationId
             self.repoId = repoId
             self.repoName = repoName
             self.runtimeRoleArn = runtimeRoleArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.releaseManagementAssociationId, name: "releaseManagementAssociationId", parent: name, max: 255)
+            try self.validate(self.releaseManagementAssociationId, name: "releaseManagementAssociationId", parent: name, min: 1)
+            try self.validate(self.releaseManagementAssociationId, name: "releaseManagementAssociationId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, max: 255)
             try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, min: 1)
-            try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceIdentifier = "instanceIdentifier"
             case owner = "owner"
             case ownerType = "ownerType"
+            case releaseManagementAssociationId = "releaseManagementAssociationId"
             case repoId = "repoId"
             case repoName = "repoName"
             case runtimeRoleArn = "runtimeRoleArn"
@@ -3482,36 +3654,44 @@ extension DevOpsAgent {
         public let projectId: String
         /// Full GitLab project path (e.g., namespace/project-name).
         public let projectPath: String
+        /// The identifier of the release management association that this project maps to for automatic verification testing.
+        public let releaseManagementAssociationId: String?
         /// Optional role ARN that AIDevOps assumes at runtime for automatic verification testing and VPC connectivity on this association.
         public let runtimeRoleArn: String?
 
         @inlinable
-        public init(instanceIdentifier: String? = nil, projectId: String, projectPath: String) {
+        public init(instanceIdentifier: String? = nil, projectId: String, projectPath: String, releaseManagementAssociationId: String? = nil) {
             self.instanceIdentifier = instanceIdentifier
             self.projectId = projectId
             self.projectPath = projectPath
+            self.releaseManagementAssociationId = releaseManagementAssociationId
             self.runtimeRoleArn = nil
         }
 
         @available(*, deprecated, message: "Members runtimeRoleArn have been deprecated")
         @inlinable
-        public init(instanceIdentifier: String? = nil, projectId: String, projectPath: String, runtimeRoleArn: String? = nil) {
+        public init(instanceIdentifier: String? = nil, projectId: String, projectPath: String, releaseManagementAssociationId: String? = nil, runtimeRoleArn: String? = nil) {
             self.instanceIdentifier = instanceIdentifier
             self.projectId = projectId
             self.projectPath = projectPath
+            self.releaseManagementAssociationId = releaseManagementAssociationId
             self.runtimeRoleArn = runtimeRoleArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.releaseManagementAssociationId, name: "releaseManagementAssociationId", parent: name, max: 255)
+            try self.validate(self.releaseManagementAssociationId, name: "releaseManagementAssociationId", parent: name, min: 1)
+            try self.validate(self.releaseManagementAssociationId, name: "releaseManagementAssociationId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, max: 255)
             try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, min: 1)
-            try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceIdentifier = "instanceIdentifier"
             case projectId = "projectId"
             case projectPath = "projectPath"
+            case releaseManagementAssociationId = "releaseManagementAssociationId"
             case runtimeRoleArn = "runtimeRoleArn"
         }
     }
@@ -3843,13 +4023,16 @@ extension DevOpsAgent {
     }
 
     public struct ListAgentSpacesInput: AWSEncodableShape {
+        /// How much data to include in the response.
+        public let includedData: IncludedData?
         /// Maximum number of results to return in a single call.
         public let maxResults: Int?
         /// Token for the next page of results.
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(includedData: IncludedData? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.includedData = includedData
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3857,6 +4040,7 @@ extension DevOpsAgent {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includedData, key: "includedData")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -4921,6 +5105,31 @@ extension DevOpsAgent {
         }
     }
 
+    public struct MCPServerCustomHeadersConfig: AWSEncodableShape {
+        public let headers: [String: String]
+
+        @inlinable
+        public init(headers: [String: String]) {
+            self.headers = headers
+        }
+
+        public func validate(name: String) throws {
+            try self.headers.forEach {
+                try validate($0.key, name: "headers.key", parent: name, max: 256)
+                try validate($0.key, name: "headers.key", parent: name, min: 1)
+                try validate($0.key, name: "headers.key", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+                try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, max: 4096)
+                try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, pattern: "^[!-~]([ \\t]*[!-~])*$")
+            }
+            try self.validate(self.headers, name: "headers", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headers = "headers"
+        }
+    }
+
     public struct MCPServerDatadogConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The subset of elevated-access tools enabled for this integration.
         public let enabledElevatedTools: [MCPToolDetail]?
@@ -5067,7 +5276,7 @@ extension DevOpsAgent {
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[\\S]+$")
             try self.scopes?.forEach {
-                try validate($0, name: "scopes[]", parent: name, max: 128)
+                try validate($0, name: "scopes[]", parent: name, max: 256)
                 try validate($0, name: "scopes[]", parent: name, min: 1)
                 try validate($0, name: "scopes[]", parent: name, pattern: "^[!#-\\[\\]-~]+$")
             }
@@ -5119,7 +5328,7 @@ extension DevOpsAgent {
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[\\S]+$")
             try self.scopes?.forEach {
-                try validate($0, name: "scopes[]", parent: name, max: 128)
+                try validate($0, name: "scopes[]", parent: name, max: 256)
                 try validate($0, name: "scopes[]", parent: name, min: 1)
                 try validate($0, name: "scopes[]", parent: name, pattern: "^[!#-\\[\\]-~]+$")
             }
@@ -5179,7 +5388,7 @@ extension DevOpsAgent {
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, max: 10)
             try self.validate(self.mcpRoleArn, name: "mcpRoleArn", parent: name, max: 255)
             try self.validate(self.mcpRoleArn, name: "mcpRoleArn", parent: name, min: 1)
-            try self.validate(self.mcpRoleArn, name: "mcpRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.mcpRoleArn, name: "mcpRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
             try self.validate(self.region, name: "region", parent: name, max: 50)
             try self.validate(self.region, name: "region", parent: name, min: 1)
             try self.validate(self.region, name: "region", parent: name, pattern: "^(\\*|[a-z]{2,4}(-[a-z]+)+-\\d+)$")
@@ -5274,6 +5483,20 @@ extension DevOpsAgent {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case toolClassification = "toolClassification"
+        }
+    }
+
+    public struct MonthlyRecurrence: AWSEncodableShape & AWSDecodableShape {
+        /// Day of month the window recurs on
+        public let dayOfMonth: Int
+
+        @inlinable
+        public init(dayOfMonth: Int) {
+            self.dayOfMonth = dayOfMonth
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfMonth = "dayOfMonth"
         }
     }
 
@@ -5518,6 +5741,33 @@ extension DevOpsAgent {
         }
     }
 
+    public struct PrivateNetworkAccess: AWSEncodableShape & AWSDecodableShape {
+        /// Name of the private connection that supplies the VPC configuration for this release management environment.
+        public let privateConnectionName: String
+        /// Role ARN that AWS DevOps Agent assumes at runtime to connect to your VPC.
+        public let runtimeRoleArn: String
+
+        @inlinable
+        public init(privateConnectionName: String, runtimeRoleArn: String) {
+            self.privateConnectionName = privateConnectionName
+            self.runtimeRoleArn = runtimeRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.privateConnectionName, name: "privateConnectionName", parent: name, max: 30)
+            try self.validate(self.privateConnectionName, name: "privateConnectionName", parent: name, min: 3)
+            try self.validate(self.privateConnectionName, name: "privateConnectionName", parent: name, pattern: "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$")
+            try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, max: 255)
+            try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, min: 1)
+            try self.validate(self.runtimeRoleArn, name: "runtimeRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateConnectionName = "privateConnectionName"
+            case runtimeRoleArn = "runtimeRoleArn"
+        }
+    }
+
     public struct Recommendation: AWSDecodableShape {
         /// Additional context for recommendation
         public let additionalContext: String?
@@ -5728,7 +5978,7 @@ extension DevOpsAgent {
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}\\p{S}\\p{Z}]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{N} _-]+$")
             try self.validate(self.privateConnectionName, name: "privateConnectionName", parent: name, max: 30)
             try self.validate(self.privateConnectionName, name: "privateConnectionName", parent: name, min: 3)
             try self.validate(self.privateConnectionName, name: "privateConnectionName", parent: name, pattern: "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$")
@@ -5821,7 +6071,7 @@ extension DevOpsAgent {
             try self.validate(self.tenantId, name: "tenantId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
             try self.validate(self.webIdentityRoleArn, name: "webIdentityRoleArn", parent: name, max: 255)
             try self.validate(self.webIdentityRoleArn, name: "webIdentityRoleArn", parent: name, min: 1)
-            try self.validate(self.webIdentityRoleArn, name: "webIdentityRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.webIdentityRoleArn, name: "webIdentityRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5899,6 +6149,8 @@ extension DevOpsAgent {
         public let apiKeyHeader: String?
         /// The MCP server uses this authorization method.
         public let authorizationMethod: MCPServerAuthorizationMethod
+        /// The configured custom authentication header names when the MCP server uses custom-header authentication. Secret values are not returned.
+        public let customHeaderNames: [String]?
         /// Optional description for the MCP server.
         public let description: String?
         /// The MCP server endpoint URL.
@@ -5907,9 +6159,10 @@ extension DevOpsAgent {
         public let name: String
 
         @inlinable
-        public init(apiKeyHeader: String? = nil, authorizationMethod: MCPServerAuthorizationMethod, description: String? = nil, endpoint: String, name: String) {
+        public init(apiKeyHeader: String? = nil, authorizationMethod: MCPServerAuthorizationMethod, customHeaderNames: [String]? = nil, description: String? = nil, endpoint: String, name: String) {
             self.apiKeyHeader = apiKeyHeader
             self.authorizationMethod = authorizationMethod
+            self.customHeaderNames = customHeaderNames
             self.description = description
             self.endpoint = endpoint
             self.name = name
@@ -5918,6 +6171,7 @@ extension DevOpsAgent {
         private enum CodingKeys: String, CodingKey {
             case apiKeyHeader = "apiKeyHeader"
             case authorizationMethod = "authorizationMethod"
+            case customHeaderNames = "customHeaderNames"
             case description = "description"
             case endpoint = "endpoint"
             case name = "name"
@@ -6148,6 +6402,31 @@ extension DevOpsAgent {
         }
     }
 
+    public struct ReleaseManagementConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name for this release management environment.
+        public let name: String
+        /// Specifies how AWS DevOps Agent reaches your application using a Release Management Environment
+        public let networkAccess: NetworkAccessConfiguration
+
+        @inlinable
+        public init(name: String, networkAccess: NetworkAccessConfiguration) {
+            self.name = name
+            self.networkAccess = networkAccess
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}\\p{S}\\p{Z}]+$")
+            try self.networkAccess.validate(name: "\(name).networkAccess")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case networkAccess = "networkAccess"
+        }
+    }
+
     public struct RemoteAgentAPIKeyConfig: AWSEncodableShape {
         /// HTTP header name to send the API key in requests to the service.
         public let apiKeyHeader: String
@@ -6232,7 +6511,7 @@ extension DevOpsAgent {
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[\\S]+$")
             try self.scopes?.forEach {
-                try validate($0, name: "scopes[]", parent: name, max: 128)
+                try validate($0, name: "scopes[]", parent: name, max: 256)
                 try validate($0, name: "scopes[]", parent: name, min: 1)
                 try validate($0, name: "scopes[]", parent: name, pattern: "^[!#-\\[\\]-~]+$")
             }
@@ -6304,7 +6583,7 @@ extension DevOpsAgent {
             try self.validate(self.region, name: "region", parent: name, pattern: "^(\\*|[a-z]{2,4}(-[a-z]+)+-\\d+)$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 255)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6355,21 +6634,26 @@ extension DevOpsAgent {
     }
 
     public struct ScheduleCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The schedule expression
-        public let expression: String
+        /// EventBridge cron or rate expression. Required for existing request and response compatibility. For a structured schedule response, this is the expression derived by Backlog.
+        public let expression: String?
+        /// Structured schedule source of truth (cron | timeRange). On CreateTrigger supply exactly one of spec or expression. Present in responses together with the derived expression for structured triggers.
+        public let spec: ScheduleSpec?
 
         @inlinable
-        public init(expression: String) {
+        public init(expression: String? = nil, spec: ScheduleSpec? = nil) {
             self.expression = expression
+            self.spec = spec
         }
 
         public func validate(name: String) throws {
             try self.validate(self.expression, name: "expression", parent: name, max: 256)
             try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.spec?.validate(name: "\(name).spec")
         }
 
         private enum CodingKeys: String, CodingKey {
             case expression = "expression"
+            case spec = "spec"
         }
     }
 
@@ -6932,7 +7216,7 @@ extension DevOpsAgent {
         public func validate(name: String) throws {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 255)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7034,10 +7318,10 @@ extension DevOpsAgent {
         public func validate(name: String) throws {
             try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, max: 255)
             try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, min: 1)
-            try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
             try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, max: 255)
             try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, min: 1)
-            try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7207,6 +7491,37 @@ extension DevOpsAgent {
             case priority = "priority"
             case status = "status"
             case taskType = "taskType"
+        }
+    }
+
+    public struct TimeRangeSchedule: AWSEncodableShape & AWSDecodableShape {
+        /// How the window recurs
+        public let recurrence: Recurrence
+        /// Earliest time of day the trigger may fire
+        public let startAfter: String
+        /// Latest time of day the trigger may fire
+        public let startBefore: String
+
+        @inlinable
+        public init(recurrence: Recurrence, startAfter: String, startBefore: String) {
+            self.recurrence = recurrence
+            self.startAfter = startAfter
+            self.startBefore = startBefore
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.startAfter, name: "startAfter", parent: name, max: 5)
+            try self.validate(self.startAfter, name: "startAfter", parent: name, min: 5)
+            try self.validate(self.startAfter, name: "startAfter", parent: name, pattern: "^([01]\\d|2[0-3]):[0-5]\\d$")
+            try self.validate(self.startBefore, name: "startBefore", parent: name, max: 5)
+            try self.validate(self.startBefore, name: "startBefore", parent: name, min: 5)
+            try self.validate(self.startBefore, name: "startBefore", parent: name, pattern: "^([01]\\d|2[0-3]):[0-5]\\d$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recurrence = "recurrence"
+            case startAfter = "startAfter"
+            case startBefore = "startBefore"
         }
     }
 
@@ -8117,6 +8432,20 @@ extension DevOpsAgent {
         }
     }
 
+    public struct WeeklyRecurrence: AWSEncodableShape & AWSDecodableShape {
+        /// Day of week the window recurs on
+        public let dayOfWeek: DayOfWeek
+
+        @inlinable
+        public init(dayOfWeek: DayOfWeek) {
+            self.dayOfWeek = dayOfWeek
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfWeek = "dayOfWeek"
+        }
+    }
+
     public struct AdditionalServiceRegistrationStep: AWSDecodableShape {
         /// OAuth authorization step required.
         public let oauth: OAuthAdditionalStepDetails?
@@ -8160,6 +8489,24 @@ extension DevOpsAgent {
 
         private enum CodingKeys: String, CodingKey {
             case oAuthClientCredentials = "oAuthClientCredentials"
+        }
+    }
+
+    public struct NetworkAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Private network access to the resource inside a VPC, using a private connection.
+        public let privateAccess: PrivateNetworkAccess?
+
+        @inlinable
+        public init(privateAccess: PrivateNetworkAccess? = nil) {
+            self.privateAccess = privateAccess
+        }
+
+        public func validate(name: String) throws {
+            try self.privateAccess?.validate(name: "\(name).privateAccess")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateAccess = "privateAccess"
         }
     }
 
@@ -8218,7 +8565,7 @@ extension DevOpsAgent {
     }
 
     public struct TriggerCondition: AWSEncodableShape & AWSDecodableShape {
-        /// Time-based firing condition
+        /// Schedule-based firing condition. On CreateTrigger supply exactly one of the schedule condition's expression or spec.
         public let schedule: ScheduleCondition?
 
         @inlinable

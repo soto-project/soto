@@ -97,18 +97,21 @@ public struct BedrockAgentCore: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotent processing of the batch request.
     ///   - memoryId: The unique ID of the memory resource where records will be created.
+    ///   - recordExpirySpecification: The record expiry (long-term memory time-to-live) applied to every record created by this request. Set recordExpiryDurationDays to the number of days after which the records expire. Only the expiry provided here is applied; the records' strategy association has no effect on their expiry. If you do not provide this value, the records do not expire. The REMOVE action does not apply when creating records.
     ///   - records: A list of memory record creation inputs to be processed in the batch operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchCreateMemoryRecords(
         clientToken: String? = BatchCreateMemoryRecordsInput.idempotencyToken(),
         memoryId: String,
+        recordExpirySpecification: RecordExpirySpecification? = nil,
         records: [MemoryRecordCreateInput],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> BatchCreateMemoryRecordsOutput {
         let input = BatchCreateMemoryRecordsInput(
             clientToken: clientToken, 
             memoryId: memoryId, 
+            recordExpirySpecification: recordExpirySpecification, 
             records: records
         )
         return try await self.batchCreateMemoryRecords(input, logger: logger)
@@ -163,16 +166,19 @@ public struct BedrockAgentCore: AWSService {
     ///
     /// Parameters:
     ///   - memoryId: The unique ID of the memory resource where records will be updated.
+    ///   - recordExpirySpecification: The record expiry (long-term memory time-to-live) applied to every record updated by this request. Set recordExpiryDurationDays to configure or overwrite the number of days after which the records expire, or set action to REMOVE to clear a previously configured expiry so that the records no longer expire. When you do not provide this value, the service determines each record's expiry from its current state:   If the record already has an expiry configured, the service resets and reapplies the expiry based on the last applied recordExpiryDurationDays.   If the record does not have an expiry configured, no expiry is applied and the record remains non-expiring. This is the outcome regardless of whether the record's strategy configures an expiry.   Providing an explicit recordExpiryDurationDays always takes precedence: it overwrites an existing expiry, or sets one on a record that previously had none.
     ///   - records: A list of memory record update inputs to be processed in the batch operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchUpdateMemoryRecords(
         memoryId: String,
+        recordExpirySpecification: RecordExpirySpecification? = nil,
         records: [MemoryRecordUpdateInput],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> BatchUpdateMemoryRecordsOutput {
         let input = BatchUpdateMemoryRecordsInput(
             memoryId: memoryId, 
+            recordExpirySpecification: recordExpirySpecification, 
             records: records
         )
         return try await self.batchUpdateMemoryRecords(input, logger: logger)

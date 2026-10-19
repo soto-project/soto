@@ -6699,7 +6699,8 @@ public struct DataZone: AWSService {
     ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook.
     ///   - name: The name of the imported notebook. The name must be between 1 and 256 characters.
     ///   - owningProjectIdentifier: The identifier of the project that will own the imported notebook.
-    ///   - sourceLocation: The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file.
+    ///   - sourceLocation: The source location of the notebook to import. Specify either a single Amazon Simple Storage Service URI, or a list of objects to import as the notebook's cells.
+    ///   - type: The type of the notebook to import. If not specified, defaults to DATA.
     ///   - logger: Logger use during operation
     @inlinable
     public func startNotebookImport(
@@ -6709,6 +6710,7 @@ public struct DataZone: AWSService {
         name: String,
         owningProjectIdentifier: String,
         sourceLocation: SourceLocation,
+        type: NotebookType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartNotebookImportOutput {
         let input = StartNotebookImportInput(
@@ -6717,7 +6719,8 @@ public struct DataZone: AWSService {
             domainIdentifier: domainIdentifier, 
             name: name, 
             owningProjectIdentifier: owningProjectIdentifier, 
-            sourceLocation: sourceLocation
+            sourceLocation: sourceLocation, 
+            type: type
         )
         return try await self.startNotebookImport(input, logger: logger)
     }
@@ -6744,6 +6747,7 @@ public struct DataZone: AWSService {
     ///   - metadata: The metadata for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
     ///   - networkConfiguration: The network configuration for the notebook run, including network access type and optional VPC settings.
     ///   - notebookIdentifier: The identifier of the notebook to run.
+    ///   - notificationConfiguration: The notification configuration for the notebook run. Use this to specify the notebook run states that trigger notifications.
     ///   - owningProjectIdentifier: The identifier of the project that owns the notebook run.
     ///   - parameters: The sensitive parameters for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
     ///   - scheduleIdentifier: The identifier of the schedule associated with the notebook run.
@@ -6758,6 +6762,7 @@ public struct DataZone: AWSService {
         metadata: [String: String]? = nil,
         networkConfiguration: NetworkConfig? = nil,
         notebookIdentifier: String,
+        notificationConfiguration: NotificationConfig? = nil,
         owningProjectIdentifier: String,
         parameters: [String: String]? = nil,
         scheduleIdentifier: String? = nil,
@@ -6772,6 +6777,7 @@ public struct DataZone: AWSService {
             metadata: metadata, 
             networkConfiguration: networkConfiguration, 
             notebookIdentifier: notebookIdentifier, 
+            notificationConfiguration: notificationConfiguration, 
             owningProjectIdentifier: owningProjectIdentifier, 
             parameters: parameters, 
             scheduleIdentifier: scheduleIdentifier, 

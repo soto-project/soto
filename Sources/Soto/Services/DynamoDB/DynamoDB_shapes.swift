@@ -2750,6 +2750,8 @@ extension DynamoDB {
         public let failureCode: String?
         /// Export failure reason description.
         public let failureMessage: String?
+        /// The filter criteria applied to the export. When present, only items that match the specified key conditions and filter expressions are included in the export output.
+        public let filterSpecification: FilterSpecification?
         /// Optional object containing the parameters specific to an incremental export.
         public let incrementalExportSpecification: IncrementalExportSpecification?
         /// The number of items exported.
@@ -2772,7 +2774,7 @@ extension DynamoDB {
         public let tableId: String?
 
         @inlinable
-        public init(billedSizeBytes: Int64? = nil, clientToken: String? = nil, endTime: Date? = nil, exportArn: String? = nil, exportFormat: ExportFormat? = nil, exportManifest: String? = nil, exportStatus: ExportStatus? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, failureCode: String? = nil, failureMessage: String? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, itemCount: Int64? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, startTime: Date? = nil, tableArn: String? = nil, tableId: String? = nil) {
+        public init(billedSizeBytes: Int64? = nil, clientToken: String? = nil, endTime: Date? = nil, exportArn: String? = nil, exportFormat: ExportFormat? = nil, exportManifest: String? = nil, exportStatus: ExportStatus? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, failureCode: String? = nil, failureMessage: String? = nil, filterSpecification: FilterSpecification? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, itemCount: Int64? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, startTime: Date? = nil, tableArn: String? = nil, tableId: String? = nil) {
             self.billedSizeBytes = billedSizeBytes
             self.clientToken = clientToken
             self.endTime = endTime
@@ -2784,6 +2786,7 @@ extension DynamoDB {
             self.exportType = exportType
             self.failureCode = failureCode
             self.failureMessage = failureMessage
+            self.filterSpecification = filterSpecification
             self.incrementalExportSpecification = incrementalExportSpecification
             self.itemCount = itemCount
             self.s3Bucket = s3Bucket
@@ -2808,6 +2811,7 @@ extension DynamoDB {
             case exportType = "ExportType"
             case failureCode = "FailureCode"
             case failureMessage = "FailureMessage"
+            case filterSpecification = "FilterSpecification"
             case incrementalExportSpecification = "IncrementalExportSpecification"
             case itemCount = "ItemCount"
             case s3Bucket = "S3Bucket"
@@ -2852,6 +2856,8 @@ extension DynamoDB {
         public let exportTime: Date?
         /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value is FULL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
         public let exportType: ExportType?
+        /// The criteria used to filter which items are included in the point-in-time export. When you specify this parameter, only items that match the key conditions and filter expressions are exported.
+        public let filterSpecification: FilterSpecification?
         /// Optional object containing the parameters specific to an incremental export.
         public let incrementalExportSpecification: IncrementalExportSpecification?
         /// The name of the Amazon S3 bucket to export the snapshot to.
@@ -2868,11 +2874,12 @@ extension DynamoDB {
         public let tableArn: String
 
         @inlinable
-        public init(clientToken: String? = ExportTableToPointInTimeInput.idempotencyToken(), exportFormat: ExportFormat? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, s3Bucket: String, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, tableArn: String) {
+        public init(clientToken: String? = ExportTableToPointInTimeInput.idempotencyToken(), exportFormat: ExportFormat? = nil, exportTime: Date? = nil, exportType: ExportType? = nil, filterSpecification: FilterSpecification? = nil, incrementalExportSpecification: IncrementalExportSpecification? = nil, s3Bucket: String, s3BucketOwner: String? = nil, s3Prefix: String? = nil, s3SseAlgorithm: S3SseAlgorithm? = nil, s3SseKmsKeyId: String? = nil, tableArn: String) {
             self.clientToken = clientToken
             self.exportFormat = exportFormat
             self.exportTime = exportTime
             self.exportType = exportType
+            self.filterSpecification = filterSpecification
             self.incrementalExportSpecification = incrementalExportSpecification
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
@@ -2884,6 +2891,7 @@ extension DynamoDB {
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[^\\$]+$")
+            try self.filterSpecification?.validate(name: "\(name).filterSpecification")
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 255)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-z0-9A-Z]+[\\.\\-\\w]*[a-z0-9A-Z]+$")
             try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
@@ -2899,6 +2907,7 @@ extension DynamoDB {
             case exportFormat = "ExportFormat"
             case exportTime = "ExportTime"
             case exportType = "ExportType"
+            case filterSpecification = "FilterSpecification"
             case incrementalExportSpecification = "IncrementalExportSpecification"
             case s3Bucket = "S3Bucket"
             case s3BucketOwner = "S3BucketOwner"
@@ -2938,6 +2947,45 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case exceptionDescription = "ExceptionDescription"
             case exceptionName = "ExceptionName"
+        }
+    }
+
+    public struct FilterSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// One or more substitution tokens for attribute names in an expression. For more information, see Expression Attribute Names in the Amazon DynamoDB Developer Guide.
+        public let expressionAttributeNames: [String: String]?
+        /// One or more values that can be substituted in an expression. For more information, see Expression Attribute Values in the Amazon DynamoDB Developer Guide.
+        public let expressionAttributeValues: [String: AttributeValue]?
+        /// A condition that filters which items are included in the export. This parameter uses the same syntax as FilterExpression in Query and Scan. If you don't provide KeyConditionExpression, this expression can also reference key attributes. If you don't specify this parameter, all items are included in the export.
+        public let filterExpression: String?
+        /// A condition expression that filters items by key values. The expression must test equality on a single partition key value and can optionally compare a sort key value. This parameter uses the same syntax as KeyConditionExpression in Query. When you provide this parameter, FilterExpression can only reference non-key attributes. If you don't specify this parameter, all items are eligible for export.
+        public let keyConditionExpression: String?
+        /// The attributes you want to retrieve for items included in the export. Separate attribute names in the expression with commas. If you don't specify this parameter, all attributes are returned.
+        public let projectionExpression: String?
+
+        @inlinable
+        public init(expressionAttributeNames: [String: String]? = nil, expressionAttributeValues: [String: AttributeValue]? = nil, filterExpression: String? = nil, keyConditionExpression: String? = nil, projectionExpression: String? = nil) {
+            self.expressionAttributeNames = expressionAttributeNames
+            self.expressionAttributeValues = expressionAttributeValues
+            self.filterExpression = filterExpression
+            self.keyConditionExpression = keyConditionExpression
+            self.projectionExpression = projectionExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.expressionAttributeNames?.forEach {
+                try validate($0.value, name: "expressionAttributeNames[\"\($0.key)\"]", parent: name, max: 65535)
+            }
+            try self.expressionAttributeValues?.forEach {
+                try $0.value.validate(name: "\(name).expressionAttributeValues[\"\($0.key)\"]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expressionAttributeNames = "ExpressionAttributeNames"
+            case expressionAttributeValues = "ExpressionAttributeValues"
+            case filterExpression = "FilterExpression"
+            case keyConditionExpression = "KeyConditionExpression"
+            case projectionExpression = "ProjectionExpression"
         }
     }
 

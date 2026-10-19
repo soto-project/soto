@@ -56,6 +56,12 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
+    public enum CommunicationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clientTalkFirst = "CLIENT_TALK_FIRST"
+        case serverTalkFirst = "SERVER_TALK_FIRST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CompressionEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case zlib = "ZLIB"
@@ -149,6 +155,12 @@ extension Transfer {
     public enum HomeDirectoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case logical = "LOGICAL"
         case path = "PATH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HostKeyStorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case secretsManager = "SECRETS_MANAGER"
+        case serviceManaged = "SERVICE_MANAGED"
         public var description: String { return self.rawValue }
     }
 
@@ -820,6 +832,8 @@ extension Transfer {
         public let endpointType: EndpointType?
         /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase:  ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase:  ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase:  ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice.  If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive.  For more information, see Manage host keys for your SFTP-enabled server in the Transfer Family User Guide.
         public let hostKey: String?
+        /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER). When you specify SECRETS_MANAGER, Transfer Family stores the private host key material in an Secrets Manager secret.
+        public let hostKeyStorageType: HostKeyStorageType?
         /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Cannot be specified when IdentityProviderType is set to SERVICE_MANAGED.
         public let identityProviderDetails: IdentityProviderDetails?
         /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
@@ -832,7 +846,7 @@ extension Transfer {
         public let postAuthenticationLoginBanner: String?
         /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public let preAuthenticationLoginBanner: String?
-        /// The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
+        /// The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To specify which ports your Transfer Family server listens to, use the SftpPorts parameter.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data      If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public let protocols: [`Protocol`]?
@@ -840,7 +854,7 @@ extension Transfer {
         public let s3StorageOptions: S3StorageOptions?
         /// Specifies the name of the security policy for the server.
         public let securityPolicyName: String?
-        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
         public let structuredLogDestinations: [String]?
         /// Key-value pairs that can be used to group and search for servers.
         public let tags: [Tag]?
@@ -848,12 +862,13 @@ extension Transfer {
         public let workflowDetails: WorkflowDetails?
 
         @inlinable
-        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, ipAddressType: IpAddressType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, hostKeyStorageType: HostKeyStorageType? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, ipAddressType: IpAddressType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, s3StorageOptions: S3StorageOptions? = nil, securityPolicyName: String? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.domain = domain
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
             self.hostKey = hostKey
+            self.hostKeyStorageType = hostKeyStorageType
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderType = identityProviderType
             self.ipAddressType = ipAddressType
@@ -905,6 +920,7 @@ extension Transfer {
             case endpointDetails = "EndpointDetails"
             case endpointType = "EndpointType"
             case hostKey = "HostKey"
+            case hostKeyStorageType = "HostKeyStorageType"
             case identityProviderDetails = "IdentityProviderDetails"
             case identityProviderType = "IdentityProviderType"
             case ipAddressType = "IpAddressType"
@@ -1099,14 +1115,17 @@ extension Transfer {
         public let onExceptionSteps: [WorkflowStep]?
         /// Specifies the details for the steps that are in the specified workflow.  The TYPE specifies which of the following actions is being taken for this step.      COPY  - Copy the file to another location.     CUSTOM  - Perform a custom step with an Lambda function target.     DECRYPT  - Decrypt a file that was encrypted before it was uploaded.     DELETE  - Delete the file.     TAG  - Add a tag to the file.     Currently, copying and tagging are supported only on S3.    For file location, you specify either the Amazon S3 bucket and key, or the Amazon EFS file system ID and path.
         public let steps: [WorkflowStep]
+        /// Specifies the log groups to which your workflow logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*
+        public let structuredLogDestinations: [String]?
         /// Key-value pairs that can be used to group and search for workflows. Tags are metadata attached to workflows for any purpose.
         public let tags: [Tag]?
 
         @inlinable
-        public init(description: String? = nil, onExceptionSteps: [WorkflowStep]? = nil, steps: [WorkflowStep], tags: [Tag]? = nil) {
+        public init(description: String? = nil, onExceptionSteps: [WorkflowStep]? = nil, steps: [WorkflowStep], structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.onExceptionSteps = onExceptionSteps
             self.steps = steps
+            self.structuredLogDestinations = structuredLogDestinations
             self.tags = tags
         }
 
@@ -1121,6 +1140,12 @@ extension Transfer {
                 try $0.validate(name: "\(name).steps[]")
             }
             try self.validate(self.steps, name: "steps", parent: name, max: 8)
+            try self.structuredLogDestinations?.forEach {
+                try validate($0, name: "structuredLogDestinations[]", parent: name, max: 1600)
+                try validate($0, name: "structuredLogDestinations[]", parent: name, min: 20)
+                try validate($0, name: "structuredLogDestinations[]", parent: name, pattern: "^arn:\\S+$")
+            }
+            try self.validate(self.structuredLogDestinations, name: "structuredLogDestinations", parent: name, max: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1132,6 +1157,7 @@ extension Transfer {
             case description = "Description"
             case onExceptionSteps = "OnExceptionSteps"
             case steps = "Steps"
+            case structuredLogDestinations = "StructuredLogDestinations"
             case tags = "Tags"
         }
     }
@@ -2394,18 +2420,24 @@ extension Transfer {
         public let hostKeyFingerprint: String?
         /// A unique identifier for the host key.
         public let hostKeyId: String?
+        /// The ARN of the Secrets Manager secret that stores the host key material, when StorageType is SECRETS_MANAGER.
+        public let secretId: String?
+        /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER).
+        public let storageType: HostKeyStorageType?
         /// Key-value pairs that can be used to group and search for host keys.
         public let tags: [Tag]?
         /// The encryption algorithm that is used for the host key. The Type parameter is specified by using one of the following values:    ssh-rsa     ssh-ed25519     ecdsa-sha2-nistp256     ecdsa-sha2-nistp384     ecdsa-sha2-nistp521
         public let type: String?
 
         @inlinable
-        public init(arn: String, dateImported: Date? = nil, description: String? = nil, hostKeyFingerprint: String? = nil, hostKeyId: String? = nil, tags: [Tag]? = nil, type: String? = nil) {
+        public init(arn: String, dateImported: Date? = nil, description: String? = nil, hostKeyFingerprint: String? = nil, hostKeyId: String? = nil, secretId: String? = nil, storageType: HostKeyStorageType? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.arn = arn
             self.dateImported = dateImported
             self.description = description
             self.hostKeyFingerprint = hostKeyFingerprint
             self.hostKeyId = hostKeyId
+            self.secretId = secretId
+            self.storageType = storageType
             self.tags = tags
             self.type = type
         }
@@ -2416,6 +2448,8 @@ extension Transfer {
             case description = "Description"
             case hostKeyFingerprint = "HostKeyFingerprint"
             case hostKeyId = "HostKeyId"
+            case secretId = "SecretId"
+            case storageType = "StorageType"
             case tags = "Tags"
             case type = "Type"
         }
@@ -2550,7 +2584,7 @@ extension Transfer {
         public let postAuthenticationLoginBanner: String?
         /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public let preAuthenticationLoginBanner: String?
-        /// The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
+        /// The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To specify which ports your Transfer Family server listens to, use the SftpPorts parameter.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data      If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public let protocols: [`Protocol`]?
@@ -2562,7 +2596,7 @@ extension Transfer {
         public let serverId: String?
         /// The condition of the server that was described. A value of ONLINE indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations. The states of STARTING and STOPPING indicate that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
         public let state: State?
-        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
         public let structuredLogDestinations: [String]?
         /// Specifies the key-value pairs that you can use to search for and group servers that were assigned to the server that was described.
         public let tags: [Tag]?
@@ -2786,17 +2820,20 @@ extension Transfer {
         public let onExceptionSteps: [WorkflowStep]?
         /// Specifies the details for the steps that are in the specified workflow.
         public let steps: [WorkflowStep]?
+        /// Specifies the log groups to which your workflow logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*
+        public let structuredLogDestinations: [String]?
         /// Key-value pairs that can be used to group and search for workflows. Tags are metadata attached to workflows for any purpose.
         public let tags: [Tag]?
         /// A unique identifier for the workflow.
         public let workflowId: String?
 
         @inlinable
-        public init(arn: String, description: String? = nil, onExceptionSteps: [WorkflowStep]? = nil, steps: [WorkflowStep]? = nil, tags: [Tag]? = nil, workflowId: String? = nil) {
+        public init(arn: String, description: String? = nil, onExceptionSteps: [WorkflowStep]? = nil, steps: [WorkflowStep]? = nil, structuredLogDestinations: [String]? = nil, tags: [Tag]? = nil, workflowId: String? = nil) {
             self.arn = arn
             self.description = description
             self.onExceptionSteps = onExceptionSteps
             self.steps = steps
+            self.structuredLogDestinations = structuredLogDestinations
             self.tags = tags
             self.workflowId = workflowId
         }
@@ -2806,6 +2843,7 @@ extension Transfer {
             case description = "Description"
             case onExceptionSteps = "OnExceptionSteps"
             case steps = "Steps"
+            case structuredLogDestinations = "StructuredLogDestinations"
             case tags = "Tags"
             case workflowId = "WorkflowId"
         }
@@ -3134,16 +3172,22 @@ extension Transfer {
         public let description: String?
         /// The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
         public let hostKeyBody: String
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the Secrets Manager secret that stores the host key. If you specify a customer managed key, its key policy must allow the AWSServiceRoleForTransfer service-linked role to decrypt the secret. If you don't specify a value, Transfer Family uses the Amazon Web Services managed key for Secrets Manager.
+        public let kmsKey: String?
         /// The identifier of the server that contains the host key that you are importing.
         public let serverId: String
+        /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER). When you specify SECRETS_MANAGER, Transfer Family stores the private host key material in an Secrets Manager secret.
+        public let storageType: HostKeyStorageType?
         /// Key-value pairs that can be used to group and search for host keys.
         public let tags: [Tag]?
 
         @inlinable
-        public init(description: String? = nil, hostKeyBody: String, serverId: String, tags: [Tag]? = nil) {
+        public init(description: String? = nil, hostKeyBody: String, kmsKey: String? = nil, serverId: String, storageType: HostKeyStorageType? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.hostKeyBody = hostKeyBody
+            self.kmsKey = kmsKey
             self.serverId = serverId
+            self.storageType = storageType
             self.tags = tags
         }
 
@@ -3151,6 +3195,9 @@ extension Transfer {
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Print}]*$")
             try self.validate(self.hostKeyBody, name: "hostKeyBody", parent: name, max: 4096)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 1600)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 20)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:\\S+$")
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
@@ -3164,7 +3211,9 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case hostKeyBody = "HostKeyBody"
+            case kmsKey = "KmsKey"
             case serverId = "ServerId"
+            case storageType = "StorageType"
             case tags = "Tags"
         }
     }
@@ -4112,16 +4161,22 @@ extension Transfer {
         public let fingerprint: String?
         /// A unique identifier for the host key.
         public let hostKeyId: String?
+        /// The ARN of the Secrets Manager secret that stores the host key material, when StorageType is SECRETS_MANAGER.
+        public let secretId: String?
+        /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER).
+        public let storageType: HostKeyStorageType?
         /// The encryption algorithm that is used for the host key. The Type parameter is specified by using one of the following values:    ssh-rsa     ssh-ed25519     ecdsa-sha2-nistp256     ecdsa-sha2-nistp384     ecdsa-sha2-nistp521
         public let type: String?
 
         @inlinable
-        public init(arn: String, dateImported: Date? = nil, description: String? = nil, fingerprint: String? = nil, hostKeyId: String? = nil, type: String? = nil) {
+        public init(arn: String, dateImported: Date? = nil, description: String? = nil, fingerprint: String? = nil, hostKeyId: String? = nil, secretId: String? = nil, storageType: HostKeyStorageType? = nil, type: String? = nil) {
             self.arn = arn
             self.dateImported = dateImported
             self.description = description
             self.fingerprint = fingerprint
             self.hostKeyId = hostKeyId
+            self.secretId = secretId
+            self.storageType = storageType
             self.type = type
         }
 
@@ -4131,6 +4186,8 @@ extension Transfer {
             case description = "Description"
             case fingerprint = "Fingerprint"
             case hostKeyId = "HostKeyId"
+            case secretId = "SecretId"
+            case storageType = "StorageType"
             case type = "Type"
         }
     }
@@ -4350,15 +4407,18 @@ extension Transfer {
         public let proxyConfig: ProxyConfig?
         /// Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Some SFTP file transfer clients can attempt to change the attributes of remote files, including timestamp and permissions, using commands, such as SETSTAT when uploading the file. However, these commands are not compatible with object storage systems, such as Amazon S3. Due to this incompatibility, file uploads from these clients can result in errors even when the file is otherwise successfully uploaded. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. While the SetStatOption ENABLE_NO_OP setting ignores the error, it does generate a log entry in Amazon CloudWatch Logs, so you can determine when the client is making a SETSTAT call.  If you want to preserve the original timestamp for your file, and modify other file attributes using SETSTAT, you can use Amazon EFS as backend storage with Transfer Family.
         public let setStatOption: SetStatOption?
+        /// A property used with Transfer Family servers that use the SFTP protocol and have PUBLIC endpoints. This property accepts a list of up to three port configurations that the service opens on the server endpoint. Each entry in the list consists of two parameters, the SftpPort and the CommunicationMode. The SftpPort takes any integer from 2000 to 65535, or 22. CommunicationMode can be one of the following options:    SERVER_TALK_FIRST: The server responds to initial TCP connections first. Many older clients expect that an SFTP server responds with its server string before starting SSH negotiations.    CLIENT_TALK_FIRST: The server responds to the initial TCP connection only after receiving a data packet. Most modern clients support this behavior and send their client string along with the initial data packets for SSH negotiation. Additionally, this mode is more resilient to TCP retransmissions that can occur during the initial TCP connection.   The following is an SftpPorts example for port 2222 with CLIENT_TALK_FIRST.  [ { "SftpPort": 2222, "CommunicationMode": "CLIENT_TALK_FIRST" } ]  If you don't specify any configurations during CreateServer, the service uses port 22 with SERVER_TALK_FIRST by default.
+        public let sftpPorts: [SftpPortWithOptions]?
         /// A property used with Transfer Family servers that use the FTPS protocol. TLS Session Resumption provides a mechanism to resume or share a negotiated secret key between the control and data connection for an FTPS session. TlsSessionResumptionMode determines whether or not the server resumes recent, negotiated sessions through a unique session ID. This property is available during CreateServer and UpdateServer calls. If a TlsSessionResumptionMode value is not specified during CreateServer, it is set to ENFORCED by default.    DISABLED: the server does not process TLS session resumption client requests and creates a new TLS session for each request.     ENABLED: the server processes and accepts clients that are performing TLS session resumption. The server doesn't reject client data connections that do not perform the TLS session resumption client processing.    ENFORCED: the server processes and accepts clients that are performing TLS session resumption. The server rejects client data connections that do not perform the TLS session resumption client processing. Before you set the value to ENFORCED, test your clients.  Not all FTPS clients perform TLS session resumption. So, if you choose to enforce TLS session resumption, you prevent any connections from FTPS clients that don't perform the protocol negotiation. To determine whether or not you can use the ENFORCED value, you need to test your clients.
         public let tlsSessionResumptionMode: TlsSessionResumptionMode?
 
         @inlinable
-        public init(as2Transports: [As2Transport]? = nil, passiveIp: String? = nil, proxyConfig: ProxyConfig? = nil, setStatOption: SetStatOption? = nil, tlsSessionResumptionMode: TlsSessionResumptionMode? = nil) {
+        public init(as2Transports: [As2Transport]? = nil, passiveIp: String? = nil, proxyConfig: ProxyConfig? = nil, setStatOption: SetStatOption? = nil, sftpPorts: [SftpPortWithOptions]? = nil, tlsSessionResumptionMode: TlsSessionResumptionMode? = nil) {
             self.as2Transports = as2Transports
             self.passiveIp = passiveIp
             self.proxyConfig = proxyConfig
             self.setStatOption = setStatOption
+            self.sftpPorts = sftpPorts
             self.tlsSessionResumptionMode = tlsSessionResumptionMode
         }
 
@@ -4366,6 +4426,10 @@ extension Transfer {
             try self.validate(self.as2Transports, name: "as2Transports", parent: name, max: 1)
             try self.validate(self.as2Transports, name: "as2Transports", parent: name, min: 1)
             try self.validate(self.passiveIp, name: "passiveIp", parent: name, max: 15)
+            try self.sftpPorts?.forEach {
+                try $0.validate(name: "\(name).sftpPorts[]")
+            }
+            try self.validate(self.sftpPorts, name: "sftpPorts", parent: name, max: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4373,12 +4437,13 @@ extension Transfer {
             case passiveIp = "PassiveIp"
             case proxyConfig = "ProxyConfig"
             case setStatOption = "SetStatOption"
+            case sftpPorts = "SftpPorts"
             case tlsSessionResumptionMode = "TlsSessionResumptionMode"
         }
     }
 
     public struct ProxyConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether the Transfer Family server requires or ignores a PPv2 header containing the original client IP address on incoming SFTP connections. If you don't specify a value, the default is NONE     NONE: the server reads and ignores any PPv2 header on incoming SFTP connections. This is the default value. Use this value when your SFTP server is not behind an NLB, or when you do not need to preserve client source IP addresses through an NLB.    PROXY_PROTOCOL_V2_ENFORCED: the server requires a valid PPv2 header on every incoming SFTP connection. When a valid header is present, the server applies it and uses the client IP address from the header. If a connection arrives without a PPv2 header, the server refuses the connection and logs an error to Amazon CloudWatch Logs indicating that the expected PPv2 header was missing. Use this value when your SFTP server is behind an NLB with PPv2 enabled on the target group.  When you enable PROXY_PROTOCOL_V2_ENFORCED, the server trusts the source IP address in the PPv2 header. You must configure security groups on your server's VPC endpoint to restrict inbound traffic to only the NLB's private IP addresses. For the full requirements, see Working with Network Load Balancers.
+        /// Specifies whether the Transfer Family server requires or ignores a PPv2 header containing the client's source IP address on incoming SFTP connections. If you don't specify a value, the default is NONE     NONE: the server reads and ignores any PPv2 header on incoming SFTP connections. This is the default value. Use this value when your SFTP server is not behind an NLB, or when you do not need to preserve the client's source IP address through an NLB.    PROXY_PROTOCOL_V2_ENFORCED: the server requires a valid PPv2 header on every incoming SFTP connection. When a valid header is present, the server applies it and uses the source IP address from the header. If a connection arrives without a PPv2 header, the server refuses the connection and logs an error to Amazon CloudWatch Logs indicating that the expected PPv2 header was missing. Use this value when your SFTP server is behind an NLB with PPv2 enabled on the target group.  With PROXY_PROTOCOL_V2_ENFORCED you must restrict the server's VPC endpoint security group to allow inbound traffic only via the trusted NLB. For more information, see Working with Network Load Balancers.
         public let sftpMode: ProxyMode?
 
         @inlinable
@@ -4631,6 +4696,29 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case hostKey = "HostKey"
+        }
+    }
+
+    public struct SftpPortWithOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether the server or the client sends data first when a client establishes an SFTP connection on this port. Valid values are SERVER_TALK_FIRST and CLIENT_TALK_FIRST. For a description of each mode, see the SftpPorts property. This value is optional.
+        public let communicationMode: CommunicationMode?
+        /// The port on which the Transfer Family server listens for SFTP connections. Specify any integer from 2000 to 65535, or 22. This value is required for each entry in the SftpPorts list.
+        public let sftpPort: Int
+
+        @inlinable
+        public init(communicationMode: CommunicationMode? = nil, sftpPort: Int) {
+            self.communicationMode = communicationMode
+            self.sftpPort = sftpPort
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sftpPort, name: "sftpPort", parent: name, max: 65535)
+            try self.validate(self.sftpPort, name: "sftpPort", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case communicationMode = "CommunicationMode"
+            case sftpPort = "SftpPort"
         }
     }
 
@@ -5491,17 +5579,23 @@ extension Transfer {
 
     public struct UpdateHostKeyRequest: AWSEncodableShape {
         /// An updated description for the host key.
-        public let description: String
+        public let description: String?
         /// The identifier of the host key that you are updating.
         public let hostKeyId: String
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the Secrets Manager secret that stores the host key. If you specify a customer managed key, its key policy must allow the AWSServiceRoleForTransfer service-linked role to decrypt the secret. If you don't specify a value, Transfer Family uses the Amazon Web Services managed key for Secrets Manager.
+        public let kmsKey: String?
         /// The identifier of the server that contains the host key that you are updating.
         public let serverId: String
+        /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER). When you specify SECRETS_MANAGER, Transfer Family stores the private host key material in an Secrets Manager secret.
+        public let storageType: HostKeyStorageType?
 
         @inlinable
-        public init(description: String, hostKeyId: String, serverId: String) {
+        public init(description: String? = nil, hostKeyId: String, kmsKey: String? = nil, serverId: String, storageType: HostKeyStorageType? = nil) {
             self.description = description
             self.hostKeyId = hostKeyId
+            self.kmsKey = kmsKey
             self.serverId = serverId
+            self.storageType = storageType
         }
 
         public func validate(name: String) throws {
@@ -5510,6 +5604,9 @@ extension Transfer {
             try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, max: 25)
             try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, min: 25)
             try self.validate(self.hostKeyId, name: "hostKeyId", parent: name, pattern: "^hostkey-[0-9a-f]{17}$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 1600)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 20)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:\\S+$")
             try self.validate(self.serverId, name: "serverId", parent: name, max: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, min: 19)
             try self.validate(self.serverId, name: "serverId", parent: name, pattern: "^s-([0-9a-f]{17})$")
@@ -5518,7 +5615,9 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case hostKeyId = "HostKeyId"
+            case kmsKey = "KmsKey"
             case serverId = "ServerId"
+            case storageType = "StorageType"
         }
     }
 
@@ -5604,7 +5703,7 @@ extension Transfer {
         public let postAuthenticationLoginBanner: String?
         /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system:  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public let preAuthenticationLoginBanner: String?
-        /// The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
+        /// The protocol settings that are configured for your server.  Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see  Avoid placing NLBs and NATs in front of Transfer Family.     To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.    To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.   To specify which ports your Transfer Family server listens to, use the SftpPorts parameter.   To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.    As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    AS2 (Applicability Statement 2): used for transporting structured business-to-business data      If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public let protocols: [`Protocol`]?
@@ -5614,7 +5713,7 @@ extension Transfer {
         public let securityPolicyName: String?
         /// A system-assigned unique identifier for a server instance that the Transfer Family user is assigned to.
         public let serverId: String
-        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows:  arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
         public let structuredLogDestinations: [String]?
         /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
         public let workflowDetails: WorkflowDetails?

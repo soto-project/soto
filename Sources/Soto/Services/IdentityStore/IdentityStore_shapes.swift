@@ -204,9 +204,9 @@ extension IdentityStore {
     }
 
     public struct CreateGroupMembershipRequest: AWSEncodableShape {
-        /// The identifier for a group in the identity store.
+        /// The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
         public let groupId: String
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
         /// An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
         public let memberId: MemberId
@@ -219,12 +219,12 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.groupId, name: "groupId", parent: name, max: 47)
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 100)
             try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
-            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.memberId.validate(name: "\(name).memberId")
         }
 
@@ -238,17 +238,21 @@ extension IdentityStore {
     public struct CreateGroupMembershipResponse: AWSDecodableShape {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
+        /// The Amazon Resource Name (ARN) of the newly created group membership in the identity store. For example, arn:aws:identitystore:::membership/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333.
+        public let membershipArn: String
         /// The identifier for a newly created GroupMembership in an identity store.
         public let membershipId: String
 
         @inlinable
-        public init(identityStoreId: String, membershipId: String) {
+        public init(identityStoreId: String, membershipArn: String, membershipId: String) {
             self.identityStoreId = identityStoreId
+            self.membershipArn = membershipArn
             self.membershipId = membershipId
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityStoreId = "IdentityStoreId"
+            case membershipArn = "MembershipArn"
             case membershipId = "MembershipId"
         }
     }
@@ -258,7 +262,7 @@ extension IdentityStore {
         public let description: String?
         /// A string containing the name of the group. This value is commonly displayed when the group is referenced. Administrator and AWSAdministrators are reserved names and can't be used for users or groups.
         public let displayName: String?
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
 
         @inlinable
@@ -274,10 +278,10 @@ extension IdentityStore {
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  　]+$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 1024)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
-            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  ]+$")
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  　]+$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -288,20 +292,28 @@ extension IdentityStore {
     }
 
     public struct CreateGroupResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the newly created group in the identity store. For example, arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+        public let groupArn: String
         /// The identifier of the newly created group in the identity store.
         public let groupId: String
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
+        /// The revision of the newly created group in the identity store.
+        public let revision: String
 
         @inlinable
-        public init(groupId: String, identityStoreId: String) {
+        public init(groupArn: String, groupId: String, identityStoreId: String, revision: String) {
+            self.groupArn = groupArn
             self.groupId = groupId
             self.identityStoreId = identityStoreId
+            self.revision = revision
         }
 
         private enum CodingKeys: String, CodingKey {
+            case groupArn = "GroupArn"
             case groupId = "GroupId"
             case identityStoreId = "IdentityStoreId"
+            case revision = "Revision"
         }
     }
 
@@ -316,7 +328,7 @@ extension IdentityStore {
         public let emails: [Email]?
         /// A map with additional attribute extensions for the user. Each map key corresponds to an extension name, while map values represent extension data in Document type (not supported by Java V1, Go V1 and older versions of the CLI). aws:identitystore:enterprise is the only supported extension name.
         public let extensions: [String: AWSDocument]?
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
         /// A string containing the geographical region or location of the user.
         public let locale: String?
@@ -392,9 +404,9 @@ extension IdentityStore {
             }
             try self.validate(self.extensions, name: "extensions", parent: name, max: 10)
             try self.validate(self.extensions, name: "extensions", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.validate(self.locale, name: "locale", parent: name, max: 1024)
             try self.validate(self.locale, name: "locale", parent: name, min: 1)
             try self.validate(self.locale, name: "locale", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  　]+$")
@@ -466,25 +478,33 @@ extension IdentityStore {
     public struct CreateUserResponse: AWSDecodableShape {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
+        /// The revision of the newly created user in the identity store.
+        public let revision: String
+        /// The Amazon Resource Name (ARN) of the newly created user in the identity store. For example, arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
+        public let userArn: String
         /// The identifier of the newly created user in the identity store.
         public let userId: String
 
         @inlinable
-        public init(identityStoreId: String, userId: String) {
+        public init(identityStoreId: String, revision: String, userArn: String, userId: String) {
             self.identityStoreId = identityStoreId
+            self.revision = revision
+            self.userArn = userArn
             self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityStoreId = "IdentityStoreId"
+            case revision = "Revision"
+            case userArn = "UserArn"
             case userId = "UserId"
         }
     }
 
     public struct DeleteGroupMembershipRequest: AWSEncodableShape {
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
-        /// The identifier for a GroupMembership in an identity store.
+        /// The identifier for a GroupMembership in an identity store. You can specify the group membership by ID or by Amazon Resource Name (ARN). For example, membership ID a1b2c3d4-5678-90ab-cdef-EXAMPLE33333 or membership ARN arn:aws:identitystore:::membership/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333.
         public let membershipId: String
 
         @inlinable
@@ -494,12 +514,12 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try self.validate(self.membershipId, name: "membershipId", parent: name, max: 47)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.membershipId, name: "membershipId", parent: name, max: 100)
             try self.validate(self.membershipId, name: "membershipId", parent: name, min: 1)
-            try self.validate(self.membershipId, name: "membershipId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.membershipId, name: "membershipId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -513,29 +533,36 @@ extension IdentityStore {
     }
 
     public struct DeleteGroupRequest: AWSEncodableShape {
-        /// The identifier for a group in the identity store.
+        /// The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
         public let groupId: String
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
+        /// The expected current revision of the group. When you provide this value, the group is deleted only if it matches the current revision of the group in the identity store. If the value doesn't match, the operation fails with a ConflictException. If you don't provide this value, the group is deleted regardless of its current revision.
+        public let revision: String?
 
         @inlinable
-        public init(groupId: String, identityStoreId: String) {
+        public init(groupId: String, identityStoreId: String, revision: String? = nil) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
+            self.revision = revision
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.groupId, name: "groupId", parent: name, max: 47)
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 100)
             try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
-            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.revision, name: "revision", parent: name, max: 64)
+            try self.validate(self.revision, name: "revision", parent: name, min: 1)
+            try self.validate(self.revision, name: "revision", parent: name, pattern: "^[0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupId = "GroupId"
             case identityStoreId = "IdentityStoreId"
+            case revision = "Revision"
         }
     }
 
@@ -544,28 +571,35 @@ extension IdentityStore {
     }
 
     public struct DeleteUserRequest: AWSEncodableShape {
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
-        /// The identifier for a user in the identity store.
+        /// The expected current revision of the user. When you provide this value, the user is deleted only if it matches the current revision of the user in the identity store. If the value doesn't match, the operation fails with a ConflictException. If you don't provide this value, the user is deleted regardless of its current revision.
+        public let revision: String?
+        /// The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
         public let userId: String
 
         @inlinable
-        public init(identityStoreId: String, userId: String) {
+        public init(identityStoreId: String, revision: String? = nil, userId: String) {
             self.identityStoreId = identityStoreId
+            self.revision = revision
             self.userId = userId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try self.validate(self.userId, name: "userId", parent: name, max: 47)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.revision, name: "revision", parent: name, max: 64)
+            try self.validate(self.revision, name: "revision", parent: name, min: 1)
+            try self.validate(self.revision, name: "revision", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
-            try self.validate(self.userId, name: "userId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityStoreId = "IdentityStoreId"
+            case revision = "Revision"
             case userId = "UserId"
         }
     }
@@ -575,9 +609,9 @@ extension IdentityStore {
     }
 
     public struct DescribeGroupMembershipRequest: AWSEncodableShape {
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
-        /// The identifier for a GroupMembership in an identity store.
+        /// The identifier for a GroupMembership in an identity store. You can specify the group membership by ID or by Amazon Resource Name (ARN). For example, membership ID a1b2c3d4-5678-90ab-cdef-EXAMPLE33333 or membership ARN arn:aws:identitystore:::membership/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333.
         public let membershipId: String
 
         @inlinable
@@ -587,12 +621,12 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try self.validate(self.membershipId, name: "membershipId", parent: name, max: 47)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.membershipId, name: "membershipId", parent: name, max: 100)
             try self.validate(self.membershipId, name: "membershipId", parent: name, min: 1)
-            try self.validate(self.membershipId, name: "membershipId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.membershipId, name: "membershipId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -611,6 +645,8 @@ extension IdentityStore {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
         public let memberId: MemberId
+        /// The Amazon Resource Name (ARN) of the group membership in the identity store. For example, arn:aws:identitystore:::membership/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333.
+        public let membershipArn: String
         /// The identifier for a GroupMembership in an identity store.
         public let membershipId: String
         /// The date and time the group membership was last updated.
@@ -619,12 +655,13 @@ extension IdentityStore {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, groupId: String, identityStoreId: String, memberId: MemberId, membershipId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, groupId: String, identityStoreId: String, memberId: MemberId, membershipArn: String, membershipId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.groupId = groupId
             self.identityStoreId = identityStoreId
             self.memberId = memberId
+            self.membershipArn = membershipArn
             self.membershipId = membershipId
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
@@ -636,6 +673,7 @@ extension IdentityStore {
             case groupId = "GroupId"
             case identityStoreId = "IdentityStoreId"
             case memberId = "MemberId"
+            case membershipArn = "MembershipArn"
             case membershipId = "MembershipId"
             case updatedAt = "UpdatedAt"
             case updatedBy = "UpdatedBy"
@@ -643,9 +681,9 @@ extension IdentityStore {
     }
 
     public struct DescribeGroupRequest: AWSEncodableShape {
-        /// The identifier for a group in the identity store.
+        /// The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
         public let groupId: String
-        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
+        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
 
         @inlinable
@@ -655,12 +693,12 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.groupId, name: "groupId", parent: name, max: 47)
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 100)
             try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
-            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -680,24 +718,30 @@ extension IdentityStore {
         public let displayName: String?
         /// A list of ExternalId objects that contains the identifiers issued to this resource by an external identity provider.
         public let externalIds: [ExternalId]?
+        /// The Amazon Resource Name (ARN) of the group in the identity store. For example, arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+        public let groupArn: String
         /// The identifier for a group in the identity store.
         public let groupId: String
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
+        /// The current revision of the group in the identity store. This value changes each time the group is modified.
+        public let revision: String
         /// The date and time the group was last updated.
         public let updatedAt: Date?
         /// The identifier of the user or system that last updated the group.
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, displayName: String? = nil, externalIds: [ExternalId]? = nil, groupId: String, identityStoreId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, displayName: String? = nil, externalIds: [ExternalId]? = nil, groupArn: String, groupId: String, identityStoreId: String, revision: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
             self.displayName = displayName
             self.externalIds = externalIds
+            self.groupArn = groupArn
             self.groupId = groupId
             self.identityStoreId = identityStoreId
+            self.revision = revision
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
         }
@@ -708,19 +752,63 @@ extension IdentityStore {
             case description = "Description"
             case displayName = "DisplayName"
             case externalIds = "ExternalIds"
+            case groupArn = "GroupArn"
             case groupId = "GroupId"
             case identityStoreId = "IdentityStoreId"
+            case revision = "Revision"
             case updatedAt = "UpdatedAt"
             case updatedBy = "UpdatedBy"
+        }
+    }
+
+    public struct DescribeIdentityStoreRequest: AWSEncodableShape {
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+        public let identityStoreId: String
+
+        @inlinable
+        public init(identityStoreId: String) {
+            self.identityStoreId = identityStoreId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityStoreId = "IdentityStoreId"
+        }
+    }
+
+    public struct DescribeIdentityStoreResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the identity store. For example, arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+        public let identityStoreArn: String
+        /// The globally unique identifier for the identity store.
+        public let identityStoreId: String
+        /// The network configuration of the identity store. This configuration controls whether access through a virtual private cloud (VPC) endpoint is required, and which source VPCs and IP addresses are allowed.
+        public let networkConfiguration: NetworkConfigurationDetails?
+
+        @inlinable
+        public init(identityStoreArn: String, identityStoreId: String, networkConfiguration: NetworkConfigurationDetails? = nil) {
+            self.identityStoreArn = identityStoreArn
+            self.identityStoreId = identityStoreId
+            self.networkConfiguration = networkConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityStoreArn = "IdentityStoreArn"
+            case identityStoreId = "IdentityStoreId"
+            case networkConfiguration = "NetworkConfiguration"
         }
     }
 
     public struct DescribeUserRequest: AWSEncodableShape {
         /// A collection of extension names indicating what extensions the service should retrieve alongside other user attributes. aws:identitystore:enterprise is the only supported extension name.
         public let extensions: [String]?
-        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
+        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
-        /// The identifier for a user in the identity store.
+        /// The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
         public let userId: String
 
         @inlinable
@@ -738,12 +826,12 @@ extension IdentityStore {
             }
             try self.validate(self.extensions, name: "extensions", parent: name, max: 10)
             try self.validate(self.extensions, name: "extensions", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try self.validate(self.userId, name: "userId", parent: name, max: 47)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
-            try self.validate(self.userId, name: "userId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -786,6 +874,8 @@ extension IdentityStore {
         public let preferredLanguage: String?
         /// A URL link for the user's profile.
         public let profileUrl: String?
+        /// The current revision of the user in the identity store. This value changes each time the user is modified.
+        public let revision: String
         /// The roles of the user.
         public let roles: [Role]?
         /// The time zone for a user.
@@ -796,6 +886,8 @@ extension IdentityStore {
         public let updatedAt: Date?
         /// The identifier of the user or system that last updated the user.
         public let updatedBy: String?
+        /// The Amazon Resource Name (ARN) of the user in the identity store. For example, arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
+        public let userArn: String
         /// The identifier for a user in the identity store.
         public let userId: String
         /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
@@ -808,7 +900,7 @@ extension IdentityStore {
         public let website: String?
 
         @inlinable
-        public init(addresses: [Address]? = nil, birthdate: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, displayName: String? = nil, emails: [Email]? = nil, extensions: [String: AWSDocument]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, photos: [Photo]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, roles: [Role]? = nil, timezone: String? = nil, title: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, userId: String, userName: String? = nil, userStatus: UserStatus? = nil, userType: String? = nil, website: String? = nil) {
+        public init(addresses: [Address]? = nil, birthdate: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, displayName: String? = nil, emails: [Email]? = nil, extensions: [String: AWSDocument]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, photos: [Photo]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, revision: String, roles: [Role]? = nil, timezone: String? = nil, title: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, userArn: String, userId: String, userName: String? = nil, userStatus: UserStatus? = nil, userType: String? = nil, website: String? = nil) {
             self.addresses = addresses
             self.birthdate = birthdate
             self.createdAt = createdAt
@@ -825,11 +917,13 @@ extension IdentityStore {
             self.photos = photos
             self.preferredLanguage = preferredLanguage
             self.profileUrl = profileUrl
+            self.revision = revision
             self.roles = roles
             self.timezone = timezone
             self.title = title
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.userArn = userArn
             self.userId = userId
             self.userName = userName
             self.userStatus = userStatus
@@ -854,11 +948,13 @@ extension IdentityStore {
             case photos = "Photos"
             case preferredLanguage = "PreferredLanguage"
             case profileUrl = "ProfileUrl"
+            case revision = "Revision"
             case roles = "Roles"
             case timezone = "Timezone"
             case title = "Title"
             case updatedAt = "UpdatedAt"
             case updatedBy = "UpdatedBy"
+            case userArn = "UserArn"
             case userId = "UserId"
             case userName = "UserName"
             case userStatus = "UserStatus"
@@ -955,7 +1051,7 @@ extension IdentityStore {
     public struct GetGroupIdRequest: AWSEncodableShape {
         /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid path is  displayName.
         public let alternateIdentifier: AlternateIdentifier
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
 
         @inlinable
@@ -966,9 +1062,9 @@ extension IdentityStore {
 
         public func validate(name: String) throws {
             try self.alternateIdentifier.validate(name: "\(name).alternateIdentifier")
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -978,27 +1074,31 @@ extension IdentityStore {
     }
 
     public struct GetGroupIdResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the group in the identity store. For example, arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+        public let groupArn: String
         /// The identifier for a group in the identity store.
         public let groupId: String
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
 
         @inlinable
-        public init(groupId: String, identityStoreId: String) {
+        public init(groupArn: String, groupId: String, identityStoreId: String) {
+            self.groupArn = groupArn
             self.groupId = groupId
             self.identityStoreId = identityStoreId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case groupArn = "GroupArn"
             case groupId = "GroupId"
             case identityStoreId = "IdentityStoreId"
         }
     }
 
     public struct GetGroupMembershipIdRequest: AWSEncodableShape {
-        /// The identifier for a group in the identity store.
+        /// The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
         public let groupId: String
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
         /// An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
         public let memberId: MemberId
@@ -1011,12 +1111,12 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.groupId, name: "groupId", parent: name, max: 47)
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 100)
             try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
-            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.memberId.validate(name: "\(name).memberId")
         }
 
@@ -1030,17 +1130,21 @@ extension IdentityStore {
     public struct GetGroupMembershipIdResponse: AWSDecodableShape {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
+        /// The Amazon Resource Name (ARN) of the group membership in the identity store. For example, arn:aws:identitystore:::membership/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333.
+        public let membershipArn: String
         /// The identifier for a GroupMembership in an identity store.
         public let membershipId: String
 
         @inlinable
-        public init(identityStoreId: String, membershipId: String) {
+        public init(identityStoreId: String, membershipArn: String, membershipId: String) {
             self.identityStoreId = identityStoreId
+            self.membershipArn = membershipArn
             self.membershipId = membershipId
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityStoreId = "IdentityStoreId"
+            case membershipArn = "MembershipArn"
             case membershipId = "MembershipId"
         }
     }
@@ -1048,7 +1152,7 @@ extension IdentityStore {
     public struct GetUserIdRequest: AWSEncodableShape {
         /// A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid paths are  userName and emails.value.
         public let alternateIdentifier: AlternateIdentifier
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
 
         @inlinable
@@ -1059,9 +1163,9 @@ extension IdentityStore {
 
         public func validate(name: String) throws {
             try self.alternateIdentifier.validate(name: "\(name).alternateIdentifier")
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1073,17 +1177,21 @@ extension IdentityStore {
     public struct GetUserIdResponse: AWSDecodableShape {
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
+        /// The Amazon Resource Name (ARN) of the user in the identity store. For example, arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
+        public let userArn: String
         /// The identifier for a user in the identity store.
         public let userId: String
 
         @inlinable
-        public init(identityStoreId: String, userId: String) {
+        public init(identityStoreId: String, userArn: String, userId: String) {
             self.identityStoreId = identityStoreId
+            self.userArn = userArn
             self.userId = userId
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityStoreId = "IdentityStoreId"
+            case userArn = "UserArn"
             case userId = "UserId"
         }
     }
@@ -1099,24 +1207,30 @@ extension IdentityStore {
         public let displayName: String?
         /// A list of ExternalId objects that contains the identifiers issued to this resource by an external identity provider.
         public let externalIds: [ExternalId]?
+        /// The Amazon Resource Name (ARN) of the group in the identity store. For example, arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+        public let groupArn: String
         /// The identifier for a group in the identity store.
         public let groupId: String
         /// The globally unique identifier for the identity store.
         public let identityStoreId: String
+        /// The current revision of the group in the identity store. This value changes each time the group is modified. You can provide it as the Revision parameter of an UpdateGroup or DeleteGroup request to make the operation conditional on the group not having changed. Treat this value as an opaque token: don't parse it or rely on its format or ordering.
+        public let revision: String
         /// The date and time the group was last updated.
         public let updatedAt: Date?
         /// The identifier of the user or system that last updated the group.
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, displayName: String? = nil, externalIds: [ExternalId]? = nil, groupId: String, identityStoreId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, displayName: String? = nil, externalIds: [ExternalId]? = nil, groupArn: String, groupId: String, identityStoreId: String, revision: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
             self.displayName = displayName
             self.externalIds = externalIds
+            self.groupArn = groupArn
             self.groupId = groupId
             self.identityStoreId = identityStoreId
+            self.revision = revision
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
         }
@@ -1127,8 +1241,10 @@ extension IdentityStore {
             case description = "Description"
             case displayName = "DisplayName"
             case externalIds = "ExternalIds"
+            case groupArn = "GroupArn"
             case groupId = "GroupId"
             case identityStoreId = "IdentityStoreId"
+            case revision = "Revision"
             case updatedAt = "UpdatedAt"
             case updatedBy = "UpdatedBy"
         }
@@ -1145,20 +1261,23 @@ extension IdentityStore {
         public let identityStoreId: String
         /// An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
         public let memberId: MemberId?
+        /// The Amazon Resource Name (ARN) of the group membership in the identity store. For example, arn:aws:identitystore:::membership/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333.
+        public let membershipArn: String
         /// The identifier for a GroupMembership object in an identity store.
-        public let membershipId: String?
+        public let membershipId: String
         /// The date and time the group membership was last updated.
         public let updatedAt: Date?
         /// The identifier of the user or system that last updated the group membership.
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, groupId: String? = nil, identityStoreId: String, memberId: MemberId? = nil, membershipId: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, groupId: String? = nil, identityStoreId: String, memberId: MemberId? = nil, membershipArn: String, membershipId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.groupId = groupId
             self.identityStoreId = identityStoreId
             self.memberId = memberId
+            self.membershipArn = membershipArn
             self.membershipId = membershipId
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
@@ -1170,6 +1289,7 @@ extension IdentityStore {
             case groupId = "GroupId"
             case identityStoreId = "IdentityStoreId"
             case memberId = "MemberId"
+            case membershipArn = "MembershipArn"
             case membershipId = "MembershipId"
             case updatedAt = "UpdatedAt"
             case updatedBy = "UpdatedBy"
@@ -1198,10 +1318,28 @@ extension IdentityStore {
         }
     }
 
-    public struct IsMemberInGroupsRequest: AWSEncodableShape {
-        /// A list of identifiers for groups in the identity store.
-        public let groupIds: [String]
+    public struct IdentityStore: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the identity store. For example, arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+        public let identityStoreArn: String
         /// The globally unique identifier for the identity store.
+        public let identityStoreId: String
+
+        @inlinable
+        public init(identityStoreArn: String, identityStoreId: String) {
+            self.identityStoreArn = identityStoreArn
+            self.identityStoreId = identityStoreId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityStoreArn = "IdentityStoreArn"
+            case identityStoreId = "IdentityStoreId"
+        }
+    }
+
+    public struct IsMemberInGroupsRequest: AWSEncodableShape {
+        /// A list of identifiers for groups in the identity store. You can specify each group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+        public let groupIds: [String]
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
         /// An object containing the identifier of a group member.
         public let memberId: MemberId
@@ -1215,15 +1353,15 @@ extension IdentityStore {
 
         public func validate(name: String) throws {
             try self.groupIds.forEach {
-                try validate($0, name: "groupIds[]", parent: name, max: 47)
+                try validate($0, name: "groupIds[]", parent: name, max: 100)
                 try validate($0, name: "groupIds[]", parent: name, min: 1)
-                try validate($0, name: "groupIds[]", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+                try validate($0, name: "groupIds[]", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             }
             try self.validate(self.groupIds, name: "groupIds", parent: name, max: 100)
             try self.validate(self.groupIds, name: "groupIds", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.memberId.validate(name: "\(name).memberId")
         }
 
@@ -1249,13 +1387,13 @@ extension IdentityStore {
     }
 
     public struct ListGroupMembershipsForMemberRequest: AWSEncodableShape {
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
-        /// The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+        /// The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
         public let maxResults: Int?
         /// An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
         public let memberId: MemberId
-        /// The pagination token used for the ListUsers, ListGroups, and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers, ListGroups, and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1267,9 +1405,9 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.memberId.validate(name: "\(name).memberId")
@@ -1289,7 +1427,7 @@ extension IdentityStore {
     public struct ListGroupMembershipsForMemberResponse: AWSDecodableShape {
         /// A list of GroupMembership objects in the group for a specified member.
         public let groupMemberships: [GroupMembership]
-        /// The pagination token used for the ListUsers, ListGroups, and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers, ListGroups, and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1305,13 +1443,13 @@ extension IdentityStore {
     }
 
     public struct ListGroupMembershipsRequest: AWSEncodableShape {
-        /// The identifier for a group in the identity store.
+        /// The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
         public let groupId: String
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
         /// The maximum number of results to be returned per request. This parameter is used in all  List requests to specify how many results to return in one page.
         public let maxResults: Int?
-        /// The pagination token used for the ListUsers, ListGroups and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers, ListGroups and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1323,12 +1461,12 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.groupId, name: "groupId", parent: name, max: 47)
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 100)
             try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
-            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
@@ -1347,7 +1485,7 @@ extension IdentityStore {
     public struct ListGroupMembershipsResponse: AWSDecodableShape {
         /// A list of GroupMembership objects in the group.
         public let groupMemberships: [GroupMembership]
-        /// The pagination token used for the ListUsers, ListGroups, and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers, ListGroups, and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1365,11 +1503,11 @@ extension IdentityStore {
     public struct ListGroupsRequest: AWSEncodableShape {
         /// A list of Filter objects, which is used in the ListUsers and  ListGroups requests.
         public let filters: [Filter]?
-        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
+        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
-        /// The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+        /// The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
         public let maxResults: Int?
-        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1394,9 +1532,9 @@ extension IdentityStore {
                 try $0.validate(name: "\(name).filters[]")
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
@@ -1415,7 +1553,7 @@ extension IdentityStore {
     public struct ListGroupsResponse: AWSDecodableShape {
         /// A list of Group objects in the identity store.
         public let groups: [Group]
-        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1430,16 +1568,60 @@ extension IdentityStore {
         }
     }
 
+    public struct ListIdentityStoresRequest: AWSEncodableShape {
+        /// The maximum number of results to return per request. This parameter is used in all  List operations to specify how many results to return on one page. If you don't specify a value, the operation uses a default page size.
+        public let maxResults: Int?
+        /// The pagination token used for the ListIdentityStores API operation. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[-a-zA-Z0-9+=/:_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListIdentityStoresResponse: AWSDecodableShape {
+        /// A list of IdentityStore objects, each of which contains the identifiers for an identity store that you have access to.
+        public let identityStores: [IdentityStore]
+        /// The pagination token used for the ListIdentityStores API operation. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(identityStores: [IdentityStore], nextToken: String? = nil) {
+            self.identityStores = identityStores
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityStores = "IdentityStores"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListUsersRequest: AWSEncodableShape {
         /// A collection of extension names indicating what extensions the service should retrieve alongside other user attributes. aws:identitystore:enterprise is the only supported extension name.
         public let extensions: [String]?
         /// A list of Filter objects, which is used in the ListUsers and  ListGroups requests.
         public let filters: [Filter]?
-        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
+        /// The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
-        /// The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+        /// The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
         public let maxResults: Int?
-        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -1473,9 +1655,9 @@ extension IdentityStore {
                 try $0.validate(name: "\(name).filters[]")
             }
             try self.validate(self.filters, name: "filters", parent: name, max: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
@@ -1493,7 +1675,7 @@ extension IdentityStore {
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
-        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+        /// The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to retrieve the next page of results.
         public let nextToken: String?
         /// A list of User objects in the identity store.
         public let users: [User]
@@ -1562,6 +1744,82 @@ extension IdentityStore {
             case honorificPrefix = "HonorificPrefix"
             case honorificSuffix = "HonorificSuffix"
             case middleName = "MiddleName"
+        }
+    }
+
+    public struct NetworkConfiguration: AWSEncodableShape {
+        /// A list of IP address CIDR ranges that are allowed to access the identity store API operations. A request from an IP address in this list bypasses the identity store's other API network controls: it's permitted even if it doesn't come through a VPC endpoint required by VpceAccessRequired, and even if it doesn't originate from a VPC in ApiRestrictSourceVpcs. If you don't specify a value, no such IP address exception applies.
+        public let apiAllowSourceIps: [String]?
+        /// A list of virtual private cloud (VPC) IDs that are allowed to access the identity store API operations. A request is denied unless it originates from a VPC in this list, or from an IP address in ApiAllowSourceIps if you specified one. If you don't specify a value, access isn't restricted to specific VPCs, but the VPC endpoint requirement set by VpceAccessRequired still applies.
+        public let apiRestrictSourceVpcs: [String]?
+        /// A list of IP address CIDR ranges that are allowed to access the identity store through the System for Cross-domain Identity Management (SCIM) protocol. Requests from IP addresses outside these ranges are denied. If you don't specify a value, SCIM requests remain subject to the identity store's other network controls, such as the VPC endpoint requirement set by VpceAccessRequired. For example, to allow SCIM traffic from the public internet while still requiring the identity store API operations to be accessed through a VPC endpoint, set VpceAccessRequired to true and set this value to 0.0.0.0/0.
+        public let scimAllowSourceIps: [String]?
+        /// Specifies whether the identity store can be accessed only through a virtual private cloud (VPC) endpoint. When set to true, requests must originate from a VPC endpoint. This value must be set to either true or false when you provide NetworkConfiguration in a request.
+        public let vpceAccessRequired: Bool
+
+        @inlinable
+        public init(apiAllowSourceIps: [String]? = nil, apiRestrictSourceVpcs: [String]? = nil, scimAllowSourceIps: [String]? = nil, vpceAccessRequired: Bool) {
+            self.apiAllowSourceIps = apiAllowSourceIps
+            self.apiRestrictSourceVpcs = apiRestrictSourceVpcs
+            self.scimAllowSourceIps = scimAllowSourceIps
+            self.vpceAccessRequired = vpceAccessRequired
+        }
+
+        public func validate(name: String) throws {
+            try self.apiAllowSourceIps?.forEach {
+                try validate($0, name: "apiAllowSourceIps[]", parent: name, max: 43)
+                try validate($0, name: "apiAllowSourceIps[]", parent: name, min: 2)
+                try validate($0, name: "apiAllowSourceIps[]", parent: name, pattern: "^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))?|(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:(:[0-9a-fA-F]{1,4}){1,6}|:((:[0-9a-fA-F]{1,4}){1,7}|:))(\\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))?)$")
+            }
+            try self.validate(self.apiAllowSourceIps, name: "apiAllowSourceIps", parent: name, max: 50)
+            try self.validate(self.apiAllowSourceIps, name: "apiAllowSourceIps", parent: name, min: 1)
+            try self.apiRestrictSourceVpcs?.forEach {
+                try validate($0, name: "apiRestrictSourceVpcs[]", parent: name, max: 21)
+                try validate($0, name: "apiRestrictSourceVpcs[]", parent: name, min: 12)
+                try validate($0, name: "apiRestrictSourceVpcs[]", parent: name, pattern: "^vpc-([0-9a-f]){8}(([0-9a-f]){9})?$")
+            }
+            try self.validate(self.apiRestrictSourceVpcs, name: "apiRestrictSourceVpcs", parent: name, max: 50)
+            try self.validate(self.apiRestrictSourceVpcs, name: "apiRestrictSourceVpcs", parent: name, min: 1)
+            try self.scimAllowSourceIps?.forEach {
+                try validate($0, name: "scimAllowSourceIps[]", parent: name, max: 43)
+                try validate($0, name: "scimAllowSourceIps[]", parent: name, min: 2)
+                try validate($0, name: "scimAllowSourceIps[]", parent: name, pattern: "^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(3[0-2]|[1-2][0-9]|[0-9]))?|(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:(:[0-9a-fA-F]{1,4}){1,6}|:((:[0-9a-fA-F]{1,4}){1,7}|:))(\\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9]))?)$")
+            }
+            try self.validate(self.scimAllowSourceIps, name: "scimAllowSourceIps", parent: name, max: 50)
+            try self.validate(self.scimAllowSourceIps, name: "scimAllowSourceIps", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiAllowSourceIps = "ApiAllowSourceIps"
+            case apiRestrictSourceVpcs = "ApiRestrictSourceVpcs"
+            case scimAllowSourceIps = "ScimAllowSourceIps"
+            case vpceAccessRequired = "VpceAccessRequired"
+        }
+    }
+
+    public struct NetworkConfigurationDetails: AWSDecodableShape {
+        /// A list of IP address CIDR ranges that are allowed to access the identity store API operations. A request from an IP address in this list bypasses the identity store's other API network controls: it's permitted even if it doesn't come through a VPC endpoint required by VpceAccessRequired, and even if it doesn't originate from a VPC in ApiRestrictSourceVpcs. If this field is empty, no such IP address exception applies.
+        public let apiAllowSourceIps: [String]?
+        /// A list of virtual private cloud (VPC) IDs that are allowed to access the identity store API operations. A request is denied unless it originates from a VPC in this list, or from an IP address in ApiAllowSourceIps if one is configured. If this field is empty, access isn't restricted to specific VPCs, but the VPC endpoint requirement from VpceAccessRequired still applies.
+        public let apiRestrictSourceVpcs: [String]?
+        /// A list of IP address CIDR ranges that are allowed to access the identity store through the System for Cross-domain Identity Management (SCIM) protocol. Requests from IP addresses outside these ranges are denied. If this field is empty, SCIM requests remain subject to the identity store's other network controls, such as the VPC endpoint requirement.
+        public let scimAllowSourceIps: [String]?
+        /// Specifies whether the identity store can be accessed only through a virtual private cloud (VPC) endpoint. When set to true, requests must originate from a VPC endpoint.
+        public let vpceAccessRequired: Bool
+
+        @inlinable
+        public init(apiAllowSourceIps: [String]? = nil, apiRestrictSourceVpcs: [String]? = nil, scimAllowSourceIps: [String]? = nil, vpceAccessRequired: Bool) {
+            self.apiAllowSourceIps = apiAllowSourceIps
+            self.apiRestrictSourceVpcs = apiRestrictSourceVpcs
+            self.scimAllowSourceIps = scimAllowSourceIps
+            self.vpceAccessRequired = vpceAccessRequired
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiAllowSourceIps = "ApiAllowSourceIps"
+            case apiRestrictSourceVpcs = "ApiRestrictSourceVpcs"
+            case scimAllowSourceIps = "ScimAllowSourceIps"
+            case vpceAccessRequired = "VpceAccessRequired"
         }
     }
 
@@ -1736,83 +1994,184 @@ extension IdentityStore {
     }
 
     public struct UpdateGroupRequest: AWSEncodableShape {
-        /// The identifier for a group in the identity store.
+        /// The identifier for a group in the identity store. You can specify the group by ID or by Amazon Resource Name (ARN). For example, group ID a1b2c3d4-5678-90ab-cdef-EXAMPLE22222 or group ARN arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
         public let groupId: String
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
         /// A list of AttributeOperation objects to apply to the requested group. These operations might add, replace, or remove an attribute. For more information on the attributes that can be added, replaced, or removed, see Group.
         public let operations: [AttributeOperation]
+        /// The expected current revision of the group. When you provide this value, the update is applied only if it matches the current revision of the group in the identity store, which prevents you from overwriting concurrent changes. If the value doesn't match, the operation fails with a ConflictException. If you don't provide this value, the update is applied unconditionally.
+        public let revision: String?
 
         @inlinable
-        public init(groupId: String, identityStoreId: String, operations: [AttributeOperation]) {
+        public init(groupId: String, identityStoreId: String, operations: [AttributeOperation], revision: String? = nil) {
             self.groupId = groupId
             self.identityStoreId = identityStoreId
             self.operations = operations
+            self.revision = revision
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.groupId, name: "groupId", parent: name, max: 47)
+            try self.validate(self.groupId, name: "groupId", parent: name, max: 100)
             try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
-            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.groupId, name: "groupId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.operations.forEach {
                 try $0.validate(name: "\(name).operations[]")
             }
             try self.validate(self.operations, name: "operations", parent: name, max: 100)
             try self.validate(self.operations, name: "operations", parent: name, min: 1)
+            try self.validate(self.revision, name: "revision", parent: name, max: 64)
+            try self.validate(self.revision, name: "revision", parent: name, min: 1)
+            try self.validate(self.revision, name: "revision", parent: name, pattern: "^[0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupId = "GroupId"
             case identityStoreId = "IdentityStoreId"
             case operations = "Operations"
+            case revision = "Revision"
         }
     }
 
     public struct UpdateGroupResponse: AWSDecodableShape {
-        public init() {}
+        /// The Amazon Resource Name (ARN) of the group in the identity store. For example, arn:aws:identitystore:::group/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222.
+        public let groupArn: String
+        /// The identifier for a group in the identity store.
+        public let groupId: String
+        /// The globally unique identifier for the identity store.
+        public let identityStoreId: String
+        /// The revision of the group after the requested update is applied.
+        public let revision: String
+
+        @inlinable
+        public init(groupArn: String, groupId: String, identityStoreId: String, revision: String) {
+            self.groupArn = groupArn
+            self.groupId = groupId
+            self.identityStoreId = identityStoreId
+            self.revision = revision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupArn = "GroupArn"
+            case groupId = "GroupId"
+            case identityStoreId = "IdentityStoreId"
+            case revision = "Revision"
+        }
+    }
+
+    public struct UpdateIdentityStoreRequest: AWSEncodableShape {
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+        public let identityStoreId: String
+        /// The network configuration to apply to the identity store. This controls whether access through a virtual private cloud (VPC) endpoint is required and the source VPCs and IP addresses that are allowed to access the identity store. When you provide NetworkConfiguration in a request, the service performs a full replacement of the identity store's current network configuration with the values you specify. Any values that you omit are cleared. To preserve or change the allowed source VPCs or IP address ranges, include the complete set of values that you want in the request. To clear a list, omit it; an empty list is not accepted.
+        public let networkConfiguration: NetworkConfiguration?
+
+        @inlinable
+        public init(identityStoreId: String, networkConfiguration: NetworkConfiguration? = nil) {
+            self.identityStoreId = identityStoreId
+            self.networkConfiguration = networkConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
+            try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityStoreId = "IdentityStoreId"
+            case networkConfiguration = "NetworkConfiguration"
+        }
+    }
+
+    public struct UpdateIdentityStoreResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the identity store. For example, arn:aws:identitystore::111122223333:identitystore/d-1234567890.
+        public let identityStoreArn: String
+        /// The globally unique identifier for the identity store.
+        public let identityStoreId: String
+
+        @inlinable
+        public init(identityStoreArn: String, identityStoreId: String) {
+            self.identityStoreArn = identityStoreArn
+            self.identityStoreId = identityStoreId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityStoreArn = "IdentityStoreArn"
+            case identityStoreId = "IdentityStoreId"
+        }
     }
 
     public struct UpdateUserRequest: AWSEncodableShape {
-        /// The globally unique identifier for the identity store.
+        /// The globally unique identifier for the identity store. You can specify the identity store by ID or by Amazon Resource Name (ARN). For example, identity store ID d-1234567890 or identity store ARN arn:aws:identitystore::111122223333:identitystore/d-1234567890.
         public let identityStoreId: String
         /// A list of AttributeOperation objects to apply to the requested user. These operations might add, replace, or remove an attribute. For more information on the attributes that can be added, replaced, or removed, see User.
         public let operations: [AttributeOperation]
-        /// The identifier for a user in the identity store.
+        /// The expected current revision of the user. When you provide this value, the update is applied only if it matches the current revision of the user in the identity store, which prevents you from overwriting concurrent changes. If the value doesn't match, the operation fails with a ConflictException. If you don't provide this value, the update is applied unconditionally.
+        public let revision: String?
+        /// The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
         public let userId: String
 
         @inlinable
-        public init(identityStoreId: String, operations: [AttributeOperation], userId: String) {
+        public init(identityStoreId: String, operations: [AttributeOperation], revision: String? = nil, userId: String) {
             self.identityStoreId = identityStoreId
             self.operations = operations
+            self.revision = revision
             self.userId = userId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 93)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
-            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore::\\d{12}:identitystore/)?(d-[0-9a-f]{10}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.operations.forEach {
                 try $0.validate(name: "\(name).operations[]")
             }
             try self.validate(self.operations, name: "operations", parent: name, max: 100)
             try self.validate(self.operations, name: "operations", parent: name, min: 1)
-            try self.validate(self.userId, name: "userId", parent: name, max: 47)
+            try self.validate(self.revision, name: "revision", parent: name, max: 64)
+            try self.validate(self.revision, name: "revision", parent: name, min: 1)
+            try self.validate(self.revision, name: "revision", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
-            try self.validate(self.userId, name: "userId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityStoreId = "IdentityStoreId"
             case operations = "Operations"
+            case revision = "Revision"
             case userId = "UserId"
         }
     }
 
     public struct UpdateUserResponse: AWSDecodableShape {
-        public init() {}
+        /// The globally unique identifier for the identity store.
+        public let identityStoreId: String
+        /// The revision of the user after the requested update is applied.
+        public let revision: String
+        /// The Amazon Resource Name (ARN) of the user in the identity store. For example, arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
+        public let userArn: String
+        /// The identifier for a user in the identity store.
+        public let userId: String
+
+        @inlinable
+        public init(identityStoreId: String, revision: String, userArn: String, userId: String) {
+            self.identityStoreId = identityStoreId
+            self.revision = revision
+            self.userArn = userArn
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityStoreId = "IdentityStoreId"
+            case revision = "Revision"
+            case userArn = "UserArn"
+            case userId = "UserId"
+        }
     }
 
     public struct User: AWSDecodableShape {
@@ -1848,6 +2207,8 @@ extension IdentityStore {
         public let preferredLanguage: String?
         /// A string containing a URL that might be associated with the user.
         public let profileUrl: String?
+        /// The current revision of the user in the identity store. This value changes each time the user is modified. You can provide it as the Revision parameter of an UpdateUser or DeleteUser request to make the operation conditional on the user not having changed. Treat this value as an opaque token: don't parse it or rely on its format or ordering.
+        public let revision: String
         /// A list of Role objects containing roles associated with the user.
         public let roles: [Role]?
         /// A string containing the time zone of the user.
@@ -1858,6 +2219,8 @@ extension IdentityStore {
         public let updatedAt: Date?
         /// The identifier of the user or system that last updated the user.
         public let updatedBy: String?
+        /// The Amazon Resource Name (ARN) of the user in the identity store. For example, arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
+        public let userArn: String
         /// The identifier for a user in the identity store.
         public let userId: String
         /// A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store.
@@ -1870,7 +2233,7 @@ extension IdentityStore {
         public let website: String?
 
         @inlinable
-        public init(addresses: [Address]? = nil, birthdate: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, displayName: String? = nil, emails: [Email]? = nil, extensions: [String: AWSDocument]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, photos: [Photo]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, roles: [Role]? = nil, timezone: String? = nil, title: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, userId: String, userName: String? = nil, userStatus: UserStatus? = nil, userType: String? = nil, website: String? = nil) {
+        public init(addresses: [Address]? = nil, birthdate: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, displayName: String? = nil, emails: [Email]? = nil, extensions: [String: AWSDocument]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, photos: [Photo]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, revision: String, roles: [Role]? = nil, timezone: String? = nil, title: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, userArn: String, userId: String, userName: String? = nil, userStatus: UserStatus? = nil, userType: String? = nil, website: String? = nil) {
             self.addresses = addresses
             self.birthdate = birthdate
             self.createdAt = createdAt
@@ -1887,11 +2250,13 @@ extension IdentityStore {
             self.photos = photos
             self.preferredLanguage = preferredLanguage
             self.profileUrl = profileUrl
+            self.revision = revision
             self.roles = roles
             self.timezone = timezone
             self.title = title
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.userArn = userArn
             self.userId = userId
             self.userName = userName
             self.userStatus = userStatus
@@ -1916,11 +2281,13 @@ extension IdentityStore {
             case photos = "Photos"
             case preferredLanguage = "PreferredLanguage"
             case profileUrl = "ProfileUrl"
+            case revision = "Revision"
             case roles = "Roles"
             case timezone = "Timezone"
             case title = "Title"
             case updatedAt = "UpdatedAt"
             case updatedBy = "UpdatedBy"
+            case userArn = "UserArn"
             case userId = "UserId"
             case userName = "UserName"
             case userStatus = "UserStatus"
@@ -1951,7 +2318,7 @@ extension IdentityStore {
     }
 
     public struct MemberId: AWSEncodableShape & AWSDecodableShape {
-        /// An object containing the identifiers of resources that can be members.
+        /// The identifier for a user in the identity store. You can specify the user by ID or by Amazon Resource Name (ARN). For example, user ID a1b2c3d4-5678-90ab-cdef-EXAMPLE11111 or user ARN arn:aws:identitystore:::user/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
         public let userId: String?
 
         @inlinable
@@ -1960,9 +2327,9 @@ extension IdentityStore {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.userId, name: "userId", parent: name, max: 47)
+            try self.validate(self.userId, name: "userId", parent: name, max: 100)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
-            try self.validate(self.userId, name: "userId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "^(arn:aws[a-z-]*:identitystore:::(user|group|membership)/)?([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {

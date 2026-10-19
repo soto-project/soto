@@ -452,6 +452,8 @@ extension EKS {
         case controlPlaneEgressMode = "ControlPlaneEgressMode"
         case deletionProtection = "DeletionProtection"
         case desiredSize = "DesiredSize"
+        case disabledServices = "DisabledServices"
+        case enableCrossNamespace = "EnableCrossNamespace"
         case encryptionConfig = "EncryptionConfig"
         case endpointPrivateAccess = "EndpointPrivateAccess"
         case endpointPublicAccess = "EndpointPublicAccess"
@@ -650,6 +652,51 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case namespaces = "namespaces"
             case type = "type"
+        }
+    }
+
+    public struct AckConfigRequest: AWSEncodableShape {
+        /// A list of ACK service names whose controllers are turned off for this capability, for example s3, ec2, and iam. Resources of a disabled service aren't reconciled until you re-enable the service. To keep all services enabled, omit this field or specify an empty list. An unrecognized service name is accepted and stored but turns nothing off, and DescribeCapability returns the list exactly as you supplied it. For more information, see ACK capability configuration options in the Amazon EKS User Guide.
+        public let disabledServices: [String]?
+        /// Specifies whether ACK controllers resolve resource references to resources in a different Kubernetes namespace. Set this value to true to allow references to resolve to resources in another namespace. If you don't specify this value, or you omit the ack configuration entirely, the capability is created with this value set to false and references must remain within the same namespace.
+        public let enableCrossNamespace: Bool?
+
+        @inlinable
+        public init(disabledServices: [String]? = nil, enableCrossNamespace: Bool? = nil) {
+            self.disabledServices = disabledServices
+            self.enableCrossNamespace = enableCrossNamespace
+        }
+
+        public func validate(name: String) throws {
+            try self.disabledServices?.forEach {
+                try validate($0, name: "disabledServices[]", parent: name, max: 63)
+                try validate($0, name: "disabledServices[]", parent: name, min: 1)
+                try validate($0, name: "disabledServices[]", parent: name, pattern: "^[a-z][a-z0-9]*$")
+            }
+            try self.validate(self.disabledServices, name: "disabledServices", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disabledServices = "disabledServices"
+            case enableCrossNamespace = "enableCrossNamespace"
+        }
+    }
+
+    public struct AckConfigResponse: AWSDecodableShape {
+        /// The list of ACK service names whose controllers are turned off for this capability. Existing custom resource definitions remain installed, and resources of a disabled service aren't reconciled until the service is re-enabled.
+        public let disabledServices: [String]?
+        /// Indicates whether ACK controllers resolve resource references to resources in a different Kubernetes namespace. This value reflects the setting that's in effect, and is false if you never specified a value. Capabilities that were using cross-namespace references before this setting became available have this value set to true, so their behavior is unchanged.
+        public let enableCrossNamespace: Bool?
+
+        @inlinable
+        public init(disabledServices: [String]? = nil, enableCrossNamespace: Bool? = nil) {
+            self.disabledServices = disabledServices
+            self.enableCrossNamespace = enableCrossNamespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disabledServices = "disabledServices"
+            case enableCrossNamespace = "enableCrossNamespace"
         }
     }
 
@@ -1499,33 +1546,42 @@ extension EKS {
     }
 
     public struct CapabilityConfigurationRequest: AWSEncodableShape {
+        /// Configuration settings specific to ACK (Amazon Web Services Controllers for Kubernetes) capabilities. This field is only used when creating or updating an ACK capability.
+        public let ack: AckConfigRequest?
         /// Configuration settings specific to Argo CD capabilities. This field is only used when creating or updating an Argo CD capability.
         public let argoCd: ArgoCdConfigRequest?
 
         @inlinable
-        public init(argoCd: ArgoCdConfigRequest? = nil) {
+        public init(ack: AckConfigRequest? = nil, argoCd: ArgoCdConfigRequest? = nil) {
+            self.ack = ack
             self.argoCd = argoCd
         }
 
         public func validate(name: String) throws {
+            try self.ack?.validate(name: "\(name).ack")
             try self.argoCd?.validate(name: "\(name).argoCd")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ack = "ack"
             case argoCd = "argoCd"
         }
     }
 
     public struct CapabilityConfigurationResponse: AWSDecodableShape {
+        /// Configuration settings for an ACK (Amazon Web Services Controllers for Kubernetes) capability, including the cross-namespace reference setting and the list of disabled services.
+        public let ack: AckConfigResponse?
         /// Configuration settings for an Argo CD capability, including the server URL and other Argo CD-specific settings.
         public let argoCd: ArgoCdConfigResponse?
 
         @inlinable
-        public init(argoCd: ArgoCdConfigResponse? = nil) {
+        public init(ack: AckConfigResponse? = nil, argoCd: ArgoCdConfigResponse? = nil) {
+            self.ack = ack
             self.argoCd = argoCd
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ack = "ack"
             case argoCd = "argoCd"
         }
     }
@@ -7398,6 +7454,33 @@ extension EKS {
         }
     }
 
+    public struct UpdateAckConfig: AWSEncodableShape {
+        /// An updated list of ACK service names whose controllers are turned off for this capability. This list replaces the previous list instead of merging with it, so specify the complete set of services that you want turned off. If you omit this field, the previous list is unchanged. To turn all services back on, specify an empty list.
+        public let disabledServices: [String]?
+        /// Specifies whether ACK controllers resolve resource references to resources in a different Kubernetes namespace. Set this value to false to require references to remain within the same namespace, or true to allow cross-namespace references. If you omit this field, the current value is unchanged.
+        public let enableCrossNamespace: Bool?
+
+        @inlinable
+        public init(disabledServices: [String]? = nil, enableCrossNamespace: Bool? = nil) {
+            self.disabledServices = disabledServices
+            self.enableCrossNamespace = enableCrossNamespace
+        }
+
+        public func validate(name: String) throws {
+            try self.disabledServices?.forEach {
+                try validate($0, name: "disabledServices[]", parent: name, max: 63)
+                try validate($0, name: "disabledServices[]", parent: name, min: 1)
+                try validate($0, name: "disabledServices[]", parent: name, pattern: "^[a-z][a-z0-9]*$")
+            }
+            try self.validate(self.disabledServices, name: "disabledServices", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disabledServices = "disabledServices"
+            case enableCrossNamespace = "enableCrossNamespace"
+        }
+    }
+
     public struct UpdateAddonRequest: AWSEncodableShape {
         /// The name of the add-on. The name must match one of the names returned by  ListAddons .
         public let addonName: String
@@ -7492,15 +7575,23 @@ extension EKS {
     }
 
     public struct UpdateCapabilityConfiguration: AWSEncodableShape {
+        /// Configuration updates specific to ACK (Amazon Web Services Controllers for Kubernetes) capabilities.
+        public let ack: UpdateAckConfig?
         /// Configuration updates specific to Argo CD capabilities.
         public let argoCd: UpdateArgoCdConfig?
 
         @inlinable
-        public init(argoCd: UpdateArgoCdConfig? = nil) {
+        public init(ack: UpdateAckConfig? = nil, argoCd: UpdateArgoCdConfig? = nil) {
+            self.ack = ack
             self.argoCd = argoCd
         }
 
+        public func validate(name: String) throws {
+            try self.ack?.validate(name: "\(name).ack")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case ack = "ack"
             case argoCd = "argoCd"
         }
     }
@@ -7538,6 +7629,10 @@ extension EKS {
             try container.encodeIfPresent(self.configuration, forKey: .configuration)
             try container.encodeIfPresent(self.deletePropagationPolicy, forKey: .deletePropagationPolicy)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -46,6 +46,7 @@ extension DynamoDBStreams {
     public enum ShardIteratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
         case atSequenceNumber = "AT_SEQUENCE_NUMBER"
+        case atTimestamp = "AT_TIMESTAMP"
         case latest = "LATEST"
         case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
@@ -244,17 +245,20 @@ extension DynamoDBStreams {
         public let sequenceNumber: String?
         /// The identifier of the shard. The iterator will be returned for this shard ID.
         public let shardId: String
-        /// Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.
+        /// Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.    AT_TIMESTAMP - Start reading from the position denoted by a specific timestamp, provided in the parameter Timestamp.
         public let shardIteratorType: ShardIteratorType
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String
+        /// The timestamp of the stream record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A timestamp is the Unix epoch date with precision in milliseconds. For example, 1791316726.480. The iterator points to the first stream record whose ApproximateCreationDateTime is at or after the specified timestamp. If no record with that exact timestamp exists, the iterator points to the next (later) record. If the timestamp is older than the current trim horizon, the iterator points to the oldest untrimmed stream record (TRIM_HORIZON). If the timestamp is in the future, the request returns a ValidationException.
+        public let timestamp: Date?
 
         @inlinable
-        public init(sequenceNumber: String? = nil, shardId: String, shardIteratorType: ShardIteratorType, streamArn: String) {
+        public init(sequenceNumber: String? = nil, shardId: String, shardIteratorType: ShardIteratorType, streamArn: String, timestamp: Date? = nil) {
             self.sequenceNumber = sequenceNumber
             self.shardId = shardId
             self.shardIteratorType = shardIteratorType
             self.streamArn = streamArn
+            self.timestamp = timestamp
         }
 
         public func validate(name: String) throws {
@@ -271,6 +275,7 @@ extension DynamoDBStreams {
             case shardId = "ShardId"
             case shardIteratorType = "ShardIteratorType"
             case streamArn = "StreamArn"
+            case timestamp = "Timestamp"
         }
     }
 
@@ -543,7 +548,7 @@ extension DynamoDBStreams {
     }
 
     public struct StreamRecord: AWSDecodableShape {
-        /// The approximate date and time when the stream record was created, in ISO 8601 format and rounded down to the closest second.
+        /// The approximate date and time when the stream record was created, in UNIX epoch time format and rounded down to the closest second. Some tools and SDKs may convert this value to a different format, such as ISO 8601.
         public let approximateCreationDateTime: Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
         public let keys: [String: AttributeValue]?

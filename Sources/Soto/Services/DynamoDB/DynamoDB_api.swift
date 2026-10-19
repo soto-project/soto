@@ -1080,6 +1080,7 @@ public struct DynamoDB: AWSService {
     ///   - exportFormat: The format for the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
     ///   - exportTime: Time in the past from which to export table data, counted in seconds from the start of the Unix epoch. The table export will be a snapshot of the table's state at this point in time.
     ///   - exportType: Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value is FULL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+    ///   - filterSpecification: The criteria used to filter which items are included in the point-in-time export. When you specify this parameter, only items that match the key conditions and filter expressions are exported.
     ///   - incrementalExportSpecification: Optional object containing the parameters specific to an incremental export.
     ///   - s3Bucket: The name of the Amazon S3 bucket to export the snapshot to.
     ///   - s3BucketOwner: The ID of the Amazon Web Services account that owns the bucket the export will be stored in.  S3BucketOwner is a required parameter when exporting to a S3 bucket in another account.
@@ -1094,6 +1095,7 @@ public struct DynamoDB: AWSService {
         exportFormat: ExportFormat? = nil,
         exportTime: Date? = nil,
         exportType: ExportType? = nil,
+        filterSpecification: FilterSpecification? = nil,
         incrementalExportSpecification: IncrementalExportSpecification? = nil,
         s3Bucket: String,
         s3BucketOwner: String? = nil,
@@ -1108,6 +1110,7 @@ public struct DynamoDB: AWSService {
             exportFormat: exportFormat, 
             exportTime: exportTime, 
             exportType: exportType, 
+            filterSpecification: filterSpecification, 
             incrementalExportSpecification: incrementalExportSpecification, 
             s3Bucket: s3Bucket, 
             s3BucketOwner: s3BucketOwner, 

@@ -6748,12 +6748,15 @@ extension BedrockAgent {
         public let statistics: IngestionJobStatistics?
         /// The status of the data ingestion job.
         public let status: IngestionJobStatus
+        /// The time at which all text content in the data ingestion job finished extraction and became available to query. This time isn't returned until text extraction is complete for all the documents in the job.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var textReadyAt: Date?
         /// The time the data ingestion job was last updated. If you stop a data ingestion job, the updatedAt time is the time the job was stopped.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
         @inlinable
-        public init(dataSourceId: String, description: String? = nil, failureReasons: [String]? = nil, ingestionJobId: String, knowledgeBaseId: String, startedAt: Date, statistics: IngestionJobStatistics? = nil, status: IngestionJobStatus, updatedAt: Date) {
+        public init(dataSourceId: String, description: String? = nil, failureReasons: [String]? = nil, ingestionJobId: String, knowledgeBaseId: String, startedAt: Date, statistics: IngestionJobStatistics? = nil, status: IngestionJobStatus, textReadyAt: Date? = nil, updatedAt: Date) {
             self.dataSourceId = dataSourceId
             self.description = description
             self.failureReasons = failureReasons
@@ -6762,6 +6765,7 @@ extension BedrockAgent {
             self.startedAt = startedAt
             self.statistics = statistics
             self.status = status
+            self.textReadyAt = textReadyAt
             self.updatedAt = updatedAt
         }
 
@@ -6774,6 +6778,7 @@ extension BedrockAgent {
             case startedAt = "startedAt"
             case statistics = "statistics"
             case status = "status"
+            case textReadyAt = "textReadyAt"
             case updatedAt = "updatedAt"
         }
     }
@@ -6884,12 +6889,15 @@ extension BedrockAgent {
         public let statistics: IngestionJobStatistics?
         /// The status of the data ingestion job.
         public let status: IngestionJobStatus
+        /// The time at which all text content in the data ingestion job finished extraction and became available to query. This time isn't returned until text extraction is complete for all the documents in the job.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var textReadyAt: Date?
         /// The time the data ingestion job was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
         @inlinable
-        public init(dataSourceId: String, description: String? = nil, ingestionJobId: String, knowledgeBaseId: String, startedAt: Date, statistics: IngestionJobStatistics? = nil, status: IngestionJobStatus, updatedAt: Date) {
+        public init(dataSourceId: String, description: String? = nil, ingestionJobId: String, knowledgeBaseId: String, startedAt: Date, statistics: IngestionJobStatistics? = nil, status: IngestionJobStatus, textReadyAt: Date? = nil, updatedAt: Date) {
             self.dataSourceId = dataSourceId
             self.description = description
             self.ingestionJobId = ingestionJobId
@@ -6897,6 +6905,7 @@ extension BedrockAgent {
             self.startedAt = startedAt
             self.statistics = statistics
             self.status = status
+            self.textReadyAt = textReadyAt
             self.updatedAt = updatedAt
         }
 
@@ -6908,6 +6917,7 @@ extension BedrockAgent {
             case startedAt = "startedAt"
             case statistics = "statistics"
             case status = "status"
+            case textReadyAt = "textReadyAt"
             case updatedAt = "updatedAt"
         }
     }

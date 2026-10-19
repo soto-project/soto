@@ -804,6 +804,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum CleanupFailureErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clientError = "ClientError"
+        case internalFailure = "InternalFailure"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterAutoScalerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case karpenter = "Karpenter"
         public var description: String { return self.rawValue }
@@ -923,6 +929,7 @@ extension SageMaker {
         case mlC7GLarge = "ml.c7g.large"
         case mlC7GMedium = "ml.c7g.medium"
         case mlC7GXlarge = "ml.c7g.xlarge"
+        case mlC8A16Xlarge = "ml.c8a.16xlarge"
         case mlC8G12Xlarge = "ml.c8g.12xlarge"
         case mlC8G16Xlarge = "ml.c8g.16xlarge"
         case mlC8G24Xlarge = "ml.c8g.24xlarge"
@@ -1036,6 +1043,7 @@ extension SageMaker {
         case mlM7I8Xlarge = "ml.m7i.8xlarge"
         case mlM7ILarge = "ml.m7i.large"
         case mlM7IXlarge = "ml.m7i.xlarge"
+        case mlM8A16Xlarge = "ml.m8a.16xlarge"
         case mlM8G12Xlarge = "ml.m8g.12xlarge"
         case mlM8G16Xlarge = "ml.m8g.16xlarge"
         case mlM8G24Xlarge = "ml.m8g.24xlarge"
@@ -1229,6 +1237,13 @@ extension SageMaker {
     public enum DataSourceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case salesforceGenie = "SalesforceGenie"
         case snowflake = "Snowflake"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DatabaseConfigurationRollbackStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notApplicable = "NotApplicable"
+        case revertFailed = "RevertFailed"
+        case reverted = "Reverted"
         public var description: String { return self.rawValue }
     }
 
@@ -1466,6 +1481,13 @@ extension SageMaker {
         case deleting = "Deleting"
         case failed = "Failed"
         case initializing = "Initializing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ForEachStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "Failed"
+        case stopped = "Stopped"
+        case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
@@ -2644,6 +2666,8 @@ extension SageMaker {
     }
 
     public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The pipeline completed all reachable work after one or more steps failed. Every failed step was handled by a scheduled downstream step whose trigger is Failed or Any.
+        case completedWithFailures = "CompletedWithFailures"
         case executing = "Executing"
         case failed = "Failed"
         case stopped = "Stopped"
@@ -2696,6 +2720,12 @@ extension SageMaker {
         case mlC7I48Xlarge = "ml.c7i.48xlarge"
         case mlC7I4Xlarge = "ml.c7i.4xlarge"
         case mlC7I8Xlarge = "ml.c7i.8xlarge"
+        case mlC7IFlex12Xlarge = "ml.c7i-flex.12xlarge"
+        case mlC7IFlex16Xlarge = "ml.c7i-flex.16xlarge"
+        case mlC7IFlex2Xlarge = "ml.c7i-flex.2xlarge"
+        case mlC7IFlex4Xlarge = "ml.c7i-flex.4xlarge"
+        case mlC7IFlex8Xlarge = "ml.c7i-flex.8xlarge"
+        case mlC7IFlexXlarge = "ml.c7i-flex.xlarge"
         case mlC7ILarge = "ml.c7i.large"
         case mlC7IXlarge = "ml.c7i.xlarge"
         case mlC8I12Xlarge = "ml.c8i.12xlarge"
@@ -2707,6 +2737,12 @@ extension SageMaker {
         case mlC8I4Xlarge = "ml.c8i.4xlarge"
         case mlC8I8Xlarge = "ml.c8i.8xlarge"
         case mlC8I96Xlarge = "ml.c8i.96xlarge"
+        case mlC8IFlex12Xlarge = "ml.c8i-flex.12xlarge"
+        case mlC8IFlex16Xlarge = "ml.c8i-flex.16xlarge"
+        case mlC8IFlex2Xlarge = "ml.c8i-flex.2xlarge"
+        case mlC8IFlex4Xlarge = "ml.c8i-flex.4xlarge"
+        case mlC8IFlex8Xlarge = "ml.c8i-flex.8xlarge"
+        case mlC8IFlexXlarge = "ml.c8i-flex.xlarge"
         case mlC8IXlarge = "ml.c8i.xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
@@ -2777,6 +2813,13 @@ extension SageMaker {
         case mlM7I48Xlarge = "ml.m7i.48xlarge"
         case mlM7I4Xlarge = "ml.m7i.4xlarge"
         case mlM7I8Xlarge = "ml.m7i.8xlarge"
+        case mlM7IFlex12Xlarge = "ml.m7i-flex.12xlarge"
+        case mlM7IFlex16Xlarge = "ml.m7i-flex.16xlarge"
+        case mlM7IFlex2Xlarge = "ml.m7i-flex.2xlarge"
+        case mlM7IFlex4Xlarge = "ml.m7i-flex.4xlarge"
+        case mlM7IFlex8Xlarge = "ml.m7i-flex.8xlarge"
+        case mlM7IFlexLarge = "ml.m7i-flex.large"
+        case mlM7IFlexXlarge = "ml.m7i-flex.xlarge"
         case mlM7ILarge = "ml.m7i.large"
         case mlM7IXlarge = "ml.m7i.xlarge"
         case mlM8I12Xlarge = "ml.m8i.12xlarge"
@@ -2788,6 +2831,13 @@ extension SageMaker {
         case mlM8I4Xlarge = "ml.m8i.4xlarge"
         case mlM8I8Xlarge = "ml.m8i.8xlarge"
         case mlM8I96Xlarge = "ml.m8i.96xlarge"
+        case mlM8IFlex12Xlarge = "ml.m8i-flex.12xlarge"
+        case mlM8IFlex16Xlarge = "ml.m8i-flex.16xlarge"
+        case mlM8IFlex2Xlarge = "ml.m8i-flex.2xlarge"
+        case mlM8IFlex4Xlarge = "ml.m8i-flex.4xlarge"
+        case mlM8IFlex8Xlarge = "ml.m8i-flex.8xlarge"
+        case mlM8IFlexLarge = "ml.m8i-flex.large"
+        case mlM8IFlexXlarge = "ml.m8i-flex.xlarge"
         case mlM8ILarge = "ml.m8i.large"
         case mlM8IXlarge = "ml.m8i.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
@@ -2840,6 +2890,13 @@ extension SageMaker {
         case mlR8I4Xlarge = "ml.r8i.4xlarge"
         case mlR8I8Xlarge = "ml.r8i.8xlarge"
         case mlR8I96Xlarge = "ml.r8i.96xlarge"
+        case mlR8IFlex12Xlarge = "ml.r8i-flex.12xlarge"
+        case mlR8IFlex16Xlarge = "ml.r8i-flex.16xlarge"
+        case mlR8IFlex2Xlarge = "ml.r8i-flex.2xlarge"
+        case mlR8IFlex4Xlarge = "ml.r8i-flex.4xlarge"
+        case mlR8IFlex8Xlarge = "ml.r8i-flex.8xlarge"
+        case mlR8IFlexLarge = "ml.r8i-flex.large"
+        case mlR8IFlexXlarge = "ml.r8i-flex.xlarge"
         case mlR8ILarge = "ml.r8i.large"
         case mlR8IXlarge = "ml.r8i.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
@@ -3524,6 +3581,24 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum SlurmHealthComponent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case slurmdbd = "Slurmdbd"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlurmHealthReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case daemonDisabled = "DaemonDisabled"
+        case daemonDown = "DaemonDown"
+        case dbUnreachable = "DbUnreachable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlurmHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case healthy = "Healthy"
+        case unhealthy = "Unhealthy"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SoftwareUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "Failed"
         case inProgress = "InProgress"
@@ -3897,6 +3972,12 @@ extension SageMaker {
         case mlC7I48Xlarge = "ml.c7i.48xlarge"
         case mlC7I4Xlarge = "ml.c7i.4xlarge"
         case mlC7I8Xlarge = "ml.c7i.8xlarge"
+        case mlC7IFlex12Xlarge = "ml.c7i-flex.12xlarge"
+        case mlC7IFlex16Xlarge = "ml.c7i-flex.16xlarge"
+        case mlC7IFlex2Xlarge = "ml.c7i-flex.2xlarge"
+        case mlC7IFlex4Xlarge = "ml.c7i-flex.4xlarge"
+        case mlC7IFlex8Xlarge = "ml.c7i-flex.8xlarge"
+        case mlC7IFlexXlarge = "ml.c7i-flex.xlarge"
         case mlC7ILarge = "ml.c7i.large"
         case mlC7IXlarge = "ml.c7i.xlarge"
         case mlC8I12Xlarge = "ml.c8i.12xlarge"
@@ -3908,6 +3989,12 @@ extension SageMaker {
         case mlC8I4Xlarge = "ml.c8i.4xlarge"
         case mlC8I8Xlarge = "ml.c8i.8xlarge"
         case mlC8I96Xlarge = "ml.c8i.96xlarge"
+        case mlC8IFlex12Xlarge = "ml.c8i-flex.12xlarge"
+        case mlC8IFlex16Xlarge = "ml.c8i-flex.16xlarge"
+        case mlC8IFlex2Xlarge = "ml.c8i-flex.2xlarge"
+        case mlC8IFlex4Xlarge = "ml.c8i-flex.4xlarge"
+        case mlC8IFlex8Xlarge = "ml.c8i-flex.8xlarge"
+        case mlC8IFlexXlarge = "ml.c8i-flex.xlarge"
         case mlC8IXlarge = "ml.c8i.xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
@@ -3978,6 +4065,13 @@ extension SageMaker {
         case mlM7I48Xlarge = "ml.m7i.48xlarge"
         case mlM7I4Xlarge = "ml.m7i.4xlarge"
         case mlM7I8Xlarge = "ml.m7i.8xlarge"
+        case mlM7IFlex12Xlarge = "ml.m7i-flex.12xlarge"
+        case mlM7IFlex16Xlarge = "ml.m7i-flex.16xlarge"
+        case mlM7IFlex2Xlarge = "ml.m7i-flex.2xlarge"
+        case mlM7IFlex4Xlarge = "ml.m7i-flex.4xlarge"
+        case mlM7IFlex8Xlarge = "ml.m7i-flex.8xlarge"
+        case mlM7IFlexLarge = "ml.m7i-flex.large"
+        case mlM7IFlexXlarge = "ml.m7i-flex.xlarge"
         case mlM7ILarge = "ml.m7i.large"
         case mlM7IXlarge = "ml.m7i.xlarge"
         case mlM8I12Xlarge = "ml.m8i.12xlarge"
@@ -3989,6 +4083,13 @@ extension SageMaker {
         case mlM8I4Xlarge = "ml.m8i.4xlarge"
         case mlM8I8Xlarge = "ml.m8i.8xlarge"
         case mlM8I96Xlarge = "ml.m8i.96xlarge"
+        case mlM8IFlex12Xlarge = "ml.m8i-flex.12xlarge"
+        case mlM8IFlex16Xlarge = "ml.m8i-flex.16xlarge"
+        case mlM8IFlex2Xlarge = "ml.m8i-flex.2xlarge"
+        case mlM8IFlex4Xlarge = "ml.m8i-flex.4xlarge"
+        case mlM8IFlex8Xlarge = "ml.m8i-flex.8xlarge"
+        case mlM8IFlexLarge = "ml.m8i-flex.large"
+        case mlM8IFlexXlarge = "ml.m8i-flex.xlarge"
         case mlM8ILarge = "ml.m8i.large"
         case mlM8IXlarge = "ml.m8i.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
@@ -4050,6 +4151,13 @@ extension SageMaker {
         case mlR8I4Xlarge = "ml.r8i.4xlarge"
         case mlR8I8Xlarge = "ml.r8i.8xlarge"
         case mlR8I96Xlarge = "ml.r8i.96xlarge"
+        case mlR8IFlex12Xlarge = "ml.r8i-flex.12xlarge"
+        case mlR8IFlex16Xlarge = "ml.r8i-flex.16xlarge"
+        case mlR8IFlex2Xlarge = "ml.r8i-flex.2xlarge"
+        case mlR8IFlex4Xlarge = "ml.r8i-flex.4xlarge"
+        case mlR8IFlex8Xlarge = "ml.r8i-flex.8xlarge"
+        case mlR8IFlexLarge = "ml.r8i-flex.large"
+        case mlR8IFlexXlarge = "ml.r8i-flex.xlarge"
         case mlR8ILarge = "ml.r8i.large"
         case mlR8IXlarge = "ml.r8i.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
@@ -4117,6 +4225,20 @@ extension SageMaker {
     public enum TrainingRepositoryAccessMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case platform = "Platform"
         case vpc = "Vpc"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingSessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "Blocked"
+        case created = "Created"
+        case deleting = "Deleting"
+        case deletionFailed = "DeletionFailed"
+        case expired = "Expired"
+        case failed = "Failed"
+        case running = "Running"
+        case scheduled = "Scheduled"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
@@ -4699,12 +4821,16 @@ extension SageMaker {
     public enum EventMetadata: AWSDecodableShape, Sendable {
         /// Metadata specific to cluster-level events.
         case cluster(ClusterMetadata)
+        /// Metadata specific to events about the external Slurm accounting database of the cluster.
+        case databaseConfiguration(DatabaseConfigurationMetadata)
         /// Metadata specific to instance-level events.
         case instance(InstanceMetadata)
         /// Metadata specific to instance group-level events.
         case instanceGroup(InstanceGroupMetadata)
         /// Metadata related to instance group scaling events.
         case instanceGroupScaling(InstanceGroupScalingMetadata)
+        /// Metadata specific to events about the health of the Slurm components on the controller node of the cluster.
+        case slurmHealth(SlurmHealthMetadata)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -4719,6 +4845,9 @@ extension SageMaker {
             case .cluster:
                 let value = try container.decode(ClusterMetadata.self, forKey: .cluster)
                 self = .cluster(value)
+            case .databaseConfiguration:
+                let value = try container.decode(DatabaseConfigurationMetadata.self, forKey: .databaseConfiguration)
+                self = .databaseConfiguration(value)
             case .instance:
                 let value = try container.decode(InstanceMetadata.self, forKey: .instance)
                 self = .instance(value)
@@ -4728,14 +4857,19 @@ extension SageMaker {
             case .instanceGroupScaling:
                 let value = try container.decode(InstanceGroupScalingMetadata.self, forKey: .instanceGroupScaling)
                 self = .instanceGroupScaling(value)
+            case .slurmHealth:
+                let value = try container.decode(SlurmHealthMetadata.self, forKey: .slurmHealth)
+                self = .slurmHealth(value)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "Cluster"
+            case databaseConfiguration = "DatabaseConfiguration"
             case instance = "Instance"
             case instanceGroup = "InstanceGroup"
             case instanceGroupScaling = "InstanceGroupScaling"
+            case slurmHealth = "SlurmHealth"
         }
     }
 
@@ -6765,6 +6899,24 @@ extension SageMaker {
         }
     }
 
+    public struct AthenaStepMetadata: AWSDecodableShape {
+        /// The unique identifier of the Amazon Athena query execution that was run by this step execution.
+        public let queryExecutionId: String?
+        /// The Amazon S3 location of the Amazon Athena query results. This is the effective output location reported by GetQueryExecution for the query. This value can be absent when the query uses Athena managed query results.
+        public let s3OutputLocation: String?
+
+        @inlinable
+        public init(queryExecutionId: String? = nil, s3OutputLocation: String? = nil) {
+            self.queryExecutionId = queryExecutionId
+            self.s3OutputLocation = s3OutputLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryExecutionId = "QueryExecutionId"
+            case s3OutputLocation = "S3OutputLocation"
+        }
+    }
+
     public struct AttachClusterNodeNetworkInterfaceRequest: AWSEncodableShape {
         ///  The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that contains the target node.
         public let clusterName: String?
@@ -8287,6 +8439,28 @@ extension SageMaker {
         }
     }
 
+    public struct BillableTokenUsage: AWSDecodableShape {
+        /// The number of prefill tokens consumed.
+        public let prefillTokenCount: Int64?
+        /// The number of sample tokens consumed.
+        public let sampleTokenCount: Int64?
+        /// The number of training tokens consumed.
+        public let trainingTokenCount: Int64?
+
+        @inlinable
+        public init(prefillTokenCount: Int64? = nil, sampleTokenCount: Int64? = nil, trainingTokenCount: Int64? = nil) {
+            self.prefillTokenCount = prefillTokenCount
+            self.sampleTokenCount = sampleTokenCount
+            self.trainingTokenCount = trainingTokenCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefillTokenCount = "PrefillTokenCount"
+            case sampleTokenCount = "SampleTokenCount"
+            case trainingTokenCount = "TrainingTokenCount"
+        }
+    }
+
     public struct BlueGreenUpdatePolicy: AWSEncodableShape & AWSDecodableShape {
         /// Maximum execution timeout for the deployment. Note that the timeout value should be larger than the total waiting time specified in TerminationWaitInSeconds and WaitIntervalInSeconds.
         public let maximumExecutionTimeoutInSeconds: Int?
@@ -9220,6 +9394,90 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case granularity = "Granularity"
             case language = "Language"
+        }
+    }
+
+    public struct CleanupFailure: AWSDecodableShape {
+        /// The error code that identifies why the Cleanup step could not delete the output resources associated with the upstream step.
+        public let errorCode: CleanupFailureErrorCode?
+        /// A message describing why the Cleanup step could not delete the output resources associated with the upstream step.
+        public let errorMessage: String?
+        /// The name of the upstream step whose Amazon S3 output resources the Cleanup step could not delete.
+        public let stepName: String?
+
+        @inlinable
+        public init(errorCode: CleanupFailureErrorCode? = nil, errorMessage: String? = nil, stepName: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.stepName = stepName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case stepName = "StepName"
+        }
+    }
+
+    public struct CleanupStepMetadata: AWSDecodableShape {
+        /// The names of upstream steps whose Amazon S3 output resources the Cleanup step deleted successfully.
+        public let cleanedSteps: [String]?
+        /// The upstream steps whose Amazon S3 output resources the Cleanup step could not delete.
+        public let failedSteps: [CleanupFailure]?
+        /// The names of upstream steps that the Cleanup step skipped. The Cleanup step skips a step when the output properties needed to locate its resources are unavailable.
+        public let skippedSteps: [String]?
+
+        @inlinable
+        public init(cleanedSteps: [String]? = nil, failedSteps: [CleanupFailure]? = nil, skippedSteps: [String]? = nil) {
+            self.cleanedSteps = cleanedSteps
+            self.failedSteps = failedSteps
+            self.skippedSteps = skippedSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cleanedSteps = "CleanedSteps"
+            case failedSteps = "FailedSteps"
+            case skippedSteps = "SkippedSteps"
+        }
+    }
+
+    public struct ClusterAccountingDatabase: AWSEncodableShape & AWSDecodableShape {
+        /// The hostname or endpoint of the accounting database, such as the endpoint of an Amazon RDS for MySQL or Aurora MySQL database. The database must be reachable from the subnets and security groups that you configure for the cluster.
+        public let endpoint: String
+        /// The name of the database schema that stores the Slurm accounting data. The default is slurm_acct_db_ followed by the cluster ID from the cluster ARN, for example slurm_acct_db_a1b2c3d4e5f6.
+        public let name: String?
+        /// The port that the accounting database listens on. The default is 3306.
+        public let port: Int?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the user name and password for the accounting database. The database user must be able to create the schema and to read from and write to it.
+        public let secretArn: String
+
+        @inlinable
+        public init(endpoint: String, name: String? = nil, port: Int? = nil, secretArn: String) {
+            self.endpoint = endpoint
+            self.name = name
+            self.port = port
+            self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpoint, name: "endpoint", parent: name, max: 255)
+            try self.validate(self.endpoint, name: "endpoint", parent: name, min: 1)
+            try self.validate(self.endpoint, name: "endpoint", parent: name, pattern: "^(?=.{1,255}$)([a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?)(\\.[a-zA-Z0-9]([a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?)*$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9$_]+$")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 20)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:aws[a-z\\-]*:secretsmanager:[a-z0-9\\-]*:[0-9]{12}:secret:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+            case name = "Name"
+            case port = "Port"
+            case secretArn = "SecretArn"
         }
     }
 
@@ -10255,6 +10513,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.eks?.validate(name: "\(name).eks")
+            try self.slurm?.validate(name: "\(name).slurm")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10284,15 +10543,23 @@ extension SageMaker {
     }
 
     public struct ClusterOrchestratorSlurmConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The external database that stores the Slurm accounting data for the cluster, such as job history, associations, and usage. When you omit this field, Slurm accounting uses a database on the cluster's controller node.  This field is only supported for clusters using Continuous as the NodeProvisioningMode.
+        public let accountingDatabase: ClusterAccountingDatabase?
         /// The strategy for managing partitions for the Slurm configuration. Valid values are Managed, Overwrite, and Merge.
         public let slurmConfigStrategy: ClusterSlurmConfigStrategy?
 
         @inlinable
-        public init(slurmConfigStrategy: ClusterSlurmConfigStrategy? = nil) {
+        public init(accountingDatabase: ClusterAccountingDatabase? = nil, slurmConfigStrategy: ClusterSlurmConfigStrategy? = nil) {
+            self.accountingDatabase = accountingDatabase
             self.slurmConfigStrategy = slurmConfigStrategy
         }
 
+        public func validate(name: String) throws {
+            try self.accountingDatabase?.validate(name: "\(name).accountingDatabase")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case accountingDatabase = "AccountingDatabase"
             case slurmConfigStrategy = "SlurmConfigStrategy"
         }
     }
@@ -12238,7 +12505,7 @@ extension SageMaker {
         public let clusterArn: String?
         /// Description of the cluster policy.
         public let description: String?
-        /// Name for the cluster policy.
+        /// The name for the cluster policy. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
         public let name: String?
         /// Configuration about the monitoring schedule.
         public let schedulerConfig: SchedulerConfig?
@@ -12430,7 +12697,7 @@ extension SageMaker {
         public let computeQuotaTarget: ComputeQuotaTarget?
         /// Description of the compute allocation definition.
         public let description: String?
-        /// Name to the compute allocation definition.
+        /// The name of the compute allocation definition. The name must be unique within the SageMaker AI HyperPod cluster specified by ClusterArn. You can use the same name in other clusters within a Region or across Regions.
         public let name: String?
         /// Tags of the compute allocation definition.
         public let tags: [Tag]?
@@ -16323,6 +16590,82 @@ extension SageMaker {
         }
     }
 
+    public struct CreateTrainingSessionRequest: AWSEncodableShape {
+        /// The Low-Rank Adaptation (LoRA) configuration for the training session, including the rank and alpha parameters.
+        public let loraConfig: LoraConfig?
+        /// The configuration for the base model, including the model ARN and end-user license agreement (EULA) acceptance.
+        public let modelConfig: TrainingSessionModelConfig?
+        /// The Amazon Resource Name (ARN) of the model package group where checkpoints and fine-tuned model artifacts are published.
+        public let modelPackageGroupArn: String?
+        /// The output configuration for the training session, including the S3 location and optional encryption settings.
+        public let outputConfig: TrainingSessionOutputConfig?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to access resources on your behalf. The role must have permissions to access the output S3 path and model package group.
+        public let roleArn: String?
+        /// An array of key-value pairs to apply to the training session as tags. For more information, see Tagging Amazon Web Services Resources.
+        public let tags: [Tag]?
+        /// The name of the training session.
+        public let trainingSessionName: String?
+        /// The Virtual Private Cloud (VPC) configuration for the training session. Specify subnets and security groups to run the training session in your VPC.
+        public let vpcConfig: VpcConfig?
+
+        @inlinable
+        public init(loraConfig: LoraConfig? = nil, modelConfig: TrainingSessionModelConfig? = nil, modelPackageGroupArn: String? = nil, outputConfig: TrainingSessionOutputConfig? = nil, roleArn: String? = nil, tags: [Tag]? = nil, trainingSessionName: String? = nil, vpcConfig: VpcConfig? = nil) {
+            self.loraConfig = loraConfig
+            self.modelConfig = modelConfig
+            self.modelPackageGroupArn = modelPackageGroupArn
+            self.outputConfig = outputConfig
+            self.roleArn = roleArn
+            self.tags = tags
+            self.trainingSessionName = trainingSessionName
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.loraConfig?.validate(name: "\(name).loraConfig")
+            try self.modelConfig?.validate(name: "\(name).modelConfig")
+            try self.validate(self.modelPackageGroupArn, name: "modelPackageGroupArn", parent: name, max: 2048)
+            try self.validate(self.modelPackageGroupArn, name: "modelPackageGroupArn", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupArn, name: "modelPackageGroupArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package-group/[\\S]{1,2048}$")
+            try self.outputConfig?.validate(name: "\(name).outputConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, max: 63)
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, min: 1)
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loraConfig = "LoraConfig"
+            case modelConfig = "ModelConfig"
+            case modelPackageGroupArn = "ModelPackageGroupArn"
+            case outputConfig = "OutputConfig"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+            case trainingSessionName = "TrainingSessionName"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct CreateTrainingSessionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the training session.
+        public let trainingSessionArn: String?
+
+        @inlinable
+        public init(trainingSessionArn: String? = nil) {
+            self.trainingSessionArn = trainingSessionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingSessionArn = "TrainingSessionArn"
+        }
+    }
+
     public struct CreateTransformJobRequest: AWSEncodableShape {
         /// Specifies the number of records to include in a mini-batch for an HTTP inference request. A record  is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set the SplitType property to Line, RecordIO, or TFRecord. To use only one record when making an HTTP invocation request to a container, set BatchStrategy to SingleRecord and SplitType to Line. To fit as many records in a mini-batch as can fit within the MaxPayloadInMB limit, set BatchStrategy to MultiRecord and SplitType to Line.
         public let batchStrategy: BatchStrategy?
@@ -17139,6 +17482,28 @@ extension SageMaker {
             case datasetSource = "DatasetSource"
             case fileSystemDataSource = "FileSystemDataSource"
             case s3DataSource = "S3DataSource"
+        }
+    }
+
+    public struct DatabaseConfigurationMetadata: AWSDecodableShape {
+        /// Additional information about a change that succeeded, such as an action to take on the cluster.
+        public let advisory: String?
+        /// An error message describing why the accounting database change failed, and how to resolve it.
+        public let failureMessage: String?
+        /// Whether HyperPod restored the previous accounting database configuration after the change failed. Valid values:    NotApplicable: The change failed before HyperPod modified the cluster, for example because the database could not be reached or rejected the credentials, so there was nothing to restore.    Reverted: The change failed after it was applied, and HyperPod restored the previous configuration. The cluster continues to use the previous accounting database.    RevertFailed: The change failed and HyperPod could not restore the previous configuration, so Slurm accounting on the cluster might not be working.   This field is omitted when the change succeeds.
+        public let rollbackStatus: DatabaseConfigurationRollbackStatus?
+
+        @inlinable
+        public init(advisory: String? = nil, failureMessage: String? = nil, rollbackStatus: DatabaseConfigurationRollbackStatus? = nil) {
+            self.advisory = advisory
+            self.failureMessage = failureMessage
+            self.rollbackStatus = rollbackStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advisory = "Advisory"
+            case failureMessage = "FailureMessage"
+            case rollbackStatus = "RollbackStatus"
         }
     }
 
@@ -18885,6 +19250,30 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case trainingJobName = "TrainingJobName"
         }
+    }
+
+    public struct DeleteTrainingSessionRequest: AWSEncodableShape {
+        /// The name of the training session to delete.
+        public let trainingSessionName: String?
+
+        @inlinable
+        public init(trainingSessionName: String? = nil) {
+            self.trainingSessionName = trainingSessionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, max: 63)
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, min: 1)
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingSessionName = "TrainingSessionName"
+        }
+    }
+
+    public struct DeleteTrainingSessionResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteTrialComponentRequest: AWSEncodableShape {
@@ -25025,9 +25414,9 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.trainingPlanName, name: "trainingPlanName", parent: name, max: 64)
+            try self.validate(self.trainingPlanName, name: "trainingPlanName", parent: name, max: 2048)
             try self.validate(self.trainingPlanName, name: "trainingPlanName", parent: name, min: 1)
-            try self.validate(self.trainingPlanName, name: "trainingPlanName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
+            try self.validate(self.trainingPlanName, name: "trainingPlanName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:training-plan/)?[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -25114,6 +25503,40 @@ extension SageMaker {
             case trainingPlanName = "TrainingPlanName"
             case unhealthyInstanceCount = "UnhealthyInstanceCount"
             case upfrontFee = "UpfrontFee"
+        }
+    }
+
+    public struct DescribeTrainingSessionRequest: AWSEncodableShape {
+        /// The name of the training session to describe.
+        public let trainingSessionName: String?
+
+        @inlinable
+        public init(trainingSessionName: String? = nil) {
+            self.trainingSessionName = trainingSessionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, max: 63)
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, min: 1)
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingSessionName = "TrainingSessionName"
+        }
+    }
+
+    public struct DescribeTrainingSessionResponse: AWSDecodableShape {
+        /// The detailed information about the training session.
+        public let trainingSessionDetail: TrainingSessionDetail?
+
+        @inlinable
+        public init(trainingSessionDetail: TrainingSessionDetail? = nil) {
+            self.trainingSessionDetail = trainingSessionDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingSessionDetail = "TrainingSessionDetail"
         }
     }
 
@@ -26310,6 +26733,32 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case fileSystemId = "FileSystemId"
             case fileSystemPath = "FileSystemPath"
+        }
+    }
+
+    public struct EMRServerlessStepMetadata: AWSDecodableShape {
+        /// The identifier of the Amazon EMR Serverless application.
+        public let applicationId: String?
+        /// The identifier of the Amazon EMR Serverless job run.
+        public let jobRunId: String?
+        /// The name of the Amazon EMR Serverless job run.
+        public let jobRunName: String?
+        /// The path to the log file for the Amazon EMR Serverless job run.
+        public let logFilePath: String?
+
+        @inlinable
+        public init(applicationId: String? = nil, jobRunId: String? = nil, jobRunName: String? = nil, logFilePath: String? = nil) {
+            self.applicationId = applicationId
+            self.jobRunId = jobRunId
+            self.jobRunName = jobRunName
+            self.logFilePath = logFilePath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case jobRunId = "JobRunId"
+            case jobRunName = "JobRunName"
+            case logFilePath = "LogFilePath"
         }
     }
 
@@ -27948,6 +28397,62 @@ extension SageMaker {
             case flowDefinitionArn = "FlowDefinitionArn"
             case flowDefinitionName = "FlowDefinitionName"
             case flowDefinitionStatus = "FlowDefinitionStatus"
+        }
+    }
+
+    public struct ForEachSelectorResult: AWSDecodableShape {
+        /// The index of the iteration within the ForEach step.
+        public let index: Int?
+        /// The name of the step associated with the iteration.
+        public let stepName: String?
+
+        @inlinable
+        public init(index: Int? = nil, stepName: String? = nil) {
+            self.index = index
+            self.stepName = stepName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index = "Index"
+            case stepName = "StepName"
+        }
+    }
+
+    public struct ForEachStepMetadata: AWSDecodableShape {
+        /// The number of iteration steps that failed.
+        public let failedStepCount: Int?
+        /// The number of input items that the ForEach step iterates over.
+        public let inputItemCount: Int?
+        /// Identifies the body step and iteration selected within the ForEach step.
+        public let selector: ForEachSelectorResult?
+        /// The status of the ForEach step execution.
+        public let status: ForEachStatus?
+        /// The number of iteration steps that were stopped.
+        public let stoppedStepCount: Int?
+        /// The number of iteration steps that completed successfully.
+        public let succeededStepCount: Int?
+        /// The total number of steps generated across all iterations of the ForEach step.
+        public let totalStepCount: Int?
+
+        @inlinable
+        public init(failedStepCount: Int? = nil, inputItemCount: Int? = nil, selector: ForEachSelectorResult? = nil, status: ForEachStatus? = nil, stoppedStepCount: Int? = nil, succeededStepCount: Int? = nil, totalStepCount: Int? = nil) {
+            self.failedStepCount = failedStepCount
+            self.inputItemCount = inputItemCount
+            self.selector = selector
+            self.status = status
+            self.stoppedStepCount = stoppedStepCount
+            self.succeededStepCount = succeededStepCount
+            self.totalStepCount = totalStepCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedStepCount = "FailedStepCount"
+            case inputItemCount = "InputItemCount"
+            case selector = "Selector"
+            case status = "Status"
+            case stoppedStepCount = "StoppedStepCount"
+            case succeededStepCount = "SucceededStepCount"
+            case totalStepCount = "TotalStepCount"
         }
     }
 
@@ -31034,6 +31539,28 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case maxValue = "MaxValue"
             case minValue = "MinValue"
+        }
+    }
+
+    public struct IterationContext: AWSDecodableShape {
+        /// The index of the iteration within the ForEach step.
+        public let index: Int?
+        /// The input item that is being processed in this iteration.
+        public let item: String?
+        /// The name of the ForEach step that generated this iteration.
+        public let parentStepName: String?
+
+        @inlinable
+        public init(index: Int? = nil, item: String? = nil, parentStepName: String? = nil) {
+            self.index = index
+            self.item = item
+            self.parentStepName = parentStepName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index = "Index"
+            case item = "Item"
+            case parentStepName = "ParentStepName"
         }
     }
 
@@ -37711,6 +38238,67 @@ extension SageMaker {
         }
     }
 
+    public struct ListTrainingSessionsRequest: AWSEncodableShape {
+        /// A filter that returns only training sessions created after the specified time.
+        public let creationTimeAfter: Date?
+        /// A filter that returns only training sessions created before the specified time.
+        public let creationTimeBefore: Date?
+        /// The maximum number of training sessions to return in the response.
+        public let maxResults: Int?
+        /// A string in the training session name to filter results. Only sessions whose name contains the specified string are returned.
+        public let nameContains: String?
+        /// If the response was truncated, use the token returned in the previous response to retrieve the next page of results.
+        public let nextToken: String?
+        /// A filter that returns only training sessions with the specified status.
+        public let statusEquals: TrainingSessionStatus?
+
+        @inlinable
+        public init(creationTimeAfter: Date? = nil, creationTimeBefore: Date? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, statusEquals: TrainingSessionStatus? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.statusEquals = statusEquals
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
+            try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case statusEquals = "StatusEquals"
+        }
+    }
+
+    public struct ListTrainingSessionsResponse: AWSDecodableShape {
+        /// If the response is truncated, this token retrieves the next set of results.
+        public let nextToken: String?
+        /// An array of TrainingSessionSummary objects that provide summary information about the training sessions.
+        public let trainingSessionSummaries: [TrainingSessionSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, trainingSessionSummaries: [TrainingSessionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.trainingSessionSummaries = trainingSessionSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case trainingSessionSummaries = "TrainingSessionSummaries"
+        }
+    }
+
     public struct ListTransformJobsRequest: AWSEncodableShape {
         /// A filter that returns only transform jobs created after the specified time.
         public let creationTimeAfter: Date?
@@ -38165,6 +38753,30 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case workteams = "Workteams"
+        }
+    }
+
+    public struct LoraConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Low-Rank Adaptation (LoRA) scaling factor.
+        public let alpha: Int?
+        /// The rank of the Low-Rank Adaptation (LoRA) adapter matrices.
+        public let rank: Int?
+
+        @inlinable
+        public init(alpha: Int? = nil, rank: Int? = nil) {
+            self.alpha = alpha
+            self.rank = rank
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alpha, name: "alpha", parent: name, min: 1)
+            try self.validate(self.rank, name: "rank", parent: name, max: 256)
+            try self.validate(self.rank, name: "rank", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alpha = "Alpha"
+            case rank = "Rank"
         }
     }
 
@@ -42555,6 +43167,8 @@ extension SageMaker {
         public let endTime: Date?
         /// The reason why the step failed execution. This is only returned if the step failed its execution.
         public let failureReason: String?
+        /// The context for the iteration of a ForEach step that generated this step execution.
+        public let iterationContext: IterationContext?
         /// Metadata to run the pipeline step.
         public let metadata: PipelineExecutionStepMetadata?
         /// The ARN from an execution of the current pipeline from which results are reused for this step.
@@ -42571,11 +43185,12 @@ extension SageMaker {
         public let stepStatus: StepStatus?
 
         @inlinable
-        public init(attemptCount: Int? = nil, cacheHitResult: CacheHitResult? = nil, endTime: Date? = nil, failureReason: String? = nil, metadata: PipelineExecutionStepMetadata? = nil, selectiveExecutionResult: SelectiveExecutionResult? = nil, startTime: Date? = nil, stepDescription: String? = nil, stepDisplayName: String? = nil, stepName: String? = nil, stepStatus: StepStatus? = nil) {
+        public init(attemptCount: Int? = nil, cacheHitResult: CacheHitResult? = nil, endTime: Date? = nil, failureReason: String? = nil, iterationContext: IterationContext? = nil, metadata: PipelineExecutionStepMetadata? = nil, selectiveExecutionResult: SelectiveExecutionResult? = nil, startTime: Date? = nil, stepDescription: String? = nil, stepDisplayName: String? = nil, stepName: String? = nil, stepStatus: StepStatus? = nil) {
             self.attemptCount = attemptCount
             self.cacheHitResult = cacheHitResult
             self.endTime = endTime
             self.failureReason = failureReason
+            self.iterationContext = iterationContext
             self.metadata = metadata
             self.selectiveExecutionResult = selectiveExecutionResult
             self.startTime = startTime
@@ -42590,6 +43205,7 @@ extension SageMaker {
             case cacheHitResult = "CacheHitResult"
             case endTime = "EndTime"
             case failureReason = "FailureReason"
+            case iterationContext = "IterationContext"
             case metadata = "Metadata"
             case selectiveExecutionResult = "SelectiveExecutionResult"
             case startTime = "StartTime"
@@ -42601,6 +43217,8 @@ extension SageMaker {
     }
 
     public struct PipelineExecutionStepMetadata: AWSDecodableShape {
+        /// The metadata for the Athena step execution.
+        public let athena: AthenaStepMetadata?
         /// The Amazon Resource Name (ARN) of the AutoML job that was run by this step.
         public let autoMLJob: AutoMLJobStepMetadata?
         ///  The metadata of the Amazon Bedrock custom model used in the pipeline execution step.
@@ -42615,16 +43233,22 @@ extension SageMaker {
         public let callback: CallbackStepMetadata?
         /// Container for the metadata for a Clarify check step. The configurations and outcomes of the check step execution. This includes:    The type of the check conducted,   The Amazon S3 URIs of baseline constraints and statistics files to be used for the drift check.   The Amazon S3 URIs of newly calculated baseline constraints and statistics.   The model package group name provided.   The Amazon S3 URI of the violation report if violations detected.   The Amazon Resource Name (ARN) of check processing job initiated by the step execution.   The boolean flags indicating if the drift check is skipped.   If step property BaselineUsedForDriftCheck is set the same as CalculatedBaseline.
         public let clarifyCheck: ClarifyCheckStepMetadata?
+        /// The metadata for the cleanup step execution.
+        public let cleanup: CleanupStepMetadata?
         /// The outcome of the condition evaluation that was run by this step execution.
         public let condition: ConditionStepMetadata?
         /// The configurations and outcomes of an Amazon EMR step execution.
         public let emr: EMRStepMetadata?
+        /// The configurations and outcomes of an Amazon EMR Serverless step execution.
+        public let emrServerless: EMRServerlessStepMetadata?
         /// The endpoint that was invoked during this step execution.
         public let endpoint: EndpointStepMetadata?
         /// The endpoint configuration used to create an endpoint during this step execution.
         public let endpointConfig: EndpointConfigStepMetadata?
         /// The configurations and outcomes of a Fail step execution.
         public let fail: FailStepMetadata?
+        /// The metadata for the ForEach step execution.
+        public let forEach: ForEachStepMetadata?
         ///  The metadata of the inference component used in pipeline execution step.
         public let inferenceComponent: InferenceComponentMetadata?
         /// The metadata for a SageMaker job used in a pipeline execution step.
@@ -42649,7 +43273,8 @@ extension SageMaker {
         public let tuningJob: TuningJobStepMetaData?
 
         @inlinable
-        public init(autoMLJob: AutoMLJobStepMetadata? = nil, bedrockCustomModel: BedrockCustomModelMetadata? = nil, bedrockCustomModelDeployment: BedrockCustomModelDeploymentMetadata? = nil, bedrockModelImport: BedrockModelImportMetadata? = nil, bedrockProvisionedModelThroughput: BedrockProvisionedModelThroughputMetadata? = nil, callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, condition: ConditionStepMetadata? = nil, emr: EMRStepMetadata? = nil, endpoint: EndpointStepMetadata? = nil, endpointConfig: EndpointConfigStepMetadata? = nil, fail: FailStepMetadata? = nil, inferenceComponent: InferenceComponentMetadata? = nil, job: JobStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, lineage: LineageMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
+        public init(athena: AthenaStepMetadata? = nil, autoMLJob: AutoMLJobStepMetadata? = nil, bedrockCustomModel: BedrockCustomModelMetadata? = nil, bedrockCustomModelDeployment: BedrockCustomModelDeploymentMetadata? = nil, bedrockModelImport: BedrockModelImportMetadata? = nil, bedrockProvisionedModelThroughput: BedrockProvisionedModelThroughputMetadata? = nil, callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, cleanup: CleanupStepMetadata? = nil, condition: ConditionStepMetadata? = nil, emr: EMRStepMetadata? = nil, emrServerless: EMRServerlessStepMetadata? = nil, endpoint: EndpointStepMetadata? = nil, endpointConfig: EndpointConfigStepMetadata? = nil, fail: FailStepMetadata? = nil, forEach: ForEachStepMetadata? = nil, inferenceComponent: InferenceComponentMetadata? = nil, job: JobStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, lineage: LineageMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
+            self.athena = athena
             self.autoMLJob = autoMLJob
             self.bedrockCustomModel = bedrockCustomModel
             self.bedrockCustomModelDeployment = bedrockCustomModelDeployment
@@ -42657,11 +43282,14 @@ extension SageMaker {
             self.bedrockProvisionedModelThroughput = bedrockProvisionedModelThroughput
             self.callback = callback
             self.clarifyCheck = clarifyCheck
+            self.cleanup = cleanup
             self.condition = condition
             self.emr = emr
+            self.emrServerless = emrServerless
             self.endpoint = endpoint
             self.endpointConfig = endpointConfig
             self.fail = fail
+            self.forEach = forEach
             self.inferenceComponent = inferenceComponent
             self.job = job
             self.lambda = lambda
@@ -42676,6 +43304,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case athena = "Athena"
             case autoMLJob = "AutoMLJob"
             case bedrockCustomModel = "BedrockCustomModel"
             case bedrockCustomModelDeployment = "BedrockCustomModelDeployment"
@@ -42683,11 +43312,14 @@ extension SageMaker {
             case bedrockProvisionedModelThroughput = "BedrockProvisionedModelThroughput"
             case callback = "Callback"
             case clarifyCheck = "ClarifyCheck"
+            case cleanup = "Cleanup"
             case condition = "Condition"
             case emr = "EMR"
+            case emrServerless = "EMRServerless"
             case endpoint = "Endpoint"
             case endpointConfig = "EndpointConfig"
             case fail = "Fail"
+            case forEach = "ForEach"
             case inferenceComponent = "InferenceComponent"
             case job = "Job"
             case lambda = "Lambda"
@@ -46711,6 +47343,28 @@ extension SageMaker {
         }
     }
 
+    public struct SlurmHealthMetadata: AWSDecodableShape {
+        /// The Slurm component that the health information describes. The valid value is Slurmdbd, the Slurm accounting daemon.
+        public let component: SlurmHealthComponent?
+        /// The reason the component is unhealthy. Valid values:    DaemonDown: The daemon is not running, so job accounting records are not being written.    DaemonDisabled: The daemon is running and its accounting database is responding, but the daemon is not enabled to start automatically. Job accounting stops the next time the controller node restarts.    DbUnreachable: The daemon is running, but its accounting database did not respond. Job accounting records might not be written.   This field is omitted when the component is healthy.
+        public let reason: SlurmHealthReason?
+        /// The health of the component. Valid values are Healthy and Unhealthy.
+        public let status: SlurmHealthStatus?
+
+        @inlinable
+        public init(component: SlurmHealthComponent? = nil, reason: SlurmHealthReason? = nil, status: SlurmHealthStatus? = nil) {
+            self.component = component
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case component = "Component"
+            case reason = "Reason"
+            case status = "Status"
+        }
+    }
+
     public struct SourceAlgorithm: AWSEncodableShape & AWSDecodableShape {
         /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your SageMaker account or an algorithm in Amazon Web Services Marketplace that you are subscribed to.
         public let algorithmName: String?
@@ -47855,6 +48509,30 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case trainingJobName = "TrainingJobName"
         }
+    }
+
+    public struct StopTrainingSessionRequest: AWSEncodableShape {
+        /// The name of the training session to stop.
+        public let trainingSessionName: String?
+
+        @inlinable
+        public init(trainingSessionName: String? = nil) {
+            self.trainingSessionName = trainingSessionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, max: 63)
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, min: 1)
+            try self.validate(self.trainingSessionName, name: "trainingSessionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingSessionName = "TrainingSessionName"
+        }
+    }
+
+    public struct StopTrainingSessionResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct StopTransformJobRequest: AWSEncodableShape {
@@ -49269,6 +49947,175 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case trainingRepositoryCredentialsProviderArn = "TrainingRepositoryCredentialsProviderArn"
+        }
+    }
+
+    public struct TrainingSessionDetail: AWSDecodableShape {
+        /// The billable token usage for the training session.
+        public let billableTokenUsage: BillableTokenUsage?
+        /// The date and time that the training session was created.
+        public let creationTime: Date?
+        /// The date and time that the training session ended.
+        public let endTime: Date?
+        /// If the training session failed or is blocked, detailed error information.
+        public let errorDetails: String?
+        /// The date and time that the training session was last modified.
+        public let lastModifiedTime: Date?
+        /// The sequence number of the last training operation received by the session.
+        public let lastReceivedSequenceNumber: Int?
+        /// The Low-Rank Adaptation (LoRA) configuration for the training session.
+        public let loraConfig: LoraConfig?
+        /// The configuration for the base model.
+        public let modelConfig: TrainingSessionModelConfig?
+        /// The Amazon Resource Name (ARN) of the model package group where checkpoints are published.
+        public let modelPackageGroupArn: String?
+        /// The output configuration for the training session.
+        public let outputConfig: TrainingSessionOutputConfig?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the training session.
+        public let roleArn: String?
+        /// The tags associated with the training session.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the training session.
+        public let trainingSessionArn: String?
+        /// The name of the training session.
+        public let trainingSessionName: String?
+        /// The current status of the training session.
+        public let trainingSessionStatus: TrainingSessionStatus?
+        /// The Virtual Private Cloud (VPC) configuration for the training session.
+        public let vpcConfig: VpcConfig?
+
+        @inlinable
+        public init(billableTokenUsage: BillableTokenUsage? = nil, creationTime: Date? = nil, endTime: Date? = nil, errorDetails: String? = nil, lastModifiedTime: Date? = nil, lastReceivedSequenceNumber: Int? = nil, loraConfig: LoraConfig? = nil, modelConfig: TrainingSessionModelConfig? = nil, modelPackageGroupArn: String? = nil, outputConfig: TrainingSessionOutputConfig? = nil, roleArn: String? = nil, tags: [Tag]? = nil, trainingSessionArn: String? = nil, trainingSessionName: String? = nil, trainingSessionStatus: TrainingSessionStatus? = nil, vpcConfig: VpcConfig? = nil) {
+            self.billableTokenUsage = billableTokenUsage
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.errorDetails = errorDetails
+            self.lastModifiedTime = lastModifiedTime
+            self.lastReceivedSequenceNumber = lastReceivedSequenceNumber
+            self.loraConfig = loraConfig
+            self.modelConfig = modelConfig
+            self.modelPackageGroupArn = modelPackageGroupArn
+            self.outputConfig = outputConfig
+            self.roleArn = roleArn
+            self.tags = tags
+            self.trainingSessionArn = trainingSessionArn
+            self.trainingSessionName = trainingSessionName
+            self.trainingSessionStatus = trainingSessionStatus
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billableTokenUsage = "BillableTokenUsage"
+            case creationTime = "CreationTime"
+            case endTime = "EndTime"
+            case errorDetails = "ErrorDetails"
+            case lastModifiedTime = "LastModifiedTime"
+            case lastReceivedSequenceNumber = "LastReceivedSequenceNumber"
+            case loraConfig = "LoraConfig"
+            case modelConfig = "ModelConfig"
+            case modelPackageGroupArn = "ModelPackageGroupArn"
+            case outputConfig = "OutputConfig"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+            case trainingSessionArn = "TrainingSessionArn"
+            case trainingSessionName = "TrainingSessionName"
+            case trainingSessionStatus = "TrainingSessionStatus"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct TrainingSessionModelConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether you accept the end-user license agreement (EULA) for gated models.
+        public let acceptEula: Bool?
+        /// The Amazon Resource Name (ARN) of the base foundation model from SageMaker Hub.
+        public let baseModelArn: String?
+
+        @inlinable
+        public init(acceptEula: Bool? = nil, baseModelArn: String? = nil) {
+            self.acceptEula = acceptEula
+            self.baseModelArn = baseModelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseModelArn, name: "baseModelArn", parent: name, max: 2048)
+            try self.validate(self.baseModelArn, name: "baseModelArn", parent: name, min: 1)
+            try self.validate(self.baseModelArn, name: "baseModelArn", parent: name, pattern: "^(arn:[a-z0-9-.]{1,63}:sagemaker:[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)+:([0-9]{12}|aws):hub-content/)[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}/Model/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}(/[0-9]{1,4}\\.[0-9]{1,4}\\.[0-9]{1,4})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptEula = "AcceptEula"
+            case baseModelArn = "BaseModelArn"
+        }
+    }
+
+    public struct TrainingSessionOutputConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 location where training session outputs, including checkpoints and model artifacts, are stored.
+        public let s3Location: TrainingSessionS3Location?
+
+        @inlinable
+        public init(s3Location: TrainingSessionS3Location? = nil) {
+            self.s3Location = s3Location
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Location?.validate(name: "\(name).s3Location")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Location = "S3Location"
+        }
+    }
+
+    public struct TrainingSessionS3Location: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt output data. If not specified, the default Amazon S3 encryption is used.
+        public let kmsKeyArn: String?
+        /// The Amazon S3 path where training session outputs are stored.
+        public let path: String?
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil, path: String? = nil) {
+            self.kmsKeyArn = kmsKeyArn
+            self.path = path
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:[a-z0-9\\-]+:[0-9]{12}:key/(mrk-)?[a-f0-9\\-]+$")
+            try self.validate(self.path, name: "path", parent: name, max: 1024)
+            try self.validate(self.path, name: "path", parent: name, min: 1)
+            try self.validate(self.path, name: "path", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case path = "Path"
+        }
+    }
+
+    public struct TrainingSessionSummary: AWSDecodableShape {
+        /// The date and time that the training session was created.
+        public let creationTime: Date?
+        /// The date and time that the training session was last modified.
+        public let lastModifiedTime: Date?
+        /// The Amazon Resource Name (ARN) of the training session.
+        public let trainingSessionArn: String?
+        /// The current status of the training session.
+        public let trainingSessionStatus: TrainingSessionStatus?
+
+        @inlinable
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, trainingSessionArn: String? = nil, trainingSessionStatus: TrainingSessionStatus? = nil) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.trainingSessionArn = trainingSessionArn
+            self.trainingSessionStatus = trainingSessionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case trainingSessionArn = "TrainingSessionArn"
+            case trainingSessionStatus = "TrainingSessionStatus"
         }
     }
 

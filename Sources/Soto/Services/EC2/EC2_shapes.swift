@@ -571,6 +571,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacityReservationLaunchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case launchable = "launchable"
+        case unlaunchable = "unlaunchable"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapacityReservationModificationQuoteState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case expired = "expired"
@@ -2019,6 +2025,7 @@ extension EC2 {
         public static var i8g8Xlarge: Self { .init(rawValue: "i8g.8xlarge") }
         public static var i8gLarge: Self { .init(rawValue: "i8g.large") }
         public static var i8gMetal24Xl: Self { .init(rawValue: "i8g.metal-24xl") }
+        public static var i8gMetal48Xl: Self { .init(rawValue: "i8g.metal-48xl") }
         public static var i8gXlarge: Self { .init(rawValue: "i8g.xlarge") }
         public static var i8ge12Xlarge: Self { .init(rawValue: "i8ge.12xlarge") }
         public static var i8ge18Xlarge: Self { .init(rawValue: "i8ge.18xlarge") }
@@ -2424,6 +2431,7 @@ extension EC2 {
         public static var m9gd4Xlarge: Self { .init(rawValue: "m9gd.4xlarge") }
         public static var m9gd8Xlarge: Self { .init(rawValue: "m9gd.8xlarge") }
         public static var m9gdLarge: Self { .init(rawValue: "m9gd.large") }
+        public static var m9gdMedium: Self { .init(rawValue: "m9gd.medium") }
         public static var m9gdMetal24Xl: Self { .init(rawValue: "m9gd.metal-24xl") }
         public static var m9gdMetal48Xl: Self { .init(rawValue: "m9gd.metal-48xl") }
         public static var m9gdXlarge: Self { .init(rawValue: "m9gd.xlarge") }
@@ -2672,11 +2680,13 @@ extension EC2 {
         public static var r8gb16Xlarge: Self { .init(rawValue: "r8gb.16xlarge") }
         public static var r8gb24Xlarge: Self { .init(rawValue: "r8gb.24xlarge") }
         public static var r8gb2Xlarge: Self { .init(rawValue: "r8gb.2xlarge") }
+        public static var r8gb48Xlarge: Self { .init(rawValue: "r8gb.48xlarge") }
         public static var r8gb4Xlarge: Self { .init(rawValue: "r8gb.4xlarge") }
         public static var r8gb8Xlarge: Self { .init(rawValue: "r8gb.8xlarge") }
         public static var r8gbLarge: Self { .init(rawValue: "r8gb.large") }
         public static var r8gbMedium: Self { .init(rawValue: "r8gb.medium") }
         public static var r8gbMetal24Xl: Self { .init(rawValue: "r8gb.metal-24xl") }
+        public static var r8gbMetal48Xl: Self { .init(rawValue: "r8gb.metal-48xl") }
         public static var r8gbXlarge: Self { .init(rawValue: "r8gb.xlarge") }
         public static var r8gd12Xlarge: Self { .init(rawValue: "r8gd.12xlarge") }
         public static var r8gd16Xlarge: Self { .init(rawValue: "r8gd.16xlarge") }
@@ -2838,11 +2848,16 @@ extension EC2 {
         public static var t4gNano: Self { .init(rawValue: "t4g.nano") }
         public static var t4gSmall: Self { .init(rawValue: "t4g.small") }
         public static var t4gXlarge: Self { .init(rawValue: "t4g.xlarge") }
+        public static var t8iMedium: Self { .init(rawValue: "t8i.medium") }
+        public static var t8iMicro: Self { .init(rawValue: "t8i.micro") }
+        public static var t8iNano: Self { .init(rawValue: "t8i.nano") }
+        public static var t8iSmall: Self { .init(rawValue: "t8i.small") }
         public static var trn12Xlarge: Self { .init(rawValue: "trn1.2xlarge") }
         public static var trn132Xlarge: Self { .init(rawValue: "trn1.32xlarge") }
         public static var trn1n32Xlarge: Self { .init(rawValue: "trn1n.32xlarge") }
         public static var trn23Xlarge: Self { .init(rawValue: "trn2.3xlarge") }
         public static var trn248Xlarge: Self { .init(rawValue: "trn2.48xlarge") }
+        public static var trn2u48Xlarge: Self { .init(rawValue: "trn2u.48xlarge") }
         public static var u12Tb1112Xlarge: Self { .init(rawValue: "u-12tb1.112xlarge") }
         public static var u12Tb1Metal: Self { .init(rawValue: "u-12tb1.metal") }
         public static var u18Tb1112Xlarge: Self { .init(rawValue: "u-18tb1.112xlarge") }
@@ -4695,7 +4710,6 @@ extension EC2 {
     public enum SupportedAdditionalProcessorFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amdSevSnp = "amd-sev-snp"
         case nestedVirtualization = "nested-virtualization"
-        case metalCompatibility = "metal-compatibility"
         public var description: String { return self.rawValue }
     }
 
@@ -10615,6 +10629,11 @@ extension EC2 {
         /// 			Information about the interruption configuration and association with the source reservation for interruptible Capacity Reservations.
         ///
         public let interruptionInfo: InterruptionInfo?
+        ///  Only supported for UltraServers.  Indicates whether you can launch instances into the Capacity Reservation. A Capacity
+        /// 			Reservation can have the following launch statuses:    launchable - You can launch instances into the Capacity
+        /// 					Reservation.    unlaunchable - You can't launch instances into the Capacity
+        /// 					Reservation. For example, the Capacity Reservation is not active.
+        public let launchStatus: CapacityReservationLaunchStatus?
         /// The start date that you originally requested for the Capacity Reservation, in the ISO8601
         /// 			format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). This value doesn't
         /// 			change when you push out the start date.
@@ -10671,7 +10690,7 @@ extension EC2 {
         public let zeroSizePreference: ZeroSizePreference?
 
         @inlinable
-        public init(adjustmentDetails: CapacityReservationAdjustmentDetails? = nil, adjustmentStatus: CapacityReservationAdjustmentStatus? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, interruptible: Bool? = nil, interruptibleCapacityAllocation: InterruptibleCapacityAllocation? = nil, interruptionInfo: InterruptionInfo? = nil, originalStartDate: Date? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil, zeroSizePreference: ZeroSizePreference? = nil) {
+        public init(adjustmentDetails: CapacityReservationAdjustmentDetails? = nil, adjustmentStatus: CapacityReservationAdjustmentStatus? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, interruptible: Bool? = nil, interruptibleCapacityAllocation: InterruptibleCapacityAllocation? = nil, interruptionInfo: InterruptionInfo? = nil, launchStatus: CapacityReservationLaunchStatus? = nil, originalStartDate: Date? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil, zeroSizePreference: ZeroSizePreference? = nil) {
             self.adjustmentDetails = adjustmentDetails
             self.adjustmentStatus = adjustmentStatus
             self.availabilityZone = availabilityZone
@@ -10695,6 +10714,7 @@ extension EC2 {
             self.interruptible = interruptible
             self.interruptibleCapacityAllocation = interruptibleCapacityAllocation
             self.interruptionInfo = interruptionInfo
+            self.launchStatus = launchStatus
             self.originalStartDate = originalStartDate
             self.outpostArn = outpostArn
             self.ownerId = ownerId
@@ -10733,6 +10753,7 @@ extension EC2 {
             case interruptible = "interruptible"
             case interruptibleCapacityAllocation = "interruptibleCapacityAllocation"
             case interruptionInfo = "interruptionInfo"
+            case launchStatus = "launchStatus"
             case originalStartDate = "originalStartDate"
             case outpostArn = "outpostArn"
             case ownerId = "ownerId"
@@ -12630,7 +12651,7 @@ extension EC2 {
 
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in Amazon EC2 API requests in the Amazon EC2 API Reference.
         public let clientToken: String?
-        /// Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts   Default: Your user-defined AMI tags are not copied.
+        /// Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts, except tags with the ec2:SharedTag/ prefix. For more information about tag sharing, see Sharing tags in the Amazon EC2 User Guide.   Default: Your user-defined AMI tags are not copied.
         public let copyImageTags: Bool?
         /// A description for the new AMI.
         public let description: String?
@@ -44708,7 +44729,7 @@ extension EC2 {
 
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
-        /// The Spot placement score for the top 10 Regions or Availability Zones, scored on a scale from 1 to 10. Each score reflects how likely it is that each Region or Availability Zone will succeed at fulfilling the specified target capacity at the time of the Spot placement score request. A score of 10 means that your Spot capacity request is highly likely to succeed in that Region or Availability Zone.  If you request a Spot placement score for Regions, a high score assumes that your fleet request will be configured to use all Availability Zones and the capacity-optimized allocation strategy. If you request a Spot placement score for Availability Zones, a high score assumes that your fleet request will be configured to use a single Availability Zone and the capacity-optimized allocation strategy. Different Regions or Availability Zones might return the same score.  The Spot placement score serves as a recommendation only. No score guarantees that your Spot request will be fully or partially fulfilled.
+        /// The Spot placement score for the top 10 Regions or Availability Zones, scored on a scale from 1 to 10. Each score  reflects how likely it is that each Region or Availability Zone will succeed at fulfilling the specified target capacity  at the time of the Spot placement score request. A score of 10 means that your Spot capacity request is highly likely to succeed in that Region or Availability Zone.  If you request a Spot placement score for Regions, a high score assumes that your fleet request will be configured to use all Availability Zones and the capacity-optimized allocation strategy. If you request a Spot placement score for Availability Zones, a high score assumes that your fleet request will be configured to use a single Availability Zone and the capacity-optimized allocation strategy. Different  Regions or Availability Zones might return the same score.  The Spot placement score serves as a recommendation only. No score guarantees that your Spot request will be fully or partially fulfilled.
         @OptionalCustomCoding<EC2ArrayCoder<_SpotPlacementScoresEncoding, SpotPlacementScore>>
         public var spotPlacementScores: [SpotPlacementScore]?
 

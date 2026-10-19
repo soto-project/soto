@@ -179,6 +179,7 @@ extension GuardDuty {
 
     public enum DetectionRuleDataSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudtrailManagementEvent = "CloudTrailManagementEvent"
+        case runtimeMonitoring = "RuntimeMonitoring"
         public var description: String { return self.rawValue }
     }
 
@@ -262,6 +263,8 @@ extension GuardDuty {
         case ec2AgentManagement = "EC2_AGENT_MANAGEMENT"
         case ecsFargateAgentManagement = "ECS_FARGATE_AGENT_MANAGEMENT"
         case eksAddonManagement = "EKS_ADDON_MANAGEMENT"
+        /// RDS Data Activity Monitoring, which monitors data activity on supported Amazon RDS database engines to detect potentially unauthorized access to your data.
+        case rdsDataRisk = "RDS_DATA_RISK"
         public var description: String { return self.rawValue }
     }
 
@@ -512,6 +515,11 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case guarddutyPolicy = "GUARDDUTY_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ManagementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoManaged = "AUTO_MANAGED"
         case disabled = "DISABLED"
@@ -553,6 +561,8 @@ extension GuardDuty {
         case ec2AgentManagement = "EC2_AGENT_MANAGEMENT"
         case ecsFargateAgentManagement = "ECS_FARGATE_AGENT_MANAGEMENT"
         case eksAddonManagement = "EKS_ADDON_MANAGEMENT"
+        /// RDS Data Activity Monitoring, which monitors data activity on supported Amazon RDS database engines to detect potentially unauthorized access to your data.
+        case rdsDataRisk = "RDS_DATA_RISK"
         public var description: String { return self.rawValue }
     }
 
@@ -780,6 +790,14 @@ extension GuardDuty {
         case fargateRuntimeMonitoring = "FARGATE_RUNTIME_MONITORING"
         case flowLogs = "FLOW_LOGS"
         case lambdaNetworkLogs = "LAMBDA_NETWORK_LOGS"
+        /// Usage attributed to RDS Data Activity Monitoring for Amazon Aurora DSQL Limitless databases.
+        case rdsDataActivityDbiProtectionLimitless = "RDS_DATA_ACTIVITY_DBI_PROTECTION_LIMITLESS"
+        /// Usage attributed to RDS Data Activity Monitoring for provisioned Amazon RDS databases.
+        case rdsDataActivityDbiProtectionProvisioned = "RDS_DATA_ACTIVITY_DBI_PROTECTION_PROVISIONED"
+        /// Usage attributed to RDS Data Activity Monitoring for Amazon Aurora Serverless databases.
+        case rdsDataActivityDbiProtectionServerless = "RDS_DATA_ACTIVITY_DBI_PROTECTION_SERVERLESS"
+        /// Usage attributed to RDS Protection database infrastructure monitoring for Amazon Aurora DSQL Limitless databases.
+        case rdsDbiProtectionLimitless = "RDS_DBI_PROTECTION_LIMITLESS"
         case rdsDbiProtectionProvisioned = "RDS_DBI_PROTECTION_PROVISIONED"
         case rdsDbiProtectionServerless = "RDS_DBI_PROTECTION_SERVERLESS"
         case rdsLoginEvents = "RDS_LOGIN_EVENTS"
@@ -4040,6 +4058,48 @@ extension GuardDuty {
         }
     }
 
+    public struct DetectionRuleEc2Requirements: AWSDecodableShape {
+        /// The minimum GuardDuty agent version required to run the rule on Amazon EC2.
+        public let minAgentVersion: String?
+
+        @inlinable
+        public init(minAgentVersion: String? = nil) {
+            self.minAgentVersion = minAgentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minAgentVersion = "minAgentVersion"
+        }
+    }
+
+    public struct DetectionRuleEcsFargateRequirements: AWSDecodableShape {
+        /// The minimum GuardDuty agent version required to run the rule on Amazon ECS with the Fargate launch type.
+        public let minAgentVersion: String?
+
+        @inlinable
+        public init(minAgentVersion: String? = nil) {
+            self.minAgentVersion = minAgentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minAgentVersion = "minAgentVersion"
+        }
+    }
+
+    public struct DetectionRuleEksRequirements: AWSDecodableShape {
+        /// The minimum GuardDuty agent version required to run the rule on Amazon EKS.
+        public let minAgentVersion: String?
+
+        @inlinable
+        public init(minAgentVersion: String? = nil) {
+            self.minAgentVersion = minAgentVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minAgentVersion = "minAgentVersion"
+        }
+    }
+
     public struct DetectionRuleFilter: AWSEncodableShape {
         /// The condition to apply to the filter. For example, EQUALS or CONTAINS.
         public let condition: DetectionRuleFilterCondition?
@@ -4156,6 +4216,42 @@ extension GuardDuty {
         }
     }
 
+    public struct DetectionRuleRuntimeMonitoringDetails: AWSDecodableShape {
+        /// The platforms on which the rule can run. The presence of a platform member indicates that the rule is supported on that platform; the absence of a member indicates that the rule cannot run on that platform at any agent version.
+        public let platforms: DetectionRuleRuntimePlatforms?
+
+        @inlinable
+        public init(platforms: DetectionRuleRuntimePlatforms? = nil) {
+            self.platforms = platforms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platforms = "platforms"
+        }
+    }
+
+    public struct DetectionRuleRuntimePlatforms: AWSDecodableShape {
+        /// The requirements for running the rule on Amazon EC2.
+        public let ec2: DetectionRuleEc2Requirements?
+        /// The requirements for running the rule on Amazon ECS with the Fargate launch type.
+        public let ecsFargate: DetectionRuleEcsFargateRequirements?
+        /// The requirements for running the rule on Amazon EKS.
+        public let eks: DetectionRuleEksRequirements?
+
+        @inlinable
+        public init(ec2: DetectionRuleEc2Requirements? = nil, ecsFargate: DetectionRuleEcsFargateRequirements? = nil, eks: DetectionRuleEksRequirements? = nil) {
+            self.ec2 = ec2
+            self.ecsFargate = ecsFargate
+            self.eks = eks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ec2 = "ec2"
+            case ecsFargate = "ecsFargate"
+            case eks = "eks"
+        }
+    }
+
     public struct DetectorAdditionalConfiguration: AWSEncodableShape {
         /// Name of the additional configuration.
         public let name: FeatureAdditionalConfiguration?
@@ -4175,6 +4271,8 @@ extension GuardDuty {
     }
 
     public struct DetectorAdditionalConfigurationResult: AWSDecodableShape {
+        /// Indicates what manages the additional configuration. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the additional configuration.
+        public let managedBy: ManagedBy?
         /// Name of the additional configuration.
         public let name: FeatureAdditionalConfiguration?
         /// Status of the additional configuration.
@@ -4183,13 +4281,15 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(name: FeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(managedBy: ManagedBy? = nil, name: FeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -4221,6 +4321,8 @@ extension GuardDuty {
     public struct DetectorFeatureConfigurationResult: AWSDecodableShape {
         /// Additional configuration for a resource.
         public let additionalConfiguration: [DetectorAdditionalConfigurationResult]?
+        /// Indicates what manages the feature. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the feature.
+        public let managedBy: ManagedBy?
         /// Indicates the name of the feature that can be enabled for the detector.
         public let name: DetectorFeatureResult?
         /// Indicates the status of the feature that is enabled for the detector.
@@ -4229,8 +4331,9 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(additionalConfiguration: [DetectorAdditionalConfigurationResult]? = nil, name: DetectorFeatureResult? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(additionalConfiguration: [DetectorAdditionalConfigurationResult]? = nil, managedBy: ManagedBy? = nil, name: DetectorFeatureResult? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
             self.additionalConfiguration = additionalConfiguration
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -4238,6 +4341,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case additionalConfiguration = "additionalConfiguration"
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -4985,6 +5089,8 @@ extension GuardDuty {
         public let confidence: Double?
         /// The time and date when the finding was created.
         public let createdAt: String?
+        /// The name of the custom detection rule that generated this finding.
+        public let customDetectionRuleName: String?
         /// The description of the finding.
         public let description: String?
         /// The ID of the finding.
@@ -5007,12 +5113,13 @@ extension GuardDuty {
         public let updatedAt: String?
 
         @inlinable
-        public init(accountId: String? = nil, arn: String? = nil, associatedAttackSequenceArn: String? = nil, confidence: Double? = nil, createdAt: String? = nil, description: String? = nil, id: String? = nil, partition: String? = nil, region: String? = nil, resource: Resource? = nil, schemaVersion: String? = nil, service: Service? = nil, severity: Double? = nil, title: String? = nil, type: String? = nil, updatedAt: String? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, associatedAttackSequenceArn: String? = nil, confidence: Double? = nil, createdAt: String? = nil, customDetectionRuleName: String? = nil, description: String? = nil, id: String? = nil, partition: String? = nil, region: String? = nil, resource: Resource? = nil, schemaVersion: String? = nil, service: Service? = nil, severity: Double? = nil, title: String? = nil, type: String? = nil, updatedAt: String? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.associatedAttackSequenceArn = associatedAttackSequenceArn
             self.confidence = confidence
             self.createdAt = createdAt
+            self.customDetectionRuleName = customDetectionRuleName
             self.description = description
             self.id = id
             self.partition = partition
@@ -5032,6 +5139,7 @@ extension GuardDuty {
             case associatedAttackSequenceArn = "associatedAttackSequenceArn"
             case confidence = "confidence"
             case createdAt = "createdAt"
+            case customDetectionRuleName = "customDetectionRuleName"
             case description = "description"
             case id = "id"
             case partition = "partition"
@@ -8788,6 +8896,8 @@ extension GuardDuty {
     }
 
     public struct MemberAdditionalConfigurationResult: AWSDecodableShape {
+        /// Indicates what manages the additional configuration. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the additional configuration.
+        public let managedBy: ManagedBy?
         /// Indicates the name of the additional configuration that is set for the member account.
         public let name: OrgFeatureAdditionalConfiguration?
         /// Indicates the status of the additional configuration that is set for the member account.
@@ -8796,13 +8906,15 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(name: OrgFeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(managedBy: ManagedBy? = nil, name: OrgFeatureAdditionalConfiguration? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -8864,6 +8976,8 @@ extension GuardDuty {
     public struct MemberFeaturesConfigurationResult: AWSDecodableShape {
         /// Indicates the additional configuration of the feature that is configured for the member account.
         public let additionalConfiguration: [MemberAdditionalConfigurationResult]?
+        /// Indicates what manages the feature. A value of GUARDDUTY_POLICY means a GuardDuty policy manages the feature.
+        public let managedBy: ManagedBy?
         /// Indicates the name of the feature that is enabled for the detector.
         public let name: OrgFeature?
         /// Indicates the status of the feature that is enabled for the detector.
@@ -8872,8 +8986,9 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(additionalConfiguration: [MemberAdditionalConfigurationResult]? = nil, name: OrgFeature? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
+        public init(additionalConfiguration: [MemberAdditionalConfigurationResult]? = nil, managedBy: ManagedBy? = nil, name: OrgFeature? = nil, status: FeatureStatus? = nil, updatedAt: Date? = nil) {
             self.additionalConfiguration = additionalConfiguration
+            self.managedBy = managedBy
             self.name = name
             self.status = status
             self.updatedAt = updatedAt
@@ -8881,6 +8996,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case additionalConfiguration = "additionalConfiguration"
+            case managedBy = "managedBy"
             case name = "name"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -10261,6 +10377,8 @@ extension GuardDuty {
         public let name: String?
         /// The unique identifier for the rule.
         public let ruleId: String?
+        /// Runtime Monitoring-specific details for the rule, including the platforms on which the rule can run and the minimum GuardDuty agent version required on each.
+        public let runtimeMonitoringDetails: DetectionRuleRuntimeMonitoringDetails?
         /// The schema version used by the rule definition.
         public let schema: RuleSchema?
         /// The Amazon Web Services service associated with the rule.
@@ -10275,7 +10393,7 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, dataSource: DetectionRuleDataSource? = nil, definition: RuleDefinition? = nil, description: String? = nil, language: RuleLanguage? = nil, name: String? = nil, ruleId: String? = nil, schema: RuleSchema? = nil, service: String? = nil, severity: DetectionRuleSeverity? = nil, tactic: String? = nil, technique: String? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, dataSource: DetectionRuleDataSource? = nil, definition: RuleDefinition? = nil, description: String? = nil, language: RuleLanguage? = nil, name: String? = nil, ruleId: String? = nil, runtimeMonitoringDetails: DetectionRuleRuntimeMonitoringDetails? = nil, schema: RuleSchema? = nil, service: String? = nil, severity: DetectionRuleSeverity? = nil, tactic: String? = nil, technique: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.dataSource = dataSource
@@ -10284,6 +10402,7 @@ extension GuardDuty {
             self.language = language
             self.name = name
             self.ruleId = ruleId
+            self.runtimeMonitoringDetails = runtimeMonitoringDetails
             self.schema = schema
             self.service = service
             self.severity = severity
@@ -10301,6 +10420,7 @@ extension GuardDuty {
             case language = "language"
             case name = "name"
             case ruleId = "ruleId"
+            case runtimeMonitoringDetails = "runtimeMonitoringDetails"
             case schema = "schema"
             case service = "service"
             case severity = "severity"

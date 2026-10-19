@@ -69,6 +69,11 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigurationSetFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case configurationSetNameContains = "CONFIGURATION_SET_NAME_CONTAINS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContactLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case en = "EN"
         case ja = "JA"
@@ -222,6 +227,13 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IdentityFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case identityNameContains = "IDENTITY_NAME_CONTAINS"
+        case identityType = "IDENTITY_TYPE"
+        case verificationStatus = "VERIFICATION_STATUS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domain = "DOMAIN"
         case emailAddress = "EMAIL_ADDRESS"
@@ -254,6 +266,12 @@ extension SESv2 {
 
     public enum ListTenantResourcesFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case resourceType = "RESOURCE_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListTenantsFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sendingStatus = "SENDING_STATUS"
+        case tenantNameContains = "TENANT_NAME_CONTAINS"
         public var description: String { return self.rawValue }
     }
 
@@ -1449,7 +1467,7 @@ extension SESv2 {
     public struct CreateExportJobRequest: AWSEncodableShape {
         /// The data source for the export job.
         public let exportDataSource: ExportDataSource
-        /// The destination for the export job.
+        /// The destination for the export job. Specify only DataFormat. Do not include S3Url in this request. SES writes the export file to a location that it manages and returns the download URL in GetExportJob.
         public let exportDestination: ExportDestination
 
         @inlinable
@@ -2258,7 +2276,7 @@ extension SESv2 {
         public let lastKeyGenerationTimestamp: Date?
         /// [Easy DKIM] The key length of the future DKIM key pair to be generated. This can be changed at most once per day.
         public let nextSigningKeyLength: DkimSigningKeyLength?
-        /// A string that indicates how DKIM was configured for the identity. These are the possible values:    AWS_SES – Indicates that DKIM was configured for the identity by using Easy DKIM.    EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).    AWS_SES_AF_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_NORTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_IL_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).     AWS_SES_SA_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_5 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_GOV_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in AWS GovCloud (US-East) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_GOV_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in AWS GovCloud (US-West) region using Deterministic Easy-DKIM (DEED).
+        /// A string that indicates how DKIM was configured for the identity. These are the possible values:    AWS_SES – Indicates that DKIM was configured for the identity by using Easy DKIM.    EXTERNAL – Indicates that DKIM was configured for the identity by using Bring Your Own DKIM (BYODKIM).    AWS_SES_ – Indicates that DKIM was configured for the identity by replicating the signing attributes of a parent identity in another Amazon Web Services Region, using Deterministic Easy-DKIM (DEED).  is the Amazon Web Services Region of the parent identity, in uppercase with each hyphen replaced by an underscore. Amazon SES uses this format for every Amazon Web Services Region in which it supports DEED. For example, a parent identity in us-east-1 is reported as AWS_SES_US_EAST_1.
         public let signingAttributesOrigin: DkimSigningAttributesOrigin?
         /// If the value is true, then the messages that you send from the identity are signed using DKIM. If the value is false, then the messages that you send from the identity aren't DKIM-signed.
         public let signingEnabled: Bool?
@@ -2294,7 +2312,7 @@ extension SESv2 {
     }
 
     public struct DkimSigningAttributes: AWSEncodableShape {
-        /// The attribute to use for configuring DKIM for the identity depends on the operation:    For PutEmailIdentityDkimSigningAttributes:    None of the values are allowed - use the  SigningAttributesOrigin  parameter instead      For CreateEmailIdentity when replicating a parent identity's DKIM configuration:    Allowed values: All values except AWS_SES and EXTERNAL         AWS_SES – Configure DKIM for the identity by using Easy DKIM.     EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).     AWS_SES_AF_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Africa (Cape Town) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_NORTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Stockholm) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTH_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_3 – Configure DKIM for the identity by replicating from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Milan) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Ireland) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).     AWS_SES_ME_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_NORTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Tokyo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_IL_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Israel (Tel Aviv) region using Deterministic Easy-DKIM (DEED).     AWS_SES_SA_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in South America (São Paulo) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).     AWS_SES_CA_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).     AWS_SES_AP_SOUTHEAST_5 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).     AWS_SES_EU_CENTRAL_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_EAST_2 – Configure DKIM for the identity by replicating from a parent identity in US East (Ohio) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in US West (N. California) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in US West (Oregon) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_GOV_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in AWS GovCloud (US-East) region using Deterministic Easy-DKIM (DEED).     AWS_SES_US_GOV_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in AWS GovCloud (US-West) region using Deterministic Easy-DKIM (DEED).
+        /// The attribute to use for configuring DKIM for the identity depends on the operation:    For PutEmailIdentityDkimSigningAttributes:    None of the values are allowed - use the  SigningAttributesOrigin  parameter instead      For CreateEmailIdentity when replicating a parent identity's DKIM configuration:    Allowed values: All values except AWS_SES and EXTERNAL         AWS_SES – Configure DKIM for the identity by using Easy DKIM.     EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).     AWS_SES_ – Configure DKIM for the identity by replicating the signing attributes of a parent identity in another Amazon Web Services Region, using Deterministic Easy-DKIM (DEED). Replace  with the Amazon Web Services Region of the parent identity, in uppercase with each hyphen replaced by an underscore. You can specify any Amazon Web Services Region in which Amazon SES supports DEED. For example, to replicate from a parent identity in us-east-1, specify AWS_SES_US_EAST_1.  The parent identity must already exist in the specified Amazon Web Services Region and have Easy DKIM configured.
         public let domainSigningAttributesOrigin: DkimSigningAttributesOrigin?
         /// [Bring Your Own DKIM] A private key that's used to generate a DKIM signature. The private key must use 1024 or 2048-bit RSA encryption, and must be encoded using base64 encoding.
         public let domainSigningPrivateKey: String?
@@ -2730,7 +2748,7 @@ extension SESv2 {
     public struct ExportDestination: AWSEncodableShape & AWSDecodableShape {
         /// The data format of the final export job file, can be one of the following:    CSV - A comma-separated values file.    JSON - A Json file.
         public let dataFormat: DataFormat
-        /// An Amazon S3 pre-signed URL that points to the generated export file.
+        /// An Amazon S3 pre-signed URL that points to the generated export file. SES sets this value. It's returned only in the GetExportJob response, after the export job status is COMPLETED. The URL expires five minutes after GetExportJob returns it. Call GetExportJob again to get a new URL. If you include this field in a CreateExportJob request, the request fails with a BadRequestException.
         public let s3Url: String?
 
         @inlinable
@@ -3668,7 +3686,7 @@ extension SESv2 {
         public let createdTimestamp: Date?
         /// The data source of the export job.
         public let exportDataSource: ExportDataSource?
-        /// The destination of the export job.
+        /// The destination of the export job. When JobStatus is COMPLETED, this object includes S3Url, a pre-signed URL that you use to download the export file.
         public let exportDestination: ExportDestination?
         /// The type of source of the export job.
         public let exportSourceType: ExportSourceType?
@@ -4226,25 +4244,31 @@ extension SESv2 {
     }
 
     public struct ListConfigurationSetsRequest: AWSEncodableShape {
+        /// An object that contains filters to apply when listing configuration sets. You can filter by a substring of the configuration set name.
+        public let filter: [ConfigurationSetFilterKey: String]?
         /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
         public let nextToken: String?
         /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
         public let pageSize: Int?
 
         @inlinable
-        public init(nextToken: String? = nil, pageSize: Int? = nil) {
+        public init(filter: [ConfigurationSetFilterKey: String]? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.filter = filter
             self.nextToken = nextToken
             self.pageSize = pageSize
         }
 
-        public func encode(to encoder: Encoder) throws {
-            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodeQuery(self.nextToken, key: "NextToken")
-            request.encodeQuery(self.pageSize, key: "PageSize")
+        public func validate(name: String) throws {
+            try self.filter?.forEach {
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, min: 1)
+            }
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
     }
 
     public struct ListConfigurationSetsResponse: AWSDecodableShape {
@@ -4548,25 +4572,31 @@ extension SESv2 {
     }
 
     public struct ListEmailIdentitiesRequest: AWSEncodableShape {
+        /// An object that contains filters to apply when listing email identities. You can filter by a substring of the identity name, by identity type, or by verification status.
+        public let filter: [IdentityFilterKey: String]?
         /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
         public let nextToken: String?
         /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
         public let pageSize: Int?
 
         @inlinable
-        public init(nextToken: String? = nil, pageSize: Int? = nil) {
+        public init(filter: [IdentityFilterKey: String]? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.filter = filter
             self.nextToken = nextToken
             self.pageSize = pageSize
         }
 
-        public func encode(to encoder: Encoder) throws {
-            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
-            request.encodeQuery(self.nextToken, key: "NextToken")
-            request.encodeQuery(self.pageSize, key: "PageSize")
+        public func validate(name: String) throws {
+            try self.filter?.forEach {
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, min: 1)
+            }
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
     }
 
     public struct ListEmailIdentitiesResponse: AWSDecodableShape {
@@ -5110,18 +5140,28 @@ extension SESv2 {
     }
 
     public struct ListTenantsRequest: AWSEncodableShape {
+        /// An object that contains filters to apply when listing tenants. You can filter by a substring of the tenant name or by sending status.
+        public let filter: [ListTenantsFilterKey: String]?
         /// A token returned from a previous call to ListTenants to indicate the position in the list of tenants.
         public let nextToken: String?
         /// The number of results to show in a single call to ListTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
         public let pageSize: Int?
 
         @inlinable
-        public init(nextToken: String? = nil, pageSize: Int? = nil) {
+        public init(filter: [ListTenantsFilterKey: String]? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.filter = filter
             self.nextToken = nextToken
             self.pageSize = pageSize
         }
 
+        public func validate(name: String) throws {
+            try self.filter?.forEach {
+                try validate($0.value, name: "filter[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
             case nextToken = "NextToken"
             case pageSize = "PageSize"
         }
@@ -7128,7 +7168,7 @@ extension SESv2 {
     public struct Tenant: AWSDecodableShape {
         /// The date and time when the tenant was created.
         public let createdTimestamp: Date?
-        /// The status of sending capability for the tenant.
+        /// The status of sending capability for the tenant:    ENABLED – Sending is allowed for the tenant.    DISABLED – Sending is prevented for the tenant.    REINSTATED – Sending is allowed even if there are active reputation findings.
         public let sendingStatus: SendingStatus?
         /// An object that contains information about the suppression list preferences for the tenant.
         public let suppressionAttributes: TenantSuppressionAttributes?
@@ -7166,6 +7206,8 @@ extension SESv2 {
     public struct TenantInfo: AWSDecodableShape {
         /// The date and time when the tenant was created.
         public let createdTimestamp: Date?
+        /// The status of sending capability for the tenant:    ENABLED – Sending is allowed for the tenant.    DISABLED – Sending is prevented for the tenant.    REINSTATED – Sending is allowed even if there are active reputation findings.
+        public let sendingStatus: SendingStatus?
         /// The Amazon Resource Name (ARN) of the tenant.
         public let tenantArn: String?
         /// A unique identifier for the tenant.
@@ -7174,8 +7216,9 @@ extension SESv2 {
         public let tenantName: String?
 
         @inlinable
-        public init(createdTimestamp: Date? = nil, tenantArn: String? = nil, tenantId: String? = nil, tenantName: String? = nil) {
+        public init(createdTimestamp: Date? = nil, sendingStatus: SendingStatus? = nil, tenantArn: String? = nil, tenantId: String? = nil, tenantName: String? = nil) {
             self.createdTimestamp = createdTimestamp
+            self.sendingStatus = sendingStatus
             self.tenantArn = tenantArn
             self.tenantId = tenantId
             self.tenantName = tenantName
@@ -7183,6 +7226,7 @@ extension SESv2 {
 
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
+            case sendingStatus = "SendingStatus"
             case tenantArn = "TenantArn"
             case tenantId = "TenantId"
             case tenantName = "TenantName"

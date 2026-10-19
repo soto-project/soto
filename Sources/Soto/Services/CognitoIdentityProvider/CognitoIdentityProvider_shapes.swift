@@ -556,6 +556,26 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct AcrLevelConfigType: AWSEncodableShape & AWSDecodableShape {
+        /// The custom name for this authentication context class reference (ACR) level. This value is the URI that Amazon Cognito reports in the acr token claim when a user meets this level. The name must be unique across all levels in the user pool, including default names.
+        public let acrValue: String
+
+        @inlinable
+        public init(acrValue: String) {
+            self.acrValue = acrValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acrValue, name: "acrValue", parent: name, max: 64)
+            try self.validate(self.acrValue, name: "acrValue", parent: name, min: 1)
+            try self.validate(self.acrValue, name: "acrValue", parent: name, pattern: "^[\\x21\\x23-\\x5B\\x5D-\\x7E]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acrValue = "AcrValue"
+        }
+    }
+
     public struct AddCustomAttributesRequest: AWSEncodableShape {
         /// An array of custom attribute names and other properties. Sets the following characteristics:  AttributeDataType  The expected data type. Can be a string, a number, a date and time, or a boolean.  Mutable  If true, you can grant app clients write access to the attribute value. If false, the attribute value can only be set up on sign-up or administrator creation of users.  Name  The attribute name. For an attribute like custom:myAttribute, enter myAttribute for this field.  Required  When true, users who sign up or are created must set a value for the attribute.  NumberAttributeConstraints  The minimum and maximum length of accepted values for a Number-type attribute.  StringAttributeConstraints  The minimum and maximum length of accepted values for a String-type attribute.  DeveloperOnlyAttribute  This legacy option creates an attribute with a dev: prefix. You can only set the value of a developer-only attribute with administrative IAM credentials.
         public let customAttributes: [SchemaAttributeType]
@@ -1225,7 +1245,7 @@ extension CognitoIdentityProvider {
         public let analyticsMetadata: AnalyticsMetadataType?
         /// The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows.  USER_AUTH  The entry point for choice-based authentication with passwords, one-time passwords, and WebAuthn authenticators. Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response. To activate this setting, your user pool must be in the  Essentials tier or higher.  USER_SRP_AUTH  Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verification in custom authentication flow.  REFRESH_TOKEN_AUTH and REFRESH_TOKEN  Receive new ID and access tokens when you pass a REFRESH_TOKEN parameter with a valid refresh token as the value. For more information, see Using the refresh token.  CUSTOM_AUTH  Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers.  ADMIN_USER_PASSWORD_AUTH  Server-side username-password authentication with the password sent directly in the request. For more information about client-side and server-side authentication, see SDK authorization models.
         public let authFlow: AuthFlowType
-        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device.   USER_AUTH     USERNAME (required)    PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    USER_SRP_AUTH     USERNAME (required)    SRP_A (required)    ADMIN_USER_PASSWORD_AUTH     USERNAME (required)    PASSWORD (required)    REFRESH_TOKEN_AUTH/REFRESH_TOKEN     REFRESH_TOKEN(required)    CUSTOM_AUTH     USERNAME (required)    ChallengeName: SRP_A (when preceding custom authentication with SRP authentication)    SRP_A: (An SRP_A value) (when preceding custom authentication with SRP authentication)     For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
+        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device.   USER_AUTH     USERNAME (required)    PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    TARGET_ACR_VALUES. An optional, space-separated list of the authentication context class reference (ACR) level URIs that you want the user to reach. List the levels in priority order, from highest to lowest. Amazon Cognito attempts the highest-priority level that the user can satisfy, and falls back through the list. Amazon Cognito ignores any value that it doesn't recognize. If none of the requested values are valid, Amazon Cognito returns an error. Requesting step-up authentication with this parameter requires the Essentials or Plus feature plan. On a lower feature plan, AdminInitiateAuth returns a FeatureUnavailableInTierException. USERNAME is required. When you provide an ACCESS_TOKEN, you must also provide TARGET_ACR_VALUES. Amazon Cognito returns an error if you provide an ACCESS_TOKEN without TARGET_ACR_VALUES. The USERNAME that you provide must match the user that the ACCESS_TOKEN was issued for. For more information about step-up authentication and how Amazon Cognito handles multi-factor authentication requirements, see Step-up authentication with ACR and AMR in the Amazon Cognito Developer Guide.    MAX_AGE. An optional integer that sets the maximum number of seconds allowed since the user last authenticated. If the user's most recent authentication is older than this value, Amazon Cognito discards the authentication-methods credit from any access token that you provide and processes the request as a fresh authentication toward the target level. The access token itself remains valid.    USER_SRP_AUTH     USERNAME (required)    SRP_A (required)    ADMIN_USER_PASSWORD_AUTH     USERNAME (required)    PASSWORD (required)    REFRESH_TOKEN_AUTH/REFRESH_TOKEN     REFRESH_TOKEN(required)    CUSTOM_AUTH     USERNAME (required)    ChallengeName: SRP_A (when preceding custom authentication with SRP authentication)    SRP_A: (An SRP_A value) (when preceding custom authentication with SRP authentication)     For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
         public let authParameters: [String: String]?
         /// The ID of the app client where the user wants to sign in.
         public let clientId: String
@@ -1268,7 +1288,7 @@ extension CognitoIdentityProvider {
                 try validate($0.value, name: "clientMetadata[\"\($0.key)\"]", parent: name, max: 131072)
             }
             try self.contextData?.validate(name: "\(name).contextData")
-            try self.validate(self.session, name: "session", parent: name, max: 2048)
+            try self.validate(self.session, name: "session", parent: name, max: 4096)
             try self.validate(self.session, name: "session", parent: name, min: 20)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
@@ -1673,7 +1693,7 @@ extension CognitoIdentityProvider {
                 try validate($0.value, name: "clientMetadata[\"\($0.key)\"]", parent: name, max: 131072)
             }
             try self.contextData?.validate(name: "\(name).contextData")
-            try self.validate(self.session, name: "session", parent: name, max: 2048)
+            try self.validate(self.session, name: "session", parent: name, max: 4096)
             try self.validate(self.session, name: "session", parent: name, min: 20)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
@@ -1695,6 +1715,8 @@ extension CognitoIdentityProvider {
     public struct AdminRespondToAuthChallengeResponse: AWSDecodableShape {
         /// The outcome of a successful authentication process. After your application has passed all challenges, Amazon Cognito returns an AuthenticationResult with the JSON web tokens (JWTs) that indicate successful sign-in.
         public let authenticationResult: AuthenticationResultType?
+        /// This response parameter lists the available authentication challenges that users can select from in choice-based authentication. For example, they might be able to choose between passkey authentication, a one-time password from an SMS message, and a traditional password.
+        public let availableChallenges: [ChallengeNameType]?
         /// The name of the next challenge that you must respond to. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a  DEVICE_KEY for device authentication.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey, as  CREDENTIAL. Examples of WebAuthn authenticators include  biometric devices and security keys.    PASSWORD: Respond with the user's password as PASSWORD.    PASSWORD_SRP: Respond with the initial SRP secret as SRP_A.    SELECT_CHALLENGE: Respond with a challenge selection as ANSWER.  It must be one of the challenge types in the AvailableChallenges response  parameter. Add the parameters of the selected challenge, for example USERNAME and SMS_OTP.    SMS_MFA: Respond with the code that your user pool delivered in an SMS message, as SMS_MFA_CODE     EMAIL_MFA: Respond with the code that your user pool delivered in an email message, as EMAIL_MFA_CODE     EMAIL_OTP: Respond with the code that your user pool delivered in an email message, as EMAIL_OTP_CODE .    SMS_OTP: Respond with the code that your user pool delivered in an SMS message, as SMS_OTP_CODE.    PASSWORD_VERIFIER: Respond with the second stage of SRP secrets as PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK,  and TIMESTAMP.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function and issued in the ChallengeParameters of a challenge response.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge or RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the
         /// requiredAttributes parameter, then use the AdminUpdateUserAttributes or UpdateUserAttributes API
@@ -1706,8 +1728,9 @@ extension CognitoIdentityProvider {
         public let session: String?
 
         @inlinable
-        public init(authenticationResult: AuthenticationResultType? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil, session: String? = nil) {
+        public init(authenticationResult: AuthenticationResultType? = nil, availableChallenges: [ChallengeNameType]? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil, session: String? = nil) {
             self.authenticationResult = authenticationResult
+            self.availableChallenges = availableChallenges
             self.challengeName = challengeName
             self.challengeParameters = challengeParameters
             self.session = session
@@ -1715,6 +1738,7 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case authenticationResult = "AuthenticationResult"
+            case availableChallenges = "AvailableChallenges"
             case challengeName = "ChallengeName"
             case challengeParameters = "ChallengeParameters"
             case session = "Session"
@@ -2138,7 +2162,7 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^[A-Za-z0-9-_=.]+$")
-            try self.validate(self.session, name: "session", parent: name, max: 2048)
+            try self.validate(self.session, name: "session", parent: name, max: 4096)
             try self.validate(self.session, name: "session", parent: name, min: 20)
         }
 
@@ -2645,7 +2669,7 @@ extension CognitoIdentityProvider {
             try self.validate(self.secretHash, name: "secretHash", parent: name, max: 128)
             try self.validate(self.secretHash, name: "secretHash", parent: name, min: 1)
             try self.validate(self.secretHash, name: "secretHash", parent: name, pattern: "^[\\w+=/]+$")
-            try self.validate(self.session, name: "session", parent: name, max: 2048)
+            try self.validate(self.session, name: "session", parent: name, max: 4096)
             try self.validate(self.session, name: "session", parent: name, min: 20)
             try self.userContextData?.validate(name: "\(name).userContextData")
             try self.validate(self.username, name: "username", parent: name, max: 128)
@@ -2779,6 +2803,8 @@ extension CognitoIdentityProvider {
     }
 
     public struct CreateIdentityProviderRequest: AWSEncodableShape {
+        /// A mapping between the authentication context class reference (ACR) levels of your user pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP). The map is keyed by level, from Level1 through Level4, and each value is the ACR value that the IdP uses for the corresponding level. Amazon Cognito uses this mapping to translate a requested user pool ACR level to the value that the IdP expects, and to map an ACR value that the IdP returns back to a user pool level. When the IdP returns an ACR value that isn't mapped, Amazon Cognito resolves it to the lowest level. Only OIDC IdPs support ACR mapping. Setting AcrMapping is available in all feature plans. It isn't restricted to the Essentials or Plus feature plan.
+        public let acrMapping: [String: String]?
         /// A mapping of IdP attributes to standard and custom user pool attributes. Specify a user pool attribute as the key of the key-value pair, and the IdP attribute claim name as the value.
         public let attributeMapping: [String: String]?
         /// An array of IdP identifiers, for example "IdPIdentifiers": [ "MyIdP", "MyIdP2" ]. Identifiers are friendly names that you can pass in the idp_identifier query parameter of requests to the Authorize endpoint to silently redirect to sign-in with the associated IdP. Identifiers in a domain format also enable the use of email-address matching with SAML providers.
@@ -2796,7 +2822,8 @@ extension CognitoIdentityProvider {
         public let userPoolId: String
 
         @inlinable
-        public init(attributeMapping: [String: String]? = nil, idpIdentifiers: [String]? = nil, providerDetails: [String: String], providerName: String, providerType: IdentityProviderTypeType, userPoolId: String) {
+        public init(acrMapping: [String: String]? = nil, attributeMapping: [String: String]? = nil, idpIdentifiers: [String]? = nil, providerDetails: [String: String], providerName: String, providerType: IdentityProviderTypeType, userPoolId: String) {
+            self.acrMapping = acrMapping
             self.attributeMapping = attributeMapping
             self.idpIdentifiers = idpIdentifiers
             self.providerDetails = providerDetails
@@ -2806,6 +2833,13 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
+            try self.acrMapping?.forEach {
+                try validate($0.key, name: "acrMapping.key", parent: name, pattern: "^Level[1-4]$")
+                try validate($0.value, name: "acrMapping[\"\($0.key)\"]", parent: name, max: 64)
+                try validate($0.value, name: "acrMapping[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "acrMapping[\"\($0.key)\"]", parent: name, pattern: "^[\\x21\\x23-\\x5B\\x5D-\\x7E]+$")
+            }
+            try self.validate(self.acrMapping, name: "acrMapping", parent: name, max: 4)
             try self.attributeMapping?.forEach {
                 try validate($0.key, name: "attributeMapping.key", parent: name, max: 32)
                 try validate($0.key, name: "attributeMapping.key", parent: name, min: 1)
@@ -2830,6 +2864,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acrMapping = "AcrMapping"
             case attributeMapping = "AttributeMapping"
             case idpIdentifiers = "IdpIdentifiers"
             case providerDetails = "ProviderDetails"
@@ -3412,6 +3447,8 @@ extension CognitoIdentityProvider {
     public struct CreateUserPoolRequest: AWSEncodableShape {
         /// The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. Email MFA is also disqualifying for account recovery with email. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email. As a best practice, configure both verified_email and verified_phone_number, with one having a higher priority than the other.
         public let accountRecoverySetting: AccountRecoverySettingType?
+        /// The custom names for the authentication context class reference (ACR) levels in your user pool. Amazon Cognito defines four fixed ACR levels that represent increasing authentication assurance. The combination of authentication factors that satisfies each level is fixed and you can't change it. With this configuration, you customize only the URI name that Amazon Cognito reports for each level in the acr token claim. You can override a subset of the levels. By default, the levels are named urn:cognito:loa:1 through urn:cognito:loa:4, and Amazon Cognito applies the default name to any level that you don't specify. Each name must be unique across all four levels, including any default names that apply to levels you don't override. A name can contain any character that is valid in a URL or a URN. Configuring custom ACR level names requires the Essentials or Plus feature plan. To activate this setting, your user pool must be in the  Essentials tier or higher.
+        public let acrConfiguration: [String: AcrLevelConfigType]?
         /// The configuration for administrative creation of users. Includes the template for the invitation message for new users, the duration of temporary passwords, and permitting self-service sign-up.
         public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// Attributes supported as an alias for this user pool. For more information about alias attributes, see Customizing sign-in attributes.
@@ -3475,8 +3512,9 @@ extension CognitoIdentityProvider {
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
         @inlinable
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, acrConfiguration: [String: AcrLevelConfigType]? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
+            self.acrConfiguration = acrConfiguration
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
             self.autoVerifiedAttributes = autoVerifiedAttributes
@@ -3506,6 +3544,11 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.accountRecoverySetting?.validate(name: "\(name).accountRecoverySetting")
+            try self.acrConfiguration?.forEach {
+                try validate($0.key, name: "acrConfiguration.key", parent: name, pattern: "^Level[1-4]$")
+                try $0.value.validate(name: "\(name).acrConfiguration[\"\($0.key)\"]")
+            }
+            try self.validate(self.acrConfiguration, name: "acrConfiguration", parent: name, max: 4)
             try self.adminCreateUserConfig?.validate(name: "\(name).adminCreateUserConfig")
             try self.emailConfiguration?.validate(name: "\(name).emailConfiguration")
             try self.validate(self.emailVerificationMessage, name: "emailVerificationMessage", parent: name, max: 20000)
@@ -3542,6 +3585,7 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case accountRecoverySetting = "AccountRecoverySetting"
+            case acrConfiguration = "AcrConfiguration"
             case adminCreateUserConfig = "AdminCreateUserConfig"
             case aliasAttributes = "AliasAttributes"
             case autoVerifiedAttributes = "AutoVerifiedAttributes"
@@ -4265,7 +4309,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct DescribeTermsByClientResponse: AWSDecodableShape {
-        /// A summary of the requested terms documents. Includes a unique identifier for later changes to the terms documents.
+        /// A summary of the requested terms documents, including a unique identifier for later changes to the terms documents.
         public let terms: TermsType?
 
         @inlinable
@@ -5647,6 +5691,8 @@ extension CognitoIdentityProvider {
     }
 
     public struct IdentityProviderType: AWSDecodableShape {
+        /// A mapping between the authentication context class reference (ACR) levels of your user pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP), so that your application gets a consistent step-up experience regardless of which IdP authenticated the user. The map is keyed by level, from Level1 through Level4.
+        public let acrMapping: [String: String]?
         /// A mapping of IdP attributes to standard and custom user pool attributes.
         public let attributeMapping: [String: String]?
         /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
@@ -5670,7 +5716,8 @@ extension CognitoIdentityProvider {
         public let userPoolId: String?
 
         @inlinable
-        public init(attributeMapping: [String: String]? = nil, creationDate: Date? = nil, idpIdentifiers: [String]? = nil, lastModifiedDate: Date? = nil, providerDetails: [String: String]? = nil, providerName: String? = nil, providerType: IdentityProviderTypeType? = nil, userPoolId: String? = nil) {
+        public init(acrMapping: [String: String]? = nil, attributeMapping: [String: String]? = nil, creationDate: Date? = nil, idpIdentifiers: [String]? = nil, lastModifiedDate: Date? = nil, providerDetails: [String: String]? = nil, providerName: String? = nil, providerType: IdentityProviderTypeType? = nil, userPoolId: String? = nil) {
+            self.acrMapping = acrMapping
             self.attributeMapping = attributeMapping
             self.creationDate = creationDate
             self.idpIdentifiers = idpIdentifiers
@@ -5682,6 +5729,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acrMapping = "AcrMapping"
             case attributeMapping = "AttributeMapping"
             case creationDate = "CreationDate"
             case idpIdentifiers = "IdpIdentifiers"
@@ -5724,7 +5772,7 @@ extension CognitoIdentityProvider {
         public let analyticsMetadata: AnalyticsMetadataType?
         /// The authentication flow that you want to initiate. Each AuthFlow has linked AuthParameters that you must submit. The following are some example flows.  USER_AUTH  The entry point for choice-based authentication with passwords, one-time passwords, and WebAuthn authenticators. Request a preferred authentication type or review available authentication types. From the offered authentication types, select one in a challenge response and then authenticate with that method in an additional challenge response. To activate this setting, your user pool must be in the  Essentials tier or higher.  USER_SRP_AUTH  Username-password authentication with the Secure Remote Password (SRP) protocol. For more information, see Use SRP password verification in custom authentication flow.  REFRESH_TOKEN_AUTH and REFRESH_TOKEN  Receive new ID and access tokens when you pass a REFRESH_TOKEN parameter with a valid refresh token as the value. For more information, see Using the refresh token.  CUSTOM_AUTH  Custom authentication with Lambda triggers. For more information, see Custom authentication challenge Lambda triggers.  USER_PASSWORD_AUTH  Client-side username-password authentication with the password sent directly in the request. For more information about client-side and server-side authentication, see SDK authorization models.    ADMIN_USER_PASSWORD_AUTH is a flow type of AdminInitiateAuth and isn't valid for InitiateAuth. ADMIN_NO_SRP_AUTH is a legacy server-side username-password flow and isn't valid for InitiateAuth.
         public let authFlow: AuthFlowType
-        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device.   USER_AUTH     USERNAME (required)    PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    USER_SRP_AUTH     USERNAME (required)    SRP_A (required)    USER_PASSWORD_AUTH     USERNAME (required)    PASSWORD (required)    REFRESH_TOKEN_AUTH/REFRESH_TOKEN     REFRESH_TOKEN(required)    CUSTOM_AUTH     USERNAME (required)    ChallengeName: SRP_A (when doing SRP authentication before custom challenges)    SRP_A: (An SRP_A value) (when doing SRP authentication before custom challenges)     For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
+        /// The authentication parameters. These are inputs corresponding to the AuthFlow that you're invoking. The following are some authentication flows and their parameters. Add a SECRET_HASH parameter if your app client has a client secret. Add DEVICE_KEY if you want to bypass multi-factor authentication with a remembered device.   USER_AUTH     USERNAME (required)    PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.    TARGET_ACR_VALUES. An optional, space-separated list of the authentication context class reference (ACR) level URIs that you want the user to reach. List the levels in priority order, from highest to lowest. Amazon Cognito attempts the highest-priority level that the user can satisfy, and falls back through the list. Amazon Cognito ignores any value that it doesn't recognize. If none of the requested values are valid, Amazon Cognito returns an error. Requesting step-up authentication with this parameter requires the Essentials or Plus feature plan. On a lower feature plan, InitiateAuth returns a FeatureUnavailableInTierException. USERNAME is required. When you provide an ACCESS_TOKEN, you must also provide TARGET_ACR_VALUES. Amazon Cognito returns an error if you provide an ACCESS_TOKEN without TARGET_ACR_VALUES. The USERNAME that you provide must match the user that the ACCESS_TOKEN was issued for. For more information about step-up authentication and how Amazon Cognito handles multi-factor authentication requirements, see Step-up authentication with ACR and AMR in the Amazon Cognito Developer Guide.    MAX_AGE. An optional integer that sets the maximum number of seconds allowed since the user last authenticated. If the user's most recent authentication is older than this value, Amazon Cognito discards the authentication-methods credit from any access token that you provide and processes the request as a fresh authentication toward the target level. The access token itself remains valid.    USER_SRP_AUTH     USERNAME (required)    SRP_A (required)    USER_PASSWORD_AUTH     USERNAME (required)    PASSWORD (required)    REFRESH_TOKEN_AUTH/REFRESH_TOKEN     REFRESH_TOKEN(required)    CUSTOM_AUTH     USERNAME (required)    ChallengeName: SRP_A (when doing SRP authentication before custom challenges)    SRP_A: (An SRP_A value) (when doing SRP authentication before custom challenges)     For more information about SECRET_HASH, see Computing secret hash values. For information about DEVICE_KEY, see Working with user devices in your user pool.
         public let authParameters: [String: String]?
         /// The ID of the app client that your user wants to sign in to.
         public let clientId: String
@@ -5763,7 +5811,7 @@ extension CognitoIdentityProvider {
                 try validate($0.key, name: "clientMetadata.key", parent: name, max: 131072)
                 try validate($0.value, name: "clientMetadata[\"\($0.key)\"]", parent: name, max: 131072)
             }
-            try self.validate(self.session, name: "session", parent: name, max: 2048)
+            try self.validate(self.session, name: "session", parent: name, max: 4096)
             try self.validate(self.session, name: "session", parent: name, min: 20)
             try self.userContextData?.validate(name: "\(name).userContextData")
         }
@@ -7417,7 +7465,7 @@ extension CognitoIdentityProvider {
                 try validate($0.key, name: "clientMetadata.key", parent: name, max: 131072)
                 try validate($0.value, name: "clientMetadata[\"\($0.key)\"]", parent: name, max: 131072)
             }
-            try self.validate(self.session, name: "session", parent: name, max: 2048)
+            try self.validate(self.session, name: "session", parent: name, max: 4096)
             try self.validate(self.session, name: "session", parent: name, min: 20)
             try self.userContextData?.validate(name: "\(name).userContextData")
         }
@@ -7436,6 +7484,8 @@ extension CognitoIdentityProvider {
     public struct RespondToAuthChallengeResponse: AWSDecodableShape {
         /// The outcome of a successful authentication process. After your application has passed all challenges, Amazon Cognito returns an AuthenticationResult with the JSON web tokens (JWTs) that indicate successful sign-in.
         public let authenticationResult: AuthenticationResultType?
+        /// This response parameter lists the available authentication challenges that users can select from in choice-based authentication. For example, they might be able to choose between passkey authentication, a one-time password from an SMS message, and a traditional password.
+        public let availableChallenges: [ChallengeNameType]?
         /// The name of the next challenge that you must respond to. Possible challenges include the following:  All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a  DEVICE_KEY for device authentication.     WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey, as  CREDENTIAL. Examples of WebAuthn authenticators include  biometric devices and security keys.    PASSWORD: Respond with the user's password as PASSWORD.    PASSWORD_SRP: Respond with the initial SRP secret as SRP_A.    SELECT_CHALLENGE: Respond with a challenge selection as ANSWER.  It must be one of the challenge types in the AvailableChallenges response  parameter. Add the parameters of the selected challenge, for example USERNAME and SMS_OTP.    SMS_MFA: Respond with the code that your user pool delivered in an SMS message, as SMS_MFA_CODE     EMAIL_MFA: Respond with the code that your user pool delivered in an email message, as EMAIL_MFA_CODE     EMAIL_OTP: Respond with the code that your user pool delivered in an email message, as EMAIL_OTP_CODE .    SMS_OTP: Respond with the code that your user pool delivered in an SMS message, as SMS_OTP_CODE.    PASSWORD_VERIFIER: Respond with the second stage of SRP secrets as PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK,  and TIMESTAMP.    CUSTOM_CHALLENGE: This is returned if your custom authentication flow determines that the user should pass another challenge before tokens are issued. The parameters of the challenge are determined by your Lambda function and issued in the ChallengeParameters of a challenge response.    DEVICE_SRP_AUTH: Respond with the initial parameters of device SRP  authentication. For more information, see Signing in with a device.    DEVICE_PASSWORD_VERIFIER: Respond with PASSWORD_CLAIM_SIGNATURE, PASSWORD_CLAIM_SECRET_BLOCK, and TIMESTAMP after client-side SRP calculations. For more information, see Signing in with a device.    NEW_PASSWORD_REQUIRED: For users who are required to change their passwords after successful first login. Respond to this challenge with  NEW_PASSWORD and any required attributes that Amazon Cognito returned in  the requiredAttributes parameter. You can also set values for  attributes that aren't required by your user pool and that your app client  can write. Amazon Cognito only returns this challenge for users who have temporary passwords. When you create passwordless users, you must provide values for all required  attributes.  In a NEW_PASSWORD_REQUIRED challenge response, you can't modify a required attribute that already has a value.
         /// In AdminRespondToAuthChallenge or RespondToAuthChallenge, set a value for any keys that Amazon Cognito returned in the
         /// requiredAttributes parameter, then use the AdminUpdateUserAttributes or UpdateUserAttributes API
@@ -7447,8 +7497,9 @@ extension CognitoIdentityProvider {
         public let session: String?
 
         @inlinable
-        public init(authenticationResult: AuthenticationResultType? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil, session: String? = nil) {
+        public init(authenticationResult: AuthenticationResultType? = nil, availableChallenges: [ChallengeNameType]? = nil, challengeName: ChallengeNameType? = nil, challengeParameters: [String: String]? = nil, session: String? = nil) {
             self.authenticationResult = authenticationResult
+            self.availableChallenges = availableChallenges
             self.challengeName = challengeName
             self.challengeParameters = challengeParameters
             self.session = session
@@ -7456,6 +7507,7 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case authenticationResult = "AuthenticationResult"
+            case availableChallenges = "AvailableChallenges"
             case challengeName = "ChallengeName"
             case challengeParameters = "ChallengeParameters"
             case session = "Session"
@@ -8658,6 +8710,8 @@ extension CognitoIdentityProvider {
     }
 
     public struct UpdateIdentityProviderRequest: AWSEncodableShape {
+        /// A mapping between the authentication context class reference (ACR) levels of your user pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP). This mapping has the same behavior as it does when you create an identity provider. Only OIDC IdPs support ACR mapping. Setting AcrMapping is available in all feature plans. It isn't restricted to the Essentials or Plus feature plan.
+        public let acrMapping: [String: String]?
         /// A mapping of IdP attributes to standard and custom user pool attributes. Specify a user pool attribute as the key of the key-value pair, and the IdP attribute claim name as the value.
         public let attributeMapping: [String: String]?
         /// An array of IdP identifiers, for example "IdPIdentifiers": [ "MyIdP", "MyIdP2" ]. Identifiers are friendly names that you can pass in the idp_identifier query parameter of requests to the Authorize endpoint to silently redirect to sign-in with the associated IdP. Identifiers in a domain format also enable the use of email-address matching with SAML providers.
@@ -8673,7 +8727,8 @@ extension CognitoIdentityProvider {
         public let userPoolId: String
 
         @inlinable
-        public init(attributeMapping: [String: String]? = nil, idpIdentifiers: [String]? = nil, providerDetails: [String: String]? = nil, providerName: String, userPoolId: String) {
+        public init(acrMapping: [String: String]? = nil, attributeMapping: [String: String]? = nil, idpIdentifiers: [String]? = nil, providerDetails: [String: String]? = nil, providerName: String, userPoolId: String) {
+            self.acrMapping = acrMapping
             self.attributeMapping = attributeMapping
             self.idpIdentifiers = idpIdentifiers
             self.providerDetails = providerDetails
@@ -8682,6 +8737,13 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
+            try self.acrMapping?.forEach {
+                try validate($0.key, name: "acrMapping.key", parent: name, pattern: "^Level[1-4]$")
+                try validate($0.value, name: "acrMapping[\"\($0.key)\"]", parent: name, max: 64)
+                try validate($0.value, name: "acrMapping[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "acrMapping[\"\($0.key)\"]", parent: name, pattern: "^[\\x21\\x23-\\x5B\\x5D-\\x7E]+$")
+            }
+            try self.validate(self.acrMapping, name: "acrMapping", parent: name, max: 4)
             try self.attributeMapping?.forEach {
                 try validate($0.key, name: "attributeMapping.key", parent: name, max: 32)
                 try validate($0.key, name: "attributeMapping.key", parent: name, min: 1)
@@ -8706,6 +8768,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acrMapping = "AcrMapping"
             case attributeMapping = "AttributeMapping"
             case idpIdentifiers = "IdpIdentifiers"
             case providerDetails = "ProviderDetails"
@@ -9307,6 +9370,8 @@ extension CognitoIdentityProvider {
     public struct UpdateUserPoolRequest: AWSEncodableShape {
         /// The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred through email.
         public let accountRecoverySetting: AccountRecoverySettingType?
+        /// The custom names for the authentication context class reference (ACR) levels in your user pool. This configuration has the same behavior as it does when you create a user pool: you customize only the URI name that Amazon Cognito reports for each of the four fixed ACR levels, and any level that you don't specify keeps its default name. Each name must be unique across all four levels, including default names. Configuring custom ACR level names requires the Essentials or Plus feature plan. To activate this setting, your user pool must be in the  Essentials tier or higher.
+        public let acrConfiguration: [String: AcrLevelConfigType]?
         /// The configuration for administrative creation of users. Includes the template for the invitation message for new users, the duration of temporary passwords, and permitting self-service sign-up.
         public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// The attributes that you want your user pool to automatically verify. Possible values: email, phone_number. For more information see Verifying contact information at sign-up.
@@ -9364,8 +9429,9 @@ extension CognitoIdentityProvider {
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
         @inlinable
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolId: String, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, acrConfiguration: [String: AcrLevelConfigType]? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolId: String, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
+            self.acrConfiguration = acrConfiguration
             self.adminCreateUserConfig = adminCreateUserConfig
             self.autoVerifiedAttributes = autoVerifiedAttributes
             self.deletionProtection = deletionProtection
@@ -9392,6 +9458,11 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.accountRecoverySetting?.validate(name: "\(name).accountRecoverySetting")
+            try self.acrConfiguration?.forEach {
+                try validate($0.key, name: "acrConfiguration.key", parent: name, pattern: "^Level[1-4]$")
+                try $0.value.validate(name: "\(name).acrConfiguration[\"\($0.key)\"]")
+            }
+            try self.validate(self.acrConfiguration, name: "acrConfiguration", parent: name, max: 4)
             try self.adminCreateUserConfig?.validate(name: "\(name).adminCreateUserConfig")
             try self.emailConfiguration?.validate(name: "\(name).emailConfiguration")
             try self.validate(self.emailVerificationMessage, name: "emailVerificationMessage", parent: name, max: 20000)
@@ -9426,6 +9497,7 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case accountRecoverySetting = "AccountRecoverySetting"
+            case acrConfiguration = "AcrConfiguration"
             case adminCreateUserConfig = "AdminCreateUserConfig"
             case autoVerifiedAttributes = "AutoVerifiedAttributes"
             case deletionProtection = "DeletionProtection"
@@ -9855,6 +9927,8 @@ extension CognitoIdentityProvider {
     public struct UserPoolType: AWSDecodableShape {
         /// The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred through email.
         public let accountRecoverySetting: AccountRecoverySettingType?
+        /// The names of the authentication context class reference (ACR) levels for the user pool. Amazon Cognito always returns the effective configuration, with default names merged in for any level that you haven't customized. Configuring custom ACR level names requires the Essentials or Plus feature plan. To activate this setting, your user pool must be in the  Essentials tier or higher.
+        public let acrConfiguration: [String: AcrLevelConfigType]?
         /// The configuration for AdminCreateUser requests.
         public let adminCreateUserConfig: AdminCreateUserConfigType?
         /// Attributes supported as an alias for this user pool. An alias is an attribute that users can enter as an alternative username. Possible values: phone_number, email, or preferred_username.
@@ -9940,8 +10014,9 @@ extension CognitoIdentityProvider {
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
         @inlinable
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, acrConfiguration: [String: AcrLevelConfigType]? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
+            self.acrConfiguration = acrConfiguration
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
             self.arn = arn
@@ -9981,8 +10056,9 @@ extension CognitoIdentityProvider {
 
         @available(*, deprecated, message: "Members status have been deprecated")
         @inlinable
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, acrConfiguration: [String: AcrLevelConfigType]? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
+            self.acrConfiguration = acrConfiguration
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
             self.arn = arn
@@ -10022,6 +10098,7 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case accountRecoverySetting = "AccountRecoverySetting"
+            case acrConfiguration = "AcrConfiguration"
             case adminCreateUserConfig = "AdminCreateUserConfig"
             case aliasAttributes = "AliasAttributes"
             case arn = "Arn"
@@ -10188,7 +10265,7 @@ extension CognitoIdentityProvider {
         public func validate(name: String) throws {
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^[A-Za-z0-9-_=.]+$")
             try self.validate(self.friendlyDeviceName, name: "friendlyDeviceName", parent: name, max: 131072)
-            try self.validate(self.session, name: "session", parent: name, max: 2048)
+            try self.validate(self.session, name: "session", parent: name, max: 4096)
             try self.validate(self.session, name: "session", parent: name, min: 20)
             try self.validate(self.userCode, name: "userCode", parent: name, max: 6)
             try self.validate(self.userCode, name: "userCode", parent: name, min: 6)
@@ -10437,7 +10514,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var enableSoftwareTokenMFAException: Self { .init(.enableSoftwareTokenMFAException) }
     /// This exception is thrown if a code has expired.
     public static var expiredCodeException: Self { .init(.expiredCodeException) }
-    /// This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:   You configure a feature that your feature plan doesn't support.   You make a request that uses a feature that requires a higher feature plan.   To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     public static var featureUnavailableInTierException: Self { .init(.featureUnavailableInTierException) }
     /// This exception is thrown when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
     public static var forbiddenException: Self { .init(.forbiddenException) }
