@@ -546,6 +546,24 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum NotifyOnState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Notify when the notebook run fails.
+        case failed = "FAILED"
+        /// Notify when the notebook run is queued.
+        case queued = "QUEUED"
+        /// Notify when the notebook run is running.
+        case running = "RUNNING"
+        /// Notify when the notebook run is starting.
+        case starting = "STARTING"
+        /// Notify when the notebook run is stopped.
+        case stopped = "STOPPED"
+        /// Notify when the notebook run is stopping.
+        case stopping = "STOPPING"
+        /// Notify when the notebook run succeeds.
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OAuth2GrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case authorizationCode = "AUTHORIZATION_CODE"
         case clientCredentials = "CLIENT_CREDENTIALS"
@@ -2456,6 +2474,58 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case glueSelfGrantStatus = "glueSelfGrantStatus"
             case redshiftSelfGrantStatus = "redshiftSelfGrantStatus"
+        }
+    }
+
+    public enum SourceLocation: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Amazon Simple Storage Service URI of the notebook source file.
+        case s3(String)
+        /// The Amazon Simple Storage Service objects to import as the notebook's cells. One cell is created for each object, in the order in which you list them.
+        case s3Files(S3FilesLocation)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .s3:
+                let value = try container.decode(String.self, forKey: .s3)
+                self = .s3(value)
+            case .s3Files:
+                let value = try container.decode(S3FilesLocation.self, forKey: .s3Files)
+                self = .s3Files(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .s3(let value):
+                try container.encode(value, forKey: .s3)
+            case .s3Files(let value):
+                try container.encode(value, forKey: .s3Files)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .s3(let value):
+                try self.validate(value, name: "s3", parent: name, max: 1024)
+                try self.validate(value, name: "s3", parent: name, min: 1)
+                try self.validate(value, name: "s3", parent: name, pattern: "^s3://.+$")
+            case .s3Files(let value):
+                try value.validate(name: "\(name).s3Files")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+            case s3Files = "s3Files"
         }
     }
 
@@ -13879,6 +13949,8 @@ extension DataZone {
         public let networkConfiguration: NetworkConfig?
         /// The identifier of the notebook.
         public let notebookId: String
+        /// The notification configuration of the notebook run, including the notebook run states that trigger notifications.
+        public let notificationConfiguration: NotificationConfig?
         /// The identifier of the project that owns the notebook run.
         public let owningProjectId: String
         /// The sensitive parameters of the notebook run.
@@ -13901,7 +13973,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(cellOrder: [CellInformation]? = nil, completedAt: Date? = nil, computeConfiguration: ComputeConfig? = nil, createdAt: Date? = nil, createdBy: String? = nil, domainId: String, environmentConfiguration: EnvironmentConfig? = nil, error: NotebookRunError? = nil, id: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookId: String, owningProjectId: String, parameters: [String: String]? = nil, scheduleId: String? = nil, startedAt: Date? = nil, status: NotebookRunStatus, storageConfiguration: StorageConfig? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(cellOrder: [CellInformation]? = nil, completedAt: Date? = nil, computeConfiguration: ComputeConfig? = nil, createdAt: Date? = nil, createdBy: String? = nil, domainId: String, environmentConfiguration: EnvironmentConfig? = nil, error: NotebookRunError? = nil, id: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookId: String, notificationConfiguration: NotificationConfig? = nil, owningProjectId: String, parameters: [String: String]? = nil, scheduleId: String? = nil, startedAt: Date? = nil, status: NotebookRunStatus, storageConfiguration: StorageConfig? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.cellOrder = cellOrder
             self.completedAt = completedAt
             self.computeConfiguration = computeConfiguration
@@ -13914,6 +13986,7 @@ extension DataZone {
             self.metadata = metadata
             self.networkConfiguration = networkConfiguration
             self.notebookId = notebookId
+            self.notificationConfiguration = notificationConfiguration
             self.owningProjectId = owningProjectId
             self.parameters = parameters
             self.scheduleId = scheduleId
@@ -13939,6 +14012,7 @@ extension DataZone {
             case metadata = "metadata"
             case networkConfiguration = "networkConfiguration"
             case notebookId = "notebookId"
+            case notificationConfiguration = "notificationConfiguration"
             case owningProjectId = "owningProjectId"
             case parameters = "parameters"
             case scheduleId = "scheduleId"
@@ -19283,6 +19357,24 @@ extension DataZone {
         }
     }
 
+    public struct NotificationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Notebook run states that trigger notifications. Ordering is not significant.
+        public let notifyOn: [NotifyOnState]
+
+        @inlinable
+        public init(notifyOn: [NotifyOnState]) {
+            self.notifyOn = notifyOn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.notifyOn, name: "notifyOn", parent: name, max: 7)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notifyOn = "notifyOn"
+        }
+    }
+
     public struct NotificationOutput: AWSDecodableShape {
         /// The action link included in the notification.
         public let actionLink: String
@@ -21294,6 +21386,54 @@ extension DataZone {
         }
     }
 
+    public struct S3File: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the Amazon Simple Storage Service object to import.
+        public let key: String
+
+        @inlinable
+        public init(key: String) {
+            self.key = key
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+        }
+    }
+
+    public struct S3FilesLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon Simple Storage Service bucket that contains the files to import.
+        public let bucket: String
+        /// The files to import. Cells are created in the order in which you list the files. You can specify between 1 and 100 files.
+        public let fileList: [S3File]
+
+        @inlinable
+        public init(bucket: String, fileList: [S3File]) {
+            self.bucket = bucket
+            self.fileList = fileList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$")
+            try self.fileList.forEach {
+                try $0.validate(name: "\(name).fileList[]")
+            }
+            try self.validate(self.fileList, name: "fileList", parent: name, max: 100)
+            try self.validate(self.fileList, name: "fileList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case fileList = "fileList"
+        }
+    }
+
     public struct S3PropertiesInput: AWSEncodableShape {
         /// Specifies whether to register the Amazon S3 Access Grant location.
         public let registerS3AccessGrantLocation: Bool?
@@ -22681,17 +22821,20 @@ extension DataZone {
         public let name: String
         /// The identifier of the project that will own the imported notebook.
         public let owningProjectIdentifier: String
-        /// The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file.
+        /// The source location of the notebook to import. Specify either a single Amazon Simple Storage Service URI, or a list of objects to import as the notebook's cells.
         public let sourceLocation: SourceLocation
+        /// The type of the notebook to import. If not specified, defaults to DATA.
+        public let type: NotebookType?
 
         @inlinable
-        public init(clientToken: String? = StartNotebookImportInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, name: String, owningProjectIdentifier: String, sourceLocation: SourceLocation) {
+        public init(clientToken: String? = StartNotebookImportInput.idempotencyToken(), description: String? = nil, domainIdentifier: String, name: String, owningProjectIdentifier: String, sourceLocation: SourceLocation, type: NotebookType? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.name = name
             self.owningProjectIdentifier = owningProjectIdentifier
             self.sourceLocation = sourceLocation
+            self.type = type
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -22703,6 +22846,7 @@ extension DataZone {
             try container.encode(self.name, forKey: .name)
             try container.encode(self.owningProjectIdentifier, forKey: .owningProjectIdentifier)
             try container.encode(self.sourceLocation, forKey: .sourceLocation)
+            try container.encodeIfPresent(self.type, forKey: .type)
         }
 
         public func validate(name: String) throws {
@@ -22723,6 +22867,7 @@ extension DataZone {
             case name = "name"
             case owningProjectIdentifier = "owningProjectIdentifier"
             case sourceLocation = "sourceLocation"
+            case type = "type"
         }
     }
 
@@ -22745,9 +22890,11 @@ extension DataZone {
         public let sourceLocation: SourceLocation?
         /// The status of the notebook import.
         public let status: NotebookStatus?
+        /// The type of the imported notebook.
+        public let type: NotebookType?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String? = nil, name: String? = nil, notebookId: String? = nil, owningProjectId: String? = nil, sourceLocation: SourceLocation? = nil, status: NotebookStatus? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, domainId: String? = nil, name: String? = nil, notebookId: String? = nil, owningProjectId: String? = nil, sourceLocation: SourceLocation? = nil, status: NotebookStatus? = nil, type: NotebookType? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -22757,6 +22904,7 @@ extension DataZone {
             self.owningProjectId = owningProjectId
             self.sourceLocation = sourceLocation
             self.status = status
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -22769,6 +22917,7 @@ extension DataZone {
             case owningProjectId = "owningProjectId"
             case sourceLocation = "sourceLocation"
             case status = "status"
+            case type = "type"
         }
     }
 
@@ -22785,6 +22934,8 @@ extension DataZone {
         public let networkConfiguration: NetworkConfig?
         /// The identifier of the notebook to run.
         public let notebookIdentifier: String
+        /// The notification configuration for the notebook run. Use this to specify the notebook run states that trigger notifications.
+        public let notificationConfiguration: NotificationConfig?
         /// The identifier of the project that owns the notebook run.
         public let owningProjectIdentifier: String
         /// The sensitive parameters for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
@@ -22797,13 +22948,14 @@ extension DataZone {
         public let triggerSource: TriggerSource?
 
         @inlinable
-        public init(clientToken: String? = StartNotebookRunInput.idempotencyToken(), computeConfiguration: ComputeConfig? = nil, domainIdentifier: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookIdentifier: String, owningProjectIdentifier: String, parameters: [String: String]? = nil, scheduleIdentifier: String? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil) {
+        public init(clientToken: String? = StartNotebookRunInput.idempotencyToken(), computeConfiguration: ComputeConfig? = nil, domainIdentifier: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookIdentifier: String, notificationConfiguration: NotificationConfig? = nil, owningProjectIdentifier: String, parameters: [String: String]? = nil, scheduleIdentifier: String? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil) {
             self.clientToken = clientToken
             self.computeConfiguration = computeConfiguration
             self.domainIdentifier = domainIdentifier
             self.metadata = metadata
             self.networkConfiguration = networkConfiguration
             self.notebookIdentifier = notebookIdentifier
+            self.notificationConfiguration = notificationConfiguration
             self.owningProjectIdentifier = owningProjectIdentifier
             self.parameters = parameters
             self.scheduleIdentifier = scheduleIdentifier
@@ -22820,6 +22972,7 @@ extension DataZone {
             try container.encodeIfPresent(self.metadata, forKey: .metadata)
             try container.encodeIfPresent(self.networkConfiguration, forKey: .networkConfiguration)
             try container.encode(self.notebookIdentifier, forKey: .notebookIdentifier)
+            try container.encodeIfPresent(self.notificationConfiguration, forKey: .notificationConfiguration)
             try container.encode(self.owningProjectIdentifier, forKey: .owningProjectIdentifier)
             try container.encodeIfPresent(self.parameters, forKey: .parameters)
             try container.encodeIfPresent(self.scheduleIdentifier, forKey: .scheduleIdentifier)
@@ -22840,6 +22993,7 @@ extension DataZone {
             try self.validate(self.metadata, name: "metadata", parent: name, max: 50)
             try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
             try self.validate(self.notebookIdentifier, name: "notebookIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.notificationConfiguration?.validate(name: "\(name).notificationConfiguration")
             try self.validate(self.owningProjectIdentifier, name: "owningProjectIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 128)
@@ -22855,6 +23009,7 @@ extension DataZone {
             case metadata = "metadata"
             case networkConfiguration = "networkConfiguration"
             case notebookIdentifier = "notebookIdentifier"
+            case notificationConfiguration = "notificationConfiguration"
             case owningProjectIdentifier = "owningProjectIdentifier"
             case parameters = "parameters"
             case scheduleIdentifier = "scheduleIdentifier"
@@ -22888,6 +23043,8 @@ extension DataZone {
         public let networkConfiguration: NetworkConfig?
         /// The identifier of the notebook.
         public let notebookId: String
+        /// The notification configuration of the notebook run, including the notebook run states that trigger notifications.
+        public let notificationConfiguration: NotificationConfig?
         /// The identifier of the project that owns the notebook run.
         public let owningProjectId: String
         /// The sensitive parameters of the notebook run.
@@ -22910,7 +23067,7 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(cellOrder: [CellInformation]? = nil, completedAt: Date? = nil, computeConfiguration: ComputeConfig? = nil, createdAt: Date? = nil, createdBy: String? = nil, domainId: String, environmentConfiguration: EnvironmentConfig? = nil, error: NotebookRunError? = nil, id: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookId: String, owningProjectId: String, parameters: [String: String]? = nil, scheduleId: String? = nil, startedAt: Date? = nil, status: NotebookRunStatus, storageConfiguration: StorageConfig? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(cellOrder: [CellInformation]? = nil, completedAt: Date? = nil, computeConfiguration: ComputeConfig? = nil, createdAt: Date? = nil, createdBy: String? = nil, domainId: String, environmentConfiguration: EnvironmentConfig? = nil, error: NotebookRunError? = nil, id: String, metadata: [String: String]? = nil, networkConfiguration: NetworkConfig? = nil, notebookId: String, notificationConfiguration: NotificationConfig? = nil, owningProjectId: String, parameters: [String: String]? = nil, scheduleId: String? = nil, startedAt: Date? = nil, status: NotebookRunStatus, storageConfiguration: StorageConfig? = nil, timeoutConfiguration: TimeoutConfig? = nil, triggerSource: TriggerSource? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.cellOrder = cellOrder
             self.completedAt = completedAt
             self.computeConfiguration = computeConfiguration
@@ -22923,6 +23080,7 @@ extension DataZone {
             self.metadata = metadata
             self.networkConfiguration = networkConfiguration
             self.notebookId = notebookId
+            self.notificationConfiguration = notificationConfiguration
             self.owningProjectId = owningProjectId
             self.parameters = parameters
             self.scheduleId = scheduleId
@@ -22948,6 +23106,7 @@ extension DataZone {
             case metadata = "metadata"
             case networkConfiguration = "networkConfiguration"
             case notebookId = "notebookId"
+            case notificationConfiguration = "notificationConfiguration"
             case owningProjectId = "owningProjectId"
             case parameters = "parameters"
             case scheduleId = "scheduleId"
@@ -27077,26 +27236,6 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case domainUnitTarget = "domainUnitTarget"
-        }
-    }
-
-    public struct SourceLocation: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Simple Storage Service URI of the notebook source file.
-        public let s3: String?
-
-        @inlinable
-        public init(s3: String? = nil) {
-            self.s3 = s3
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.s3, name: "s3", parent: name, max: 1024)
-            try self.validate(self.s3, name: "s3", parent: name, min: 1)
-            try self.validate(self.s3, name: "s3", parent: name, pattern: "^s3://.+$")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case s3 = "s3"
         }
     }
 }

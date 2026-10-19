@@ -309,6 +309,7 @@ extension S3 {
         case eTag = "ETag"
         case encryptionStatus = "EncryptionStatus"
         case intelligentTieringAccessTier = "IntelligentTieringAccessTier"
+        case intelligentTieringReferenceDate = "IntelligentTieringReferenceDate"
         case isMultipartUploaded = "IsMultipartUploaded"
         case lastModifiedDate = "LastModifiedDate"
         case lifecycleExpirationDate = "LifecycleExpirationDate"

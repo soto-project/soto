@@ -182,6 +182,7 @@ let package = Package(
         .library(name: "SotoElasticLoadBalancingV2", targets: ["SotoElasticLoadBalancingV2"]),
         .library(name: "SotoElasticsearchService", targets: ["SotoElasticsearchService"]),
         .library(name: "SotoElementalInference", targets: ["SotoElementalInference"]),
+        .library(name: "SotoEndUserMessaging", targets: ["SotoEndUserMessaging"]),
         .library(name: "SotoEntityResolution", targets: ["SotoEntityResolution"]),
         .library(name: "SotoEventBridge", targets: ["SotoEventBridge"]),
         .library(name: "SotoEvs", targets: ["SotoEvs"]),
@@ -253,6 +254,7 @@ let package = Package(
         .library(name: "SotoLambda", targets: ["SotoLambda"]),
         .library(name: "SotoLambdaCore", targets: ["SotoLambdaCore"]),
         .library(name: "SotoLambdaMicrovms", targets: ["SotoLambdaMicrovms"]),
+        .library(name: "SotoLambdaWeb", targets: ["SotoLambdaWeb"]),
         .library(name: "SotoLaunchWizard", targets: ["SotoLaunchWizard"]),
         .library(name: "SotoLexModelBuildingService", targets: ["SotoLexModelBuildingService"]),
         .library(name: "SotoLexModelsV2", targets: ["SotoLexModelsV2"]),
@@ -399,6 +401,7 @@ let package = Package(
         .library(name: "SotoSageMakerMetrics", targets: ["SotoSageMakerMetrics"]),
         .library(name: "SotoSageMakerRuntime", targets: ["SotoSageMakerRuntime"]),
         .library(name: "SotoSageMakerRuntimeHTTP2", targets: ["SotoSageMakerRuntimeHTTP2"]),
+        .library(name: "SotoSageMakerTrainingSessionRuntime", targets: ["SotoSageMakerTrainingSessionRuntime"]),
         .library(name: "SotoSagemakerEdge", targets: ["SotoSagemakerEdge"]),
         .library(name: "SotoSagemakerJobRuntime", targets: ["SotoSagemakerJobRuntime"]),
         .library(name: "SotoSavingsPlans", targets: ["SotoSavingsPlans"]),
@@ -1390,6 +1393,12 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
+            name: "SotoEndUserMessaging",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/EndUserMessaging",
+            swiftSettings: swiftSettings
+        ),
+        .target(
             name: "SotoEntityResolution",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/EntityResolution",
@@ -1813,6 +1822,12 @@ let package = Package(
             name: "SotoLambdaMicrovms",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/LambdaMicrovms",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoLambdaWeb",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/LambdaWeb",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -2689,6 +2704,12 @@ let package = Package(
             name: "SotoSageMakerRuntimeHTTP2",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/SageMakerRuntimeHTTP2",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoSageMakerTrainingSessionRuntime",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/SageMakerTrainingSessionRuntime",
             swiftSettings: swiftSettings
         ),
         .target(

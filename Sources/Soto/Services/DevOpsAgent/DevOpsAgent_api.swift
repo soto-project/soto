@@ -799,14 +799,17 @@ public struct DevOpsAgent: AWSService {
     ///
     /// Parameters:
     ///   - agentSpaceId: The unique identifier of the AgentSpace
+    ///   - includedData: How much data to include in the response.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAgentSpace(
         agentSpaceId: String,
+        includedData: IncludedData? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetAgentSpaceOutput {
         let input = GetAgentSpaceInput(
-            agentSpaceId: agentSpaceId
+            agentSpaceId: agentSpaceId, 
+            includedData: includedData
         )
         return try await self.getAgentSpace(input, logger: logger)
     }
@@ -1134,16 +1137,19 @@ public struct DevOpsAgent: AWSService {
     /// Lists all AgentSpaces with optional pagination.
     ///
     /// Parameters:
+    ///   - includedData: How much data to include in the response.
     ///   - maxResults: Maximum number of results to return in a single call.
     ///   - nextToken: Token for the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listAgentSpaces(
+        includedData: IncludedData? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListAgentSpacesOutput {
         let input = ListAgentSpacesInput(
+            includedData: includedData, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -2469,14 +2475,17 @@ extension DevOpsAgent {
     /// Return PaginatorSequence for operation ``listAgentSpaces(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - includedData: How much data to include in the response.
     ///   - maxResults: Maximum number of results to return in a single call.
     ///   - logger: Logger used for logging
     @inlinable
     public func listAgentSpacesPaginator(
+        includedData: IncludedData? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListAgentSpacesInput, ListAgentSpacesOutput> {
         let input = ListAgentSpacesInput(
+            includedData: includedData, 
             maxResults: maxResults
         )
         return self.listAgentSpacesPaginator(input, logger: logger)
@@ -2942,6 +2951,7 @@ extension DevOpsAgent.ListAgentSpacesInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DevOpsAgent.ListAgentSpacesInput {
         return .init(
+            includedData: self.includedData,
             maxResults: self.maxResults,
             nextToken: token
         )

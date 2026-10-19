@@ -427,6 +427,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataQualityEngine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case python = "PYTHON"
+        case spark = "SPARK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataQualityModelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case running = "RUNNING"
@@ -873,6 +879,7 @@ extension Glue {
         case authorizationCode = "AUTHORIZATION_CODE"
         case clientCredentials = "CLIENT_CREDENTIALS"
         case jwtBearer = "JWT_BEARER"
+        case refreshToken = "REFRESH_TOKEN"
         public var description: String { return self.rawValue }
     }
 
@@ -2764,6 +2771,48 @@ extension Glue {
 
         @inlinable
         public init(results: [DataQualityResult], resultsNotFound: [String]? = nil) {
+            self.results = results
+            self.resultsNotFound = resultsNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case results = "Results"
+            case resultsNotFound = "ResultsNotFound"
+        }
+    }
+
+    public struct BatchGetDataQualityResultV2Request: AWSEncodableShape {
+        /// A list of unique result IDs for the data quality results.
+        public let resultIds: [String]
+
+        @inlinable
+        public init(resultIds: [String]) {
+            self.resultIds = resultIds
+        }
+
+        public func validate(name: String) throws {
+            try self.resultIds.forEach {
+                try validate($0, name: "resultIds[]", parent: name, max: 255)
+                try validate($0, name: "resultIds[]", parent: name, min: 1)
+                try validate($0, name: "resultIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.resultIds, name: "resultIds", parent: name, max: 100)
+            try self.validate(self.resultIds, name: "resultIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultIds = "ResultIds"
+        }
+    }
+
+    public struct BatchGetDataQualityResultV2Response: AWSDecodableShape {
+        /// A list of DataQualityResultV2Item objects representing the data quality results.
+        public let results: [DataQualityResultV2Item]
+        /// A list of result IDs for which results were not found.
+        public let resultsNotFound: [String]?
+
+        @inlinable
+        public init(results: [DataQualityResultV2Item], resultsNotFound: [String]? = nil) {
             self.results = results
             self.resultsNotFound = resultsNotFound
         }
@@ -6198,6 +6247,8 @@ extension Glue {
     }
 
     public struct Crawler: AWSDecodableShape {
+        /// The ID of the Data Catalog in which the crawler's output is stored.
+        public let catalogId: String?
         /// A list of UTF-8 strings that specify the custom classifiers that are associated  with the crawler.
         public let classifiers: [String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
@@ -6240,7 +6291,8 @@ extension Glue {
         public let version: Int64?
 
         @inlinable
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: Date? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String? = nil, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
+        public init(catalogId: String? = nil, classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: Date? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String? = nil, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
+            self.catalogId = catalogId
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlElapsedTime = crawlElapsedTime
@@ -6264,6 +6316,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
             case classifiers = "Classifiers"
             case configuration = "Configuration"
             case crawlElapsedTime = "CrawlElapsedTime"
@@ -6727,6 +6780,8 @@ extension Glue {
     }
 
     public struct CreateCrawlerRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog in which to store the crawler's output. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogId: String?
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
@@ -6759,7 +6814,8 @@ extension Glue {
         public let targets: CrawlerTargets
 
         @inlinable
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
+        public init(catalogId: String? = nil, classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
+            self.catalogId = catalogId
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
@@ -6778,6 +6834,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.classifiers?.forEach {
                 try validate($0, name: "classifiers[]", parent: name, max: 255)
                 try validate($0, name: "classifiers[]", parent: name, min: 1)
@@ -6801,6 +6860,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
             case classifiers = "Classifiers"
             case configuration = "Configuration"
             case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
@@ -9291,7 +9351,7 @@ extension Glue {
         }
     }
 
-    public struct DataQualityAggregatedMetrics: AWSDecodableShape {
+    public struct DataQualityAggregatedMetrics: AWSEncodableShape & AWSDecodableShape {
         /// The total number of rows that failed one or more data quality rules.
         public let totalRowsFailed: Double?
         /// The total number of rows that passed all applicable data quality rules.
@@ -9325,7 +9385,7 @@ extension Glue {
         }
     }
 
-    public struct DataQualityAnalyzerResult: AWSDecodableShape {
+    public struct DataQualityAnalyzerResult: AWSEncodableShape & AWSDecodableShape {
         /// A description of the data quality analyzer.
         public let description: String?
         /// A map of distribution metrics associated with the evaluation of the analyzer.
@@ -9346,12 +9406,51 @@ extension Glue {
             self.name = name
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.evaluatedDistributions?.forEach {
+                try validate($0.key, name: "evaluatedDistributions.key", parent: name, max: 255)
+                try validate($0.key, name: "evaluatedDistributions.key", parent: name, min: 1)
+                try validate($0.key, name: "evaluatedDistributions.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try $0.value.validate(name: "\(name).evaluatedDistributions[\"\($0.key)\"]")
+            }
+            try self.evaluatedMetrics?.forEach {
+                try validate($0.key, name: "evaluatedMetrics.key", parent: name, max: 255)
+                try validate($0.key, name: "evaluatedMetrics.key", parent: name, min: 1)
+                try validate($0.key, name: "evaluatedMetrics.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.evaluationMessage, name: "evaluationMessage", parent: name, max: 2048)
+            try self.validate(self.evaluationMessage, name: "evaluationMessage", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case evaluatedDistributions = "EvaluatedDistributions"
             case evaluatedMetrics = "EvaluatedMetrics"
             case evaluationMessage = "EvaluationMessage"
             case name = "Name"
+        }
+    }
+
+    public struct DataQualityConfigurationV2: AWSEncodableShape {
+        /// The observation mode for the run. Valid values are:    SCHEDULED     FIXED
+        public let observationMode: ObservationMode?
+        /// Whether observations are enabled for the run. Valid values are:    ALL     NONE
+        public let observationsEnabled: ObservationConfiguration?
+
+        @inlinable
+        public init(observationMode: ObservationMode? = nil, observationsEnabled: ObservationConfiguration? = nil) {
+            self.observationMode = observationMode
+            self.observationsEnabled = observationsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case observationMode = "ObservationMode"
+            case observationsEnabled = "ObservationsEnabled"
         }
     }
 
@@ -9494,7 +9593,7 @@ extension Glue {
         }
     }
 
-    public struct DataQualityMetricValues: AWSDecodableShape {
+    public struct DataQualityMetricValues: AWSEncodableShape & AWSDecodableShape {
         /// The actual value of the data quality metric.
         public let actualValue: Double?
         /// The expected value of the data quality metric according to the analysis of historical data.
@@ -9520,7 +9619,7 @@ extension Glue {
         }
     }
 
-    public struct DataQualityObservation: AWSDecodableShape {
+    public struct DataQualityObservation: AWSEncodableShape & AWSDecodableShape {
         /// A description of the data quality observation.
         public let description: String?
         /// An object of type MetricBasedObservation representing the observation that is based on evaluated data quality metrics.
@@ -9530,6 +9629,12 @@ extension Glue {
         public init(description: String? = nil, metricBasedObservation: MetricBasedObservation? = nil) {
             self.description = description
             self.metricBasedObservation = metricBasedObservation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.metricBasedObservation?.validate(name: "\(name).metricBasedObservation")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9553,7 +9658,7 @@ extension Glue {
         public let jobName: String?
         /// The job run ID associated with the data quality result, if any.
         public let jobRunId: String?
-        /// A list of DataQualityObservation objects representing the observations generated after evaluating the rules and analyzers.
+        /// A list of DataQualityObservation objects representing the anomaly detection observations generated after evaluating the rules and analyzers.
         public let observations: [DataQualityObservation]?
         /// The Profile ID for the data quality result.
         public let profileId: String?
@@ -9678,6 +9783,157 @@ extension Glue {
         }
     }
 
+    public struct DataQualityResultV2Item: AWSDecodableShape {
+        /// A summary of DataQualityAggregatedMetrics objects showing the total counts of processed rows and rules, including their pass/fail statistics based on row-level results.
+        public let aggregatedMetrics: DataQualityAggregatedMetrics?
+        /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
+        public let analyzerResults: [DataQualityAnalyzerResult]?
+        /// The table associated with the data quality result, if any.
+        public let dataSource: DataSource?
+        /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
+        public let descriptors: [String: String]?
+        /// A map of platform-specific identifiers, such as cluster, application, workgroup, or project IDs, that identify where the data quality evaluation ran.
+        public let dimensions: [String: String]?
+        /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
+        public let evaluationContext: String?
+        /// The date and time when this data quality run completed.
+        public let executionCompletedOn: Date?
+        /// The date and time when this data quality run started.
+        public let executionStartedOn: Date?
+        /// A list of DataQualityObservation objects representing the anomaly detection observations generated after evaluating the rules and analyzers.
+        public let observations: [DataQualityObservation]?
+        /// A unique result ID for the data quality result.
+        public let resultId: String
+        /// The date and time when this data quality result was published.
+        public let resultPublishedOn: Date?
+        /// A list of DataQualityRuleResult objects representing the results for each rule.
+        public let ruleResults: [DataQualityRuleResult]?
+        /// The name of the ruleset associated with the data quality result.
+        public let rulesetName: String?
+        /// An aggregate data quality score. Represents the ratio of rules that passed to the total number of rules.
+        public let score: Double?
+        /// A map of tags associated with the data quality result.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(aggregatedMetrics: DataQualityAggregatedMetrics? = nil, analyzerResults: [DataQualityAnalyzerResult]? = nil, dataSource: DataSource? = nil, descriptors: [String: String]? = nil, dimensions: [String: String]? = nil, evaluationContext: String? = nil, executionCompletedOn: Date? = nil, executionStartedOn: Date? = nil, observations: [DataQualityObservation]? = nil, resultId: String, resultPublishedOn: Date? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetName: String? = nil, score: Double? = nil, tags: [String: String]? = nil) {
+            self.aggregatedMetrics = aggregatedMetrics
+            self.analyzerResults = analyzerResults
+            self.dataSource = dataSource
+            self.descriptors = descriptors
+            self.dimensions = dimensions
+            self.evaluationContext = evaluationContext
+            self.executionCompletedOn = executionCompletedOn
+            self.executionStartedOn = executionStartedOn
+            self.observations = observations
+            self.resultId = resultId
+            self.resultPublishedOn = resultPublishedOn
+            self.ruleResults = ruleResults
+            self.rulesetName = rulesetName
+            self.score = score
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatedMetrics = "AggregatedMetrics"
+            case analyzerResults = "AnalyzerResults"
+            case dataSource = "DataSource"
+            case descriptors = "Descriptors"
+            case dimensions = "Dimensions"
+            case evaluationContext = "EvaluationContext"
+            case executionCompletedOn = "ExecutionCompletedOn"
+            case executionStartedOn = "ExecutionStartedOn"
+            case observations = "Observations"
+            case resultId = "ResultId"
+            case resultPublishedOn = "ResultPublishedOn"
+            case ruleResults = "RuleResults"
+            case rulesetName = "RulesetName"
+            case score = "Score"
+            case tags = "Tags"
+        }
+    }
+
+    public struct DataQualityResultsV2Description: AWSDecodableShape {
+        /// The table associated with the data quality result, if any.
+        public let dataSource: DataSource?
+        /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
+        public let descriptors: [String: String]?
+        /// A map of platform-specific identifiers, such as cluster, application, workgroup, or project IDs, that identify where the data quality evaluation ran.
+        public let dimensions: [String: String]?
+        /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
+        public let evaluationContext: String?
+        /// The unique result ID for this data quality result.
+        public let resultId: String?
+        /// The date and time when this data quality result was published.
+        public let resultPublishedOn: Date?
+
+        @inlinable
+        public init(dataSource: DataSource? = nil, descriptors: [String: String]? = nil, dimensions: [String: String]? = nil, evaluationContext: String? = nil, resultId: String? = nil, resultPublishedOn: Date? = nil) {
+            self.dataSource = dataSource
+            self.descriptors = descriptors
+            self.dimensions = dimensions
+            self.evaluationContext = evaluationContext
+            self.resultId = resultId
+            self.resultPublishedOn = resultPublishedOn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
+            case descriptors = "Descriptors"
+            case dimensions = "Dimensions"
+            case evaluationContext = "EvaluationContext"
+            case resultId = "ResultId"
+            case resultPublishedOn = "ResultPublishedOn"
+        }
+    }
+
+    public struct DataQualityResultsV2FilterCriteria: AWSEncodableShape {
+        /// The data source used to filter the results. For example, you can retrieve all results for an Glue table. DatabaseName and TableName are required. If you omit CatalogId, the catalog of the calling account is used. When you filter by data source, a page of results can be empty but still include a NextToken. Keep requesting pages until NextToken is absent.
+        public let dataSource: DataSource?
+        /// The platform dimensions to filter results by.
+        public let dimensions: [String: String]?
+        /// The evaluation context to filter results by.
+        public let evaluationContext: String?
+        /// The time after which to include published results.
+        public let publishedAfter: Date?
+        /// The time before which to include published results.
+        public let publishedBefore: Date?
+
+        @inlinable
+        public init(dataSource: DataSource? = nil, dimensions: [String: String]? = nil, evaluationContext: String? = nil, publishedAfter: Date? = nil, publishedBefore: Date? = nil) {
+            self.dataSource = dataSource
+            self.dimensions = dimensions
+            self.evaluationContext = evaluationContext
+            self.publishedAfter = publishedAfter
+            self.publishedBefore = publishedBefore
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSource?.validate(name: "\(name).dataSource")
+            try self.dimensions?.forEach {
+                try validate($0.key, name: "dimensions.key", parent: name, max: 255)
+                try validate($0.key, name: "dimensions.key", parent: name, min: 1)
+                try validate($0.key, name: "dimensions.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+            try self.validate(self.evaluationContext, name: "evaluationContext", parent: name, max: 255)
+            try self.validate(self.evaluationContext, name: "evaluationContext", parent: name, min: 1)
+            try self.validate(self.evaluationContext, name: "evaluationContext", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSource = "DataSource"
+            case dimensions = "Dimensions"
+            case evaluationContext = "EvaluationContext"
+            case publishedAfter = "PublishedAfter"
+            case publishedBefore = "PublishedBefore"
+        }
+    }
+
     public struct DataQualityRuleRecommendationRunAdditionalRunOptions: AWSEncodableShape & AWSDecodableShape {
         /// A custom prefix for the CloudWatch log group names. When specified, recommendation run logs are written to /error and /output instead of the default /aws-glue/data-quality/error and /aws-glue/data-quality/output log groups.
         public let customLogGroupPrefix: String?
@@ -9752,7 +10008,7 @@ extension Glue {
         }
     }
 
-    public struct DataQualityRuleResult: AWSDecodableShape {
+    public struct DataQualityRuleResult: AWSEncodableShape & AWSDecodableShape {
         /// A description of the data quality rule.
         public let description: String?
         /// A map of metrics associated with the evaluation of the rule.
@@ -9780,6 +10036,36 @@ extension Glue {
             self.name = name
             self.result = result
             self.ruleMetrics = ruleMetrics
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.evaluatedMetrics?.forEach {
+                try validate($0.key, name: "evaluatedMetrics.key", parent: name, max: 255)
+                try validate($0.key, name: "evaluatedMetrics.key", parent: name, min: 1)
+                try validate($0.key, name: "evaluatedMetrics.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.evaluatedRule, name: "evaluatedRule", parent: name, max: 2048)
+            try self.validate(self.evaluatedRule, name: "evaluatedRule", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.evaluationMessage, name: "evaluationMessage", parent: name, max: 2048)
+            try self.validate(self.evaluationMessage, name: "evaluationMessage", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.labels?.forEach {
+                try validate($0.key, name: "labels.key", parent: name, max: 255)
+                try validate($0.key, name: "labels.key", parent: name, min: 1)
+                try validate($0.key, name: "labels.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.ruleMetrics?.forEach {
+                try validate($0.key, name: "ruleMetrics.key", parent: name, max: 255)
+                try validate($0.key, name: "ruleMetrics.key", parent: name, min: 1)
+                try validate($0.key, name: "ruleMetrics.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10059,6 +10345,55 @@ extension Glue {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
+        }
+    }
+
+    public struct DataQualityTelemetry: AWSEncodableShape {
+        public let engine: DataQualityEngine?
+        public let flagsEnabled: [String: String]?
+        public let hostRuntimeVersion: String?
+        public let libraryVersion: String?
+        public let sparkVersion: String?
+        public let vcpuHours: Double?
+
+        @inlinable
+        public init(engine: DataQualityEngine? = nil, flagsEnabled: [String: String]? = nil, hostRuntimeVersion: String? = nil, libraryVersion: String? = nil, sparkVersion: String? = nil, vcpuHours: Double? = nil) {
+            self.engine = engine
+            self.flagsEnabled = flagsEnabled
+            self.hostRuntimeVersion = hostRuntimeVersion
+            self.libraryVersion = libraryVersion
+            self.sparkVersion = sparkVersion
+            self.vcpuHours = vcpuHours
+        }
+
+        public func validate(name: String) throws {
+            try self.flagsEnabled?.forEach {
+                try validate($0.key, name: "flagsEnabled.key", parent: name, max: 255)
+                try validate($0.key, name: "flagsEnabled.key", parent: name, min: 1)
+                try validate($0.key, name: "flagsEnabled.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "flagsEnabled[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "flagsEnabled[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "flagsEnabled[\"\($0.key)\"]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.flagsEnabled, name: "flagsEnabled", parent: name, max: 30)
+            try self.validate(self.hostRuntimeVersion, name: "hostRuntimeVersion", parent: name, max: 255)
+            try self.validate(self.hostRuntimeVersion, name: "hostRuntimeVersion", parent: name, min: 1)
+            try self.validate(self.hostRuntimeVersion, name: "hostRuntimeVersion", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.libraryVersion, name: "libraryVersion", parent: name, max: 255)
+            try self.validate(self.libraryVersion, name: "libraryVersion", parent: name, min: 1)
+            try self.validate(self.libraryVersion, name: "libraryVersion", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.sparkVersion, name: "sparkVersion", parent: name, max: 255)
+            try self.validate(self.sparkVersion, name: "sparkVersion", parent: name, min: 1)
+            try self.validate(self.sparkVersion, name: "sparkVersion", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engine = "Engine"
+            case flagsEnabled = "FlagsEnabled"
+            case hostRuntimeVersion = "HostRuntimeVersion"
+            case libraryVersion = "LibraryVersion"
+            case sparkVersion = "SparkVersion"
+            case vcpuHours = "VcpuHours"
         }
     }
 
@@ -10661,18 +10996,24 @@ extension Glue {
     }
 
     public struct DeleteColumnStatisticsTaskSettingsRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The name of the table for which to delete column statistics.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -10682,6 +11023,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
         }
@@ -12358,7 +12700,7 @@ extension Glue {
         }
     }
 
-    public struct DistributionData: AWSDecodableShape {
+    public struct DistributionData: AWSEncodableShape & AWSDecodableShape {
         /// The bin edge values for the distribution.
         public let binEdges: [String]?
         /// The frequency count for each bin in the distribution.
@@ -12371,6 +12713,12 @@ extension Glue {
             self.binEdges = binEdges
             self.count = count
             self.dataType = dataType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataType, name: "dataType", parent: name, max: 255)
+            try self.validate(self.dataType, name: "dataType", parent: name, min: 1)
+            try self.validate(self.dataType, name: "dataType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14343,6 +14691,8 @@ extension Glue {
     }
 
     public struct GetColumnStatisticsTaskRunsRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The maximum size of the response.
@@ -14353,7 +14703,8 @@ extension Glue {
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -14361,6 +14712,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
@@ -14369,6 +14723,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -14395,18 +14750,24 @@ extension Glue {
     }
 
     public struct GetColumnStatisticsTaskSettingsRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The name of the table for which to retrieve column statistics.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -14416,6 +14777,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
         }
@@ -14992,7 +15354,7 @@ extension Glue {
         public let jobName: String?
         /// The job run ID associated with the data quality result, if any.
         public let jobRunId: String?
-        /// A list of DataQualityObservation objects representing the observations generated after evaluating the rules and analyzers.
+        /// A list of DataQualityObservation objects representing the anomaly detection observations generated after evaluating the rules and analyzers.
         public let observations: [DataQualityObservation]?
         /// The Profile ID for the data quality result.
         public let profileId: String?
@@ -15044,6 +15406,100 @@ extension Glue {
             case rulesetName = "RulesetName"
             case score = "Score"
             case startedOn = "StartedOn"
+        }
+    }
+
+    public struct GetDataQualityResultV2Request: AWSEncodableShape {
+        /// A unique result ID for the data quality result.
+        public let resultId: String
+
+        @inlinable
+        public init(resultId: String) {
+            self.resultId = resultId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resultId, name: "resultId", parent: name, max: 255)
+            try self.validate(self.resultId, name: "resultId", parent: name, min: 1)
+            try self.validate(self.resultId, name: "resultId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultId = "ResultId"
+        }
+    }
+
+    public struct GetDataQualityResultV2Response: AWSDecodableShape {
+        /// A summary of DataQualityAggregatedMetrics objects showing the total counts of processed rows and rules, including their pass/fail statistics based on row-level results.
+        public let aggregatedMetrics: DataQualityAggregatedMetrics?
+        /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
+        public let analyzerResults: [DataQualityAnalyzerResult]?
+        /// The table associated with the data quality result, if any.
+        public let dataSource: DataSource?
+        /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
+        public let descriptors: [String: String]?
+        /// A map of platform-specific identifiers, such as cluster, application, workgroup, or project IDs, that identify where the data quality evaluation ran.
+        public let dimensions: [String: String]?
+        /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
+        public let evaluationContext: String?
+        /// The date and time when this data quality run completed.
+        public let executionCompletedOn: Date?
+        /// The date and time when this data quality run started.
+        public let executionStartedOn: Date?
+        /// A list of DataQualityObservation objects representing the anomaly detection observations generated after evaluating the rules and analyzers.
+        public let observations: [DataQualityObservation]?
+        /// The Profile ID for the data quality result.
+        public let profileId: String?
+        /// A unique result ID for the data quality result.
+        public let resultId: String?
+        /// The date and time when this data quality result was published.
+        public let resultPublishedOn: Date?
+        /// A list of DataQualityRuleResult objects representing the results for each rule.
+        public let ruleResults: [DataQualityRuleResult]?
+        /// The name of the ruleset associated with the data quality result.
+        public let rulesetName: String?
+        /// An aggregate data quality score. Represents the ratio of rules that passed to the total number of rules.
+        public let score: Double?
+        /// A map of tags associated with the data quality result.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(aggregatedMetrics: DataQualityAggregatedMetrics? = nil, analyzerResults: [DataQualityAnalyzerResult]? = nil, dataSource: DataSource? = nil, descriptors: [String: String]? = nil, dimensions: [String: String]? = nil, evaluationContext: String? = nil, executionCompletedOn: Date? = nil, executionStartedOn: Date? = nil, observations: [DataQualityObservation]? = nil, profileId: String? = nil, resultId: String? = nil, resultPublishedOn: Date? = nil, ruleResults: [DataQualityRuleResult]? = nil, rulesetName: String? = nil, score: Double? = nil, tags: [String: String]? = nil) {
+            self.aggregatedMetrics = aggregatedMetrics
+            self.analyzerResults = analyzerResults
+            self.dataSource = dataSource
+            self.descriptors = descriptors
+            self.dimensions = dimensions
+            self.evaluationContext = evaluationContext
+            self.executionCompletedOn = executionCompletedOn
+            self.executionStartedOn = executionStartedOn
+            self.observations = observations
+            self.profileId = profileId
+            self.resultId = resultId
+            self.resultPublishedOn = resultPublishedOn
+            self.ruleResults = ruleResults
+            self.rulesetName = rulesetName
+            self.score = score
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatedMetrics = "AggregatedMetrics"
+            case analyzerResults = "AnalyzerResults"
+            case dataSource = "DataSource"
+            case descriptors = "Descriptors"
+            case dimensions = "Dimensions"
+            case evaluationContext = "EvaluationContext"
+            case executionCompletedOn = "ExecutionCompletedOn"
+            case executionStartedOn = "ExecutionStartedOn"
+            case observations = "Observations"
+            case profileId = "ProfileId"
+            case resultId = "ResultId"
+            case resultPublishedOn = "ResultPublishedOn"
+            case ruleResults = "RuleResults"
+            case rulesetName = "RulesetName"
+            case score = "Score"
+            case tags = "Tags"
         }
     }
 
@@ -17268,6 +17724,81 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case statement = "Statement"
+        }
+    }
+
+    public struct GetSystemLogsForJobRunRequest: AWSEncodableShape {
+        /// The name of the job.
+        public let jobName: String
+        /// The ID of the job run.
+        public let runId: String
+
+        @inlinable
+        public init(jobName: String, runId: String) {
+            self.jobName = jobName
+            self.runId = runId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 255)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.runId, name: "runId", parent: name, max: 255)
+            try self.validate(self.runId, name: "runId", parent: name, min: 1)
+            try self.validate(self.runId, name: "runId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case runId = "RunId"
+        }
+    }
+
+    public struct GetSystemLogsForJobRunResponse: AWSDecodableShape {
+        /// The URL to download the system logs for the job run.
+        public let systemLogsUrl: String?
+
+        @inlinable
+        public init(systemLogsUrl: String? = nil) {
+            self.systemLogsUrl = systemLogsUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case systemLogsUrl = "SystemLogsUrl"
+        }
+    }
+
+    public struct GetSystemLogsForSessionRequest: AWSEncodableShape {
+        /// The ID of the session.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct GetSystemLogsForSessionResponse: AWSDecodableShape {
+        /// The URL to download the system logs for the session.
+        public let systemLogsUrl: String?
+
+        @inlinable
+        public init(systemLogsUrl: String? = nil) {
+            self.systemLogsUrl = systemLogsUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case systemLogsUrl = "SystemLogsUrl"
         }
     }
 
@@ -19504,23 +20035,30 @@ extension Glue {
         public let refreshInterval: String?
         ///  A collection of key-value pairs that specify additional properties for the integration source. These properties provide configuration options that  can be used to customize the behavior of the ODB source during data integration operations.
         public let sourceProperties: [String: String]?
+        /// An optional custom namespace for the integration's target. Supply this parameter only when the target is an Amazon S3 Tables table bucket; it is not accepted for other target types. The integration replicates data into the namespace you specify, reusing it if it already exists. If you omit this parameter, the target namespace defaults to zetl_ followed by the integration ID, with hyphens converted to underscores. The value is immutable after the integration is created; ModifyIntegration rejects changes to it. It must be a valid Amazon S3 Tables namespace name: 1 to 255 characters using lowercase letters, numbers, and underscores, with no leading or trailing underscore and no reserved aws prefix.
+        public let targetNamespace: String?
 
         @inlinable
-        public init(continuousSync: Bool? = nil, refreshInterval: String? = nil, sourceProperties: [String: String]? = nil) {
+        public init(continuousSync: Bool? = nil, refreshInterval: String? = nil, sourceProperties: [String: String]? = nil, targetNamespace: String? = nil) {
             self.continuousSync = continuousSync
             self.refreshInterval = refreshInterval
             self.sourceProperties = sourceProperties
+            self.targetNamespace = targetNamespace
         }
 
         public func validate(name: String) throws {
             try self.validate(self.refreshInterval, name: "refreshInterval", parent: name, max: 128)
             try self.validate(self.refreshInterval, name: "refreshInterval", parent: name, min: 1)
+            try self.validate(self.targetNamespace, name: "targetNamespace", parent: name, max: 255)
+            try self.validate(self.targetNamespace, name: "targetNamespace", parent: name, min: 1)
+            try self.validate(self.targetNamespace, name: "targetNamespace", parent: name, pattern: "^[a-z0-9]([a-z0-9_]*[a-z0-9])?$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case continuousSync = "ContinuousSync"
             case refreshInterval = "RefreshInterval"
             case sourceProperties = "SourceProperties"
+            case targetNamespace = "TargetNamespace"
         }
     }
 
@@ -21456,6 +21994,52 @@ extension Glue {
         }
     }
 
+    public struct ListDataQualityResultsV2Request: AWSEncodableShape {
+        /// The filter criteria.
+        public let filter: DataQualityResultsV2FilterCriteria?
+        /// The maximum number of results to return. If you don't specify a value, the operation uses the default number of results.
+        public let maxResults: Int?
+        /// A pagination token to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filter: DataQualityResultsV2FilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataQualityResultsV2Response: AWSDecodableShape {
+        /// A pagination token, if more results are available.
+        public let nextToken: String?
+        /// A list of DataQualityResultsV2Description objects.
+        public let results: [DataQualityResultsV2Description]
+
+        @inlinable
+        public init(nextToken: String? = nil, results: [DataQualityResultsV2Description]) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
+        }
+    }
+
     public struct ListDataQualityRuleRecommendationRunsRequest: AWSEncodableShape {
         /// The filter criteria.
         public let filter: DataQualityRuleRecommendationRunFilter?
@@ -23182,7 +23766,7 @@ extension Glue {
         }
     }
 
-    public struct MetricBasedObservation: AWSDecodableShape {
+    public struct MetricBasedObservation: AWSEncodableShape & AWSDecodableShape {
         /// The name of the data quality metric used for generating the observation.
         public let metricName: String?
         /// An object of type DataQualityMetricValues representing the analysis of the data quality metric value.
@@ -23198,6 +23782,20 @@ extension Glue {
             self.metricValues = metricValues
             self.newRules = newRules
             self.statisticId = statisticId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.newRules?.forEach {
+                try validate($0, name: "newRules[]", parent: name, max: 255)
+                try validate($0, name: "newRules[]", parent: name, min: 1)
+                try validate($0, name: "newRules[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.statisticId, name: "statisticId", parent: name, max: 255)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, min: 1)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -23626,7 +24224,7 @@ extension Glue {
     public struct OAuth2Properties: AWSDecodableShape {
         /// The client application type. For example, AWS_MANAGED or USER_MANAGED.
         public let oAuth2ClientApplication: OAuth2ClientApplication?
-        /// The OAuth2 grant type. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
+        /// The OAuth2 grant type. For example, AUTHORIZATION_CODE, JWT_BEARER, REFRESH_TOKEN, or CLIENT_CREDENTIALS.
         public let oAuth2GrantType: OAuth2GrantType?
         /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
         public let tokenUrl: String?
@@ -23656,7 +24254,7 @@ extension Glue {
         public let oAuth2ClientApplication: OAuth2ClientApplication?
         /// The credentials used when the authentication type is OAuth2 authentication.
         public let oAuth2Credentials: OAuth2Credentials?
-        /// The OAuth2 grant type in the CreateConnection request. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
+        /// The OAuth2 grant type in the CreateConnection request. For example, AUTHORIZATION_CODE, JWT_BEARER, REFRESH_TOKEN, or CLIENT_CREDENTIALS.
         public let oAuth2GrantType: OAuth2GrantType?
         /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
         public let tokenUrl: String?
@@ -24531,6 +25129,159 @@ extension Glue {
         }
     }
 
+    public struct PublishDataQualityResultV2Request: AWSEncodableShape {
+        /// The aggregated metrics for the result.
+        public let aggregatedMetrics: DataQualityAggregatedMetrics?
+        /// The analyzer level results.
+        public let analyzerResults: [DataQualityAnalyzerResult]?
+        /// The client token for the request.
+        public let clientToken: String?
+        /// The security configuration for the result.
+        public let dataQualitySecurityConfiguration: String?
+        /// The descriptors for the result.
+        public let descriptors: [String: String]?
+        /// The dimensions for the result.
+        public let dimensions: [String: String]
+        /// The evaluation context for the result.
+        public let evaluationContext: String
+        /// The time execution completed for the result.
+        public let executionCompletedOn: Date?
+        /// The time execution started for the result.
+        public let executionStartedOn: Date?
+        /// The observations for the result.
+        public let observations: [DataQualityObservation]?
+        /// The rule level results.
+        public let ruleResults: [DataQualityRuleResult]
+        /// The ruleset name for the result.
+        public let rulesetName: String?
+        /// The run configuration for the result.
+        public let runConfiguration: DataQualityConfigurationV2?
+        /// The score for the result.
+        public let score: Double
+        /// The statistics for the result.
+        public let statistics: [StatisticSummary]?
+        /// The tags for the result.
+        public let tags: [String: String]?
+        public let telemetry: DataQualityTelemetry?
+
+        @inlinable
+        public init(aggregatedMetrics: DataQualityAggregatedMetrics? = nil, analyzerResults: [DataQualityAnalyzerResult]? = nil, clientToken: String? = PublishDataQualityResultV2Request.idempotencyToken(), dataQualitySecurityConfiguration: String? = nil, descriptors: [String: String]? = nil, dimensions: [String: String], evaluationContext: String, executionCompletedOn: Date? = nil, executionStartedOn: Date? = nil, observations: [DataQualityObservation]? = nil, ruleResults: [DataQualityRuleResult], rulesetName: String? = nil, runConfiguration: DataQualityConfigurationV2? = nil, score: Double, statistics: [StatisticSummary]? = nil, tags: [String: String]? = nil, telemetry: DataQualityTelemetry? = nil) {
+            self.aggregatedMetrics = aggregatedMetrics
+            self.analyzerResults = analyzerResults
+            self.clientToken = clientToken
+            self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
+            self.descriptors = descriptors
+            self.dimensions = dimensions
+            self.evaluationContext = evaluationContext
+            self.executionCompletedOn = executionCompletedOn
+            self.executionStartedOn = executionStartedOn
+            self.observations = observations
+            self.ruleResults = ruleResults
+            self.rulesetName = rulesetName
+            self.runConfiguration = runConfiguration
+            self.score = score
+            self.statistics = statistics
+            self.tags = tags
+            self.telemetry = telemetry
+        }
+
+        public func validate(name: String) throws {
+            try self.analyzerResults?.forEach {
+                try $0.validate(name: "\(name).analyzerResults[]")
+            }
+            try self.validate(self.analyzerResults, name: "analyzerResults", parent: name, max: 2000)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.dataQualitySecurityConfiguration, name: "dataQualitySecurityConfiguration", parent: name, max: 255)
+            try self.validate(self.dataQualitySecurityConfiguration, name: "dataQualitySecurityConfiguration", parent: name, min: 1)
+            try self.validate(self.dataQualitySecurityConfiguration, name: "dataQualitySecurityConfiguration", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.descriptors?.forEach {
+                try validate($0.key, name: "descriptors.key", parent: name, max: 255)
+                try validate($0.key, name: "descriptors.key", parent: name, min: 1)
+                try validate($0.key, name: "descriptors.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "descriptors[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "descriptors[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "descriptors[\"\($0.key)\"]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.descriptors, name: "descriptors", parent: name, max: 10)
+            try self.dimensions.forEach {
+                try validate($0.key, name: "dimensions.key", parent: name, max: 255)
+                try validate($0.key, name: "dimensions.key", parent: name, min: 1)
+                try validate($0.key, name: "dimensions.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 10)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+            try self.validate(self.evaluationContext, name: "evaluationContext", parent: name, max: 255)
+            try self.validate(self.evaluationContext, name: "evaluationContext", parent: name, min: 1)
+            try self.validate(self.evaluationContext, name: "evaluationContext", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.observations?.forEach {
+                try $0.validate(name: "\(name).observations[]")
+            }
+            try self.validate(self.observations, name: "observations", parent: name, max: 50)
+            try self.ruleResults.forEach {
+                try $0.validate(name: "\(name).ruleResults[]")
+            }
+            try self.validate(self.ruleResults, name: "ruleResults", parent: name, max: 2000)
+            try self.validate(self.rulesetName, name: "rulesetName", parent: name, max: 255)
+            try self.validate(self.rulesetName, name: "rulesetName", parent: name, min: 1)
+            try self.validate(self.rulesetName, name: "rulesetName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.score, name: "score", parent: name, max: 1.0)
+            try self.validate(self.score, name: "score", parent: name, min: 0.0)
+            try self.statistics?.forEach {
+                try $0.validate(name: "\(name).statistics[]")
+            }
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 255)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 5)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.telemetry?.validate(name: "\(name).telemetry")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatedMetrics = "AggregatedMetrics"
+            case analyzerResults = "AnalyzerResults"
+            case clientToken = "ClientToken"
+            case dataQualitySecurityConfiguration = "DataQualitySecurityConfiguration"
+            case descriptors = "Descriptors"
+            case dimensions = "Dimensions"
+            case evaluationContext = "EvaluationContext"
+            case executionCompletedOn = "ExecutionCompletedOn"
+            case executionStartedOn = "ExecutionStartedOn"
+            case observations = "Observations"
+            case ruleResults = "RuleResults"
+            case rulesetName = "RulesetName"
+            case runConfiguration = "RunConfiguration"
+            case score = "Score"
+            case statistics = "Statistics"
+            case tags = "Tags"
+            case telemetry = "Telemetry"
+        }
+    }
+
+    public struct PublishDataQualityResultV2Response: AWSDecodableShape {
+        /// The ID of the result.
+        public let resultId: String
+
+        @inlinable
+        public init(resultId: String) {
+            self.resultId = resultId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultId = "ResultId"
+        }
+    }
+
     public struct PutAssetRequest: AWSEncodableShape {
         /// The identifier of the asset type for the asset.
         public let assetTypeId: String
@@ -25208,6 +25959,20 @@ extension Glue {
             case queryAuthorizationId = "QueryAuthorizationId"
             case queryId = "QueryId"
             case queryStartTime = "QueryStartTime"
+        }
+    }
+
+    public struct RLSProperties: AWSDecodableShape {
+        /// The name of the default row-level security policy applied to the table.
+        public let defaultRLSPolicy: String?
+
+        @inlinable
+        public init(defaultRLSPolicy: String? = nil) {
+            self.defaultRLSPolicy = defaultRLSPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRLSPolicy = "DefaultRLSPolicy"
         }
     }
 
@@ -26041,7 +26806,7 @@ extension Glue {
         }
     }
 
-    public struct RunIdentifier: AWSDecodableShape {
+    public struct RunIdentifier: AWSEncodableShape & AWSDecodableShape {
         /// The Job Run ID.
         public let jobRunId: String?
         /// The Run ID.
@@ -26051,6 +26816,15 @@ extension Glue {
         public init(jobRunId: String? = nil, runId: String? = nil) {
             self.jobRunId = jobRunId
             self.runId = runId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, max: 255)
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, min: 1)
+            try self.validate(self.jobRunId, name: "jobRunId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.runId, name: "runId", parent: name, max: 255)
+            try self.validate(self.runId, name: "runId", parent: name, min: 1)
+            try self.validate(self.runId, name: "runId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -28986,18 +29760,24 @@ extension Glue {
     }
 
     public struct StartColumnStatisticsTaskRunScheduleRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The name of the table for which to start a column statistic task run schedule.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -29007,6 +29787,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
         }
@@ -29771,7 +30552,7 @@ extension Glue {
         }
     }
 
-    public struct StatisticSummary: AWSDecodableShape {
+    public struct StatisticSummary: AWSEncodableShape & AWSDecodableShape {
         /// The list of columns referenced by the statistic.
         public let columnsReferenced: [String]?
         /// The distribution value for the statistic.
@@ -29813,6 +30594,37 @@ extension Glue {
             self.statisticProperties = statisticProperties
         }
 
+        public func validate(name: String) throws {
+            try self.columnsReferenced?.forEach {
+                try validate($0, name: "columnsReferenced[]", parent: name, max: 255)
+                try validate($0, name: "columnsReferenced[]", parent: name, min: 1)
+                try validate($0, name: "columnsReferenced[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.distributionValue?.validate(name: "\(name).distributionValue")
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 255)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.referencedDatasets?.forEach {
+                try validate($0, name: "referencedDatasets[]", parent: name, max: 255)
+                try validate($0, name: "referencedDatasets[]", parent: name, min: 1)
+                try validate($0, name: "referencedDatasets[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.runIdentifier?.validate(name: "\(name).runIdentifier")
+            try self.validate(self.statisticId, name: "statisticId", parent: name, max: 255)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, min: 1)
+            try self.validate(self.statisticId, name: "statisticId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.statisticName, name: "statisticName", parent: name, max: 255)
+            try self.validate(self.statisticName, name: "statisticName", parent: name, min: 1)
+            try self.validate(self.statisticName, name: "statisticName", parent: name, pattern: "^[A-Z][A-Za-z\\.]+$")
+            try self.statisticProperties?.forEach {
+                try validate($0.key, name: "statisticProperties.key", parent: name, max: 255)
+                try validate($0.key, name: "statisticProperties.key", parent: name, min: 1)
+                try validate($0.key, name: "statisticProperties.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "statisticProperties[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "statisticProperties[\"\($0.key)\"]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case columnsReferenced = "ColumnsReferenced"
             case distributionValue = "DistributionValue"
@@ -29848,24 +30660,31 @@ extension Glue {
     }
 
     public struct StopColumnStatisticsTaskRunRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The name of the table.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
         }
@@ -29876,18 +30695,24 @@ extension Glue {
     }
 
     public struct StopColumnStatisticsTaskRunScheduleRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
+        public let catalogID: String?
         /// The name of the database where the table resides.
         public let databaseName: String
         /// The name of the table for which to stop a column statistic task run schedule.
         public let tableName: String
 
         @inlinable
-        public init(databaseName: String, tableName: String) {
+        public init(catalogID: String? = nil, databaseName: String, tableName: String) {
+            self.catalogID = catalogID
             self.databaseName = databaseName
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogID, name: "catalogID", parent: name, max: 255)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, min: 1)
+            try self.validate(self.catalogID, name: "catalogID", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -29897,6 +30722,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogID = "CatalogID"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
         }
@@ -30341,6 +31167,8 @@ extension Glue {
         public let partitionKeys: [Column]?
         /// The retention time for this table.
         public let retention: Int?
+        /// A RLSProperties structure that describes the default row-level security policy of the table.
+        public let rlsProperties: RLSProperties?
         /// Indicates the the state of an asynchronous change to a table.
         public let status: TableStatus?
         /// A storage descriptor containing information about the physical storage of this table.
@@ -30361,7 +31189,7 @@ extension Glue {
         public let viewOriginalText: String?
 
         @inlinable
-        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, federatedTable: FederatedTable? = nil, icebergTableMetadata: IcebergTableMetadata? = nil, isMaterializedView: Bool? = nil, isMultiDialectView: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, status: TableStatus? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewDefinition: ViewDefinition? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, federatedTable: FederatedTable? = nil, icebergTableMetadata: IcebergTableMetadata? = nil, isMaterializedView: Bool? = nil, isMultiDialectView: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, rlsProperties: RLSProperties? = nil, status: TableStatus? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewDefinition: ViewDefinition? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.catalogId = catalogId
             self.createdBy = createdBy
             self.createTime = createTime
@@ -30379,6 +31207,7 @@ extension Glue {
             self.parameters = parameters
             self.partitionKeys = partitionKeys
             self.retention = retention
+            self.rlsProperties = rlsProperties
             self.status = status
             self.storageDescriptor = storageDescriptor
             self.tableType = tableType
@@ -30408,6 +31237,7 @@ extension Glue {
             case parameters = "Parameters"
             case partitionKeys = "PartitionKeys"
             case retention = "Retention"
+            case rlsProperties = "RLSProperties"
             case status = "Status"
             case storageDescriptor = "StorageDescriptor"
             case tableType = "TableType"
@@ -31139,7 +31969,7 @@ extension Glue {
         }
     }
 
-    public struct TimestampedInclusionAnnotation: AWSDecodableShape {
+    public struct TimestampedInclusionAnnotation: AWSEncodableShape & AWSDecodableShape {
         /// The timestamp when the inclusion annotation was last modified.
         public let lastModifiedOn: Date?
         /// The inclusion annotation value.
@@ -31935,6 +32765,8 @@ extension Glue {
     }
 
     public struct UpdateCrawlerRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog in which to store the crawler's output. If you omit this value, the existing value on the crawler is preserved.
+        public let catalogId: String?
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
@@ -31965,7 +32797,8 @@ extension Glue {
         public let targets: CrawlerTargets?
 
         @inlinable
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
+        public init(catalogId: String? = nil, classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
+            self.catalogId = catalogId
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
@@ -31983,6 +32816,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.classifiers?.forEach {
                 try validate($0, name: "classifiers[]", parent: name, max: 255)
                 try validate($0, name: "classifiers[]", parent: name, min: 1)
@@ -32000,6 +32836,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
             case classifiers = "Classifiers"
             case configuration = "Configuration"
             case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
@@ -33574,6 +34411,8 @@ extension Glue {
     public struct ViewDefinition: AWSDecodableShape {
         /// The definer of a view in SQL.
         public let definer: String?
+        /// Specifies whether the materialized view is managed by Glue.
+        public let isManaged: Bool?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
         public let isProtected: Bool?
         /// Sets the method used for the most recent refresh.
@@ -33596,8 +34435,9 @@ extension Glue {
         public let viewVersionToken: String?
 
         @inlinable
-        public init(definer: String? = nil, isProtected: Bool? = nil, lastRefreshType: LastRefreshType? = nil, refreshSeconds: Int64? = nil, representations: [ViewRepresentation]? = nil, sparkPipelineInfo: [String: String]? = nil, subObjects: [String]? = nil, subObjectsStatistics: [SubObjectStatistics]? = nil, subObjectVersionIds: [Int64]? = nil, viewVersionId: Int64? = nil, viewVersionToken: String? = nil) {
+        public init(definer: String? = nil, isManaged: Bool? = nil, isProtected: Bool? = nil, lastRefreshType: LastRefreshType? = nil, refreshSeconds: Int64? = nil, representations: [ViewRepresentation]? = nil, sparkPipelineInfo: [String: String]? = nil, subObjects: [String]? = nil, subObjectsStatistics: [SubObjectStatistics]? = nil, subObjectVersionIds: [Int64]? = nil, viewVersionId: Int64? = nil, viewVersionToken: String? = nil) {
             self.definer = definer
+            self.isManaged = isManaged
             self.isProtected = isProtected
             self.lastRefreshType = lastRefreshType
             self.refreshSeconds = refreshSeconds
@@ -33612,6 +34452,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case definer = "Definer"
+            case isManaged = "IsManaged"
             case isProtected = "IsProtected"
             case lastRefreshType = "LastRefreshType"
             case refreshSeconds = "RefreshSeconds"
@@ -33628,6 +34469,8 @@ extension Glue {
     public struct ViewDefinitionInput: AWSEncodableShape {
         /// The definer of a view in SQL.
         public let definer: String?
+        /// Specifies whether the materialized view is managed by Glue.
+        public let isManaged: Bool?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
         public let isProtected: Bool?
         /// The type of the materialized view's last refresh. Valid values: Full,  Incremental.
@@ -33650,8 +34493,9 @@ extension Glue {
         public let viewVersionToken: String?
 
         @inlinable
-        public init(definer: String? = nil, isProtected: Bool? = nil, lastRefreshType: LastRefreshType? = nil, refreshSeconds: Int64? = nil, representations: [ViewRepresentationInput]? = nil, sparkPipelineInfo: [String: String]? = nil, subObjects: [String]? = nil, subObjectsStatistics: [SubObjectStatistics]? = nil, subObjectVersionIds: [Int64]? = nil, viewVersionId: Int64? = nil, viewVersionToken: String? = nil) {
+        public init(definer: String? = nil, isManaged: Bool? = nil, isProtected: Bool? = nil, lastRefreshType: LastRefreshType? = nil, refreshSeconds: Int64? = nil, representations: [ViewRepresentationInput]? = nil, sparkPipelineInfo: [String: String]? = nil, subObjects: [String]? = nil, subObjectsStatistics: [SubObjectStatistics]? = nil, subObjectVersionIds: [Int64]? = nil, viewVersionId: Int64? = nil, viewVersionToken: String? = nil) {
             self.definer = definer
+            self.isManaged = isManaged
             self.isProtected = isProtected
             self.lastRefreshType = lastRefreshType
             self.refreshSeconds = refreshSeconds
@@ -33696,6 +34540,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case definer = "Definer"
+            case isManaged = "IsManaged"
             case isProtected = "IsProtected"
             case lastRefreshType = "LastRefreshType"
             case refreshSeconds = "RefreshSeconds"

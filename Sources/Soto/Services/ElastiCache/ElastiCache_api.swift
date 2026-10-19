@@ -768,6 +768,7 @@ public struct ElastiCache: AWSService {
     ///
     /// Parameters:
     ///   - cacheUsageLimits: Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
+    ///   - connectionType: The connection type for the serverless cache. Must be either vpc | public. Use vpc to access the cache through a VPC endpoint, or public to access the cache over the internet. If not specified, defaults to vpc. This value cannot be changed after the serverless cache is created. Setting this to public requires Valkey 9 or above.
     ///   - dailySnapshotTime: The daily time that snapshots will be created from the new serverless cache. By default this number is populated with  0, i.e. no snapshots will be created on an automatic daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - description: User-provided description for the serverless cache.   The default is NULL, i.e. if no description is provided then an empty string will be returned.  The maximum length is 255 characters.
     ///   - engine: The name of the cache engine to be used for creating the serverless cache.
@@ -785,6 +786,7 @@ public struct ElastiCache: AWSService {
     @inlinable
     public func createServerlessCache(
         cacheUsageLimits: CacheUsageLimits? = nil,
+        connectionType: ConnectionType? = nil,
         dailySnapshotTime: String? = nil,
         description: String? = nil,
         engine: String? = nil,
@@ -802,6 +804,7 @@ public struct ElastiCache: AWSService {
     ) async throws -> CreateServerlessCacheResponse {
         let input = CreateServerlessCacheRequest(
             cacheUsageLimits: cacheUsageLimits, 
+            connectionType: connectionType, 
             dailySnapshotTime: dailySnapshotTime, 
             description: description, 
             engine: engine, 

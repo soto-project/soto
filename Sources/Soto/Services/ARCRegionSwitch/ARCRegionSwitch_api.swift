@@ -606,7 +606,7 @@ public struct ARCRegionSwitch: AWSService {
         return try await self.listRoute53HealthChecksInRegion(input, logger: logger)
     }
 
-    /// Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
+    /// Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through Resource Access Manager (RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
     @Sendable
     @inlinable
     public func listServiceQuotaWarnings(_ input: ListServiceQuotaWarningsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceQuotaWarningsResponse {
@@ -619,7 +619,7 @@ public struct ARCRegionSwitch: AWSService {
             logger: logger
         )
     }
-    /// Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
+    /// Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through Resource Access Manager (RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return with this call. Valid values are 1 to 100. If you don't specify a value, the operation returns up to the maximum number of results.

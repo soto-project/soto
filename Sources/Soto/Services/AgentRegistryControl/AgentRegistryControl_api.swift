@@ -150,7 +150,7 @@ public struct AgentRegistryControl: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: Client token for idempotency
-    ///   - customMetadata: The custom metadata to attach to the registry record. Each key must match a property defined in the registry's custom metadata schema. Values can be strings (maximum 128 characters) or native JSON booleans (true or false). Values are validated against the schema at creation time.
+    ///   - customMetadata: The custom metadata for the record. Values are strings or JSON booleans.
     ///   - description: The description of the registry record
     ///   - descriptors: The typed descriptor content for the registry record
     ///   - displayName: The human-readable display name of the registry record
@@ -530,7 +530,7 @@ public struct AgentRegistryControl: AWSService {
     /// Parameters:
     ///   - approvalConfiguration: The updated approval configuration. The change applies only to records that move to PENDING_APPROVAL after the update; records already in PENDING_APPROVAL are unaffected.
     ///   - autoDetectionConfiguration: The updated auto-detection configuration for the registry, with PATCH semantics. Omit this field to leave the current configuration unchanged. Supply an empty wrapper to unset it. Supply optionalValue to replace it.
-    ///   - customMetadataSchemaConfiguration: Updated custom metadata schema configuration for the registry. Omit to leave the existing schema unchanged. Schema evolution is additive only: you can add properties and enum values, but you cannot remove properties, change property types or formats, add or remove enum constraints, or remove record type overrides.
+    ///   - customMetadataSchemaConfiguration: The new custom metadata schema configuration, which replaces the current one. You can add fields and allowed values, but you can't remove a field or an allowed value, or change a field's type.
     ///   - description: The updated description of the registry
     ///   - discoveryConfiguration: The updated discovery configuration. Changing the discovery authorization can break existing consumers that rely on the previous authorization type.
     ///   - name: The updated name of the registry

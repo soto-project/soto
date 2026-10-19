@@ -111,6 +111,7 @@ extension ARCRegionSwitch {
         case regionSwitch = "ARCRegionSwitchPlan"
         case route53HealthCheck = "Route53HealthCheck"
         case routingControl = "ARCRoutingControl"
+        case ssmSendCommand = "SSMSendCommand"
         public var description: String { return self.rawValue }
     }
 
@@ -251,6 +252,11 @@ extension ARCRegionSwitch {
         public var description: String { return self.rawValue }
     }
 
+    public enum SsmSendCommandUngracefulBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case skip = "skip"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StepStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "canceled"
         case completed = "completed"
@@ -325,6 +331,8 @@ extension ARCRegionSwitch {
         case regionSwitchPlanConfig(RegionSwitchPlanConfiguration)
         /// The Amazon Route 53 health check configuration.
         case route53HealthCheckConfig(Route53HealthCheckConfiguration)
+        /// Specifies an AWS Systems Manager SendCommand execution block.
+        case ssmSendCommandConfig(SsmSendCommandConfiguration)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -390,6 +398,9 @@ extension ARCRegionSwitch {
             case .route53HealthCheckConfig:
                 let value = try container.decode(Route53HealthCheckConfiguration.self, forKey: .route53HealthCheckConfig)
                 self = .route53HealthCheckConfig(value)
+            case .ssmSendCommandConfig:
+                let value = try container.decode(SsmSendCommandConfiguration.self, forKey: .ssmSendCommandConfig)
+                self = .ssmSendCommandConfig(value)
             }
         }
 
@@ -432,6 +443,8 @@ extension ARCRegionSwitch {
                 try container.encode(value, forKey: .regionSwitchPlanConfig)
             case .route53HealthCheckConfig(let value):
                 try container.encode(value, forKey: .route53HealthCheckConfig)
+            case .ssmSendCommandConfig(let value):
+                try container.encode(value, forKey: .ssmSendCommandConfig)
             }
         }
 
@@ -471,6 +484,8 @@ extension ARCRegionSwitch {
                 try value.validate(name: "\(name).regionSwitchPlanConfig")
             case .route53HealthCheckConfig(let value):
                 try value.validate(name: "\(name).route53HealthCheckConfig")
+            case .ssmSendCommandConfig(let value):
+                try value.validate(name: "\(name).ssmSendCommandConfig")
             default:
                 break
             }
@@ -495,6 +510,7 @@ extension ARCRegionSwitch {
             case rdsSwitchoverReadReplicaConfig = "rdsSwitchoverReadReplicaConfig"
             case regionSwitchPlanConfig = "regionSwitchPlanConfig"
             case route53HealthCheckConfig = "route53HealthCheckConfig"
+            case ssmSendCommandConfig = "ssmSendCommandConfig"
         }
     }
 
@@ -1740,7 +1756,7 @@ extension ARCRegionSwitch {
     }
 
     public struct GlobalAuroraConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The behavior for a global database, that is, only allow switchover or also allow failover.
+        /// The default behavior for the Aurora global database execution block. Valid values:    switchoverOnly - Calls SwitchoverGlobalCluster for a zero-data-loss switchover during graceful execution.    failover - Calls FailoverGlobalCluster with AllowDataLoss set to true. This operation might cause data loss, including during graceful execution.
         public let behavior: GlobalAuroraDefaultBehavior
         /// The cross account role for the configuration.
         public let crossAccountRole: String?
@@ -1752,7 +1768,7 @@ extension ARCRegionSwitch {
         public let globalClusterIdentifier: String
         /// The timeout value specified for the configuration.
         public let timeoutMinutes: Int?
-        /// The settings for ungraceful execution.
+        /// The behavior to use when the plan runs in ungraceful mode. If you omit this value, Region switch uses the value of behavior.
         public let ungraceful: GlobalAuroraUngraceful?
 
         @inlinable
@@ -1788,7 +1804,7 @@ extension ARCRegionSwitch {
     }
 
     public struct GlobalAuroraUngraceful: AWSEncodableShape & AWSDecodableShape {
-        /// The settings for ungraceful execution.
+        /// The ungraceful behavior. The only valid value is failover, which calls FailoverGlobalCluster with AllowDataLoss set to true and might cause data loss.
         public let ungraceful: GlobalAuroraUngracefulBehavior?
 
         @inlinable
@@ -1915,22 +1931,28 @@ extension ARCRegionSwitch {
         public let crossAccountRole: String?
         /// The external ID (secret key) for the configuration.
         public let externalId: String?
+        /// The JSON payload to send to the Lambda function invocation. If you don't specify a payload, Region switch invokes the function with only the execution metadata. If you provide a JSON object, Region switch merges execution metadata keys (InvokedBy, PlanArn, ExecutionId, StepName) into the top level. If one of your keys has the same name as a metadata key, your key takes precedence. If you provide any other JSON type (string, number, boolean, or array), Region switch forwards it to the Lambda function unchanged, without adding metadata.
+        public let payload: String?
 
         @inlinable
-        public init(arn: String? = nil, crossAccountRole: String? = nil, externalId: String? = nil) {
+        public init(arn: String? = nil, crossAccountRole: String? = nil, externalId: String? = nil, payload: String? = nil) {
             self.arn = arn
             self.crossAccountRole = crossAccountRole
             self.externalId = externalId
+            self.payload = payload
         }
 
         public func validate(name: String) throws {
             try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.validate(self.payload, name: "payload", parent: name, max: 786432)
+            try self.validate(self.payload, name: "payload", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case crossAccountRole = "crossAccountRole"
             case externalId = "externalId"
+            case payload = "payload"
         }
     }
 
@@ -2933,6 +2955,141 @@ extension ARCRegionSwitch {
             case status = "status"
             case warningCreatedAt = "warningCreatedAt"
             case warningMessage = "warningMessage"
+        }
+    }
+
+    public struct SsmDocumentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The cross-account role for the configuration.
+        public let crossAccountRole: String?
+        /// The Amazon Resource Name (ARN) of the Systems Manager document to run.
+        public let documentArn: String
+        /// The version of the Systems Manager document to run for this Region. When you omit it, Systems Manager runs the document's default version.
+        public let documentVersion: String?
+        /// The external ID (secret key) for the configuration.
+        public let externalId: String?
+        /// The parameters that are passed to this Region's Systems Manager document. You set parameters for each document, so each Region can run its document with its own parameters.
+        public let parameters: [String: [String]]?
+        /// The target filters that Systems Manager resolves to managed nodes when the command runs. To target specific managed nodes, use the InstanceIds key. You can specify up to five target filters.
+        public let targets: [SsmTarget]
+
+        @inlinable
+        public init(crossAccountRole: String? = nil, documentArn: String, documentVersion: String? = nil, externalId: String? = nil, parameters: [String: [String]]? = nil, targets: [SsmTarget]) {
+            self.crossAccountRole = crossAccountRole
+            self.documentArn = documentArn
+            self.documentVersion = documentVersion
+            self.externalId = externalId
+            self.parameters = parameters
+            self.targets = targets
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.crossAccountRole, name: "crossAccountRole", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:iam::[0-9]{12}:role/.+$")
+            try self.validate(self.documentArn, name: "documentArn", parent: name, max: 256)
+            try self.validate(self.documentArn, name: "documentArn", parent: name, min: 20)
+            try self.validate(self.documentArn, name: "documentArn", parent: name, pattern: "^arn:[a-z0-9\\-]+:ssm:[a-z0-9\\-]+:([0-9]{12})?:document/[a-zA-Z0-9_.\\-]+$")
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, max: 8)
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, min: 1)
+            try self.validate(self.documentVersion, name: "documentVersion", parent: name, pattern: "^([$]LATEST|[$]DEFAULT|[1-9][0-9]*)$")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 255)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 50)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 30)
+            try self.targets.forEach {
+                try $0.validate(name: "\(name).targets[]")
+            }
+            try self.validate(self.targets, name: "targets", parent: name, max: 5)
+            try self.validate(self.targets, name: "targets", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossAccountRole = "crossAccountRole"
+            case documentArn = "documentArn"
+            case documentVersion = "documentVersion"
+            case externalId = "externalId"
+            case parameters = "parameters"
+            case targets = "targets"
+        }
+    }
+
+    public struct SsmSendCommandConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Systems Manager document and target configuration for each Amazon Web Services Region in the plan. Provide an entry for each Amazon Web Services Region that you want the command to run in.
+        public let regionDocuments: [String: SsmDocumentConfig]
+        /// How often, in minutes, Region switch retries the command if it returns a failure.
+        public let retryIntervalMinutes: Float
+        /// The timeout value specified for the configuration.
+        public let timeoutMinutes: Int?
+        /// Specifies the settings that determine how the execution block behaves when the plan runs ungracefully, such as whether to skip the command.
+        public let ungraceful: SsmSendCommandUngraceful?
+
+        @inlinable
+        public init(regionDocuments: [String: SsmDocumentConfig], retryIntervalMinutes: Float, timeoutMinutes: Int? = nil, ungraceful: SsmSendCommandUngraceful? = nil) {
+            self.regionDocuments = regionDocuments
+            self.retryIntervalMinutes = retryIntervalMinutes
+            self.timeoutMinutes = timeoutMinutes
+            self.ungraceful = ungraceful
+        }
+
+        public func validate(name: String) throws {
+            try self.regionDocuments.forEach {
+                try validate($0.key, name: "regionDocuments.key", parent: name, pattern: "^[a-z]{2}-[a-z-]+-\\d+$")
+                try $0.value.validate(name: "\(name).regionDocuments[\"\($0.key)\"]")
+            }
+            try self.validate(self.regionDocuments, name: "regionDocuments", parent: name, max: 2)
+            try self.validate(self.regionDocuments, name: "regionDocuments", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionDocuments = "regionDocuments"
+            case retryIntervalMinutes = "retryIntervalMinutes"
+            case timeoutMinutes = "timeoutMinutes"
+            case ungraceful = "ungraceful"
+        }
+    }
+
+    public struct SsmSendCommandUngraceful: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to skip running this command during an ungraceful execution. Set to skip to skip the command.
+        public let behavior: SsmSendCommandUngracefulBehavior?
+
+        @inlinable
+        public init(behavior: SsmSendCommandUngracefulBehavior? = nil) {
+            self.behavior = behavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "behavior"
+        }
+    }
+
+    public struct SsmTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The target key, such as tag:Environment or InstanceIds.
+        public let key: String
+        /// The values matched by this target key. Multiple values combine with a logical OR.
+        public let values: [String]
+
+        @inlinable
+        public init(key: String, values: [String]) {
+            self.key = key
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 163)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=\\-@]*$")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 256)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 50)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case values = "values"
         }
     }
 

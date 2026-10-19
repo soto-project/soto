@@ -616,6 +616,7 @@ public struct RDS: AWSService {
     ///   - targetDBParameterGroupName: The DB parameter group associated with the DB instance in the green environment. To test parameter changes, specify a DB parameter group that is different from the one associated with the source DB instance.
     ///   - targetEngineVersion: The engine version of the database in the green environment. Specify the engine version to upgrade to in the green environment.
     ///   - targetIops: The amount of Provisioned IOPS (input/output operations per second) to allocate for the green DB instance. For information about valid IOPS values, see Amazon RDS DB instance storage in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora blue/green deployments.
+    ///   - targetResourceConfigurations: Specifies resource-level configuration overrides for the green environment. Each entry identifies a resource in the blue environment by its Amazon Resource Name (ARN). It defines the desired configuration for the corresponding resource in the green environment. Any resource that you don't include in this parameter retains the same configuration as its counterpart in the blue environment. Use this parameter when one or more resources in the green environment require a different configuration than what they have in the blue environment. Constraints:   You can't specify the same SourceArn in more than one entry.
     ///   - targetStorageThroughput: The storage throughput value for the green DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora blue/green deployments.
     ///   - targetStorageType: The storage type to associate with the green DB instance. Valid Values: gp2 | gp3 | io1 | io2  This setting doesn't apply to Amazon Aurora blue/green deployments.
     ///   - upgradeTargetStorageConfig: Whether to upgrade the storage file system configuration on the green database. This option migrates the green DB instance from the older 32-bit file system to the preferred configuration. For more information, see Upgrading the storage file system for a DB instance.
@@ -631,6 +632,7 @@ public struct RDS: AWSService {
         targetDBParameterGroupName: String? = nil,
         targetEngineVersion: String? = nil,
         targetIops: Int? = nil,
+        targetResourceConfigurations: [TargetResourceConfiguration]? = nil,
         targetStorageThroughput: Int? = nil,
         targetStorageType: String? = nil,
         upgradeTargetStorageConfig: Bool? = nil,
@@ -646,6 +648,7 @@ public struct RDS: AWSService {
             targetDBParameterGroupName: targetDBParameterGroupName, 
             targetEngineVersion: targetEngineVersion, 
             targetIops: targetIops, 
+            targetResourceConfigurations: targetResourceConfigurations, 
             targetStorageThroughput: targetStorageThroughput, 
             targetStorageType: targetStorageType, 
             upgradeTargetStorageConfig: upgradeTargetStorageConfig

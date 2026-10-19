@@ -340,6 +340,7 @@ extension AppStream {
         case feedbackUrl = "FEEDBACK_URL"
         case iamRoleArn = "IAM_ROLE_ARN"
         case redirectUrl = "REDIRECT_URL"
+        case storageConnectorAuthentication = "STORAGE_CONNECTOR_AUTHENTICATION"
         case storageConnectorGoogleDrive = "STORAGE_CONNECTOR_GOOGLE_DRIVE"
         case storageConnectorHomefolders = "STORAGE_CONNECTOR_HOMEFOLDERS"
         case storageConnectorOneDrive = "STORAGE_CONNECTOR_ONE_DRIVE"
@@ -353,6 +354,12 @@ extension AppStream {
     public enum StackErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
         case storageConnectorError = "STORAGE_CONNECTOR_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageConnectorAuthentication: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case forceReauthentication = "FORCE_REAUTHENTICATION"
+        case reuseCredentials = "REUSE_CREDENTIALS"
         public var description: String { return self.rawValue }
     }
 
@@ -2200,6 +2207,8 @@ extension AppStream {
         public let name: String?
         /// The URL that users are redirected to after their streaming session ends.
         public let redirectURL: String?
+        /// Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.
+        public let storageConnectorAuthentication: StorageConnectorAuthentication?
         /// The storage connectors to enable.
         public let storageConnectors: [StorageConnector]?
         /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
@@ -2210,7 +2219,7 @@ extension AppStream {
         public let userSettings: [UserSetting]?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfig? = nil, applicationSettings: ApplicationSettings? = nil, contentRedirection: ContentRedirection? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfig? = nil, applicationSettings: ApplicationSettings? = nil, contentRedirection: ContentRedirection? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectorAuthentication: StorageConnectorAuthentication? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, tags: [String: String]? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
@@ -2221,6 +2230,7 @@ extension AppStream {
             self.feedbackURL = feedbackURL
             self.name = name
             self.redirectURL = redirectURL
+            self.storageConnectorAuthentication = storageConnectorAuthentication
             self.storageConnectors = storageConnectors
             self.streamingExperienceSettings = streamingExperienceSettings
             self.tags = tags
@@ -2273,6 +2283,7 @@ extension AppStream {
             case feedbackURL = "FeedbackURL"
             case name = "Name"
             case redirectURL = "RedirectURL"
+            case storageConnectorAuthentication = "StorageConnectorAuthentication"
             case storageConnectors = "StorageConnectors"
             case streamingExperienceSettings = "StreamingExperienceSettings"
             case tags = "Tags"
@@ -4427,6 +4438,8 @@ extension AppStream {
         public let imagePermissions: ImagePermissions?
         /// Indicates whether the image is shared with another account ID.
         public let imageSharedWithOthers: ImageSharedWithOthers?
+        /// The software metadata associated with the image.
+        public let imageSoftwareMetadata: ImageSoftwareMetadata?
         /// The type of the image. Images created through AMI import have type "custom", while WorkSpaces Applications provided images have type "native". Custom images support additional instance types including GeneralPurpose, MemoryOptimized, ComputeOptimized, and Accelerated instance families.
         public let imageType: ImageType?
         /// Indicates whether the image is using the latest WorkSpaces Applications agent version or not.
@@ -4449,7 +4462,7 @@ extension AppStream {
         public let visibility: VisibilityType?
 
         @inlinable
-        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, imageType: ImageType? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, managedSoftwareIncluded: Bool? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
+        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, imageSoftwareMetadata: ImageSoftwareMetadata? = nil, imageType: ImageType? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, managedSoftwareIncluded: Bool? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -4463,6 +4476,7 @@ extension AppStream {
             self.imageErrors = imageErrors
             self.imagePermissions = imagePermissions
             self.imageSharedWithOthers = imageSharedWithOthers
+            self.imageSoftwareMetadata = imageSoftwareMetadata
             self.imageType = imageType
             self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
             self.managedSoftwareIncluded = managedSoftwareIncluded
@@ -4489,6 +4503,7 @@ extension AppStream {
             case imageErrors = "ImageErrors"
             case imagePermissions = "ImagePermissions"
             case imageSharedWithOthers = "ImageSharedWithOthers"
+            case imageSoftwareMetadata = "ImageSoftwareMetadata"
             case imageType = "ImageType"
             case latestAppstreamAgentVersion = "LatestAppstreamAgentVersion"
             case managedSoftwareIncluded = "ManagedSoftwareIncluded"
@@ -4628,6 +4643,20 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case allowFleet = "allowFleet"
             case allowImageBuilder = "allowImageBuilder"
+        }
+    }
+
+    public struct ImageSoftwareMetadata: AWSDecodableShape {
+        /// The version of the NVIDIA GRID driver installed on the image. This field is empty if no NVIDIA GRID driver is installed.
+        public let nvidiaGridDriverVersion: String?
+
+        @inlinable
+        public init(nvidiaGridDriverVersion: String? = nil) {
+            self.nvidiaGridDriverVersion = nvidiaGridDriverVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nvidiaGridDriverVersion = "nvidiaGridDriverVersion"
         }
     }
 
@@ -5149,6 +5178,8 @@ extension AppStream {
         public let redirectURL: String?
         /// The errors for the stack.
         public let stackErrors: [StackError]?
+        /// Indicates whether users' cloud storage authentication persists across streaming sessions. When this attribute is FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.
+        public let storageConnectorAuthentication: StorageConnectorAuthentication?
         /// The storage connectors to enable.
         public let storageConnectors: [StorageConnector]?
         /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
@@ -5157,7 +5188,7 @@ extension AppStream {
         public let userSettings: [UserSetting]?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfig? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, contentRedirection: ContentRedirection? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfig? = nil, applicationSettings: ApplicationSettingsResponse? = nil, arn: String? = nil, contentRedirection: ContentRedirection? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, stackErrors: [StackError]? = nil, storageConnectorAuthentication: StorageConnectorAuthentication? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
@@ -5171,6 +5202,7 @@ extension AppStream {
             self.name = name
             self.redirectURL = redirectURL
             self.stackErrors = stackErrors
+            self.storageConnectorAuthentication = storageConnectorAuthentication
             self.storageConnectors = storageConnectors
             self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
@@ -5190,6 +5222,7 @@ extension AppStream {
             case name = "Name"
             case redirectURL = "RedirectURL"
             case stackErrors = "StackErrors"
+            case storageConnectorAuthentication = "StorageConnectorAuthentication"
             case storageConnectors = "StorageConnectors"
             case streamingExperienceSettings = "StreamingExperienceSettings"
             case userSettings = "UserSettings"
@@ -6082,6 +6115,8 @@ extension AppStream {
         public let name: String?
         /// The URL that users are redirected to after their streaming session ends.
         public let redirectURL: String?
+        /// Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. To clear this attribute, add STORAGE_CONNECTOR_AUTHENTICATION to AttributesToDelete.
+        public let storageConnectorAuthentication: StorageConnectorAuthentication?
         /// The storage connectors to enable.
         public let storageConnectors: [StorageConnector]?
         /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
@@ -6090,7 +6125,7 @@ extension AppStream {
         public let userSettings: [UserSetting]?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfigForUpdate? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, contentRedirection: ContentRedirection? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfigForUpdate? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, contentRedirection: ContentRedirection? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectorAuthentication: StorageConnectorAuthentication? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
@@ -6103,6 +6138,7 @@ extension AppStream {
             self.feedbackURL = feedbackURL
             self.name = name
             self.redirectURL = redirectURL
+            self.storageConnectorAuthentication = storageConnectorAuthentication
             self.storageConnectors = storageConnectors
             self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
@@ -6110,7 +6146,7 @@ extension AppStream {
 
         @available(*, deprecated, message: "Members deleteStorageConnectors have been deprecated")
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfigForUpdate? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, contentRedirection: ContentRedirection? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, agentAccessConfig: AgentAccessConfigForUpdate? = nil, applicationSettings: ApplicationSettings? = nil, attributesToDelete: [StackAttribute]? = nil, contentRedirection: ContentRedirection? = nil, deleteStorageConnectors: Bool? = nil, description: String? = nil, displayName: String? = nil, embedHostDomains: [String]? = nil, feedbackURL: String? = nil, name: String? = nil, redirectURL: String? = nil, storageConnectorAuthentication: StorageConnectorAuthentication? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperienceSettings: StreamingExperienceSettings? = nil, userSettings: [UserSetting]? = nil) {
             self.accessEndpoints = accessEndpoints
             self.agentAccessConfig = agentAccessConfig
             self.applicationSettings = applicationSettings
@@ -6123,6 +6159,7 @@ extension AppStream {
             self.feedbackURL = feedbackURL
             self.name = name
             self.redirectURL = redirectURL
+            self.storageConnectorAuthentication = storageConnectorAuthentication
             self.storageConnectors = storageConnectors
             self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
@@ -6167,6 +6204,7 @@ extension AppStream {
             case feedbackURL = "FeedbackURL"
             case name = "Name"
             case redirectURL = "RedirectURL"
+            case storageConnectorAuthentication = "StorageConnectorAuthentication"
             case storageConnectors = "StorageConnectors"
             case streamingExperienceSettings = "StreamingExperienceSettings"
             case userSettings = "UserSettings"
