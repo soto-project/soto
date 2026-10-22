@@ -22,10 +22,10 @@ let swiftSettings: [SwiftSetting] = [
 let package = Package(
     name: "soto",
     platforms: [
-        .macOS(.v10_15),
-        .iOS(.v13),
-        .tvOS(.v13),
-        .watchOS(.v6),
+        .macOS(.v13),
+        .iOS(.v16),
+        .tvOS(.v16),
+        .watchOS(.v9),
     ],
     products: [
         .library(name: "SotoACM", targets: ["SotoACM"]),
@@ -461,7 +461,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.17.0"),
+        .package(url: "https://github.com/soto-project/soto-core.git", branch: "8.x.x"),
         .package(url: "https://github.com/apple/swift-nio.git", from: "2.100.0"),
     ],
     targets: [
