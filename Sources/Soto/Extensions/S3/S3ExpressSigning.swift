@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import HTTPTypes
 import Logging
 import SotoCore
 
@@ -73,7 +74,7 @@ public struct S3ExpressSigningFixupMiddleware: AWSMiddlewareProtocol {
         if let sessionToken = context.credential.sessionToken {
             var context = context
             var request = request
-            request.headers.replaceOrAdd(name: "x-amz-s3session-token", value: sessionToken)
+            request.request.headerFields[.xAmzS3SessionToken] = sessionToken
             context.credential = StaticCredential(accessKeyId: context.credential.accessKeyId, secretAccessKey: context.credential.secretAccessKey)
             return try await next(request, context)
         } else {
@@ -150,4 +151,9 @@ extension S3 {
             .with(middleware: S3ExpressSigningFixupMiddleware())
         return (client, s3)
     }
+}
+
+extension HTTPField.Name {
+    @inlinable
+    static var xAmzS3SessionToken: Self { .init("x-amz-s3session-token")! }
 }

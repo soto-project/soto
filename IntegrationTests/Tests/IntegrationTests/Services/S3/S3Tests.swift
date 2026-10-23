@@ -14,6 +14,7 @@
 
 import AsyncHTTPClient
 import Atomics
+import HTTPTypes
 import NIOCore
 import NIOPosix
 import XCTest
@@ -294,7 +295,7 @@ class S3Tests: XCTestCase {
                 context: AWSMiddlewareContext,
                 next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
-                throw Disable100CompleteError(header: request.headers["Expect"].first)
+                throw Disable100CompleteError(header: request.headers[.expect])
             }
         }
         let s3 = self.s3.with(
@@ -474,11 +475,12 @@ class S3Tests: XCTestCase {
 
         try await testBucket(name) { _ in
             let byteBuffer = self.createRandomBuffer(size: 186)
-            let putURL = try await self.s3.signURL(
-                url: s3Url,
-                httpMethod: .PUT,
+            var putRequest = HTTPRequest(method: .put, url: s3Url)
+            try await self.s3.signURL(
+                request: &putRequest,
                 expires: .minutes(5)
             )
+            let putURL = try XCTUnwrap(putRequest.url)
             var request = HTTPClientRequest(url: putURL.absoluteString)
             request.method = .PUT
             request.body = .bytes(byteBuffer)
@@ -488,11 +490,13 @@ class S3Tests: XCTestCase {
             let listResponse = try await self.s3.listObjectsV2(.init(bucket: name))
             XCTAssertEqual(listResponse.contents?.first?.key, "\(name)!=%+/(*)_.txt")
 
-            let getURL = try await self.s3.signURL(
-                url: s3Url,
-                httpMethod: .GET,
+            var getRequest = HTTPRequest(method: .get, url: s3Url)
+
+            try await self.s3.signURL(
+                request: &getRequest,
                 expires: .minutes(5)
             )
+            let getURL = try XCTUnwrap(getRequest.url)
             let getResponse = try await HTTPClient.shared.execute(
                 .init(url: getURL.absoluteString),
                 timeout: .minutes(1)
@@ -511,7 +515,8 @@ class S3Tests: XCTestCase {
                 context: AWSMiddlewareContext,
                 next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
-                XCTAssertEqual(request.url.absoluteString.split(separator: ".")[2], "dualstack")
+                let url = try XCTUnwrap(request.request.url)
+                XCTAssertEqual(url.absoluteString.split(separator: ".")[2], "dualstack")
                 return try await next(request, context)
             }
         }
@@ -539,7 +544,8 @@ class S3Tests: XCTestCase {
                 context: AWSMiddlewareContext,
                 next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
-                XCTAssertEqual(request.url.absoluteString.split(separator: ".")[1], "s3-fips")
+                let url = try XCTUnwrap(request.request.url)
+                XCTAssertEqual(url.absoluteString.split(separator: ".")[1], "s3-fips")
                 return try await next(request, context)
             }
         }
@@ -567,7 +573,8 @@ class S3Tests: XCTestCase {
                 context: AWSMiddlewareContext,
                 next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
-                XCTAssertEqual(request.url.absoluteString.split(separator: ".")[1], "s3-accelerate")
+                let url = try XCTUnwrap(request.request.url)
+                XCTAssertEqual(url.absoluteString.split(separator: ".")[1], "s3-accelerate")
                 return try await next(request, context)
             }
         }
@@ -640,7 +647,7 @@ class S3Tests: XCTestCase {
                 context: AWSMiddlewareContext,
                 next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
-                XCTAssertEqual(request.url.host, "123456780123.s3-control.eu-west-1.amazonaws.com")
+                XCTAssertEqual(request.request.authority, "123456780123.s3-control.eu-west-1.amazonaws.com")
                 throw CancelError()
             }
         }
