@@ -70,7 +70,7 @@ class SESTests: XCTestCase {
             }
         }
         let testMiddleware = TestRequestMiddleware { request in
-            XCTAssertEqual(request.url, URL(string: "https://email-fips.us-east-1.amazonaws.com/")!)
+            XCTAssertEqual(request.request.url, URL(string: "https://email-fips.us-east-1.amazonaws.com/")!)
         }
         let ses = SES(client: self.client, region: .useast1, options: .useFipsEndpoint).with(middleware: testMiddleware)
         do {

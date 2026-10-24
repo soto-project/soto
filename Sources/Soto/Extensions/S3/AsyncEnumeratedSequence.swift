@@ -49,7 +49,7 @@ extension AsyncEnumeratedSequence: AsyncSequence {
 
         @inlinable
         mutating func next() async rethrows -> AsyncEnumeratedSequence.Element? {
-            let value = try await self.baseIterator.next().map { (self.index, $0) }
+            let value = try await self.baseIterator.next(isolation: #isolation).map { (self.index, $0) }
             self.index += 1
             return value
         }

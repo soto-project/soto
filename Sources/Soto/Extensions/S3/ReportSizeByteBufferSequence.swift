@@ -36,7 +36,7 @@ struct ReportProgressByteBufferAsyncSequence<Base: AsyncSequence>: AsyncSequence
 
         @inlinable
         public mutating func next() async throws -> ByteBuffer? {
-            if let buffer = try await self.iterator.next() {
+            if let buffer = try await self.iterator.next(isolation: #isolation) {
                 try await self.reportFn(buffer.readableBytes)
                 return buffer
             }

@@ -3,13 +3,17 @@
 
 import PackageDescription
 
+let swiftSettings: [SwiftSetting] = [
+    .enableUpcomingFeature("NonisolatedNonsendingByDefault")
+]
+
 let package = Package(
     name: "IntegrationTests",
     platforms: [
-        .macOS(.v13),
-        .iOS(.v16),
-        .tvOS(.v16),
-        .watchOS(.v9),
+        .macOS(.v15),
+        .iOS(.v18),
+        .tvOS(.v18),
+        .watchOS(.v11),
     ],
     dependencies: [
         .package(path: "..")
@@ -36,7 +40,8 @@ let package = Package(
                 .product(name: "SotoSSM", package: "soto"),
                 .product(name: "SotoSTS", package: "soto"),
                 .product(name: "SotoTimestreamWrite", package: "soto"),
-            ]
+            ],
+            swiftSettings: swiftSettings
         )
     ]
 )

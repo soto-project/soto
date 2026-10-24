@@ -13,7 +13,9 @@
 //===----------------------------------------------------------------------===//
 
 import AsyncHTTPClient
-import NIOFoundationCompat
+import HTTPTypes
+import NIOCore
+import NIOFoundationEssentialsCompat
 import NIOPosix
 import XCTest
 
@@ -343,20 +345,19 @@ extension S3Tests {
     func testS3VirtualAddressing(_ urlString: String, s3URL: String, config: AWSServiceConfig? = nil) async throws {
         let config = config ?? self.s3.config
         let request = AWSHTTPRequest(
-            url: URL(string: urlString)!,
-            method: .GET,
-            headers: [:],
+            request: HTTPRequest(method: .get, url: URL(string: urlString)!),
             body: .init()
         )
         let context = AWSMiddlewareContext(
             operation: "TestOperation",
             serviceConfig: config,
-            credential: EmptyCredential().getStaticCredential(),
+            credential: .empty,
             logger: TestEnvironment.logger
         )
         _ = try await config.middleware?.handle(request, context: context) { request, _ in
-            XCTAssertEqual(request.url.absoluteString, s3URL)
-            return AWSHTTPResponse(status: .ok, headers: ["RequestURL": request.url.absoluteString])
+            let url = try XCTUnwrap(request.request.url)
+            XCTAssertEqual(url.absoluteString, s3URL)
+            return AWSHTTPResponse(response: HTTPResponse(status: .ok, headerFields: [HTTPField.Name("RequestURL")!: url.absoluteString]))
         }
     }
 
@@ -401,11 +402,11 @@ extension S3Tests {
         let request = try AWSHTTPRequest(
             operation: "PutObject",
             path: "/{Bucket}/{Key+}?x-id=PutObject",
-            method: .PUT,
+            method: .put,
             input: input,
             configuration: s3.config
         )
-        XCTAssertEqual(request.headers["Content-MD5"].first, "6728ab89sfsdff==")
+        XCTAssertEqual(request.headers[HTTPField.Name("Content-MD5")!], "6728ab89sfsdff==")
 
         let input2 = S3.PutObjectRequest(
             body: .init(string: "TestContent"),
@@ -415,11 +416,11 @@ extension S3Tests {
         let request2 = try AWSHTTPRequest(
             operation: "PutObject",
             path: "/{Bucket}/{Key+}?x-id=PutObject",
-            method: .PUT,
+            method: .put,
             input: input2,
             configuration: s3.config
         )
-        XCTAssertEqual(request2.headers["Content-MD5"].first, "JhF7IaLE189bvT4/iv/iqg==")
+        XCTAssertEqual(request2.headers[HTTPField.Name("Content-MD5")!], "JhF7IaLE189bvT4/iv/iqg==")
     }
 
     func testGeneratePresignedPost() async throws {
