@@ -180,7 +180,7 @@ struct ReportAsyncSequence<Base: AsyncSequence>: AsyncSequence {
 
         @inlinable
         public mutating func next() async throws -> Element? {
-            if let element = try await self.iterator.next() {
+            if let element = try await self.iterator.next(isolation: #isolation) {
                 try self.process(element)
                 return element
             }

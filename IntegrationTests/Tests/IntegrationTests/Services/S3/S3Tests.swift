@@ -257,7 +257,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 // XCTAssertEqual(request.httpHeaders["Expect"].first, "100-continue")
                 try await next(request, context)
@@ -293,7 +293,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 throw Disable100CompleteError(header: request.headers[.expect])
             }
@@ -511,7 +511,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 let url = try XCTUnwrap(request.request.url)
                 XCTAssertEqual(url.absoluteString.split(separator: ".")[2], "dualstack")
@@ -540,7 +540,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 let url = try XCTUnwrap(request.request.url)
                 XCTAssertEqual(url.absoluteString.split(separator: ".")[1], "s3-fips")
@@ -569,7 +569,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 let url = try XCTUnwrap(request.request.url)
                 XCTAssertEqual(url.absoluteString.split(separator: ".")[1], "s3-accelerate")
@@ -643,7 +643,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 XCTAssertEqual(request.request.authority, "123456780123.s3-control.eu-west-1.amazonaws.com")
                 throw CancelError()

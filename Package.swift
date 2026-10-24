@@ -16,7 +16,7 @@
 import PackageDescription
 
 let swiftSettings: [SwiftSetting] = [
-    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+    .enableUpcomingFeature("NonisolatedNonsendingByDefault")
 ]
 
 let package = Package(
@@ -3107,7 +3107,8 @@ let package = Package(
                 "SotoSTS",
                 "SotoTimestreamWrite",
             ],
-            path: "IntegrationTests/Tests/IntegrationTests"
+            path: "IntegrationTests/Tests/IntegrationTests",
+            swiftSettings: swiftSettings
         ),
     ]
 )
