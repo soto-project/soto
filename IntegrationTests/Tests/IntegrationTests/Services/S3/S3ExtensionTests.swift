@@ -15,7 +15,7 @@
 import AsyncHTTPClient
 import HTTPTypes
 import NIOCore
-import NIOFoundationCompat
+import NIOFoundationEssentialsCompat
 import NIOPosix
 import XCTest
 

@@ -12,8 +12,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-import HTTPTypes
 import Foundation
+import HTTPTypes
 import SotoXML
 import XCTest
 
