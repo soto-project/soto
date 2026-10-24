@@ -1,4 +1,4 @@
-// swift-tools-version:6.0
+// swift-tools-version:6.2
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Soto for AWS open source project
@@ -16,16 +16,16 @@
 import PackageDescription
 
 let swiftSettings: [SwiftSetting] = [
-    .enableExperimentalFeature("StrictConcurrency=complete")
+    .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
 ]
 
 let package = Package(
     name: "soto",
     platforms: [
-        .macOS(.v13),
-        .iOS(.v16),
-        .tvOS(.v16),
-        .watchOS(.v9),
+        .macOS(.v15),
+        .iOS(.v18),
+        .tvOS(.v18),
+        .watchOS(.v11),
     ],
     products: [
         .library(name: "SotoACM", targets: ["SotoACM"]),
