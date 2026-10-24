@@ -63,7 +63,7 @@ class SESTests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 self.test(request)
                 throw TestError()

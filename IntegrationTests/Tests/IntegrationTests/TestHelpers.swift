@@ -14,6 +14,7 @@
 
 import Dispatch
 import Foundation
+import Logging
 import NIOCore
 import XCTest
 
@@ -101,7 +102,7 @@ enum TestEnvironment {
         return "soto-" + (prefix + function).filter { $0.isLetter || $0.isNumber }.lowercased()
     }
 
-    public static var logger: Logger {
+    static var logger: Logger {
         if let loggingLevel = Environment["AWS_LOG_LEVEL"] {
             if let logLevel = Logger.Level(rawValue: loggingLevel.lowercased()) {
                 var logger = Logger(label: "soto")

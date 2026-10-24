@@ -257,7 +257,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 // XCTAssertEqual(request.httpHeaders["Expect"].first, "100-continue")
                 try await next(request, context)
@@ -293,7 +293,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 throw Disable100CompleteError(header: request.headers[.expect])
             }
@@ -475,12 +475,11 @@ class S3Tests: XCTestCase {
 
         try await testBucket(name) { _ in
             let byteBuffer = self.createRandomBuffer(size: 186)
-            var putRequest = HTTPRequest(method: .put, url: s3Url)
-            try await self.s3.signURL(
-                request: &putRequest,
-                expires: .minutes(5)
+            let putRequest = HTTPRequest(method: .put, url: s3Url)
+            let putURL = try await self.s3.signURL(
+                request: putRequest,
+                expires: .seconds(300)
             )
-            let putURL = try XCTUnwrap(putRequest.url)
             var request = HTTPClientRequest(url: putURL.absoluteString)
             request.method = .PUT
             request.body = .bytes(byteBuffer)
@@ -490,13 +489,12 @@ class S3Tests: XCTestCase {
             let listResponse = try await self.s3.listObjectsV2(.init(bucket: name))
             XCTAssertEqual(listResponse.contents?.first?.key, "\(name)!=%+/(*)_.txt")
 
-            var getRequest = HTTPRequest(method: .get, url: s3Url)
+            let getRequest = HTTPRequest(method: .get, url: s3Url)
 
-            try await self.s3.signURL(
-                request: &getRequest,
-                expires: .minutes(5)
+            let getURL = try await self.s3.signURL(
+                request: getRequest,
+                expires: .seconds(300)
             )
-            let getURL = try XCTUnwrap(getRequest.url)
             let getResponse = try await HTTPClient.shared.execute(
                 .init(url: getURL.absoluteString),
                 timeout: .minutes(1)
@@ -513,7 +511,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 let url = try XCTUnwrap(request.request.url)
                 XCTAssertEqual(url.absoluteString.split(separator: ".")[2], "dualstack")
@@ -542,7 +540,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 let url = try XCTUnwrap(request.request.url)
                 XCTAssertEqual(url.absoluteString.split(separator: ".")[1], "s3-fips")
@@ -571,7 +569,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 let url = try XCTUnwrap(request.request.url)
                 XCTAssertEqual(url.absoluteString.split(separator: ".")[1], "s3-accelerate")
@@ -645,7 +643,7 @@ class S3Tests: XCTestCase {
             func handle(
                 _ request: AWSHTTPRequest,
                 context: AWSMiddlewareContext,
-                next: (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
+                next: nonisolated(nonsending) (AWSHTTPRequest, AWSMiddlewareContext) async throws -> AWSHTTPResponse
             ) async throws -> AWSHTTPResponse {
                 XCTAssertEqual(request.request.authority, "123456780123.s3-control.eu-west-1.amazonaws.com")
                 throw CancelError()

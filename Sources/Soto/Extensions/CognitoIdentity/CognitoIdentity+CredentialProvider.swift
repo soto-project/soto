@@ -13,6 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import AsyncHTTPClient
+import Logging
 import SotoCore
 
 #if canImport(FoundationEssentials)
@@ -32,7 +33,7 @@ extension CognitoIdentity {
             identityPoolId: String,
             identityProvider: IdentityProviderFactory,
             region: Region,
-            retryPolicy: RetryPolicyFactory,
+            retryPolicy: any RetryPolicy,
             httpClient: any AWSHTTPClient,
             logger: Logger = AWSClient.loggingDisabled
         ) {
@@ -55,7 +56,7 @@ extension CognitoIdentity {
             else {
                 throw CredentialProviderError.noProvider
             }
-            return RotatingCredential(
+            return Credential(
                 accessKeyId: accessKeyId,
                 secretAccessKey: secretAccessKey,
                 sessionToken: sessionToken,
@@ -81,7 +82,7 @@ extension CredentialProviderFactory {
         identityPoolId: String,
         logins: [String: String]?,
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default,
+        retryPolicy: any RetryPolicy = .default,
         logger: Logger = AWSClient.loggingDisabled
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -127,7 +128,7 @@ extension CredentialProviderFactory {
         identityPoolId: String,
         identityProvider: IdentityProviderFactory,
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default,
+        retryPolicy: any RetryPolicy = .default,
         logger: Logger = AWSClient.loggingDisabled
     ) -> CredentialProviderFactory {
         .custom { context in

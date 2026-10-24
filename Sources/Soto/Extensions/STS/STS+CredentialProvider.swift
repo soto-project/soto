@@ -13,6 +13,7 @@
 //===----------------------------------------------------------------------===//
 
 import AsyncHTTPClient
+import Logging
 import NIOCore
 import NIOPosix
 import SotoCore
@@ -62,7 +63,7 @@ extension STS {
             requestProvider: RequestProvider<STS.AssumeRoleRequest>,
             credentialProvider: CredentialProviderFactory,
             region: Region,
-            retryPolicy: RetryPolicyFactory,
+            retryPolicy: any RetryPolicy,
             httpClient: any AWSHTTPClient
         ) {
             self.client = AWSClient(credentialProvider: credentialProvider, retryPolicy: retryPolicy, httpClient: httpClient)
@@ -74,7 +75,7 @@ extension STS {
             let request = try await requestProvider.request()
             let response = try await self.sts.assumeRole(request, logger: logger)
             guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
-            return RotatingCredential(
+            return Credential(
                 accessKeyId: credentials.accessKeyId,
                 secretAccessKey: credentials.secretAccessKey,
                 sessionToken: credentials.sessionToken,
@@ -92,7 +93,7 @@ extension STS {
         init(
             requestProvider: RequestProvider<STS.AssumeRoleWithSAMLRequest>,
             region: Region,
-            retryPolicy: RetryPolicyFactory,
+            retryPolicy: any RetryPolicy,
             httpClient: any AWSHTTPClient
         ) {
             self.client = AWSClient(credentialProvider: .empty, retryPolicy: retryPolicy, httpClient: httpClient)
@@ -104,7 +105,7 @@ extension STS {
             let request = try await requestProvider.request()
             let response = try await self.sts.assumeRoleWithSAML(request, logger: logger)
             guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
-            return RotatingCredential(
+            return Credential(
                 accessKeyId: credentials.accessKeyId,
                 secretAccessKey: credentials.secretAccessKey,
                 sessionToken: credentials.sessionToken,
@@ -122,7 +123,7 @@ extension STS {
         init(
             requestProvider: RequestProvider<STS.AssumeRoleWithWebIdentityRequest>,
             region: Region,
-            retryPolicy: RetryPolicyFactory,
+            retryPolicy: any RetryPolicy,
             httpClient: any AWSHTTPClient
         ) {
             self.client = AWSClient(credentialProvider: .empty, retryPolicy: retryPolicy, httpClient: httpClient)
@@ -134,7 +135,7 @@ extension STS {
             let request = try await requestProvider.request()
             let response = try await self.sts.assumeRoleWithWebIdentity(request, logger: logger)
             guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
-            return RotatingCredential(
+            return Credential(
                 accessKeyId: credentials.accessKeyId,
                 secretAccessKey: credentials.secretAccessKey,
                 sessionToken: credentials.sessionToken,
@@ -148,7 +149,7 @@ extension STS {
     struct AssumeRoleWithWebIdentityTokenFileCredentialProvider: CredentialProvider {
         let webIdentityProvider: AssumeRoleWithWebIdentityCredentialProvider
 
-        init?(region: Region, context: CredentialProviderFactory.Context, retryPolicy: RetryPolicyFactory) {
+        init?(region: Region, context: CredentialProviderFactory.Context, retryPolicy: any RetryPolicy) {
             guard let tokenFile = Environment["AWS_WEB_IDENTITY_TOKEN_FILE"] else { return nil }
             guard let roleArn = Environment["AWS_ROLE_ARN"] else { return nil }
             let sessionName = Environment["AWS_ROLE_SESSION_NAME"]
@@ -205,7 +206,7 @@ extension STS {
             requestProvider: RequestProvider<STS.GetFederationTokenRequest>,
             credentialProvider: CredentialProviderFactory,
             region: Region,
-            retryPolicy: RetryPolicyFactory,
+            retryPolicy: any RetryPolicy,
             httpClient: any AWSHTTPClient
         ) {
             self.client = AWSClient(credentialProvider: credentialProvider, retryPolicy: retryPolicy, httpClient: httpClient)
@@ -217,7 +218,7 @@ extension STS {
             let request = try await requestProvider.request()
             let response = try await self.sts.getFederationToken(request, logger: logger)
             guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
-            return RotatingCredential(
+            return Credential(
                 accessKeyId: credentials.accessKeyId,
                 secretAccessKey: credentials.secretAccessKey,
                 sessionToken: credentials.sessionToken,
@@ -236,7 +237,7 @@ extension STS {
             requestProvider: RequestProvider<STS.GetSessionTokenRequest>,
             credentialProvider: CredentialProviderFactory,
             region: Region,
-            retryPolicy: RetryPolicyFactory,
+            retryPolicy: any RetryPolicy,
             httpClient: any AWSHTTPClient
         ) {
             self.client = AWSClient(credentialProvider: credentialProvider, retryPolicy: retryPolicy, httpClient: httpClient)
@@ -248,7 +249,7 @@ extension STS {
             let request = try await requestProvider.request()
             let response = try await self.sts.getSessionToken(request, logger: logger)
             guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
-            return RotatingCredential(
+            return Credential(
                 accessKeyId: credentials.accessKeyId,
                 secretAccessKey: credentials.secretAccessKey,
                 sessionToken: credentials.sessionToken,
@@ -272,7 +273,7 @@ extension CredentialProviderFactory {
         request: STS.AssumeRoleRequest,
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default
+        retryPolicy: any RetryPolicy = .default
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleCredentialProvider(
@@ -298,7 +299,7 @@ extension CredentialProviderFactory {
     public static func stsAssumeRole(
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default,
+        retryPolicy: any RetryPolicy = .default,
         requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleRequest
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -324,7 +325,7 @@ extension CredentialProviderFactory {
     public static func stsSAML(
         request: STS.AssumeRoleWithSAMLRequest,
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default
+        retryPolicy: any RetryPolicy = .default
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithSAMLCredentialProvider(
@@ -347,7 +348,7 @@ extension CredentialProviderFactory {
     ///   - requestProvider: Function that returns an AssumeRoleWithSAML request struct
     public static func stsSAML(
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default,
+        retryPolicy: any RetryPolicy = .default,
         requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleWithSAMLRequest
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -372,7 +373,7 @@ extension CredentialProviderFactory {
     public static func stsWebIdentity(
         request: STS.AssumeRoleWithWebIdentityRequest,
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default
+        retryPolicy: any RetryPolicy = .default
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(
@@ -395,7 +396,7 @@ extension CredentialProviderFactory {
     ///   - requestProvider: Function that returns an AssumeRoleWithWebIdentity request struct
     public static func stsWebIdentity(
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default,
+        retryPolicy: any RetryPolicy = .default,
         requestProvider: @escaping @Sendable () async throws -> STS.AssumeRoleWithWebIdentityRequest
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -419,7 +420,7 @@ extension CredentialProviderFactory {
     ///   - retryPolicy: Retry policy for AWS service requests performed by credential provider
     public static func stsWebIdentityTokenFile(
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default
+        retryPolicy: any RetryPolicy = .default
     ) -> CredentialProviderFactory {
         .custom { context in
             guard
@@ -448,7 +449,7 @@ extension CredentialProviderFactory {
         request: STS.GetFederationTokenRequest,
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default
+        retryPolicy: any RetryPolicy = .default
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.FederatedTokenCredentialProvider(
@@ -475,7 +476,7 @@ extension CredentialProviderFactory {
         request: STS.GetSessionTokenRequest,
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default
+        retryPolicy: any RetryPolicy = .default
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.SessionTokenCredentialProvider(
@@ -501,7 +502,7 @@ extension CredentialProviderFactory {
     public static func stsSessionToken(
         credentialProvider: CredentialProviderFactory = .default,
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default,
+        retryPolicy: any RetryPolicy = .default,
         requestProvider: @escaping @Sendable () async throws -> STS.GetSessionTokenRequest
     ) -> CredentialProviderFactory {
         .custom { context in

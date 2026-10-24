@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Logging
 import NIOConcurrencyHelpers
 import SotoS3
 import SotoSNS

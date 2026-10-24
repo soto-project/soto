@@ -14,6 +14,7 @@
 
 import AsyncHTTPClient
 import HTTPTypes
+import NIOCore
 import NIOFoundationCompat
 import NIOPosix
 import XCTest
@@ -350,7 +351,7 @@ extension S3Tests {
         let context = AWSMiddlewareContext(
             operation: "TestOperation",
             serviceConfig: config,
-            credential: EmptyCredential().getStaticCredential(),
+            credential: .empty,
             logger: TestEnvironment.logger
         )
         _ = try await config.middleware?.handle(request, context: context) { request, _ in

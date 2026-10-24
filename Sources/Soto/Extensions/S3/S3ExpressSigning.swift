@@ -26,7 +26,7 @@ struct S3ExpressCredentialProvider: CredentialProvider {
         bucket: String,
         region: Region,
         credentialProvider: CredentialProviderFactory,
-        retryPolicy: RetryPolicyFactory,
+        retryPolicy: any RetryPolicy,
         httpClient: any AWSHTTPClient,
         logger: Logger = AWSClient.loggingDisabled
     ) {
@@ -45,9 +45,9 @@ struct S3ExpressCredentialProvider: CredentialProvider {
         self.ownsClient = false
     }
 
-    func getCredential(logger: Logger) async throws -> any Credential {
+    func getCredential(logger: Logger) async throws -> Credential {
         let session = try await s3.createSession(bucket: bucket)
-        return RotatingCredential(
+        return Credential(
             accessKeyId: session.credentials.accessKeyId,
             secretAccessKey: session.credentials.secretAccessKey,
             sessionToken: session.credentials.sessionToken,
@@ -75,7 +75,7 @@ public struct S3ExpressSigningFixupMiddleware: AWSMiddlewareProtocol {
             var context = context
             var request = request
             request.request.headerFields[.xAmzS3SessionToken] = sessionToken
-            context.credential = StaticCredential(accessKeyId: context.credential.accessKeyId, secretAccessKey: context.credential.secretAccessKey)
+            context.credential = Credential(accessKeyId: context.credential.accessKeyId, secretAccessKey: context.credential.secretAccessKey)
             return try await next(request, context)
         } else {
             return try await next(request, context)
@@ -97,7 +97,7 @@ extension CredentialProviderFactory {
     public static func s3Express(
         bucket: String,
         region: Region,
-        retryPolicy: RetryPolicyFactory = .default,
+        retryPolicy: any RetryPolicy = .default,
         credentialProvider: CredentialProviderFactory = .default
     ) -> CredentialProviderFactory {
         .custom { context in

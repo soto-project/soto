@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import Logging
 import XCTest
 
 @testable import SotoTimestreamWrite
