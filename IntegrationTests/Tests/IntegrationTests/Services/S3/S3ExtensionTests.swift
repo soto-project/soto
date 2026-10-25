@@ -18,6 +18,7 @@ import NIOCore
 import NIOFoundationEssentialsCompat
 import NIOPosix
 import XCTest
+import _NIOFileSystem
 
 @testable import SotoCore
 @testable import SotoS3
@@ -94,10 +95,9 @@ extension S3Tests {
         let buffer = self.randomBytes
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartUploadTest"
-        let fileIO = NonBlockingFileIO(threadPool: .singleton)
         await XCTAsyncAssertNoThrow {
-            try await fileIO.withFileHandle(path: filename, mode: .write, flags: .allowFileCreation()) { fileHandle in
-                try await fileIO.write(fileHandle: fileHandle, buffer: buffer)
+            try await FileSystem.shared.withFileHandle(forWritingAt: .init(filename), options: .newFile(replaceExisting: true)) { write in
+                _ = try await write.write(contentsOf: buffer, toAbsoluteOffset: 0)
             }
         }
 
@@ -152,10 +152,9 @@ extension S3Tests {
         let name = TestEnvironment.generateResourceName()
         let filename = "testResumeMultiPartUpload"
 
-        let fileIO = NonBlockingFileIO(threadPool: .singleton)
         await XCTAsyncAssertNoThrow {
-            try await fileIO.withFileHandle(path: filename, mode: .write, flags: .allowFileCreation()) { fileHandle in
-                try await fileIO.write(fileHandle: fileHandle, buffer: buffer)
+            try await FileSystem.shared.withFileHandle(forWritingAt: .init(filename), options: .newFile(replaceExisting: true)) { write in
+                _ = try await write.write(contentsOf: buffer, toAbsoluteOffset: 0)
             }
         }
 

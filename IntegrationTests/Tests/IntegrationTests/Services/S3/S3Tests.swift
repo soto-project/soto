@@ -245,6 +245,7 @@ class S3Tests: XCTestCase {
             XCTAssertEqual(listResponse.contents?.first?.size, Int64(contents.utf8.count))
             XCTAssertEqual(listResponse.contents?.first?.eTag, eTag)
             XCTAssertNotNil(listResponse.contents?.first?.lastModified)
+            XCTAssertEqual(listResponse.contents?.first?.storageClass, .standard)
         }
     }
 

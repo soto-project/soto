@@ -59,7 +59,7 @@ class LambdaTests: XCTestCase {
     func deleteLambdaFunction() async throws {
         print("Deleting Lambda function \(self.functionName)")
         let dfr = Lambda.DeleteFunctionRequest(functionName: self.functionName)
-        try await self.lambda.deleteFunction(dfr)
+        _ = try await self.lambda.deleteFunction(dfr)
     }
 
     func createIAMRole() async throws -> IAM.CreateRoleResponse {
