@@ -25,26 +25,30 @@ import Foundation
 extension Signin {
     // MARK: Enums
 
-    public enum OAuth2ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct OAuth2ErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Authorization code has expired
-        case authcodeExpired = "AUTHCODE_EXPIRED"
+        @inlinable public static var authcodeExpired: Self { .init(rawValue: "AUTHCODE_EXPIRED") }
         /// Request conflicts with current state of the resource
-        case conflict = "CONFLICT"
+        @inlinable public static var conflict: Self { .init(rawValue: "CONFLICT") }
         /// Insufficient permissions to perform this operation
-        case insufficientPermissions = "INSUFFICIENT_PERMISSIONS"
+        @inlinable public static var insufficientPermissions: Self { .init(rawValue: "INSUFFICIENT_PERMISSIONS") }
         /// The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed
-        case invalidRequest = "INVALID_REQUEST"
+        @inlinable public static var invalidRequest: Self { .init(rawValue: "INVALID_REQUEST") }
         /// Requested resource was not found
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        @inlinable public static var resourceNotFound: Self { .init(rawValue: "RESOURCE_NOT_FOUND") }
         /// Internal server error occurred
-        case serverError = "server_error"
+        @inlinable public static var serverError: Self { .init(rawValue: "server_error") }
         /// Request would cause a service quota to be exceeded
-        case serviceQuotaExceeded = "SERVICE_QUOTA_EXCEEDED"
+        @inlinable public static var serviceQuotaExceeded: Self { .init(rawValue: "SERVICE_QUOTA_EXCEEDED") }
         /// Token has expired and needs to be refreshed
-        case tokenExpired = "TOKEN_EXPIRED"
+        @inlinable public static var tokenExpired: Self { .init(rawValue: "TOKEN_EXPIRED") }
         /// User credentials have been changed
-        case userCredentialsChanged = "USER_CREDENTIALS_CHANGED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var userCredentialsChanged: Self { .init(rawValue: "USER_CREDENTIALS_CHANGED") }
     }
 
     // MARK: Shapes

@@ -25,24 +25,36 @@ import Foundation
 extension PricingPlanManager {
     // MARK: Enums
 
-    public enum ApprovalMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case immediate = "IMMEDIATE"
-        case manual = "MANUAL"
-        public var description: String { return self.rawValue }
+    public struct ApprovalMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var immediate: Self { .init(rawValue: "IMMEDIATE") }
+        @inlinable public static var manual: Self { .init(rawValue: "MANUAL") }
     }
 
-    public enum ScheduledChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancellation = "CANCELLATION"
-        case downgrade = "DOWNGRADE"
-        public var description: String { return self.rawValue }
+    public struct ScheduledChangeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancellation: Self { .init(rawValue: "CANCELLATION") }
+        @inlinable public static var downgrade: Self { .init(rawValue: "DOWNGRADE") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        case pendingApproval = "PENDING_APPROVAL"
-        case syncInProgress = "SYNC_IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pendingApproval: Self { .init(rawValue: "PENDING_APPROVAL") }
+        @inlinable public static var syncInProgress: Self { .init(rawValue: "SYNC_IN_PROGRESS") }
     }
 
     // MARK: Shapes

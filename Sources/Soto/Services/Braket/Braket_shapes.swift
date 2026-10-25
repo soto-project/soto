@@ -25,191 +25,263 @@ import Foundation
 extension Braket {
     // MARK: Enums
 
-    public enum AssociationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case reservationTimeWindowArn = "RESERVATION_TIME_WINDOW_ARN"
-        public var description: String { return self.rawValue }
+    public struct AssociationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var reservationTimeWindowArn: Self { .init(rawValue: "RESERVATION_TIME_WINDOW_ARN") }
     }
 
-    public enum CancellationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case cancelling = "CANCELLING"
-        public var description: String { return self.rawValue }
+    public struct CancellationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var cancelling: Self { .init(rawValue: "CANCELLING") }
     }
 
-    public enum CompressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case gzip = "GZIP"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct CompressionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var gzip: Self { .init(rawValue: "GZIP") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum DeviceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case offline = "OFFLINE"
-        case online = "ONLINE"
-        case retired = "RETIRED"
-        public var description: String { return self.rawValue }
+    public struct DeviceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var offline: Self { .init(rawValue: "OFFLINE") }
+        @inlinable public static var online: Self { .init(rawValue: "ONLINE") }
+        @inlinable public static var retired: Self { .init(rawValue: "RETIRED") }
     }
 
-    public enum DeviceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case qpu = "QPU"
-        case simulator = "SIMULATOR"
-        public var description: String { return self.rawValue }
+    public struct DeviceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var qpu: Self { .init(rawValue: "QPU") }
+        @inlinable public static var simulator: Self { .init(rawValue: "SIMULATOR") }
     }
 
-    public enum ExperimentalCapabilitiesEnablementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct ExperimentalCapabilitiesEnablementType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum HybridJobAdditionalAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case queueInfo = "QueueInfo"
-        public var description: String { return self.rawValue }
+    public struct HybridJobAdditionalAttributeName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var queueInfo: Self { .init(rawValue: "QueueInfo") }
     }
 
-    public enum InstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mlC42Xlarge = "ml.c4.2xlarge"
-        case mlC44Xlarge = "ml.c4.4xlarge"
-        case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlC52Xlarge = "ml.c5.2xlarge"
-        case mlC54Xlarge = "ml.c5.4xlarge"
-        case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
-        case mlC5N18Xlarge = "ml.c5n.18xlarge"
-        case mlC5N2Xlarge = "ml.c5n.2xlarge"
-        case mlC5N4Xlarge = "ml.c5n.4xlarge"
-        case mlC5N9Xlarge = "ml.c5n.9xlarge"
-        case mlC5NXlarge = "ml.c5n.xlarge"
-        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
-        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
-        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
-        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
-        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
-        case mlG4DnXlarge = "ml.g4dn.xlarge"
-        case mlG612Xlarge = "ml.g6.12xlarge"
-        case mlG616Xlarge = "ml.g6.16xlarge"
-        case mlG624Xlarge = "ml.g6.24xlarge"
-        case mlG62Xlarge = "ml.g6.2xlarge"
-        case mlG648Xlarge = "ml.g6.48xlarge"
-        case mlG64Xlarge = "ml.g6.4xlarge"
-        case mlG68Xlarge = "ml.g6.8xlarge"
-        case mlG6Xlarge = "ml.g6.xlarge"
-        case mlG6E12Xlarge = "ml.g6e.12xlarge"
-        case mlG6E16Xlarge = "ml.g6e.16xlarge"
-        case mlG6E24Xlarge = "ml.g6e.24xlarge"
-        case mlG6E2Xlarge = "ml.g6e.2xlarge"
-        case mlG6E48Xlarge = "ml.g6e.48xlarge"
-        case mlG6E4Xlarge = "ml.g6e.4xlarge"
-        case mlG6E8Xlarge = "ml.g6e.8xlarge"
-        case mlG6EXlarge = "ml.g6e.xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
-        case mlP4D24Xlarge = "ml.p4d.24xlarge"
-        case mlT32Xlarge = "ml.t3.2xlarge"
-        case mlT3Large = "ml.t3.large"
-        case mlT3Xlarge = "ml.t3.xlarge"
-        public var description: String { return self.rawValue }
+    public struct InstanceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mlC42Xlarge: Self { .init(rawValue: "ml.c4.2xlarge") }
+        @inlinable public static var mlC44Xlarge: Self { .init(rawValue: "ml.c4.4xlarge") }
+        @inlinable public static var mlC48Xlarge: Self { .init(rawValue: "ml.c4.8xlarge") }
+        @inlinable public static var mlC4Xlarge: Self { .init(rawValue: "ml.c4.xlarge") }
+        @inlinable public static var mlC518Xlarge: Self { .init(rawValue: "ml.c5.18xlarge") }
+        @inlinable public static var mlC52Xlarge: Self { .init(rawValue: "ml.c5.2xlarge") }
+        @inlinable public static var mlC54Xlarge: Self { .init(rawValue: "ml.c5.4xlarge") }
+        @inlinable public static var mlC59Xlarge: Self { .init(rawValue: "ml.c5.9xlarge") }
+        @inlinable public static var mlC5Xlarge: Self { .init(rawValue: "ml.c5.xlarge") }
+        @inlinable public static var mlC5N18Xlarge: Self { .init(rawValue: "ml.c5n.18xlarge") }
+        @inlinable public static var mlC5N2Xlarge: Self { .init(rawValue: "ml.c5n.2xlarge") }
+        @inlinable public static var mlC5N4Xlarge: Self { .init(rawValue: "ml.c5n.4xlarge") }
+        @inlinable public static var mlC5N9Xlarge: Self { .init(rawValue: "ml.c5n.9xlarge") }
+        @inlinable public static var mlC5NXlarge: Self { .init(rawValue: "ml.c5n.xlarge") }
+        @inlinable public static var mlG4Dn12Xlarge: Self { .init(rawValue: "ml.g4dn.12xlarge") }
+        @inlinable public static var mlG4Dn16Xlarge: Self { .init(rawValue: "ml.g4dn.16xlarge") }
+        @inlinable public static var mlG4Dn2Xlarge: Self { .init(rawValue: "ml.g4dn.2xlarge") }
+        @inlinable public static var mlG4Dn4Xlarge: Self { .init(rawValue: "ml.g4dn.4xlarge") }
+        @inlinable public static var mlG4Dn8Xlarge: Self { .init(rawValue: "ml.g4dn.8xlarge") }
+        @inlinable public static var mlG4DnXlarge: Self { .init(rawValue: "ml.g4dn.xlarge") }
+        @inlinable public static var mlG612Xlarge: Self { .init(rawValue: "ml.g6.12xlarge") }
+        @inlinable public static var mlG616Xlarge: Self { .init(rawValue: "ml.g6.16xlarge") }
+        @inlinable public static var mlG624Xlarge: Self { .init(rawValue: "ml.g6.24xlarge") }
+        @inlinable public static var mlG62Xlarge: Self { .init(rawValue: "ml.g6.2xlarge") }
+        @inlinable public static var mlG648Xlarge: Self { .init(rawValue: "ml.g6.48xlarge") }
+        @inlinable public static var mlG64Xlarge: Self { .init(rawValue: "ml.g6.4xlarge") }
+        @inlinable public static var mlG68Xlarge: Self { .init(rawValue: "ml.g6.8xlarge") }
+        @inlinable public static var mlG6Xlarge: Self { .init(rawValue: "ml.g6.xlarge") }
+        @inlinable public static var mlG6E12Xlarge: Self { .init(rawValue: "ml.g6e.12xlarge") }
+        @inlinable public static var mlG6E16Xlarge: Self { .init(rawValue: "ml.g6e.16xlarge") }
+        @inlinable public static var mlG6E24Xlarge: Self { .init(rawValue: "ml.g6e.24xlarge") }
+        @inlinable public static var mlG6E2Xlarge: Self { .init(rawValue: "ml.g6e.2xlarge") }
+        @inlinable public static var mlG6E48Xlarge: Self { .init(rawValue: "ml.g6e.48xlarge") }
+        @inlinable public static var mlG6E4Xlarge: Self { .init(rawValue: "ml.g6e.4xlarge") }
+        @inlinable public static var mlG6E8Xlarge: Self { .init(rawValue: "ml.g6e.8xlarge") }
+        @inlinable public static var mlG6EXlarge: Self { .init(rawValue: "ml.g6e.xlarge") }
+        @inlinable public static var mlM410Xlarge: Self { .init(rawValue: "ml.m4.10xlarge") }
+        @inlinable public static var mlM416Xlarge: Self { .init(rawValue: "ml.m4.16xlarge") }
+        @inlinable public static var mlM42Xlarge: Self { .init(rawValue: "ml.m4.2xlarge") }
+        @inlinable public static var mlM44Xlarge: Self { .init(rawValue: "ml.m4.4xlarge") }
+        @inlinable public static var mlM4Xlarge: Self { .init(rawValue: "ml.m4.xlarge") }
+        @inlinable public static var mlM512Xlarge: Self { .init(rawValue: "ml.m5.12xlarge") }
+        @inlinable public static var mlM524Xlarge: Self { .init(rawValue: "ml.m5.24xlarge") }
+        @inlinable public static var mlM52Xlarge: Self { .init(rawValue: "ml.m5.2xlarge") }
+        @inlinable public static var mlM54Xlarge: Self { .init(rawValue: "ml.m5.4xlarge") }
+        @inlinable public static var mlM5Large: Self { .init(rawValue: "ml.m5.large") }
+        @inlinable public static var mlM5Xlarge: Self { .init(rawValue: "ml.m5.xlarge") }
+        @inlinable public static var mlP216Xlarge: Self { .init(rawValue: "ml.p2.16xlarge") }
+        @inlinable public static var mlP28Xlarge: Self { .init(rawValue: "ml.p2.8xlarge") }
+        @inlinable public static var mlP2Xlarge: Self { .init(rawValue: "ml.p2.xlarge") }
+        @inlinable public static var mlP316Xlarge: Self { .init(rawValue: "ml.p3.16xlarge") }
+        @inlinable public static var mlP32Xlarge: Self { .init(rawValue: "ml.p3.2xlarge") }
+        @inlinable public static var mlP38Xlarge: Self { .init(rawValue: "ml.p3.8xlarge") }
+        @inlinable public static var mlP3Dn24Xlarge: Self { .init(rawValue: "ml.p3dn.24xlarge") }
+        @inlinable public static var mlP4D24Xlarge: Self { .init(rawValue: "ml.p4d.24xlarge") }
+        @inlinable public static var mlT32Xlarge: Self { .init(rawValue: "ml.t3.2xlarge") }
+        @inlinable public static var mlT3Large: Self { .init(rawValue: "ml.t3.large") }
+        @inlinable public static var mlT3Xlarge: Self { .init(rawValue: "ml.t3.xlarge") }
     }
 
-    public enum JobEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case completed = "COMPLETED"
-        case deprioritizedDueToInactivity = "DEPRIORITIZED_DUE_TO_INACTIVITY"
-        case downloadingData = "DOWNLOADING_DATA"
-        case failed = "FAILED"
-        case maxRuntimeExceeded = "MAX_RUNTIME_EXCEEDED"
-        case queuedForExecution = "QUEUED_FOR_EXECUTION"
-        case running = "RUNNING"
-        case startingInstance = "STARTING_INSTANCE"
-        case uploadingResults = "UPLOADING_RESULTS"
-        case waitingForPriority = "WAITING_FOR_PRIORITY"
-        public var description: String { return self.rawValue }
+    public struct JobEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var deprioritizedDueToInactivity: Self { .init(rawValue: "DEPRIORITIZED_DUE_TO_INACTIVITY") }
+        @inlinable public static var downloadingData: Self { .init(rawValue: "DOWNLOADING_DATA") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var maxRuntimeExceeded: Self { .init(rawValue: "MAX_RUNTIME_EXCEEDED") }
+        @inlinable public static var queuedForExecution: Self { .init(rawValue: "QUEUED_FOR_EXECUTION") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var startingInstance: Self { .init(rawValue: "STARTING_INSTANCE") }
+        @inlinable public static var uploadingResults: Self { .init(rawValue: "UPLOADING_RESULTS") }
+        @inlinable public static var waitingForPriority: Self { .init(rawValue: "WAITING_FOR_PRIORITY") }
     }
 
-    public enum JobPrimaryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case cancelling = "CANCELLING"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case queued = "QUEUED"
-        case running = "RUNNING"
-        public var description: String { return self.rawValue }
+    public struct JobPrimaryStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var cancelling: Self { .init(rawValue: "CANCELLING") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var queued: Self { .init(rawValue: "QUEUED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
     }
 
-    public enum QuantumTaskAdditionalAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case queueInfo = "QueueInfo"
-        public var description: String { return self.rawValue }
+    public struct QuantumTaskAdditionalAttributeName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var queueInfo: Self { .init(rawValue: "QueueInfo") }
     }
 
-    public enum QuantumTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case cancelling = "CANCELLING"
-        case completed = "COMPLETED"
-        case created = "CREATED"
-        case failed = "FAILED"
-        case queued = "QUEUED"
-        case running = "RUNNING"
-        public var description: String { return self.rawValue }
+    public struct QuantumTaskStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var cancelling: Self { .init(rawValue: "CANCELLING") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var queued: Self { .init(rawValue: "QUEUED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
     }
 
-    public enum QueueName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jobsQueue = "JOBS_QUEUE"
-        case quantumTasksQueue = "QUANTUM_TASKS_QUEUE"
-        public var description: String { return self.rawValue }
+    public struct QueueName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jobsQueue: Self { .init(rawValue: "JOBS_QUEUE") }
+        @inlinable public static var quantumTasksQueue: Self { .init(rawValue: "QUANTUM_TASKS_QUEUE") }
     }
 
-    public enum QueuePriority: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case normal = "Normal"
-        case priority = "Priority"
-        public var description: String { return self.rawValue }
+    public struct QueuePriority: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var normal: Self { .init(rawValue: "Normal") }
+        @inlinable public static var priority: Self { .init(rawValue: "Priority") }
     }
 
-    public enum SearchJobsFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case equal = "EQUAL"
-        case gt = "GT"
-        case gte = "GTE"
-        case lt = "LT"
-        case lte = "LTE"
-        public var description: String { return self.rawValue }
+    public struct SearchJobsFilterOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var equal: Self { .init(rawValue: "EQUAL") }
+        @inlinable public static var gt: Self { .init(rawValue: "GT") }
+        @inlinable public static var gte: Self { .init(rawValue: "GTE") }
+        @inlinable public static var lt: Self { .init(rawValue: "LT") }
+        @inlinable public static var lte: Self { .init(rawValue: "LTE") }
     }
 
-    public enum SearchQuantumTasksFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case between = "BETWEEN"
-        case equal = "EQUAL"
-        case gt = "GT"
-        case gte = "GTE"
-        case lt = "LT"
-        case lte = "LTE"
-        public var description: String { return self.rawValue }
+    public struct SearchQuantumTasksFilterOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var equal: Self { .init(rawValue: "EQUAL") }
+        @inlinable public static var gt: Self { .init(rawValue: "GT") }
+        @inlinable public static var gte: Self { .init(rawValue: "GTE") }
+        @inlinable public static var lt: Self { .init(rawValue: "LT") }
+        @inlinable public static var lte: Self { .init(rawValue: "LTE") }
     }
 
-    public enum SearchSpendingLimitsFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case equal = "EQUAL"
-        public var description: String { return self.rawValue }
+    public struct SearchSpendingLimitsFilterOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var equal: Self { .init(rawValue: "EQUAL") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case programSetValidationFailed = "ProgramSetValidationFailed"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var programSetValidationFailed: Self { .init(rawValue: "ProgramSetValidationFailed") }
     }
 
     // MARK: Shapes

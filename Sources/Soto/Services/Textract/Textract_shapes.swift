@@ -25,113 +25,157 @@ import Foundation
 extension Textract {
     // MARK: Enums
 
-    public enum AdapterVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case atRisk = "AT_RISK"
-        case creationError = "CREATION_ERROR"
-        case creationInProgress = "CREATION_IN_PROGRESS"
-        case deprecated = "DEPRECATED"
-        public var description: String { return self.rawValue }
+    public struct AdapterVersionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var atRisk: Self { .init(rawValue: "AT_RISK") }
+        @inlinable public static var creationError: Self { .init(rawValue: "CREATION_ERROR") }
+        @inlinable public static var creationInProgress: Self { .init(rawValue: "CREATION_IN_PROGRESS") }
+        @inlinable public static var deprecated: Self { .init(rawValue: "DEPRECATED") }
     }
 
-    public enum AutoUpdate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct AutoUpdate: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum BlockType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cell = "CELL"
-        case keyValueSet = "KEY_VALUE_SET"
-        case layoutFigure = "LAYOUT_FIGURE"
-        case layoutFooter = "LAYOUT_FOOTER"
-        case layoutHeader = "LAYOUT_HEADER"
-        case layoutKeyValue = "LAYOUT_KEY_VALUE"
-        case layoutList = "LAYOUT_LIST"
-        case layoutPageNumber = "LAYOUT_PAGE_NUMBER"
-        case layoutSectionHeader = "LAYOUT_SECTION_HEADER"
-        case layoutTable = "LAYOUT_TABLE"
-        case layoutText = "LAYOUT_TEXT"
-        case layoutTitle = "LAYOUT_TITLE"
-        case line = "LINE"
-        case mergedCell = "MERGED_CELL"
-        case page = "PAGE"
-        case query = "QUERY"
-        case queryResult = "QUERY_RESULT"
-        case selectionElement = "SELECTION_ELEMENT"
-        case signature = "SIGNATURE"
-        case table = "TABLE"
-        case tableFooter = "TABLE_FOOTER"
-        case tableTitle = "TABLE_TITLE"
-        case title = "TITLE"
-        case word = "WORD"
-        public var description: String { return self.rawValue }
+    public struct BlockType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cell: Self { .init(rawValue: "CELL") }
+        @inlinable public static var keyValueSet: Self { .init(rawValue: "KEY_VALUE_SET") }
+        @inlinable public static var layoutFigure: Self { .init(rawValue: "LAYOUT_FIGURE") }
+        @inlinable public static var layoutFooter: Self { .init(rawValue: "LAYOUT_FOOTER") }
+        @inlinable public static var layoutHeader: Self { .init(rawValue: "LAYOUT_HEADER") }
+        @inlinable public static var layoutKeyValue: Self { .init(rawValue: "LAYOUT_KEY_VALUE") }
+        @inlinable public static var layoutList: Self { .init(rawValue: "LAYOUT_LIST") }
+        @inlinable public static var layoutPageNumber: Self { .init(rawValue: "LAYOUT_PAGE_NUMBER") }
+        @inlinable public static var layoutSectionHeader: Self { .init(rawValue: "LAYOUT_SECTION_HEADER") }
+        @inlinable public static var layoutTable: Self { .init(rawValue: "LAYOUT_TABLE") }
+        @inlinable public static var layoutText: Self { .init(rawValue: "LAYOUT_TEXT") }
+        @inlinable public static var layoutTitle: Self { .init(rawValue: "LAYOUT_TITLE") }
+        @inlinable public static var line: Self { .init(rawValue: "LINE") }
+        @inlinable public static var mergedCell: Self { .init(rawValue: "MERGED_CELL") }
+        @inlinable public static var page: Self { .init(rawValue: "PAGE") }
+        @inlinable public static var query: Self { .init(rawValue: "QUERY") }
+        @inlinable public static var queryResult: Self { .init(rawValue: "QUERY_RESULT") }
+        @inlinable public static var selectionElement: Self { .init(rawValue: "SELECTION_ELEMENT") }
+        @inlinable public static var signature: Self { .init(rawValue: "SIGNATURE") }
+        @inlinable public static var table: Self { .init(rawValue: "TABLE") }
+        @inlinable public static var tableFooter: Self { .init(rawValue: "TABLE_FOOTER") }
+        @inlinable public static var tableTitle: Self { .init(rawValue: "TABLE_TITLE") }
+        @inlinable public static var title: Self { .init(rawValue: "TITLE") }
+        @inlinable public static var word: Self { .init(rawValue: "WORD") }
     }
 
-    public enum ContentClassifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case freeOfAdultContent = "FreeOfAdultContent"
-        case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
-        public var description: String { return self.rawValue }
+    public struct ContentClassifier: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var freeOfAdultContent: Self { .init(rawValue: "FreeOfAdultContent") }
+        @inlinable public static var freeOfPersonallyIdentifiableInformation: Self { .init(rawValue: "FreeOfPersonallyIdentifiableInformation") }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case columnHeader = "COLUMN_HEADER"
-        case key = "KEY"
-        case semiStructuredTable = "SEMI_STRUCTURED_TABLE"
-        case structuredTable = "STRUCTURED_TABLE"
-        case tableFooter = "TABLE_FOOTER"
-        case tableSectionTitle = "TABLE_SECTION_TITLE"
-        case tableSummary = "TABLE_SUMMARY"
-        case tableTitle = "TABLE_TITLE"
-        case value = "VALUE"
-        public var description: String { return self.rawValue }
+    public struct EntityType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var columnHeader: Self { .init(rawValue: "COLUMN_HEADER") }
+        @inlinable public static var key: Self { .init(rawValue: "KEY") }
+        @inlinable public static var semiStructuredTable: Self { .init(rawValue: "SEMI_STRUCTURED_TABLE") }
+        @inlinable public static var structuredTable: Self { .init(rawValue: "STRUCTURED_TABLE") }
+        @inlinable public static var tableFooter: Self { .init(rawValue: "TABLE_FOOTER") }
+        @inlinable public static var tableSectionTitle: Self { .init(rawValue: "TABLE_SECTION_TITLE") }
+        @inlinable public static var tableSummary: Self { .init(rawValue: "TABLE_SUMMARY") }
+        @inlinable public static var tableTitle: Self { .init(rawValue: "TABLE_TITLE") }
+        @inlinable public static var value: Self { .init(rawValue: "VALUE") }
     }
 
-    public enum FeatureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case forms = "FORMS"
-        case layout = "LAYOUT"
-        case queries = "QUERIES"
-        case signatures = "SIGNATURES"
-        case tables = "TABLES"
-        public var description: String { return self.rawValue }
+    public struct FeatureType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var forms: Self { .init(rawValue: "FORMS") }
+        @inlinable public static var layout: Self { .init(rawValue: "LAYOUT") }
+        @inlinable public static var queries: Self { .init(rawValue: "QUERIES") }
+        @inlinable public static var signatures: Self { .init(rawValue: "SIGNATURES") }
+        @inlinable public static var tables: Self { .init(rawValue: "TABLES") }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case partialSuccess = "PARTIAL_SUCCESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct JobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var partialSuccess: Self { .init(rawValue: "PARTIAL_SUCCESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case answer = "ANSWER"
-        case child = "CHILD"
-        case complexFeatures = "COMPLEX_FEATURES"
-        case mergedCell = "MERGED_CELL"
-        case table = "TABLE"
-        case tableFooter = "TABLE_FOOTER"
-        case tableTitle = "TABLE_TITLE"
-        case title = "TITLE"
-        case value = "VALUE"
-        public var description: String { return self.rawValue }
+    public struct RelationshipType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var answer: Self { .init(rawValue: "ANSWER") }
+        @inlinable public static var child: Self { .init(rawValue: "CHILD") }
+        @inlinable public static var complexFeatures: Self { .init(rawValue: "COMPLEX_FEATURES") }
+        @inlinable public static var mergedCell: Self { .init(rawValue: "MERGED_CELL") }
+        @inlinable public static var table: Self { .init(rawValue: "TABLE") }
+        @inlinable public static var tableFooter: Self { .init(rawValue: "TABLE_FOOTER") }
+        @inlinable public static var tableTitle: Self { .init(rawValue: "TABLE_TITLE") }
+        @inlinable public static var title: Self { .init(rawValue: "TITLE") }
+        @inlinable public static var value: Self { .init(rawValue: "VALUE") }
     }
 
-    public enum SelectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notSelected = "NOT_SELECTED"
-        case selected = "SELECTED"
-        public var description: String { return self.rawValue }
+    public struct SelectionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notSelected: Self { .init(rawValue: "NOT_SELECTED") }
+        @inlinable public static var selected: Self { .init(rawValue: "SELECTED") }
     }
 
-    public enum TextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case handwriting = "HANDWRITING"
-        case printed = "PRINTED"
-        public var description: String { return self.rawValue }
+    public struct TextType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var handwriting: Self { .init(rawValue: "HANDWRITING") }
+        @inlinable public static var printed: Self { .init(rawValue: "PRINTED") }
     }
 
-    public enum ValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case date = "Date"
-        public var description: String { return self.rawValue }
+    public struct ValueType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var date: Self { .init(rawValue: "Date") }
     }
 
     // MARK: Shapes

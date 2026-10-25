@@ -25,167 +25,215 @@ import Foundation
 extension Amp {
     // MARK: Enums
 
-    public enum AlertManagerDefinitionStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct AlertManagerDefinitionStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Definition has been created/updated. Update/Deletion is disallowed until definition is ACTIVE and workspace status is ACTIVE.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Definition is being created. Update/Deletion is disallowed until definition is ACTIVE and workspace status is ACTIVE.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Definition creation failed.
-        case creationFailed = "CREATION_FAILED"
+        @inlinable public static var creationFailed: Self { .init(rawValue: "CREATION_FAILED") }
         /// Definition is being deleting. Update/Deletion is disallowed until definition is ACTIVE and workspace status is ACTIVE.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Definition update failed.
-        case updateFailed = "UPDATE_FAILED"
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
         /// Definition is being updated. Update/Deletion is disallowed until definition is ACTIVE and workspace status is ACTIVE.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum AnomalyDetectorStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case creationFailed = "CREATION_FAILED"
-        case deleting = "DELETING"
-        case deletionFailed = "DELETION_FAILED"
-        case updateFailed = "UPDATE_FAILED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct AnomalyDetectorStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var creationFailed: Self { .init(rawValue: "CREATION_FAILED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var deletionFailed: Self { .init(rawValue: "DELETION_FAILED") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum LoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct LoggingConfigurationStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Logging configuration has been created/updated. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Logging configuration is being created. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Logging configuration creation failed.
-        case creationFailed = "CREATION_FAILED"
+        @inlinable public static var creationFailed: Self { .init(rawValue: "CREATION_FAILED") }
         /// Logging configuration is being deleting. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Logging configuration update failed.
-        case updateFailed = "UPDATE_FAILED"
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
         /// Logging configuration is being updated. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum QueryLoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct QueryLoggingConfigurationStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Query logging configuration is active.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Query logging configuration is being created.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Query logging configuration creation failed.
-        case creationFailed = "CREATION_FAILED"
+        @inlinable public static var creationFailed: Self { .init(rawValue: "CREATION_FAILED") }
         /// Query logging configuration is being deleted.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Query logging configuration update failed.
-        case updateFailed = "UPDATE_FAILED"
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
         /// Query logging configuration is being updated.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum RuleGroupsNamespaceStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct RuleGroupsNamespaceStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Namespace has been created/updated. Update/Deletion is disallowed until namespace is ACTIVE and workspace status is ACTIVE.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Namespace is being created. Update/Deletion is disallowed until namespace is ACTIVE and workspace status is ACTIVE.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Namespace creation failed.
-        case creationFailed = "CREATION_FAILED"
+        @inlinable public static var creationFailed: Self { .init(rawValue: "CREATION_FAILED") }
         /// Namespace is being deleting. Update/Deletion is disallowed until namespace is ACTIVE and workspace status is ACTIVE.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Namespace update failed.
-        case updateFailed = "UPDATE_FAILED"
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
         /// Namespace is being updated. Update/Deletion is disallowed until namespace is ACTIVE and workspace status is ACTIVE.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum ScraperComponentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ScraperComponentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Scraper collector component
-        case collector = "COLLECTOR"
+        @inlinable public static var collector: Self { .init(rawValue: "COLLECTOR") }
         /// Scraper exporter component
-        case exporter = "EXPORTER"
+        @inlinable public static var exporter: Self { .init(rawValue: "EXPORTER") }
         /// Scraper service discoverer component
-        case serviceDiscovery = "SERVICE_DISCOVERY"
-        public var description: String { return self.rawValue }
+        @inlinable public static var serviceDiscovery: Self { .init(rawValue: "SERVICE_DISCOVERY") }
     }
 
-    public enum ScraperLoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ScraperLoggingConfigurationStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Scraper logging configuration is active.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Scraper logging configuration is being created.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Scraper logging configuration creation failed.
-        case creationFailed = "CREATION_FAILED"
+        @inlinable public static var creationFailed: Self { .init(rawValue: "CREATION_FAILED") }
         /// Scraper logging configuration is being deleted.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Scraper logging configuration update failed.
-        case updateFailed = "UPDATE_FAILED"
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
         /// Scraper logging configuration is being updated.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum ScraperStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ScraperStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Scraper has been created and is usable.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Scraper is being created. Deletion is disallowed until status is ACTIVE.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Scraper creation failed.
-        case creationFailed = "CREATION_FAILED"
+        @inlinable public static var creationFailed: Self { .init(rawValue: "CREATION_FAILED") }
         /// Scraper is being deleted. Deletions are allowed only when status is ACTIVE.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Scraper deletion failed.
-        case deletionFailed = "DELETION_FAILED"
+        @inlinable public static var deletionFailed: Self { .init(rawValue: "DELETION_FAILED") }
         /// Scraper update failed.
-        case updateFailed = "UPDATE_FAILED"
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
         /// Scraper is being updated. Deletion is disallowed until status is ACTIVE.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "CANNOT_PARSE"
-        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
-        case other = "OTHER"
-        case unknownOperation = "UNKNOWN_OPERATION"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CANNOT_PARSE") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FIELD_VALIDATION_FAILED") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UNKNOWN_OPERATION") }
     }
 
-    public enum WorkspaceConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct WorkspaceConfigurationStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Workspace configuration has been updated. Update is disallowed until workspace configuration is ACTIVE and workspace status is ACTIVE.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Workspace configuration update failed.
-        case updateFailed = "UPDATE_FAILED"
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
         /// Workspace configuration is being updated. Update is disallowed until workspace configuration is ACTIVE and workspace status is ACTIVE.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum WorkspacePolicyStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct WorkspacePolicyStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Resource-based Policy has been created/updated. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Resource-based Policy is being created. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Resource-based Policy is being deleting. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Resource-based Policy is being updated. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum WorkspaceStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct WorkspaceStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Workspace has been created and is usable.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Workspace is being created. Deletion is disallowed until status is ACTIVE.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Workspace creation failed. Refer to WorkspaceStatus.failureReason for more details.
-        case creationFailed = "CREATION_FAILED"
+        @inlinable public static var creationFailed: Self { .init(rawValue: "CREATION_FAILED") }
         /// Workspace is being deleted. Deletions are allowed only when status is ACTIVE.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Workspace is being updated. Updates are allowed only when status is ACTIVE.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
     public enum AnomalyDetectorMissingDataAction: AWSEncodableShape & AWSDecodableShape, Sendable {

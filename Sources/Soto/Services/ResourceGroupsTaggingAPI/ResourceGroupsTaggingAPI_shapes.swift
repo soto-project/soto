@@ -25,24 +25,36 @@ import Foundation
 extension ResourceGroupsTaggingAPI {
     // MARK: Enums
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case internalServiceException = "InternalServiceException"
-        case invalidParameterException = "InvalidParameterException"
-        public var description: String { return self.rawValue }
+    public struct ErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var internalServiceException: Self { .init(rawValue: "InternalServiceException") }
+        @inlinable public static var invalidParameterException: Self { .init(rawValue: "InvalidParameterException") }
     }
 
-    public enum GroupByAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case region = "REGION"
-        case resourceType = "RESOURCE_TYPE"
-        case targetId = "TARGET_ID"
-        public var description: String { return self.rawValue }
+    public struct GroupByAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var region: Self { .init(rawValue: "REGION") }
+        @inlinable public static var resourceType: Self { .init(rawValue: "RESOURCE_TYPE") }
+        @inlinable public static var targetId: Self { .init(rawValue: "TARGET_ID") }
     }
 
-    public enum TargetIdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "ACCOUNT"
-        case ou = "OU"
-        case root = "ROOT"
-        public var description: String { return self.rawValue }
+    public struct TargetIdType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
+        @inlinable public static var ou: Self { .init(rawValue: "OU") }
+        @inlinable public static var root: Self { .init(rawValue: "ROOT") }
     }
 
     // MARK: Shapes

@@ -25,57 +25,81 @@ import Foundation
 extension EMRServerless {
     // MARK: Enums
 
-    public enum ApplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case created = "CREATED"
-        case creating = "CREATING"
-        case started = "STARTED"
-        case starting = "STARTING"
-        case stopped = "STOPPED"
-        case stopping = "STOPPING"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
+    public struct ApplicationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var started: Self { .init(rawValue: "STARTED") }
+        @inlinable public static var starting: Self { .init(rawValue: "STARTING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
+        @inlinable public static var terminated: Self { .init(rawValue: "TERMINATED") }
     }
 
-    public enum Architecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case arm64 = "ARM64"
-        case x8664 = "X86_64"
-        public var description: String { return self.rawValue }
+    public struct Architecture: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var arm64: Self { .init(rawValue: "ARM64") }
+        @inlinable public static var x8664: Self { .init(rawValue: "X86_64") }
     }
 
-    public enum JobRunMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case batch = "BATCH"
-        case streaming = "STREAMING"
-        public var description: String { return self.rawValue }
+    public struct JobRunMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var batch: Self { .init(rawValue: "BATCH") }
+        @inlinable public static var streaming: Self { .init(rawValue: "STREAMING") }
     }
 
-    public enum JobRunState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case cancelling = "CANCELLING"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        case queued = "QUEUED"
-        case running = "RUNNING"
-        case scheduled = "SCHEDULED"
-        case submitted = "SUBMITTED"
-        case success = "SUCCESS"
-        public var description: String { return self.rawValue }
+    public struct JobRunState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var cancelling: Self { .init(rawValue: "CANCELLING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var queued: Self { .init(rawValue: "QUEUED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var scheduled: Self { .init(rawValue: "SCHEDULED") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
+        @inlinable public static var success: Self { .init(rawValue: "SUCCESS") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case session = "SESSION"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var session: Self { .init(rawValue: "SESSION") }
     }
 
-    public enum SessionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case busy = "BUSY"
-        case failed = "FAILED"
-        case idle = "IDLE"
-        case started = "STARTED"
-        case starting = "STARTING"
-        case submitted = "SUBMITTED"
-        case terminated = "TERMINATED"
-        case terminating = "TERMINATING"
-        public var description: String { return self.rawValue }
+    public struct SessionState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var busy: Self { .init(rawValue: "BUSY") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var idle: Self { .init(rawValue: "IDLE") }
+        @inlinable public static var started: Self { .init(rawValue: "STARTED") }
+        @inlinable public static var starting: Self { .init(rawValue: "STARTING") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
+        @inlinable public static var terminated: Self { .init(rawValue: "TERMINATED") }
+        @inlinable public static var terminating: Self { .init(rawValue: "TERMINATING") }
     }
 
     public enum JobDriver: AWSEncodableShape & AWSDecodableShape, Sendable {

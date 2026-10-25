@@ -25,26 +25,34 @@ import Foundation
 extension SupportAuthZ {
     // MARK: Enums
 
-    public enum SupportPermitRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct SupportPermitRequestStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The request has been accepted.
-        case accepted = "ACCEPTED"
+        @inlinable public static var accepted: Self { .init(rawValue: "ACCEPTED") }
         /// The request has been cancelled.
-        case cancelled = "CANCELLED"
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
         /// The request is pending customer review.
-        case pending = "PENDING"
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
         /// The request has been rejected.
-        case rejected = "REJECTED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
     }
 
-    public enum SupportPermitStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct SupportPermitStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The permit is active and can be used by the support operator.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// The permit is being deleted.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// The permit is inactive and cannot be used.
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
     }
 
     public enum ActionSet: AWSEncodableShape & AWSDecodableShape, Sendable {

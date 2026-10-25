@@ -25,226 +25,302 @@ import Foundation
 extension PcaConnectorAd {
     // MARK: Enums
 
-    public enum AccessRight: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
+    public struct AccessRight: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allow: Self { .init(rawValue: "ALLOW") }
+        @inlinable public static var deny: Self { .init(rawValue: "DENY") }
     }
 
-    public enum ApplicationPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allApplicationPolicies = "ALL_APPLICATION_POLICIES"
-        case anyPurpose = "ANY_PURPOSE"
-        case attestationIdentityKeyCertificate = "ATTESTATION_IDENTITY_KEY_CERTIFICATE"
-        case certificateRequestAgent = "CERTIFICATE_REQUEST_AGENT"
-        case clientAuthentication = "CLIENT_AUTHENTICATION"
-        case codeSigning = "CODE_SIGNING"
-        case ctlUsage = "CTL_USAGE"
-        case digitalRights = "DIGITAL_RIGHTS"
-        case directoryServiceEmailReplication = "DIRECTORY_SERVICE_EMAIL_REPLICATION"
-        case disallowedList = "DISALLOWED_LIST"
-        case dnsServerTrust = "DNS_SERVER_TRUST"
-        case documentEncryption = "DOCUMENT_ENCRYPTION"
-        case documentSigning = "DOCUMENT_SIGNING"
-        case dynamicCodeGenerator = "DYNAMIC_CODE_GENERATOR"
-        case earlyLaunchAntimalwareDriver = "EARLY_LAUNCH_ANTIMALWARE_DRIVER"
-        case embeddedWindowsSystemComponentVerification = "EMBEDDED_WINDOWS_SYSTEM_COMPONENT_VERIFICATION"
-        case enclave = "ENCLAVE"
-        case encryptingFileSystem = "ENCRYPTING_FILE_SYSTEM"
-        case endorsementKeyCertificate = "ENDORSEMENT_KEY_CERTIFICATE"
-        case fileRecovery = "FILE_RECOVERY"
-        case halExtension = "HAL_EXTENSION"
-        case ipSecurityEndSystem = "IP_SECURITY_END_SYSTEM"
-        case ipSecurityIkeIntermediate = "IP_SECURITY_IKE_INTERMEDIATE"
-        case ipSecurityTunnelTermination = "IP_SECURITY_TUNNEL_TERMINATION"
-        case ipSecurityUser = "IP_SECURITY_USER"
-        case isolatedUserMode = "ISOLATED_USER_MODE"
-        case kdcAuthentication = "KDC_AUTHENTICATION"
-        case kernelModeCodeSigning = "KERNEL_MODE_CODE_SIGNING"
-        case keyPackLicenses = "KEY_PACK_LICENSES"
-        case keyRecovery = "KEY_RECOVERY"
-        case keyRecoveryAgent = "KEY_RECOVERY_AGENT"
-        case licenseServerVerification = "LICENSE_SERVER_VERIFICATION"
-        case lifetimeSigning = "LIFETIME_SIGNING"
-        case microsoftPublisher = "MICROSOFT_PUBLISHER"
-        case microsoftTimeStamping = "MICROSOFT_TIME_STAMPING"
-        case microsoftTrustListSigning = "MICROSOFT_TRUST_LIST_SIGNING"
-        case ocspSigning = "OCSP_SIGNING"
-        case oemWindowsSystemComponentVerification = "OEM_WINDOWS_SYSTEM_COMPONENT_VERIFICATION"
-        case platformCertificate = "PLATFORM_CERTIFICATE"
-        case previewBuildSigning = "PREVIEW_BUILD_SIGNING"
-        case privateKeyArchival = "PRIVATE_KEY_ARCHIVAL"
-        case protectedProcessLightVerification = "PROTECTED_PROCESS_LIGHT_VERIFICATION"
-        case protectedProcessVerification = "PROTECTED_PROCESS_VERIFICATION"
-        case qualifiedSubordination = "QUALIFIED_SUBORDINATION"
-        case revokedListSigner = "REVOKED_LIST_SIGNER"
-        case rootListSigner = "ROOT_LIST_SIGNER"
-        case rootProgramAutoUpdateCaRevocation = "ROOT_PROGRAM_AUTO_UPDATE_CA_REVOCATION"
-        case rootProgramAutoUpdateEndRevocation = "ROOT_PROGRAM_AUTO_UPDATE_END_REVOCATION"
-        case rootProgramNoOscpFailoverToCrl = "ROOT_PROGRAM_NO_OSCP_FAILOVER_TO_CRL"
-        case secureEmail = "SECURE_EMAIL"
-        case serverAuthentication = "SERVER_AUTHENTICATION"
-        case smartCardLogin = "SMART_CARD_LOGIN"
-        case spcEncryptedDigestRetryCount = "SPC_ENCRYPTED_DIGEST_RETRY_COUNT"
-        case spcRelaxedPeMarkerCheck = "SPC_RELAXED_PE_MARKER_CHECK"
-        case timeStamping = "TIME_STAMPING"
-        case windowsHardwareDriverAttestedVerification = "WINDOWS_HARDWARE_DRIVER_ATTESTED_VERIFICATION"
-        case windowsHardwareDriverExtendedVerification = "WINDOWS_HARDWARE_DRIVER_EXTENDED_VERIFICATION"
-        case windowsHardwareDriverVerification = "WINDOWS_HARDWARE_DRIVER_VERIFICATION"
-        case windowsHelloRecoveryKeyEncryption = "WINDOWS_HELLO_RECOVERY_KEY_ENCRYPTION"
-        case windowsKitsComponent = "WINDOWS_KITS_COMPONENT"
-        case windowsRtVerification = "WINDOWS_RT_VERIFICATION"
-        case windowsSoftwareExtensionVerification = "WINDOWS_SOFTWARE_EXTENSION_VERIFICATION"
-        case windowsStore = "WINDOWS_STORE"
-        case windowsSystemComponentVerification = "WINDOWS_SYSTEM_COMPONENT_VERIFICATION"
-        case windowsTcbComponent = "WINDOWS_TCB_COMPONENT"
-        case windowsThirdPartyApplicationComponent = "WINDOWS_THIRD_PARTY_APPLICATION_COMPONENT"
-        case windowsUpdate = "WINDOWS_UPDATE"
-        public var description: String { return self.rawValue }
+    public struct ApplicationPolicyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allApplicationPolicies: Self { .init(rawValue: "ALL_APPLICATION_POLICIES") }
+        @inlinable public static var anyPurpose: Self { .init(rawValue: "ANY_PURPOSE") }
+        @inlinable public static var attestationIdentityKeyCertificate: Self { .init(rawValue: "ATTESTATION_IDENTITY_KEY_CERTIFICATE") }
+        @inlinable public static var certificateRequestAgent: Self { .init(rawValue: "CERTIFICATE_REQUEST_AGENT") }
+        @inlinable public static var clientAuthentication: Self { .init(rawValue: "CLIENT_AUTHENTICATION") }
+        @inlinable public static var codeSigning: Self { .init(rawValue: "CODE_SIGNING") }
+        @inlinable public static var ctlUsage: Self { .init(rawValue: "CTL_USAGE") }
+        @inlinable public static var digitalRights: Self { .init(rawValue: "DIGITAL_RIGHTS") }
+        @inlinable public static var directoryServiceEmailReplication: Self { .init(rawValue: "DIRECTORY_SERVICE_EMAIL_REPLICATION") }
+        @inlinable public static var disallowedList: Self { .init(rawValue: "DISALLOWED_LIST") }
+        @inlinable public static var dnsServerTrust: Self { .init(rawValue: "DNS_SERVER_TRUST") }
+        @inlinable public static var documentEncryption: Self { .init(rawValue: "DOCUMENT_ENCRYPTION") }
+        @inlinable public static var documentSigning: Self { .init(rawValue: "DOCUMENT_SIGNING") }
+        @inlinable public static var dynamicCodeGenerator: Self { .init(rawValue: "DYNAMIC_CODE_GENERATOR") }
+        @inlinable public static var earlyLaunchAntimalwareDriver: Self { .init(rawValue: "EARLY_LAUNCH_ANTIMALWARE_DRIVER") }
+        @inlinable public static var embeddedWindowsSystemComponentVerification: Self { .init(rawValue: "EMBEDDED_WINDOWS_SYSTEM_COMPONENT_VERIFICATION") }
+        @inlinable public static var enclave: Self { .init(rawValue: "ENCLAVE") }
+        @inlinable public static var encryptingFileSystem: Self { .init(rawValue: "ENCRYPTING_FILE_SYSTEM") }
+        @inlinable public static var endorsementKeyCertificate: Self { .init(rawValue: "ENDORSEMENT_KEY_CERTIFICATE") }
+        @inlinable public static var fileRecovery: Self { .init(rawValue: "FILE_RECOVERY") }
+        @inlinable public static var halExtension: Self { .init(rawValue: "HAL_EXTENSION") }
+        @inlinable public static var ipSecurityEndSystem: Self { .init(rawValue: "IP_SECURITY_END_SYSTEM") }
+        @inlinable public static var ipSecurityIkeIntermediate: Self { .init(rawValue: "IP_SECURITY_IKE_INTERMEDIATE") }
+        @inlinable public static var ipSecurityTunnelTermination: Self { .init(rawValue: "IP_SECURITY_TUNNEL_TERMINATION") }
+        @inlinable public static var ipSecurityUser: Self { .init(rawValue: "IP_SECURITY_USER") }
+        @inlinable public static var isolatedUserMode: Self { .init(rawValue: "ISOLATED_USER_MODE") }
+        @inlinable public static var kdcAuthentication: Self { .init(rawValue: "KDC_AUTHENTICATION") }
+        @inlinable public static var kernelModeCodeSigning: Self { .init(rawValue: "KERNEL_MODE_CODE_SIGNING") }
+        @inlinable public static var keyPackLicenses: Self { .init(rawValue: "KEY_PACK_LICENSES") }
+        @inlinable public static var keyRecovery: Self { .init(rawValue: "KEY_RECOVERY") }
+        @inlinable public static var keyRecoveryAgent: Self { .init(rawValue: "KEY_RECOVERY_AGENT") }
+        @inlinable public static var licenseServerVerification: Self { .init(rawValue: "LICENSE_SERVER_VERIFICATION") }
+        @inlinable public static var lifetimeSigning: Self { .init(rawValue: "LIFETIME_SIGNING") }
+        @inlinable public static var microsoftPublisher: Self { .init(rawValue: "MICROSOFT_PUBLISHER") }
+        @inlinable public static var microsoftTimeStamping: Self { .init(rawValue: "MICROSOFT_TIME_STAMPING") }
+        @inlinable public static var microsoftTrustListSigning: Self { .init(rawValue: "MICROSOFT_TRUST_LIST_SIGNING") }
+        @inlinable public static var ocspSigning: Self { .init(rawValue: "OCSP_SIGNING") }
+        @inlinable public static var oemWindowsSystemComponentVerification: Self { .init(rawValue: "OEM_WINDOWS_SYSTEM_COMPONENT_VERIFICATION") }
+        @inlinable public static var platformCertificate: Self { .init(rawValue: "PLATFORM_CERTIFICATE") }
+        @inlinable public static var previewBuildSigning: Self { .init(rawValue: "PREVIEW_BUILD_SIGNING") }
+        @inlinable public static var privateKeyArchival: Self { .init(rawValue: "PRIVATE_KEY_ARCHIVAL") }
+        @inlinable public static var protectedProcessLightVerification: Self { .init(rawValue: "PROTECTED_PROCESS_LIGHT_VERIFICATION") }
+        @inlinable public static var protectedProcessVerification: Self { .init(rawValue: "PROTECTED_PROCESS_VERIFICATION") }
+        @inlinable public static var qualifiedSubordination: Self { .init(rawValue: "QUALIFIED_SUBORDINATION") }
+        @inlinable public static var revokedListSigner: Self { .init(rawValue: "REVOKED_LIST_SIGNER") }
+        @inlinable public static var rootListSigner: Self { .init(rawValue: "ROOT_LIST_SIGNER") }
+        @inlinable public static var rootProgramAutoUpdateCaRevocation: Self { .init(rawValue: "ROOT_PROGRAM_AUTO_UPDATE_CA_REVOCATION") }
+        @inlinable public static var rootProgramAutoUpdateEndRevocation: Self { .init(rawValue: "ROOT_PROGRAM_AUTO_UPDATE_END_REVOCATION") }
+        @inlinable public static var rootProgramNoOscpFailoverToCrl: Self { .init(rawValue: "ROOT_PROGRAM_NO_OSCP_FAILOVER_TO_CRL") }
+        @inlinable public static var secureEmail: Self { .init(rawValue: "SECURE_EMAIL") }
+        @inlinable public static var serverAuthentication: Self { .init(rawValue: "SERVER_AUTHENTICATION") }
+        @inlinable public static var smartCardLogin: Self { .init(rawValue: "SMART_CARD_LOGIN") }
+        @inlinable public static var spcEncryptedDigestRetryCount: Self { .init(rawValue: "SPC_ENCRYPTED_DIGEST_RETRY_COUNT") }
+        @inlinable public static var spcRelaxedPeMarkerCheck: Self { .init(rawValue: "SPC_RELAXED_PE_MARKER_CHECK") }
+        @inlinable public static var timeStamping: Self { .init(rawValue: "TIME_STAMPING") }
+        @inlinable public static var windowsHardwareDriverAttestedVerification: Self { .init(rawValue: "WINDOWS_HARDWARE_DRIVER_ATTESTED_VERIFICATION") }
+        @inlinable public static var windowsHardwareDriverExtendedVerification: Self { .init(rawValue: "WINDOWS_HARDWARE_DRIVER_EXTENDED_VERIFICATION") }
+        @inlinable public static var windowsHardwareDriverVerification: Self { .init(rawValue: "WINDOWS_HARDWARE_DRIVER_VERIFICATION") }
+        @inlinable public static var windowsHelloRecoveryKeyEncryption: Self { .init(rawValue: "WINDOWS_HELLO_RECOVERY_KEY_ENCRYPTION") }
+        @inlinable public static var windowsKitsComponent: Self { .init(rawValue: "WINDOWS_KITS_COMPONENT") }
+        @inlinable public static var windowsRtVerification: Self { .init(rawValue: "WINDOWS_RT_VERIFICATION") }
+        @inlinable public static var windowsSoftwareExtensionVerification: Self { .init(rawValue: "WINDOWS_SOFTWARE_EXTENSION_VERIFICATION") }
+        @inlinable public static var windowsStore: Self { .init(rawValue: "WINDOWS_STORE") }
+        @inlinable public static var windowsSystemComponentVerification: Self { .init(rawValue: "WINDOWS_SYSTEM_COMPONENT_VERIFICATION") }
+        @inlinable public static var windowsTcbComponent: Self { .init(rawValue: "WINDOWS_TCB_COMPONENT") }
+        @inlinable public static var windowsThirdPartyApplicationComponent: Self { .init(rawValue: "WINDOWS_THIRD_PARTY_APPLICATION_COMPONENT") }
+        @inlinable public static var windowsUpdate: Self { .init(rawValue: "WINDOWS_UPDATE") }
     }
 
-    public enum ClientCompatibilityV2: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case windowsServer2003 = "WINDOWS_SERVER_2003"
-        case windowsServer2008 = "WINDOWS_SERVER_2008"
-        case windowsServer2008R2 = "WINDOWS_SERVER_2008_R2"
-        case windowsServer2012 = "WINDOWS_SERVER_2012"
-        case windowsServer2012R2 = "WINDOWS_SERVER_2012_R2"
-        case windowsServer2016 = "WINDOWS_SERVER_2016"
-        public var description: String { return self.rawValue }
+    public struct ClientCompatibilityV2: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var windowsServer2003: Self { .init(rawValue: "WINDOWS_SERVER_2003") }
+        @inlinable public static var windowsServer2008: Self { .init(rawValue: "WINDOWS_SERVER_2008") }
+        @inlinable public static var windowsServer2008R2: Self { .init(rawValue: "WINDOWS_SERVER_2008_R2") }
+        @inlinable public static var windowsServer2012: Self { .init(rawValue: "WINDOWS_SERVER_2012") }
+        @inlinable public static var windowsServer2012R2: Self { .init(rawValue: "WINDOWS_SERVER_2012_R2") }
+        @inlinable public static var windowsServer2016: Self { .init(rawValue: "WINDOWS_SERVER_2016") }
     }
 
-    public enum ClientCompatibilityV3: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case windowsServer2008 = "WINDOWS_SERVER_2008"
-        case windowsServer2008R2 = "WINDOWS_SERVER_2008_R2"
-        case windowsServer2012 = "WINDOWS_SERVER_2012"
-        case windowsServer2012R2 = "WINDOWS_SERVER_2012_R2"
-        case windowsServer2016 = "WINDOWS_SERVER_2016"
-        public var description: String { return self.rawValue }
+    public struct ClientCompatibilityV3: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var windowsServer2008: Self { .init(rawValue: "WINDOWS_SERVER_2008") }
+        @inlinable public static var windowsServer2008R2: Self { .init(rawValue: "WINDOWS_SERVER_2008_R2") }
+        @inlinable public static var windowsServer2012: Self { .init(rawValue: "WINDOWS_SERVER_2012") }
+        @inlinable public static var windowsServer2012R2: Self { .init(rawValue: "WINDOWS_SERVER_2012_R2") }
+        @inlinable public static var windowsServer2016: Self { .init(rawValue: "WINDOWS_SERVER_2016") }
     }
 
-    public enum ClientCompatibilityV4: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case windowsServer2012 = "WINDOWS_SERVER_2012"
-        case windowsServer2012R2 = "WINDOWS_SERVER_2012_R2"
-        case windowsServer2016 = "WINDOWS_SERVER_2016"
-        public var description: String { return self.rawValue }
+    public struct ClientCompatibilityV4: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var windowsServer2012: Self { .init(rawValue: "WINDOWS_SERVER_2012") }
+        @inlinable public static var windowsServer2012R2: Self { .init(rawValue: "WINDOWS_SERVER_2012_R2") }
+        @inlinable public static var windowsServer2016: Self { .init(rawValue: "WINDOWS_SERVER_2016") }
     }
 
-    public enum ConnectorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
+    public struct ConnectorStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
     }
 
-    public enum ConnectorStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case caCertificateRegistrationFailed = "CA_CERTIFICATE_REGISTRATION_FAILED"
-        case directoryAccessDenied = "DIRECTORY_ACCESS_DENIED"
-        case insufficientFreeAddresses = "INSUFFICIENT_FREE_ADDRESSES"
-        case internalFailure = "INTERNAL_FAILURE"
-        case invalidSubnetIpProtocol = "INVALID_SUBNET_IP_PROTOCOL"
-        case privatecaAccessDenied = "PRIVATECA_ACCESS_DENIED"
-        case privatecaResourceNotFound = "PRIVATECA_RESOURCE_NOT_FOUND"
-        case securityGroupNotInVpc = "SECURITY_GROUP_NOT_IN_VPC"
-        case vpcAccessDenied = "VPC_ACCESS_DENIED"
-        case vpcEndpointLimitExceeded = "VPC_ENDPOINT_LIMIT_EXCEEDED"
-        case vpcResourceNotFound = "VPC_RESOURCE_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct ConnectorStatusReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var caCertificateRegistrationFailed: Self { .init(rawValue: "CA_CERTIFICATE_REGISTRATION_FAILED") }
+        @inlinable public static var directoryAccessDenied: Self { .init(rawValue: "DIRECTORY_ACCESS_DENIED") }
+        @inlinable public static var insufficientFreeAddresses: Self { .init(rawValue: "INSUFFICIENT_FREE_ADDRESSES") }
+        @inlinable public static var internalFailure: Self { .init(rawValue: "INTERNAL_FAILURE") }
+        @inlinable public static var invalidSubnetIpProtocol: Self { .init(rawValue: "INVALID_SUBNET_IP_PROTOCOL") }
+        @inlinable public static var privatecaAccessDenied: Self { .init(rawValue: "PRIVATECA_ACCESS_DENIED") }
+        @inlinable public static var privatecaResourceNotFound: Self { .init(rawValue: "PRIVATECA_RESOURCE_NOT_FOUND") }
+        @inlinable public static var securityGroupNotInVpc: Self { .init(rawValue: "SECURITY_GROUP_NOT_IN_VPC") }
+        @inlinable public static var vpcAccessDenied: Self { .init(rawValue: "VPC_ACCESS_DENIED") }
+        @inlinable public static var vpcEndpointLimitExceeded: Self { .init(rawValue: "VPC_ENDPOINT_LIMIT_EXCEEDED") }
+        @inlinable public static var vpcResourceNotFound: Self { .init(rawValue: "VPC_RESOURCE_NOT_FOUND") }
     }
 
-    public enum DirectoryRegistrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
+    public struct DirectoryRegistrationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
     }
 
-    public enum DirectoryRegistrationStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case directoryAccessDenied = "DIRECTORY_ACCESS_DENIED"
-        case directoryNotActive = "DIRECTORY_NOT_ACTIVE"
-        case directoryNotReachable = "DIRECTORY_NOT_REACHABLE"
-        case directoryResourceNotFound = "DIRECTORY_RESOURCE_NOT_FOUND"
-        case directoryTypeNotSupported = "DIRECTORY_TYPE_NOT_SUPPORTED"
-        case internalFailure = "INTERNAL_FAILURE"
-        public var description: String { return self.rawValue }
+    public struct DirectoryRegistrationStatusReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var directoryAccessDenied: Self { .init(rawValue: "DIRECTORY_ACCESS_DENIED") }
+        @inlinable public static var directoryNotActive: Self { .init(rawValue: "DIRECTORY_NOT_ACTIVE") }
+        @inlinable public static var directoryNotReachable: Self { .init(rawValue: "DIRECTORY_NOT_REACHABLE") }
+        @inlinable public static var directoryResourceNotFound: Self { .init(rawValue: "DIRECTORY_RESOURCE_NOT_FOUND") }
+        @inlinable public static var directoryTypeNotSupported: Self { .init(rawValue: "DIRECTORY_TYPE_NOT_SUPPORTED") }
+        @inlinable public static var internalFailure: Self { .init(rawValue: "INTERNAL_FAILURE") }
     }
 
-    public enum HashAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sha256 = "SHA256"
-        case sha384 = "SHA384"
-        case sha512 = "SHA512"
-        public var description: String { return self.rawValue }
+    public struct HashAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sha256: Self { .init(rawValue: "SHA256") }
+        @inlinable public static var sha384: Self { .init(rawValue: "SHA384") }
+        @inlinable public static var sha512: Self { .init(rawValue: "SHA512") }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dualstack = "DUALSTACK"
-        case ipv4 = "IPV4"
-        public var description: String { return self.rawValue }
+    public struct IpAddressType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dualstack: Self { .init(rawValue: "DUALSTACK") }
+        @inlinable public static var ipv4: Self { .init(rawValue: "IPV4") }
     }
 
-    public enum KeySpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case keyExchange = "KEY_EXCHANGE"
-        case signature = "SIGNATURE"
-        public var description: String { return self.rawValue }
+    public struct KeySpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var keyExchange: Self { .init(rawValue: "KEY_EXCHANGE") }
+        @inlinable public static var signature: Self { .init(rawValue: "SIGNATURE") }
     }
 
-    public enum KeyUsagePropertyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        public var description: String { return self.rawValue }
+    public struct KeyUsagePropertyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
     }
 
-    public enum PrivateKeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ecdhP256 = "ECDH_P256"
-        case ecdhP384 = "ECDH_P384"
-        case ecdhP521 = "ECDH_P521"
-        case rsa = "RSA"
-        public var description: String { return self.rawValue }
+    public struct PrivateKeyAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ecdhP256: Self { .init(rawValue: "ECDH_P256") }
+        @inlinable public static var ecdhP384: Self { .init(rawValue: "ECDH_P384") }
+        @inlinable public static var ecdhP521: Self { .init(rawValue: "ECDH_P521") }
+        @inlinable public static var rsa: Self { .init(rawValue: "RSA") }
     }
 
-    public enum ServicePrincipalNameStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
+    public struct ServicePrincipalNameStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
     }
 
-    public enum ServicePrincipalNameStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case directoryAccessDenied = "DIRECTORY_ACCESS_DENIED"
-        case directoryNotReachable = "DIRECTORY_NOT_REACHABLE"
-        case directoryResourceNotFound = "DIRECTORY_RESOURCE_NOT_FOUND"
-        case internalFailure = "INTERNAL_FAILURE"
-        case spnExistsOnDifferentAdObject = "SPN_EXISTS_ON_DIFFERENT_AD_OBJECT"
-        case spnLimitExceeded = "SPN_LIMIT_EXCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ServicePrincipalNameStatusReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var directoryAccessDenied: Self { .init(rawValue: "DIRECTORY_ACCESS_DENIED") }
+        @inlinable public static var directoryNotReachable: Self { .init(rawValue: "DIRECTORY_NOT_REACHABLE") }
+        @inlinable public static var directoryResourceNotFound: Self { .init(rawValue: "DIRECTORY_RESOURCE_NOT_FOUND") }
+        @inlinable public static var internalFailure: Self { .init(rawValue: "INTERNAL_FAILURE") }
+        @inlinable public static var spnExistsOnDifferentAdObject: Self { .init(rawValue: "SPN_EXISTS_ON_DIFFERENT_AD_OBJECT") }
+        @inlinable public static var spnLimitExceeded: Self { .init(rawValue: "SPN_LIMIT_EXCEEDED") }
     }
 
-    public enum TemplateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
+    public struct TemplateStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
-        case invalidCaSubject = "INVALID_CA_SUBJECT"
-        case invalidPermission = "INVALID_PERMISSION"
-        case invalidState = "INVALID_STATE"
-        case mismatchedConnector = "MISMATCHED_CONNECTOR"
-        case mismatchedVpc = "MISMATCHED_VPC"
-        case noClientToken = "NO_CLIENT_TOKEN"
-        case other = "OTHER"
-        case unknownOperation = "UNKNOWN_OPERATION"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FIELD_VALIDATION_FAILED") }
+        @inlinable public static var invalidCaSubject: Self { .init(rawValue: "INVALID_CA_SUBJECT") }
+        @inlinable public static var invalidPermission: Self { .init(rawValue: "INVALID_PERMISSION") }
+        @inlinable public static var invalidState: Self { .init(rawValue: "INVALID_STATE") }
+        @inlinable public static var mismatchedConnector: Self { .init(rawValue: "MISMATCHED_CONNECTOR") }
+        @inlinable public static var mismatchedVpc: Self { .init(rawValue: "MISMATCHED_VPC") }
+        @inlinable public static var noClientToken: Self { .init(rawValue: "NO_CLIENT_TOKEN") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UNKNOWN_OPERATION") }
     }
 
-    public enum ValidityPeriodType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days = "DAYS"
-        case hours = "HOURS"
-        case months = "MONTHS"
-        case weeks = "WEEKS"
-        case years = "YEARS"
-        public var description: String { return self.rawValue }
+    public struct ValidityPeriodType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days: Self { .init(rawValue: "DAYS") }
+        @inlinable public static var hours: Self { .init(rawValue: "HOURS") }
+        @inlinable public static var months: Self { .init(rawValue: "MONTHS") }
+        @inlinable public static var weeks: Self { .init(rawValue: "WEEKS") }
+        @inlinable public static var years: Self { .init(rawValue: "YEARS") }
     }
 
     public enum ApplicationPolicy: AWSEncodableShape & AWSDecodableShape, Sendable {

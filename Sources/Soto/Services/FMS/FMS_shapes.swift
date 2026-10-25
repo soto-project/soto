@@ -25,212 +25,308 @@ import Foundation
 extension FMS {
     // MARK: Enums
 
-    public enum AccountRoleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creating = "CREATING"
-        case deleted = "DELETED"
-        case deleting = "DELETING"
-        case pendingDeletion = "PENDING_DELETION"
-        case ready = "READY"
-        public var description: String { return self.rawValue }
+    public struct AccountRoleStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var pendingDeletion: Self { .init(rawValue: "PENDING_DELETION") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
     }
 
-    public enum CustomerPolicyScopeIdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "ACCOUNT"
-        case orgUnit = "ORG_UNIT"
-        public var description: String { return self.rawValue }
+    public struct CustomerPolicyScopeIdType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
+        @inlinable public static var orgUnit: Self { .init(rawValue: "ORG_UNIT") }
     }
 
-    public enum CustomerPolicyStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case outOfAdminScope = "OUT_OF_ADMIN_SCOPE"
-        public var description: String { return self.rawValue }
+    public struct CustomerPolicyStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var outOfAdminScope: Self { .init(rawValue: "OUT_OF_ADMIN_SCOPE") }
     }
 
-    public enum DependentServiceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsConfig = "AWSCONFIG"
-        case awsShieldAdvanced = "AWSSHIELD_ADVANCED"
-        case awsVirtualPrivateCloud = "AWSVPC"
-        case awswaf = "AWSWAF"
-        public var description: String { return self.rawValue }
+    public struct DependentServiceName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsConfig: Self { .init(rawValue: "AWSCONFIG") }
+        @inlinable public static var awsShieldAdvanced: Self { .init(rawValue: "AWSSHIELD_ADVANCED") }
+        @inlinable public static var awsVirtualPrivateCloud: Self { .init(rawValue: "AWSVPC") }
+        @inlinable public static var awswaf: Self { .init(rawValue: "AWSWAF") }
     }
 
-    public enum DestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ipv4 = "IPV4"
-        case ipv6 = "IPV6"
-        case prefixList = "PREFIX_LIST"
-        public var description: String { return self.rawValue }
+    public struct DestinationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ipv4: Self { .init(rawValue: "IPV4") }
+        @inlinable public static var ipv6: Self { .init(rawValue: "IPV6") }
+        @inlinable public static var prefixList: Self { .init(rawValue: "PREFIX_LIST") }
     }
 
-    public enum EntryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case customEntry = "CUSTOM_ENTRY"
-        case fmsManagedFirstEntry = "FMS_MANAGED_FIRST_ENTRY"
-        case fmsManagedLastEntry = "FMS_MANAGED_LAST_ENTRY"
-        public var description: String { return self.rawValue }
+    public struct EntryType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var customEntry: Self { .init(rawValue: "CUSTOM_ENTRY") }
+        @inlinable public static var fmsManagedFirstEntry: Self { .init(rawValue: "FMS_MANAGED_FIRST_ENTRY") }
+        @inlinable public static var fmsManagedLastEntry: Self { .init(rawValue: "FMS_MANAGED_LAST_ENTRY") }
     }
 
-    public enum EntryViolationReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case entryConflict = "ENTRY_CONFLICT"
-        case incorrectEntryOrder = "INCORRECT_ENTRY_ORDER"
-        case missingExpectedEntry = "MISSING_EXPECTED_ENTRY"
-        public var description: String { return self.rawValue }
+    public struct EntryViolationReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var entryConflict: Self { .init(rawValue: "ENTRY_CONFLICT") }
+        @inlinable public static var incorrectEntryOrder: Self { .init(rawValue: "INCORRECT_ENTRY_ORDER") }
+        @inlinable public static var missingExpectedEntry: Self { .init(rawValue: "MISSING_EXPECTED_ENTRY") }
     }
 
-    public enum FailedItemReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notValidAccountId = "NOT_VALID_ACCOUNT_ID"
-        case notValidArn = "NOT_VALID_ARN"
-        case notValidPartition = "NOT_VALID_PARTITION"
-        case notValidRegion = "NOT_VALID_REGION"
-        case notValidResourceType = "NOT_VALID_RESOURCE_TYPE"
-        case notValidService = "NOT_VALID_SERVICE"
-        public var description: String { return self.rawValue }
+    public struct FailedItemReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notValidAccountId: Self { .init(rawValue: "NOT_VALID_ACCOUNT_ID") }
+        @inlinable public static var notValidArn: Self { .init(rawValue: "NOT_VALID_ARN") }
+        @inlinable public static var notValidPartition: Self { .init(rawValue: "NOT_VALID_PARTITION") }
+        @inlinable public static var notValidRegion: Self { .init(rawValue: "NOT_VALID_REGION") }
+        @inlinable public static var notValidResourceType: Self { .init(rawValue: "NOT_VALID_RESOURCE_TYPE") }
+        @inlinable public static var notValidService: Self { .init(rawValue: "NOT_VALID_SERVICE") }
     }
 
-    public enum FirewallDeploymentModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case centralized = "CENTRALIZED"
-        case distributed = "DISTRIBUTED"
-        public var description: String { return self.rawValue }
+    public struct FirewallDeploymentModel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var centralized: Self { .init(rawValue: "CENTRALIZED") }
+        @inlinable public static var distributed: Self { .init(rawValue: "DISTRIBUTED") }
     }
 
-    public enum MarketplaceSubscriptionOnboardingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case complete = "COMPLETE"
-        case noSubscription = "NO_SUBSCRIPTION"
-        case notComplete = "NOT_COMPLETE"
-        public var description: String { return self.rawValue }
+    public struct MarketplaceSubscriptionOnboardingStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var complete: Self { .init(rawValue: "COMPLETE") }
+        @inlinable public static var noSubscription: Self { .init(rawValue: "NO_SUBSCRIPTION") }
+        @inlinable public static var notComplete: Self { .init(rawValue: "NOT_COMPLETE") }
     }
 
-    public enum NetworkAclRuleAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allow = "allow"
-        case deny = "deny"
-        public var description: String { return self.rawValue }
+    public struct NetworkAclRuleAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allow: Self { .init(rawValue: "allow") }
+        @inlinable public static var deny: Self { .init(rawValue: "deny") }
     }
 
-    public enum NetworkFirewallOverrideAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dropToAlert = "DROP_TO_ALERT"
-        public var description: String { return self.rawValue }
+    public struct NetworkFirewallOverrideAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dropToAlert: Self { .init(rawValue: "DROP_TO_ALERT") }
     }
 
-    public enum OrganizationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case offboarding = "OFFBOARDING"
-        case offboardingComplete = "OFFBOARDING_COMPLETE"
-        case onboarding = "ONBOARDING"
-        case onboardingComplete = "ONBOARDING_COMPLETE"
-        public var description: String { return self.rawValue }
+    public struct OrganizationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var offboarding: Self { .init(rawValue: "OFFBOARDING") }
+        @inlinable public static var offboardingComplete: Self { .init(rawValue: "OFFBOARDING_COMPLETE") }
+        @inlinable public static var onboarding: Self { .init(rawValue: "ONBOARDING") }
+        @inlinable public static var onboardingComplete: Self { .init(rawValue: "ONBOARDING_COMPLETE") }
     }
 
-    public enum PolicyComplianceStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case compliant = "COMPLIANT"
-        case nonCompliant = "NON_COMPLIANT"
-        public var description: String { return self.rawValue }
+    public struct PolicyComplianceStatusType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var compliant: Self { .init(rawValue: "COMPLIANT") }
+        @inlinable public static var nonCompliant: Self { .init(rawValue: "NON_COMPLIANT") }
     }
 
-    public enum RemediationActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case modify = "MODIFY"
-        case remove = "REMOVE"
-        public var description: String { return self.rawValue }
+    public struct RemediationActionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var modify: Self { .init(rawValue: "MODIFY") }
+        @inlinable public static var remove: Self { .init(rawValue: "REMOVE") }
     }
 
-    public enum ResourceSetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case outOfAdminScope = "OUT_OF_ADMIN_SCOPE"
-        public var description: String { return self.rawValue }
+    public struct ResourceSetStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var outOfAdminScope: Self { .init(rawValue: "OUT_OF_ADMIN_SCOPE") }
     }
 
-    public enum ResourceTagLogicalOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case and = "AND"
-        case or = "OR"
-        public var description: String { return self.rawValue }
+    public struct ResourceTagLogicalOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var and: Self { .init(rawValue: "AND") }
+        @inlinable public static var or: Self { .init(rawValue: "OR") }
     }
 
-    public enum RuleOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case defaultActionOrder = "DEFAULT_ACTION_ORDER"
-        case strictOrder = "STRICT_ORDER"
-        public var description: String { return self.rawValue }
+    public struct RuleOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var defaultActionOrder: Self { .init(rawValue: "DEFAULT_ACTION_ORDER") }
+        @inlinable public static var strictOrder: Self { .init(rawValue: "STRICT_ORDER") }
     }
 
-    public enum SecurityServiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dnsFirewall = "DNS_FIREWALL"
-        case importNetworkFirewall = "IMPORT_NETWORK_FIREWALL"
-        case networkAclCommon = "NETWORK_ACL_COMMON"
-        case networkFirewall = "NETWORK_FIREWALL"
-        case securityGroupsCommon = "SECURITY_GROUPS_COMMON"
-        case securityGroupsContentAudit = "SECURITY_GROUPS_CONTENT_AUDIT"
-        case securityGroupsUsageAudit = "SECURITY_GROUPS_USAGE_AUDIT"
-        case shieldAdvanced = "SHIELD_ADVANCED"
-        case thirdPartyFirewall = "THIRD_PARTY_FIREWALL"
-        case waf = "WAF"
-        case wafv2 = "WAFV2"
-        public var description: String { return self.rawValue }
+    public struct SecurityServiceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dnsFirewall: Self { .init(rawValue: "DNS_FIREWALL") }
+        @inlinable public static var importNetworkFirewall: Self { .init(rawValue: "IMPORT_NETWORK_FIREWALL") }
+        @inlinable public static var networkAclCommon: Self { .init(rawValue: "NETWORK_ACL_COMMON") }
+        @inlinable public static var networkFirewall: Self { .init(rawValue: "NETWORK_FIREWALL") }
+        @inlinable public static var securityGroupsCommon: Self { .init(rawValue: "SECURITY_GROUPS_COMMON") }
+        @inlinable public static var securityGroupsContentAudit: Self { .init(rawValue: "SECURITY_GROUPS_CONTENT_AUDIT") }
+        @inlinable public static var securityGroupsUsageAudit: Self { .init(rawValue: "SECURITY_GROUPS_USAGE_AUDIT") }
+        @inlinable public static var shieldAdvanced: Self { .init(rawValue: "SHIELD_ADVANCED") }
+        @inlinable public static var thirdPartyFirewall: Self { .init(rawValue: "THIRD_PARTY_FIREWALL") }
+        @inlinable public static var waf: Self { .init(rawValue: "WAF") }
+        @inlinable public static var wafv2: Self { .init(rawValue: "WAFV2") }
     }
 
-    public enum StreamExceptionPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `continue` = "CONTINUE"
-        case drop = "DROP"
-        case fmsIgnore = "FMS_IGNORE"
-        case reject = "REJECT"
-        public var description: String { return self.rawValue }
+    public struct StreamExceptionPolicy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `continue`: Self { .init(rawValue: "CONTINUE") }
+        @inlinable public static var drop: Self { .init(rawValue: "DROP") }
+        @inlinable public static var fmsIgnore: Self { .init(rawValue: "FMS_IGNORE") }
+        @inlinable public static var reject: Self { .init(rawValue: "REJECT") }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case carrierGateway = "CARRIER_GATEWAY"
-        case egressOnlyInternetGateway = "EGRESS_ONLY_INTERNET_GATEWAY"
-        case gateway = "GATEWAY"
-        case instance = "INSTANCE"
-        case localGateway = "LOCAL_GATEWAY"
-        case natGateway = "NAT_GATEWAY"
-        case networkInterface = "NETWORK_INTERFACE"
-        case transitGateway = "TRANSIT_GATEWAY"
-        case vpcEndpoint = "VPC_ENDPOINT"
-        case vpcPeeringConnection = "VPC_PEERING_CONNECTION"
-        public var description: String { return self.rawValue }
+    public struct TargetType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var carrierGateway: Self { .init(rawValue: "CARRIER_GATEWAY") }
+        @inlinable public static var egressOnlyInternetGateway: Self { .init(rawValue: "EGRESS_ONLY_INTERNET_GATEWAY") }
+        @inlinable public static var gateway: Self { .init(rawValue: "GATEWAY") }
+        @inlinable public static var instance: Self { .init(rawValue: "INSTANCE") }
+        @inlinable public static var localGateway: Self { .init(rawValue: "LOCAL_GATEWAY") }
+        @inlinable public static var natGateway: Self { .init(rawValue: "NAT_GATEWAY") }
+        @inlinable public static var networkInterface: Self { .init(rawValue: "NETWORK_INTERFACE") }
+        @inlinable public static var transitGateway: Self { .init(rawValue: "TRANSIT_GATEWAY") }
+        @inlinable public static var vpcEndpoint: Self { .init(rawValue: "VPC_ENDPOINT") }
+        @inlinable public static var vpcPeeringConnection: Self { .init(rawValue: "VPC_PEERING_CONNECTION") }
     }
 
-    public enum ThirdPartyFirewall: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fortigateCloudNativeFirewall = "FORTIGATE_CLOUD_NATIVE_FIREWALL"
-        case paloAltoNetworksCloudNgfw = "PALO_ALTO_NETWORKS_CLOUD_NGFW"
-        public var description: String { return self.rawValue }
+    public struct ThirdPartyFirewall: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fortigateCloudNativeFirewall: Self { .init(rawValue: "FORTIGATE_CLOUD_NATIVE_FIREWALL") }
+        @inlinable public static var paloAltoNetworksCloudNgfw: Self { .init(rawValue: "PALO_ALTO_NETWORKS_CLOUD_NGFW") }
     }
 
-    public enum ThirdPartyFirewallAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notExist = "NOT_EXIST"
-        case offboardComplete = "OFFBOARD_COMPLETE"
-        case offboarding = "OFFBOARDING"
-        case onboardComplete = "ONBOARD_COMPLETE"
-        case onboarding = "ONBOARDING"
-        public var description: String { return self.rawValue }
+    public struct ThirdPartyFirewallAssociationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notExist: Self { .init(rawValue: "NOT_EXIST") }
+        @inlinable public static var offboardComplete: Self { .init(rawValue: "OFFBOARD_COMPLETE") }
+        @inlinable public static var offboarding: Self { .init(rawValue: "OFFBOARDING") }
+        @inlinable public static var onboardComplete: Self { .init(rawValue: "ONBOARD_COMPLETE") }
+        @inlinable public static var onboarding: Self { .init(rawValue: "ONBOARDING") }
     }
 
-    public enum ViolationReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case blackHoleRouteDetected = "BLACK_HOLE_ROUTE_DETECTED"
-        case blackHoleRouteDetectedInFirewallSubnet = "BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET"
-        case firewallSubnetIsOutOfScope = "FIREWALL_SUBNET_IS_OUT_OF_SCOPE"
-        case firewallSubnetMissingExpectedRoute = "FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE"
-        case firewallSubnetMissingVPCEndpoint = "FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT"
-        case fmsCreatedSecurityGroupEdited = "FMS_CREATED_SECURITY_GROUP_EDITED"
-        case internetGatewayMissingExpectedRoute = "INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE"
-        case internetTrafficNotInspected = "INTERNET_TRAFFIC_NOT_INSPECTED"
-        case invalidNetworkAclEntry = "INVALID_NETWORK_ACL_ENTRY"
-        case invalidRouteConfiguration = "INVALID_ROUTE_CONFIGURATION"
-        case missingExpectedRouteTable = "MISSING_EXPECTED_ROUTE_TABLE"
-        case missingFirewall = "MISSING_FIREWALL"
-        case missingFirewallSubnetInAZ = "MISSING_FIREWALL_SUBNET_IN_AZ"
-        case missingTargetGateway = "MISSING_TARGET_GATEWAY"
-        case networkFirewallPolicyModified = "NETWORK_FIREWALL_POLICY_MODIFIED"
-        case resourceIncorrectWebAcl = "RESOURCE_INCORRECT_WEB_ACL"
-        case resourceMissingDnsFirewall = "RESOURCE_MISSING_DNS_FIREWALL"
-        case resourceMissingSecurityGroup = "RESOURCE_MISSING_SECURITY_GROUP"
-        case resourceMissingShieldProtection = "RESOURCE_MISSING_SHIELD_PROTECTION"
-        case resourceMissingWebAcl = "RESOURCE_MISSING_WEB_ACL"
-        case resourceMissingWebaclOrShieldProtection = "RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION"
-        case resourceViolatesAuditSecurityGroup = "RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP"
-        case routeHasOutOfScopeEndpoint = "ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT"
-        case securityGroupRedundant = "SECURITY_GROUP_REDUNDANT"
-        case securityGroupUnused = "SECURITY_GROUP_UNUSED"
-        case trafficInspectionCrossesAZBoundary = "TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY"
-        case unexpectedFirewallRoutes = "UNEXPECTED_FIREWALL_ROUTES"
-        case unexpectedTargetGatewayRoutes = "UNEXPECTED_TARGET_GATEWAY_ROUTES"
-        case webACLConfigurationOrScopeOfUse = "WEB_ACL_CONFIGURATION_OR_SCOPE_OF_USE"
-        case webAclMissingRuleGroup = "WEB_ACL_MISSING_RULE_GROUP"
-        public var description: String { return self.rawValue }
+    public struct ViolationReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var blackHoleRouteDetected: Self { .init(rawValue: "BLACK_HOLE_ROUTE_DETECTED") }
+        @inlinable public static var blackHoleRouteDetectedInFirewallSubnet: Self { .init(rawValue: "BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET") }
+        @inlinable public static var firewallSubnetIsOutOfScope: Self { .init(rawValue: "FIREWALL_SUBNET_IS_OUT_OF_SCOPE") }
+        @inlinable public static var firewallSubnetMissingExpectedRoute: Self { .init(rawValue: "FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE") }
+        @inlinable public static var firewallSubnetMissingVPCEndpoint: Self { .init(rawValue: "FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT") }
+        @inlinable public static var fmsCreatedSecurityGroupEdited: Self { .init(rawValue: "FMS_CREATED_SECURITY_GROUP_EDITED") }
+        @inlinable public static var internetGatewayMissingExpectedRoute: Self { .init(rawValue: "INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE") }
+        @inlinable public static var internetTrafficNotInspected: Self { .init(rawValue: "INTERNET_TRAFFIC_NOT_INSPECTED") }
+        @inlinable public static var invalidNetworkAclEntry: Self { .init(rawValue: "INVALID_NETWORK_ACL_ENTRY") }
+        @inlinable public static var invalidRouteConfiguration: Self { .init(rawValue: "INVALID_ROUTE_CONFIGURATION") }
+        @inlinable public static var missingExpectedRouteTable: Self { .init(rawValue: "MISSING_EXPECTED_ROUTE_TABLE") }
+        @inlinable public static var missingFirewall: Self { .init(rawValue: "MISSING_FIREWALL") }
+        @inlinable public static var missingFirewallSubnetInAZ: Self { .init(rawValue: "MISSING_FIREWALL_SUBNET_IN_AZ") }
+        @inlinable public static var missingTargetGateway: Self { .init(rawValue: "MISSING_TARGET_GATEWAY") }
+        @inlinable public static var networkFirewallPolicyModified: Self { .init(rawValue: "NETWORK_FIREWALL_POLICY_MODIFIED") }
+        @inlinable public static var resourceIncorrectWebAcl: Self { .init(rawValue: "RESOURCE_INCORRECT_WEB_ACL") }
+        @inlinable public static var resourceMissingDnsFirewall: Self { .init(rawValue: "RESOURCE_MISSING_DNS_FIREWALL") }
+        @inlinable public static var resourceMissingSecurityGroup: Self { .init(rawValue: "RESOURCE_MISSING_SECURITY_GROUP") }
+        @inlinable public static var resourceMissingShieldProtection: Self { .init(rawValue: "RESOURCE_MISSING_SHIELD_PROTECTION") }
+        @inlinable public static var resourceMissingWebAcl: Self { .init(rawValue: "RESOURCE_MISSING_WEB_ACL") }
+        @inlinable public static var resourceMissingWebaclOrShieldProtection: Self { .init(rawValue: "RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION") }
+        @inlinable public static var resourceViolatesAuditSecurityGroup: Self { .init(rawValue: "RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP") }
+        @inlinable public static var routeHasOutOfScopeEndpoint: Self { .init(rawValue: "ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT") }
+        @inlinable public static var securityGroupRedundant: Self { .init(rawValue: "SECURITY_GROUP_REDUNDANT") }
+        @inlinable public static var securityGroupUnused: Self { .init(rawValue: "SECURITY_GROUP_UNUSED") }
+        @inlinable public static var trafficInspectionCrossesAZBoundary: Self { .init(rawValue: "TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY") }
+        @inlinable public static var unexpectedFirewallRoutes: Self { .init(rawValue: "UNEXPECTED_FIREWALL_ROUTES") }
+        @inlinable public static var unexpectedTargetGatewayRoutes: Self { .init(rawValue: "UNEXPECTED_TARGET_GATEWAY_ROUTES") }
+        @inlinable public static var webACLConfigurationOrScopeOfUse: Self { .init(rawValue: "WEB_ACL_CONFIGURATION_OR_SCOPE_OF_USE") }
+        @inlinable public static var webAclMissingRuleGroup: Self { .init(rawValue: "WEB_ACL_MISSING_RULE_GROUP") }
     }
 
     // MARK: Shapes

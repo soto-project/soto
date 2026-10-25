@@ -25,69 +25,109 @@ import Foundation
 extension AppFabric {
     // MARK: Enums
 
-    public enum AppAuthorizationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case connected = "Connected"
-        case connectionValidationFailed = "ConnectionValidationFailed"
-        case pendingConnect = "PendingConnect"
-        case tokenAutoRotationFailed = "TokenAutoRotationFailed"
-        public var description: String { return self.rawValue }
+    public struct AppAuthorizationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var connected: Self { .init(rawValue: "Connected") }
+        @inlinable public static var connectionValidationFailed: Self { .init(rawValue: "ConnectionValidationFailed") }
+        @inlinable public static var pendingConnect: Self { .init(rawValue: "PendingConnect") }
+        @inlinable public static var tokenAutoRotationFailed: Self { .init(rawValue: "TokenAutoRotationFailed") }
     }
 
-    public enum AuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case apiKey = "apiKey"
-        case oauth2 = "oauth2"
-        public var description: String { return self.rawValue }
+    public struct AuthType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var apiKey: Self { .init(rawValue: "apiKey") }
+        @inlinable public static var oauth2: Self { .init(rawValue: "oauth2") }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case json = "json"
-        case parquet = "parquet"
-        public var description: String { return self.rawValue }
+    public struct Format: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var json: Self { .init(rawValue: "json") }
+        @inlinable public static var parquet: Self { .init(rawValue: "parquet") }
     }
 
-    public enum IngestionDestinationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
+    public struct IngestionDestinationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
     }
 
-    public enum IngestionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "disabled"
-        case enabled = "enabled"
-        public var description: String { return self.rawValue }
+    public struct IngestionState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "disabled") }
+        @inlinable public static var enabled: Self { .init(rawValue: "enabled") }
     }
 
-    public enum IngestionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auditLog = "auditLog"
-        public var description: String { return self.rawValue }
+    public struct IngestionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auditLog: Self { .init(rawValue: "auditLog") }
     }
 
-    public enum Persona: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case admin = "admin"
-        case enduser = "endUser"
-        public var description: String { return self.rawValue }
+    public struct Persona: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var admin: Self { .init(rawValue: "admin") }
+        @inlinable public static var enduser: Self { .init(rawValue: "endUser") }
     }
 
-    public enum ResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case expired = "EXPIRED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct ResultStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
     }
 
-    public enum Schema: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ocsf = "ocsf"
-        case raw = "raw"
-        public var description: String { return self.rawValue }
+    public struct Schema: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ocsf: Self { .init(rawValue: "ocsf") }
+        @inlinable public static var raw: Self { .init(rawValue: "raw") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "cannotParse"
-        case fieldValidationFailed = "fieldValidationFailed"
-        case other = "other"
-        case unknownOperation = "unknownOperation"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "cannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "unknownOperation") }
     }
 
     public enum Credential: AWSEncodableShape, Sendable {

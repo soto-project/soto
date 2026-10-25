@@ -25,84 +25,124 @@ import Foundation
 extension LambdaMicrovms {
     // MARK: Enums
 
-    public enum Architecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case arm64 = "ARM_64"
-        public var description: String { return self.rawValue }
+    public struct Architecture: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var arm64: Self { .init(rawValue: "ARM_64") }
     }
 
-    public enum BuildState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case pending = "PENDING"
-        case successful = "SUCCESSFUL"
-        public var description: String { return self.rawValue }
+    public struct BuildState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var successful: Self { .init(rawValue: "SUCCESSFUL") }
     }
 
-    public enum Capability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct Capability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The application is granted all available OS capabilities
-        case all = "ALL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
     }
 
-    public enum Chipset: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case graviton = "GRAVITON"
-        public var description: String { return self.rawValue }
+    public struct Chipset: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var graviton: Self { .init(rawValue: "GRAVITON") }
     }
 
-    public enum HookState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct HookState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum ManagedMicrovmImageVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ManagedMicrovmImageVersionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The version is available for use.
-        case available = "AVAILABLE"
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
         /// The version is deprecated. Do not use this version for new MicroVM images. Existing MicroVM images that use this version will continue to function.
-        case deprecated = "DEPRECATED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var deprecated: Self { .init(rawValue: "DEPRECATED") }
     }
 
-    public enum MicrovmImageState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createFailed = "CREATE_FAILED"
-        case created = "CREATED"
-        case creating = "CREATING"
-        case deleteFailed = "DELETE_FAILED"
-        case deleted = "DELETED"
-        case deleting = "DELETING"
-        case updateFailed = "UPDATE_FAILED"
-        case updated = "UPDATED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct MicrovmImageState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updated: Self { .init(rawValue: "UPDATED") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum MicrovmImageVersionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleteFailed = "DELETE_FAILED"
-        case deleted = "DELETED"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case pending = "PENDING"
-        case successful = "SUCCESSFUL"
-        public var description: String { return self.rawValue }
+    public struct MicrovmImageVersionState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var successful: Self { .init(rawValue: "SUCCESSFUL") }
     }
 
-    public enum MicrovmImageVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct MicrovmImageVersionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Customer image version is active and can be used
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Customer image version is inactive and should not be used
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
     }
 
-    public enum MicrovmState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case suspended = "SUSPENDED"
-        case suspending = "SUSPENDING"
-        case terminated = "TERMINATED"
-        case terminating = "TERMINATING"
-        public var description: String { return self.rawValue }
+    public struct MicrovmState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var suspended: Self { .init(rawValue: "SUSPENDED") }
+        @inlinable public static var suspending: Self { .init(rawValue: "SUSPENDING") }
+        @inlinable public static var terminated: Self { .init(rawValue: "TERMINATED") }
+        @inlinable public static var terminating: Self { .init(rawValue: "TERMINATING") }
     }
 
     public enum Logging: AWSEncodableShape & AWSDecodableShape, Sendable {

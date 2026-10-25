@@ -25,62 +25,90 @@ import Foundation
 extension SnowDeviceManagement {
     // MARK: Enums
 
-    public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case attached = "ATTACHED"
-        case attaching = "ATTACHING"
-        case detached = "DETACHED"
-        case detaching = "DETACHING"
-        public var description: String { return self.rawValue }
+    public struct AttachmentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var attached: Self { .init(rawValue: "ATTACHED") }
+        @inlinable public static var attaching: Self { .init(rawValue: "ATTACHING") }
+        @inlinable public static var detached: Self { .init(rawValue: "DETACHED") }
+        @inlinable public static var detaching: Self { .init(rawValue: "DETACHING") }
     }
 
-    public enum ExecutionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "CANCELED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case queued = "QUEUED"
-        case rejected = "REJECTED"
-        case succeeded = "SUCCEEDED"
-        case timedOut = "TIMED_OUT"
-        public var description: String { return self.rawValue }
+    public struct ExecutionState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var queued: Self { .init(rawValue: "QUEUED") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
+        @inlinable public static var timedOut: Self { .init(rawValue: "TIMED_OUT") }
     }
 
-    public enum InstanceStateName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case shuttingDown = "SHUTTING_DOWN"
-        case stopped = "STOPPED"
-        case stopping = "STOPPING"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
+    public struct InstanceStateName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var shuttingDown: Self { .init(rawValue: "SHUTTING_DOWN") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
+        @inlinable public static var terminated: Self { .init(rawValue: "TERMINATED") }
     }
 
-    public enum IpAddressAssignment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dhcp = "DHCP"
-        case `static` = "STATIC"
-        public var description: String { return self.rawValue }
+    public struct IpAddressAssignment: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dhcp: Self { .init(rawValue: "DHCP") }
+        @inlinable public static var `static`: Self { .init(rawValue: "STATIC") }
     }
 
-    public enum PhysicalConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case qsfp = "QSFP"
-        case rj45 = "RJ45"
-        case rj452 = "RJ45_2"
-        case sfpPlus = "SFP_PLUS"
-        case wifi = "WIFI"
-        public var description: String { return self.rawValue }
+    public struct PhysicalConnectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var qsfp: Self { .init(rawValue: "QSFP") }
+        @inlinable public static var rj45: Self { .init(rawValue: "RJ45") }
+        @inlinable public static var rj452: Self { .init(rawValue: "RJ45_2") }
+        @inlinable public static var sfpPlus: Self { .init(rawValue: "SFP_PLUS") }
+        @inlinable public static var wifi: Self { .init(rawValue: "WIFI") }
     }
 
-    public enum TaskState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "CANCELED"
-        case completed = "COMPLETED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct TaskState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
     }
 
-    public enum UnlockState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case locked = "LOCKED"
-        case unlocked = "UNLOCKED"
-        case unlocking = "UNLOCKING"
-        public var description: String { return self.rawValue }
+    public struct UnlockState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var locked: Self { .init(rawValue: "LOCKED") }
+        @inlinable public static var unlocked: Self { .init(rawValue: "UNLOCKED") }
+        @inlinable public static var unlocking: Self { .init(rawValue: "UNLOCKING") }
     }
 
     public enum Command: AWSEncodableShape, Sendable {

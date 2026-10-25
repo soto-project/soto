@@ -25,44 +25,64 @@ import Foundation
 extension SageMakerMetrics {
     // MARK: Enums
 
-    public enum MetricQueryResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case complete = "Complete"
-        case internalError = "InternalError"
-        case truncated = "Truncated"
-        case validationError = "ValidationError"
-        public var description: String { return self.rawValue }
+    public struct MetricQueryResultStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var complete: Self { .init(rawValue: "Complete") }
+        @inlinable public static var internalError: Self { .init(rawValue: "InternalError") }
+        @inlinable public static var truncated: Self { .init(rawValue: "Truncated") }
+        @inlinable public static var validationError: Self { .init(rawValue: "ValidationError") }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case avg = "Avg"
-        case count = "Count"
-        case last = "Last"
-        case max = "Max"
-        case min = "Min"
-        case stdDev = "StdDev"
-        public var description: String { return self.rawValue }
+    public struct MetricStatistic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var avg: Self { .init(rawValue: "Avg") }
+        @inlinable public static var count: Self { .init(rawValue: "Count") }
+        @inlinable public static var last: Self { .init(rawValue: "Last") }
+        @inlinable public static var max: Self { .init(rawValue: "Max") }
+        @inlinable public static var min: Self { .init(rawValue: "Min") }
+        @inlinable public static var stdDev: Self { .init(rawValue: "StdDev") }
     }
 
-    public enum Period: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fiveMinute = "FiveMinute"
-        case iterationNumber = "IterationNumber"
-        case oneHour = "OneHour"
-        case oneMinute = "OneMinute"
-        public var description: String { return self.rawValue }
+    public struct Period: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fiveMinute: Self { .init(rawValue: "FiveMinute") }
+        @inlinable public static var iterationNumber: Self { .init(rawValue: "IterationNumber") }
+        @inlinable public static var oneHour: Self { .init(rawValue: "OneHour") }
+        @inlinable public static var oneMinute: Self { .init(rawValue: "OneMinute") }
     }
 
-    public enum PutMetricsErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case conflictError = "CONFLICT_ERROR"
-        case internalError = "INTERNAL_ERROR"
-        case metricLimitExceeded = "METRIC_LIMIT_EXCEEDED"
-        case validationError = "VALIDATION_ERROR"
-        public var description: String { return self.rawValue }
+    public struct PutMetricsErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var conflictError: Self { .init(rawValue: "CONFLICT_ERROR") }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+        @inlinable public static var metricLimitExceeded: Self { .init(rawValue: "METRIC_LIMIT_EXCEEDED") }
+        @inlinable public static var validationError: Self { .init(rawValue: "VALIDATION_ERROR") }
     }
 
-    public enum XAxisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case iterationNumber = "IterationNumber"
-        case timestamp = "Timestamp"
-        public var description: String { return self.rawValue }
+    public struct XAxisType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var iterationNumber: Self { .init(rawValue: "IterationNumber") }
+        @inlinable public static var timestamp: Self { .init(rawValue: "Timestamp") }
     }
 
     // MARK: Shapes

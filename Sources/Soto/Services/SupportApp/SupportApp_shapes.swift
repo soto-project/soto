@@ -25,17 +25,25 @@ import Foundation
 extension SupportApp {
     // MARK: Enums
 
-    public enum AccountType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case management = "management"
-        case member = "member"
-        public var description: String { return self.rawValue }
+    public struct AccountType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var management: Self { .init(rawValue: "management") }
+        @inlinable public static var member: Self { .init(rawValue: "member") }
     }
 
-    public enum NotificationSeverityLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "all"
-        case high = "high"
-        case none = "none"
-        public var description: String { return self.rawValue }
+    public struct NotificationSeverityLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "all") }
+        @inlinable public static var high: Self { .init(rawValue: "high") }
+        @inlinable public static var none: Self { .init(rawValue: "none") }
     }
 
     // MARK: Shapes

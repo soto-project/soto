@@ -25,41 +25,53 @@ import Foundation
 extension CloudControl {
     // MARK: Enums
 
-    public enum HandlerErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDenied = "AccessDenied"
-        case alreadyExists = "AlreadyExists"
-        case generalServiceException = "GeneralServiceException"
-        case internalFailure = "InternalFailure"
-        case invalidCredentials = "InvalidCredentials"
-        case invalidRequest = "InvalidRequest"
-        case networkFailure = "NetworkFailure"
-        case notFound = "NotFound"
-        case notStabilized = "NotStabilized"
-        case notUpdatable = "NotUpdatable"
-        case resourceConflict = "ResourceConflict"
-        case serviceInternalError = "ServiceInternalError"
-        case serviceLimitExceeded = "ServiceLimitExceeded"
-        case serviceTimeout = "ServiceTimeout"
-        case throttling = "Throttling"
-        case unauthorizedTaggingOperation = "UnauthorizedTaggingOperation"
-        public var description: String { return self.rawValue }
+    public struct HandlerErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDenied: Self { .init(rawValue: "AccessDenied") }
+        @inlinable public static var alreadyExists: Self { .init(rawValue: "AlreadyExists") }
+        @inlinable public static var generalServiceException: Self { .init(rawValue: "GeneralServiceException") }
+        @inlinable public static var internalFailure: Self { .init(rawValue: "InternalFailure") }
+        @inlinable public static var invalidCredentials: Self { .init(rawValue: "InvalidCredentials") }
+        @inlinable public static var invalidRequest: Self { .init(rawValue: "InvalidRequest") }
+        @inlinable public static var networkFailure: Self { .init(rawValue: "NetworkFailure") }
+        @inlinable public static var notFound: Self { .init(rawValue: "NotFound") }
+        @inlinable public static var notStabilized: Self { .init(rawValue: "NotStabilized") }
+        @inlinable public static var notUpdatable: Self { .init(rawValue: "NotUpdatable") }
+        @inlinable public static var resourceConflict: Self { .init(rawValue: "ResourceConflict") }
+        @inlinable public static var serviceInternalError: Self { .init(rawValue: "ServiceInternalError") }
+        @inlinable public static var serviceLimitExceeded: Self { .init(rawValue: "ServiceLimitExceeded") }
+        @inlinable public static var serviceTimeout: Self { .init(rawValue: "ServiceTimeout") }
+        @inlinable public static var throttling: Self { .init(rawValue: "Throttling") }
+        @inlinable public static var unauthorizedTaggingOperation: Self { .init(rawValue: "UnauthorizedTaggingOperation") }
     }
 
-    public enum Operation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case create = "CREATE"
-        case delete = "DELETE"
-        case update = "UPDATE"
-        public var description: String { return self.rawValue }
+    public struct Operation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var create: Self { .init(rawValue: "CREATE") }
+        @inlinable public static var delete: Self { .init(rawValue: "DELETE") }
+        @inlinable public static var update: Self { .init(rawValue: "UPDATE") }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelComplete = "CANCEL_COMPLETE"
-        case cancelInProgress = "CANCEL_IN_PROGRESS"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case pending = "PENDING"
-        case success = "SUCCESS"
-        public var description: String { return self.rawValue }
+    public struct OperationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelComplete: Self { .init(rawValue: "CANCEL_COMPLETE") }
+        @inlinable public static var cancelInProgress: Self { .init(rawValue: "CANCEL_IN_PROGRESS") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var success: Self { .init(rawValue: "SUCCESS") }
     }
 
     // MARK: Shapes

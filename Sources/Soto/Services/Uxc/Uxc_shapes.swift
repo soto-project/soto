@@ -25,18 +25,22 @@ import Foundation
 extension Uxc {
     // MARK: Enums
 
-    public enum AccountColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case darkblue = "darkBlue"
-        case green = "green"
-        case lightblue = "lightBlue"
-        case none = "none"
-        case orange = "orange"
-        case pink = "pink"
-        case purple = "purple"
-        case red = "red"
-        case teal = "teal"
-        case yellow = "yellow"
-        public var description: String { return self.rawValue }
+    public struct AccountColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var darkblue: Self { .init(rawValue: "darkBlue") }
+        @inlinable public static var green: Self { .init(rawValue: "green") }
+        @inlinable public static var lightblue: Self { .init(rawValue: "lightBlue") }
+        @inlinable public static var none: Self { .init(rawValue: "none") }
+        @inlinable public static var orange: Self { .init(rawValue: "orange") }
+        @inlinable public static var pink: Self { .init(rawValue: "pink") }
+        @inlinable public static var purple: Self { .init(rawValue: "purple") }
+        @inlinable public static var red: Self { .init(rawValue: "red") }
+        @inlinable public static var teal: Self { .init(rawValue: "teal") }
+        @inlinable public static var yellow: Self { .init(rawValue: "yellow") }
     }
 
     // MARK: Shapes

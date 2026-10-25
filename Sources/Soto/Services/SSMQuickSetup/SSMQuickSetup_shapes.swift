@@ -25,24 +25,32 @@ import Foundation
 extension SSMQuickSetup {
     // MARK: Enums
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleteFailed = "DELETE_FAILED"
-        case deleting = "DELETING"
-        case deploying = "DEPLOYING"
-        case failed = "FAILED"
-        case initializing = "INITIALIZING"
-        case none = "NONE"
-        case stopFailed = "STOP_FAILED"
-        case stopped = "STOPPED"
-        case stopping = "STOPPING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var deploying: Self { .init(rawValue: "DEPLOYING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var initializing: Self { .init(rawValue: "INITIALIZING") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var stopFailed: Self { .init(rawValue: "STOP_FAILED") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asyncExecutions = "AsyncExecutions"
-        case deployment = "Deployment"
-        public var description: String { return self.rawValue }
+    public struct StatusType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asyncExecutions: Self { .init(rawValue: "AsyncExecutions") }
+        @inlinable public static var deployment: Self { .init(rawValue: "Deployment") }
     }
 
     // MARK: Shapes

@@ -25,16 +25,24 @@ import Foundation
 extension NotificationsContacts {
     // MARK: Enums
 
-    public enum EmailContactStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "active"
-        case inactive = "inactive"
-        public var description: String { return self.rawValue }
+    public struct EmailContactStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "active") }
+        @inlinable public static var inactive: Self { .init(rawValue: "inactive") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fieldValidationFailed = "fieldValidationFailed"
-        case other = "other"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
     }
 
     // MARK: Shapes

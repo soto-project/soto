@@ -25,164 +25,252 @@ import Foundation
 extension TaxSettings {
     // MARK: Enums
 
-    public enum AddressRoleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billingAddress = "BillingAddress"
-        case contactAddress = "ContactAddress"
-        case taxAddress = "TaxAddress"
-        public var description: String { return self.rawValue }
+    public struct AddressRoleType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billingAddress: Self { .init(rawValue: "BillingAddress") }
+        @inlinable public static var contactAddress: Self { .init(rawValue: "ContactAddress") }
+        @inlinable public static var taxAddress: Self { .init(rawValue: "TaxAddress") }
     }
 
-    public enum ChileDocumentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case invoice = "Invoice"
-        case receipt = "Receipt"
-        public var description: String { return self.rawValue }
+    public struct ChileDocumentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var invoice: Self { .init(rawValue: "Invoice") }
+        @inlinable public static var receipt: Self { .init(rawValue: "Receipt") }
     }
 
-    public enum CustomerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case business = "Business"
-        case individual = "Individual"
-        public var description: String { return self.rawValue }
+    public struct CustomerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var business: Self { .init(rawValue: "Business") }
+        @inlinable public static var individual: Self { .init(rawValue: "Individual") }
     }
 
-    public enum EntityExemptionAccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case expired = "Expired"
-        case none = "None"
-        case pending = "Pending"
-        case valid = "Valid"
-        public var description: String { return self.rawValue }
+    public struct EntityExemptionAccountStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var expired: Self { .init(rawValue: "Expired") }
+        @inlinable public static var none: Self { .init(rawValue: "None") }
+        @inlinable public static var pending: Self { .init(rawValue: "Pending") }
+        @inlinable public static var valid: Self { .init(rawValue: "Valid") }
     }
 
-    public enum HeritageStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case optIn = "OptIn"
-        case optOut = "OptOut"
-        public var description: String { return self.rawValue }
+    public struct HeritageStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var optIn: Self { .init(rawValue: "OptIn") }
+        @inlinable public static var optOut: Self { .init(rawValue: "OptOut") }
     }
 
-    public enum IndonesiaTaxRegistrationNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case nik = "NIK"
-        case nitku = "NITKU"
-        case npwp = "NPWP"
-        case passportNumber = "PassportNumber"
-        public var description: String { return self.rawValue }
+    public struct IndonesiaTaxRegistrationNumberType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var nik: Self { .init(rawValue: "NIK") }
+        @inlinable public static var nitku: Self { .init(rawValue: "NITKU") }
+        @inlinable public static var npwp: Self { .init(rawValue: "NPWP") }
+        @inlinable public static var passportNumber: Self { .init(rawValue: "PassportNumber") }
     }
 
-    public enum Industries: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case banks = "Banks"
-        case circulatingOrg = "CirculatingOrg"
-        case developmentAgencies = "DevelopmentAgencies"
-        case insurance = "Insurance"
-        case pensionAndBenefitFunds = "PensionAndBenefitFunds"
-        case professionalOrg = "ProfessionalOrg"
-        public var description: String { return self.rawValue }
+    public struct Industries: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var banks: Self { .init(rawValue: "Banks") }
+        @inlinable public static var circulatingOrg: Self { .init(rawValue: "CirculatingOrg") }
+        @inlinable public static var developmentAgencies: Self { .init(rawValue: "DevelopmentAgencies") }
+        @inlinable public static var insurance: Self { .init(rawValue: "Insurance") }
+        @inlinable public static var pensionAndBenefitFunds: Self { .init(rawValue: "PensionAndBenefitFunds") }
+        @inlinable public static var professionalOrg: Self { .init(rawValue: "ProfessionalOrg") }
     }
 
-    public enum IsraelCustomerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case business = "Business"
-        case individual = "Individual"
-        public var description: String { return self.rawValue }
+    public struct IsraelCustomerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var business: Self { .init(rawValue: "Business") }
+        @inlinable public static var individual: Self { .init(rawValue: "Individual") }
     }
 
-    public enum IsraelDealerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case authorized = "Authorized"
-        case nonAuthorized = "Non-authorized"
-        public var description: String { return self.rawValue }
+    public struct IsraelDealerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var authorized: Self { .init(rawValue: "Authorized") }
+        @inlinable public static var nonAuthorized: Self { .init(rawValue: "Non-authorized") }
     }
 
-    public enum MalaysiaServiceTaxCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case consultancy = "Consultancy"
-        case digitalSvcElectronicMedium = "Digital Service And Electronic Medium"
-        case itServices = "IT Services"
-        case trainingOrCoaching = "Training Or Coaching"
-        public var description: String { return self.rawValue }
+    public struct MalaysiaServiceTaxCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var consultancy: Self { .init(rawValue: "Consultancy") }
+        @inlinable public static var digitalSvcElectronicMedium: Self { .init(rawValue: "Digital Service And Electronic Medium") }
+        @inlinable public static var itServices: Self { .init(rawValue: "IT Services") }
+        @inlinable public static var trainingOrCoaching: Self { .init(rawValue: "Training Or Coaching") }
     }
 
-    public enum PersonType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case business = "Business"
-        case legalPerson = "Legal Person"
-        case physicalPerson = "Physical Person"
-        public var description: String { return self.rawValue }
+    public struct PersonType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var business: Self { .init(rawValue: "Business") }
+        @inlinable public static var legalPerson: Self { .init(rawValue: "Legal Person") }
+        @inlinable public static var physicalPerson: Self { .init(rawValue: "Physical Person") }
     }
 
-    public enum PolandTaxRegistrationNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case euTaxRegistrationNumber = "EUTaxRegistrationNumber"
-        case localRegistrationNumber = "LocalRegistrationNumber"
-        case localTaxRegistrationNumber = "LocalTaxRegistrationNumber"
-        public var description: String { return self.rawValue }
+    public struct PolandTaxRegistrationNumberType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var euTaxRegistrationNumber: Self { .init(rawValue: "EUTaxRegistrationNumber") }
+        @inlinable public static var localRegistrationNumber: Self { .init(rawValue: "LocalRegistrationNumber") }
+        @inlinable public static var localTaxRegistrationNumber: Self { .init(rawValue: "LocalTaxRegistrationNumber") }
     }
 
-    public enum RegistrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case intraEu = "Intra-EU"
-        case local = "Local"
-        public var description: String { return self.rawValue }
+    public struct RegistrationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var intraEu: Self { .init(rawValue: "Intra-EU") }
+        @inlinable public static var local: Self { .init(rawValue: "Local") }
     }
 
-    public enum SaudiArabiaTaxRegistrationNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case commercialRegistrationNumber = "CommercialRegistrationNumber"
-        case taxIdentificationNumber = "TaxIdentificationNumber"
-        case taxRegistrationNumber = "TaxRegistrationNumber"
-        public var description: String { return self.rawValue }
+    public struct SaudiArabiaTaxRegistrationNumberType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var commercialRegistrationNumber: Self { .init(rawValue: "CommercialRegistrationNumber") }
+        @inlinable public static var taxIdentificationNumber: Self { .init(rawValue: "TaxIdentificationNumber") }
+        @inlinable public static var taxRegistrationNumber: Self { .init(rawValue: "TaxRegistrationNumber") }
     }
 
-    public enum Sector: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case business = "Business"
-        case individual = "Individual"
-        case publicInstitutions = "Government"
-        public var description: String { return self.rawValue }
+    public struct Sector: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var business: Self { .init(rawValue: "Business") }
+        @inlinable public static var individual: Self { .init(rawValue: "Individual") }
+        @inlinable public static var publicInstitutions: Self { .init(rawValue: "Government") }
     }
 
-    public enum SupplementalTaxRegistrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case vat = "VAT"
-        public var description: String { return self.rawValue }
+    public struct SupplementalTaxRegistrationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var vat: Self { .init(rawValue: "VAT") }
     }
 
-    public enum TaxRegistrationNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case localRegistrationNumber = "LocalRegistrationNumber"
-        case taxRegistrationNumber = "TaxRegistrationNumber"
-        public var description: String { return self.rawValue }
+    public struct TaxRegistrationNumberType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var localRegistrationNumber: Self { .init(rawValue: "LocalRegistrationNumber") }
+        @inlinable public static var taxRegistrationNumber: Self { .init(rawValue: "TaxRegistrationNumber") }
     }
 
-    public enum TaxRegistrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleted = "Deleted"
-        case pending = "Pending"
-        case rejected = "Rejected"
-        case verified = "Verified"
-        public var description: String { return self.rawValue }
+    public struct TaxRegistrationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleted: Self { .init(rawValue: "Deleted") }
+        @inlinable public static var pending: Self { .init(rawValue: "Pending") }
+        @inlinable public static var rejected: Self { .init(rawValue: "Rejected") }
+        @inlinable public static var verified: Self { .init(rawValue: "Verified") }
     }
 
-    public enum TaxRegistrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cnpj = "CNPJ"
-        case cpf = "CPF"
-        case gst = "GST"
-        case nip = "NIP"
-        case nric = "NRIC"
-        case pan = "PAN"
-        case sst = "SST"
-        case tin = "TIN"
-        case vat = "VAT"
-        public var description: String { return self.rawValue }
+    public struct TaxRegistrationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cnpj: Self { .init(rawValue: "CNPJ") }
+        @inlinable public static var cpf: Self { .init(rawValue: "CPF") }
+        @inlinable public static var gst: Self { .init(rawValue: "GST") }
+        @inlinable public static var nip: Self { .init(rawValue: "NIP") }
+        @inlinable public static var nric: Self { .init(rawValue: "NRIC") }
+        @inlinable public static var pan: Self { .init(rawValue: "PAN") }
+        @inlinable public static var sst: Self { .init(rawValue: "SST") }
+        @inlinable public static var tin: Self { .init(rawValue: "TIN") }
+        @inlinable public static var vat: Self { .init(rawValue: "VAT") }
     }
 
-    public enum UkraineTrnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case business = "Business"
-        case individual = "Individual"
-        public var description: String { return self.rawValue }
+    public struct UkraineTrnType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var business: Self { .init(rawValue: "Business") }
+        @inlinable public static var individual: Self { .init(rawValue: "Individual") }
     }
 
-    public enum UzbekistanTaxRegistrationNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case business = "Business"
-        case individual = "Individual"
-        public var description: String { return self.rawValue }
+    public struct UzbekistanTaxRegistrationNumberType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var business: Self { .init(rawValue: "Business") }
+        @inlinable public static var individual: Self { .init(rawValue: "Individual") }
     }
 
-    public enum ValidationExceptionErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case expiredToken = "ExpiredToken"
-        case fieldValidationFailed = "FieldValidationFailed"
-        case gstExistenceBlockSetPan = "GSTExistenceBlockSetPAN"
-        case invalidToken = "InvalidToken"
-        case malformedToken = "MalformedToken"
-        case missingInput = "MissingInput"
-        case nonIndiaCustomerCanNotSetPan = "NonIndiaCustomerCanNotSetPAN"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var expiredToken: Self { .init(rawValue: "ExpiredToken") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FieldValidationFailed") }
+        @inlinable public static var gstExistenceBlockSetPan: Self { .init(rawValue: "GSTExistenceBlockSetPAN") }
+        @inlinable public static var invalidToken: Self { .init(rawValue: "InvalidToken") }
+        @inlinable public static var malformedToken: Self { .init(rawValue: "MalformedToken") }
+        @inlinable public static var missingInput: Self { .init(rawValue: "MissingInput") }
+        @inlinable public static var nonIndiaCustomerCanNotSetPan: Self { .init(rawValue: "NonIndiaCustomerCanNotSetPAN") }
     }
 
     // MARK: Shapes

@@ -25,70 +25,94 @@ import Foundation
 extension BCMRecommendedActions {
     // MARK: Enums
 
-    public enum ActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addAlternateBillingContact = "ADD_ALTERNATE_BILLING_CONTACT"
-        case createAnomalyMonitor = "CREATE_ANOMALY_MONITOR"
-        case createBudget = "CREATE_BUDGET"
-        case enableCostOptimizationHub = "ENABLE_COST_OPTIMIZATION_HUB"
-        case migrateToGranularPermissions = "MIGRATE_TO_GRANULAR_PERMISSIONS"
-        case paymentsDue = "PAYMENTS_DUE"
-        case paymentsPastDue = "PAYMENTS_PAST_DUE"
-        case reviewAnomalies = "REVIEW_ANOMALIES"
-        case reviewBudgetAlerts = "REVIEW_BUDGET_ALERTS"
-        case reviewBudgetsExceeded = "REVIEW_BUDGETS_EXCEEDED"
-        case reviewExpiringRi = "REVIEW_EXPIRING_RI"
-        case reviewExpiringSp = "REVIEW_EXPIRING_SP"
-        case reviewFreetierCreditsRemaining = "REVIEW_FREETIER_CREDITS_REMAINING"
-        case reviewFreetierDaysRemaining = "REVIEW_FREETIER_DAYS_REMAINING"
-        case reviewFreetierUsageAlerts = "REVIEW_FREETIER_USAGE_ALERTS"
-        case reviewSavingsOpportunityRecommendations = "REVIEW_SAVINGS_OPPORTUNITY_RECOMMENDATIONS"
-        case updateExpiredPaymentMethod = "UPDATE_EXPIRED_PAYMENT_METHOD"
-        case updateInvalidPaymentMethod = "UPDATE_INVALID_PAYMENT_METHOD"
-        case updateTaxExemptionCertificate = "UPDATE_TAX_EXEMPTION_CERTIFICATE"
-        case updateTaxRegistrationNumber = "UPDATE_TAX_REGISTRATION_NUMBER"
-        public var description: String { return self.rawValue }
+    public struct ActionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addAlternateBillingContact: Self { .init(rawValue: "ADD_ALTERNATE_BILLING_CONTACT") }
+        @inlinable public static var createAnomalyMonitor: Self { .init(rawValue: "CREATE_ANOMALY_MONITOR") }
+        @inlinable public static var createBudget: Self { .init(rawValue: "CREATE_BUDGET") }
+        @inlinable public static var enableCostOptimizationHub: Self { .init(rawValue: "ENABLE_COST_OPTIMIZATION_HUB") }
+        @inlinable public static var migrateToGranularPermissions: Self { .init(rawValue: "MIGRATE_TO_GRANULAR_PERMISSIONS") }
+        @inlinable public static var paymentsDue: Self { .init(rawValue: "PAYMENTS_DUE") }
+        @inlinable public static var paymentsPastDue: Self { .init(rawValue: "PAYMENTS_PAST_DUE") }
+        @inlinable public static var reviewAnomalies: Self { .init(rawValue: "REVIEW_ANOMALIES") }
+        @inlinable public static var reviewBudgetAlerts: Self { .init(rawValue: "REVIEW_BUDGET_ALERTS") }
+        @inlinable public static var reviewBudgetsExceeded: Self { .init(rawValue: "REVIEW_BUDGETS_EXCEEDED") }
+        @inlinable public static var reviewExpiringRi: Self { .init(rawValue: "REVIEW_EXPIRING_RI") }
+        @inlinable public static var reviewExpiringSp: Self { .init(rawValue: "REVIEW_EXPIRING_SP") }
+        @inlinable public static var reviewFreetierCreditsRemaining: Self { .init(rawValue: "REVIEW_FREETIER_CREDITS_REMAINING") }
+        @inlinable public static var reviewFreetierDaysRemaining: Self { .init(rawValue: "REVIEW_FREETIER_DAYS_REMAINING") }
+        @inlinable public static var reviewFreetierUsageAlerts: Self { .init(rawValue: "REVIEW_FREETIER_USAGE_ALERTS") }
+        @inlinable public static var reviewSavingsOpportunityRecommendations: Self { .init(rawValue: "REVIEW_SAVINGS_OPPORTUNITY_RECOMMENDATIONS") }
+        @inlinable public static var updateExpiredPaymentMethod: Self { .init(rawValue: "UPDATE_EXPIRED_PAYMENT_METHOD") }
+        @inlinable public static var updateInvalidPaymentMethod: Self { .init(rawValue: "UPDATE_INVALID_PAYMENT_METHOD") }
+        @inlinable public static var updateTaxExemptionCertificate: Self { .init(rawValue: "UPDATE_TAX_EXEMPTION_CERTIFICATE") }
+        @inlinable public static var updateTaxRegistrationNumber: Self { .init(rawValue: "UPDATE_TAX_REGISTRATION_NUMBER") }
     }
 
-    public enum Feature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "ACCOUNT"
-        case budgets = "BUDGETS"
-        case costAnomalyDetection = "COST_ANOMALY_DETECTION"
-        case costOptimizationHub = "COST_OPTIMIZATION_HUB"
-        case freeTier = "FREE_TIER"
-        case iam = "IAM"
-        case payments = "PAYMENTS"
-        case reservations = "RESERVATIONS"
-        case savingsPlans = "SAVINGS_PLANS"
-        case taxSettings = "TAX_SETTINGS"
-        public var description: String { return self.rawValue }
+    public struct Feature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
+        @inlinable public static var budgets: Self { .init(rawValue: "BUDGETS") }
+        @inlinable public static var costAnomalyDetection: Self { .init(rawValue: "COST_ANOMALY_DETECTION") }
+        @inlinable public static var costOptimizationHub: Self { .init(rawValue: "COST_OPTIMIZATION_HUB") }
+        @inlinable public static var freeTier: Self { .init(rawValue: "FREE_TIER") }
+        @inlinable public static var iam: Self { .init(rawValue: "IAM") }
+        @inlinable public static var payments: Self { .init(rawValue: "PAYMENTS") }
+        @inlinable public static var reservations: Self { .init(rawValue: "RESERVATIONS") }
+        @inlinable public static var savingsPlans: Self { .init(rawValue: "SAVINGS_PLANS") }
+        @inlinable public static var taxSettings: Self { .init(rawValue: "TAX_SETTINGS") }
     }
 
-    public enum FilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case feature = "FEATURE"
-        case severity = "SEVERITY"
-        case type = "TYPE"
-        public var description: String { return self.rawValue }
+    public struct FilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var feature: Self { .init(rawValue: "FEATURE") }
+        @inlinable public static var severity: Self { .init(rawValue: "SEVERITY") }
+        @inlinable public static var type: Self { .init(rawValue: "TYPE") }
     }
 
-    public enum MatchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case equals = "EQUALS"
-        case notEquals = "NOT_EQUALS"
-        public var description: String { return self.rawValue }
+    public struct MatchOption: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var equals: Self { .init(rawValue: "EQUALS") }
+        @inlinable public static var notEquals: Self { .init(rawValue: "NOT_EQUALS") }
     }
 
-    public enum Severity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case critical = "CRITICAL"
-        case info = "INFO"
-        case warning = "WARNING"
-        public var description: String { return self.rawValue }
+    public struct Severity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var critical: Self { .init(rawValue: "CRITICAL") }
+        @inlinable public static var info: Self { .init(rawValue: "INFO") }
+        @inlinable public static var warning: Self { .init(rawValue: "WARNING") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "cannotParse"
-        case fieldValidationFailed = "fieldValidationFailed"
-        case other = "other"
-        case unknownOperation = "unknownOperation"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "cannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "unknownOperation") }
     }
 
     // MARK: Shapes

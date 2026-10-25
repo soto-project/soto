@@ -25,118 +25,174 @@ import Foundation
 extension VoiceID {
     // MARK: Enums
 
-    public enum AuthenticationDecision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accept = "ACCEPT"
-        case notEnoughSpeech = "NOT_ENOUGH_SPEECH"
-        case reject = "REJECT"
-        case speakerExpired = "SPEAKER_EXPIRED"
-        case speakerIdNotProvided = "SPEAKER_ID_NOT_PROVIDED"
-        case speakerNotEnrolled = "SPEAKER_NOT_ENROLLED"
-        case speakerOptedOut = "SPEAKER_OPTED_OUT"
-        public var description: String { return self.rawValue }
+    public struct AuthenticationDecision: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accept: Self { .init(rawValue: "ACCEPT") }
+        @inlinable public static var notEnoughSpeech: Self { .init(rawValue: "NOT_ENOUGH_SPEECH") }
+        @inlinable public static var reject: Self { .init(rawValue: "REJECT") }
+        @inlinable public static var speakerExpired: Self { .init(rawValue: "SPEAKER_EXPIRED") }
+        @inlinable public static var speakerIdNotProvided: Self { .init(rawValue: "SPEAKER_ID_NOT_PROVIDED") }
+        @inlinable public static var speakerNotEnrolled: Self { .init(rawValue: "SPEAKER_NOT_ENROLLED") }
+        @inlinable public static var speakerOptedOut: Self { .init(rawValue: "SPEAKER_OPTED_OUT") }
     }
 
-    public enum ConflictType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case anotherActiveStream = "ANOTHER_ACTIVE_STREAM"
-        case cannotChangeSpeakerAfterEnrollment = "CANNOT_CHANGE_SPEAKER_AFTER_ENROLLMENT"
-        case cannotDeleteNonEmptyWatchlist = "CANNOT_DELETE_NON_EMPTY_WATCHLIST"
-        case concurrentChanges = "CONCURRENT_CHANGES"
-        case domainLockedFromEncryptionUpdates = "DOMAIN_LOCKED_FROM_ENCRYPTION_UPDATES"
-        case domainNotActive = "DOMAIN_NOT_ACTIVE"
-        case enrollmentAlreadyExists = "ENROLLMENT_ALREADY_EXISTS"
-        case fraudsterMustBelongToAtLeastOneWatchlist = "FRAUDSTER_MUST_BELONG_TO_AT_LEAST_ONE_WATCHLIST"
-        case speakerNotSet = "SPEAKER_NOT_SET"
-        case speakerOptedOut = "SPEAKER_OPTED_OUT"
-        public var description: String { return self.rawValue }
+    public struct ConflictType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var anotherActiveStream: Self { .init(rawValue: "ANOTHER_ACTIVE_STREAM") }
+        @inlinable public static var cannotChangeSpeakerAfterEnrollment: Self { .init(rawValue: "CANNOT_CHANGE_SPEAKER_AFTER_ENROLLMENT") }
+        @inlinable public static var cannotDeleteNonEmptyWatchlist: Self { .init(rawValue: "CANNOT_DELETE_NON_EMPTY_WATCHLIST") }
+        @inlinable public static var concurrentChanges: Self { .init(rawValue: "CONCURRENT_CHANGES") }
+        @inlinable public static var domainLockedFromEncryptionUpdates: Self { .init(rawValue: "DOMAIN_LOCKED_FROM_ENCRYPTION_UPDATES") }
+        @inlinable public static var domainNotActive: Self { .init(rawValue: "DOMAIN_NOT_ACTIVE") }
+        @inlinable public static var enrollmentAlreadyExists: Self { .init(rawValue: "ENROLLMENT_ALREADY_EXISTS") }
+        @inlinable public static var fraudsterMustBelongToAtLeastOneWatchlist: Self { .init(rawValue: "FRAUDSTER_MUST_BELONG_TO_AT_LEAST_ONE_WATCHLIST") }
+        @inlinable public static var speakerNotSet: Self { .init(rawValue: "SPEAKER_NOT_SET") }
+        @inlinable public static var speakerOptedOut: Self { .init(rawValue: "SPEAKER_OPTED_OUT") }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case pending = "PENDING"
-        case suspended = "SUSPENDED"
-        public var description: String { return self.rawValue }
+    public struct DomainStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var suspended: Self { .init(rawValue: "SUSPENDED") }
     }
 
-    public enum DuplicateRegistrationAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case registerAsNew = "REGISTER_AS_NEW"
-        case skip = "SKIP"
-        public var description: String { return self.rawValue }
+    public struct DuplicateRegistrationAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var registerAsNew: Self { .init(rawValue: "REGISTER_AS_NEW") }
+        @inlinable public static var skip: Self { .init(rawValue: "SKIP") }
     }
 
-    public enum ExistingEnrollmentAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case overwrite = "OVERWRITE"
-        case skip = "SKIP"
-        public var description: String { return self.rawValue }
+    public struct ExistingEnrollmentAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var overwrite: Self { .init(rawValue: "OVERWRITE") }
+        @inlinable public static var skip: Self { .init(rawValue: "SKIP") }
     }
 
-    public enum FraudDetectionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fail = "FAIL"
-        case ignore = "IGNORE"
-        public var description: String { return self.rawValue }
+    public struct FraudDetectionAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fail: Self { .init(rawValue: "FAIL") }
+        @inlinable public static var ignore: Self { .init(rawValue: "IGNORE") }
     }
 
-    public enum FraudDetectionDecision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case highRisk = "HIGH_RISK"
-        case lowRisk = "LOW_RISK"
-        case notEnoughSpeech = "NOT_ENOUGH_SPEECH"
-        public var description: String { return self.rawValue }
+    public struct FraudDetectionDecision: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var highRisk: Self { .init(rawValue: "HIGH_RISK") }
+        @inlinable public static var lowRisk: Self { .init(rawValue: "LOW_RISK") }
+        @inlinable public static var notEnoughSpeech: Self { .init(rawValue: "NOT_ENOUGH_SPEECH") }
     }
 
-    public enum FraudDetectionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case knownFraudster = "KNOWN_FRAUDSTER"
-        case voiceSpoofing = "VOICE_SPOOFING"
-        public var description: String { return self.rawValue }
+    public struct FraudDetectionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var knownFraudster: Self { .init(rawValue: "KNOWN_FRAUDSTER") }
+        @inlinable public static var voiceSpoofing: Self { .init(rawValue: "VOICE_SPOOFING") }
     }
 
-    public enum FraudsterRegistrationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case completedWithErrors = "COMPLETED_WITH_ERRORS"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case submitted = "SUBMITTED"
-        public var description: String { return self.rawValue }
+    public struct FraudsterRegistrationJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var completedWithErrors: Self { .init(rawValue: "COMPLETED_WITH_ERRORS") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case batchJob = "BATCH_JOB"
-        case complianceConsent = "COMPLIANCE_CONSENT"
-        case domain = "DOMAIN"
-        case fraudster = "FRAUDSTER"
-        case session = "SESSION"
-        case speaker = "SPEAKER"
-        case watchlist = "WATCHLIST"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var batchJob: Self { .init(rawValue: "BATCH_JOB") }
+        @inlinable public static var complianceConsent: Self { .init(rawValue: "COMPLIANCE_CONSENT") }
+        @inlinable public static var domain: Self { .init(rawValue: "DOMAIN") }
+        @inlinable public static var fraudster: Self { .init(rawValue: "FRAUDSTER") }
+        @inlinable public static var session: Self { .init(rawValue: "SESSION") }
+        @inlinable public static var speaker: Self { .init(rawValue: "SPEAKER") }
+        @inlinable public static var watchlist: Self { .init(rawValue: "WATCHLIST") }
     }
 
-    public enum ServerSideEncryptionUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct ServerSideEncryptionUpdateStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
     }
 
-    public enum SpeakerEnrollmentJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case completedWithErrors = "COMPLETED_WITH_ERRORS"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case submitted = "SUBMITTED"
-        public var description: String { return self.rawValue }
+    public struct SpeakerEnrollmentJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var completedWithErrors: Self { .init(rawValue: "COMPLETED_WITH_ERRORS") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
     }
 
-    public enum SpeakerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enrolled = "ENROLLED"
-        case expired = "EXPIRED"
-        case optedOut = "OPTED_OUT"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct SpeakerStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var enrolled: Self { .init(rawValue: "ENROLLED") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var optedOut: Self { .init(rawValue: "OPTED_OUT") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum StreamingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ended = "ENDED"
-        case ongoing = "ONGOING"
-        case pendingConfiguration = "PENDING_CONFIGURATION"
-        public var description: String { return self.rawValue }
+    public struct StreamingStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ended: Self { .init(rawValue: "ENDED") }
+        @inlinable public static var ongoing: Self { .init(rawValue: "ONGOING") }
+        @inlinable public static var pendingConfiguration: Self { .init(rawValue: "PENDING_CONFIGURATION") }
     }
 
     // MARK: Shapes

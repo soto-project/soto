@@ -25,44 +25,64 @@ import Foundation
 extension RedshiftData {
     // MARK: Enums
 
-    public enum ExecutionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case autoCommit = "AUTO_COMMIT"
-        case transaction = "TRANSACTION"
-        public var description: String { return self.rawValue }
+    public struct ExecutionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var autoCommit: Self { .init(rawValue: "AUTO_COMMIT") }
+        @inlinable public static var transaction: Self { .init(rawValue: "TRANSACTION") }
     }
 
-    public enum ResultFormatString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "CSV"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
+    public struct ResultFormatString: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "CSV") }
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
     }
 
-    public enum SessionStatusString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case busy = "BUSY"
-        case closed = "CLOSED"
-        public var description: String { return self.rawValue }
+    public struct SessionStatusString: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var busy: Self { .init(rawValue: "BUSY") }
+        @inlinable public static var closed: Self { .init(rawValue: "CLOSED") }
     }
 
-    public enum StatementStatusString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aborted = "ABORTED"
-        case failed = "FAILED"
-        case finished = "FINISHED"
-        case picked = "PICKED"
-        case started = "STARTED"
-        case submitted = "SUBMITTED"
-        public var description: String { return self.rawValue }
+    public struct StatementStatusString: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aborted: Self { .init(rawValue: "ABORTED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var finished: Self { .init(rawValue: "FINISHED") }
+        @inlinable public static var picked: Self { .init(rawValue: "PICKED") }
+        @inlinable public static var started: Self { .init(rawValue: "STARTED") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
     }
 
-    public enum StatusString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aborted = "ABORTED"
-        case all = "ALL"
-        case failed = "FAILED"
-        case finished = "FINISHED"
-        case picked = "PICKED"
-        case started = "STARTED"
-        case submitted = "SUBMITTED"
-        public var description: String { return self.rawValue }
+    public struct StatusString: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aborted: Self { .init(rawValue: "ABORTED") }
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var finished: Self { .init(rawValue: "FINISHED") }
+        @inlinable public static var picked: Self { .init(rawValue: "PICKED") }
+        @inlinable public static var started: Self { .init(rawValue: "STARTED") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
     }
 
     public enum Field: AWSDecodableShape, Sendable {

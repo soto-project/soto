@@ -25,126 +25,198 @@ import Foundation
 extension KinesisVideo {
     // MARK: Enums
 
-    public enum APIName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case getClip = "GET_CLIP"
-        case getDashStreamingSessionUrl = "GET_DASH_STREAMING_SESSION_URL"
-        case getHlsStreamingSessionUrl = "GET_HLS_STREAMING_SESSION_URL"
-        case getImages = "GET_IMAGES"
-        case getMedia = "GET_MEDIA"
-        case getMediaForFragmentList = "GET_MEDIA_FOR_FRAGMENT_LIST"
-        case listFragments = "LIST_FRAGMENTS"
-        case putMedia = "PUT_MEDIA"
-        public var description: String { return self.rawValue }
+    public struct APIName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var getClip: Self { .init(rawValue: "GET_CLIP") }
+        @inlinable public static var getDashStreamingSessionUrl: Self { .init(rawValue: "GET_DASH_STREAMING_SESSION_URL") }
+        @inlinable public static var getHlsStreamingSessionUrl: Self { .init(rawValue: "GET_HLS_STREAMING_SESSION_URL") }
+        @inlinable public static var getImages: Self { .init(rawValue: "GET_IMAGES") }
+        @inlinable public static var getMedia: Self { .init(rawValue: "GET_MEDIA") }
+        @inlinable public static var getMediaForFragmentList: Self { .init(rawValue: "GET_MEDIA_FOR_FRAGMENT_LIST") }
+        @inlinable public static var listFragments: Self { .init(rawValue: "LIST_FRAGMENTS") }
+        @inlinable public static var putMedia: Self { .init(rawValue: "PUT_MEDIA") }
     }
 
-    public enum ChannelProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case https = "HTTPS"
-        case webrtc = "WEBRTC"
-        case wss = "WSS"
-        public var description: String { return self.rawValue }
+    public struct ChannelProtocol: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var https: Self { .init(rawValue: "HTTPS") }
+        @inlinable public static var webrtc: Self { .init(rawValue: "WEBRTC") }
+        @inlinable public static var wss: Self { .init(rawValue: "WSS") }
     }
 
-    public enum ChannelRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case master = "MASTER"
-        case viewer = "VIEWER"
-        public var description: String { return self.rawValue }
+    public struct ChannelRole: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var master: Self { .init(rawValue: "MASTER") }
+        @inlinable public static var viewer: Self { .init(rawValue: "VIEWER") }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fullMesh = "FULL_MESH"
-        case singleMaster = "SINGLE_MASTER"
-        public var description: String { return self.rawValue }
+    public struct ChannelType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fullMesh: Self { .init(rawValue: "FULL_MESH") }
+        @inlinable public static var singleMaster: Self { .init(rawValue: "SINGLE_MASTER") }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case beginsWith = "BEGINS_WITH"
-        public var description: String { return self.rawValue }
+    public struct ComparisonOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var beginsWith: Self { .init(rawValue: "BEGINS_WITH") }
     }
 
-    public enum ConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct ConfigurationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum DefaultStorageTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hot = "HOT"
-        case warm = "WARM"
-        public var description: String { return self.rawValue }
+    public struct DefaultStorageTier: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hot: Self { .init(rawValue: "HOT") }
+        @inlinable public static var warm: Self { .init(rawValue: "WARM") }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jpeg = "JPEG"
-        case png = "PNG"
-        public var description: String { return self.rawValue }
+    public struct Format: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jpeg: Self { .init(rawValue: "JPEG") }
+        @inlinable public static var png: Self { .init(rawValue: "PNG") }
     }
 
-    public enum FormatConfigKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jpegQuality = "JPEGQuality"
-        public var description: String { return self.rawValue }
+    public struct FormatConfigKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jpegQuality: Self { .init(rawValue: "JPEGQuality") }
     }
 
-    public enum ImageSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
+    public struct ImageSelectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var producerTimestamp: Self { .init(rawValue: "PRODUCER_TIMESTAMP") }
+        @inlinable public static var serverTimestamp: Self { .init(rawValue: "SERVER_TIMESTAMP") }
     }
 
-    public enum MediaStorageConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct MediaStorageConfigurationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum MediaUriType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fileUri = "FILE_URI"
-        case rtspUri = "RTSP_URI"
-        public var description: String { return self.rawValue }
+    public struct MediaUriType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fileUri: Self { .init(rawValue: "FILE_URI") }
+        @inlinable public static var rtspUri: Self { .init(rawValue: "RTSP_URI") }
     }
 
-    public enum RecorderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case success = "SUCCESS"
-        case systemError = "SYSTEM_ERROR"
-        case userError = "USER_ERROR"
-        public var description: String { return self.rawValue }
+    public struct RecorderStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var success: Self { .init(rawValue: "SUCCESS") }
+        @inlinable public static var systemError: Self { .init(rawValue: "SYSTEM_ERROR") }
+        @inlinable public static var userError: Self { .init(rawValue: "USER_ERROR") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum StrategyOnFullSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleteOldestMedia = "DELETE_OLDEST_MEDIA"
-        case denyNewMedia = "DENY_NEW_MEDIA"
-        public var description: String { return self.rawValue }
+    public struct StrategyOnFullSize: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleteOldestMedia: Self { .init(rawValue: "DELETE_OLDEST_MEDIA") }
+        @inlinable public static var denyNewMedia: Self { .init(rawValue: "DENY_NEW_MEDIA") }
     }
 
-    public enum SyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case acknowledged = "ACKNOWLEDGED"
-        case deleteFailed = "DELETE_FAILED"
-        case deleting = "DELETING"
-        case deletingAcknowledged = "DELETING_ACKNOWLEDGED"
-        case inSync = "IN_SYNC"
-        case syncFailed = "SYNC_FAILED"
-        case syncing = "SYNCING"
-        public var description: String { return self.rawValue }
+    public struct SyncStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var acknowledged: Self { .init(rawValue: "ACKNOWLEDGED") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var deletingAcknowledged: Self { .init(rawValue: "DELETING_ACKNOWLEDGED") }
+        @inlinable public static var inSync: Self { .init(rawValue: "IN_SYNC") }
+        @inlinable public static var syncFailed: Self { .init(rawValue: "SYNC_FAILED") }
+        @inlinable public static var syncing: Self { .init(rawValue: "SYNCING") }
     }
 
-    public enum UpdateDataRetentionOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case decreaseDataRetention = "DECREASE_DATA_RETENTION"
-        case increaseDataRetention = "INCREASE_DATA_RETENTION"
-        public var description: String { return self.rawValue }
+    public struct UpdateDataRetentionOperation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var decreaseDataRetention: Self { .init(rawValue: "DECREASE_DATA_RETENTION") }
+        @inlinable public static var increaseDataRetention: Self { .init(rawValue: "INCREASE_DATA_RETENTION") }
     }
 
-    public enum UploaderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case success = "SUCCESS"
-        case systemError = "SYSTEM_ERROR"
-        case userError = "USER_ERROR"
-        public var description: String { return self.rawValue }
+    public struct UploaderStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var success: Self { .init(rawValue: "SUCCESS") }
+        @inlinable public static var systemError: Self { .init(rawValue: "SYSTEM_ERROR") }
+        @inlinable public static var userError: Self { .init(rawValue: "USER_ERROR") }
     }
 
     // MARK: Shapes

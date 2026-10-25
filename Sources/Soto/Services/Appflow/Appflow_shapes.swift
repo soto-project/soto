@@ -25,588 +25,764 @@ import Foundation
 extension Appflow {
     // MARK: Enums
 
-    public enum AggregationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "None"
-        case singleFile = "SingleFile"
-        public var description: String { return self.rawValue }
+    public struct AggregationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "None") }
+        @inlinable public static var singleFile: Self { .init(rawValue: "SingleFile") }
     }
 
-    public enum AmplitudeConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case between = "BETWEEN"
-        public var description: String { return self.rawValue }
+    public struct AmplitudeConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
     }
 
-    public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case apikey = "APIKEY"
-        case basic = "BASIC"
-        case custom = "CUSTOM"
-        case oauth2 = "OAUTH2"
-        public var description: String { return self.rawValue }
+    public struct AuthenticationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var apikey: Self { .init(rawValue: "APIKEY") }
+        @inlinable public static var basic: Self { .init(rawValue: "BASIC") }
+        @inlinable public static var custom: Self { .init(rawValue: "CUSTOM") }
+        @inlinable public static var oauth2: Self { .init(rawValue: "OAUTH2") }
     }
 
-    public enum CatalogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case glue = "GLUE"
-        public var description: String { return self.rawValue }
+    public struct CatalogType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var glue: Self { .init(rawValue: "GLUE") }
     }
 
-    public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `private` = "Private"
-        case `public` = "Public"
-        public var description: String { return self.rawValue }
+    public struct ConnectionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `private`: Self { .init(rawValue: "Private") }
+        @inlinable public static var `public`: Self { .init(rawValue: "Public") }
     }
 
-    public enum ConnectorProvisioningType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lambda = "LAMBDA"
-        public var description: String { return self.rawValue }
+    public struct ConnectorProvisioningType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lambda: Self { .init(rawValue: "LAMBDA") }
     }
 
-    public enum ConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case amplitude = "Amplitude"
-        case customconnector = "CustomConnector"
-        case customerprofiles = "CustomerProfiles"
-        case datadog = "Datadog"
-        case dynatrace = "Dynatrace"
-        case eventbridge = "EventBridge"
-        case googleanalytics = "Googleanalytics"
-        case honeycode = "Honeycode"
-        case infornexus = "Infornexus"
-        case lookoutmetrics = "LookoutMetrics"
-        case marketo = "Marketo"
-        case pardot = "Pardot"
-        case redshift = "Redshift"
-        case s3 = "S3"
-        case salesforce = "Salesforce"
-        case sapodata = "SAPOData"
-        case servicenow = "Servicenow"
-        case singular = "Singular"
-        case slack = "Slack"
-        case snowflake = "Snowflake"
-        case trendmicro = "Trendmicro"
-        case upsolver = "Upsolver"
-        case veeva = "Veeva"
-        case zendesk = "Zendesk"
-        public var description: String { return self.rawValue }
+    public struct ConnectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var amplitude: Self { .init(rawValue: "Amplitude") }
+        @inlinable public static var customconnector: Self { .init(rawValue: "CustomConnector") }
+        @inlinable public static var customerprofiles: Self { .init(rawValue: "CustomerProfiles") }
+        @inlinable public static var datadog: Self { .init(rawValue: "Datadog") }
+        @inlinable public static var dynatrace: Self { .init(rawValue: "Dynatrace") }
+        @inlinable public static var eventbridge: Self { .init(rawValue: "EventBridge") }
+        @inlinable public static var googleanalytics: Self { .init(rawValue: "Googleanalytics") }
+        @inlinable public static var honeycode: Self { .init(rawValue: "Honeycode") }
+        @inlinable public static var infornexus: Self { .init(rawValue: "Infornexus") }
+        @inlinable public static var lookoutmetrics: Self { .init(rawValue: "LookoutMetrics") }
+        @inlinable public static var marketo: Self { .init(rawValue: "Marketo") }
+        @inlinable public static var pardot: Self { .init(rawValue: "Pardot") }
+        @inlinable public static var redshift: Self { .init(rawValue: "Redshift") }
+        @inlinable public static var s3: Self { .init(rawValue: "S3") }
+        @inlinable public static var salesforce: Self { .init(rawValue: "Salesforce") }
+        @inlinable public static var sapodata: Self { .init(rawValue: "SAPOData") }
+        @inlinable public static var servicenow: Self { .init(rawValue: "Servicenow") }
+        @inlinable public static var singular: Self { .init(rawValue: "Singular") }
+        @inlinable public static var slack: Self { .init(rawValue: "Slack") }
+        @inlinable public static var snowflake: Self { .init(rawValue: "Snowflake") }
+        @inlinable public static var trendmicro: Self { .init(rawValue: "Trendmicro") }
+        @inlinable public static var upsolver: Self { .init(rawValue: "Upsolver") }
+        @inlinable public static var veeva: Self { .init(rawValue: "Veeva") }
+        @inlinable public static var zendesk: Self { .init(rawValue: "Zendesk") }
     }
 
-    public enum DataPullMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case complete = "Complete"
-        case incremental = "Incremental"
-        public var description: String { return self.rawValue }
+    public struct DataPullMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var complete: Self { .init(rawValue: "Complete") }
+        @inlinable public static var incremental: Self { .init(rawValue: "Incremental") }
     }
 
-    public enum DataTransferApiType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `async` = "ASYNC"
-        case automatic = "AUTOMATIC"
-        case sync = "SYNC"
-        public var description: String { return self.rawValue }
+    public struct DataTransferApiType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `async`: Self { .init(rawValue: "ASYNC") }
+        @inlinable public static var automatic: Self { .init(rawValue: "AUTOMATIC") }
+        @inlinable public static var sync: Self { .init(rawValue: "SYNC") }
     }
 
-    public enum DatadogConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct DatadogConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum DynatraceConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct DynatraceConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "Canceled"
-        case cancelstarted = "CancelStarted"
-        case error = "Error"
-        case inprogress = "InProgress"
-        case successful = "Successful"
-        public var description: String { return self.rawValue }
+    public struct ExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "Canceled") }
+        @inlinable public static var cancelstarted: Self { .init(rawValue: "CancelStarted") }
+        @inlinable public static var error: Self { .init(rawValue: "Error") }
+        @inlinable public static var inprogress: Self { .init(rawValue: "InProgress") }
+        @inlinable public static var successful: Self { .init(rawValue: "Successful") }
     }
 
-    public enum FileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "CSV"
-        case json = "JSON"
-        case parquet = "PARQUET"
-        public var description: String { return self.rawValue }
+    public struct FileType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "CSV") }
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
+        @inlinable public static var parquet: Self { .init(rawValue: "PARQUET") }
     }
 
-    public enum FlowStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case deleted = "Deleted"
-        case deprecated = "Deprecated"
-        case draft = "Draft"
-        case errored = "Errored"
-        case suspended = "Suspended"
-        public var description: String { return self.rawValue }
+    public struct FlowStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var deleted: Self { .init(rawValue: "Deleted") }
+        @inlinable public static var deprecated: Self { .init(rawValue: "Deprecated") }
+        @inlinable public static var draft: Self { .init(rawValue: "Draft") }
+        @inlinable public static var errored: Self { .init(rawValue: "Errored") }
+        @inlinable public static var suspended: Self { .init(rawValue: "Suspended") }
     }
 
-    public enum GoogleAnalyticsConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case between = "BETWEEN"
-        case projection = "PROJECTION"
-        public var description: String { return self.rawValue }
+    public struct GoogleAnalyticsConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
     }
 
-    public enum InforNexusConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct InforNexusConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum MarketoConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case division = "DIVISION"
-        case greaterThan = "GREATER_THAN"
-        case lessThan = "LESS_THAN"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct MarketoConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum OAuth2CustomPropType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case authUrl = "AUTH_URL"
-        case tokenUrl = "TOKEN_URL"
-        public var description: String { return self.rawValue }
+    public struct OAuth2CustomPropType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var authUrl: Self { .init(rawValue: "AUTH_URL") }
+        @inlinable public static var tokenUrl: Self { .init(rawValue: "TOKEN_URL") }
     }
 
-    public enum OAuth2GrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case authorizationCode = "AUTHORIZATION_CODE"
-        case clientCredentials = "CLIENT_CREDENTIALS"
-        case jwtBearer = "JWT_BEARER"
-        public var description: String { return self.rawValue }
+    public struct OAuth2GrantType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var authorizationCode: Self { .init(rawValue: "AUTHORIZATION_CODE") }
+        @inlinable public static var clientCredentials: Self { .init(rawValue: "CLIENT_CREDENTIALS") }
+        @inlinable public static var jwtBearer: Self { .init(rawValue: "JWT_BEARER") }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct Operator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum OperatorPropertiesKeys: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case concatFormat = "CONCAT_FORMAT"
-        case dataType = "DATA_TYPE"
-        case destinationDataType = "DESTINATION_DATA_TYPE"
-        case excludeSourceFieldsList = "EXCLUDE_SOURCE_FIELDS_LIST"
-        case includeNewFields = "INCLUDE_NEW_FIELDS"
-        case lowerBound = "LOWER_BOUND"
-        case maskLength = "MASK_LENGTH"
-        case maskValue = "MASK_VALUE"
-        case mathOperationFieldsOrder = "MATH_OPERATION_FIELDS_ORDER"
-        case orderedPartitionKeysList = "ORDERED_PARTITION_KEYS_LIST"
-        case sourceDataType = "SOURCE_DATA_TYPE"
-        case subfieldCategoryMap = "SUBFIELD_CATEGORY_MAP"
-        case truncateLength = "TRUNCATE_LENGTH"
-        case upperBound = "UPPER_BOUND"
-        case validationAction = "VALIDATION_ACTION"
-        case value = "VALUE"
-        case values = "VALUES"
-        public var description: String { return self.rawValue }
+    public struct OperatorPropertiesKeys: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var concatFormat: Self { .init(rawValue: "CONCAT_FORMAT") }
+        @inlinable public static var dataType: Self { .init(rawValue: "DATA_TYPE") }
+        @inlinable public static var destinationDataType: Self { .init(rawValue: "DESTINATION_DATA_TYPE") }
+        @inlinable public static var excludeSourceFieldsList: Self { .init(rawValue: "EXCLUDE_SOURCE_FIELDS_LIST") }
+        @inlinable public static var includeNewFields: Self { .init(rawValue: "INCLUDE_NEW_FIELDS") }
+        @inlinable public static var lowerBound: Self { .init(rawValue: "LOWER_BOUND") }
+        @inlinable public static var maskLength: Self { .init(rawValue: "MASK_LENGTH") }
+        @inlinable public static var maskValue: Self { .init(rawValue: "MASK_VALUE") }
+        @inlinable public static var mathOperationFieldsOrder: Self { .init(rawValue: "MATH_OPERATION_FIELDS_ORDER") }
+        @inlinable public static var orderedPartitionKeysList: Self { .init(rawValue: "ORDERED_PARTITION_KEYS_LIST") }
+        @inlinable public static var sourceDataType: Self { .init(rawValue: "SOURCE_DATA_TYPE") }
+        @inlinable public static var subfieldCategoryMap: Self { .init(rawValue: "SUBFIELD_CATEGORY_MAP") }
+        @inlinable public static var truncateLength: Self { .init(rawValue: "TRUNCATE_LENGTH") }
+        @inlinable public static var upperBound: Self { .init(rawValue: "UPPER_BOUND") }
+        @inlinable public static var validationAction: Self { .init(rawValue: "VALIDATION_ACTION") }
+        @inlinable public static var value: Self { .init(rawValue: "VALUE") }
+        @inlinable public static var values: Self { .init(rawValue: "VALUES") }
     }
 
-    public enum Operators: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct Operators: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum PardotConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct PardotConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum PathPrefix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case executionId = "EXECUTION_ID"
-        case schemaVersion = "SCHEMA_VERSION"
-        public var description: String { return self.rawValue }
+    public struct PathPrefix: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var executionId: Self { .init(rawValue: "EXECUTION_ID") }
+        @inlinable public static var schemaVersion: Self { .init(rawValue: "SCHEMA_VERSION") }
     }
 
-    public enum PrefixFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case day = "DAY"
-        case hour = "HOUR"
-        case minute = "MINUTE"
-        case month = "MONTH"
-        case year = "YEAR"
-        public var description: String { return self.rawValue }
+    public struct PrefixFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var day: Self { .init(rawValue: "DAY") }
+        @inlinable public static var hour: Self { .init(rawValue: "HOUR") }
+        @inlinable public static var minute: Self { .init(rawValue: "MINUTE") }
+        @inlinable public static var month: Self { .init(rawValue: "MONTH") }
+        @inlinable public static var year: Self { .init(rawValue: "YEAR") }
     }
 
-    public enum PrefixType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case filename = "FILENAME"
-        case path = "PATH"
-        case pathAndFilename = "PATH_AND_FILENAME"
-        public var description: String { return self.rawValue }
+    public struct PrefixType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var filename: Self { .init(rawValue: "FILENAME") }
+        @inlinable public static var path: Self { .init(rawValue: "PATH") }
+        @inlinable public static var pathAndFilename: Self { .init(rawValue: "PATH_AND_FILENAME") }
     }
 
-    public enum PrivateConnectionProvisioningFailureCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDenied = "ACCESS_DENIED"
-        case connectorAuthentication = "CONNECTOR_AUTHENTICATION"
-        case connectorServer = "CONNECTOR_SERVER"
-        case internalServer = "INTERNAL_SERVER"
-        case validation = "VALIDATION"
-        public var description: String { return self.rawValue }
+    public struct PrivateConnectionProvisioningFailureCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDenied: Self { .init(rawValue: "ACCESS_DENIED") }
+        @inlinable public static var connectorAuthentication: Self { .init(rawValue: "CONNECTOR_AUTHENTICATION") }
+        @inlinable public static var connectorServer: Self { .init(rawValue: "CONNECTOR_SERVER") }
+        @inlinable public static var internalServer: Self { .init(rawValue: "INTERNAL_SERVER") }
+        @inlinable public static var validation: Self { .init(rawValue: "VALIDATION") }
     }
 
-    public enum PrivateConnectionProvisioningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case created = "CREATED"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct PrivateConnectionProvisioningStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum S3ConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct S3ConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum S3InputFileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "CSV"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
+    public struct S3InputFileType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "CSV") }
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
     }
 
-    public enum SAPODataConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct SAPODataConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum SalesforceConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct SalesforceConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum SalesforceDataTransferApi: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case automatic = "AUTOMATIC"
-        case bulkv2 = "BULKV2"
-        case restSync = "REST_SYNC"
-        public var description: String { return self.rawValue }
+    public struct SalesforceDataTransferApi: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var automatic: Self { .init(rawValue: "AUTOMATIC") }
+        @inlinable public static var bulkv2: Self { .init(rawValue: "BULKV2") }
+        @inlinable public static var restSync: Self { .init(rawValue: "REST_SYNC") }
     }
 
-    public enum ScheduleFrequencyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case byminute = "BYMINUTE"
-        case daily = "DAILY"
-        case hourly = "HOURLY"
-        case monthly = "MONTHLY"
-        case once = "ONCE"
-        case weekly = "WEEKLY"
-        public var description: String { return self.rawValue }
+    public struct ScheduleFrequencyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var byminute: Self { .init(rawValue: "BYMINUTE") }
+        @inlinable public static var daily: Self { .init(rawValue: "DAILY") }
+        @inlinable public static var hourly: Self { .init(rawValue: "HOURLY") }
+        @inlinable public static var monthly: Self { .init(rawValue: "MONTHLY") }
+        @inlinable public static var once: Self { .init(rawValue: "ONCE") }
+        @inlinable public static var weekly: Self { .init(rawValue: "WEEKLY") }
     }
 
-    public enum ServiceNowConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct ServiceNowConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum SingularConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct SingularConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum SlackConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct SlackConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum SupportedDataTransferType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case file = "FILE"
-        case record = "RECORD"
-        public var description: String { return self.rawValue }
+    public struct SupportedDataTransferType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var file: Self { .init(rawValue: "FILE") }
+        @inlinable public static var record: Self { .init(rawValue: "RECORD") }
     }
 
-    public enum TaskType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case arithmetic = "Arithmetic"
-        case filter = "Filter"
-        case map = "Map"
-        case mapAll = "Map_all"
-        case mask = "Mask"
-        case merge = "Merge"
-        case partition = "Partition"
-        case passthrough = "Passthrough"
-        case truncate = "Truncate"
-        case validate = "Validate"
-        public var description: String { return self.rawValue }
+    public struct TaskType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var arithmetic: Self { .init(rawValue: "Arithmetic") }
+        @inlinable public static var filter: Self { .init(rawValue: "Filter") }
+        @inlinable public static var map: Self { .init(rawValue: "Map") }
+        @inlinable public static var mapAll: Self { .init(rawValue: "Map_all") }
+        @inlinable public static var mask: Self { .init(rawValue: "Mask") }
+        @inlinable public static var merge: Self { .init(rawValue: "Merge") }
+        @inlinable public static var partition: Self { .init(rawValue: "Partition") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "Passthrough") }
+        @inlinable public static var truncate: Self { .init(rawValue: "Truncate") }
+        @inlinable public static var validate: Self { .init(rawValue: "Validate") }
     }
 
-    public enum TrendmicroConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct TrendmicroConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case event = "Event"
-        case ondemand = "OnDemand"
-        case scheduled = "Scheduled"
-        public var description: String { return self.rawValue }
+    public struct TriggerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var event: Self { .init(rawValue: "Event") }
+        @inlinable public static var ondemand: Self { .init(rawValue: "OnDemand") }
+        @inlinable public static var scheduled: Self { .init(rawValue: "Scheduled") }
     }
 
-    public enum VeevaConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct VeevaConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
-    public enum WriteOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case delete = "DELETE"
-        case insert = "INSERT"
-        case update = "UPDATE"
-        case upsert = "UPSERT"
-        public var description: String { return self.rawValue }
+    public struct WriteOperationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var delete: Self { .init(rawValue: "DELETE") }
+        @inlinable public static var insert: Self { .init(rawValue: "INSERT") }
+        @inlinable public static var update: Self { .init(rawValue: "UPDATE") }
+        @inlinable public static var upsert: Self { .init(rawValue: "UPSERT") }
     }
 
-    public enum ZendeskConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case division = "DIVISION"
-        case greaterThan = "GREATER_THAN"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
+    public struct ZendeskConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
     }
 
     // MARK: Shapes

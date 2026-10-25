@@ -25,10 +25,14 @@ import Foundation
 extension Chatbot {
     // MARK: Enums
 
-    public enum CustomActionAttachmentCriteriaOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case equals = "EQUALS"
-        case hasValue = "HAS_VALUE"
-        public var description: String { return self.rawValue }
+    public struct CustomActionAttachmentCriteriaOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var equals: Self { .init(rawValue: "EQUALS") }
+        @inlinable public static var hasValue: Self { .init(rawValue: "HAS_VALUE") }
     }
 
     // MARK: Shapes

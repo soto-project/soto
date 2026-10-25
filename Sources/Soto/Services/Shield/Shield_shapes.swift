@@ -25,91 +25,139 @@ import Foundation
 extension Shield {
     // MARK: Enums
 
-    public enum ApplicationLayerAutomaticResponseStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct ApplicationLayerAutomaticResponseStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum AttackLayer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case application = "APPLICATION"
-        case network = "NETWORK"
-        public var description: String { return self.rawValue }
+    public struct AttackLayer: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var application: Self { .init(rawValue: "APPLICATION") }
+        @inlinable public static var network: Self { .init(rawValue: "NETWORK") }
     }
 
-    public enum AttackPropertyIdentifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case destinationUrl = "DESTINATION_URL"
-        case referrer = "REFERRER"
-        case sourceAsn = "SOURCE_ASN"
-        case sourceCountry = "SOURCE_COUNTRY"
-        case sourceIpAddress = "SOURCE_IP_ADDRESS"
-        case sourceUserAgent = "SOURCE_USER_AGENT"
-        case wordpressPingbackReflector = "WORDPRESS_PINGBACK_REFLECTOR"
-        case wordpressPingbackSource = "WORDPRESS_PINGBACK_SOURCE"
-        public var description: String { return self.rawValue }
+    public struct AttackPropertyIdentifier: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var destinationUrl: Self { .init(rawValue: "DESTINATION_URL") }
+        @inlinable public static var referrer: Self { .init(rawValue: "REFERRER") }
+        @inlinable public static var sourceAsn: Self { .init(rawValue: "SOURCE_ASN") }
+        @inlinable public static var sourceCountry: Self { .init(rawValue: "SOURCE_COUNTRY") }
+        @inlinable public static var sourceIpAddress: Self { .init(rawValue: "SOURCE_IP_ADDRESS") }
+        @inlinable public static var sourceUserAgent: Self { .init(rawValue: "SOURCE_USER_AGENT") }
+        @inlinable public static var wordpressPingbackReflector: Self { .init(rawValue: "WORDPRESS_PINGBACK_REFLECTOR") }
+        @inlinable public static var wordpressPingbackSource: Self { .init(rawValue: "WORDPRESS_PINGBACK_SOURCE") }
     }
 
-    public enum AutoRenew: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct AutoRenew: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum ProactiveEngagementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct ProactiveEngagementStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum ProtectedResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case applicationLoadBalancer = "APPLICATION_LOAD_BALANCER"
-        case classicLoadBalancer = "CLASSIC_LOAD_BALANCER"
-        case cloudfrontDistribution = "CLOUDFRONT_DISTRIBUTION"
-        case elasticIpAllocation = "ELASTIC_IP_ALLOCATION"
-        case globalAccelerator = "GLOBAL_ACCELERATOR"
-        case route53HostedZone = "ROUTE_53_HOSTED_ZONE"
-        public var description: String { return self.rawValue }
+    public struct ProtectedResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var applicationLoadBalancer: Self { .init(rawValue: "APPLICATION_LOAD_BALANCER") }
+        @inlinable public static var classicLoadBalancer: Self { .init(rawValue: "CLASSIC_LOAD_BALANCER") }
+        @inlinable public static var cloudfrontDistribution: Self { .init(rawValue: "CLOUDFRONT_DISTRIBUTION") }
+        @inlinable public static var elasticIpAllocation: Self { .init(rawValue: "ELASTIC_IP_ALLOCATION") }
+        @inlinable public static var globalAccelerator: Self { .init(rawValue: "GLOBAL_ACCELERATOR") }
+        @inlinable public static var route53HostedZone: Self { .init(rawValue: "ROUTE_53_HOSTED_ZONE") }
     }
 
-    public enum ProtectionGroupAggregation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case max = "MAX"
-        case mean = "MEAN"
-        case sum = "SUM"
-        public var description: String { return self.rawValue }
+    public struct ProtectionGroupAggregation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var max: Self { .init(rawValue: "MAX") }
+        @inlinable public static var mean: Self { .init(rawValue: "MEAN") }
+        @inlinable public static var sum: Self { .init(rawValue: "SUM") }
     }
 
-    public enum ProtectionGroupPattern: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case arbitrary = "ARBITRARY"
-        case byResourceType = "BY_RESOURCE_TYPE"
-        public var description: String { return self.rawValue }
+    public struct ProtectionGroupPattern: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var arbitrary: Self { .init(rawValue: "ARBITRARY") }
+        @inlinable public static var byResourceType: Self { .init(rawValue: "BY_RESOURCE_TYPE") }
     }
 
-    public enum SubResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ip = "IP"
-        case url = "URL"
-        public var description: String { return self.rawValue }
+    public struct SubResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ip: Self { .init(rawValue: "IP") }
+        @inlinable public static var url: Self { .init(rawValue: "URL") }
     }
 
-    public enum SubscriptionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
+    public struct SubscriptionState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
     }
 
-    public enum Unit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bits = "BITS"
-        case bytes = "BYTES"
-        case packets = "PACKETS"
-        case requests = "REQUESTS"
-        public var description: String { return self.rawValue }
+    public struct Unit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bits: Self { .init(rawValue: "BITS") }
+        @inlinable public static var bytes: Self { .init(rawValue: "BYTES") }
+        @inlinable public static var packets: Self { .init(rawValue: "PACKETS") }
+        @inlinable public static var requests: Self { .init(rawValue: "REQUESTS") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FIELD_VALIDATION_FAILED") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
     }
 
     // MARK: Shapes

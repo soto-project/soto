@@ -25,113 +25,177 @@ import Foundation
 extension ConnectHealth {
     // MARK: Enums
 
-    public enum CustomTemplateBase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case behavioralSoap = "BEHAVIORAL_SOAP"
-        case birp = "BIRP"
-        case dap = "DAP"
-        case girpp = "GIRPP"
-        case historyAndPhysical = "HISTORY_AND_PHYSICAL"
-        case sirp = "SIRP"
-        public var description: String { return self.rawValue }
+    public struct CustomTemplateBase: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var behavioralSoap: Self { .init(rawValue: "BEHAVIORAL_SOAP") }
+        @inlinable public static var birp: Self { .init(rawValue: "BIRP") }
+        @inlinable public static var dap: Self { .init(rawValue: "DAP") }
+        @inlinable public static var girpp: Self { .init(rawValue: "GIRPP") }
+        @inlinable public static var historyAndPhysical: Self { .init(rawValue: "HISTORY_AND_PHYSICAL") }
+        @inlinable public static var sirp: Self { .init(rawValue: "SIRP") }
     }
 
-    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
+    public struct DomainStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsOwnedKey = "AWS_OWNED_KEY"
-        case customerManagedKey = "CUSTOMER_MANAGED_KEY"
-        public var description: String { return self.rawValue }
+    public struct EncryptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsOwnedKey: Self { .init(rawValue: "AWS_OWNED_KEY") }
+        @inlinable public static var customerManagedKey: Self { .init(rawValue: "CUSTOMER_MANAGED_KEY") }
     }
 
-    public enum InsightsType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case preVisit = "PRE_VISIT"
-        public var description: String { return self.rawValue }
+    public struct InsightsType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var preVisit: Self { .init(rawValue: "PRE_VISIT") }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case submitted = "SUBMITTED"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct JobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ManagedNoteTemplate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case behavioralSoap = "BEHAVIORAL_SOAP"
-        case birp = "BIRP"
-        case dap = "DAP"
-        case girpp = "GIRPP"
-        case historyAndPhysical = "HISTORY_AND_PHYSICAL"
-        case physicalSoap = "PHYSICAL_SOAP"
-        case sirp = "SIRP"
-        public var description: String { return self.rawValue }
+    public struct ManagedNoteTemplate: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var behavioralSoap: Self { .init(rawValue: "BEHAVIORAL_SOAP") }
+        @inlinable public static var birp: Self { .init(rawValue: "BIRP") }
+        @inlinable public static var dap: Self { .init(rawValue: "DAP") }
+        @inlinable public static var girpp: Self { .init(rawValue: "GIRPP") }
+        @inlinable public static var historyAndPhysical: Self { .init(rawValue: "HISTORY_AND_PHYSICAL") }
+        @inlinable public static var physicalSoap: Self { .init(rawValue: "PHYSICAL_SOAP") }
+        @inlinable public static var sirp: Self { .init(rawValue: "SIRP") }
     }
 
-    public enum MedicalScribeLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enUs = "en-US"
-        case multi = "multi"
-        public var description: String { return self.rawValue }
+    public struct MedicalScribeLanguageCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var enUs: Self { .init(rawValue: "en-US") }
+        @inlinable public static var multi: Self { .init(rawValue: "multi") }
     }
 
-    public enum MedicalScribeMediaEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case flac = "flac"
-        case pcm = "pcm"
-        public var description: String { return self.rawValue }
+    public struct MedicalScribeMediaEncoding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var flac: Self { .init(rawValue: "flac") }
+        @inlinable public static var pcm: Self { .init(rawValue: "pcm") }
     }
 
-    public enum MedicalScribeParticipantRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case clinician = "CLINICIAN"
-        case patient = "PATIENT"
-        public var description: String { return self.rawValue }
+    public struct MedicalScribeParticipantRole: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var clinician: Self { .init(rawValue: "CLINICIAN") }
+        @inlinable public static var patient: Self { .init(rawValue: "PATIENT") }
     }
 
-    public enum MedicalScribeSessionControlEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case endOfSession = "END_OF_SESSION"
-        public var description: String { return self.rawValue }
+    public struct MedicalScribeSessionControlEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var endOfSession: Self { .init(rawValue: "END_OF_SESSION") }
     }
 
-    public enum MedicalScribeStreamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case paused = "PAUSED"
-        public var description: String { return self.rawValue }
+    public struct MedicalScribeStreamStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var paused: Self { .init(rawValue: "PAUSED") }
     }
 
-    public enum PostStreamArtifactGenerationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct PostStreamArtifactGenerationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
     }
 
-    public enum Pronouns: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case heHim = "HE_HIM"
-        case sheHer = "SHE_HER"
-        case theyThem = "THEY_THEM"
-        public var description: String { return self.rawValue }
+    public struct Pronouns: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var heHim: Self { .init(rawValue: "HE_HIM") }
+        @inlinable public static var sheHer: Self { .init(rawValue: "SHE_HER") }
+        @inlinable public static var theyThem: Self { .init(rawValue: "THEY_THEM") }
     }
 
-    public enum ProviderRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case clinician = "CLINICIAN"
-        public var description: String { return self.rawValue }
+    public struct ProviderRole: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var clinician: Self { .init(rawValue: "CLINICIAN") }
     }
 
-    public enum Specialty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case primaryCare = "PRIMARY_CARE"
-        public var description: String { return self.rawValue }
+    public struct Specialty: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var primaryCare: Self { .init(rawValue: "PRIMARY_CARE") }
     }
 
-    public enum SubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
+    public struct SubscriptionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
     }
 
     public enum MedicalScribeInputStream: AWSEncodableShape, Sendable {

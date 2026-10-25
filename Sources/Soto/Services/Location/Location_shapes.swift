@@ -25,175 +25,255 @@ import Foundation
 extension Location {
     // MARK: Enums
 
-    public enum BatchItemErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct BatchItemErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Access to the resource was denied.
-        case accessDeniedError = "AccessDeniedError"
+        @inlinable public static var accessDeniedError: Self { .init(rawValue: "AccessDeniedError") }
         /// The target resource already exists.
-        case conflictError = "ConflictError"
+        @inlinable public static var conflictError: Self { .init(rawValue: "ConflictError") }
         /// Internal server error.
-        case internalServerError = "InternalServerError"
+        @inlinable public static var internalServerError: Self { .init(rawValue: "InternalServerError") }
         /// The target resource does not exist.
-        case resourceNotFoundError = "ResourceNotFoundError"
+        @inlinable public static var resourceNotFoundError: Self { .init(rawValue: "ResourceNotFoundError") }
         /// Too many requests.
-        case throttlingError = "ThrottlingError"
+        @inlinable public static var throttlingError: Self { .init(rawValue: "ThrottlingError") }
         /// Input fails to satisfy the constraints specified by the service.
-        case validationError = "ValidationError"
-        public var description: String { return self.rawValue }
+        @inlinable public static var validationError: Self { .init(rawValue: "ValidationError") }
     }
 
-    public enum DimensionUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case feet = "Feet"
-        case meters = "Meters"
-        public var description: String { return self.rawValue }
+    public struct DimensionUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var feet: Self { .init(rawValue: "Feet") }
+        @inlinable public static var meters: Self { .init(rawValue: "Meters") }
     }
 
-    public enum DistanceUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kilometers = "Kilometers"
-        case miles = "Miles"
-        public var description: String { return self.rawValue }
+    public struct DistanceUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kilometers: Self { .init(rawValue: "Kilometers") }
+        @inlinable public static var miles: Self { .init(rawValue: "Miles") }
     }
 
-    public enum ForecastedGeofenceEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ForecastedGeofenceEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// This event type signifies that a device is forecasted to enter the geofence
-        case enter = "ENTER"
+        @inlinable public static var enter: Self { .init(rawValue: "ENTER") }
         /// This event type signifies that a device is forecasted to exit the geofence
-        case exit = "EXIT"
+        @inlinable public static var exit: Self { .init(rawValue: "EXIT") }
         /// This event type signifies that a device is stationary in the geofence and an exit/enter cannot be forecasted
-        case idle = "IDLE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var idle: Self { .init(rawValue: "IDLE") }
     }
 
-    public enum IntendedUse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct IntendedUse: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
-        case singleUse = "SingleUse"
+        @inlinable public static var singleUse: Self { .init(rawValue: "SingleUse") }
         /// Indicates that results of the operation may be stored locally.
-        case storage = "Storage"
-        public var description: String { return self.rawValue }
+        @inlinable public static var storage: Self { .init(rawValue: "Storage") }
     }
 
-    public enum JobAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct JobAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The job will perform address validation over the job's input.
-        case validateAddress = "ValidateAddress"
-        public var description: String { return self.rawValue }
+        @inlinable public static var validateAddress: Self { .init(rawValue: "ValidateAddress") }
     }
 
-    public enum JobErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case internalServerError = "InternalServerError"
-        case validationError = "ValidationError"
-        public var description: String { return self.rawValue }
+    public struct JobErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var internalServerError: Self { .init(rawValue: "InternalServerError") }
+        @inlinable public static var validationError: Self { .init(rawValue: "ValidationError") }
     }
 
-    public enum JobInputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case parquet = "Parquet"
-        public var description: String { return self.rawValue }
+    public struct JobInputFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var parquet: Self { .init(rawValue: "Parquet") }
     }
 
-    public enum JobOutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case parquet = "Parquet"
-        public var description: String { return self.rawValue }
+    public struct JobOutputFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var parquet: Self { .init(rawValue: "Parquet") }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct JobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The job has been cancelled and cannot be resumed.
-        case cancelled = "Cancelled"
+        @inlinable public static var cancelled: Self { .init(rawValue: "Cancelled") }
         /// The job is being cancelled.
-        case cancelling = "Cancelling"
+        @inlinable public static var cancelling: Self { .init(rawValue: "Cancelling") }
         /// The job has processed all records and is complete.
-        case completed = "Completed"
+        @inlinable public static var completed: Self { .init(rawValue: "Completed") }
         /// The job has failed to process all records.
-        case failed = "Failed"
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
         /// The job has not yet started.
-        case pending = "Pending"
+        @inlinable public static var pending: Self { .init(rawValue: "Pending") }
         /// The job is currently running.
-        case running = "Running"
-        public var description: String { return self.rawValue }
+        @inlinable public static var running: Self { .init(rawValue: "Running") }
     }
 
-    public enum OptimizationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fastestRoute = "FastestRoute"
-        case shortestRoute = "ShortestRoute"
-        public var description: String { return self.rawValue }
+    public struct OptimizationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fastestRoute: Self { .init(rawValue: "FastestRoute") }
+        @inlinable public static var shortestRoute: Self { .init(rawValue: "ShortestRoute") }
     }
 
-    public enum PositionFiltering: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct PositionFiltering: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Filters device position updates according to their accuracy
-        case accuracyBased = "AccuracyBased"
+        @inlinable public static var accuracyBased: Self { .init(rawValue: "AccuracyBased") }
         /// Filters device position updates according to the distance between them
-        case distanceBased = "DistanceBased"
+        @inlinable public static var distanceBased: Self { .init(rawValue: "DistanceBased") }
         /// Filters device position updates according to their sample time
-        case timeBased = "TimeBased"
-        public var description: String { return self.rawValue }
+        @inlinable public static var timeBased: Self { .init(rawValue: "TimeBased") }
     }
 
-    public enum PricingPlan: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct PricingPlan: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// This pricing plan must be picked for mobile asset management use cases
-        case mobileAssetManagement = "MobileAssetManagement"
+        @inlinable public static var mobileAssetManagement: Self { .init(rawValue: "MobileAssetManagement") }
         /// This pricing plan must be picked for mobile asset tracking use cases.
-        case mobileAssetTracking = "MobileAssetTracking"
+        @inlinable public static var mobileAssetTracking: Self { .init(rawValue: "MobileAssetTracking") }
         /// This pricing plan should be used for request based billing.
-        case requestBasedUsage = "RequestBasedUsage"
-        public var description: String { return self.rawValue }
+        @inlinable public static var requestBasedUsage: Self { .init(rawValue: "RequestBasedUsage") }
     }
 
-    public enum RouteMatrixErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case departurePositionNotFound = "DeparturePositionNotFound"
-        case destinationPositionNotFound = "DestinationPositionNotFound"
-        case otherValidationError = "OtherValidationError"
-        case positionsNotFound = "PositionsNotFound"
-        case routeNotFound = "RouteNotFound"
-        case routeTooLong = "RouteTooLong"
-        public var description: String { return self.rawValue }
+    public struct RouteMatrixErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var departurePositionNotFound: Self { .init(rawValue: "DeparturePositionNotFound") }
+        @inlinable public static var destinationPositionNotFound: Self { .init(rawValue: "DestinationPositionNotFound") }
+        @inlinable public static var otherValidationError: Self { .init(rawValue: "OtherValidationError") }
+        @inlinable public static var positionsNotFound: Self { .init(rawValue: "PositionsNotFound") }
+        @inlinable public static var routeNotFound: Self { .init(rawValue: "RouteNotFound") }
+        @inlinable public static var routeTooLong: Self { .init(rawValue: "RouteTooLong") }
     }
 
-    public enum SpeedUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kilometersPerHour = "KilometersPerHour"
-        case milesPerHour = "MilesPerHour"
-        public var description: String { return self.rawValue }
+    public struct SpeedUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kilometersPerHour: Self { .init(rawValue: "KilometersPerHour") }
+        @inlinable public static var milesPerHour: Self { .init(rawValue: "MilesPerHour") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// List all active API keys.
-        case active = "Active"
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
         /// List all expired API keys.
-        case expired = "Expired"
-        public var description: String { return self.rawValue }
+        @inlinable public static var expired: Self { .init(rawValue: "Expired") }
     }
 
-    public enum TravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bicycle = "Bicycle"
-        case car = "Car"
-        case motorcycle = "Motorcycle"
-        case truck = "Truck"
-        case walking = "Walking"
-        public var description: String { return self.rawValue }
+    public struct TravelMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bicycle: Self { .init(rawValue: "Bicycle") }
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+        @inlinable public static var motorcycle: Self { .init(rawValue: "Motorcycle") }
+        @inlinable public static var truck: Self { .init(rawValue: "Truck") }
+        @inlinable public static var walking: Self { .init(rawValue: "Walking") }
     }
 
-    public enum ValidateAddressAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case countrySpecificAttributes = "CountrySpecificAttributes"
-        case position = "Position"
-        public var description: String { return self.rawValue }
+    public struct ValidateAddressAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var countrySpecificAttributes: Self { .init(rawValue: "CountrySpecificAttributes") }
+        @inlinable public static var position: Self { .init(rawValue: "Position") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         ///     The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
-        case cannotParse = "CannotParse"
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CannotParse") }
         ///     The input is present and parsable, but it is otherwise invalid. For example, a required numeric argument is outside the allowed range.
-        case fieldValidationFailed = "FieldValidationFailed"
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FieldValidationFailed") }
         /// The required input is missing.
-        case missing = "Missing"
+        @inlinable public static var missing: Self { .init(rawValue: "Missing") }
         /// The input is invalid but no more specific reason is applicable.
-        case other = "Other"
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
         /// No such field is supported.
-        case unknownField = "UnknownField"
+        @inlinable public static var unknownField: Self { .init(rawValue: "UnknownField") }
         /// No such operation is supported.
-        case unknownOperation = "UnknownOperation"
-        public var description: String { return self.rawValue }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UnknownOperation") }
     }
 
-    public enum VehicleWeightUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kilograms = "Kilograms"
-        case pounds = "Pounds"
-        public var description: String { return self.rawValue }
+    public struct VehicleWeightUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kilograms: Self { .init(rawValue: "Kilograms") }
+        @inlinable public static var pounds: Self { .init(rawValue: "Pounds") }
     }
 
     // MARK: Shapes

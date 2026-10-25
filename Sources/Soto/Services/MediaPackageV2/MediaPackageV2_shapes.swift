@@ -25,403 +25,547 @@ import Foundation
 extension MediaPackageV2 {
     // MARK: Enums
 
-    public enum AdMarkerDash: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case binary = "BINARY"
-        case xml = "XML"
-        public var description: String { return self.rawValue }
+    public struct AdMarkerDash: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var binary: Self { .init(rawValue: "BINARY") }
+        @inlinable public static var xml: Self { .init(rawValue: "XML") }
     }
 
-    public enum AdMarkerHls: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case daterange = "DATERANGE"
-        case scte35Enhanced = "SCTE35_ENHANCED"
-        public var description: String { return self.rawValue }
+    public struct AdMarkerHls: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var daterange: Self { .init(rawValue: "DATERANGE") }
+        @inlinable public static var scte35Enhanced: Self { .init(rawValue: "SCTE35_ENHANCED") }
     }
 
-    public enum CmafEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbcs = "CBCS"
-        case cenc = "CENC"
-        public var description: String { return self.rawValue }
+    public struct CmafEncryptionMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cbcs: Self { .init(rawValue: "CBCS") }
+        @inlinable public static var cenc: Self { .init(rawValue: "CENC") }
     }
 
-    public enum ConflictExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case conflictingOperation = "CONFLICTING_OPERATION"
-        case idempotentParameterMismatch = "IDEMPOTENT_PARAMETER_MISMATCH"
-        case resourceAlreadyExists = "RESOURCE_ALREADY_EXISTS"
-        case resourceInUse = "RESOURCE_IN_USE"
-        public var description: String { return self.rawValue }
+    public struct ConflictExceptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var conflictingOperation: Self { .init(rawValue: "CONFLICTING_OPERATION") }
+        @inlinable public static var idempotentParameterMismatch: Self { .init(rawValue: "IDEMPOTENT_PARAMETER_MISMATCH") }
+        @inlinable public static var resourceAlreadyExists: Self { .init(rawValue: "RESOURCE_ALREADY_EXISTS") }
+        @inlinable public static var resourceInUse: Self { .init(rawValue: "RESOURCE_IN_USE") }
     }
 
-    public enum ContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cmaf = "CMAF"
-        case ism = "ISM"
-        case ts = "TS"
-        public var description: String { return self.rawValue }
+    public struct ContainerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cmaf: Self { .init(rawValue: "CMAF") }
+        @inlinable public static var ism: Self { .init(rawValue: "ISM") }
+        @inlinable public static var ts: Self { .init(rawValue: "TS") }
     }
 
-    public enum ContentKeyPeriodTiming: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case indexOnly = "INDEX_ONLY"
-        case indexWithStartEnd = "INDEX_WITH_START_END"
-        case startEndOnly = "START_END_ONLY"
-        public var description: String { return self.rawValue }
+    public struct ContentKeyPeriodTiming: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var indexOnly: Self { .init(rawValue: "INDEX_ONLY") }
+        @inlinable public static var indexWithStartEnd: Self { .init(rawValue: "INDEX_WITH_START_END") }
+        @inlinable public static var startEndOnly: Self { .init(rawValue: "START_END_ONLY") }
     }
 
-    public enum CustomAdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alternateContentOpportunity = "ALTERNATE_CONTENT_OPPORTUNITY"
-        case chapter = "CHAPTER"
-        case network = "NETWORK"
-        case program = "PROGRAM"
-        case unscheduledEvent = "UNSCHEDULED_EVENT"
-        public var description: String { return self.rawValue }
+    public struct CustomAdType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alternateContentOpportunity: Self { .init(rawValue: "ALTERNATE_CONTENT_OPPORTUNITY") }
+        @inlinable public static var chapter: Self { .init(rawValue: "CHAPTER") }
+        @inlinable public static var network: Self { .init(rawValue: "NETWORK") }
+        @inlinable public static var program: Self { .init(rawValue: "PROGRAM") }
+        @inlinable public static var unscheduledEvent: Self { .init(rawValue: "UNSCHEDULED_EVENT") }
     }
 
-    public enum DashAudioTimelinePattern: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case patterned = "PATTERNED"
-        public var description: String { return self.rawValue }
+    public struct DashAudioTimelinePattern: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var patterned: Self { .init(rawValue: "PATTERNED") }
     }
 
-    public enum DashCompactness: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+    public struct DashCompactness: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
     }
 
-    public enum DashDrmSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case individual = "INDIVIDUAL"
-        case referenced = "REFERENCED"
-        public var description: String { return self.rawValue }
+    public struct DashDrmSignaling: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var individual: Self { .init(rawValue: "INDIVIDUAL") }
+        @inlinable public static var referenced: Self { .init(rawValue: "REFERENCED") }
     }
 
-    public enum DashPeriodTrigger: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case avails = "AVAILS"
-        case drmKeyRotation = "DRM_KEY_ROTATION"
-        case none = "NONE"
-        case sourceChanges = "SOURCE_CHANGES"
-        case sourceDisruptions = "SOURCE_DISRUPTIONS"
-        public var description: String { return self.rawValue }
+    public struct DashPeriodTrigger: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var avails: Self { .init(rawValue: "AVAILS") }
+        @inlinable public static var drmKeyRotation: Self { .init(rawValue: "DRM_KEY_ROTATION") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var sourceChanges: Self { .init(rawValue: "SOURCE_CHANGES") }
+        @inlinable public static var sourceDisruptions: Self { .init(rawValue: "SOURCE_DISRUPTIONS") }
     }
 
-    public enum DashProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dvbDash = "DVB_DASH"
-        public var description: String { return self.rawValue }
+    public struct DashProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dvbDash: Self { .init(rawValue: "DVB_DASH") }
     }
 
-    public enum DashSegmentTemplateFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case numberWithTimeline = "NUMBER_WITH_TIMELINE"
-        public var description: String { return self.rawValue }
+    public struct DashSegmentTemplateFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var numberWithTimeline: Self { .init(rawValue: "NUMBER_WITH_TIMELINE") }
     }
 
-    public enum DashTtmlProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ebuTtD101 = "EBU_TT_D_101"
-        case imsc1 = "IMSC_1"
-        public var description: String { return self.rawValue }
+    public struct DashTtmlProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ebuTtD101: Self { .init(rawValue: "EBU_TT_D_101") }
+        @inlinable public static var imsc1: Self { .init(rawValue: "IMSC_1") }
     }
 
-    public enum DashUtcTimingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case httpHead = "HTTP_HEAD"
-        case httpIso = "HTTP_ISO"
-        case httpXsdate = "HTTP_XSDATE"
-        case utcDirect = "UTC_DIRECT"
-        public var description: String { return self.rawValue }
+    public struct DashUtcTimingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var httpHead: Self { .init(rawValue: "HTTP_HEAD") }
+        @inlinable public static var httpIso: Self { .init(rawValue: "HTTP_ISO") }
+        @inlinable public static var httpXsdate: Self { .init(rawValue: "HTTP_XSDATE") }
+        @inlinable public static var utcDirect: Self { .init(rawValue: "UTC_DIRECT") }
     }
 
-    public enum DrmSystem: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case clearKeyAes128 = "CLEAR_KEY_AES_128"
-        case fairplay = "FAIRPLAY"
-        case irdeto = "IRDETO"
-        case playready = "PLAYREADY"
-        case widevine = "WIDEVINE"
-        public var description: String { return self.rawValue }
+    public struct DrmSystem: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var clearKeyAes128: Self { .init(rawValue: "CLEAR_KEY_AES_128") }
+        @inlinable public static var fairplay: Self { .init(rawValue: "FAIRPLAY") }
+        @inlinable public static var irdeto: Self { .init(rawValue: "IRDETO") }
+        @inlinable public static var playready: Self { .init(rawValue: "PLAYREADY") }
+        @inlinable public static var widevine: Self { .init(rawValue: "WIDEVINE") }
     }
 
-    public enum EndpointErrorCondition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case incompleteManifest = "INCOMPLETE_MANIFEST"
-        case missingDrmKey = "MISSING_DRM_KEY"
-        case slateInput = "SLATE_INPUT"
-        case staleManifest = "STALE_MANIFEST"
-        public var description: String { return self.rawValue }
+    public struct EndpointErrorCondition: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var incompleteManifest: Self { .init(rawValue: "INCOMPLETE_MANIFEST") }
+        @inlinable public static var missingDrmKey: Self { .init(rawValue: "MISSING_DRM_KEY") }
+        @inlinable public static var slateInput: Self { .init(rawValue: "SLATE_INPUT") }
+        @inlinable public static var staleManifest: Self { .init(rawValue: "STALE_MANIFEST") }
     }
 
-    public enum HarvestJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case queued = "QUEUED"
-        public var description: String { return self.rawValue }
+    public struct HarvestJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var queued: Self { .init(rawValue: "QUEUED") }
     }
 
-    public enum InputType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cmaf = "CMAF"
-        case hls = "HLS"
-        case multiview = "MULTIVIEW"
-        public var description: String { return self.rawValue }
+    public struct InputType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cmaf: Self { .init(rawValue: "CMAF") }
+        @inlinable public static var hls: Self { .init(rawValue: "HLS") }
+        @inlinable public static var multiview: Self { .init(rawValue: "MULTIVIEW") }
     }
 
-    public enum IsmEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cenc = "CENC"
-        public var description: String { return self.rawValue }
+    public struct IsmEncryptionMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cenc: Self { .init(rawValue: "CENC") }
     }
 
-    public enum MssManifestLayout: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case compact = "COMPACT"
-        case full = "FULL"
-        public var description: String { return self.rawValue }
+    public struct MssManifestLayout: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var compact: Self { .init(rawValue: "COMPACT") }
+        @inlinable public static var full: Self { .init(rawValue: "FULL") }
     }
 
-    public enum MultiviewLayoutType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case layout2Eh = "LAYOUT_2EH"
-        case layout2Pl = "LAYOUT_2PL"
-        case layout3El = "LAYOUT_3EL"
-        case layout3Pl = "LAYOUT_3PL"
-        case layout4E = "LAYOUT_4E"
-        case layout4Pl = "LAYOUT_4PL"
-        public var description: String { return self.rawValue }
+    public struct MultiviewLayoutType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var layout2Eh: Self { .init(rawValue: "LAYOUT_2EH") }
+        @inlinable public static var layout2Pl: Self { .init(rawValue: "LAYOUT_2PL") }
+        @inlinable public static var layout3El: Self { .init(rawValue: "LAYOUT_3EL") }
+        @inlinable public static var layout3Pl: Self { .init(rawValue: "LAYOUT_3PL") }
+        @inlinable public static var layout4E: Self { .init(rawValue: "LAYOUT_4E") }
+        @inlinable public static var layout4Pl: Self { .init(rawValue: "LAYOUT_4PL") }
     }
 
-    public enum OutputLockingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case epochLocked = "EPOCH_LOCKED"
-        case nonEpochLocked = "NON_EPOCH_LOCKED"
-        public var description: String { return self.rawValue }
+    public struct OutputLockingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var epochLocked: Self { .init(rawValue: "EPOCH_LOCKED") }
+        @inlinable public static var nonEpochLocked: Self { .init(rawValue: "NON_EPOCH_LOCKED") }
     }
 
-    public enum OutputTimestampMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case passthrough = "PASSTHROUGH"
-        case rebasedToChannelStart = "REBASED_TO_CHANNEL_START"
-        public var description: String { return self.rawValue }
+    public struct OutputTimestampMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+        @inlinable public static var rebasedToChannelStart: Self { .init(rawValue: "REBASED_TO_CHANNEL_START") }
     }
 
-    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case presetAudio1 = "PRESET_AUDIO_1"
-        case presetAudio2 = "PRESET_AUDIO_2"
-        case presetAudio3 = "PRESET_AUDIO_3"
-        case shared = "SHARED"
-        case unencrypted = "UNENCRYPTED"
-        public var description: String { return self.rawValue }
+    public struct PresetSpeke20Audio: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var presetAudio1: Self { .init(rawValue: "PRESET_AUDIO_1") }
+        @inlinable public static var presetAudio2: Self { .init(rawValue: "PRESET_AUDIO_2") }
+        @inlinable public static var presetAudio3: Self { .init(rawValue: "PRESET_AUDIO_3") }
+        @inlinable public static var shared: Self { .init(rawValue: "SHARED") }
+        @inlinable public static var unencrypted: Self { .init(rawValue: "UNENCRYPTED") }
     }
 
-    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case presetVideo1 = "PRESET_VIDEO_1"
-        case presetVideo2 = "PRESET_VIDEO_2"
-        case presetVideo3 = "PRESET_VIDEO_3"
-        case presetVideo4 = "PRESET_VIDEO_4"
-        case presetVideo5 = "PRESET_VIDEO_5"
-        case presetVideo6 = "PRESET_VIDEO_6"
-        case presetVideo7 = "PRESET_VIDEO_7"
-        case presetVideo8 = "PRESET_VIDEO_8"
-        case shared = "SHARED"
-        case unencrypted = "UNENCRYPTED"
-        public var description: String { return self.rawValue }
+    public struct PresetSpeke20Video: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var presetVideo1: Self { .init(rawValue: "PRESET_VIDEO_1") }
+        @inlinable public static var presetVideo2: Self { .init(rawValue: "PRESET_VIDEO_2") }
+        @inlinable public static var presetVideo3: Self { .init(rawValue: "PRESET_VIDEO_3") }
+        @inlinable public static var presetVideo4: Self { .init(rawValue: "PRESET_VIDEO_4") }
+        @inlinable public static var presetVideo5: Self { .init(rawValue: "PRESET_VIDEO_5") }
+        @inlinable public static var presetVideo6: Self { .init(rawValue: "PRESET_VIDEO_6") }
+        @inlinable public static var presetVideo7: Self { .init(rawValue: "PRESET_VIDEO_7") }
+        @inlinable public static var presetVideo8: Self { .init(rawValue: "PRESET_VIDEO_8") }
+        @inlinable public static var shared: Self { .init(rawValue: "SHARED") }
+        @inlinable public static var unencrypted: Self { .init(rawValue: "UNENCRYPTED") }
     }
 
-    public enum ResourceTypeNotFound: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case channel = "CHANNEL"
-        case channelGroup = "CHANNEL_GROUP"
-        case harvestJob = "HARVEST_JOB"
-        case originEndpoint = "ORIGIN_ENDPOINT"
-        public var description: String { return self.rawValue }
+    public struct ResourceTypeNotFound: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var channel: Self { .init(rawValue: "CHANNEL") }
+        @inlinable public static var channelGroup: Self { .init(rawValue: "CHANNEL_GROUP") }
+        @inlinable public static var harvestJob: Self { .init(rawValue: "HARVEST_JOB") }
+        @inlinable public static var originEndpoint: Self { .init(rawValue: "ORIGIN_ENDPOINT") }
     }
 
-    public enum ScteFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `break` = "BREAK"
-        case alternateContentOpportunity = "ALTERNATE_CONTENT_OPPORTUNITY"
-        case callAdServer = "CALL_AD_SERVER"
-        case chapter = "CHAPTER"
-        case contentIdentification = "CONTENT_IDENTIFICATION"
-        case distributorAdBlock = "DISTRIBUTOR_AD_BLOCK"
-        case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
-        case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
-        case distributorPlacementOpportunity = "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
-        case distributorPromo = "DISTRIBUTOR_PROMO"
-        case network = "NETWORK"
-        case program = "PROGRAM"
-        case providerAdBlock = "PROVIDER_AD_BLOCK"
-        case providerAdvertisement = "PROVIDER_ADVERTISEMENT"
-        case providerOverlayPlacementOpportunity = "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
-        case providerPlacementOpportunity = "PROVIDER_PLACEMENT_OPPORTUNITY"
-        case providerPromo = "PROVIDER_PROMO"
-        case spliceInsert = "SPLICE_INSERT"
-        case unscheduledEvent = "UNSCHEDULED_EVENT"
-        public var description: String { return self.rawValue }
+    public struct ScteFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `break`: Self { .init(rawValue: "BREAK") }
+        @inlinable public static var alternateContentOpportunity: Self { .init(rawValue: "ALTERNATE_CONTENT_OPPORTUNITY") }
+        @inlinable public static var callAdServer: Self { .init(rawValue: "CALL_AD_SERVER") }
+        @inlinable public static var chapter: Self { .init(rawValue: "CHAPTER") }
+        @inlinable public static var contentIdentification: Self { .init(rawValue: "CONTENT_IDENTIFICATION") }
+        @inlinable public static var distributorAdBlock: Self { .init(rawValue: "DISTRIBUTOR_AD_BLOCK") }
+        @inlinable public static var distributorAdvertisement: Self { .init(rawValue: "DISTRIBUTOR_ADVERTISEMENT") }
+        @inlinable public static var distributorOverlayPlacementOpportunity: Self { .init(rawValue: "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY") }
+        @inlinable public static var distributorPlacementOpportunity: Self { .init(rawValue: "DISTRIBUTOR_PLACEMENT_OPPORTUNITY") }
+        @inlinable public static var distributorPromo: Self { .init(rawValue: "DISTRIBUTOR_PROMO") }
+        @inlinable public static var network: Self { .init(rawValue: "NETWORK") }
+        @inlinable public static var program: Self { .init(rawValue: "PROGRAM") }
+        @inlinable public static var providerAdBlock: Self { .init(rawValue: "PROVIDER_AD_BLOCK") }
+        @inlinable public static var providerAdvertisement: Self { .init(rawValue: "PROVIDER_ADVERTISEMENT") }
+        @inlinable public static var providerOverlayPlacementOpportunity: Self { .init(rawValue: "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY") }
+        @inlinable public static var providerPlacementOpportunity: Self { .init(rawValue: "PROVIDER_PLACEMENT_OPPORTUNITY") }
+        @inlinable public static var providerPromo: Self { .init(rawValue: "PROVIDER_PROMO") }
+        @inlinable public static var spliceInsert: Self { .init(rawValue: "SPLICE_INSERT") }
+        @inlinable public static var unscheduledEvent: Self { .init(rawValue: "UNSCHEDULED_EVENT") }
     }
 
-    public enum ScteInManifests: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case matchesFilter = "MATCHES_FILTER"
-        public var description: String { return self.rawValue }
+    public struct ScteInManifests: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var matchesFilter: Self { .init(rawValue: "MATCHES_FILTER") }
     }
 
-    public enum ScteInSegments: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case matchesFilter = "MATCHES_FILTER"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct ScteInSegments: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var matchesFilter: Self { .init(rawValue: "MATCHES_FILTER") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum SpekeVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case v20 = "V2_0"
-        case v21 = "V2_1"
-        public var description: String { return self.rawValue }
+    public struct SpekeVersion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var v20: Self { .init(rawValue: "V2_0") }
+        @inlinable public static var v21: Self { .init(rawValue: "V2_1") }
     }
 
-    public enum StreamNameOutputMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case index = "INDEX"
-        case passthroughName = "PASSTHROUGH_NAME"
-        public var description: String { return self.rawValue }
+    public struct StreamNameOutputMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var index: Self { .init(rawValue: "INDEX") }
+        @inlinable public static var passthroughName: Self { .init(rawValue: "PASSTHROUGH_NAME") }
     }
 
-    public enum TsEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes128 = "AES_128"
-        case sampleAes = "SAMPLE_AES"
-        public var description: String { return self.rawValue }
+    public struct TsEncryptionMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes128: Self { .init(rawValue: "AES_128") }
+        @inlinable public static var sampleAes: Self { .init(rawValue: "SAMPLE_AES") }
     }
 
-    public enum UriPathType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case leaf = "LEAF"
-        case root = "ROOT"
-        public var description: String { return self.rawValue }
+    public struct UriPathType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var leaf: Self { .init(rawValue: "LEAF") }
+        @inlinable public static var root: Self { .init(rawValue: "ROOT") }
     }
 
-    public enum UriSeparator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hyphen = "HYPHEN"
-        case underscore = "UNDERSCORE"
-        public var description: String { return self.rawValue }
+    public struct UriSeparator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hyphen: Self { .init(rawValue: "HYPHEN") }
+        @inlinable public static var underscore: Self { .init(rawValue: "UNDERSCORE") }
     }
 
-    public enum ValidationExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case batchGetSecretValueDenied = "BATCH_GET_SECRET_VALUE_DENIED"
-        case cencIvIncompatible = "CENC_IV_INCOMPATIBLE"
-        case certificateAccessDenied = "CERTIFICATE_ACCESS_DENIED"
-        case certificateResourceNotFound = "CERTIFICATE_RESOURCE_NOT_FOUND"
-        case clipStartTimeWithStartOrEnd = "CLIP_START_TIME_WITH_START_OR_END"
-        case cmafContainerTypeWithMssManifest = "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
-        case cmafExcludeSegmentDrmMetadataIncompatibleContainerType = "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
-        case containerTypeImmutable = "CONTAINER_TYPE_IMMUTABLE"
-        case contentKeyPeriodTimingRequiresSpekeV21 = "CONTENT_KEY_PERIOD_TIMING_REQUIRES_SPEKE_V2_1"
-        case contentKeyPeriodTimingWithoutKeyRotation = "CONTENT_KEY_PERIOD_TIMING_WITHOUT_KEY_ROTATION"
-        case customAdTypesInvalidConfiguration = "CUSTOM_AD_TYPES_INVALID_CONFIGURATION"
-        case dashDvbAttributesWithoutDvbDashProfile = "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
-        case decryptSecretFailed = "DECRYPT_SECRET_FAILED"
-        case describeCertificateFailed = "DESCRIBE_CERTIFICATE_FAILED"
-        case describeSecretDenied = "DESCRIBE_SECRET_DENIED"
-        case directModeWithTimingSource = "DIRECT_MODE_WITH_TIMING_SOURCE"
-        case drmSignalingMismatchSegmentEncryptionStatus = "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
-        case drmSystemsEncryptionMethodIncompatible = "DRM_SYSTEMS_ENCRYPTION_METHOD_INCOMPATIBLE"
-        case duplicatedSecret = "DUPLICATED_SECRET"
-        case encryptionContractShared = "ENCRYPTION_CONTRACT_SHARED"
-        case encryptionContractUnencrypted = "ENCRYPTION_CONTRACT_UNENCRYPTED"
-        case encryptionContractWithIsmContainerIncompatible = "ENCRYPTION_CONTRACT_WITH_ISM_CONTAINER_INCOMPATIBLE"
-        case encryptionContractWithoutAudioRenditionIncompatible = "ENCRYPTION_CONTRACT_WITHOUT_AUDIO_RENDITION_INCOMPATIBLE"
-        case encryptionMethodContainerTypeMismatch = "ENCRYPTION_METHOD_CONTAINER_TYPE_MISMATCH"
-        case endTimeEarlierThanStartTime = "END_TIME_EARLIER_THAN_START_TIME"
-        case getSecretValueDenied = "GET_SECRET_VALUE_DENIED"
-        case harvestJobCustomerEndpointReadAccessDenied = "HARVEST_JOB_CUSTOMER_ENDPOINT_READ_ACCESS_DENIED"
-        case harvestJobIneligibleForCancellation = "HARVEST_JOB_INELIGIBLE_FOR_CANCELLATION"
-        case harvestJobS3DestinationMissingOrIncomplete = "HARVEST_JOB_S3_DESTINATION_MISSING_OR_INCOMPLETE"
-        case harvestJobUnableToWriteToS3Destination = "HARVEST_JOB_UNABLE_TO_WRITE_TO_S3_DESTINATION"
-        case harvestedManifestHasStartEndFilterConfiguration = "HARVESTED_MANIFEST_HAS_START_END_FILTER_CONFIGURATION"
-        case harvestedManifestNotFoundOnEndpoint = "HARVESTED_MANIFEST_NOT_FOUND_ON_ENDPOINT"
-        case incompatibleDashCompactnessConfiguration = "INCOMPATIBLE_DASH_COMPACTNESS_CONFIGURATION"
-        case incompatibleDashProfileDvbDashConfiguration = "INCOMPATIBLE_DASH_PROFILE_DVB_DASH_CONFIGURATION"
-        case incompatibleXmlEncoding = "INCOMPATIBLE_XML_ENCODING"
-        case invalidArn = "INVALID_ARN"
-        case invalidCertificateKeyAlgorithm = "INVALID_CERTIFICATE_KEY_ALGORITHM"
-        case invalidCertificateSignatureAlgorithm = "INVALID_CERTIFICATE_SIGNATURE_ALGORITHM"
-        case invalidCertificateStatus = "INVALID_CERTIFICATE_STATUS"
-        case invalidDrmSettings = "INVALID_DRM_SETTINGS"
-        case invalidHarvestJobDuration = "INVALID_HARVEST_JOB_DURATION"
-        case invalidManifestFilter = "INVALID_MANIFEST_FILTER"
-        case invalidPaginationMaxResults = "INVALID_PAGINATION_MAX_RESULTS"
-        case invalidPaginationToken = "INVALID_PAGINATION_TOKEN"
-        case invalidPolicy = "INVALID_POLICY"
-        case invalidRoleArn = "INVALID_ROLE_ARN"
-        case invalidSecret = "INVALID_SECRET"
-        case invalidSecretFormat = "INVALID_SECRET_FORMAT"
-        case invalidSecretKey = "INVALID_SECRET_KEY"
-        case invalidSecretValue = "INVALID_SECRET_VALUE"
-        case invalidTimeDelaySeconds = "INVALID_TIME_DELAY_SECONDS"
-        case ismContainerTypeWithDashManifest = "ISM_CONTAINER_TYPE_WITH_DASH_MANIFEST"
-        case ismContainerTypeWithHlsManifest = "ISM_CONTAINER_TYPE_WITH_HLS_MANIFEST"
-        case ismContainerTypeWithLlHlsManifest = "ISM_CONTAINER_TYPE_WITH_LL_HLS_MANIFEST"
-        case ismContainerTypeWithScte = "ISM_CONTAINER_TYPE_WITH_SCTE"
-        case ismContainerWithKeyRotation = "ISM_CONTAINER_WITH_KEY_ROTATION"
-        case malformedSecretArn = "MALFORMED_SECRET_ARN"
-        case manifestDrmSystemsIncompatible = "MANIFEST_DRM_SYSTEMS_INCOMPATIBLE"
-        case manifestNameCollision = "MANIFEST_NAME_COLLISION"
-        case memberDoesNotMatchPattern = "MEMBER_DOES_NOT_MATCH_PATTERN"
-        case memberInvalid = "MEMBER_INVALID"
-        case memberInvalidEnumValue = "MEMBER_INVALID_ENUM_VALUE"
-        case memberMaxLength = "MEMBER_MAX_LENGTH"
-        case memberMaxValue = "MEMBER_MAX_VALUE"
-        case memberMinLength = "MEMBER_MIN_LENGTH"
-        case memberMinValue = "MEMBER_MIN_VALUE"
-        case memberMissing = "MEMBER_MISSING"
-        case missingCertificateDomainName = "MISSING_CERTIFICATE_DOMAIN_NAME"
-        case multiviewChannelPolicyNotAllowed = "MULTIVIEW_CHANNEL_POLICY_NOT_ALLOWED"
-        case multiviewConfigurationNotAllowed = "MULTIVIEW_CONFIGURATION_NOT_ALLOWED"
-        case multiviewConfigurationRequired = "MULTIVIEW_CONFIGURATION_REQUIRED"
-        case multiviewDuplicateLayout = "MULTIVIEW_DUPLICATE_LAYOUT"
-        case multiviewDuplicateSource = "MULTIVIEW_DUPLICATE_SOURCE"
-        case multiviewInputSwitchNotAllowed = "MULTIVIEW_INPUT_SWITCH_NOT_ALLOWED"
-        case multiviewInputTypeWithFilterConfiguration = "MULTIVIEW_INPUT_TYPE_WITH_FILTER_CONFIGURATION"
-        case multiviewInputTypeWithHarvestJob = "MULTIVIEW_INPUT_TYPE_WITH_HARVEST_JOB"
-        case multiviewInputTypeWithIframeOnlyStreams = "MULTIVIEW_INPUT_TYPE_WITH_IFRAME_ONLY_STREAMS"
-        case multiviewInputTypeWithIsmContainer = "MULTIVIEW_INPUT_TYPE_WITH_ISM_CONTAINER"
-        case multiviewInputTypeWithLlHlsManifest = "MULTIVIEW_INPUT_TYPE_WITH_LL_HLS_MANIFEST"
-        case multiviewInputTypeWithMssManifest = "MULTIVIEW_INPUT_TYPE_WITH_MSS_MANIFEST"
-        case multiviewInputTypeWithNonEpochLocked = "MULTIVIEW_INPUT_TYPE_WITH_NON_EPOCH_LOCKED"
-        case multiviewInputTypeWithSegmentDuration = "MULTIVIEW_INPUT_TYPE_WITH_SEGMENT_DURATION"
-        case multiviewInputTypeWithStartTag = "MULTIVIEW_INPUT_TYPE_WITH_START_TAG"
-        case multiviewInvalidTimeDelaySeconds = "MULTIVIEW_INVALID_TIME_DELAY_SECONDS"
-        case multiviewManifestWindowTooLong = "MULTIVIEW_MANIFEST_WINDOW_TOO_LONG"
-        case multiviewOutputHeaderNotAllowed = "MULTIVIEW_OUTPUT_HEADER_NOT_ALLOWED"
-        case multiviewResetNotAllowed = "MULTIVIEW_RESET_NOT_ALLOWED"
-        case multiviewScteRequiresAvailsPeriodTrigger = "MULTIVIEW_SCTE_REQUIRES_AVAILS_PERIOD_TRIGGER"
-        case multiviewSourceInvalidInputType = "MULTIVIEW_SOURCE_INVALID_INPUT_TYPE"
-        case multiviewSourceNonEpochLocked = "MULTIVIEW_SOURCE_NON_EPOCH_LOCKED"
-        case multiviewSourceNotFound = "MULTIVIEW_SOURCE_NOT_FOUND"
-        case multiviewStartoverWindowNotAllowed = "MULTIVIEW_STARTOVER_WINDOW_NOT_ALLOWED"
-        case nonEpochLockedWithForceEndpointErrorConfiguration = "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION"
-        case noneModeWithTimingSource = "NONE_MODE_WITH_TIMING_SOURCE"
-        case numManifestsHigh = "NUM_MANIFESTS_HIGH"
-        case numManifestsLow = "NUM_MANIFESTS_LOW"
-        case onlyCmafInputTypeAllowForceEndpointErrorConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_FORCE_ENDPOINT_ERROR_CONFIGURATION"
-        case onlyCmafInputTypeAllowMqcsInputSwitching = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_INPUT_SWITCHING"
-        case onlyCmafInputTypeAllowMqcsOutputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
-        case onlyCmafInputTypeAllowOutputLockingMode = "ONLY_CMAF_INPUT_TYPE_ALLOW_OUTPUT_LOCKING_MODE"
-        case onlyCmafInputTypeAllowPreferredInputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
-        case onlyHlsInputTypeAllowStreamNameOutputMode = "ONLY_HLS_INPUT_TYPE_ALLOW_STREAM_NAME_OUTPUT_MODE"
-        case onlyNonEpochLockedAllowOutputTimestampMode = "ONLY_NON_EPOCH_LOCKED_ALLOW_OUTPUT_TIMESTAMP_MODE"
-        case outputTimestampModeImmutable = "OUTPUT_TIMESTAMP_MODE_IMMUTABLE"
-        case periodTriggersNoneSpecifiedWithAdditionalValues = "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
-        case resourceNotInSameRegion = "RESOURCE_NOT_IN_SAME_REGION"
-        case roleArnInvalidFormat = "ROLE_ARN_INVALID_FORMAT"
-        case roleArnLengthOutOfRange = "ROLE_ARN_LENGTH_OUT_OF_RANGE"
-        case roleArnNotAssumable = "ROLE_ARN_NOT_ASSUMABLE"
-        case scteInManifestsInvalidConfiguration = "SCTE_IN_MANIFESTS_INVALID_CONFIGURATION"
-        case secretArnResourceNotFound = "SECRET_ARN_RESOURCE_NOT_FOUND"
-        case secretFromDifferentAccount = "SECRET_FROM_DIFFERENT_ACCOUNT"
-        case secretFromDifferentRegion = "SECRET_FROM_DIFFERENT_REGION"
-        case secretIsNotOneKeyValuePair = "SECRET_IS_NOT_ONE_KEY_VALUE_PAIR"
-        case sourceDisruptionsEnabledIncorrectly = "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
-        case startTagTimeOffsetInvalid = "START_TAG_TIME_OFFSET_INVALID"
-        case streamNameOutputModeImmutable = "STREAM_NAME_OUTPUT_MODE_IMMUTABLE"
-        case timingSourceMissing = "TIMING_SOURCE_MISSING"
-        case tooManyInProgressHarvestJobs = "TOO_MANY_IN_PROGRESS_HARVEST_JOBS"
-        case tooManySecrets = "TOO_MANY_SECRETS"
-        case tsContainerTypeWithDashManifest = "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
-        case tsContainerTypeWithMssManifest = "TS_CONTAINER_TYPE_WITH_MSS_MANIFEST"
-        case updatePeriodSmallerThanSegmentDuration = "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
-        case urlInvalid = "URL_INVALID"
-        case urlLinkLocalAddress = "URL_LINK_LOCAL_ADDRESS"
-        case urlLocalAddress = "URL_LOCAL_ADDRESS"
-        case urlLoopbackAddress = "URL_LOOPBACK_ADDRESS"
-        case urlMulticastAddress = "URL_MULTICAST_ADDRESS"
-        case urlPort = "URL_PORT"
-        case urlScheme = "URL_SCHEME"
-        case urlUnknownHost = "URL_UNKNOWN_HOST"
-        case urlUserInfo = "URL_USER_INFO"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var batchGetSecretValueDenied: Self { .init(rawValue: "BATCH_GET_SECRET_VALUE_DENIED") }
+        @inlinable public static var cencIvIncompatible: Self { .init(rawValue: "CENC_IV_INCOMPATIBLE") }
+        @inlinable public static var certificateAccessDenied: Self { .init(rawValue: "CERTIFICATE_ACCESS_DENIED") }
+        @inlinable public static var certificateResourceNotFound: Self { .init(rawValue: "CERTIFICATE_RESOURCE_NOT_FOUND") }
+        @inlinable public static var clipStartTimeWithStartOrEnd: Self { .init(rawValue: "CLIP_START_TIME_WITH_START_OR_END") }
+        @inlinable public static var cmafContainerTypeWithMssManifest: Self { .init(rawValue: "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST") }
+        @inlinable public static var cmafExcludeSegmentDrmMetadataIncompatibleContainerType: Self { .init(rawValue: "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE") }
+        @inlinable public static var containerTypeImmutable: Self { .init(rawValue: "CONTAINER_TYPE_IMMUTABLE") }
+        @inlinable public static var contentKeyPeriodTimingRequiresSpekeV21: Self { .init(rawValue: "CONTENT_KEY_PERIOD_TIMING_REQUIRES_SPEKE_V2_1") }
+        @inlinable public static var contentKeyPeriodTimingWithoutKeyRotation: Self { .init(rawValue: "CONTENT_KEY_PERIOD_TIMING_WITHOUT_KEY_ROTATION") }
+        @inlinable public static var customAdTypesInvalidConfiguration: Self { .init(rawValue: "CUSTOM_AD_TYPES_INVALID_CONFIGURATION") }
+        @inlinable public static var dashDvbAttributesWithoutDvbDashProfile: Self { .init(rawValue: "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE") }
+        @inlinable public static var decryptSecretFailed: Self { .init(rawValue: "DECRYPT_SECRET_FAILED") }
+        @inlinable public static var describeCertificateFailed: Self { .init(rawValue: "DESCRIBE_CERTIFICATE_FAILED") }
+        @inlinable public static var describeSecretDenied: Self { .init(rawValue: "DESCRIBE_SECRET_DENIED") }
+        @inlinable public static var directModeWithTimingSource: Self { .init(rawValue: "DIRECT_MODE_WITH_TIMING_SOURCE") }
+        @inlinable public static var drmSignalingMismatchSegmentEncryptionStatus: Self { .init(rawValue: "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS") }
+        @inlinable public static var drmSystemsEncryptionMethodIncompatible: Self { .init(rawValue: "DRM_SYSTEMS_ENCRYPTION_METHOD_INCOMPATIBLE") }
+        @inlinable public static var duplicatedSecret: Self { .init(rawValue: "DUPLICATED_SECRET") }
+        @inlinable public static var encryptionContractShared: Self { .init(rawValue: "ENCRYPTION_CONTRACT_SHARED") }
+        @inlinable public static var encryptionContractUnencrypted: Self { .init(rawValue: "ENCRYPTION_CONTRACT_UNENCRYPTED") }
+        @inlinable public static var encryptionContractWithIsmContainerIncompatible: Self { .init(rawValue: "ENCRYPTION_CONTRACT_WITH_ISM_CONTAINER_INCOMPATIBLE") }
+        @inlinable public static var encryptionContractWithoutAudioRenditionIncompatible: Self { .init(rawValue: "ENCRYPTION_CONTRACT_WITHOUT_AUDIO_RENDITION_INCOMPATIBLE") }
+        @inlinable public static var encryptionMethodContainerTypeMismatch: Self { .init(rawValue: "ENCRYPTION_METHOD_CONTAINER_TYPE_MISMATCH") }
+        @inlinable public static var endTimeEarlierThanStartTime: Self { .init(rawValue: "END_TIME_EARLIER_THAN_START_TIME") }
+        @inlinable public static var getSecretValueDenied: Self { .init(rawValue: "GET_SECRET_VALUE_DENIED") }
+        @inlinable public static var harvestJobCustomerEndpointReadAccessDenied: Self { .init(rawValue: "HARVEST_JOB_CUSTOMER_ENDPOINT_READ_ACCESS_DENIED") }
+        @inlinable public static var harvestJobIneligibleForCancellation: Self { .init(rawValue: "HARVEST_JOB_INELIGIBLE_FOR_CANCELLATION") }
+        @inlinable public static var harvestJobS3DestinationMissingOrIncomplete: Self { .init(rawValue: "HARVEST_JOB_S3_DESTINATION_MISSING_OR_INCOMPLETE") }
+        @inlinable public static var harvestJobUnableToWriteToS3Destination: Self { .init(rawValue: "HARVEST_JOB_UNABLE_TO_WRITE_TO_S3_DESTINATION") }
+        @inlinable public static var harvestedManifestHasStartEndFilterConfiguration: Self { .init(rawValue: "HARVESTED_MANIFEST_HAS_START_END_FILTER_CONFIGURATION") }
+        @inlinable public static var harvestedManifestNotFoundOnEndpoint: Self { .init(rawValue: "HARVESTED_MANIFEST_NOT_FOUND_ON_ENDPOINT") }
+        @inlinable public static var incompatibleDashCompactnessConfiguration: Self { .init(rawValue: "INCOMPATIBLE_DASH_COMPACTNESS_CONFIGURATION") }
+        @inlinable public static var incompatibleDashProfileDvbDashConfiguration: Self { .init(rawValue: "INCOMPATIBLE_DASH_PROFILE_DVB_DASH_CONFIGURATION") }
+        @inlinable public static var incompatibleXmlEncoding: Self { .init(rawValue: "INCOMPATIBLE_XML_ENCODING") }
+        @inlinable public static var invalidArn: Self { .init(rawValue: "INVALID_ARN") }
+        @inlinable public static var invalidCertificateKeyAlgorithm: Self { .init(rawValue: "INVALID_CERTIFICATE_KEY_ALGORITHM") }
+        @inlinable public static var invalidCertificateSignatureAlgorithm: Self { .init(rawValue: "INVALID_CERTIFICATE_SIGNATURE_ALGORITHM") }
+        @inlinable public static var invalidCertificateStatus: Self { .init(rawValue: "INVALID_CERTIFICATE_STATUS") }
+        @inlinable public static var invalidDrmSettings: Self { .init(rawValue: "INVALID_DRM_SETTINGS") }
+        @inlinable public static var invalidHarvestJobDuration: Self { .init(rawValue: "INVALID_HARVEST_JOB_DURATION") }
+        @inlinable public static var invalidManifestFilter: Self { .init(rawValue: "INVALID_MANIFEST_FILTER") }
+        @inlinable public static var invalidPaginationMaxResults: Self { .init(rawValue: "INVALID_PAGINATION_MAX_RESULTS") }
+        @inlinable public static var invalidPaginationToken: Self { .init(rawValue: "INVALID_PAGINATION_TOKEN") }
+        @inlinable public static var invalidPolicy: Self { .init(rawValue: "INVALID_POLICY") }
+        @inlinable public static var invalidRoleArn: Self { .init(rawValue: "INVALID_ROLE_ARN") }
+        @inlinable public static var invalidSecret: Self { .init(rawValue: "INVALID_SECRET") }
+        @inlinable public static var invalidSecretFormat: Self { .init(rawValue: "INVALID_SECRET_FORMAT") }
+        @inlinable public static var invalidSecretKey: Self { .init(rawValue: "INVALID_SECRET_KEY") }
+        @inlinable public static var invalidSecretValue: Self { .init(rawValue: "INVALID_SECRET_VALUE") }
+        @inlinable public static var invalidTimeDelaySeconds: Self { .init(rawValue: "INVALID_TIME_DELAY_SECONDS") }
+        @inlinable public static var ismContainerTypeWithDashManifest: Self { .init(rawValue: "ISM_CONTAINER_TYPE_WITH_DASH_MANIFEST") }
+        @inlinable public static var ismContainerTypeWithHlsManifest: Self { .init(rawValue: "ISM_CONTAINER_TYPE_WITH_HLS_MANIFEST") }
+        @inlinable public static var ismContainerTypeWithLlHlsManifest: Self { .init(rawValue: "ISM_CONTAINER_TYPE_WITH_LL_HLS_MANIFEST") }
+        @inlinable public static var ismContainerTypeWithScte: Self { .init(rawValue: "ISM_CONTAINER_TYPE_WITH_SCTE") }
+        @inlinable public static var ismContainerWithKeyRotation: Self { .init(rawValue: "ISM_CONTAINER_WITH_KEY_ROTATION") }
+        @inlinable public static var malformedSecretArn: Self { .init(rawValue: "MALFORMED_SECRET_ARN") }
+        @inlinable public static var manifestDrmSystemsIncompatible: Self { .init(rawValue: "MANIFEST_DRM_SYSTEMS_INCOMPATIBLE") }
+        @inlinable public static var manifestNameCollision: Self { .init(rawValue: "MANIFEST_NAME_COLLISION") }
+        @inlinable public static var memberDoesNotMatchPattern: Self { .init(rawValue: "MEMBER_DOES_NOT_MATCH_PATTERN") }
+        @inlinable public static var memberInvalid: Self { .init(rawValue: "MEMBER_INVALID") }
+        @inlinable public static var memberInvalidEnumValue: Self { .init(rawValue: "MEMBER_INVALID_ENUM_VALUE") }
+        @inlinable public static var memberMaxLength: Self { .init(rawValue: "MEMBER_MAX_LENGTH") }
+        @inlinable public static var memberMaxValue: Self { .init(rawValue: "MEMBER_MAX_VALUE") }
+        @inlinable public static var memberMinLength: Self { .init(rawValue: "MEMBER_MIN_LENGTH") }
+        @inlinable public static var memberMinValue: Self { .init(rawValue: "MEMBER_MIN_VALUE") }
+        @inlinable public static var memberMissing: Self { .init(rawValue: "MEMBER_MISSING") }
+        @inlinable public static var missingCertificateDomainName: Self { .init(rawValue: "MISSING_CERTIFICATE_DOMAIN_NAME") }
+        @inlinable public static var multiviewChannelPolicyNotAllowed: Self { .init(rawValue: "MULTIVIEW_CHANNEL_POLICY_NOT_ALLOWED") }
+        @inlinable public static var multiviewConfigurationNotAllowed: Self { .init(rawValue: "MULTIVIEW_CONFIGURATION_NOT_ALLOWED") }
+        @inlinable public static var multiviewConfigurationRequired: Self { .init(rawValue: "MULTIVIEW_CONFIGURATION_REQUIRED") }
+        @inlinable public static var multiviewDuplicateLayout: Self { .init(rawValue: "MULTIVIEW_DUPLICATE_LAYOUT") }
+        @inlinable public static var multiviewDuplicateSource: Self { .init(rawValue: "MULTIVIEW_DUPLICATE_SOURCE") }
+        @inlinable public static var multiviewInputSwitchNotAllowed: Self { .init(rawValue: "MULTIVIEW_INPUT_SWITCH_NOT_ALLOWED") }
+        @inlinable public static var multiviewInputTypeWithFilterConfiguration: Self { .init(rawValue: "MULTIVIEW_INPUT_TYPE_WITH_FILTER_CONFIGURATION") }
+        @inlinable public static var multiviewInputTypeWithHarvestJob: Self { .init(rawValue: "MULTIVIEW_INPUT_TYPE_WITH_HARVEST_JOB") }
+        @inlinable public static var multiviewInputTypeWithIframeOnlyStreams: Self { .init(rawValue: "MULTIVIEW_INPUT_TYPE_WITH_IFRAME_ONLY_STREAMS") }
+        @inlinable public static var multiviewInputTypeWithIsmContainer: Self { .init(rawValue: "MULTIVIEW_INPUT_TYPE_WITH_ISM_CONTAINER") }
+        @inlinable public static var multiviewInputTypeWithLlHlsManifest: Self { .init(rawValue: "MULTIVIEW_INPUT_TYPE_WITH_LL_HLS_MANIFEST") }
+        @inlinable public static var multiviewInputTypeWithMssManifest: Self { .init(rawValue: "MULTIVIEW_INPUT_TYPE_WITH_MSS_MANIFEST") }
+        @inlinable public static var multiviewInputTypeWithNonEpochLocked: Self { .init(rawValue: "MULTIVIEW_INPUT_TYPE_WITH_NON_EPOCH_LOCKED") }
+        @inlinable public static var multiviewInputTypeWithSegmentDuration: Self { .init(rawValue: "MULTIVIEW_INPUT_TYPE_WITH_SEGMENT_DURATION") }
+        @inlinable public static var multiviewInputTypeWithStartTag: Self { .init(rawValue: "MULTIVIEW_INPUT_TYPE_WITH_START_TAG") }
+        @inlinable public static var multiviewInvalidTimeDelaySeconds: Self { .init(rawValue: "MULTIVIEW_INVALID_TIME_DELAY_SECONDS") }
+        @inlinable public static var multiviewManifestWindowTooLong: Self { .init(rawValue: "MULTIVIEW_MANIFEST_WINDOW_TOO_LONG") }
+        @inlinable public static var multiviewOutputHeaderNotAllowed: Self { .init(rawValue: "MULTIVIEW_OUTPUT_HEADER_NOT_ALLOWED") }
+        @inlinable public static var multiviewResetNotAllowed: Self { .init(rawValue: "MULTIVIEW_RESET_NOT_ALLOWED") }
+        @inlinable public static var multiviewScteRequiresAvailsPeriodTrigger: Self { .init(rawValue: "MULTIVIEW_SCTE_REQUIRES_AVAILS_PERIOD_TRIGGER") }
+        @inlinable public static var multiviewSourceInvalidInputType: Self { .init(rawValue: "MULTIVIEW_SOURCE_INVALID_INPUT_TYPE") }
+        @inlinable public static var multiviewSourceNonEpochLocked: Self { .init(rawValue: "MULTIVIEW_SOURCE_NON_EPOCH_LOCKED") }
+        @inlinable public static var multiviewSourceNotFound: Self { .init(rawValue: "MULTIVIEW_SOURCE_NOT_FOUND") }
+        @inlinable public static var multiviewStartoverWindowNotAllowed: Self { .init(rawValue: "MULTIVIEW_STARTOVER_WINDOW_NOT_ALLOWED") }
+        @inlinable public static var nonEpochLockedWithForceEndpointErrorConfiguration: Self { .init(rawValue: "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION") }
+        @inlinable public static var noneModeWithTimingSource: Self { .init(rawValue: "NONE_MODE_WITH_TIMING_SOURCE") }
+        @inlinable public static var numManifestsHigh: Self { .init(rawValue: "NUM_MANIFESTS_HIGH") }
+        @inlinable public static var numManifestsLow: Self { .init(rawValue: "NUM_MANIFESTS_LOW") }
+        @inlinable public static var onlyCmafInputTypeAllowForceEndpointErrorConfiguration: Self { .init(rawValue: "ONLY_CMAF_INPUT_TYPE_ALLOW_FORCE_ENDPOINT_ERROR_CONFIGURATION") }
+        @inlinable public static var onlyCmafInputTypeAllowMqcsInputSwitching: Self { .init(rawValue: "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_INPUT_SWITCHING") }
+        @inlinable public static var onlyCmafInputTypeAllowMqcsOutputConfiguration: Self { .init(rawValue: "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION") }
+        @inlinable public static var onlyCmafInputTypeAllowOutputLockingMode: Self { .init(rawValue: "ONLY_CMAF_INPUT_TYPE_ALLOW_OUTPUT_LOCKING_MODE") }
+        @inlinable public static var onlyCmafInputTypeAllowPreferredInputConfiguration: Self { .init(rawValue: "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION") }
+        @inlinable public static var onlyHlsInputTypeAllowStreamNameOutputMode: Self { .init(rawValue: "ONLY_HLS_INPUT_TYPE_ALLOW_STREAM_NAME_OUTPUT_MODE") }
+        @inlinable public static var onlyNonEpochLockedAllowOutputTimestampMode: Self { .init(rawValue: "ONLY_NON_EPOCH_LOCKED_ALLOW_OUTPUT_TIMESTAMP_MODE") }
+        @inlinable public static var outputTimestampModeImmutable: Self { .init(rawValue: "OUTPUT_TIMESTAMP_MODE_IMMUTABLE") }
+        @inlinable public static var periodTriggersNoneSpecifiedWithAdditionalValues: Self { .init(rawValue: "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES") }
+        @inlinable public static var resourceNotInSameRegion: Self { .init(rawValue: "RESOURCE_NOT_IN_SAME_REGION") }
+        @inlinable public static var roleArnInvalidFormat: Self { .init(rawValue: "ROLE_ARN_INVALID_FORMAT") }
+        @inlinable public static var roleArnLengthOutOfRange: Self { .init(rawValue: "ROLE_ARN_LENGTH_OUT_OF_RANGE") }
+        @inlinable public static var roleArnNotAssumable: Self { .init(rawValue: "ROLE_ARN_NOT_ASSUMABLE") }
+        @inlinable public static var scteInManifestsInvalidConfiguration: Self { .init(rawValue: "SCTE_IN_MANIFESTS_INVALID_CONFIGURATION") }
+        @inlinable public static var secretArnResourceNotFound: Self { .init(rawValue: "SECRET_ARN_RESOURCE_NOT_FOUND") }
+        @inlinable public static var secretFromDifferentAccount: Self { .init(rawValue: "SECRET_FROM_DIFFERENT_ACCOUNT") }
+        @inlinable public static var secretFromDifferentRegion: Self { .init(rawValue: "SECRET_FROM_DIFFERENT_REGION") }
+        @inlinable public static var secretIsNotOneKeyValuePair: Self { .init(rawValue: "SECRET_IS_NOT_ONE_KEY_VALUE_PAIR") }
+        @inlinable public static var sourceDisruptionsEnabledIncorrectly: Self { .init(rawValue: "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY") }
+        @inlinable public static var startTagTimeOffsetInvalid: Self { .init(rawValue: "START_TAG_TIME_OFFSET_INVALID") }
+        @inlinable public static var streamNameOutputModeImmutable: Self { .init(rawValue: "STREAM_NAME_OUTPUT_MODE_IMMUTABLE") }
+        @inlinable public static var timingSourceMissing: Self { .init(rawValue: "TIMING_SOURCE_MISSING") }
+        @inlinable public static var tooManyInProgressHarvestJobs: Self { .init(rawValue: "TOO_MANY_IN_PROGRESS_HARVEST_JOBS") }
+        @inlinable public static var tooManySecrets: Self { .init(rawValue: "TOO_MANY_SECRETS") }
+        @inlinable public static var tsContainerTypeWithDashManifest: Self { .init(rawValue: "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST") }
+        @inlinable public static var tsContainerTypeWithMssManifest: Self { .init(rawValue: "TS_CONTAINER_TYPE_WITH_MSS_MANIFEST") }
+        @inlinable public static var updatePeriodSmallerThanSegmentDuration: Self { .init(rawValue: "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION") }
+        @inlinable public static var urlInvalid: Self { .init(rawValue: "URL_INVALID") }
+        @inlinable public static var urlLinkLocalAddress: Self { .init(rawValue: "URL_LINK_LOCAL_ADDRESS") }
+        @inlinable public static var urlLocalAddress: Self { .init(rawValue: "URL_LOCAL_ADDRESS") }
+        @inlinable public static var urlLoopbackAddress: Self { .init(rawValue: "URL_LOOPBACK_ADDRESS") }
+        @inlinable public static var urlMulticastAddress: Self { .init(rawValue: "URL_MULTICAST_ADDRESS") }
+        @inlinable public static var urlPort: Self { .init(rawValue: "URL_PORT") }
+        @inlinable public static var urlScheme: Self { .init(rawValue: "URL_SCHEME") }
+        @inlinable public static var urlUnknownHost: Self { .init(rawValue: "URL_UNKNOWN_HOST") }
+        @inlinable public static var urlUserInfo: Self { .init(rawValue: "URL_USER_INFO") }
     }
 
     // MARK: Shapes

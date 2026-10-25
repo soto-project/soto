@@ -25,21 +25,29 @@ import Foundation
 extension AccountAccess {
     // MARK: Enums
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case authorizationError = "AUTHORIZATION_ERROR"
-        case internalServiceError = "INTERNAL_SERVICE_ERROR"
-        case resourceNotFoundError = "RESOURCE_NOT_FOUND_ERROR"
-        case serviceQuotaExceededError = "SERVICE_QUOTA_EXCEEDED_ERROR"
-        public var description: String { return self.rawValue }
+    public struct ErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var authorizationError: Self { .init(rawValue: "AUTHORIZATION_ERROR") }
+        @inlinable public static var internalServiceError: Self { .init(rawValue: "INTERNAL_SERVICE_ERROR") }
+        @inlinable public static var resourceNotFoundError: Self { .init(rawValue: "RESOURCE_NOT_FOUND_ERROR") }
+        @inlinable public static var serviceQuotaExceededError: Self { .init(rawValue: "SERVICE_QUOTA_EXCEEDED_ERROR") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case createFailed = "CREATE_FAILED"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
     }
 
     public enum IdentityCenterPrincipal: AWSEncodableShape & AWSDecodableShape, Sendable {

@@ -25,261 +25,345 @@ import Foundation
 extension MarketplaceAgreement {
     // MARK: Enums
 
-    public enum AccessDeniedExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deniedByPrivateMarketplacePolicy = "DENIED_BY_PRIVATE_MARKETPLACE_POLICY"
-        case failedKycCompliance = "FAILED_KYC_COMPLIANCE"
-        case invalidAccess = "INVALID_ACCESS"
-        case invalidAccountState = "INVALID_ACCOUNT_STATE"
-        case missingMfa = "MISSING_MFA"
-        public var description: String { return self.rawValue }
+    public struct AccessDeniedExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deniedByPrivateMarketplacePolicy: Self { .init(rawValue: "DENIED_BY_PRIVATE_MARKETPLACE_POLICY") }
+        @inlinable public static var failedKycCompliance: Self { .init(rawValue: "FAILED_KYC_COMPLIANCE") }
+        @inlinable public static var invalidAccess: Self { .init(rawValue: "INVALID_ACCESS") }
+        @inlinable public static var invalidAccountState: Self { .init(rawValue: "INVALID_ACCOUNT_STATE") }
+        @inlinable public static var missingMfa: Self { .init(rawValue: "MISSING_MFA") }
     }
 
-    public enum AgreementCancellationRequestReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alternativeProcurementChannel = "ALTERNATIVE_PROCUREMENT_CHANNEL"
-        case buyerDissatisfaction = "BUYER_DISSATISFACTION"
-        case incorrectTermsAccepted = "INCORRECT_TERMS_ACCEPTED"
-        case other = "OTHER"
-        case productDiscontinued = "PRODUCT_DISCONTINUED"
-        case replacingAgreement = "REPLACING_AGREEMENT"
-        case testAgreement = "TEST_AGREEMENT"
-        case unintendedRenewal = "UNINTENDED_RENEWAL"
-        public var description: String { return self.rawValue }
+    public struct AgreementCancellationRequestReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alternativeProcurementChannel: Self { .init(rawValue: "ALTERNATIVE_PROCUREMENT_CHANNEL") }
+        @inlinable public static var buyerDissatisfaction: Self { .init(rawValue: "BUYER_DISSATISFACTION") }
+        @inlinable public static var incorrectTermsAccepted: Self { .init(rawValue: "INCORRECT_TERMS_ACCEPTED") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var productDiscontinued: Self { .init(rawValue: "PRODUCT_DISCONTINUED") }
+        @inlinable public static var replacingAgreement: Self { .init(rawValue: "REPLACING_AGREEMENT") }
+        @inlinable public static var testAgreement: Self { .init(rawValue: "TEST_AGREEMENT") }
+        @inlinable public static var unintendedRenewal: Self { .init(rawValue: "UNINTENDED_RENEWAL") }
     }
 
-    public enum AgreementCancellationRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case approved = "APPROVED"
-        case cancelled = "CANCELLED"
-        case pendingApproval = "PENDING_APPROVAL"
-        case rejected = "REJECTED"
-        case validationFailed = "VALIDATION_FAILED"
-        public var description: String { return self.rawValue }
+    public struct AgreementCancellationRequestStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var approved: Self { .init(rawValue: "APPROVED") }
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var pendingApproval: Self { .init(rawValue: "PENDING_APPROVAL") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
+        @inlinable public static var validationFailed: Self { .init(rawValue: "VALIDATION_FAILED") }
     }
 
-    public enum AgreementEntitlementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deprovisioned = "DEPROVISIONED"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        case provisioned = "PROVISIONED"
-        case scheduled = "SCHEDULED"
-        public var description: String { return self.rawValue }
+    public struct AgreementEntitlementStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deprovisioned: Self { .init(rawValue: "DEPROVISIONED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var provisioned: Self { .init(rawValue: "PROVISIONED") }
+        @inlinable public static var scheduled: Self { .init(rawValue: "SCHEDULED") }
     }
 
-    public enum AgreementEntitlementStatusReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountSuspended = "ACCOUNT_SUSPENDED"
-        case agreementActive = "AGREEMENT_ACTIVE"
-        case agreementInactive = "AGREEMENT_INACTIVE"
-        case futureStartDate = "FUTURE_START_DATE"
-        case incompatibleCurrency = "INCOMPATIBLE_CURRENCY"
-        case invalidPaymentInstrument = "INVALID_PAYMENT_INSTRUMENT"
-        case productRestricted = "PRODUCT_RESTRICTED"
-        case provisioningInProgress = "PROVISIONING_IN_PROGRESS"
-        case unsupportedOperation = "UNSUPPORTED_OPERATION"
-        public var description: String { return self.rawValue }
+    public struct AgreementEntitlementStatusReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountSuspended: Self { .init(rawValue: "ACCOUNT_SUSPENDED") }
+        @inlinable public static var agreementActive: Self { .init(rawValue: "AGREEMENT_ACTIVE") }
+        @inlinable public static var agreementInactive: Self { .init(rawValue: "AGREEMENT_INACTIVE") }
+        @inlinable public static var futureStartDate: Self { .init(rawValue: "FUTURE_START_DATE") }
+        @inlinable public static var incompatibleCurrency: Self { .init(rawValue: "INCOMPATIBLE_CURRENCY") }
+        @inlinable public static var invalidPaymentInstrument: Self { .init(rawValue: "INVALID_PAYMENT_INSTRUMENT") }
+        @inlinable public static var productRestricted: Self { .init(rawValue: "PRODUCT_RESTRICTED") }
+        @inlinable public static var provisioningInProgress: Self { .init(rawValue: "PROVISIONING_IN_PROGRESS") }
+        @inlinable public static var unsupportedOperation: Self { .init(rawValue: "UNSUPPORTED_OPERATION") }
     }
 
-    public enum AgreementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case archived = "ARCHIVED"
-        case cancelled = "CANCELLED"
-        case expired = "EXPIRED"
-        case renewed = "RENEWED"
-        case replaced = "REPLACED"
-        case rolledBack = "ROLLED_BACK"
-        case superseded = "SUPERSEDED"
-        case terminated = "TERMINATED"
-        public var description: String { return self.rawValue }
+    public struct AgreementStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var archived: Self { .init(rawValue: "ARCHIVED") }
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var renewed: Self { .init(rawValue: "RENEWED") }
+        @inlinable public static var replaced: Self { .init(rawValue: "REPLACED") }
+        @inlinable public static var rolledBack: Self { .init(rawValue: "ROLLED_BACK") }
+        @inlinable public static var superseded: Self { .init(rawValue: "SUPERSEDED") }
+        @inlinable public static var terminated: Self { .init(rawValue: "TERMINATED") }
     }
 
-    public enum BillingAdjustmentErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case conflictException = "CONFLICT_EXCEPTION"
-        case internalFailure = "INTERNAL_FAILURE"
-        case resourceNotFoundException = "RESOURCE_NOT_FOUND_EXCEPTION"
-        case validationException = "VALIDATION_EXCEPTION"
-        public var description: String { return self.rawValue }
+    public struct BillingAdjustmentErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var conflictException: Self { .init(rawValue: "CONFLICT_EXCEPTION") }
+        @inlinable public static var internalFailure: Self { .init(rawValue: "INTERNAL_FAILURE") }
+        @inlinable public static var resourceNotFoundException: Self { .init(rawValue: "RESOURCE_NOT_FOUND_EXCEPTION") }
+        @inlinable public static var validationException: Self { .init(rawValue: "VALIDATION_EXCEPTION") }
     }
 
-    public enum BillingAdjustmentReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alternativeProcurementChannel = "ALTERNATIVE_PROCUREMENT_CHANNEL"
-        case buyerDissatisfaction = "BUYER_DISSATISFACTION"
-        case incorrectMetering = "INCORRECT_METERING"
-        case incorrectTermsAccepted = "INCORRECT_TERMS_ACCEPTED"
-        case other = "OTHER"
-        case testEnvironmentCharges = "TEST_ENVIRONMENT_CHARGES"
-        case unintendedRenewal = "UNINTENDED_RENEWAL"
-        public var description: String { return self.rawValue }
+    public struct BillingAdjustmentReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alternativeProcurementChannel: Self { .init(rawValue: "ALTERNATIVE_PROCUREMENT_CHANNEL") }
+        @inlinable public static var buyerDissatisfaction: Self { .init(rawValue: "BUYER_DISSATISFACTION") }
+        @inlinable public static var incorrectMetering: Self { .init(rawValue: "INCORRECT_METERING") }
+        @inlinable public static var incorrectTermsAccepted: Self { .init(rawValue: "INCORRECT_TERMS_ACCEPTED") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var testEnvironmentCharges: Self { .init(rawValue: "TEST_ENVIRONMENT_CHARGES") }
+        @inlinable public static var unintendedRenewal: Self { .init(rawValue: "UNINTENDED_RENEWAL") }
     }
 
-    public enum BillingAdjustmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case pending = "PENDING"
-        case validationFailed = "VALIDATION_FAILED"
-        public var description: String { return self.rawValue }
+    public struct BillingAdjustmentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var validationFailed: Self { .init(rawValue: "VALIDATION_FAILED") }
     }
 
-    public enum EndTimeBehaviorReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case acceptorRenewOptedOut = "ACCEPTOR_RENEW_OPTED_OUT"
-        case noRenewalTerm = "NO_RENEWAL_TERM"
-        case proposerRenewOptedOut = "PROPOSER_RENEW_OPTED_OUT"
-        case renewalLimitExhausted = "RENEWAL_LIMIT_EXHAUSTED"
-        public var description: String { return self.rawValue }
+    public struct EndTimeBehaviorReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var acceptorRenewOptedOut: Self { .init(rawValue: "ACCEPTOR_RENEW_OPTED_OUT") }
+        @inlinable public static var noRenewalTerm: Self { .init(rawValue: "NO_RENEWAL_TERM") }
+        @inlinable public static var proposerRenewOptedOut: Self { .init(rawValue: "PROPOSER_RENEW_OPTED_OUT") }
+        @inlinable public static var renewalLimitExhausted: Self { .init(rawValue: "RENEWAL_LIMIT_EXHAUSTED") }
     }
 
-    public enum EndTimeBehaviorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case expire = "EXPIRE"
-        case renew = "RENEW"
-        case replace = "REPLACE"
-        public var description: String { return self.rawValue }
+    public struct EndTimeBehaviorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var expire: Self { .init(rawValue: "EXPIRE") }
+        @inlinable public static var renew: Self { .init(rawValue: "RENEW") }
+        @inlinable public static var replace: Self { .init(rawValue: "REPLACE") }
     }
 
-    public enum Intent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case amend = "AMEND"
-        case new = "NEW"
-        case replace = "REPLACE"
-        public var description: String { return self.rawValue }
+    public struct Intent: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var amend: Self { .init(rawValue: "AMEND") }
+        @inlinable public static var new: Self { .init(rawValue: "NEW") }
+        @inlinable public static var replace: Self { .init(rawValue: "REPLACE") }
     }
 
-    public enum InvoiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creditMemo = "CREDIT_MEMO"
-        case invoice = "INVOICE"
-        public var description: String { return self.rawValue }
+    public struct InvoiceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var creditMemo: Self { .init(rawValue: "CREDIT_MEMO") }
+        @inlinable public static var invoice: Self { .init(rawValue: "INVOICE") }
     }
 
-    public enum LineItemGroupBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case invoiceId = "INVOICE_ID"
-        public var description: String { return self.rawValue }
+    public struct LineItemGroupBy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var invoiceId: Self { .init(rawValue: "INVOICE_ID") }
     }
 
-    public enum PaymentRequestApprovalStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case autoApproveOnExpiration = "AUTO_APPROVE_ON_EXPIRATION"
-        case waitForApproval = "WAIT_FOR_APPROVAL"
-        public var description: String { return self.rawValue }
+    public struct PaymentRequestApprovalStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var autoApproveOnExpiration: Self { .init(rawValue: "AUTO_APPROVE_ON_EXPIRATION") }
+        @inlinable public static var waitForApproval: Self { .init(rawValue: "WAIT_FOR_APPROVAL") }
     }
 
-    public enum PaymentRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case approved = "APPROVED"
-        case cancelled = "CANCELLED"
-        case pendingApproval = "PENDING_APPROVAL"
-        case rejected = "REJECTED"
-        case validating = "VALIDATING"
-        case validationFailed = "VALIDATION_FAILED"
-        public var description: String { return self.rawValue }
+    public struct PaymentRequestStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var approved: Self { .init(rawValue: "APPROVED") }
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var pendingApproval: Self { .init(rawValue: "PENDING_APPROVAL") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
+        @inlinable public static var validating: Self { .init(rawValue: "VALIDATING") }
+        @inlinable public static var validationFailed: Self { .init(rawValue: "VALIDATION_FAILED") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case agreement = "Agreement"
-        case agreementCancellationRequest = "AgreementCancellationRequest"
-        case agreementProposal = "AgreementProposal"
-        case agreementRequest = "AgreementRequest"
-        case billingAdjustmentRequest = "BillingAdjustmentRequest"
-        case charge = "Charge"
-        case invoice = "Invoice"
-        case paymentRequest = "PaymentRequest"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var agreement: Self { .init(rawValue: "Agreement") }
+        @inlinable public static var agreementCancellationRequest: Self { .init(rawValue: "AgreementCancellationRequest") }
+        @inlinable public static var agreementProposal: Self { .init(rawValue: "AgreementProposal") }
+        @inlinable public static var agreementRequest: Self { .init(rawValue: "AgreementRequest") }
+        @inlinable public static var billingAdjustmentRequest: Self { .init(rawValue: "BillingAdjustmentRequest") }
+        @inlinable public static var charge: Self { .init(rawValue: "Charge") }
+        @inlinable public static var invoice: Self { .init(rawValue: "Invoice") }
+        @inlinable public static var paymentRequest: Self { .init(rawValue: "PaymentRequest") }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
+    public struct SortOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ascending: Self { .init(rawValue: "ASCENDING") }
+        @inlinable public static var descending: Self { .init(rawValue: "DESCENDING") }
     }
 
-    public enum TaxEstimation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct TaxEstimation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum Timing: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billingPeriod = "BILLING_PERIOD"
-        case onAcceptance = "ON_ACCEPTANCE"
-        case scheduled = "SCHEDULED"
-        public var description: String { return self.rawValue }
+    public struct Timing: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billingPeriod: Self { .init(rawValue: "BILLING_PERIOD") }
+        @inlinable public static var onAcceptance: Self { .init(rawValue: "ON_ACCEPTANCE") }
+        @inlinable public static var scheduled: Self { .init(rawValue: "SCHEDULED") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billingAdjustmentsLimitExceeded = "BILLING_ADJUSTMENTS_LIMIT_EXCEEDED"
-        case duplicateAgreementInOrganization = "DUPLICATE_AGREEMENT_IN_ORGANIZATION"
-        case duplicateCharges = "DUPLICATE_CHARGES"
-        case exceededMaximumAdjustmentAmount = "EXCEEDED_MAXIMUM_ADJUSTMENT_AMOUNT"
-        case expiredAgreementProposal = "EXPIRED_AGREEMENT_PROPOSAL"
-        case inactiveAgreement = "INACTIVE_AGREEMENT"
-        case incompatibleTerms = "INCOMPATIBLE_TERMS"
-        case invalidAdjustmentAmount = "INVALID_ADJUSTMENT_AMOUNT"
-        case invalidAgreementCancellationRequestId = "INVALID_AGREEMENT_CANCELLATION_REQUEST_ID"
-        case invalidAgreementId = "INVALID_AGREEMENT_ID"
-        case invalidAgreementProposalIdentifier = "INVALID_AGREEMENT_PROPOSAL_IDENTIFIER"
-        case invalidAgreementRequestId = "INVALID_AGREEMENT_REQUEST_ID"
-        case invalidAgreementType = "INVALID_AGREEMENT_TYPE"
-        case invalidCatalog = "INVALID_CATALOG"
-        case invalidChargeAmount = "INVALID_CHARGE_AMOUNT"
-        case invalidChargeId = "INVALID_CHARGE_ID"
-        case invalidChargeRevision = "INVALID_CHARGE_REVISION"
-        case invalidClientToken = "INVALID_CLIENT_TOKEN"
-        case invalidCurrencyCode = "INVALID_CURRENCY_CODE"
-        case invalidDescription = "INVALID_DESCRIPTION"
-        case invalidFilterName = "INVALID_FILTER_NAME"
-        case invalidFilterValues = "INVALID_FILTER_VALUES"
-        case invalidFilters = "INVALID_FILTERS"
-        case invalidIncrementalCharge = "INVALID_INCREMENTAL_CHARGE"
-        case invalidIntent = "INVALID_INTENT"
-        case invalidInvoiceAdjustmentPeriod = "INVALID_INVOICE_ADJUSTMENT_PERIOD"
-        case invalidMaxResults = "INVALID_MAX_RESULTS"
-        case invalidName = "INVALID_NAME"
-        case invalidNextToken = "INVALID_NEXT_TOKEN"
-        case invalidPartyType = "INVALID_PARTY_TYPE"
-        case invalidPaymentRequestId = "INVALID_PAYMENT_REQUEST_ID"
-        case invalidPaymentRequestStatus = "INVALID_PAYMENT_REQUEST_STATUS"
-        case invalidPurchaseOrderReference = "INVALID_PURCHASE_ORDER_REFERENCE"
-        case invalidPurchaseOrders = "INVALID_PURCHASE_ORDERS"
-        case invalidReason = "INVALID_REASON"
-        case invalidReasonCode = "INVALID_REASON_CODE"
-        case invalidRejectionReason = "INVALID_REJECTION_REASON"
-        case invalidRequestedTermConfiguration = "INVALID_REQUESTED_TERM_CONFIGURATION"
-        case invalidRequestedTermId = "INVALID_REQUESTED_TERM_ID"
-        case invalidRequestedTerms = "INVALID_REQUESTED_TERMS"
-        case invalidSortBy = "INVALID_SORT_BY"
-        case invalidSortOrder = "INVALID_SORT_ORDER"
-        case invalidSourceAgreementIdentifier = "INVALID_SOURCE_AGREEMENT_IDENTIFIER"
-        case invalidStatus = "INVALID_STATUS"
-        case invalidTermId = "INVALID_TERM_ID"
-        case missingAccountAddress = "MISSING_ACCOUNT_ADDRESS"
-        case missingAdjustmentAmount = "MISSING_ADJUSTMENT_AMOUNT"
-        case missingAgreementCancellationRequestId = "MISSING_AGREEMENT_CANCELLATION_REQUEST_ID"
-        case missingAgreementId = "MISSING_AGREEMENT_ID"
-        case missingAgreementProposalIdentifier = "MISSING_AGREEMENT_PROPOSAL_IDENTIFIER"
-        case missingAgreementRequestId = "MISSING_AGREEMENT_REQUEST_ID"
-        case missingBillingAdjustmentRequestEntry = "MISSING_BILLING_ADJUSTMENT_REQUEST_ENTRY"
-        case missingBillingAdjustments = "MISSING_BILLING_ADJUSTMENTS"
-        case missingChargeAmount = "MISSING_CHARGE_AMOUNT"
-        case missingChargeId = "MISSING_CHARGE_ID"
-        case missingChargeRevision = "MISSING_CHARGE_REVISION"
-        case missingCurrencyCode = "MISSING_CURRENCY_CODE"
-        case missingDescription = "MISSING_DESCRIPTION"
-        case missingFilterName = "MISSING_FILTER_NAME"
-        case missingFilterValues = "MISSING_FILTER_VALUES"
-        case missingIntent = "MISSING_INTENT"
-        case missingInvoiceId = "MISSING_INVOICE_ID"
-        case missingMandatoryTerms = "MISSING_MANDATORY_TERMS"
-        case missingName = "MISSING_NAME"
-        case missingPartyType = "MISSING_PARTY_TYPE"
-        case missingPaymentRequestId = "MISSING_PAYMENT_REQUEST_ID"
-        case missingPurchaseOrderReference = "MISSING_PURCHASE_ORDER_REFERENCE"
-        case missingPurchaseOrders = "MISSING_PURCHASE_ORDERS"
-        case missingReason = "MISSING_REASON"
-        case missingReasonCode = "MISSING_REASON_CODE"
-        case missingRequestedTermConfiguration = "MISSING_REQUESTED_TERM_CONFIGURATION"
-        case missingRequestedTermId = "MISSING_REQUESTED_TERM_ID"
-        case missingRequestedTerms = "MISSING_REQUESTED_TERMS"
-        case missingSourceAgreementIdentifier = "MISSING_SOURCE_AGREEMENT_IDENTIFIER"
-        case missingTermId = "MISSING_TERM_ID"
-        case missingUsageAgreement = "MISSING_USAGE_AGREEMENT"
-        case multipleAgreementIds = "MULTIPLE_AGREEMENT_IDS"
-        case other = "OTHER"
-        case supersededAgreementProposal = "SUPERSEDED_AGREEMENT_PROPOSAL"
-        case unsupportedAccountPlan = "UNSUPPORTED_ACCOUNT_PLAN"
-        case unsupportedAction = "UNSUPPORTED_ACTION"
-        case unsupportedFilters = "UNSUPPORTED_FILTERS"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billingAdjustmentsLimitExceeded: Self { .init(rawValue: "BILLING_ADJUSTMENTS_LIMIT_EXCEEDED") }
+        @inlinable public static var duplicateAgreementInOrganization: Self { .init(rawValue: "DUPLICATE_AGREEMENT_IN_ORGANIZATION") }
+        @inlinable public static var duplicateCharges: Self { .init(rawValue: "DUPLICATE_CHARGES") }
+        @inlinable public static var exceededMaximumAdjustmentAmount: Self { .init(rawValue: "EXCEEDED_MAXIMUM_ADJUSTMENT_AMOUNT") }
+        @inlinable public static var expiredAgreementProposal: Self { .init(rawValue: "EXPIRED_AGREEMENT_PROPOSAL") }
+        @inlinable public static var inactiveAgreement: Self { .init(rawValue: "INACTIVE_AGREEMENT") }
+        @inlinable public static var incompatibleTerms: Self { .init(rawValue: "INCOMPATIBLE_TERMS") }
+        @inlinable public static var invalidAdjustmentAmount: Self { .init(rawValue: "INVALID_ADJUSTMENT_AMOUNT") }
+        @inlinable public static var invalidAgreementCancellationRequestId: Self { .init(rawValue: "INVALID_AGREEMENT_CANCELLATION_REQUEST_ID") }
+        @inlinable public static var invalidAgreementId: Self { .init(rawValue: "INVALID_AGREEMENT_ID") }
+        @inlinable public static var invalidAgreementProposalIdentifier: Self { .init(rawValue: "INVALID_AGREEMENT_PROPOSAL_IDENTIFIER") }
+        @inlinable public static var invalidAgreementRequestId: Self { .init(rawValue: "INVALID_AGREEMENT_REQUEST_ID") }
+        @inlinable public static var invalidAgreementType: Self { .init(rawValue: "INVALID_AGREEMENT_TYPE") }
+        @inlinable public static var invalidCatalog: Self { .init(rawValue: "INVALID_CATALOG") }
+        @inlinable public static var invalidChargeAmount: Self { .init(rawValue: "INVALID_CHARGE_AMOUNT") }
+        @inlinable public static var invalidChargeId: Self { .init(rawValue: "INVALID_CHARGE_ID") }
+        @inlinable public static var invalidChargeRevision: Self { .init(rawValue: "INVALID_CHARGE_REVISION") }
+        @inlinable public static var invalidClientToken: Self { .init(rawValue: "INVALID_CLIENT_TOKEN") }
+        @inlinable public static var invalidCurrencyCode: Self { .init(rawValue: "INVALID_CURRENCY_CODE") }
+        @inlinable public static var invalidDescription: Self { .init(rawValue: "INVALID_DESCRIPTION") }
+        @inlinable public static var invalidFilterName: Self { .init(rawValue: "INVALID_FILTER_NAME") }
+        @inlinable public static var invalidFilterValues: Self { .init(rawValue: "INVALID_FILTER_VALUES") }
+        @inlinable public static var invalidFilters: Self { .init(rawValue: "INVALID_FILTERS") }
+        @inlinable public static var invalidIncrementalCharge: Self { .init(rawValue: "INVALID_INCREMENTAL_CHARGE") }
+        @inlinable public static var invalidIntent: Self { .init(rawValue: "INVALID_INTENT") }
+        @inlinable public static var invalidInvoiceAdjustmentPeriod: Self { .init(rawValue: "INVALID_INVOICE_ADJUSTMENT_PERIOD") }
+        @inlinable public static var invalidMaxResults: Self { .init(rawValue: "INVALID_MAX_RESULTS") }
+        @inlinable public static var invalidName: Self { .init(rawValue: "INVALID_NAME") }
+        @inlinable public static var invalidNextToken: Self { .init(rawValue: "INVALID_NEXT_TOKEN") }
+        @inlinable public static var invalidPartyType: Self { .init(rawValue: "INVALID_PARTY_TYPE") }
+        @inlinable public static var invalidPaymentRequestId: Self { .init(rawValue: "INVALID_PAYMENT_REQUEST_ID") }
+        @inlinable public static var invalidPaymentRequestStatus: Self { .init(rawValue: "INVALID_PAYMENT_REQUEST_STATUS") }
+        @inlinable public static var invalidPurchaseOrderReference: Self { .init(rawValue: "INVALID_PURCHASE_ORDER_REFERENCE") }
+        @inlinable public static var invalidPurchaseOrders: Self { .init(rawValue: "INVALID_PURCHASE_ORDERS") }
+        @inlinable public static var invalidReason: Self { .init(rawValue: "INVALID_REASON") }
+        @inlinable public static var invalidReasonCode: Self { .init(rawValue: "INVALID_REASON_CODE") }
+        @inlinable public static var invalidRejectionReason: Self { .init(rawValue: "INVALID_REJECTION_REASON") }
+        @inlinable public static var invalidRequestedTermConfiguration: Self { .init(rawValue: "INVALID_REQUESTED_TERM_CONFIGURATION") }
+        @inlinable public static var invalidRequestedTermId: Self { .init(rawValue: "INVALID_REQUESTED_TERM_ID") }
+        @inlinable public static var invalidRequestedTerms: Self { .init(rawValue: "INVALID_REQUESTED_TERMS") }
+        @inlinable public static var invalidSortBy: Self { .init(rawValue: "INVALID_SORT_BY") }
+        @inlinable public static var invalidSortOrder: Self { .init(rawValue: "INVALID_SORT_ORDER") }
+        @inlinable public static var invalidSourceAgreementIdentifier: Self { .init(rawValue: "INVALID_SOURCE_AGREEMENT_IDENTIFIER") }
+        @inlinable public static var invalidStatus: Self { .init(rawValue: "INVALID_STATUS") }
+        @inlinable public static var invalidTermId: Self { .init(rawValue: "INVALID_TERM_ID") }
+        @inlinable public static var missingAccountAddress: Self { .init(rawValue: "MISSING_ACCOUNT_ADDRESS") }
+        @inlinable public static var missingAdjustmentAmount: Self { .init(rawValue: "MISSING_ADJUSTMENT_AMOUNT") }
+        @inlinable public static var missingAgreementCancellationRequestId: Self { .init(rawValue: "MISSING_AGREEMENT_CANCELLATION_REQUEST_ID") }
+        @inlinable public static var missingAgreementId: Self { .init(rawValue: "MISSING_AGREEMENT_ID") }
+        @inlinable public static var missingAgreementProposalIdentifier: Self { .init(rawValue: "MISSING_AGREEMENT_PROPOSAL_IDENTIFIER") }
+        @inlinable public static var missingAgreementRequestId: Self { .init(rawValue: "MISSING_AGREEMENT_REQUEST_ID") }
+        @inlinable public static var missingBillingAdjustmentRequestEntry: Self { .init(rawValue: "MISSING_BILLING_ADJUSTMENT_REQUEST_ENTRY") }
+        @inlinable public static var missingBillingAdjustments: Self { .init(rawValue: "MISSING_BILLING_ADJUSTMENTS") }
+        @inlinable public static var missingChargeAmount: Self { .init(rawValue: "MISSING_CHARGE_AMOUNT") }
+        @inlinable public static var missingChargeId: Self { .init(rawValue: "MISSING_CHARGE_ID") }
+        @inlinable public static var missingChargeRevision: Self { .init(rawValue: "MISSING_CHARGE_REVISION") }
+        @inlinable public static var missingCurrencyCode: Self { .init(rawValue: "MISSING_CURRENCY_CODE") }
+        @inlinable public static var missingDescription: Self { .init(rawValue: "MISSING_DESCRIPTION") }
+        @inlinable public static var missingFilterName: Self { .init(rawValue: "MISSING_FILTER_NAME") }
+        @inlinable public static var missingFilterValues: Self { .init(rawValue: "MISSING_FILTER_VALUES") }
+        @inlinable public static var missingIntent: Self { .init(rawValue: "MISSING_INTENT") }
+        @inlinable public static var missingInvoiceId: Self { .init(rawValue: "MISSING_INVOICE_ID") }
+        @inlinable public static var missingMandatoryTerms: Self { .init(rawValue: "MISSING_MANDATORY_TERMS") }
+        @inlinable public static var missingName: Self { .init(rawValue: "MISSING_NAME") }
+        @inlinable public static var missingPartyType: Self { .init(rawValue: "MISSING_PARTY_TYPE") }
+        @inlinable public static var missingPaymentRequestId: Self { .init(rawValue: "MISSING_PAYMENT_REQUEST_ID") }
+        @inlinable public static var missingPurchaseOrderReference: Self { .init(rawValue: "MISSING_PURCHASE_ORDER_REFERENCE") }
+        @inlinable public static var missingPurchaseOrders: Self { .init(rawValue: "MISSING_PURCHASE_ORDERS") }
+        @inlinable public static var missingReason: Self { .init(rawValue: "MISSING_REASON") }
+        @inlinable public static var missingReasonCode: Self { .init(rawValue: "MISSING_REASON_CODE") }
+        @inlinable public static var missingRequestedTermConfiguration: Self { .init(rawValue: "MISSING_REQUESTED_TERM_CONFIGURATION") }
+        @inlinable public static var missingRequestedTermId: Self { .init(rawValue: "MISSING_REQUESTED_TERM_ID") }
+        @inlinable public static var missingRequestedTerms: Self { .init(rawValue: "MISSING_REQUESTED_TERMS") }
+        @inlinable public static var missingSourceAgreementIdentifier: Self { .init(rawValue: "MISSING_SOURCE_AGREEMENT_IDENTIFIER") }
+        @inlinable public static var missingTermId: Self { .init(rawValue: "MISSING_TERM_ID") }
+        @inlinable public static var missingUsageAgreement: Self { .init(rawValue: "MISSING_USAGE_AGREEMENT") }
+        @inlinable public static var multipleAgreementIds: Self { .init(rawValue: "MULTIPLE_AGREEMENT_IDS") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var supersededAgreementProposal: Self { .init(rawValue: "SUPERSEDED_AGREEMENT_PROPOSAL") }
+        @inlinable public static var unsupportedAccountPlan: Self { .init(rawValue: "UNSUPPORTED_ACCOUNT_PLAN") }
+        @inlinable public static var unsupportedAction: Self { .init(rawValue: "UNSUPPORTED_ACTION") }
+        @inlinable public static var unsupportedFilters: Self { .init(rawValue: "UNSUPPORTED_FILTERS") }
     }
 
     public enum AcceptedTerm: AWSDecodableShape, Sendable {

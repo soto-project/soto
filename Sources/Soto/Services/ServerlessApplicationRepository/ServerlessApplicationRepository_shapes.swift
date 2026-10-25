@@ -25,19 +25,27 @@ import Foundation
 extension ServerlessApplicationRepository {
     // MARK: Enums
 
-    public enum Capability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case capabilityAutoExpand = "CAPABILITY_AUTO_EXPAND"
-        case capabilityIam = "CAPABILITY_IAM"
-        case capabilityNamedIam = "CAPABILITY_NAMED_IAM"
-        case capabilityResourcePolicy = "CAPABILITY_RESOURCE_POLICY"
-        public var description: String { return self.rawValue }
+    public struct Capability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var capabilityAutoExpand: Self { .init(rawValue: "CAPABILITY_AUTO_EXPAND") }
+        @inlinable public static var capabilityIam: Self { .init(rawValue: "CAPABILITY_IAM") }
+        @inlinable public static var capabilityNamedIam: Self { .init(rawValue: "CAPABILITY_NAMED_IAM") }
+        @inlinable public static var capabilityResourcePolicy: Self { .init(rawValue: "CAPABILITY_RESOURCE_POLICY") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case expired = "EXPIRED"
-        case preparing = "PREPARING"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var preparing: Self { .init(rawValue: "PREPARING") }
     }
 
     // MARK: Shapes

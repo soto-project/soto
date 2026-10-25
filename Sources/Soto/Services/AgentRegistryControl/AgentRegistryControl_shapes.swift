@@ -25,141 +25,221 @@ import Foundation
 extension AgentRegistryControl {
     // MARK: Enums
 
-    public enum AgentCoreGatewayProtocolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mcp = "MCP"
-        public var description: String { return self.rawValue }
+    public struct AgentCoreGatewayProtocolType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mcp: Self { .init(rawValue: "MCP") }
     }
 
-    public enum AgentCoreRuntimeServerProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case a2a = "A2A"
-        case agui = "AGUI"
-        case http = "HTTP"
-        case mcp = "MCP"
-        public var description: String { return self.rawValue }
+    public struct AgentCoreRuntimeServerProtocol: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var a2a: Self { .init(rawValue: "A2A") }
+        @inlinable public static var agui: Self { .init(rawValue: "AGUI") }
+        @inlinable public static var http: Self { .init(rawValue: "HTTP") }
+        @inlinable public static var mcp: Self { .init(rawValue: "MCP") }
     }
 
-    public enum AutoApprovalRule: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case approveAll = "APPROVE_ALL"
-        public var description: String { return self.rawValue }
+    public struct AutoApprovalRule: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var approveAll: Self { .init(rawValue: "APPROVE_ALL") }
     }
 
-    public enum AutoDetectionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case organization = "ORGANIZATION"
-        public var description: String { return self.rawValue }
+    public struct AutoDetectionScope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var organization: Self { .init(rawValue: "ORGANIZATION") }
     }
 
-    public enum AutoDetectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
+    public struct AutoDetectionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
     }
 
-    public enum ClaimMatchOperatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case contains = "CONTAINS"
-        case containsAny = "CONTAINS_ANY"
-        case equals = "EQUALS"
-        public var description: String { return self.rawValue }
+    public struct ClaimMatchOperatorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var containsAny: Self { .init(rawValue: "CONTAINS_ANY") }
+        @inlinable public static var equals: Self { .init(rawValue: "EQUALS") }
     }
 
-    public enum CustomMetadataSchemaComplianceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case compliant = "COMPLIANT"
-        case nonCompliant = "NON_COMPLIANT"
-        public var description: String { return self.rawValue }
+    public struct CustomMetadataSchemaComplianceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var compliant: Self { .init(rawValue: "COMPLIANT") }
+        @inlinable public static var nonCompliant: Self { .init(rawValue: "NON_COMPLIANT") }
     }
 
-    public enum EndpointIpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ipv4 = "IPV4"
-        case ipv6 = "IPV6"
-        public var description: String { return self.rawValue }
+    public struct EndpointIpAddressType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ipv4: Self { .init(rawValue: "IPV4") }
+        @inlinable public static var ipv6: Self { .init(rawValue: "IPV6") }
     }
 
-    public enum InboundTokenClaimValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case string = "STRING"
-        case stringArray = "STRING_ARRAY"
-        public var description: String { return self.rawValue }
+    public struct InboundTokenClaimValueType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var string: Self { .init(rawValue: "STRING") }
+        @inlinable public static var stringArray: Self { .init(rawValue: "STRING_ARRAY") }
     }
 
-    public enum ProvenanceRelation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case detectedFrom = "DETECTED_FROM"
-        public var description: String { return self.rawValue }
+    public struct ProvenanceRelation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var detectedFrom: Self { .init(rawValue: "DETECTED_FROM") }
     }
 
-    public enum RecordType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case agent = "AGENT"
-        case custom = "CUSTOM"
-        case gateway = "GATEWAY"
-        case mcp = "MCP"
-        case skill = "SKILL"
-        public var description: String { return self.rawValue }
+    public struct RecordType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var agent: Self { .init(rawValue: "AGENT") }
+        @inlinable public static var custom: Self { .init(rawValue: "CUSTOM") }
+        @inlinable public static var gateway: Self { .init(rawValue: "GATEWAY") }
+        @inlinable public static var mcp: Self { .init(rawValue: "MCP") }
+        @inlinable public static var skill: Self { .init(rawValue: "SKILL") }
     }
 
-    public enum RegistryAuthorizerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsIam = "AWS_IAM"
-        case customJwt = "CUSTOM_JWT"
-        public var description: String { return self.rawValue }
+    public struct RegistryAuthorizerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsIam: Self { .init(rawValue: "AWS_IAM") }
+        @inlinable public static var customJwt: Self { .init(rawValue: "CUSTOM_JWT") }
     }
 
-    public enum RegistryFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case discoveryConfigurationAuthorizerType = "discoveryConfiguration.authorizerType"
-        case status = "status"
-        public var description: String { return self.rawValue }
+    public struct RegistryFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var discoveryConfigurationAuthorizerType: Self { .init(rawValue: "discoveryConfiguration.authorizerType") }
+        @inlinable public static var status: Self { .init(rawValue: "status") }
     }
 
-    public enum RegistryRecordCredentialProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case iam = "IAM"
-        case oauth = "OAUTH"
-        public var description: String { return self.rawValue }
+    public struct RegistryRecordCredentialProviderType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var iam: Self { .init(rawValue: "IAM") }
+        @inlinable public static var oauth: Self { .init(rawValue: "OAUTH") }
     }
 
-    public enum RegistryRecordFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case name = "name"
-        case recordType = "recordType"
-        case status = "status"
-        public var description: String { return self.rawValue }
+    public struct RegistryRecordFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var name: Self { .init(rawValue: "name") }
+        @inlinable public static var recordType: Self { .init(rawValue: "recordType") }
+        @inlinable public static var status: Self { .init(rawValue: "status") }
     }
 
-    public enum RegistryRecordOAuthGrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case clientCredentials = "CLIENT_CREDENTIALS"
-        public var description: String { return self.rawValue }
+    public struct RegistryRecordOAuthGrantType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var clientCredentials: Self { .init(rawValue: "CLIENT_CREDENTIALS") }
     }
 
-    public enum RegistryRecordStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case approved = "APPROVED"
-        case createFailed = "CREATE_FAILED"
-        case creating = "CREATING"
-        case deprecated = "DEPRECATED"
-        case draft = "DRAFT"
-        case pendingApproval = "PENDING_APPROVAL"
-        case rejected = "REJECTED"
-        case updateFailed = "UPDATE_FAILED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct RegistryRecordStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var approved: Self { .init(rawValue: "APPROVED") }
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deprecated: Self { .init(rawValue: "DEPRECATED") }
+        @inlinable public static var draft: Self { .init(rawValue: "DRAFT") }
+        @inlinable public static var pendingApproval: Self { .init(rawValue: "PENDING_APPROVAL") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum RegistryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createFailed = "CREATE_FAILED"
-        case creating = "CREATING"
-        case deleteFailed = "DELETE_FAILED"
-        case deleting = "DELETING"
-        case ready = "READY"
-        case updateFailed = "UPDATE_FAILED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct RegistryStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsBedrockAgentcoreGateway = "AWS::BedrockAgentCore::Gateway"
-        case awsBedrockAgentcoreRuntime = "AWS::BedrockAgentCore::Runtime"
-        public var description: String { return self.rawValue }
+    public struct SourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsBedrockAgentcoreGateway: Self { .init(rawValue: "AWS::BedrockAgentCore::Gateway") }
+        @inlinable public static var awsBedrockAgentcoreRuntime: Self { .init(rawValue: "AWS::BedrockAgentCore::Runtime") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "CannotParse"
-        case fieldValidationFailed = "FieldValidationFailed"
-        case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
-        case resourceConflict = "ResourceConflict"
-        case rootEventInOtherSession = "EventInOtherSession"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FieldValidationFailed") }
+        @inlinable public static var idempotentParameterMismatchException: Self { .init(rawValue: "IdempotentParameterMismatchException") }
+        @inlinable public static var resourceConflict: Self { .init(rawValue: "ResourceConflict") }
+        @inlinable public static var rootEventInOtherSession: Self { .init(rawValue: "EventInOtherSession") }
     }
 
     public enum ClaimMatchValueType: AWSEncodableShape & AWSDecodableShape, Sendable {

@@ -25,97 +25,157 @@ import Foundation
 extension DLM {
     // MARK: Enums
 
-    public enum DefaultPoliciesTypeValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case instance = "INSTANCE"
-        case volume = "VOLUME"
-        public var description: String { return self.rawValue }
+    public struct DefaultPoliciesTypeValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var instance: Self { .init(rawValue: "INSTANCE") }
+        @inlinable public static var volume: Self { .init(rawValue: "VOLUME") }
     }
 
-    public enum DefaultPolicyTypeValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case instance = "INSTANCE"
-        case volume = "VOLUME"
-        public var description: String { return self.rawValue }
+    public struct DefaultPolicyTypeValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var instance: Self { .init(rawValue: "INSTANCE") }
+        @inlinable public static var volume: Self { .init(rawValue: "VOLUME") }
     }
 
-    public enum EventSourceValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case managedCwe = "MANAGED_CWE"
-        public var description: String { return self.rawValue }
+    public struct EventSourceValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var managedCwe: Self { .init(rawValue: "MANAGED_CWE") }
     }
 
-    public enum EventTypeValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case shareSnapshot = "shareSnapshot"
-        public var description: String { return self.rawValue }
+    public struct EventTypeValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var shareSnapshot: Self { .init(rawValue: "shareSnapshot") }
     }
 
-    public enum ExecutionHandlerServiceValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsSystemsManager = "AWS_SYSTEMS_MANAGER"
-        public var description: String { return self.rawValue }
+    public struct ExecutionHandlerServiceValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsSystemsManager: Self { .init(rawValue: "AWS_SYSTEMS_MANAGER") }
     }
 
-    public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case error = "ERROR"
-        public var description: String { return self.rawValue }
+    public struct GettablePolicyStateValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
     }
 
-    public enum IntervalUnitValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hours = "HOURS"
-        public var description: String { return self.rawValue }
+    public struct IntervalUnitValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hours: Self { .init(rawValue: "HOURS") }
     }
 
-    public enum LocationValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cloud = "CLOUD"
-        case localZone = "LOCAL_ZONE"
-        case outpostLocal = "OUTPOST_LOCAL"
-        public var description: String { return self.rawValue }
+    public struct LocationValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cloud: Self { .init(rawValue: "CLOUD") }
+        @inlinable public static var localZone: Self { .init(rawValue: "LOCAL_ZONE") }
+        @inlinable public static var outpostLocal: Self { .init(rawValue: "OUTPOST_LOCAL") }
     }
 
-    public enum PolicyLanguageValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case simplified = "SIMPLIFIED"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+    public struct PolicyLanguageValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var simplified: Self { .init(rawValue: "SIMPLIFIED") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
     }
 
-    public enum PolicyTypeValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ebsSnapshotManagement = "EBS_SNAPSHOT_MANAGEMENT"
-        case eventBasedPolicy = "EVENT_BASED_POLICY"
-        case imageManagement = "IMAGE_MANAGEMENT"
-        public var description: String { return self.rawValue }
+    public struct PolicyTypeValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ebsSnapshotManagement: Self { .init(rawValue: "EBS_SNAPSHOT_MANAGEMENT") }
+        @inlinable public static var eventBasedPolicy: Self { .init(rawValue: "EVENT_BASED_POLICY") }
+        @inlinable public static var imageManagement: Self { .init(rawValue: "IMAGE_MANAGEMENT") }
     }
 
-    public enum ResourceLocationValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cloud = "CLOUD"
-        case localZone = "LOCAL_ZONE"
-        case outpost = "OUTPOST"
-        public var description: String { return self.rawValue }
+    public struct ResourceLocationValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cloud: Self { .init(rawValue: "CLOUD") }
+        @inlinable public static var localZone: Self { .init(rawValue: "LOCAL_ZONE") }
+        @inlinable public static var outpost: Self { .init(rawValue: "OUTPOST") }
     }
 
-    public enum ResourceTypeValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case instance = "INSTANCE"
-        case volume = "VOLUME"
-        public var description: String { return self.rawValue }
+    public struct ResourceTypeValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var instance: Self { .init(rawValue: "INSTANCE") }
+        @inlinable public static var volume: Self { .init(rawValue: "VOLUME") }
     }
 
-    public enum RetentionIntervalUnitValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days = "DAYS"
-        case months = "MONTHS"
-        case weeks = "WEEKS"
-        case years = "YEARS"
-        public var description: String { return self.rawValue }
+    public struct RetentionIntervalUnitValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days: Self { .init(rawValue: "DAYS") }
+        @inlinable public static var months: Self { .init(rawValue: "MONTHS") }
+        @inlinable public static var weeks: Self { .init(rawValue: "WEEKS") }
+        @inlinable public static var years: Self { .init(rawValue: "YEARS") }
     }
 
-    public enum SettablePolicyStateValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct SettablePolicyStateValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum StageValues: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case post = "POST"
-        case pre = "PRE"
-        public var description: String { return self.rawValue }
+    public struct StageValues: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var post: Self { .init(rawValue: "POST") }
+        @inlinable public static var pre: Self { .init(rawValue: "PRE") }
     }
 
     // MARK: Shapes

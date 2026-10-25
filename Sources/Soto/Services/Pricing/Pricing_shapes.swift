@@ -25,13 +25,17 @@ import Foundation
 extension Pricing {
     // MARK: Enums
 
-    public enum FilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case anyOf = "ANY_OF"
-        case contains = "CONTAINS"
-        case equals = "EQUALS"
-        case noneOf = "NONE_OF"
-        case termMatch = "TERM_MATCH"
-        public var description: String { return self.rawValue }
+    public struct FilterType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var anyOf: Self { .init(rawValue: "ANY_OF") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var equals: Self { .init(rawValue: "EQUALS") }
+        @inlinable public static var noneOf: Self { .init(rawValue: "NONE_OF") }
+        @inlinable public static var termMatch: Self { .init(rawValue: "TERM_MATCH") }
     }
 
     // MARK: Shapes

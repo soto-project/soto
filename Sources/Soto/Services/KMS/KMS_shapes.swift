@@ -25,292 +25,412 @@ import Foundation
 extension KMS {
     // MARK: Enums
 
-    public enum AlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rsaAesKeyWrapSha1 = "RSA_AES_KEY_WRAP_SHA_1"
-        case rsaAesKeyWrapSha256 = "RSA_AES_KEY_WRAP_SHA_256"
-        case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
-        case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
-        case rsaesPkcs1V15 = "RSAES_PKCS1_V1_5"
-        case sm2pke = "SM2PKE"
-        public var description: String { return self.rawValue }
+    public struct AlgorithmSpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rsaAesKeyWrapSha1: Self { .init(rawValue: "RSA_AES_KEY_WRAP_SHA_1") }
+        @inlinable public static var rsaAesKeyWrapSha256: Self { .init(rawValue: "RSA_AES_KEY_WRAP_SHA_256") }
+        @inlinable public static var rsaesOaepSha1: Self { .init(rawValue: "RSAES_OAEP_SHA_1") }
+        @inlinable public static var rsaesOaepSha256: Self { .init(rawValue: "RSAES_OAEP_SHA_256") }
+        @inlinable public static var rsaesPkcs1V15: Self { .init(rawValue: "RSAES_PKCS1_V1_5") }
+        @inlinable public static var sm2pke: Self { .init(rawValue: "SM2PKE") }
     }
 
-    public enum ConnectionErrorCodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case clusterNotFound = "CLUSTER_NOT_FOUND"
-        case insufficientCloudhsmHsms = "INSUFFICIENT_CLOUDHSM_HSMS"
-        case insufficientFreeAddressesInSubnet = "INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET"
-        case internalError = "INTERNAL_ERROR"
-        case invalidCredentials = "INVALID_CREDENTIALS"
-        case networkErrors = "NETWORK_ERRORS"
-        case subnetNotFound = "SUBNET_NOT_FOUND"
-        case userLockedOut = "USER_LOCKED_OUT"
-        case userLoggedIn = "USER_LOGGED_IN"
-        case userNotFound = "USER_NOT_FOUND"
-        case xksProxyAccessDenied = "XKS_PROXY_ACCESS_DENIED"
-        case xksProxyInvalidConfiguration = "XKS_PROXY_INVALID_CONFIGURATION"
-        case xksProxyInvalidResponse = "XKS_PROXY_INVALID_RESPONSE"
-        case xksProxyInvalidTlsConfiguration = "XKS_PROXY_INVALID_TLS_CONFIGURATION"
-        case xksProxyNotReachable = "XKS_PROXY_NOT_REACHABLE"
-        case xksProxyTimedOut = "XKS_PROXY_TIMED_OUT"
-        case xksVpcEndpointServiceInvalidConfiguration = "XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION"
-        case xksVpcEndpointServiceNotFound = "XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct ConnectionErrorCodeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var clusterNotFound: Self { .init(rawValue: "CLUSTER_NOT_FOUND") }
+        @inlinable public static var insufficientCloudhsmHsms: Self { .init(rawValue: "INSUFFICIENT_CLOUDHSM_HSMS") }
+        @inlinable public static var insufficientFreeAddressesInSubnet: Self { .init(rawValue: "INSUFFICIENT_FREE_ADDRESSES_IN_SUBNET") }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+        @inlinable public static var invalidCredentials: Self { .init(rawValue: "INVALID_CREDENTIALS") }
+        @inlinable public static var networkErrors: Self { .init(rawValue: "NETWORK_ERRORS") }
+        @inlinable public static var subnetNotFound: Self { .init(rawValue: "SUBNET_NOT_FOUND") }
+        @inlinable public static var userLockedOut: Self { .init(rawValue: "USER_LOCKED_OUT") }
+        @inlinable public static var userLoggedIn: Self { .init(rawValue: "USER_LOGGED_IN") }
+        @inlinable public static var userNotFound: Self { .init(rawValue: "USER_NOT_FOUND") }
+        @inlinable public static var xksProxyAccessDenied: Self { .init(rawValue: "XKS_PROXY_ACCESS_DENIED") }
+        @inlinable public static var xksProxyInvalidConfiguration: Self { .init(rawValue: "XKS_PROXY_INVALID_CONFIGURATION") }
+        @inlinable public static var xksProxyInvalidResponse: Self { .init(rawValue: "XKS_PROXY_INVALID_RESPONSE") }
+        @inlinable public static var xksProxyInvalidTlsConfiguration: Self { .init(rawValue: "XKS_PROXY_INVALID_TLS_CONFIGURATION") }
+        @inlinable public static var xksProxyNotReachable: Self { .init(rawValue: "XKS_PROXY_NOT_REACHABLE") }
+        @inlinable public static var xksProxyTimedOut: Self { .init(rawValue: "XKS_PROXY_TIMED_OUT") }
+        @inlinable public static var xksVpcEndpointServiceInvalidConfiguration: Self { .init(rawValue: "XKS_VPC_ENDPOINT_SERVICE_INVALID_CONFIGURATION") }
+        @inlinable public static var xksVpcEndpointServiceNotFound: Self { .init(rawValue: "XKS_VPC_ENDPOINT_SERVICE_NOT_FOUND") }
     }
 
-    public enum ConnectionStateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case connected = "CONNECTED"
-        case connecting = "CONNECTING"
-        case disconnected = "DISCONNECTED"
-        case disconnecting = "DISCONNECTING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
+    public struct ConnectionStateType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var connected: Self { .init(rawValue: "CONNECTED") }
+        @inlinable public static var connecting: Self { .init(rawValue: "CONNECTING") }
+        @inlinable public static var disconnected: Self { .init(rawValue: "DISCONNECTED") }
+        @inlinable public static var disconnecting: Self { .init(rawValue: "DISCONNECTING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
     }
 
-    public enum CustomKeyStoreType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsCloudhsm = "AWS_CLOUDHSM"
-        case externalKeyStore = "EXTERNAL_KEY_STORE"
-        public var description: String { return self.rawValue }
+    public struct CustomKeyStoreType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsCloudhsm: Self { .init(rawValue: "AWS_CLOUDHSM") }
+        @inlinable public static var externalKeyStore: Self { .init(rawValue: "EXTERNAL_KEY_STORE") }
     }
 
-    public enum CustomerMasterKeySpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case eccNistP256 = "ECC_NIST_P256"
-        case eccNistP384 = "ECC_NIST_P384"
-        case eccNistP521 = "ECC_NIST_P521"
-        case eccSecgP256K1 = "ECC_SECG_P256K1"
-        case hmac224 = "HMAC_224"
-        case hmac256 = "HMAC_256"
-        case hmac384 = "HMAC_384"
-        case hmac512 = "HMAC_512"
-        case rsa2048 = "RSA_2048"
-        case rsa3072 = "RSA_3072"
-        case rsa4096 = "RSA_4096"
-        case sm2 = "SM2"
-        case symmetricDefault = "SYMMETRIC_DEFAULT"
-        public var description: String { return self.rawValue }
+    public struct CustomerMasterKeySpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var eccNistP256: Self { .init(rawValue: "ECC_NIST_P256") }
+        @inlinable public static var eccNistP384: Self { .init(rawValue: "ECC_NIST_P384") }
+        @inlinable public static var eccNistP521: Self { .init(rawValue: "ECC_NIST_P521") }
+        @inlinable public static var eccSecgP256K1: Self { .init(rawValue: "ECC_SECG_P256K1") }
+        @inlinable public static var hmac224: Self { .init(rawValue: "HMAC_224") }
+        @inlinable public static var hmac256: Self { .init(rawValue: "HMAC_256") }
+        @inlinable public static var hmac384: Self { .init(rawValue: "HMAC_384") }
+        @inlinable public static var hmac512: Self { .init(rawValue: "HMAC_512") }
+        @inlinable public static var rsa2048: Self { .init(rawValue: "RSA_2048") }
+        @inlinable public static var rsa3072: Self { .init(rawValue: "RSA_3072") }
+        @inlinable public static var rsa4096: Self { .init(rawValue: "RSA_4096") }
+        @inlinable public static var sm2: Self { .init(rawValue: "SM2") }
+        @inlinable public static var symmetricDefault: Self { .init(rawValue: "SYMMETRIC_DEFAULT") }
     }
 
-    public enum DataKeyPairSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case eccNistEdwards25519 = "ECC_NIST_EDWARDS25519"
-        case eccNistP256 = "ECC_NIST_P256"
-        case eccNistP384 = "ECC_NIST_P384"
-        case eccNistP521 = "ECC_NIST_P521"
-        case eccSecgP256K1 = "ECC_SECG_P256K1"
-        case rsa2048 = "RSA_2048"
-        case rsa3072 = "RSA_3072"
-        case rsa4096 = "RSA_4096"
-        case sm2 = "SM2"
-        public var description: String { return self.rawValue }
+    public struct DataKeyPairSpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var eccNistEdwards25519: Self { .init(rawValue: "ECC_NIST_EDWARDS25519") }
+        @inlinable public static var eccNistP256: Self { .init(rawValue: "ECC_NIST_P256") }
+        @inlinable public static var eccNistP384: Self { .init(rawValue: "ECC_NIST_P384") }
+        @inlinable public static var eccNistP521: Self { .init(rawValue: "ECC_NIST_P521") }
+        @inlinable public static var eccSecgP256K1: Self { .init(rawValue: "ECC_SECG_P256K1") }
+        @inlinable public static var rsa2048: Self { .init(rawValue: "RSA_2048") }
+        @inlinable public static var rsa3072: Self { .init(rawValue: "RSA_3072") }
+        @inlinable public static var rsa4096: Self { .init(rawValue: "RSA_4096") }
+        @inlinable public static var sm2: Self { .init(rawValue: "SM2") }
     }
 
-    public enum DataKeySpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes128 = "AES_128"
-        case aes256 = "AES_256"
-        public var description: String { return self.rawValue }
+    public struct DataKeySpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes128: Self { .init(rawValue: "AES_128") }
+        @inlinable public static var aes256: Self { .init(rawValue: "AES_256") }
     }
 
-    public enum DryRunModifierType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ignoreCiphertext = "IGNORE_CIPHERTEXT"
-        public var description: String { return self.rawValue }
+    public struct DryRunModifierType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ignoreCiphertext: Self { .init(rawValue: "IGNORE_CIPHERTEXT") }
     }
 
-    public enum EncryptionAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
-        case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
-        case sm2pke = "SM2PKE"
-        case symmetricDefault = "SYMMETRIC_DEFAULT"
-        public var description: String { return self.rawValue }
+    public struct EncryptionAlgorithmSpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rsaesOaepSha1: Self { .init(rawValue: "RSAES_OAEP_SHA_1") }
+        @inlinable public static var rsaesOaepSha256: Self { .init(rawValue: "RSAES_OAEP_SHA_256") }
+        @inlinable public static var sm2pke: Self { .init(rawValue: "SM2PKE") }
+        @inlinable public static var symmetricDefault: Self { .init(rawValue: "SYMMETRIC_DEFAULT") }
     }
 
-    public enum ExpirationModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case keyMaterialDoesNotExpire = "KEY_MATERIAL_DOES_NOT_EXPIRE"
-        case keyMaterialExpires = "KEY_MATERIAL_EXPIRES"
-        public var description: String { return self.rawValue }
+    public struct ExpirationModelType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var keyMaterialDoesNotExpire: Self { .init(rawValue: "KEY_MATERIAL_DOES_NOT_EXPIRE") }
+        @inlinable public static var keyMaterialExpires: Self { .init(rawValue: "KEY_MATERIAL_EXPIRES") }
     }
 
-    public enum GrantOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createGrant = "CreateGrant"
-        case decrypt = "Decrypt"
-        case deriveSharedSecret = "DeriveSharedSecret"
-        case describeKey = "DescribeKey"
-        case encrypt = "Encrypt"
-        case generateDataKey = "GenerateDataKey"
-        case generateDataKeyPair = "GenerateDataKeyPair"
-        case generateDataKeyPairWithoutPlaintext = "GenerateDataKeyPairWithoutPlaintext"
-        case generateDataKeyWithoutPlaintext = "GenerateDataKeyWithoutPlaintext"
-        case generateMac = "GenerateMac"
-        case getPublicKey = "GetPublicKey"
-        case reEncryptFrom = "ReEncryptFrom"
-        case reEncryptTo = "ReEncryptTo"
-        case retireGrant = "RetireGrant"
-        case sign = "Sign"
-        case verify = "Verify"
-        case verifyMac = "VerifyMac"
-        public var description: String { return self.rawValue }
+    public struct GrantOperation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createGrant: Self { .init(rawValue: "CreateGrant") }
+        @inlinable public static var decrypt: Self { .init(rawValue: "Decrypt") }
+        @inlinable public static var deriveSharedSecret: Self { .init(rawValue: "DeriveSharedSecret") }
+        @inlinable public static var describeKey: Self { .init(rawValue: "DescribeKey") }
+        @inlinable public static var encrypt: Self { .init(rawValue: "Encrypt") }
+        @inlinable public static var generateDataKey: Self { .init(rawValue: "GenerateDataKey") }
+        @inlinable public static var generateDataKeyPair: Self { .init(rawValue: "GenerateDataKeyPair") }
+        @inlinable public static var generateDataKeyPairWithoutPlaintext: Self { .init(rawValue: "GenerateDataKeyPairWithoutPlaintext") }
+        @inlinable public static var generateDataKeyWithoutPlaintext: Self { .init(rawValue: "GenerateDataKeyWithoutPlaintext") }
+        @inlinable public static var generateMac: Self { .init(rawValue: "GenerateMac") }
+        @inlinable public static var getPublicKey: Self { .init(rawValue: "GetPublicKey") }
+        @inlinable public static var reEncryptFrom: Self { .init(rawValue: "ReEncryptFrom") }
+        @inlinable public static var reEncryptTo: Self { .init(rawValue: "ReEncryptTo") }
+        @inlinable public static var retireGrant: Self { .init(rawValue: "RetireGrant") }
+        @inlinable public static var sign: Self { .init(rawValue: "Sign") }
+        @inlinable public static var verify: Self { .init(rawValue: "Verify") }
+        @inlinable public static var verifyMac: Self { .init(rawValue: "VerifyMac") }
     }
 
-    public enum ImportState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case imported = "IMPORTED"
-        case pendingImport = "PENDING_IMPORT"
-        public var description: String { return self.rawValue }
+    public struct ImportState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var imported: Self { .init(rawValue: "IMPORTED") }
+        @inlinable public static var pendingImport: Self { .init(rawValue: "PENDING_IMPORT") }
     }
 
-    public enum ImportType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case existingKeyMaterial = "EXISTING_KEY_MATERIAL"
-        case newKeyMaterial = "NEW_KEY_MATERIAL"
-        public var description: String { return self.rawValue }
+    public struct ImportType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var existingKeyMaterial: Self { .init(rawValue: "EXISTING_KEY_MATERIAL") }
+        @inlinable public static var newKeyMaterial: Self { .init(rawValue: "NEW_KEY_MATERIAL") }
     }
 
-    public enum IncludeKeyMaterial: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allKeyMaterial = "ALL_KEY_MATERIAL"
-        case rotationsOnly = "ROTATIONS_ONLY"
-        public var description: String { return self.rawValue }
+    public struct IncludeKeyMaterial: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allKeyMaterial: Self { .init(rawValue: "ALL_KEY_MATERIAL") }
+        @inlinable public static var rotationsOnly: Self { .init(rawValue: "ROTATIONS_ONLY") }
     }
 
-    public enum KeyAgreementAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ecdh = "ECDH"
-        public var description: String { return self.rawValue }
+    public struct KeyAgreementAlgorithmSpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ecdh: Self { .init(rawValue: "ECDH") }
     }
 
-    public enum KeyEncryptionMechanism: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
-        public var description: String { return self.rawValue }
+    public struct KeyEncryptionMechanism: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rsaesOaepSha256: Self { .init(rawValue: "RSAES_OAEP_SHA_256") }
     }
 
-    public enum KeyLastUsageTrackingOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case decrypt = "Decrypt"
-        case deriveSharedSecret = "DeriveSharedSecret"
-        case encrypt = "Encrypt"
-        case generateDataKey = "GenerateDataKey"
-        case generateDataKeyPair = "GenerateDataKeyPair"
-        case generateDataKeyPairWithoutPlaintext = "GenerateDataKeyPairWithoutPlaintext"
-        case generateDataKeyWithoutPlaintext = "GenerateDataKeyWithoutPlaintext"
-        case generateMac = "GenerateMac"
-        case reEncrypt = "ReEncrypt"
-        case sign = "Sign"
-        case verify = "Verify"
-        case verifyMac = "VerifyMac"
-        public var description: String { return self.rawValue }
+    public struct KeyLastUsageTrackingOperation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var decrypt: Self { .init(rawValue: "Decrypt") }
+        @inlinable public static var deriveSharedSecret: Self { .init(rawValue: "DeriveSharedSecret") }
+        @inlinable public static var encrypt: Self { .init(rawValue: "Encrypt") }
+        @inlinable public static var generateDataKey: Self { .init(rawValue: "GenerateDataKey") }
+        @inlinable public static var generateDataKeyPair: Self { .init(rawValue: "GenerateDataKeyPair") }
+        @inlinable public static var generateDataKeyPairWithoutPlaintext: Self { .init(rawValue: "GenerateDataKeyPairWithoutPlaintext") }
+        @inlinable public static var generateDataKeyWithoutPlaintext: Self { .init(rawValue: "GenerateDataKeyWithoutPlaintext") }
+        @inlinable public static var generateMac: Self { .init(rawValue: "GenerateMac") }
+        @inlinable public static var reEncrypt: Self { .init(rawValue: "ReEncrypt") }
+        @inlinable public static var sign: Self { .init(rawValue: "Sign") }
+        @inlinable public static var verify: Self { .init(rawValue: "Verify") }
+        @inlinable public static var verifyMac: Self { .init(rawValue: "VerifyMac") }
     }
 
-    public enum KeyManagerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aws = "AWS"
-        case customer = "CUSTOMER"
-        public var description: String { return self.rawValue }
+    public struct KeyManagerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aws: Self { .init(rawValue: "AWS") }
+        @inlinable public static var customer: Self { .init(rawValue: "CUSTOMER") }
     }
 
-    public enum KeyMaterialState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case current = "CURRENT"
-        case nonCurrent = "NON_CURRENT"
-        case pendingMultiRegionImportAndRotation = "PENDING_MULTI_REGION_IMPORT_AND_ROTATION"
-        case pendingRotation = "PENDING_ROTATION"
-        public var description: String { return self.rawValue }
+    public struct KeyMaterialState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var current: Self { .init(rawValue: "CURRENT") }
+        @inlinable public static var nonCurrent: Self { .init(rawValue: "NON_CURRENT") }
+        @inlinable public static var pendingMultiRegionImportAndRotation: Self { .init(rawValue: "PENDING_MULTI_REGION_IMPORT_AND_ROTATION") }
+        @inlinable public static var pendingRotation: Self { .init(rawValue: "PENDING_ROTATION") }
     }
 
-    public enum KeySpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case eccNistEdwards25519 = "ECC_NIST_EDWARDS25519"
-        case eccNistP256 = "ECC_NIST_P256"
-        case eccNistP384 = "ECC_NIST_P384"
-        case eccNistP521 = "ECC_NIST_P521"
-        case eccSecgP256K1 = "ECC_SECG_P256K1"
-        case hmac224 = "HMAC_224"
-        case hmac256 = "HMAC_256"
-        case hmac384 = "HMAC_384"
-        case hmac512 = "HMAC_512"
-        case mlDsa44 = "ML_DSA_44"
-        case mlDsa65 = "ML_DSA_65"
-        case mlDsa87 = "ML_DSA_87"
-        case rsa2048 = "RSA_2048"
-        case rsa3072 = "RSA_3072"
-        case rsa4096 = "RSA_4096"
-        case sm2 = "SM2"
-        case symmetricDefault = "SYMMETRIC_DEFAULT"
-        public var description: String { return self.rawValue }
+    public struct KeySpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var eccNistEdwards25519: Self { .init(rawValue: "ECC_NIST_EDWARDS25519") }
+        @inlinable public static var eccNistP256: Self { .init(rawValue: "ECC_NIST_P256") }
+        @inlinable public static var eccNistP384: Self { .init(rawValue: "ECC_NIST_P384") }
+        @inlinable public static var eccNistP521: Self { .init(rawValue: "ECC_NIST_P521") }
+        @inlinable public static var eccSecgP256K1: Self { .init(rawValue: "ECC_SECG_P256K1") }
+        @inlinable public static var hmac224: Self { .init(rawValue: "HMAC_224") }
+        @inlinable public static var hmac256: Self { .init(rawValue: "HMAC_256") }
+        @inlinable public static var hmac384: Self { .init(rawValue: "HMAC_384") }
+        @inlinable public static var hmac512: Self { .init(rawValue: "HMAC_512") }
+        @inlinable public static var mlDsa44: Self { .init(rawValue: "ML_DSA_44") }
+        @inlinable public static var mlDsa65: Self { .init(rawValue: "ML_DSA_65") }
+        @inlinable public static var mlDsa87: Self { .init(rawValue: "ML_DSA_87") }
+        @inlinable public static var rsa2048: Self { .init(rawValue: "RSA_2048") }
+        @inlinable public static var rsa3072: Self { .init(rawValue: "RSA_3072") }
+        @inlinable public static var rsa4096: Self { .init(rawValue: "RSA_4096") }
+        @inlinable public static var sm2: Self { .init(rawValue: "SM2") }
+        @inlinable public static var symmetricDefault: Self { .init(rawValue: "SYMMETRIC_DEFAULT") }
     }
 
-    public enum KeyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creating = "Creating"
-        case disabled = "Disabled"
-        case enabled = "Enabled"
-        case pendingDeletion = "PendingDeletion"
-        case pendingImport = "PendingImport"
-        case pendingReplicaDeletion = "PendingReplicaDeletion"
-        case unavailable = "Unavailable"
-        case updating = "Updating"
-        public var description: String { return self.rawValue }
+    public struct KeyState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var creating: Self { .init(rawValue: "Creating") }
+        @inlinable public static var disabled: Self { .init(rawValue: "Disabled") }
+        @inlinable public static var enabled: Self { .init(rawValue: "Enabled") }
+        @inlinable public static var pendingDeletion: Self { .init(rawValue: "PendingDeletion") }
+        @inlinable public static var pendingImport: Self { .init(rawValue: "PendingImport") }
+        @inlinable public static var pendingReplicaDeletion: Self { .init(rawValue: "PendingReplicaDeletion") }
+        @inlinable public static var unavailable: Self { .init(rawValue: "Unavailable") }
+        @inlinable public static var updating: Self { .init(rawValue: "Updating") }
     }
 
-    public enum KeyUsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case encryptDecrypt = "ENCRYPT_DECRYPT"
-        case generateVerifyMac = "GENERATE_VERIFY_MAC"
-        case keyAgreement = "KEY_AGREEMENT"
-        case signVerify = "SIGN_VERIFY"
-        public var description: String { return self.rawValue }
+    public struct KeyUsageType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var encryptDecrypt: Self { .init(rawValue: "ENCRYPT_DECRYPT") }
+        @inlinable public static var generateVerifyMac: Self { .init(rawValue: "GENERATE_VERIFY_MAC") }
+        @inlinable public static var keyAgreement: Self { .init(rawValue: "KEY_AGREEMENT") }
+        @inlinable public static var signVerify: Self { .init(rawValue: "SIGN_VERIFY") }
     }
 
-    public enum MacAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hmacSha224 = "HMAC_SHA_224"
-        case hmacSha256 = "HMAC_SHA_256"
-        case hmacSha384 = "HMAC_SHA_384"
-        case hmacSha512 = "HMAC_SHA_512"
-        public var description: String { return self.rawValue }
+    public struct MacAlgorithmSpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hmacSha224: Self { .init(rawValue: "HMAC_SHA_224") }
+        @inlinable public static var hmacSha256: Self { .init(rawValue: "HMAC_SHA_256") }
+        @inlinable public static var hmacSha384: Self { .init(rawValue: "HMAC_SHA_384") }
+        @inlinable public static var hmacSha512: Self { .init(rawValue: "HMAC_SHA_512") }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case digest = "DIGEST"
-        case externalMu = "EXTERNAL_MU"
-        case raw = "RAW"
-        public var description: String { return self.rawValue }
+    public struct MessageType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var digest: Self { .init(rawValue: "DIGEST") }
+        @inlinable public static var externalMu: Self { .init(rawValue: "EXTERNAL_MU") }
+        @inlinable public static var raw: Self { .init(rawValue: "RAW") }
     }
 
-    public enum MultiRegionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case primary = "PRIMARY"
-        case replica = "REPLICA"
-        public var description: String { return self.rawValue }
+    public struct MultiRegionKeyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var primary: Self { .init(rawValue: "PRIMARY") }
+        @inlinable public static var replica: Self { .init(rawValue: "REPLICA") }
     }
 
-    public enum OriginType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsCloudhsm = "AWS_CLOUDHSM"
-        case awsKms = "AWS_KMS"
-        case external = "EXTERNAL"
-        case externalKeyStore = "EXTERNAL_KEY_STORE"
-        public var description: String { return self.rawValue }
+    public struct OriginType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsCloudhsm: Self { .init(rawValue: "AWS_CLOUDHSM") }
+        @inlinable public static var awsKms: Self { .init(rawValue: "AWS_KMS") }
+        @inlinable public static var external: Self { .init(rawValue: "EXTERNAL") }
+        @inlinable public static var externalKeyStore: Self { .init(rawValue: "EXTERNAL_KEY_STORE") }
     }
 
-    public enum RotationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case automatic = "AUTOMATIC"
-        case onDemand = "ON_DEMAND"
-        public var description: String { return self.rawValue }
+    public struct RotationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var automatic: Self { .init(rawValue: "AUTOMATIC") }
+        @inlinable public static var onDemand: Self { .init(rawValue: "ON_DEMAND") }
     }
 
-    public enum SigningAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ecdsaSha256 = "ECDSA_SHA_256"
-        case ecdsaSha384 = "ECDSA_SHA_384"
-        case ecdsaSha512 = "ECDSA_SHA_512"
-        case ed25519PhSha512 = "ED25519_PH_SHA_512"
-        case ed25519Sha512 = "ED25519_SHA_512"
-        case mlDsaShake256 = "ML_DSA_SHAKE_256"
-        case rsassaPkcs1V15Sha256 = "RSASSA_PKCS1_V1_5_SHA_256"
-        case rsassaPkcs1V15Sha384 = "RSASSA_PKCS1_V1_5_SHA_384"
-        case rsassaPkcs1V15Sha512 = "RSASSA_PKCS1_V1_5_SHA_512"
-        case rsassaPssSha256 = "RSASSA_PSS_SHA_256"
-        case rsassaPssSha384 = "RSASSA_PSS_SHA_384"
-        case rsassaPssSha512 = "RSASSA_PSS_SHA_512"
-        case sm2dsa = "SM2DSA"
-        public var description: String { return self.rawValue }
+    public struct SigningAlgorithmSpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ecdsaSha256: Self { .init(rawValue: "ECDSA_SHA_256") }
+        @inlinable public static var ecdsaSha384: Self { .init(rawValue: "ECDSA_SHA_384") }
+        @inlinable public static var ecdsaSha512: Self { .init(rawValue: "ECDSA_SHA_512") }
+        @inlinable public static var ed25519PhSha512: Self { .init(rawValue: "ED25519_PH_SHA_512") }
+        @inlinable public static var ed25519Sha512: Self { .init(rawValue: "ED25519_SHA_512") }
+        @inlinable public static var mlDsaShake256: Self { .init(rawValue: "ML_DSA_SHAKE_256") }
+        @inlinable public static var rsassaPkcs1V15Sha256: Self { .init(rawValue: "RSASSA_PKCS1_V1_5_SHA_256") }
+        @inlinable public static var rsassaPkcs1V15Sha384: Self { .init(rawValue: "RSASSA_PKCS1_V1_5_SHA_384") }
+        @inlinable public static var rsassaPkcs1V15Sha512: Self { .init(rawValue: "RSASSA_PKCS1_V1_5_SHA_512") }
+        @inlinable public static var rsassaPssSha256: Self { .init(rawValue: "RSASSA_PSS_SHA_256") }
+        @inlinable public static var rsassaPssSha384: Self { .init(rawValue: "RSASSA_PSS_SHA_384") }
+        @inlinable public static var rsassaPssSha512: Self { .init(rawValue: "RSASSA_PSS_SHA_512") }
+        @inlinable public static var sm2dsa: Self { .init(rawValue: "SM2DSA") }
     }
 
-    public enum WrappingKeySpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rsa2048 = "RSA_2048"
-        case rsa3072 = "RSA_3072"
-        case rsa4096 = "RSA_4096"
-        case sm2 = "SM2"
-        public var description: String { return self.rawValue }
+    public struct WrappingKeySpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rsa2048: Self { .init(rawValue: "RSA_2048") }
+        @inlinable public static var rsa3072: Self { .init(rawValue: "RSA_3072") }
+        @inlinable public static var rsa4096: Self { .init(rawValue: "RSA_4096") }
+        @inlinable public static var sm2: Self { .init(rawValue: "SM2") }
     }
 
-    public enum XksProxyConnectivityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case publicEndpoint = "PUBLIC_ENDPOINT"
-        case vpcEndpointService = "VPC_ENDPOINT_SERVICE"
-        public var description: String { return self.rawValue }
+    public struct XksProxyConnectivityType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var publicEndpoint: Self { .init(rawValue: "PUBLIC_ENDPOINT") }
+        @inlinable public static var vpcEndpointService: Self { .init(rawValue: "VPC_ENDPOINT_SERVICE") }
     }
 
     // MARK: Shapes

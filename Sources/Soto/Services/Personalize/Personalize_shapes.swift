@@ -25,61 +25,97 @@ import Foundation
 extension Personalize {
     // MARK: Enums
 
-    public enum BatchInferenceJobMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case batchInference = "BATCH_INFERENCE"
-        case themeGeneration = "THEME_GENERATION"
-        public var description: String { return self.rawValue }
+    public struct BatchInferenceJobMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var batchInference: Self { .init(rawValue: "BATCH_INFERENCE") }
+        @inlinable public static var themeGeneration: Self { .init(rawValue: "THEME_GENERATION") }
     }
 
-    public enum Domain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ecommerce = "ECOMMERCE"
-        case videoOnDemand = "VIDEO_ON_DEMAND"
-        public var description: String { return self.rawValue }
+    public struct Domain: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ecommerce: Self { .init(rawValue: "ECOMMERCE") }
+        @inlinable public static var videoOnDemand: Self { .init(rawValue: "VIDEO_ON_DEMAND") }
     }
 
-    public enum ImportMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case full = "FULL"
-        case incremental = "INCREMENTAL"
-        public var description: String { return self.rawValue }
+    public struct ImportMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var full: Self { .init(rawValue: "FULL") }
+        @inlinable public static var incremental: Self { .init(rawValue: "INCREMENTAL") }
     }
 
-    public enum IngestionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case bulk = "BULK"
-        case put = "PUT"
-        public var description: String { return self.rawValue }
+    public struct IngestionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var bulk: Self { .init(rawValue: "BULK") }
+        @inlinable public static var put: Self { .init(rawValue: "PUT") }
     }
 
-    public enum ObjectiveSensitivity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "HIGH"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+    public struct ObjectiveSensitivity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
     }
 
-    public enum RankingInfluenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case freshness = "FRESHNESS"
-        case popularity = "POPULARITY"
-        public var description: String { return self.rawValue }
+    public struct RankingInfluenceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var freshness: Self { .init(rawValue: "FRESHNESS") }
+        @inlinable public static var popularity: Self { .init(rawValue: "POPULARITY") }
     }
 
-    public enum RecipeProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case service = "SERVICE"
-        public var description: String { return self.rawValue }
+    public struct RecipeProvider: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var service: Self { .init(rawValue: "SERVICE") }
     }
 
-    public enum TrainingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case autotrain = "AUTOTRAIN"
-        case full = "FULL"
-        case update = "UPDATE"
-        public var description: String { return self.rawValue }
+    public struct TrainingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var autotrain: Self { .init(rawValue: "AUTOTRAIN") }
+        @inlinable public static var full: Self { .init(rawValue: "FULL") }
+        @inlinable public static var update: Self { .init(rawValue: "UPDATE") }
     }
 
-    public enum TrainingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case automatic = "AUTOMATIC"
-        case manual = "MANUAL"
-        public var description: String { return self.rawValue }
+    public struct TrainingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var automatic: Self { .init(rawValue: "AUTOMATIC") }
+        @inlinable public static var manual: Self { .init(rawValue: "MANUAL") }
     }
 
     // MARK: Shapes

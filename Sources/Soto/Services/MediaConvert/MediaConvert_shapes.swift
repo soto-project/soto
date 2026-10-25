@@ -25,3675 +25,5591 @@ import Foundation
 extension MediaConvert {
     // MARK: Enums
 
-    public enum AacAudioDescriptionBroadcasterMix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case broadcasterMixedAd = "BROADCASTER_MIXED_AD"
-        case normal = "NORMAL"
-        public var description: String { return self.rawValue }
+    public struct AacAudioDescriptionBroadcasterMix: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var broadcasterMixedAd: Self { .init(rawValue: "BROADCASTER_MIXED_AD") }
+        @inlinable public static var normal: Self { .init(rawValue: "NORMAL") }
+    }
+
+    public struct AacCodecProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hev1: Self { .init(rawValue: "HEV1") }
+        @inlinable public static var hev2: Self { .init(rawValue: "HEV2") }
+        @inlinable public static var lc: Self { .init(rawValue: "LC") }
+        @inlinable public static var xhe: Self { .init(rawValue: "XHE") }
+    }
+
+    public struct AacCodingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var adReceiverMix: Self { .init(rawValue: "AD_RECEIVER_MIX") }
+        @inlinable public static var codingMode10: Self { .init(rawValue: "CODING_MODE_1_0") }
+        @inlinable public static var codingMode11: Self { .init(rawValue: "CODING_MODE_1_1") }
+        @inlinable public static var codingMode20: Self { .init(rawValue: "CODING_MODE_2_0") }
+        @inlinable public static var codingMode51: Self { .init(rawValue: "CODING_MODE_5_1") }
+        @inlinable public static var codingModeAuto: Self { .init(rawValue: "CODING_MODE_AUTO") }
+    }
+
+    public struct AacLoudnessMeasurementMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var anchor: Self { .init(rawValue: "ANCHOR") }
+        @inlinable public static var program: Self { .init(rawValue: "PROGRAM") }
+    }
+
+    public struct AacPassthroughControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var noPassthrough: Self { .init(rawValue: "NO_PASSTHROUGH") }
+        @inlinable public static var whenPossible: Self { .init(rawValue: "WHEN_POSSIBLE") }
+    }
+
+    public struct AacRateControlMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cbr: Self { .init(rawValue: "CBR") }
+        @inlinable public static var vbr: Self { .init(rawValue: "VBR") }
+    }
+
+    public struct AacRawFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var latmLoas: Self { .init(rawValue: "LATM_LOAS") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct AacSpecification: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mpeg2: Self { .init(rawValue: "MPEG2") }
+        @inlinable public static var mpeg4: Self { .init(rawValue: "MPEG4") }
+    }
+
+    public struct AacVbrQuality: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var mediumHigh: Self { .init(rawValue: "MEDIUM_HIGH") }
+        @inlinable public static var mediumLow: Self { .init(rawValue: "MEDIUM_LOW") }
+    }
+
+    public struct Ac3BitstreamMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var commentary: Self { .init(rawValue: "COMMENTARY") }
+        @inlinable public static var completeMain: Self { .init(rawValue: "COMPLETE_MAIN") }
+        @inlinable public static var dialogue: Self { .init(rawValue: "DIALOGUE") }
+        @inlinable public static var emergency: Self { .init(rawValue: "EMERGENCY") }
+        @inlinable public static var hearingImpaired: Self { .init(rawValue: "HEARING_IMPAIRED") }
+        @inlinable public static var musicAndEffects: Self { .init(rawValue: "MUSIC_AND_EFFECTS") }
+        @inlinable public static var visuallyImpaired: Self { .init(rawValue: "VISUALLY_IMPAIRED") }
+        @inlinable public static var voiceOver: Self { .init(rawValue: "VOICE_OVER") }
+    }
+
+    public struct Ac3CodingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var codingMode10: Self { .init(rawValue: "CODING_MODE_1_0") }
+        @inlinable public static var codingMode11: Self { .init(rawValue: "CODING_MODE_1_1") }
+        @inlinable public static var codingMode20: Self { .init(rawValue: "CODING_MODE_2_0") }
+        @inlinable public static var codingMode32Lfe: Self { .init(rawValue: "CODING_MODE_3_2_LFE") }
+        @inlinable public static var codingModeAuto: Self { .init(rawValue: "CODING_MODE_AUTO") }
+    }
+
+    public struct Ac3DynamicRangeCompressionLine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var filmLight: Self { .init(rawValue: "FILM_LIGHT") }
+        @inlinable public static var filmStandard: Self { .init(rawValue: "FILM_STANDARD") }
+        @inlinable public static var musicLight: Self { .init(rawValue: "MUSIC_LIGHT") }
+        @inlinable public static var musicStandard: Self { .init(rawValue: "MUSIC_STANDARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var speech: Self { .init(rawValue: "SPEECH") }
+    }
+
+    public struct Ac3DynamicRangeCompressionProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var filmStandard: Self { .init(rawValue: "FILM_STANDARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct Ac3DynamicRangeCompressionRf: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var filmLight: Self { .init(rawValue: "FILM_LIGHT") }
+        @inlinable public static var filmStandard: Self { .init(rawValue: "FILM_STANDARD") }
+        @inlinable public static var musicLight: Self { .init(rawValue: "MUSIC_LIGHT") }
+        @inlinable public static var musicStandard: Self { .init(rawValue: "MUSIC_STANDARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var speech: Self { .init(rawValue: "SPEECH") }
+    }
+
+    public struct Ac3LfeFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct Ac3MetadataControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var followInput: Self { .init(rawValue: "FOLLOW_INPUT") }
+        @inlinable public static var useConfigured: Self { .init(rawValue: "USE_CONFIGURED") }
+    }
+
+    public struct Ac4BitstreamMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completeMain: Self { .init(rawValue: "COMPLETE_MAIN") }
+        @inlinable public static var emergency: Self { .init(rawValue: "EMERGENCY") }
+    }
+
+    public struct Ac4CodingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var codingMode20: Self { .init(rawValue: "CODING_MODE_2_0") }
+        @inlinable public static var codingMode32Lfe: Self { .init(rawValue: "CODING_MODE_3_2_LFE") }
+        @inlinable public static var codingMode514: Self { .init(rawValue: "CODING_MODE_5_1_4") }
+    }
+
+    public struct Ac4DynamicRangeCompressionDrcProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var filmLight: Self { .init(rawValue: "FILM_LIGHT") }
+        @inlinable public static var filmStandard: Self { .init(rawValue: "FILM_STANDARD") }
+        @inlinable public static var musicLight: Self { .init(rawValue: "MUSIC_LIGHT") }
+        @inlinable public static var musicStandard: Self { .init(rawValue: "MUSIC_STANDARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var speech: Self { .init(rawValue: "SPEECH") }
+    }
+
+    public struct Ac4StereoDownmix: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dpl2: Self { .init(rawValue: "DPL2") }
+        @inlinable public static var loRo: Self { .init(rawValue: "LO_RO") }
+        @inlinable public static var ltRt: Self { .init(rawValue: "LT_RT") }
+        @inlinable public static var notIndicated: Self { .init(rawValue: "NOT_INDICATED") }
+    }
+
+    public struct AccelerationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var preferred: Self { .init(rawValue: "PREFERRED") }
+    }
+
+    public struct AccelerationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accelerated: Self { .init(rawValue: "ACCELERATED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var notAccelerated: Self { .init(rawValue: "NOT_ACCELERATED") }
+        @inlinable public static var notApplicable: Self { .init(rawValue: "NOT_APPLICABLE") }
+    }
+
+    public struct AdvancedInputFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct AdvancedInputFilterAddTexture: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct AdvancedInputFilterSharpen: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
+    }
+
+    public struct AfdSignaling: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var fixed: Self { .init(rawValue: "FIXED") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct AlphaBehavior: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var discard: Self { .init(rawValue: "DISCARD") }
+        @inlinable public static var remapToLuma: Self { .init(rawValue: "REMAP_TO_LUMA") }
+    }
+
+    public struct AncillaryConvert608To708: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var upconvert: Self { .init(rawValue: "UPCONVERT") }
+    }
+
+    public struct AncillaryTerminateCaptions: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var endOfInput: Self { .init(rawValue: "END_OF_INPUT") }
+    }
+
+    public struct AntiAlias: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct AudioChannelTag: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var c: Self { .init(rawValue: "C") }
+        @inlinable public static var cs: Self { .init(rawValue: "CS") }
+        @inlinable public static var hi: Self { .init(rawValue: "HI") }
+        @inlinable public static var l: Self { .init(rawValue: "L") }
+        @inlinable public static var lc: Self { .init(rawValue: "LC") }
+        @inlinable public static var lfe: Self { .init(rawValue: "LFE") }
+        @inlinable public static var lfe2: Self { .init(rawValue: "LFE2") }
+        @inlinable public static var ls: Self { .init(rawValue: "LS") }
+        @inlinable public static var lsd: Self { .init(rawValue: "LSD") }
+        @inlinable public static var lt: Self { .init(rawValue: "LT") }
+        @inlinable public static var lw: Self { .init(rawValue: "LW") }
+        @inlinable public static var m: Self { .init(rawValue: "M") }
+        @inlinable public static var nar: Self { .init(rawValue: "NAR") }
+        @inlinable public static var r: Self { .init(rawValue: "R") }
+        @inlinable public static var rc: Self { .init(rawValue: "RC") }
+        @inlinable public static var rs: Self { .init(rawValue: "RS") }
+        @inlinable public static var rsd: Self { .init(rawValue: "RSD") }
+        @inlinable public static var rsl: Self { .init(rawValue: "RSL") }
+        @inlinable public static var rsr: Self { .init(rawValue: "RSR") }
+        @inlinable public static var rt: Self { .init(rawValue: "RT") }
+        @inlinable public static var rw: Self { .init(rawValue: "RW") }
+        @inlinable public static var tbc: Self { .init(rawValue: "TBC") }
+        @inlinable public static var tbl: Self { .init(rawValue: "TBL") }
+        @inlinable public static var tbr: Self { .init(rawValue: "TBR") }
+        @inlinable public static var tcs: Self { .init(rawValue: "TCS") }
+        @inlinable public static var vhc: Self { .init(rawValue: "VHC") }
+        @inlinable public static var vhl: Self { .init(rawValue: "VHL") }
+        @inlinable public static var vhr: Self { .init(rawValue: "VHR") }
+    }
+
+    public struct AudioCodec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aac: Self { .init(rawValue: "AAC") }
+        @inlinable public static var ac3: Self { .init(rawValue: "AC3") }
+        @inlinable public static var ac4: Self { .init(rawValue: "AC4") }
+        @inlinable public static var aiff: Self { .init(rawValue: "AIFF") }
+        @inlinable public static var eac3: Self { .init(rawValue: "EAC3") }
+        @inlinable public static var eac3Atmos: Self { .init(rawValue: "EAC3_ATMOS") }
+        @inlinable public static var flac: Self { .init(rawValue: "FLAC") }
+        @inlinable public static var mp2: Self { .init(rawValue: "MP2") }
+        @inlinable public static var mp3: Self { .init(rawValue: "MP3") }
+        @inlinable public static var opus: Self { .init(rawValue: "OPUS") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+        @inlinable public static var vorbis: Self { .init(rawValue: "VORBIS") }
+        @inlinable public static var wav: Self { .init(rawValue: "WAV") }
+    }
+
+    public struct AudioDefaultSelection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
+        @inlinable public static var notDefault: Self { .init(rawValue: "NOT_DEFAULT") }
+    }
+
+    public struct AudioDurationCorrection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var force: Self { .init(rawValue: "FORCE") }
+        @inlinable public static var frame: Self { .init(rawValue: "FRAME") }
+        @inlinable public static var track: Self { .init(rawValue: "TRACK") }
+    }
+
+    public struct AudioLanguageCodeControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var followInput: Self { .init(rawValue: "FOLLOW_INPUT") }
+        @inlinable public static var useConfigured: Self { .init(rawValue: "USE_CONFIGURED") }
+    }
+
+    public struct AudioNormalizationAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ituBs17701: Self { .init(rawValue: "ITU_BS_1770_1") }
+        @inlinable public static var ituBs17702: Self { .init(rawValue: "ITU_BS_1770_2") }
+        @inlinable public static var ituBs17703: Self { .init(rawValue: "ITU_BS_1770_3") }
+        @inlinable public static var ituBs17704: Self { .init(rawValue: "ITU_BS_1770_4") }
+    }
+
+    public struct AudioNormalizationAlgorithmControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var correctAudio: Self { .init(rawValue: "CORRECT_AUDIO") }
+        @inlinable public static var measureOnly: Self { .init(rawValue: "MEASURE_ONLY") }
+    }
+
+    public struct AudioNormalizationLoudnessLogging: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dontLog: Self { .init(rawValue: "DONT_LOG") }
+        @inlinable public static var log: Self { .init(rawValue: "LOG") }
+    }
+
+    public struct AudioNormalizationPeakCalculation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var truePeak: Self { .init(rawValue: "TRUE_PEAK") }
+    }
+
+    public struct AudioSelectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allPcm: Self { .init(rawValue: "ALL_PCM") }
+        @inlinable public static var hlsRenditionGroup: Self { .init(rawValue: "HLS_RENDITION_GROUP") }
+        @inlinable public static var languageCode: Self { .init(rawValue: "LANGUAGE_CODE") }
+        @inlinable public static var pid: Self { .init(rawValue: "PID") }
+        @inlinable public static var stream: Self { .init(rawValue: "STREAM") }
+        @inlinable public static var track: Self { .init(rawValue: "TRACK") }
+    }
+
+    public struct AudioSmpte337Passthrough: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct AudioTypeControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var followInput: Self { .init(rawValue: "FOLLOW_INPUT") }
+        @inlinable public static var useConfigured: Self { .init(rawValue: "USE_CONFIGURED") }
+    }
+
+    public struct Av1AdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var higher: Self { .init(rawValue: "HIGHER") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var max: Self { .init(rawValue: "MAX") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
+    }
+
+    public struct Av1BitDepth: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bit10: Self { .init(rawValue: "BIT_10") }
+        @inlinable public static var bit8: Self { .init(rawValue: "BIT_8") }
+    }
+
+    public struct Av1FilmGrainSynthesis: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct Av1FramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
+    }
+
+    public struct Av1FramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
+    }
+
+    public struct Av1RateControlMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var qvbr: Self { .init(rawValue: "QVBR") }
+    }
+
+    public struct Av1SpatialAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct AvcIntraClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var class100: Self { .init(rawValue: "CLASS_100") }
+        @inlinable public static var class200: Self { .init(rawValue: "CLASS_200") }
+        @inlinable public static var class4K2K: Self { .init(rawValue: "CLASS_4K_2K") }
+        @inlinable public static var class50: Self { .init(rawValue: "CLASS_50") }
+    }
+
+    public struct AvcIntraFramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
+    }
+
+    public struct AvcIntraFramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
+    }
+
+    public struct AvcIntraInterlaceMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bottomField: Self { .init(rawValue: "BOTTOM_FIELD") }
+        @inlinable public static var followBottomField: Self { .init(rawValue: "FOLLOW_BOTTOM_FIELD") }
+        @inlinable public static var followTopField: Self { .init(rawValue: "FOLLOW_TOP_FIELD") }
+        @inlinable public static var progressive: Self { .init(rawValue: "PROGRESSIVE") }
+        @inlinable public static var topField: Self { .init(rawValue: "TOP_FIELD") }
+    }
+
+    public struct AvcIntraScanTypeConversionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var interlaced: Self { .init(rawValue: "INTERLACED") }
+        @inlinable public static var interlacedOptimize: Self { .init(rawValue: "INTERLACED_OPTIMIZE") }
+    }
+
+    public struct AvcIntraSlowPal: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct AvcIntraTelecine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hard: Self { .init(rawValue: "HARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct AvcIntraUhdQualityTuningLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var multiPass: Self { .init(rawValue: "MULTI_PASS") }
+        @inlinable public static var singlePass: Self { .init(rawValue: "SINGLE_PASS") }
+    }
+
+    public struct BandwidthReductionFilterSharpening: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
+    }
+
+    public struct BandwidthReductionFilterStrength: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
+    }
+
+    public struct BillingTagsSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var job: Self { .init(rawValue: "JOB") }
+        @inlinable public static var jobTemplate: Self { .init(rawValue: "JOB_TEMPLATE") }
+        @inlinable public static var preset: Self { .init(rawValue: "PRESET") }
+        @inlinable public static var queue: Self { .init(rawValue: "QUEUE") }
+    }
+
+    public struct BurnInSubtitleStylePassthrough: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct BurninSubtitleAlignment: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var centered: Self { .init(rawValue: "CENTERED") }
+        @inlinable public static var left: Self { .init(rawValue: "LEFT") }
+    }
+
+    public struct BurninSubtitleApplyFontColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allText: Self { .init(rawValue: "ALL_TEXT") }
+        @inlinable public static var whiteTextOnly: Self { .init(rawValue: "WHITE_TEXT_ONLY") }
+    }
+
+    public struct BurninSubtitleBackgroundColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var white: Self { .init(rawValue: "WHITE") }
+    }
+
+    public struct BurninSubtitleFallbackFont: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bestMatch: Self { .init(rawValue: "BEST_MATCH") }
+        @inlinable public static var monospacedSansserif: Self { .init(rawValue: "MONOSPACED_SANSSERIF") }
+        @inlinable public static var monospacedSerif: Self { .init(rawValue: "MONOSPACED_SERIF") }
+        @inlinable public static var proportionalSansserif: Self { .init(rawValue: "PROPORTIONAL_SANSSERIF") }
+        @inlinable public static var proportionalSerif: Self { .init(rawValue: "PROPORTIONAL_SERIF") }
+    }
+
+    public struct BurninSubtitleFontColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var blue: Self { .init(rawValue: "BLUE") }
+        @inlinable public static var green: Self { .init(rawValue: "GREEN") }
+        @inlinable public static var hex: Self { .init(rawValue: "HEX") }
+        @inlinable public static var red: Self { .init(rawValue: "RED") }
+        @inlinable public static var white: Self { .init(rawValue: "WHITE") }
+        @inlinable public static var yellow: Self { .init(rawValue: "YELLOW") }
+    }
+
+    public struct BurninSubtitleOutlineColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var blue: Self { .init(rawValue: "BLUE") }
+        @inlinable public static var green: Self { .init(rawValue: "GREEN") }
+        @inlinable public static var red: Self { .init(rawValue: "RED") }
+        @inlinable public static var white: Self { .init(rawValue: "WHITE") }
+        @inlinable public static var yellow: Self { .init(rawValue: "YELLOW") }
+    }
+
+    public struct BurninSubtitleShadowColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var white: Self { .init(rawValue: "WHITE") }
+    }
+
+    public struct BurninSubtitleTeletextSpacing: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var fixedGrid: Self { .init(rawValue: "FIXED_GRID") }
+        @inlinable public static var proportional: Self { .init(rawValue: "PROPORTIONAL") }
+    }
+
+    public struct CaptionDestinationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var burnIn: Self { .init(rawValue: "BURN_IN") }
+        @inlinable public static var dvbSub: Self { .init(rawValue: "DVB_SUB") }
+        @inlinable public static var embedded: Self { .init(rawValue: "EMBEDDED") }
+        @inlinable public static var embeddedPlusScte20: Self { .init(rawValue: "EMBEDDED_PLUS_SCTE20") }
+        @inlinable public static var imsc: Self { .init(rawValue: "IMSC") }
+        @inlinable public static var scc: Self { .init(rawValue: "SCC") }
+        @inlinable public static var scte20PlusEmbedded: Self { .init(rawValue: "SCTE20_PLUS_EMBEDDED") }
+        @inlinable public static var smi: Self { .init(rawValue: "SMI") }
+        @inlinable public static var srt: Self { .init(rawValue: "SRT") }
+        @inlinable public static var teletext: Self { .init(rawValue: "TELETEXT") }
+        @inlinable public static var ttml: Self { .init(rawValue: "TTML") }
+        @inlinable public static var webvtt: Self { .init(rawValue: "WEBVTT") }
+    }
+
+    public struct CaptionSourceByteRateLimit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct CaptionSourceConvertPaintOnToPopOn: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct CaptionSourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ancillary: Self { .init(rawValue: "ANCILLARY") }
+        @inlinable public static var dvbSub: Self { .init(rawValue: "DVB_SUB") }
+        @inlinable public static var embedded: Self { .init(rawValue: "EMBEDDED") }
+        @inlinable public static var imsc: Self { .init(rawValue: "IMSC") }
+        @inlinable public static var nullSource: Self { .init(rawValue: "NULL_SOURCE") }
+        @inlinable public static var scc: Self { .init(rawValue: "SCC") }
+        @inlinable public static var scte20: Self { .init(rawValue: "SCTE20") }
+        @inlinable public static var smi: Self { .init(rawValue: "SMI") }
+        @inlinable public static var smpteTt: Self { .init(rawValue: "SMPTE_TT") }
+        @inlinable public static var srt: Self { .init(rawValue: "SRT") }
+        @inlinable public static var stl: Self { .init(rawValue: "STL") }
+        @inlinable public static var teletext: Self { .init(rawValue: "TELETEXT") }
+        @inlinable public static var tt3Gpp: Self { .init(rawValue: "TT_3GPP") }
+        @inlinable public static var ttml: Self { .init(rawValue: "TTML") }
+        @inlinable public static var webvtt: Self { .init(rawValue: "WEBVTT") }
+    }
+
+    public struct CaptionSourceUpconvertSTLToTeletext: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var upconvert: Self { .init(rawValue: "UPCONVERT") }
+    }
+
+    public struct ChromaPositionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var forceCenter: Self { .init(rawValue: "FORCE_CENTER") }
+        @inlinable public static var forceTopLeft: Self { .init(rawValue: "FORCE_TOP_LEFT") }
+    }
+
+    public struct CmafClientCache: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct CmafCodecSpecification: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rfc4281: Self { .init(rawValue: "RFC_4281") }
+        @inlinable public static var rfc6381: Self { .init(rawValue: "RFC_6381") }
+    }
+
+    public struct CmafEncryptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aesCtr: Self { .init(rawValue: "AES_CTR") }
+        @inlinable public static var sampleAes: Self { .init(rawValue: "SAMPLE_AES") }
+    }
+
+    public struct CmafImageBasedTrickPlay: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var advanced: Self { .init(rawValue: "ADVANCED") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var thumbnail: Self { .init(rawValue: "THUMBNAIL") }
+        @inlinable public static var thumbnailAndFullframe: Self { .init(rawValue: "THUMBNAIL_AND_FULLFRAME") }
+        @inlinable public static var variants: Self { .init(rawValue: "VARIANTS") }
+    }
+
+    public struct CmafInitializationVectorInManifest: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+    }
+
+    public struct CmafIntervalCadence: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var followCustom: Self { .init(rawValue: "FOLLOW_CUSTOM") }
+        @inlinable public static var followIframe: Self { .init(rawValue: "FOLLOW_IFRAME") }
+        @inlinable public static var followSegmentation: Self { .init(rawValue: "FOLLOW_SEGMENTATION") }
+    }
+
+    public struct CmafKeyProviderType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var speke: Self { .init(rawValue: "SPEKE") }
+        @inlinable public static var staticKey: Self { .init(rawValue: "STATIC_KEY") }
+    }
+
+    public struct CmafManifestCompression: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var gzip: Self { .init(rawValue: "GZIP") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct CmafManifestDurationFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var floatingPoint: Self { .init(rawValue: "FLOATING_POINT") }
+        @inlinable public static var integer: Self { .init(rawValue: "INTEGER") }
+    }
+
+    public struct CmafMpdManifestBandwidthType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "AVERAGE") }
+        @inlinable public static var max: Self { .init(rawValue: "MAX") }
+    }
+
+    public struct CmafMpdProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mainProfile: Self { .init(rawValue: "MAIN_PROFILE") }
+        @inlinable public static var onDemandProfile: Self { .init(rawValue: "ON_DEMAND_PROFILE") }
+    }
+
+    public struct CmafPtsOffsetHandlingForBFrames: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var matchInitialPts: Self { .init(rawValue: "MATCH_INITIAL_PTS") }
+        @inlinable public static var zeroBased: Self { .init(rawValue: "ZERO_BASED") }
+    }
+
+    public struct CmafSegmentControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var segmentedFiles: Self { .init(rawValue: "SEGMENTED_FILES") }
+        @inlinable public static var singleFile: Self { .init(rawValue: "SINGLE_FILE") }
+    }
+
+    public struct CmafSegmentLengthControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exact: Self { .init(rawValue: "EXACT") }
+        @inlinable public static var gopMultiple: Self { .init(rawValue: "GOP_MULTIPLE") }
+        @inlinable public static var match: Self { .init(rawValue: "MATCH") }
+    }
+
+    public struct CmafStreamInfResolution: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+    }
+
+    public struct CmafTargetDurationCompatibilityMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var legacy: Self { .init(rawValue: "LEGACY") }
+        @inlinable public static var specCompliant: Self { .init(rawValue: "SPEC_COMPLIANT") }
+    }
+
+    public struct CmafVideoCompositionOffsets: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var signed: Self { .init(rawValue: "SIGNED") }
+        @inlinable public static var unsigned: Self { .init(rawValue: "UNSIGNED") }
+    }
+
+    public struct CmafWriteDASHManifest: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct CmafWriteHLSManifest: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct CmafWriteSegmentTimelineInRepresentation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct CmfcAudioDuration: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var defaultCodecDuration: Self { .init(rawValue: "DEFAULT_CODEC_DURATION") }
+        @inlinable public static var matchVideoDuration: Self { .init(rawValue: "MATCH_VIDEO_DURATION") }
+    }
+
+    public struct CmfcAudioTrackType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alternateAudioAutoSelect: Self { .init(rawValue: "ALTERNATE_AUDIO_AUTO_SELECT") }
+        @inlinable public static var alternateAudioAutoSelectDefault: Self { .init(rawValue: "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT") }
+        @inlinable public static var alternateAudioNotAutoSelect: Self { .init(rawValue: "ALTERNATE_AUDIO_NOT_AUTO_SELECT") }
+        @inlinable public static var audioOnlyVariantStream: Self { .init(rawValue: "AUDIO_ONLY_VARIANT_STREAM") }
+    }
+
+    public struct CmfcC2paManifest: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+    }
+
+    public struct CmfcDescriptiveVideoServiceFlag: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dontFlag: Self { .init(rawValue: "DONT_FLAG") }
+        @inlinable public static var flag: Self { .init(rawValue: "FLAG") }
+    }
+
+    public struct CmfcIFrameOnlyManifest: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+    }
+
+    public struct CmfcKlvMetadata: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+    }
+
+    public struct CmfcManifestMetadataSignaling: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct CmfcScte35Esam: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var insert: Self { .init(rawValue: "INSERT") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct CmfcScte35Source: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var manifestCues: Self { .init(rawValue: "MANIFEST_CUES") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+    }
+
+    public struct CmfcTimedMetadata: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+    }
+
+    public struct CmfcTimedMetadataBoxVersion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var version0: Self { .init(rawValue: "VERSION_0") }
+        @inlinable public static var version1: Self { .init(rawValue: "VERSION_1") }
+    }
+
+    public struct Codec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aac: Self { .init(rawValue: "AAC") }
+        @inlinable public static var ac3: Self { .init(rawValue: "AC3") }
+        @inlinable public static var amr: Self { .init(rawValue: "AMR") }
+        @inlinable public static var av1: Self { .init(rawValue: "AV1") }
+        @inlinable public static var avc: Self { .init(rawValue: "AVC") }
+        @inlinable public static var c608: Self { .init(rawValue: "C608") }
+        @inlinable public static var c708: Self { .init(rawValue: "C708") }
+        @inlinable public static var dv: Self { .init(rawValue: "DV") }
+        @inlinable public static var eac3: Self { .init(rawValue: "EAC3") }
+        @inlinable public static var flac: Self { .init(rawValue: "FLAC") }
+        @inlinable public static var h263: Self { .init(rawValue: "H263") }
+        @inlinable public static var hevc: Self { .init(rawValue: "HEVC") }
+        @inlinable public static var jpeg2000: Self { .init(rawValue: "JPEG2000") }
+        @inlinable public static var mjpeg: Self { .init(rawValue: "MJPEG") }
+        @inlinable public static var mp2: Self { .init(rawValue: "MP2") }
+        @inlinable public static var mp3: Self { .init(rawValue: "MP3") }
+        @inlinable public static var mp4v: Self { .init(rawValue: "MP4V") }
+        @inlinable public static var mpeg1: Self { .init(rawValue: "MPEG1") }
+        @inlinable public static var mpeg2: Self { .init(rawValue: "MPEG2") }
+        @inlinable public static var opus: Self { .init(rawValue: "OPUS") }
+        @inlinable public static var pcm: Self { .init(rawValue: "PCM") }
+        @inlinable public static var prores: Self { .init(rawValue: "PRORES") }
+        @inlinable public static var qtrle: Self { .init(rawValue: "QTRLE") }
+        @inlinable public static var theora: Self { .init(rawValue: "THEORA") }
+        @inlinable public static var uncompressed: Self { .init(rawValue: "UNCOMPRESSED") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
+        @inlinable public static var vc1: Self { .init(rawValue: "VC1") }
+        @inlinable public static var vc3: Self { .init(rawValue: "VC3") }
+        @inlinable public static var vfw: Self { .init(rawValue: "VFW") }
+        @inlinable public static var vorbis: Self { .init(rawValue: "VORBIS") }
+        @inlinable public static var vp8: Self { .init(rawValue: "VP8") }
+        @inlinable public static var vp9: Self { .init(rawValue: "VP9") }
+        @inlinable public static var webvtt: Self { .init(rawValue: "WEBVTT") }
+        @inlinable public static var wma: Self { .init(rawValue: "WMA") }
+        @inlinable public static var wma2: Self { .init(rawValue: "WMA2") }
+        @inlinable public static var wmapro: Self { .init(rawValue: "WMAPRO") }
+    }
+
+    public struct ColorMetadata: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ignore: Self { .init(rawValue: "IGNORE") }
+        @inlinable public static var insert: Self { .init(rawValue: "INSERT") }
+    }
+
+    public struct ColorPrimaries: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ebu3213E: Self { .init(rawValue: "EBU_3213_E") }
+        @inlinable public static var genericFilm: Self { .init(rawValue: "GENERIC_FILM") }
+        @inlinable public static var ipt: Self { .init(rawValue: "IPT") }
+        @inlinable public static var itu2020: Self { .init(rawValue: "ITU_2020") }
+        @inlinable public static var itu470Bg: Self { .init(rawValue: "ITU_470BG") }
+        @inlinable public static var itu470M: Self { .init(rawValue: "ITU_470M") }
+        @inlinable public static var itu709: Self { .init(rawValue: "ITU_709") }
+        @inlinable public static var last: Self { .init(rawValue: "LAST") }
+        @inlinable public static var reserved: Self { .init(rawValue: "RESERVED") }
+        @inlinable public static var smpte170M: Self { .init(rawValue: "SMPTE_170M") }
+        @inlinable public static var smpte2067Xyz: Self { .init(rawValue: "SMPTE_2067XYZ") }
+        @inlinable public static var smpte240M: Self { .init(rawValue: "SMPTE_240M") }
+        @inlinable public static var smpte4281: Self { .init(rawValue: "SMPTE_428_1") }
+        @inlinable public static var smpte4312: Self { .init(rawValue: "SMPTE_431_2") }
+        @inlinable public static var smpteEg4321: Self { .init(rawValue: "SMPTE_EG_432_1") }
+        @inlinable public static var unspecified: Self { .init(rawValue: "UNSPECIFIED") }
+    }
+
+    public struct ColorSpace: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var follow: Self { .init(rawValue: "FOLLOW") }
+        @inlinable public static var hdr10: Self { .init(rawValue: "HDR10") }
+        @inlinable public static var hlg2020: Self { .init(rawValue: "HLG_2020") }
+        @inlinable public static var p3d65Hdr: Self { .init(rawValue: "P3D65_HDR") }
+        @inlinable public static var p3d65Sdr: Self { .init(rawValue: "P3D65_SDR") }
+        @inlinable public static var p3dci: Self { .init(rawValue: "P3DCI") }
+        @inlinable public static var rec601: Self { .init(rawValue: "REC_601") }
+        @inlinable public static var rec709: Self { .init(rawValue: "REC_709") }
+    }
+
+    public struct ColorSpaceConversion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var force601: Self { .init(rawValue: "FORCE_601") }
+        @inlinable public static var force709: Self { .init(rawValue: "FORCE_709") }
+        @inlinable public static var forceHdr10: Self { .init(rawValue: "FORCE_HDR10") }
+        @inlinable public static var forceHlg2020: Self { .init(rawValue: "FORCE_HLG_2020") }
+        @inlinable public static var forceP3D65Hdr: Self { .init(rawValue: "FORCE_P3D65_HDR") }
+        @inlinable public static var forceP3D65Sdr: Self { .init(rawValue: "FORCE_P3D65_SDR") }
+        @inlinable public static var forceP3Dci: Self { .init(rawValue: "FORCE_P3DCI") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct ColorSpaceUsage: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fallback: Self { .init(rawValue: "FALLBACK") }
+        @inlinable public static var force: Self { .init(rawValue: "FORCE") }
+    }
+
+    public struct Commitment: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var oneYear: Self { .init(rawValue: "ONE_YEAR") }
+    }
+
+    public struct ContainerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cmfc: Self { .init(rawValue: "CMFC") }
+        @inlinable public static var f4v: Self { .init(rawValue: "F4V") }
+        @inlinable public static var gif: Self { .init(rawValue: "GIF") }
+        @inlinable public static var ismv: Self { .init(rawValue: "ISMV") }
+        @inlinable public static var m2ts: Self { .init(rawValue: "M2TS") }
+        @inlinable public static var m3u8: Self { .init(rawValue: "M3U8") }
+        @inlinable public static var mov: Self { .init(rawValue: "MOV") }
+        @inlinable public static var mp4: Self { .init(rawValue: "MP4") }
+        @inlinable public static var mpd: Self { .init(rawValue: "MPD") }
+        @inlinable public static var mxf: Self { .init(rawValue: "MXF") }
+        @inlinable public static var ogg: Self { .init(rawValue: "OGG") }
+        @inlinable public static var raw: Self { .init(rawValue: "RAW") }
+        @inlinable public static var webm: Self { .init(rawValue: "WEBM") }
+        @inlinable public static var y4m: Self { .init(rawValue: "Y4M") }
+    }
+
+    public struct CopyProtectionAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+        @inlinable public static var strip: Self { .init(rawValue: "STRIP") }
+    }
+
+    public struct DashIsoGroupAudioChannelConfigSchemeIdUri: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dolbyChannelConfiguration: Self { .init(rawValue: "DOLBY_CHANNEL_CONFIGURATION") }
+        @inlinable public static var mpegChannelConfiguration: Self { .init(rawValue: "MPEG_CHANNEL_CONFIGURATION") }
+    }
+
+    public struct DashIsoHbbtvCompliance: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hbbtv15: Self { .init(rawValue: "HBBTV_1_5") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct DashIsoImageBasedTrickPlay: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var advanced: Self { .init(rawValue: "ADVANCED") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var thumbnail: Self { .init(rawValue: "THUMBNAIL") }
+        @inlinable public static var thumbnailAndFullframe: Self { .init(rawValue: "THUMBNAIL_AND_FULLFRAME") }
+        @inlinable public static var variants: Self { .init(rawValue: "VARIANTS") }
+    }
+
+    public struct DashIsoIntervalCadence: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var followCustom: Self { .init(rawValue: "FOLLOW_CUSTOM") }
+        @inlinable public static var followIframe: Self { .init(rawValue: "FOLLOW_IFRAME") }
+        @inlinable public static var followSegmentation: Self { .init(rawValue: "FOLLOW_SEGMENTATION") }
+    }
+
+    public struct DashIsoMpdManifestBandwidthType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "AVERAGE") }
+        @inlinable public static var max: Self { .init(rawValue: "MAX") }
+    }
+
+    public struct DashIsoMpdProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mainProfile: Self { .init(rawValue: "MAIN_PROFILE") }
+        @inlinable public static var onDemandProfile: Self { .init(rawValue: "ON_DEMAND_PROFILE") }
+    }
+
+    public struct DashIsoPlaybackDeviceCompatibility: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cencV1: Self { .init(rawValue: "CENC_V1") }
+        @inlinable public static var cencV1UnencryptedHeaders: Self { .init(rawValue: "CENC_V1_UNENCRYPTED_HEADERS") }
+        @inlinable public static var unencryptedSei: Self { .init(rawValue: "UNENCRYPTED_SEI") }
+    }
+
+    public struct DashIsoPtsOffsetHandlingForBFrames: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var matchInitialPts: Self { .init(rawValue: "MATCH_INITIAL_PTS") }
+        @inlinable public static var zeroBased: Self { .init(rawValue: "ZERO_BASED") }
+    }
+
+    public struct DashIsoSegmentControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var segmentedFiles: Self { .init(rawValue: "SEGMENTED_FILES") }
+        @inlinable public static var singleFile: Self { .init(rawValue: "SINGLE_FILE") }
+    }
+
+    public struct DashIsoSegmentLengthControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exact: Self { .init(rawValue: "EXACT") }
+        @inlinable public static var gopMultiple: Self { .init(rawValue: "GOP_MULTIPLE") }
+        @inlinable public static var match: Self { .init(rawValue: "MATCH") }
+    }
+
+    public struct DashIsoVideoCompositionOffsets: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var signed: Self { .init(rawValue: "SIGNED") }
+        @inlinable public static var unsigned: Self { .init(rawValue: "UNSIGNED") }
+    }
+
+    public struct DashIsoWriteSegmentTimelineInRepresentation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct DashManifestStyle: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var basic: Self { .init(rawValue: "BASIC") }
+        @inlinable public static var compact: Self { .init(rawValue: "COMPACT") }
+        @inlinable public static var distinct: Self { .init(rawValue: "DISTINCT") }
+        @inlinable public static var full: Self { .init(rawValue: "FULL") }
+    }
+
+    public struct DecryptionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aesCbc: Self { .init(rawValue: "AES_CBC") }
+        @inlinable public static var aesCtr: Self { .init(rawValue: "AES_CTR") }
+        @inlinable public static var aesGcm: Self { .init(rawValue: "AES_GCM") }
+    }
+
+    public struct DeinterlaceAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var blend: Self { .init(rawValue: "BLEND") }
+        @inlinable public static var blendTicker: Self { .init(rawValue: "BLEND_TICKER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var interpolateTicker: Self { .init(rawValue: "INTERPOLATE_TICKER") }
+        @inlinable public static var linearInterpolation: Self { .init(rawValue: "LINEAR_INTERPOLATION") }
+    }
+
+    public struct DeinterlacerControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var forceAllFrames: Self { .init(rawValue: "FORCE_ALL_FRAMES") }
+        @inlinable public static var normal: Self { .init(rawValue: "NORMAL") }
+    }
+
+    public struct DeinterlacerMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var adaptive: Self { .init(rawValue: "ADAPTIVE") }
+        @inlinable public static var deinterlace: Self { .init(rawValue: "DEINTERLACE") }
+        @inlinable public static var inverseTelecine: Self { .init(rawValue: "INVERSE_TELECINE") }
+    }
+
+    public struct DescribeEndpointsMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
+        @inlinable public static var getOnly: Self { .init(rawValue: "GET_ONLY") }
+    }
+
+    public struct DolbyVisionCompatibility: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var duplicateStream: Self { .init(rawValue: "DUPLICATE_STREAM") }
+        @inlinable public static var supplementalCodecs: Self { .init(rawValue: "SUPPLEMENTAL_CODECS") }
+    }
+
+    public struct DolbyVisionLevel6Mode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+        @inlinable public static var recalculate: Self { .init(rawValue: "RECALCULATE") }
+        @inlinable public static var specify: Self { .init(rawValue: "SPECIFY") }
+    }
+
+    public struct DolbyVisionMapping: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hdr101000: Self { .init(rawValue: "HDR10_1000") }
+        @inlinable public static var hdr10Nomap: Self { .init(rawValue: "HDR10_NOMAP") }
+    }
+
+    public struct DolbyVisionPresence: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var absent: Self { .init(rawValue: "ABSENT") }
+        @inlinable public static var present: Self { .init(rawValue: "PRESENT") }
+    }
+
+    public struct DolbyVisionProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var profile5: Self { .init(rawValue: "PROFILE_5") }
+        @inlinable public static var profile81: Self { .init(rawValue: "PROFILE_8_1") }
+    }
+
+    public struct DropFrameTimecode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct DvbSubSubtitleFallbackFont: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bestMatch: Self { .init(rawValue: "BEST_MATCH") }
+        @inlinable public static var monospacedSansserif: Self { .init(rawValue: "MONOSPACED_SANSSERIF") }
+        @inlinable public static var monospacedSerif: Self { .init(rawValue: "MONOSPACED_SERIF") }
+        @inlinable public static var proportionalSansserif: Self { .init(rawValue: "PROPORTIONAL_SANSSERIF") }
+        @inlinable public static var proportionalSerif: Self { .init(rawValue: "PROPORTIONAL_SERIF") }
+    }
+
+    public struct DvbSubtitleAlignment: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var centered: Self { .init(rawValue: "CENTERED") }
+        @inlinable public static var left: Self { .init(rawValue: "LEFT") }
+    }
+
+    public struct DvbSubtitleApplyFontColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allText: Self { .init(rawValue: "ALL_TEXT") }
+        @inlinable public static var whiteTextOnly: Self { .init(rawValue: "WHITE_TEXT_ONLY") }
+    }
+
+    public struct DvbSubtitleBackgroundColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var white: Self { .init(rawValue: "WHITE") }
+    }
+
+    public struct DvbSubtitleFontColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var blue: Self { .init(rawValue: "BLUE") }
+        @inlinable public static var green: Self { .init(rawValue: "GREEN") }
+        @inlinable public static var hex: Self { .init(rawValue: "HEX") }
+        @inlinable public static var red: Self { .init(rawValue: "RED") }
+        @inlinable public static var white: Self { .init(rawValue: "WHITE") }
+        @inlinable public static var yellow: Self { .init(rawValue: "YELLOW") }
+    }
+
+    public struct DvbSubtitleOutlineColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var blue: Self { .init(rawValue: "BLUE") }
+        @inlinable public static var green: Self { .init(rawValue: "GREEN") }
+        @inlinable public static var red: Self { .init(rawValue: "RED") }
+        @inlinable public static var white: Self { .init(rawValue: "WHITE") }
+        @inlinable public static var yellow: Self { .init(rawValue: "YELLOW") }
+    }
+
+    public struct DvbSubtitleShadowColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var white: Self { .init(rawValue: "WHITE") }
+    }
+
+    public struct DvbSubtitleStylePassthrough: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct DvbSubtitleTeletextSpacing: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var fixedGrid: Self { .init(rawValue: "FIXED_GRID") }
+        @inlinable public static var proportional: Self { .init(rawValue: "PROPORTIONAL") }
+    }
+
+    public struct DvbSubtitlingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hearingImpaired: Self { .init(rawValue: "HEARING_IMPAIRED") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
+    }
+
+    public struct DvbddsHandling: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var noDisplayWindow: Self { .init(rawValue: "NO_DISPLAY_WINDOW") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
+        @inlinable public static var specifiedOptimal: Self { .init(rawValue: "SPECIFIED_OPTIMAL") }
+    }
+
+    public struct DynamicAudioSelectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allTracks: Self { .init(rawValue: "ALL_TRACKS") }
+        @inlinable public static var languageCode: Self { .init(rawValue: "LANGUAGE_CODE") }
+    }
+
+    public struct Eac3AtmosBitstreamMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completeMain: Self { .init(rawValue: "COMPLETE_MAIN") }
+    }
+
+    public struct Eac3AtmosCodingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var codingMode514: Self { .init(rawValue: "CODING_MODE_5_1_4") }
+        @inlinable public static var codingMode714: Self { .init(rawValue: "CODING_MODE_7_1_4") }
+        @inlinable public static var codingMode916: Self { .init(rawValue: "CODING_MODE_9_1_6") }
+        @inlinable public static var codingModeAuto: Self { .init(rawValue: "CODING_MODE_AUTO") }
+    }
+
+    public struct Eac3AtmosDialogueIntelligence: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct Eac3AtmosDownmixControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
+    }
+
+    public struct Eac3AtmosDynamicRangeCompressionLine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var filmLight: Self { .init(rawValue: "FILM_LIGHT") }
+        @inlinable public static var filmStandard: Self { .init(rawValue: "FILM_STANDARD") }
+        @inlinable public static var musicLight: Self { .init(rawValue: "MUSIC_LIGHT") }
+        @inlinable public static var musicStandard: Self { .init(rawValue: "MUSIC_STANDARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var speech: Self { .init(rawValue: "SPEECH") }
+    }
+
+    public struct Eac3AtmosDynamicRangeCompressionRf: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var filmLight: Self { .init(rawValue: "FILM_LIGHT") }
+        @inlinable public static var filmStandard: Self { .init(rawValue: "FILM_STANDARD") }
+        @inlinable public static var musicLight: Self { .init(rawValue: "MUSIC_LIGHT") }
+        @inlinable public static var musicStandard: Self { .init(rawValue: "MUSIC_STANDARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var speech: Self { .init(rawValue: "SPEECH") }
+    }
+
+    public struct Eac3AtmosDynamicRangeControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
+    }
+
+    public struct Eac3AtmosMeteringMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ituBs17701: Self { .init(rawValue: "ITU_BS_1770_1") }
+        @inlinable public static var ituBs17702: Self { .init(rawValue: "ITU_BS_1770_2") }
+        @inlinable public static var ituBs17703: Self { .init(rawValue: "ITU_BS_1770_3") }
+        @inlinable public static var ituBs17704: Self { .init(rawValue: "ITU_BS_1770_4") }
+        @inlinable public static var leqA: Self { .init(rawValue: "LEQ_A") }
+    }
+
+    public struct Eac3AtmosStereoDownmix: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dpl2: Self { .init(rawValue: "DPL2") }
+        @inlinable public static var notIndicated: Self { .init(rawValue: "NOT_INDICATED") }
+        @inlinable public static var stereo: Self { .init(rawValue: "STEREO") }
+        @inlinable public static var surround: Self { .init(rawValue: "SURROUND") }
+    }
+
+    public struct Eac3AtmosSurroundExMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var notIndicated: Self { .init(rawValue: "NOT_INDICATED") }
+    }
+
+    public struct Eac3AttenuationControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var attenuate3Db: Self { .init(rawValue: "ATTENUATE_3_DB") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct Eac3BitstreamMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var commentary: Self { .init(rawValue: "COMMENTARY") }
+        @inlinable public static var completeMain: Self { .init(rawValue: "COMPLETE_MAIN") }
+        @inlinable public static var emergency: Self { .init(rawValue: "EMERGENCY") }
+        @inlinable public static var hearingImpaired: Self { .init(rawValue: "HEARING_IMPAIRED") }
+        @inlinable public static var visuallyImpaired: Self { .init(rawValue: "VISUALLY_IMPAIRED") }
+    }
+
+    public struct Eac3CodingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var codingMode10: Self { .init(rawValue: "CODING_MODE_1_0") }
+        @inlinable public static var codingMode20: Self { .init(rawValue: "CODING_MODE_2_0") }
+        @inlinable public static var codingMode32: Self { .init(rawValue: "CODING_MODE_3_2") }
+        @inlinable public static var codingModeAuto: Self { .init(rawValue: "CODING_MODE_AUTO") }
+    }
+
+    public struct Eac3DcFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct Eac3DynamicRangeCompressionLine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var filmLight: Self { .init(rawValue: "FILM_LIGHT") }
+        @inlinable public static var filmStandard: Self { .init(rawValue: "FILM_STANDARD") }
+        @inlinable public static var musicLight: Self { .init(rawValue: "MUSIC_LIGHT") }
+        @inlinable public static var musicStandard: Self { .init(rawValue: "MUSIC_STANDARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var speech: Self { .init(rawValue: "SPEECH") }
+    }
+
+    public struct Eac3DynamicRangeCompressionRf: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var filmLight: Self { .init(rawValue: "FILM_LIGHT") }
+        @inlinable public static var filmStandard: Self { .init(rawValue: "FILM_STANDARD") }
+        @inlinable public static var musicLight: Self { .init(rawValue: "MUSIC_LIGHT") }
+        @inlinable public static var musicStandard: Self { .init(rawValue: "MUSIC_STANDARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var speech: Self { .init(rawValue: "SPEECH") }
+    }
+
+    public struct Eac3LfeControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lfe: Self { .init(rawValue: "LFE") }
+        @inlinable public static var noLfe: Self { .init(rawValue: "NO_LFE") }
+    }
+
+    public struct Eac3LfeFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct Eac3MetadataControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var followInput: Self { .init(rawValue: "FOLLOW_INPUT") }
+        @inlinable public static var useConfigured: Self { .init(rawValue: "USE_CONFIGURED") }
+    }
+
+    public struct Eac3PassthroughControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var noPassthrough: Self { .init(rawValue: "NO_PASSTHROUGH") }
+        @inlinable public static var whenPossible: Self { .init(rawValue: "WHEN_POSSIBLE") }
+    }
+
+    public struct Eac3PhaseControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var noShift: Self { .init(rawValue: "NO_SHIFT") }
+        @inlinable public static var shift90Degrees: Self { .init(rawValue: "SHIFT_90_DEGREES") }
+    }
+
+    public struct Eac3StereoDownmix: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dpl2: Self { .init(rawValue: "DPL2") }
+        @inlinable public static var loRo: Self { .init(rawValue: "LO_RO") }
+        @inlinable public static var ltRt: Self { .init(rawValue: "LT_RT") }
+        @inlinable public static var notIndicated: Self { .init(rawValue: "NOT_INDICATED") }
+    }
+
+    public struct Eac3SurroundExMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var notIndicated: Self { .init(rawValue: "NOT_INDICATED") }
+    }
+
+    public struct Eac3SurroundMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var notIndicated: Self { .init(rawValue: "NOT_INDICATED") }
+    }
+
+    public struct ElementalInferenceFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var smartCrop: Self { .init(rawValue: "SMART_CROP") }
+    }
+
+    public struct ElementalInferenceFeedManagementState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var associated: Self { .init(rawValue: "ASSOCIATED") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var pendingDeletion: Self { .init(rawValue: "PENDING_DELETION") }
+    }
+
+    public struct EmbeddedConvert608To708: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var upconvert: Self { .init(rawValue: "UPCONVERT") }
+    }
+
+    public struct EmbeddedTerminateCaptions: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var endOfInput: Self { .init(rawValue: "END_OF_INPUT") }
+    }
+
+    public struct EmbeddedTimecodeOverride: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var useMdpm: Self { .init(rawValue: "USE_MDPM") }
+    }
+
+    public struct F4vMoovPlacement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var normal: Self { .init(rawValue: "NORMAL") }
+        @inlinable public static var progressiveDownload: Self { .init(rawValue: "PROGRESSIVE_DOWNLOAD") }
+    }
+
+    public struct FileSourceConvert608To708: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var upconvert: Self { .init(rawValue: "UPCONVERT") }
+    }
+
+    public struct FileSourceTimeDeltaUnits: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var milliseconds: Self { .init(rawValue: "MILLISECONDS") }
+        @inlinable public static var seconds: Self { .init(rawValue: "SECONDS") }
+    }
+
+    public struct FontScript: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var automatic: Self { .init(rawValue: "AUTOMATIC") }
+        @inlinable public static var hans: Self { .init(rawValue: "HANS") }
+        @inlinable public static var hant: Self { .init(rawValue: "HANT") }
+    }
+
+    public struct Format: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aac: Self { .init(rawValue: "aac") }
+        @inlinable public static var ac3: Self { .init(rawValue: "ac3") }
+        @inlinable public static var asf: Self { .init(rawValue: "asf") }
+        @inlinable public static var avi: Self { .init(rawValue: "avi") }
+        @inlinable public static var eac3: Self { .init(rawValue: "eac3") }
+        @inlinable public static var flac: Self { .init(rawValue: "flac") }
+        @inlinable public static var matroska: Self { .init(rawValue: "matroska") }
+        @inlinable public static var mp3: Self { .init(rawValue: "mp3") }
+        @inlinable public static var mp4: Self { .init(rawValue: "mp4") }
+        @inlinable public static var mpegps: Self { .init(rawValue: "mpegps") }
+        @inlinable public static var mpegts: Self { .init(rawValue: "mpegts") }
+        @inlinable public static var mxf: Self { .init(rawValue: "mxf") }
+        @inlinable public static var ogg: Self { .init(rawValue: "ogg") }
+        @inlinable public static var quicktime: Self { .init(rawValue: "quicktime") }
+        @inlinable public static var threeG2: Self { .init(rawValue: "three_g2") }
+        @inlinable public static var threeGp: Self { .init(rawValue: "three_gp") }
+        @inlinable public static var wave: Self { .init(rawValue: "wave") }
+        @inlinable public static var webm: Self { .init(rawValue: "webm") }
+    }
+
+    public struct FrameControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var nearestIdrframe: Self { .init(rawValue: "NEAREST_IDRFRAME") }
+        @inlinable public static var nearestIframe: Self { .init(rawValue: "NEAREST_IFRAME") }
+    }
+
+    public struct FrameMetricType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var msSsim: Self { .init(rawValue: "MS_SSIM") }
+        @inlinable public static var psnr: Self { .init(rawValue: "PSNR") }
+        @inlinable public static var psnrHvs: Self { .init(rawValue: "PSNR_HVS") }
+        @inlinable public static var qvbr: Self { .init(rawValue: "QVBR") }
+        @inlinable public static var shotChange: Self { .init(rawValue: "SHOT_CHANGE") }
+        @inlinable public static var ssim: Self { .init(rawValue: "SSIM") }
+        @inlinable public static var vmaf: Self { .init(rawValue: "VMAF") }
+    }
+
+    public struct GifFramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
+    }
+
+    public struct GifFramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+    }
+
+    public struct H264AdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var higher: Self { .init(rawValue: "HIGHER") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var max: Self { .init(rawValue: "MAX") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
+    }
+
+    public struct H264CodecLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var level1: Self { .init(rawValue: "LEVEL_1") }
+        @inlinable public static var level11: Self { .init(rawValue: "LEVEL_1_1") }
+        @inlinable public static var level12: Self { .init(rawValue: "LEVEL_1_2") }
+        @inlinable public static var level13: Self { .init(rawValue: "LEVEL_1_3") }
+        @inlinable public static var level2: Self { .init(rawValue: "LEVEL_2") }
+        @inlinable public static var level21: Self { .init(rawValue: "LEVEL_2_1") }
+        @inlinable public static var level22: Self { .init(rawValue: "LEVEL_2_2") }
+        @inlinable public static var level3: Self { .init(rawValue: "LEVEL_3") }
+        @inlinable public static var level31: Self { .init(rawValue: "LEVEL_3_1") }
+        @inlinable public static var level32: Self { .init(rawValue: "LEVEL_3_2") }
+        @inlinable public static var level4: Self { .init(rawValue: "LEVEL_4") }
+        @inlinable public static var level41: Self { .init(rawValue: "LEVEL_4_1") }
+        @inlinable public static var level42: Self { .init(rawValue: "LEVEL_4_2") }
+        @inlinable public static var level5: Self { .init(rawValue: "LEVEL_5") }
+        @inlinable public static var level51: Self { .init(rawValue: "LEVEL_5_1") }
+        @inlinable public static var level52: Self { .init(rawValue: "LEVEL_5_2") }
+    }
+
+    public struct H264CodecProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var baseline: Self { .init(rawValue: "BASELINE") }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var high10Bit: Self { .init(rawValue: "HIGH_10BIT") }
+        @inlinable public static var high422: Self { .init(rawValue: "HIGH_422") }
+        @inlinable public static var high42210Bit: Self { .init(rawValue: "HIGH_422_10BIT") }
+        @inlinable public static var main: Self { .init(rawValue: "MAIN") }
+    }
+
+    public struct H264DynamicSubGop: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `static`: Self { .init(rawValue: "STATIC") }
+        @inlinable public static var adaptive: Self { .init(rawValue: "ADAPTIVE") }
+    }
+
+    public struct H264EndOfStreamMarkers: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+        @inlinable public static var suppress: Self { .init(rawValue: "SUPPRESS") }
+    }
+
+    public struct H264EntropyEncoding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cabac: Self { .init(rawValue: "CABAC") }
+        @inlinable public static var cavlc: Self { .init(rawValue: "CAVLC") }
+    }
+
+    public struct H264ExplicitWeightedPrediction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H264FieldEncoding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var forceField: Self { .init(rawValue: "FORCE_FIELD") }
+        @inlinable public static var mbaff: Self { .init(rawValue: "MBAFF") }
+        @inlinable public static var paff: Self { .init(rawValue: "PAFF") }
+    }
+
+    public struct H264FlickerAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H264FramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
+    }
+
+    public struct H264FramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
+    }
+
+    public struct H264GopBReference: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H264GopSizeUnits: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var frames: Self { .init(rawValue: "FRAMES") }
+        @inlinable public static var seconds: Self { .init(rawValue: "SECONDS") }
+    }
+
+    public struct H264InterlaceMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bottomField: Self { .init(rawValue: "BOTTOM_FIELD") }
+        @inlinable public static var followBottomField: Self { .init(rawValue: "FOLLOW_BOTTOM_FIELD") }
+        @inlinable public static var followTopField: Self { .init(rawValue: "FOLLOW_TOP_FIELD") }
+        @inlinable public static var progressive: Self { .init(rawValue: "PROGRESSIVE") }
+        @inlinable public static var topField: Self { .init(rawValue: "TOP_FIELD") }
+    }
+
+    public struct H264ParControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
+    }
+
+    public struct H264QualityTuningLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var multiPassHq: Self { .init(rawValue: "MULTI_PASS_HQ") }
+        @inlinable public static var singlePass: Self { .init(rawValue: "SINGLE_PASS") }
+        @inlinable public static var singlePassHq: Self { .init(rawValue: "SINGLE_PASS_HQ") }
+    }
+
+    public struct H264RateControlMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cbr: Self { .init(rawValue: "CBR") }
+        @inlinable public static var qvbr: Self { .init(rawValue: "QVBR") }
+        @inlinable public static var vbr: Self { .init(rawValue: "VBR") }
+    }
+
+    public struct H264RepeatPps: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H264SaliencyAwareEncoding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var preferred: Self { .init(rawValue: "PREFERRED") }
+    }
+
+    public struct H264ScanTypeConversionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var interlaced: Self { .init(rawValue: "INTERLACED") }
+        @inlinable public static var interlacedOptimize: Self { .init(rawValue: "INTERLACED_OPTIMIZE") }
+    }
+
+    public struct H264SceneChangeDetect: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var transitionDetection: Self { .init(rawValue: "TRANSITION_DETECTION") }
+    }
+
+    public struct H264SlowPal: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H264SpatialAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H264Syntax: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
+        @inlinable public static var rp2027: Self { .init(rawValue: "RP2027") }
+    }
+
+    public struct H264Telecine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hard: Self { .init(rawValue: "HARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var soft: Self { .init(rawValue: "SOFT") }
+    }
+
+    public struct H264TemporalAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H264UnregisteredSeiTimecode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H264WriteMp4PackagingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var avc1: Self { .init(rawValue: "AVC1") }
+        @inlinable public static var avc3: Self { .init(rawValue: "AVC3") }
+    }
+
+    public struct H265AdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var higher: Self { .init(rawValue: "HIGHER") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var max: Self { .init(rawValue: "MAX") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
+    }
+
+    public struct H265AlternateTransferFunctionSei: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265CodecLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var level1: Self { .init(rawValue: "LEVEL_1") }
+        @inlinable public static var level2: Self { .init(rawValue: "LEVEL_2") }
+        @inlinable public static var level21: Self { .init(rawValue: "LEVEL_2_1") }
+        @inlinable public static var level3: Self { .init(rawValue: "LEVEL_3") }
+        @inlinable public static var level31: Self { .init(rawValue: "LEVEL_3_1") }
+        @inlinable public static var level4: Self { .init(rawValue: "LEVEL_4") }
+        @inlinable public static var level41: Self { .init(rawValue: "LEVEL_4_1") }
+        @inlinable public static var level5: Self { .init(rawValue: "LEVEL_5") }
+        @inlinable public static var level51: Self { .init(rawValue: "LEVEL_5_1") }
+        @inlinable public static var level52: Self { .init(rawValue: "LEVEL_5_2") }
+        @inlinable public static var level6: Self { .init(rawValue: "LEVEL_6") }
+        @inlinable public static var level61: Self { .init(rawValue: "LEVEL_6_1") }
+        @inlinable public static var level62: Self { .init(rawValue: "LEVEL_6_2") }
+    }
+
+    public struct H265CodecProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var main10High: Self { .init(rawValue: "MAIN10_HIGH") }
+        @inlinable public static var main10Main: Self { .init(rawValue: "MAIN10_MAIN") }
+        @inlinable public static var main42210BitHigh: Self { .init(rawValue: "MAIN_422_10BIT_HIGH") }
+        @inlinable public static var main42210BitMain: Self { .init(rawValue: "MAIN_422_10BIT_MAIN") }
+        @inlinable public static var main4228BitHigh: Self { .init(rawValue: "MAIN_422_8BIT_HIGH") }
+        @inlinable public static var main4228BitMain: Self { .init(rawValue: "MAIN_422_8BIT_MAIN") }
+        @inlinable public static var mainHigh: Self { .init(rawValue: "MAIN_HIGH") }
+        @inlinable public static var mainMain: Self { .init(rawValue: "MAIN_MAIN") }
+    }
+
+    public struct H265Deblocking: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265DynamicSubGop: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `static`: Self { .init(rawValue: "STATIC") }
+        @inlinable public static var adaptive: Self { .init(rawValue: "ADAPTIVE") }
+    }
+
+    public struct H265EndOfStreamMarkers: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+        @inlinable public static var suppress: Self { .init(rawValue: "SUPPRESS") }
+    }
+
+    public struct H265FlickerAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265FramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
+    }
+
+    public struct H265FramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
+    }
+
+    public struct H265GopBReference: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265GopSizeUnits: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var frames: Self { .init(rawValue: "FRAMES") }
+        @inlinable public static var seconds: Self { .init(rawValue: "SECONDS") }
+    }
+
+    public struct H265InterlaceMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bottomField: Self { .init(rawValue: "BOTTOM_FIELD") }
+        @inlinable public static var followBottomField: Self { .init(rawValue: "FOLLOW_BOTTOM_FIELD") }
+        @inlinable public static var followTopField: Self { .init(rawValue: "FOLLOW_TOP_FIELD") }
+        @inlinable public static var progressive: Self { .init(rawValue: "PROGRESSIVE") }
+        @inlinable public static var topField: Self { .init(rawValue: "TOP_FIELD") }
+    }
+
+    public struct H265MvOverPictureBoundaries: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265MvTemporalPredictor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265ParControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
+    }
+
+    public struct H265QualityTuningLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var multiPassHq: Self { .init(rawValue: "MULTI_PASS_HQ") }
+        @inlinable public static var singlePass: Self { .init(rawValue: "SINGLE_PASS") }
+        @inlinable public static var singlePassHq: Self { .init(rawValue: "SINGLE_PASS_HQ") }
+    }
+
+    public struct H265RateControlMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cbr: Self { .init(rawValue: "CBR") }
+        @inlinable public static var qvbr: Self { .init(rawValue: "QVBR") }
+        @inlinable public static var vbr: Self { .init(rawValue: "VBR") }
+    }
+
+    public struct H265SampleAdaptiveOffsetFilterMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
+        @inlinable public static var adaptive: Self { .init(rawValue: "ADAPTIVE") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
+    }
+
+    public struct H265ScanTypeConversionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var interlaced: Self { .init(rawValue: "INTERLACED") }
+        @inlinable public static var interlacedOptimize: Self { .init(rawValue: "INTERLACED_OPTIMIZE") }
+    }
+
+    public struct H265SceneChangeDetect: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var transitionDetection: Self { .init(rawValue: "TRANSITION_DETECTION") }
+    }
+
+    public struct H265SlowPal: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265SpatialAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265Telecine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hard: Self { .init(rawValue: "HARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var soft: Self { .init(rawValue: "SOFT") }
+    }
+
+    public struct H265TemporalAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265TemporalIds: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265TilePadding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var padded: Self { .init(rawValue: "PADDED") }
+    }
+
+    public struct H265Tiles: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265TreeBlockSize: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var treeSize32X32: Self { .init(rawValue: "TREE_SIZE_32X32") }
+    }
+
+    public struct H265UnregisteredSeiTimecode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct H265WriteMp4PackagingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hev1: Self { .init(rawValue: "HEV1") }
+        @inlinable public static var hvc1: Self { .init(rawValue: "HVC1") }
+    }
+
+    public struct HDRToSDRToneMapper: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var preserveDetails: Self { .init(rawValue: "PRESERVE_DETAILS") }
+        @inlinable public static var vibrant: Self { .init(rawValue: "VIBRANT") }
+    }
+
+    public struct Hdr10PlusPresence: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var present: Self { .init(rawValue: "PRESENT") }
+    }
+
+    public struct HlsAdMarkers: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var elemental: Self { .init(rawValue: "ELEMENTAL") }
+        @inlinable public static var elementalScte35: Self { .init(rawValue: "ELEMENTAL_SCTE35") }
+    }
+
+    public struct HlsAudioOnlyContainer: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var automatic: Self { .init(rawValue: "AUTOMATIC") }
+        @inlinable public static var m2ts: Self { .init(rawValue: "M2TS") }
+    }
+
+    public struct HlsAudioOnlyHeader: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+    }
+
+    public struct HlsAudioTrackType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alternateAudioAutoSelect: Self { .init(rawValue: "ALTERNATE_AUDIO_AUTO_SELECT") }
+        @inlinable public static var alternateAudioAutoSelectDefault: Self { .init(rawValue: "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT") }
+        @inlinable public static var alternateAudioNotAutoSelect: Self { .init(rawValue: "ALTERNATE_AUDIO_NOT_AUTO_SELECT") }
+        @inlinable public static var audioOnlyVariantStream: Self { .init(rawValue: "AUDIO_ONLY_VARIANT_STREAM") }
+    }
+
+    public struct HlsCaptionLanguageSetting: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var insert: Self { .init(rawValue: "INSERT") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var omit: Self { .init(rawValue: "OMIT") }
+    }
+
+    public struct HlsCaptionSegmentLengthControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var largeSegments: Self { .init(rawValue: "LARGE_SEGMENTS") }
+        @inlinable public static var matchVideo: Self { .init(rawValue: "MATCH_VIDEO") }
+    }
+
+    public struct HlsClientCache: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct HlsCodecSpecification: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rfc4281: Self { .init(rawValue: "RFC_4281") }
+        @inlinable public static var rfc6381: Self { .init(rawValue: "RFC_6381") }
+    }
+
+    public struct HlsDescriptiveVideoServiceFlag: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dontFlag: Self { .init(rawValue: "DONT_FLAG") }
+        @inlinable public static var flag: Self { .init(rawValue: "FLAG") }
+    }
+
+    public struct HlsDirectoryStructure: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var singleDirectory: Self { .init(rawValue: "SINGLE_DIRECTORY") }
+        @inlinable public static var subdirectoryPerStream: Self { .init(rawValue: "SUBDIRECTORY_PER_STREAM") }
+    }
+
+    public struct HlsEncryptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes128: Self { .init(rawValue: "AES128") }
+        @inlinable public static var sampleAes: Self { .init(rawValue: "SAMPLE_AES") }
+    }
+
+    public struct HlsIFrameOnlyManifest: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+        @inlinable public static var includeAsTs: Self { .init(rawValue: "INCLUDE_AS_TS") }
+    }
+
+    public struct HlsImageBasedTrickPlay: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var advanced: Self { .init(rawValue: "ADVANCED") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var thumbnail: Self { .init(rawValue: "THUMBNAIL") }
+        @inlinable public static var thumbnailAndFullframe: Self { .init(rawValue: "THUMBNAIL_AND_FULLFRAME") }
+        @inlinable public static var variants: Self { .init(rawValue: "VARIANTS") }
+    }
+
+    public struct HlsInitializationVectorInManifest: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+    }
+
+    public struct HlsIntervalCadence: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var followCustom: Self { .init(rawValue: "FOLLOW_CUSTOM") }
+        @inlinable public static var followIframe: Self { .init(rawValue: "FOLLOW_IFRAME") }
+        @inlinable public static var followSegmentation: Self { .init(rawValue: "FOLLOW_SEGMENTATION") }
+    }
+
+    public struct HlsKeyProviderType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var speke: Self { .init(rawValue: "SPEKE") }
+        @inlinable public static var staticKey: Self { .init(rawValue: "STATIC_KEY") }
+    }
+
+    public struct HlsManifestCompression: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var gzip: Self { .init(rawValue: "GZIP") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct HlsManifestDurationFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var floatingPoint: Self { .init(rawValue: "FLOATING_POINT") }
+        @inlinable public static var integer: Self { .init(rawValue: "INTEGER") }
+    }
+
+    public struct HlsOfflineEncrypted: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct HlsOutputSelection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var manifestsAndSegments: Self { .init(rawValue: "MANIFESTS_AND_SEGMENTS") }
+        @inlinable public static var segmentsOnly: Self { .init(rawValue: "SEGMENTS_ONLY") }
+    }
+
+    public struct HlsProgramDateTime: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+    }
+
+    public struct HlsProgressiveWriteHlsManifest: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+    }
+
+    public struct HlsSegmentControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var segmentedFiles: Self { .init(rawValue: "SEGMENTED_FILES") }
+        @inlinable public static var singleFile: Self { .init(rawValue: "SINGLE_FILE") }
+    }
+
+    public struct HlsSegmentLengthControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exact: Self { .init(rawValue: "EXACT") }
+        @inlinable public static var gopMultiple: Self { .init(rawValue: "GOP_MULTIPLE") }
+        @inlinable public static var match: Self { .init(rawValue: "MATCH") }
+    }
+
+    public struct HlsStreamInfResolution: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
+    }
+
+    public struct HlsTargetDurationCompatibilityMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var legacy: Self { .init(rawValue: "LEGACY") }
+        @inlinable public static var specCompliant: Self { .init(rawValue: "SPEC_COMPLIANT") }
+    }
+
+    public struct HlsTimedMetadataId3Frame: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var priv: Self { .init(rawValue: "PRIV") }
+        @inlinable public static var tdrl: Self { .init(rawValue: "TDRL") }
+    }
+
+    public struct ImscAccessibilitySubs: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
-
-    public enum AacCodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hev1 = "HEV1"
-        case hev2 = "HEV2"
-        case lc = "LC"
-        case xhe = "XHE"
-        public var description: String { return self.rawValue }
+
+    public struct ImscStylePassthrough: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
-
-    public enum AacCodingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case adReceiverMix = "AD_RECEIVER_MIX"
-        case codingMode10 = "CODING_MODE_1_0"
-        case codingMode11 = "CODING_MODE_1_1"
-        case codingMode20 = "CODING_MODE_2_0"
-        case codingMode51 = "CODING_MODE_5_1"
-        case codingModeAuto = "CODING_MODE_AUTO"
-        public var description: String { return self.rawValue }
+
+    public struct InputDeblockFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
+
+    public struct InputDenoiseFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AacLoudnessMeasurementMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case anchor = "ANCHOR"
-        case program = "PROGRAM"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
+
+    public struct InputFilterEnable: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AacPassthroughControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case noPassthrough = "NO_PASSTHROUGH"
-        case whenPossible = "WHEN_POSSIBLE"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var disable: Self { .init(rawValue: "DISABLE") }
+        @inlinable public static var force: Self { .init(rawValue: "FORCE") }
     }
+
+    public struct InputPolicy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AacRateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbr = "CBR"
-        case vbr = "VBR"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allowed: Self { .init(rawValue: "ALLOWED") }
+        @inlinable public static var disallowed: Self { .init(rawValue: "DISALLOWED") }
     }
+
+    public struct InputPsiControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AacRawFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case latmLoas = "LATM_LOAS"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ignorePsi: Self { .init(rawValue: "IGNORE_PSI") }
+        @inlinable public static var usePsi: Self { .init(rawValue: "USE_PSI") }
     }
+
+    public struct InputRotate: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AacSpecification: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mpeg2 = "MPEG2"
-        case mpeg4 = "MPEG4"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var degree0: Self { .init(rawValue: "DEGREE_0") }
+        @inlinable public static var degrees180: Self { .init(rawValue: "DEGREES_180") }
+        @inlinable public static var degrees270: Self { .init(rawValue: "DEGREES_270") }
+        @inlinable public static var degrees90: Self { .init(rawValue: "DEGREES_90") }
     }
+
+    public struct InputSampleRange: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AacVbrQuality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "HIGH"
-        case low = "LOW"
-        case mediumHigh = "MEDIUM_HIGH"
-        case mediumLow = "MEDIUM_LOW"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var follow: Self { .init(rawValue: "FOLLOW") }
+        @inlinable public static var fullRange: Self { .init(rawValue: "FULL_RANGE") }
+        @inlinable public static var limitedRange: Self { .init(rawValue: "LIMITED_RANGE") }
     }
+
+    public struct InputScanType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Ac3BitstreamMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case commentary = "COMMENTARY"
-        case completeMain = "COMPLETE_MAIN"
-        case dialogue = "DIALOGUE"
-        case emergency = "EMERGENCY"
-        case hearingImpaired = "HEARING_IMPAIRED"
-        case musicAndEffects = "MUSIC_AND_EFFECTS"
-        case visuallyImpaired = "VISUALLY_IMPAIRED"
-        case voiceOver = "VOICE_OVER"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var psf: Self { .init(rawValue: "PSF") }
     }
+
+    public struct InputTimecodeSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Ac3CodingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case codingMode10 = "CODING_MODE_1_0"
-        case codingMode11 = "CODING_MODE_1_1"
-        case codingMode20 = "CODING_MODE_2_0"
-        case codingMode32Lfe = "CODING_MODE_3_2_LFE"
-        case codingModeAuto = "CODING_MODE_AUTO"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var embedded: Self { .init(rawValue: "EMBEDDED") }
+        @inlinable public static var specifiedstart: Self { .init(rawValue: "SPECIFIEDSTART") }
+        @inlinable public static var zerobased: Self { .init(rawValue: "ZEROBASED") }
     }
+
+    public struct JobPhase: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Ac3DynamicRangeCompressionLine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case filmLight = "FILM_LIGHT"
-        case filmStandard = "FILM_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case none = "NONE"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var probing: Self { .init(rawValue: "PROBING") }
+        @inlinable public static var transcoding: Self { .init(rawValue: "TRANSCODING") }
+        @inlinable public static var uploading: Self { .init(rawValue: "UPLOADING") }
     }
+
+    public struct JobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Ac3DynamicRangeCompressionProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case filmStandard = "FILM_STANDARD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var complete: Self { .init(rawValue: "COMPLETE") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var progressing: Self { .init(rawValue: "PROGRESSING") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
     }
+
+    public struct JobTemplateListBy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Ac3DynamicRangeCompressionRf: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case filmLight = "FILM_LIGHT"
-        case filmStandard = "FILM_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case none = "NONE"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var creationDate: Self { .init(rawValue: "CREATION_DATE") }
+        @inlinable public static var name: Self { .init(rawValue: "NAME") }
+        @inlinable public static var system: Self { .init(rawValue: "SYSTEM") }
     }
+
+    public struct JobsQueryFilterKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Ac3LfeFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var audioCodec: Self { .init(rawValue: "audioCodec") }
+        @inlinable public static var errorCode: Self { .init(rawValue: "errorCode") }
+        @inlinable public static var fileInput: Self { .init(rawValue: "fileInput") }
+        @inlinable public static var jobEngineVersionRequested: Self { .init(rawValue: "jobEngineVersionRequested") }
+        @inlinable public static var jobEngineVersionUsed: Self { .init(rawValue: "jobEngineVersionUsed") }
+        @inlinable public static var queue: Self { .init(rawValue: "queue") }
+        @inlinable public static var status: Self { .init(rawValue: "status") }
+        @inlinable public static var videoCodec: Self { .init(rawValue: "videoCodec") }
     }
+
+    public struct JobsQueryStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Ac3MetadataControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var complete: Self { .init(rawValue: "COMPLETE") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var progressing: Self { .init(rawValue: "PROGRESSING") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
     }
+
+    public struct LanguageCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Ac4BitstreamMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completeMain = "COMPLETE_MAIN"
-        case emergency = "EMERGENCY"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aar: Self { .init(rawValue: "AAR") }
+        @inlinable public static var abk: Self { .init(rawValue: "ABK") }
+        @inlinable public static var afr: Self { .init(rawValue: "AFR") }
+        @inlinable public static var aka: Self { .init(rawValue: "AKA") }
+        @inlinable public static var amh: Self { .init(rawValue: "AMH") }
+        @inlinable public static var ara: Self { .init(rawValue: "ARA") }
+        @inlinable public static var arg: Self { .init(rawValue: "ARG") }
+        @inlinable public static var asm: Self { .init(rawValue: "ASM") }
+        @inlinable public static var ava: Self { .init(rawValue: "AVA") }
+        @inlinable public static var ave: Self { .init(rawValue: "AVE") }
+        @inlinable public static var aym: Self { .init(rawValue: "AYM") }
+        @inlinable public static var aze: Self { .init(rawValue: "AZE") }
+        @inlinable public static var bak: Self { .init(rawValue: "BAK") }
+        @inlinable public static var bam: Self { .init(rawValue: "BAM") }
+        @inlinable public static var bel: Self { .init(rawValue: "BEL") }
+        @inlinable public static var ben: Self { .init(rawValue: "BEN") }
+        @inlinable public static var bih: Self { .init(rawValue: "BIH") }
+        @inlinable public static var bis: Self { .init(rawValue: "BIS") }
+        @inlinable public static var bod: Self { .init(rawValue: "BOD") }
+        @inlinable public static var bos: Self { .init(rawValue: "BOS") }
+        @inlinable public static var bre: Self { .init(rawValue: "BRE") }
+        @inlinable public static var bul: Self { .init(rawValue: "BUL") }
+        @inlinable public static var cat: Self { .init(rawValue: "CAT") }
+        @inlinable public static var ces: Self { .init(rawValue: "CES") }
+        @inlinable public static var cha: Self { .init(rawValue: "CHA") }
+        @inlinable public static var che: Self { .init(rawValue: "CHE") }
+        @inlinable public static var chu: Self { .init(rawValue: "CHU") }
+        @inlinable public static var chv: Self { .init(rawValue: "CHV") }
+        @inlinable public static var cor: Self { .init(rawValue: "COR") }
+        @inlinable public static var cos: Self { .init(rawValue: "COS") }
+        @inlinable public static var cre: Self { .init(rawValue: "CRE") }
+        @inlinable public static var cym: Self { .init(rawValue: "CYM") }
+        @inlinable public static var dan: Self { .init(rawValue: "DAN") }
+        @inlinable public static var deu: Self { .init(rawValue: "DEU") }
+        @inlinable public static var div: Self { .init(rawValue: "DIV") }
+        @inlinable public static var dzo: Self { .init(rawValue: "DZO") }
+        @inlinable public static var ell: Self { .init(rawValue: "ELL") }
+        @inlinable public static var eng: Self { .init(rawValue: "ENG") }
+        @inlinable public static var enm: Self { .init(rawValue: "ENM") }
+        @inlinable public static var epo: Self { .init(rawValue: "EPO") }
+        @inlinable public static var est: Self { .init(rawValue: "EST") }
+        @inlinable public static var eus: Self { .init(rawValue: "EUS") }
+        @inlinable public static var ewe: Self { .init(rawValue: "EWE") }
+        @inlinable public static var fao: Self { .init(rawValue: "FAO") }
+        @inlinable public static var fas: Self { .init(rawValue: "FAS") }
+        @inlinable public static var fij: Self { .init(rawValue: "FIJ") }
+        @inlinable public static var fin: Self { .init(rawValue: "FIN") }
+        @inlinable public static var fra: Self { .init(rawValue: "FRA") }
+        @inlinable public static var frm: Self { .init(rawValue: "FRM") }
+        @inlinable public static var fry: Self { .init(rawValue: "FRY") }
+        @inlinable public static var ful: Self { .init(rawValue: "FUL") }
+        @inlinable public static var ger: Self { .init(rawValue: "GER") }
+        @inlinable public static var gla: Self { .init(rawValue: "GLA") }
+        @inlinable public static var gle: Self { .init(rawValue: "GLE") }
+        @inlinable public static var glg: Self { .init(rawValue: "GLG") }
+        @inlinable public static var glv: Self { .init(rawValue: "GLV") }
+        @inlinable public static var grn: Self { .init(rawValue: "GRN") }
+        @inlinable public static var guj: Self { .init(rawValue: "GUJ") }
+        @inlinable public static var hat: Self { .init(rawValue: "HAT") }
+        @inlinable public static var hau: Self { .init(rawValue: "HAU") }
+        @inlinable public static var heb: Self { .init(rawValue: "HEB") }
+        @inlinable public static var her: Self { .init(rawValue: "HER") }
+        @inlinable public static var hin: Self { .init(rawValue: "HIN") }
+        @inlinable public static var hmo: Self { .init(rawValue: "HMO") }
+        @inlinable public static var hrv: Self { .init(rawValue: "HRV") }
+        @inlinable public static var hun: Self { .init(rawValue: "HUN") }
+        @inlinable public static var hye: Self { .init(rawValue: "HYE") }
+        @inlinable public static var ibo: Self { .init(rawValue: "IBO") }
+        @inlinable public static var ido: Self { .init(rawValue: "IDO") }
+        @inlinable public static var iii: Self { .init(rawValue: "III") }
+        @inlinable public static var iku: Self { .init(rawValue: "IKU") }
+        @inlinable public static var ile: Self { .init(rawValue: "ILE") }
+        @inlinable public static var ina: Self { .init(rawValue: "INA") }
+        @inlinable public static var ind: Self { .init(rawValue: "IND") }
+        @inlinable public static var ipk: Self { .init(rawValue: "IPK") }
+        @inlinable public static var isl: Self { .init(rawValue: "ISL") }
+        @inlinable public static var ita: Self { .init(rawValue: "ITA") }
+        @inlinable public static var jav: Self { .init(rawValue: "JAV") }
+        @inlinable public static var jpn: Self { .init(rawValue: "JPN") }
+        @inlinable public static var kal: Self { .init(rawValue: "KAL") }
+        @inlinable public static var kan: Self { .init(rawValue: "KAN") }
+        @inlinable public static var kas: Self { .init(rawValue: "KAS") }
+        @inlinable public static var kat: Self { .init(rawValue: "KAT") }
+        @inlinable public static var kau: Self { .init(rawValue: "KAU") }
+        @inlinable public static var kaz: Self { .init(rawValue: "KAZ") }
+        @inlinable public static var khm: Self { .init(rawValue: "KHM") }
+        @inlinable public static var kik: Self { .init(rawValue: "KIK") }
+        @inlinable public static var kin: Self { .init(rawValue: "KIN") }
+        @inlinable public static var kir: Self { .init(rawValue: "KIR") }
+        @inlinable public static var kom: Self { .init(rawValue: "KOM") }
+        @inlinable public static var kon: Self { .init(rawValue: "KON") }
+        @inlinable public static var kor: Self { .init(rawValue: "KOR") }
+        @inlinable public static var kua: Self { .init(rawValue: "KUA") }
+        @inlinable public static var kur: Self { .init(rawValue: "KUR") }
+        @inlinable public static var lao: Self { .init(rawValue: "LAO") }
+        @inlinable public static var lat: Self { .init(rawValue: "LAT") }
+        @inlinable public static var lav: Self { .init(rawValue: "LAV") }
+        @inlinable public static var lim: Self { .init(rawValue: "LIM") }
+        @inlinable public static var lin: Self { .init(rawValue: "LIN") }
+        @inlinable public static var lit: Self { .init(rawValue: "LIT") }
+        @inlinable public static var ltz: Self { .init(rawValue: "LTZ") }
+        @inlinable public static var lub: Self { .init(rawValue: "LUB") }
+        @inlinable public static var lug: Self { .init(rawValue: "LUG") }
+        @inlinable public static var mah: Self { .init(rawValue: "MAH") }
+        @inlinable public static var mal: Self { .init(rawValue: "MAL") }
+        @inlinable public static var mar: Self { .init(rawValue: "MAR") }
+        @inlinable public static var mkd: Self { .init(rawValue: "MKD") }
+        @inlinable public static var mlg: Self { .init(rawValue: "MLG") }
+        @inlinable public static var mlt: Self { .init(rawValue: "MLT") }
+        @inlinable public static var mon: Self { .init(rawValue: "MON") }
+        @inlinable public static var mri: Self { .init(rawValue: "MRI") }
+        @inlinable public static var msa: Self { .init(rawValue: "MSA") }
+        @inlinable public static var mya: Self { .init(rawValue: "MYA") }
+        @inlinable public static var nau: Self { .init(rawValue: "NAU") }
+        @inlinable public static var nav: Self { .init(rawValue: "NAV") }
+        @inlinable public static var nbl: Self { .init(rawValue: "NBL") }
+        @inlinable public static var nde: Self { .init(rawValue: "NDE") }
+        @inlinable public static var ndo: Self { .init(rawValue: "NDO") }
+        @inlinable public static var nep: Self { .init(rawValue: "NEP") }
+        @inlinable public static var nld: Self { .init(rawValue: "NLD") }
+        @inlinable public static var nno: Self { .init(rawValue: "NNO") }
+        @inlinable public static var nob: Self { .init(rawValue: "NOB") }
+        @inlinable public static var nor: Self { .init(rawValue: "NOR") }
+        @inlinable public static var nya: Self { .init(rawValue: "NYA") }
+        @inlinable public static var oci: Self { .init(rawValue: "OCI") }
+        @inlinable public static var oji: Self { .init(rawValue: "OJI") }
+        @inlinable public static var ori: Self { .init(rawValue: "ORI") }
+        @inlinable public static var orj: Self { .init(rawValue: "ORJ") }
+        @inlinable public static var orm: Self { .init(rawValue: "ORM") }
+        @inlinable public static var oss: Self { .init(rawValue: "OSS") }
+        @inlinable public static var pan: Self { .init(rawValue: "PAN") }
+        @inlinable public static var pli: Self { .init(rawValue: "PLI") }
+        @inlinable public static var pol: Self { .init(rawValue: "POL") }
+        @inlinable public static var por: Self { .init(rawValue: "POR") }
+        @inlinable public static var pus: Self { .init(rawValue: "PUS") }
+        @inlinable public static var qaa: Self { .init(rawValue: "QAA") }
+        @inlinable public static var qpc: Self { .init(rawValue: "QPC") }
+        @inlinable public static var que: Self { .init(rawValue: "QUE") }
+        @inlinable public static var roh: Self { .init(rawValue: "ROH") }
+        @inlinable public static var ron: Self { .init(rawValue: "RON") }
+        @inlinable public static var run: Self { .init(rawValue: "RUN") }
+        @inlinable public static var rus: Self { .init(rawValue: "RUS") }
+        @inlinable public static var sag: Self { .init(rawValue: "SAG") }
+        @inlinable public static var san: Self { .init(rawValue: "SAN") }
+        @inlinable public static var sin: Self { .init(rawValue: "SIN") }
+        @inlinable public static var slk: Self { .init(rawValue: "SLK") }
+        @inlinable public static var slv: Self { .init(rawValue: "SLV") }
+        @inlinable public static var sme: Self { .init(rawValue: "SME") }
+        @inlinable public static var smo: Self { .init(rawValue: "SMO") }
+        @inlinable public static var sna: Self { .init(rawValue: "SNA") }
+        @inlinable public static var snd: Self { .init(rawValue: "SND") }
+        @inlinable public static var som: Self { .init(rawValue: "SOM") }
+        @inlinable public static var sot: Self { .init(rawValue: "SOT") }
+        @inlinable public static var spa: Self { .init(rawValue: "SPA") }
+        @inlinable public static var sqi: Self { .init(rawValue: "SQI") }
+        @inlinable public static var srb: Self { .init(rawValue: "SRB") }
+        @inlinable public static var srd: Self { .init(rawValue: "SRD") }
+        @inlinable public static var srp: Self { .init(rawValue: "SRP") }
+        @inlinable public static var ssw: Self { .init(rawValue: "SSW") }
+        @inlinable public static var sun: Self { .init(rawValue: "SUN") }
+        @inlinable public static var swa: Self { .init(rawValue: "SWA") }
+        @inlinable public static var swe: Self { .init(rawValue: "SWE") }
+        @inlinable public static var tah: Self { .init(rawValue: "TAH") }
+        @inlinable public static var tam: Self { .init(rawValue: "TAM") }
+        @inlinable public static var tat: Self { .init(rawValue: "TAT") }
+        @inlinable public static var tel: Self { .init(rawValue: "TEL") }
+        @inlinable public static var tgk: Self { .init(rawValue: "TGK") }
+        @inlinable public static var tgl: Self { .init(rawValue: "TGL") }
+        @inlinable public static var tha: Self { .init(rawValue: "THA") }
+        @inlinable public static var tir: Self { .init(rawValue: "TIR") }
+        @inlinable public static var tng: Self { .init(rawValue: "TNG") }
+        @inlinable public static var ton: Self { .init(rawValue: "TON") }
+        @inlinable public static var tsn: Self { .init(rawValue: "TSN") }
+        @inlinable public static var tso: Self { .init(rawValue: "TSO") }
+        @inlinable public static var tuk: Self { .init(rawValue: "TUK") }
+        @inlinable public static var tur: Self { .init(rawValue: "TUR") }
+        @inlinable public static var twi: Self { .init(rawValue: "TWI") }
+        @inlinable public static var uig: Self { .init(rawValue: "UIG") }
+        @inlinable public static var ukr: Self { .init(rawValue: "UKR") }
+        @inlinable public static var urd: Self { .init(rawValue: "URD") }
+        @inlinable public static var uzb: Self { .init(rawValue: "UZB") }
+        @inlinable public static var ven: Self { .init(rawValue: "VEN") }
+        @inlinable public static var vie: Self { .init(rawValue: "VIE") }
+        @inlinable public static var vol: Self { .init(rawValue: "VOL") }
+        @inlinable public static var wln: Self { .init(rawValue: "WLN") }
+        @inlinable public static var wol: Self { .init(rawValue: "WOL") }
+        @inlinable public static var xho: Self { .init(rawValue: "XHO") }
+        @inlinable public static var yid: Self { .init(rawValue: "YID") }
+        @inlinable public static var yor: Self { .init(rawValue: "YOR") }
+        @inlinable public static var zha: Self { .init(rawValue: "ZHA") }
+        @inlinable public static var zho: Self { .init(rawValue: "ZHO") }
+        @inlinable public static var zul: Self { .init(rawValue: "ZUL") }
     }
+
+    public struct M2tsAudioBufferModel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Ac4CodingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case codingMode20 = "CODING_MODE_2_0"
-        case codingMode32Lfe = "CODING_MODE_3_2_LFE"
-        case codingMode514 = "CODING_MODE_5_1_4"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var atsc: Self { .init(rawValue: "ATSC") }
+        @inlinable public static var dvb: Self { .init(rawValue: "DVB") }
     }
+
+    public struct M2tsAudioDuration: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Ac4DynamicRangeCompressionDrcProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case filmLight = "FILM_LIGHT"
-        case filmStandard = "FILM_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case none = "NONE"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Ac4StereoDownmix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dpl2 = "DPL2"
-        case loRo = "LO_RO"
-        case ltRt = "LT_RT"
-        case notIndicated = "NOT_INDICATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AccelerationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case preferred = "PREFERRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AccelerationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accelerated = "ACCELERATED"
-        case inProgress = "IN_PROGRESS"
-        case notAccelerated = "NOT_ACCELERATED"
-        case notApplicable = "NOT_APPLICABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AdvancedInputFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AdvancedInputFilterAddTexture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AdvancedInputFilterSharpen: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "HIGH"
-        case low = "LOW"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AfdSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case fixed = "FIXED"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AlphaBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case discard = "DISCARD"
-        case remapToLuma = "REMAP_TO_LUMA"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AncillaryConvert608To708: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case upconvert = "UPCONVERT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AncillaryTerminateCaptions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case endOfInput = "END_OF_INPUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AntiAlias: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AudioChannelTag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case c = "C"
-        case cs = "CS"
-        case hi = "HI"
-        case l = "L"
-        case lc = "LC"
-        case lfe = "LFE"
-        case lfe2 = "LFE2"
-        case ls = "LS"
-        case lsd = "LSD"
-        case lt = "LT"
-        case lw = "LW"
-        case m = "M"
-        case nar = "NAR"
-        case r = "R"
-        case rc = "RC"
-        case rs = "RS"
-        case rsd = "RSD"
-        case rsl = "RSL"
-        case rsr = "RSR"
-        case rt = "RT"
-        case rw = "RW"
-        case tbc = "TBC"
-        case tbl = "TBL"
-        case tbr = "TBR"
-        case tcs = "TCS"
-        case vhc = "VHC"
-        case vhl = "VHL"
-        case vhr = "VHR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AudioCodec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aac = "AAC"
-        case ac3 = "AC3"
-        case ac4 = "AC4"
-        case aiff = "AIFF"
-        case eac3 = "EAC3"
-        case eac3Atmos = "EAC3_ATMOS"
-        case flac = "FLAC"
-        case mp2 = "MP2"
-        case mp3 = "MP3"
-        case opus = "OPUS"
-        case passthrough = "PASSTHROUGH"
-        case vorbis = "VORBIS"
-        case wav = "WAV"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var defaultCodecDuration: Self { .init(rawValue: "DEFAULT_CODEC_DURATION") }
+        @inlinable public static var matchVideoDuration: Self { .init(rawValue: "MATCH_VIDEO_DURATION") }
     }
-
-    public enum AudioDefaultSelection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        case notDefault = "NOT_DEFAULT"
-        public var description: String { return self.rawValue }
-    }
+
+    public struct M2tsBufferModel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AudioDurationCorrection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case disabled = "DISABLED"
-        case force = "FORCE"
-        case frame = "FRAME"
-        case track = "TRACK"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var multiplex: Self { .init(rawValue: "MULTIPLEX") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
+
+    public struct M2tsDataPtsControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AudioLanguageCodeControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alignToVideo: Self { .init(rawValue: "ALIGN_TO_VIDEO") }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
     }
+
+    public struct M2tsEbpAudioInterval: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AudioNormalizationAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ituBs17701 = "ITU_BS_1770_1"
-        case ituBs17702 = "ITU_BS_1770_2"
-        case ituBs17703 = "ITU_BS_1770_3"
-        case ituBs17704 = "ITU_BS_1770_4"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var videoAndFixedIntervals: Self { .init(rawValue: "VIDEO_AND_FIXED_INTERVALS") }
+        @inlinable public static var videoInterval: Self { .init(rawValue: "VIDEO_INTERVAL") }
     }
+
+    public struct M2tsEbpPlacement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AudioNormalizationAlgorithmControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case correctAudio = "CORRECT_AUDIO"
-        case measureOnly = "MEASURE_ONLY"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var videoAndAudioPids: Self { .init(rawValue: "VIDEO_AND_AUDIO_PIDS") }
+        @inlinable public static var videoPid: Self { .init(rawValue: "VIDEO_PID") }
     }
+
+    public struct M2tsEsRateInPes: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AudioNormalizationLoudnessLogging: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dontLog = "DONT_LOG"
-        case log = "LOG"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
     }
+
+    public struct M2tsForceTsVideoEbpOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AudioNormalizationPeakCalculation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case truePeak = "TRUE_PEAK"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
+        @inlinable public static var force: Self { .init(rawValue: "FORCE") }
     }
+
+    public struct M2tsKlvMetadata: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AudioSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allPcm = "ALL_PCM"
-        case hlsRenditionGroup = "HLS_RENDITION_GROUP"
-        case languageCode = "LANGUAGE_CODE"
-        case pid = "PID"
-        case stream = "STREAM"
-        case track = "TRACK"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
     }
+
+    public struct M2tsNielsenId3: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AudioSmpte337Passthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var insert: Self { .init(rawValue: "INSERT") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
+
+    public struct M2tsPcrControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AudioTypeControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var configuredPcrPeriod: Self { .init(rawValue: "CONFIGURED_PCR_PERIOD") }
+        @inlinable public static var pcrEveryPesPacket: Self { .init(rawValue: "PCR_EVERY_PES_PACKET") }
     }
+
+    public struct M2tsPreventBufferUnderflow: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Av1AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "HIGH"
-        case higher = "HIGHER"
-        case low = "LOW"
-        case max = "MAX"
-        case medium = "MEDIUM"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
+
+    public struct M2tsRateMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Av1BitDepth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bit10 = "BIT_10"
-        case bit8 = "BIT_8"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cbr: Self { .init(rawValue: "CBR") }
+        @inlinable public static var vbr: Self { .init(rawValue: "VBR") }
     }
+
+    public struct M2tsScte35Source: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Av1FilmGrainSynthesis: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var manifestCues: Self { .init(rawValue: "MANIFEST_CUES") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
     }
+
+    public struct M2tsSegmentationMarkers: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Av1FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ebp: Self { .init(rawValue: "EBP") }
+        @inlinable public static var ebpLegacy: Self { .init(rawValue: "EBP_LEGACY") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var psiSegstart: Self { .init(rawValue: "PSI_SEGSTART") }
+        @inlinable public static var raiAdapt: Self { .init(rawValue: "RAI_ADAPT") }
+        @inlinable public static var raiSegstart: Self { .init(rawValue: "RAI_SEGSTART") }
     }
+
+    public struct M2tsSegmentationStyle: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Av1FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var maintainCadence: Self { .init(rawValue: "MAINTAIN_CADENCE") }
+        @inlinable public static var resetCadence: Self { .init(rawValue: "RESET_CADENCE") }
     }
+
+    public struct M3u8AudioDuration: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Av1RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case qvbr = "QVBR"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var defaultCodecDuration: Self { .init(rawValue: "DEFAULT_CODEC_DURATION") }
+        @inlinable public static var matchVideoDuration: Self { .init(rawValue: "MATCH_VIDEO_DURATION") }
     }
+
+    public struct M3u8DataPtsControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Av1SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alignToVideo: Self { .init(rawValue: "ALIGN_TO_VIDEO") }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
     }
+
+    public struct M3u8NielsenId3: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AvcIntraClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case class100 = "CLASS_100"
-        case class200 = "CLASS_200"
-        case class4K2K = "CLASS_4K_2K"
-        case class50 = "CLASS_50"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var insert: Self { .init(rawValue: "INSERT") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
+
+    public struct M3u8PcrControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AvcIntraFramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var configuredPcrPeriod: Self { .init(rawValue: "CONFIGURED_PCR_PERIOD") }
+        @inlinable public static var pcrEveryPesPacket: Self { .init(rawValue: "PCR_EVERY_PES_PACKET") }
     }
+
+    public struct M3u8Scte35Source: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AvcIntraFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var manifestCues: Self { .init(rawValue: "MANIFEST_CUES") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
     }
+
+    public struct MatrixCoefficients: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AvcIntraInterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bottomField = "BOTTOM_FIELD"
-        case followBottomField = "FOLLOW_BOTTOM_FIELD"
-        case followTopField = "FOLLOW_TOP_FIELD"
-        case progressive = "PROGRESSIVE"
-        case topField = "TOP_FIELD"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cdCl: Self { .init(rawValue: "CD_CL") }
+        @inlinable public static var cdNcl: Self { .init(rawValue: "CD_NCL") }
+        @inlinable public static var ebu3213: Self { .init(rawValue: "EBU3213") }
+        @inlinable public static var fcc: Self { .init(rawValue: "FCC") }
+        @inlinable public static var ipt: Self { .init(rawValue: "IPT") }
+        @inlinable public static var itu2020Cl: Self { .init(rawValue: "ITU_2020_CL") }
+        @inlinable public static var itu2020Ncl: Self { .init(rawValue: "ITU_2020_NCL") }
+        @inlinable public static var itu2100Ictcp: Self { .init(rawValue: "ITU_2100ICtCp") }
+        @inlinable public static var itu470Bg: Self { .init(rawValue: "ITU_470BG") }
+        @inlinable public static var itu709: Self { .init(rawValue: "ITU_709") }
+        @inlinable public static var last: Self { .init(rawValue: "LAST") }
+        @inlinable public static var reserved: Self { .init(rawValue: "RESERVED") }
+        @inlinable public static var rgb: Self { .init(rawValue: "RGB") }
+        @inlinable public static var smpte170M: Self { .init(rawValue: "SMPTE_170M") }
+        @inlinable public static var smpte2085: Self { .init(rawValue: "SMPTE_2085") }
+        @inlinable public static var smpte240M: Self { .init(rawValue: "SMPTE_240M") }
+        @inlinable public static var unspecified: Self { .init(rawValue: "UNSPECIFIED") }
+        @inlinable public static var yCgCo: Self { .init(rawValue: "YCgCo") }
     }
+
+    public struct MotionImageInsertionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AvcIntraScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interlaced = "INTERLACED"
-        case interlacedOptimize = "INTERLACED_OPTIMIZE"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mov: Self { .init(rawValue: "MOV") }
+        @inlinable public static var png: Self { .init(rawValue: "PNG") }
     }
+
+    public struct MotionImagePlayback: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AvcIntraSlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `repeat`: Self { .init(rawValue: "REPEAT") }
+        @inlinable public static var once: Self { .init(rawValue: "ONCE") }
     }
+
+    public struct MovClapAtom: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AvcIntraTelecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hard = "HARD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
     }
+
+    public struct MovCslgAtom: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum AvcIntraUhdQualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiPass = "MULTI_PASS"
-        case singlePass = "SINGLE_PASS"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
     }
+
+    public struct MovMpeg2FourCCControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum BandwidthReductionFilterSharpening: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "HIGH"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mpeg: Self { .init(rawValue: "MPEG") }
+        @inlinable public static var xdcam: Self { .init(rawValue: "XDCAM") }
     }
+
+    public struct MovPaddingControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum BandwidthReductionFilterStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case high = "HIGH"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var omneon: Self { .init(rawValue: "OMNEON") }
     }
+
+    public struct MovReference: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum BillingTagsSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case job = "JOB"
-        case jobTemplate = "JOB_TEMPLATE"
-        case preset = "PRESET"
-        case queue = "QUEUE"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var external: Self { .init(rawValue: "EXTERNAL") }
+        @inlinable public static var selfContained: Self { .init(rawValue: "SELF_CONTAINED") }
     }
+
+    public struct Mp2AudioDescriptionMix: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum BurnInSubtitleStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var broadcasterMixedAd: Self { .init(rawValue: "BROADCASTER_MIXED_AD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
+
+    public struct Mp3RateControlMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum BurninSubtitleAlignment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case centered = "CENTERED"
-        case left = "LEFT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BurninSubtitleApplyFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allText = "ALL_TEXT"
-        case whiteTextOnly = "WHITE_TEXT_ONLY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BurninSubtitleBackgroundColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case black = "BLACK"
-        case none = "NONE"
-        case white = "WHITE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum BurninSubtitleFallbackFont: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bestMatch = "BEST_MATCH"
-        case monospacedSansserif = "MONOSPACED_SANSSERIF"
-        case monospacedSerif = "MONOSPACED_SERIF"
-        case proportionalSansserif = "PROPORTIONAL_SANSSERIF"
-        case proportionalSerif = "PROPORTIONAL_SERIF"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cbr: Self { .init(rawValue: "CBR") }
+        @inlinable public static var vbr: Self { .init(rawValue: "VBR") }
     }
-
-    public enum BurninSubtitleFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case black = "BLACK"
-        case blue = "BLUE"
-        case green = "GREEN"
-        case hex = "HEX"
-        case red = "RED"
-        case white = "WHITE"
-        case yellow = "YELLOW"
-        public var description: String { return self.rawValue }
+
+    public struct Mp4C2paManifest: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
     }
+
+    public struct Mp4CslgAtom: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum BurninSubtitleOutlineColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case black = "BLACK"
-        case blue = "BLUE"
-        case green = "GREEN"
-        case red = "RED"
-        case white = "WHITE"
-        case yellow = "YELLOW"
-        public var description: String { return self.rawValue }
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
     }
 
-    public enum BurninSubtitleShadowColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case black = "BLACK"
-        case none = "NONE"
-        case white = "WHITE"
-        public var description: String { return self.rawValue }
+    public struct Mp4FreeSpaceBox: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
     }
+
+    public struct Mp4MoovPlacement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum BurninSubtitleTeletextSpacing: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case fixedGrid = "FIXED_GRID"
-        case proportional = "PROPORTIONAL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var normal: Self { .init(rawValue: "NORMAL") }
+        @inlinable public static var progressiveDownload: Self { .init(rawValue: "PROGRESSIVE_DOWNLOAD") }
     }
 
-    public enum CaptionDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case burnIn = "BURN_IN"
-        case dvbSub = "DVB_SUB"
-        case embedded = "EMBEDDED"
-        case embeddedPlusScte20 = "EMBEDDED_PLUS_SCTE20"
-        case imsc = "IMSC"
-        case scc = "SCC"
-        case scte20PlusEmbedded = "SCTE20_PLUS_EMBEDDED"
-        case smi = "SMI"
-        case srt = "SRT"
-        case teletext = "TELETEXT"
-        case ttml = "TTML"
-        case webvtt = "WEBVTT"
-        public var description: String { return self.rawValue }
+    public struct MpdAccessibilityCaptionHints: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
     }
+
+    public struct MpdAudioDuration: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CaptionSourceByteRateLimit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var defaultCodecDuration: Self { .init(rawValue: "DEFAULT_CODEC_DURATION") }
+        @inlinable public static var matchVideoDuration: Self { .init(rawValue: "MATCH_VIDEO_DURATION") }
     }
 
-    public enum CaptionSourceConvertPaintOnToPopOn: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct MpdC2paManifest: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclude: Self { .init(rawValue: "EXCLUDE") }
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
     }
+
+    public struct MpdCaptionContainerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CaptionSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ancillary = "ANCILLARY"
-        case dvbSub = "DVB_SUB"
-        case embedded = "EMBEDDED"
-        case imsc = "IMSC"
-        case nullSource = "NULL_SOURCE"
-        case scc = "SCC"
-        case scte20 = "SCTE20"
-        case smi = "SMI"
-        case smpteTt = "SMPTE_TT"
-        case srt = "SRT"
-        case stl = "STL"
-        case teletext = "TELETEXT"
-        case tt3Gpp = "TT_3GPP"
-        case ttml = "TTML"
-        case webvtt = "WEBVTT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var fragmentedMp4: Self { .init(rawValue: "FRAGMENTED_MP4") }
+        @inlinable public static var raw: Self { .init(rawValue: "RAW") }
     }
 
-    public enum CaptionSourceUpconvertSTLToTeletext: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case upconvert = "UPCONVERT"
-        public var description: String { return self.rawValue }
+    public struct MpdKlvMetadata: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
     }
+
+    public struct MpdManifestMetadataSignaling: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum ChromaPositionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case forceCenter = "FORCE_CENTER"
-        case forceTopLeft = "FORCE_TOP_LEFT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum CmafClientCache: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct MpdScte35Esam: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var insert: Self { .init(rawValue: "INSERT") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
+
+    public struct MpdScte35Source: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmafCodecSpecification: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rfc4281 = "RFC_4281"
-        case rfc6381 = "RFC_6381"
-        public var description: String { return self.rawValue }
+        @inlinable public static var manifestCues: Self { .init(rawValue: "MANIFEST_CUES") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
     }
 
-    public enum CmafEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aesCtr = "AES_CTR"
-        case sampleAes = "SAMPLE_AES"
-        public var description: String { return self.rawValue }
+    public struct MpdTimedMetadata: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
     }
+
+    public struct MpdTimedMetadataBoxVersion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmafImageBasedTrickPlay: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case advanced = "ADVANCED"
-        case none = "NONE"
-        case thumbnail = "THUMBNAIL"
-        case thumbnailAndFullframe = "THUMBNAIL_AND_FULLFRAME"
-        case variants = "VARIANTS"
-        public var description: String { return self.rawValue }
+        @inlinable public static var version0: Self { .init(rawValue: "VERSION_0") }
+        @inlinable public static var version1: Self { .init(rawValue: "VERSION_1") }
     }
 
-    public enum CmafInitializationVectorInManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
+    public struct Mpeg2AdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
     }
+
+    public struct Mpeg2CodecLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmafIntervalCadence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case followCustom = "FOLLOW_CUSTOM"
-        case followIframe = "FOLLOW_IFRAME"
-        case followSegmentation = "FOLLOW_SEGMENTATION"
-        public var description: String { return self.rawValue }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var high1440: Self { .init(rawValue: "HIGH1440") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var main: Self { .init(rawValue: "MAIN") }
     }
 
-    public enum CmafKeyProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case speke = "SPEKE"
-        case staticKey = "STATIC_KEY"
-        public var description: String { return self.rawValue }
+    public struct Mpeg2CodecProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var main: Self { .init(rawValue: "MAIN") }
+        @inlinable public static var profile422: Self { .init(rawValue: "PROFILE_422") }
     }
+
+    public struct Mpeg2DynamicSubGop: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmafManifestCompression: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case gzip = "GZIP"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var `static`: Self { .init(rawValue: "STATIC") }
+        @inlinable public static var adaptive: Self { .init(rawValue: "ADAPTIVE") }
     }
 
-    public enum CmafManifestDurationFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case floatingPoint = "FLOATING_POINT"
-        case integer = "INTEGER"
-        public var description: String { return self.rawValue }
+    public struct Mpeg2FramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
+
+    public struct Mpeg2FramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmafMpdManifestBandwidthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "AVERAGE"
-        case max = "MAX"
-        public var description: String { return self.rawValue }
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
     }
 
-    public enum CmafMpdProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mainProfile = "MAIN_PROFILE"
-        case onDemandProfile = "ON_DEMAND_PROFILE"
-        public var description: String { return self.rawValue }
+    public struct Mpeg2GopSizeUnits: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var frames: Self { .init(rawValue: "FRAMES") }
+        @inlinable public static var seconds: Self { .init(rawValue: "SECONDS") }
     }
+
+    public struct Mpeg2InterlaceMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmafPtsOffsetHandlingForBFrames: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case matchInitialPts = "MATCH_INITIAL_PTS"
-        case zeroBased = "ZERO_BASED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var bottomField: Self { .init(rawValue: "BOTTOM_FIELD") }
+        @inlinable public static var followBottomField: Self { .init(rawValue: "FOLLOW_BOTTOM_FIELD") }
+        @inlinable public static var followTopField: Self { .init(rawValue: "FOLLOW_TOP_FIELD") }
+        @inlinable public static var progressive: Self { .init(rawValue: "PROGRESSIVE") }
+        @inlinable public static var topField: Self { .init(rawValue: "TOP_FIELD") }
     }
 
-    public enum CmafSegmentControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case segmentedFiles = "SEGMENTED_FILES"
-        case singleFile = "SINGLE_FILE"
-        public var description: String { return self.rawValue }
+    public struct Mpeg2IntraDcPrecision: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var intraDcPrecision10: Self { .init(rawValue: "INTRA_DC_PRECISION_10") }
+        @inlinable public static var intraDcPrecision11: Self { .init(rawValue: "INTRA_DC_PRECISION_11") }
+        @inlinable public static var intraDcPrecision8: Self { .init(rawValue: "INTRA_DC_PRECISION_8") }
+        @inlinable public static var intraDcPrecision9: Self { .init(rawValue: "INTRA_DC_PRECISION_9") }
     }
 
-    public enum CmafSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exact = "EXACT"
-        case gopMultiple = "GOP_MULTIPLE"
-        case match = "MATCH"
-        public var description: String { return self.rawValue }
+    public struct Mpeg2ParControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
+
+    public struct Mpeg2QualityTuningLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CmafStreamInfResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmafTargetDurationCompatibilityMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case legacy = "LEGACY"
-        case specCompliant = "SPEC_COMPLIANT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var multiPass: Self { .init(rawValue: "MULTI_PASS") }
+        @inlinable public static var singlePass: Self { .init(rawValue: "SINGLE_PASS") }
     }
 
-    public enum CmafVideoCompositionOffsets: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case signed = "SIGNED"
-        case unsigned = "UNSIGNED"
-        public var description: String { return self.rawValue }
-    }
+    public struct Mpeg2RateControlMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CmafWriteDASHManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmafWriteHLSManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var cbr: Self { .init(rawValue: "CBR") }
+        @inlinable public static var vbr: Self { .init(rawValue: "VBR") }
     }
 
-    public enum CmafWriteSegmentTimelineInRepresentation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct Mpeg2ScanTypeConversionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CmfcAudioDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
-        case matchVideoDuration = "MATCH_VIDEO_DURATION"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmfcAudioTrackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alternateAudioAutoSelect = "ALTERNATE_AUDIO_AUTO_SELECT"
-        case alternateAudioAutoSelectDefault = "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
-        case alternateAudioNotAutoSelect = "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
-        case audioOnlyVariantStream = "AUDIO_ONLY_VARIANT_STREAM"
-        public var description: String { return self.rawValue }
+        @inlinable public static var interlaced: Self { .init(rawValue: "INTERLACED") }
+        @inlinable public static var interlacedOptimize: Self { .init(rawValue: "INTERLACED_OPTIMIZE") }
     }
 
-    public enum CmfcC2paManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
+    public struct Mpeg2SceneChangeDetect: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CmfcDescriptiveVideoServiceFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dontFlag = "DONT_FLAG"
-        case flag = "FLAG"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmfcIFrameOnlyManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum CmfcKlvMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
+    public struct Mpeg2SlowPal: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CmfcManifestMetadataSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum CmfcScte35Esam: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case insert = "INSERT"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum CmfcScte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case manifestCues = "MANIFEST_CUES"
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CmfcTimedMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
+    public struct Mpeg2SpatialAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CmfcTimedMetadataBoxVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case version0 = "VERSION_0"
-        case version1 = "VERSION_1"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Codec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aac = "AAC"
-        case ac3 = "AC3"
-        case amr = "AMR"
-        case av1 = "AV1"
-        case avc = "AVC"
-        case c608 = "C608"
-        case c708 = "C708"
-        case dv = "DV"
-        case eac3 = "EAC3"
-        case flac = "FLAC"
-        case h263 = "H263"
-        case hevc = "HEVC"
-        case jpeg2000 = "JPEG2000"
-        case mjpeg = "MJPEG"
-        case mp2 = "MP2"
-        case mp3 = "MP3"
-        case mp4v = "MP4V"
-        case mpeg1 = "MPEG1"
-        case mpeg2 = "MPEG2"
-        case opus = "OPUS"
-        case pcm = "PCM"
-        case prores = "PRORES"
-        case qtrle = "QTRLE"
-        case theora = "THEORA"
-        case uncompressed = "UNCOMPRESSED"
-        case unknown = "UNKNOWN"
-        case vc1 = "VC1"
-        case vc3 = "VC3"
-        case vfw = "VFW"
-        case vorbis = "VORBIS"
-        case vp8 = "VP8"
-        case vp9 = "VP9"
-        case webvtt = "WEBVTT"
-        case wma = "WMA"
-        case wma2 = "WMA2"
-        case wmapro = "WMAPRO"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum ColorMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ignore = "IGNORE"
-        case insert = "INSERT"
-        public var description: String { return self.rawValue }
-    }
+    public struct Mpeg2Syntax: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum ColorPrimaries: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ebu3213E = "EBU_3213_E"
-        case genericFilm = "GENERIC_FILM"
-        case ipt = "IPT"
-        case itu2020 = "ITU_2020"
-        case itu470Bg = "ITU_470BG"
-        case itu470M = "ITU_470M"
-        case itu709 = "ITU_709"
-        case last = "LAST"
-        case reserved = "RESERVED"
-        case smpte170M = "SMPTE_170M"
-        case smpte2067Xyz = "SMPTE_2067XYZ"
-        case smpte240M = "SMPTE_240M"
-        case smpte4281 = "SMPTE_428_1"
-        case smpte4312 = "SMPTE_431_2"
-        case smpteEg4321 = "SMPTE_EG_432_1"
-        case unspecified = "UNSPECIFIED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum ColorSpace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case follow = "FOLLOW"
-        case hdr10 = "HDR10"
-        case hlg2020 = "HLG_2020"
-        case p3d65Hdr = "P3D65_HDR"
-        case p3d65Sdr = "P3D65_SDR"
-        case p3dci = "P3DCI"
-        case rec601 = "REC_601"
-        case rec709 = "REC_709"
-        public var description: String { return self.rawValue }
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
+        @inlinable public static var d10: Self { .init(rawValue: "D_10") }
     }
 
-    public enum ColorSpaceConversion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case force601 = "FORCE_601"
-        case force709 = "FORCE_709"
-        case forceHdr10 = "FORCE_HDR10"
-        case forceHlg2020 = "FORCE_HLG_2020"
-        case forceP3D65Hdr = "FORCE_P3D65_HDR"
-        case forceP3D65Sdr = "FORCE_P3D65_SDR"
-        case forceP3Dci = "FORCE_P3DCI"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
+    public struct Mpeg2Telecine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum ColorSpaceUsage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fallback = "FALLBACK"
-        case force = "FORCE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Commitment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case oneYear = "ONE_YEAR"
-        public var description: String { return self.rawValue }
+        @inlinable public static var hard: Self { .init(rawValue: "HARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var soft: Self { .init(rawValue: "SOFT") }
     }
 
-    public enum ContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cmfc = "CMFC"
-        case f4v = "F4V"
-        case gif = "GIF"
-        case ismv = "ISMV"
-        case m2ts = "M2TS"
-        case m3u8 = "M3U8"
-        case mov = "MOV"
-        case mp4 = "MP4"
-        case mpd = "MPD"
-        case mxf = "MXF"
-        case ogg = "OGG"
-        case raw = "RAW"
-        case webm = "WEBM"
-        case y4m = "Y4M"
-        public var description: String { return self.rawValue }
-    }
+    public struct Mpeg2TemporalAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CopyProtectionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case passthrough = "PASSTHROUGH"
-        case strip = "STRIP"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DashIsoGroupAudioChannelConfigSchemeIdUri: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dolbyChannelConfiguration = "DOLBY_CHANNEL_CONFIGURATION"
-        case mpegChannelConfiguration = "MPEG_CHANNEL_CONFIGURATION"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum DashIsoHbbtvCompliance: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hbbtv15 = "HBBTV_1_5"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
+    public struct MsSmoothAudioDeduplication: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DashIsoImageBasedTrickPlay: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case advanced = "ADVANCED"
-        case none = "NONE"
-        case thumbnail = "THUMBNAIL"
-        case thumbnailAndFullframe = "THUMBNAIL_AND_FULLFRAME"
-        case variants = "VARIANTS"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DashIsoIntervalCadence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case followCustom = "FOLLOW_CUSTOM"
-        case followIframe = "FOLLOW_IFRAME"
-        case followSegmentation = "FOLLOW_SEGMENTATION"
-        public var description: String { return self.rawValue }
+        @inlinable public static var combineDuplicateStreams: Self { .init(rawValue: "COMBINE_DUPLICATE_STREAMS") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum DashIsoMpdManifestBandwidthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "AVERAGE"
-        case max = "MAX"
-        public var description: String { return self.rawValue }
-    }
+    public struct MsSmoothFragmentLengthControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DashIsoMpdProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mainProfile = "MAIN_PROFILE"
-        case onDemandProfile = "ON_DEMAND_PROFILE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DashIsoPlaybackDeviceCompatibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cencV1 = "CENC_V1"
-        case cencV1UnencryptedHeaders = "CENC_V1_UNENCRYPTED_HEADERS"
-        case unencryptedSei = "UNENCRYPTED_SEI"
-        public var description: String { return self.rawValue }
+        @inlinable public static var exact: Self { .init(rawValue: "EXACT") }
+        @inlinable public static var gopMultiple: Self { .init(rawValue: "GOP_MULTIPLE") }
     }
 
-    public enum DashIsoPtsOffsetHandlingForBFrames: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case matchInitialPts = "MATCH_INITIAL_PTS"
-        case zeroBased = "ZERO_BASED"
-        public var description: String { return self.rawValue }
-    }
+    public struct MsSmoothManifestEncoding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DashIsoSegmentControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case segmentedFiles = "SEGMENTED_FILES"
-        case singleFile = "SINGLE_FILE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DashIsoSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exact = "EXACT"
-        case gopMultiple = "GOP_MULTIPLE"
-        case match = "MATCH"
-        public var description: String { return self.rawValue }
+        @inlinable public static var utf16: Self { .init(rawValue: "UTF16") }
+        @inlinable public static var utf8: Self { .init(rawValue: "UTF8") }
     }
 
-    public enum DashIsoVideoCompositionOffsets: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case signed = "SIGNED"
-        case unsigned = "UNSIGNED"
-        public var description: String { return self.rawValue }
-    }
+    public struct MxfAfdSignaling: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DashIsoWriteSegmentTimelineInRepresentation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DashManifestStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case basic = "BASIC"
-        case compact = "COMPACT"
-        case distinct = "DISTINCT"
-        case full = "FULL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var copyFromVideo: Self { .init(rawValue: "COPY_FROM_VIDEO") }
+        @inlinable public static var noCopy: Self { .init(rawValue: "NO_COPY") }
     }
 
-    public enum DecryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aesCbc = "AES_CBC"
-        case aesCtr = "AES_CTR"
-        case aesGcm = "AES_GCM"
-        public var description: String { return self.rawValue }
-    }
+    public struct MxfProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DeinterlaceAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case blend = "BLEND"
-        case blendTicker = "BLEND_TICKER"
-        case interpolate = "INTERPOLATE"
-        case interpolateTicker = "INTERPOLATE_TICKER"
-        case linearInterpolation = "LINEAR_INTERPOLATION"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DeinterlacerControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case forceAllFrames = "FORCE_ALL_FRAMES"
-        case normal = "NORMAL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var d10: Self { .init(rawValue: "D_10") }
+        @inlinable public static var op1a: Self { .init(rawValue: "OP1A") }
+        @inlinable public static var xavc: Self { .init(rawValue: "XAVC") }
+        @inlinable public static var xdcam: Self { .init(rawValue: "XDCAM") }
+        @inlinable public static var xdcamRdd9: Self { .init(rawValue: "XDCAM_RDD9") }
     }
 
-    public enum DeinterlacerMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case adaptive = "ADAPTIVE"
-        case deinterlace = "DEINTERLACE"
-        case inverseTelecine = "INVERSE_TELECINE"
-        public var description: String { return self.rawValue }
-    }
+    public struct MxfUncompressedAudioWrapping: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DescribeEndpointsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        case getOnly = "GET_ONLY"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DolbyVisionCompatibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateStream = "DUPLICATE_STREAM"
-        case supplementalCodecs = "SUPPLEMENTAL_CODECS"
-        public var description: String { return self.rawValue }
+        @inlinable public static var aes3: Self { .init(rawValue: "AES3") }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
     }
 
-    public enum DolbyVisionLevel6Mode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case passthrough = "PASSTHROUGH"
-        case recalculate = "RECALCULATE"
-        case specify = "SPECIFY"
-        public var description: String { return self.rawValue }
-    }
+    public struct MxfXavcDurationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DolbyVisionMapping: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hdr101000 = "HDR10_1000"
-        case hdr10Nomap = "HDR10_NOMAP"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DolbyVisionPresence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case absent = "ABSENT"
-        case present = "PRESENT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var allowAnyDuration: Self { .init(rawValue: "ALLOW_ANY_DURATION") }
+        @inlinable public static var dropFramesForCompliance: Self { .init(rawValue: "DROP_FRAMES_FOR_COMPLIANCE") }
     }
 
-    public enum DolbyVisionProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case profile5 = "PROFILE_5"
-        case profile81 = "PROFILE_8_1"
-        public var description: String { return self.rawValue }
-    }
+    public struct NielsenActiveWatermarkProcessType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DropFrameTimecode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DvbSubSubtitleFallbackFont: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bestMatch = "BEST_MATCH"
-        case monospacedSansserif = "MONOSPACED_SANSSERIF"
-        case monospacedSerif = "MONOSPACED_SERIF"
-        case proportionalSansserif = "PROPORTIONAL_SANSSERIF"
-        case proportionalSerif = "PROPORTIONAL_SERIF"
-        public var description: String { return self.rawValue }
+        @inlinable public static var cbet: Self { .init(rawValue: "CBET") }
+        @inlinable public static var naes2AndNw: Self { .init(rawValue: "NAES2_AND_NW") }
+        @inlinable public static var naes2AndNwAndCbet: Self { .init(rawValue: "NAES2_AND_NW_AND_CBET") }
     }
 
-    public enum DvbSubtitleAlignment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case centered = "CENTERED"
-        case left = "LEFT"
-        public var description: String { return self.rawValue }
-    }
+    public struct NielsenSourceWatermarkStatusType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DvbSubtitleApplyFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allText = "ALL_TEXT"
-        case whiteTextOnly = "WHITE_TEXT_ONLY"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DvbSubtitleBackgroundColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case black = "BLACK"
-        case none = "NONE"
-        case white = "WHITE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var clean: Self { .init(rawValue: "CLEAN") }
+        @inlinable public static var watermarked: Self { .init(rawValue: "WATERMARKED") }
     }
 
-    public enum DvbSubtitleFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case black = "BLACK"
-        case blue = "BLUE"
-        case green = "GREEN"
-        case hex = "HEX"
-        case red = "RED"
-        case white = "WHITE"
-        case yellow = "YELLOW"
-        public var description: String { return self.rawValue }
-    }
+    public struct NielsenUniqueTicPerAudioTrackType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DvbSubtitleOutlineColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case black = "BLACK"
-        case blue = "BLUE"
-        case green = "GREEN"
-        case red = "RED"
-        case white = "WHITE"
-        case yellow = "YELLOW"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DvbSubtitleShadowColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case black = "BLACK"
-        case none = "NONE"
-        case white = "WHITE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var reserveUniqueTicsPerTrack: Self { .init(rawValue: "RESERVE_UNIQUE_TICS_PER_TRACK") }
+        @inlinable public static var sameTicsPerTrack: Self { .init(rawValue: "SAME_TICS_PER_TRACK") }
     }
 
-    public enum DvbSubtitleStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct NoiseFilterPostTemporalSharpening: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DvbSubtitleTeletextSpacing: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case fixedGrid = "FIXED_GRID"
-        case proportional = "PROPORTIONAL"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum DvbSubtitlingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hearingImpaired = "HEARING_IMPAIRED"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum DvbddsHandling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case noDisplayWindow = "NO_DISPLAY_WINDOW"
-        case none = "NONE"
-        case specified = "SPECIFIED"
-        case specifiedOptimal = "SPECIFIED_OPTIMAL"
-        public var description: String { return self.rawValue }
-    }
+    public struct NoiseFilterPostTemporalSharpeningStrength: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DynamicAudioSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allTracks = "ALL_TRACKS"
-        case languageCode = "LANGUAGE_CODE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Eac3AtmosBitstreamMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completeMain = "COMPLETE_MAIN"
-        public var description: String { return self.rawValue }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
     }
 
-    public enum Eac3AtmosCodingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case codingMode514 = "CODING_MODE_5_1_4"
-        case codingMode714 = "CODING_MODE_7_1_4"
-        case codingMode916 = "CODING_MODE_9_1_6"
-        case codingModeAuto = "CODING_MODE_AUTO"
-        public var description: String { return self.rawValue }
-    }
+    public struct NoiseReducerFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Eac3AtmosDialogueIntelligence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Eac3AtmosDownmixControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var bilateral: Self { .init(rawValue: "BILATERAL") }
+        @inlinable public static var conserve: Self { .init(rawValue: "CONSERVE") }
+        @inlinable public static var gaussian: Self { .init(rawValue: "GAUSSIAN") }
+        @inlinable public static var lanczos: Self { .init(rawValue: "LANCZOS") }
+        @inlinable public static var mean: Self { .init(rawValue: "MEAN") }
+        @inlinable public static var sharpen: Self { .init(rawValue: "SHARPEN") }
+        @inlinable public static var spatial: Self { .init(rawValue: "SPATIAL") }
+        @inlinable public static var temporal: Self { .init(rawValue: "TEMPORAL") }
     }
 
-    public enum Eac3AtmosDynamicRangeCompressionLine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case filmLight = "FILM_LIGHT"
-        case filmStandard = "FILM_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case none = "NONE"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
-    }
+    public struct Order: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Eac3AtmosDynamicRangeCompressionRf: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case filmLight = "FILM_LIGHT"
-        case filmStandard = "FILM_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case none = "NONE"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Eac3AtmosDynamicRangeControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var ascending: Self { .init(rawValue: "ASCENDING") }
+        @inlinable public static var descending: Self { .init(rawValue: "DESCENDING") }
     }
 
-    public enum Eac3AtmosMeteringMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ituBs17701 = "ITU_BS_1770_1"
-        case ituBs17702 = "ITU_BS_1770_2"
-        case ituBs17703 = "ITU_BS_1770_3"
-        case ituBs17704 = "ITU_BS_1770_4"
-        case leqA = "LEQ_A"
-        public var description: String { return self.rawValue }
-    }
+    public struct OutputGroupType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Eac3AtmosStereoDownmix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dpl2 = "DPL2"
-        case notIndicated = "NOT_INDICATED"
-        case stereo = "STEREO"
-        case surround = "SURROUND"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Eac3AtmosSurroundExMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case notIndicated = "NOT_INDICATED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var cmafGroupSettings: Self { .init(rawValue: "CMAF_GROUP_SETTINGS") }
+        @inlinable public static var dashIsoGroupSettings: Self { .init(rawValue: "DASH_ISO_GROUP_SETTINGS") }
+        @inlinable public static var fileGroupSettings: Self { .init(rawValue: "FILE_GROUP_SETTINGS") }
+        @inlinable public static var hlsGroupSettings: Self { .init(rawValue: "HLS_GROUP_SETTINGS") }
+        @inlinable public static var msSmoothGroupSettings: Self { .init(rawValue: "MS_SMOOTH_GROUP_SETTINGS") }
     }
 
-    public enum Eac3AttenuationControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case attenuate3Db = "ATTENUATE_3_DB"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
+    public struct OutputSdt: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Eac3BitstreamMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case commentary = "COMMENTARY"
-        case completeMain = "COMPLETE_MAIN"
-        case emergency = "EMERGENCY"
-        case hearingImpaired = "HEARING_IMPAIRED"
-        case visuallyImpaired = "VISUALLY_IMPAIRED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Eac3CodingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case codingMode10 = "CODING_MODE_1_0"
-        case codingMode20 = "CODING_MODE_2_0"
-        case codingMode32 = "CODING_MODE_3_2"
-        case codingModeAuto = "CODING_MODE_AUTO"
-        public var description: String { return self.rawValue }
+        @inlinable public static var sdtFollow: Self { .init(rawValue: "SDT_FOLLOW") }
+        @inlinable public static var sdtFollowIfPresent: Self { .init(rawValue: "SDT_FOLLOW_IF_PRESENT") }
+        @inlinable public static var sdtManual: Self { .init(rawValue: "SDT_MANUAL") }
+        @inlinable public static var sdtNone: Self { .init(rawValue: "SDT_NONE") }
     }
 
-    public enum Eac3DcFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct PadVideo: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Eac3DynamicRangeCompressionLine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case filmLight = "FILM_LIGHT"
-        case filmStandard = "FILM_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case none = "NONE"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Eac3DynamicRangeCompressionRf: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case filmLight = "FILM_LIGHT"
-        case filmStandard = "FILM_STANDARD"
-        case musicLight = "MUSIC_LIGHT"
-        case musicStandard = "MUSIC_STANDARD"
-        case none = "NONE"
-        case speech = "SPEECH"
-        public var description: String { return self.rawValue }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
     }
 
-    public enum Eac3LfeControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lfe = "LFE"
-        case noLfe = "NO_LFE"
-        public var description: String { return self.rawValue }
-    }
+    public struct PassthroughSegmentationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Eac3LfeFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Eac3MetadataControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case followInput = "FOLLOW_INPUT"
-        case useConfigured = "USE_CONFIGURED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var durationBased: Self { .init(rawValue: "DURATION_BASED") }
+        @inlinable public static var gopCount: Self { .init(rawValue: "GOP_COUNT") }
     }
 
-    public enum Eac3PassthroughControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case noPassthrough = "NO_PASSTHROUGH"
-        case whenPossible = "WHEN_POSSIBLE"
-        public var description: String { return self.rawValue }
-    }
+    public struct PresetListBy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Eac3PhaseControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case noShift = "NO_SHIFT"
-        case shift90Degrees = "SHIFT_90_DEGREES"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Eac3StereoDownmix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dpl2 = "DPL2"
-        case loRo = "LO_RO"
-        case ltRt = "LT_RT"
-        case notIndicated = "NOT_INDICATED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var creationDate: Self { .init(rawValue: "CREATION_DATE") }
+        @inlinable public static var name: Self { .init(rawValue: "NAME") }
+        @inlinable public static var system: Self { .init(rawValue: "SYSTEM") }
     }
 
-    public enum Eac3SurroundExMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case notIndicated = "NOT_INDICATED"
-        public var description: String { return self.rawValue }
-    }
+    public struct PresetSpeke20Audio: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Eac3SurroundMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case notIndicated = "NOT_INDICATED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum ElementalInferenceFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case smartCrop = "SMART_CROP"
-        public var description: String { return self.rawValue }
+        @inlinable public static var presetAudio1: Self { .init(rawValue: "PRESET_AUDIO_1") }
+        @inlinable public static var presetAudio2: Self { .init(rawValue: "PRESET_AUDIO_2") }
+        @inlinable public static var presetAudio3: Self { .init(rawValue: "PRESET_AUDIO_3") }
+        @inlinable public static var shared: Self { .init(rawValue: "SHARED") }
+        @inlinable public static var unencrypted: Self { .init(rawValue: "UNENCRYPTED") }
     }
 
-    public enum ElementalInferenceFeedManagementState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case associated = "ASSOCIATED"
-        case created = "CREATED"
-        case deleted = "DELETED"
-        case pendingDeletion = "PENDING_DELETION"
-        public var description: String { return self.rawValue }
-    }
+    public struct PresetSpeke20Video: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum EmbeddedConvert608To708: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case upconvert = "UPCONVERT"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum EmbeddedTerminateCaptions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case endOfInput = "END_OF_INPUT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var presetVideo1: Self { .init(rawValue: "PRESET_VIDEO_1") }
+        @inlinable public static var presetVideo2: Self { .init(rawValue: "PRESET_VIDEO_2") }
+        @inlinable public static var presetVideo3: Self { .init(rawValue: "PRESET_VIDEO_3") }
+        @inlinable public static var presetVideo4: Self { .init(rawValue: "PRESET_VIDEO_4") }
+        @inlinable public static var presetVideo5: Self { .init(rawValue: "PRESET_VIDEO_5") }
+        @inlinable public static var presetVideo6: Self { .init(rawValue: "PRESET_VIDEO_6") }
+        @inlinable public static var presetVideo7: Self { .init(rawValue: "PRESET_VIDEO_7") }
+        @inlinable public static var presetVideo8: Self { .init(rawValue: "PRESET_VIDEO_8") }
+        @inlinable public static var shared: Self { .init(rawValue: "SHARED") }
+        @inlinable public static var unencrypted: Self { .init(rawValue: "UNENCRYPTED") }
     }
 
-    public enum EmbeddedTimecodeOverride: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case useMdpm = "USE_MDPM"
-        public var description: String { return self.rawValue }
-    }
+    public struct PricingPlan: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum F4vMoovPlacement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case normal = "NORMAL"
-        case progressiveDownload = "PROGRESSIVE_DOWNLOAD"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum FileSourceConvert608To708: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case upconvert = "UPCONVERT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var onDemand: Self { .init(rawValue: "ON_DEMAND") }
+        @inlinable public static var reserved: Self { .init(rawValue: "RESERVED") }
     }
 
-    public enum FileSourceTimeDeltaUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case milliseconds = "MILLISECONDS"
-        case seconds = "SECONDS"
-        public var description: String { return self.rawValue }
-    }
+    public struct ProresChromaSampling: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum FontScript: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case automatic = "AUTOMATIC"
-        case hans = "HANS"
-        case hant = "HANT"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aac = "aac"
-        case ac3 = "ac3"
-        case asf = "asf"
-        case avi = "avi"
-        case eac3 = "eac3"
-        case flac = "flac"
-        case matroska = "matroska"
-        case mp3 = "mp3"
-        case mp4 = "mp4"
-        case mpegps = "mpegps"
-        case mpegts = "mpegts"
-        case mxf = "mxf"
-        case ogg = "ogg"
-        case quicktime = "quicktime"
-        case threeG2 = "three_g2"
-        case threeGp = "three_gp"
-        case wave = "wave"
-        case webm = "webm"
-        public var description: String { return self.rawValue }
+        @inlinable public static var preserve444Sampling: Self { .init(rawValue: "PRESERVE_444_SAMPLING") }
+        @inlinable public static var subsampleTo422: Self { .init(rawValue: "SUBSAMPLE_TO_422") }
     }
 
-    public enum FrameControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case nearestIdrframe = "NEAREST_IDRFRAME"
-        case nearestIframe = "NEAREST_IFRAME"
-        public var description: String { return self.rawValue }
-    }
+    public struct ProresCodecProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum FrameMetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case msSsim = "MS_SSIM"
-        case psnr = "PSNR"
-        case psnrHvs = "PSNR_HVS"
-        case qvbr = "QVBR"
-        case shotChange = "SHOT_CHANGE"
-        case ssim = "SSIM"
-        case vmaf = "VMAF"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum GifFramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var appleProres422: Self { .init(rawValue: "APPLE_PRORES_422") }
+        @inlinable public static var appleProres422Hq: Self { .init(rawValue: "APPLE_PRORES_422_HQ") }
+        @inlinable public static var appleProres422Lt: Self { .init(rawValue: "APPLE_PRORES_422_LT") }
+        @inlinable public static var appleProres422Proxy: Self { .init(rawValue: "APPLE_PRORES_422_PROXY") }
+        @inlinable public static var appleProres4444: Self { .init(rawValue: "APPLE_PRORES_4444") }
+        @inlinable public static var appleProres4444Xq: Self { .init(rawValue: "APPLE_PRORES_4444_XQ") }
     }
 
-    public enum GifFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case interpolate = "INTERPOLATE"
-        public var description: String { return self.rawValue }
-    }
+    public struct ProresFramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H264AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case high = "HIGH"
-        case higher = "HIGHER"
-        case low = "LOW"
-        case max = "MAX"
-        case medium = "MEDIUM"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H264CodecLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case level1 = "LEVEL_1"
-        case level11 = "LEVEL_1_1"
-        case level12 = "LEVEL_1_2"
-        case level13 = "LEVEL_1_3"
-        case level2 = "LEVEL_2"
-        case level21 = "LEVEL_2_1"
-        case level22 = "LEVEL_2_2"
-        case level3 = "LEVEL_3"
-        case level31 = "LEVEL_3_1"
-        case level32 = "LEVEL_3_2"
-        case level4 = "LEVEL_4"
-        case level41 = "LEVEL_4_1"
-        case level42 = "LEVEL_4_2"
-        case level5 = "LEVEL_5"
-        case level51 = "LEVEL_5_1"
-        case level52 = "LEVEL_5_2"
-        public var description: String { return self.rawValue }
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
 
-    public enum H264CodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case baseline = "BASELINE"
-        case high = "HIGH"
-        case high10Bit = "HIGH_10BIT"
-        case high422 = "HIGH_422"
-        case high42210Bit = "HIGH_422_10BIT"
-        case main = "MAIN"
-        public var description: String { return self.rawValue }
-    }
+    public struct ProresFramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H264DynamicSubGop: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `static` = "STATIC"
-        case adaptive = "ADAPTIVE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H264EndOfStreamMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case include = "INCLUDE"
-        case suppress = "SUPPRESS"
-        public var description: String { return self.rawValue }
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
     }
 
-    public enum H264EntropyEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cabac = "CABAC"
-        case cavlc = "CAVLC"
-        public var description: String { return self.rawValue }
-    }
+    public struct ProresInterlaceMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H264ExplicitWeightedPrediction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H264FieldEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case forceField = "FORCE_FIELD"
-        case mbaff = "MBAFF"
-        case paff = "PAFF"
-        public var description: String { return self.rawValue }
+        @inlinable public static var bottomField: Self { .init(rawValue: "BOTTOM_FIELD") }
+        @inlinable public static var followBottomField: Self { .init(rawValue: "FOLLOW_BOTTOM_FIELD") }
+        @inlinable public static var followTopField: Self { .init(rawValue: "FOLLOW_TOP_FIELD") }
+        @inlinable public static var progressive: Self { .init(rawValue: "PROGRESSIVE") }
+        @inlinable public static var topField: Self { .init(rawValue: "TOP_FIELD") }
     }
 
-    public enum H264FlickerAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct ProresParControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H264FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H264FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
 
-    public enum H264GopBReference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct ProresScanTypeConversionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H264GopSizeUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case frames = "FRAMES"
-        case seconds = "SECONDS"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H264InterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bottomField = "BOTTOM_FIELD"
-        case followBottomField = "FOLLOW_BOTTOM_FIELD"
-        case followTopField = "FOLLOW_TOP_FIELD"
-        case progressive = "PROGRESSIVE"
-        case topField = "TOP_FIELD"
-        public var description: String { return self.rawValue }
+        @inlinable public static var interlaced: Self { .init(rawValue: "INTERLACED") }
+        @inlinable public static var interlacedOptimize: Self { .init(rawValue: "INTERLACED_OPTIMIZE") }
     }
 
-    public enum H264ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
+    public struct ProresSlowPal: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H264QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiPassHq = "MULTI_PASS_HQ"
-        case singlePass = "SINGLE_PASS"
-        case singlePassHq = "SINGLE_PASS_HQ"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H264RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbr = "CBR"
-        case qvbr = "QVBR"
-        case vbr = "VBR"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum H264RepeatPps: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct ProresTelecine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H264SaliencyAwareEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case preferred = "PREFERRED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H264ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interlaced = "INTERLACED"
-        case interlacedOptimize = "INTERLACED_OPTIMIZE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var hard: Self { .init(rawValue: "HARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum H264SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case transitionDetection = "TRANSITION_DETECTION"
-        public var description: String { return self.rawValue }
-    }
+    public struct QueueListBy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H264SlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H264SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var creationDate: Self { .init(rawValue: "CREATION_DATE") }
+        @inlinable public static var name: Self { .init(rawValue: "NAME") }
     }
 
-    public enum H264Syntax: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        case rp2027 = "RP2027"
-        public var description: String { return self.rawValue }
-    }
+    public struct QueueStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H264Telecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hard = "HARD"
-        case none = "NONE"
-        case soft = "SOFT"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H264TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var paused: Self { .init(rawValue: "PAUSED") }
     }
 
-    public enum H264UnregisteredSeiTimecode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct RemoveRubyReserveAttributes: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H264WriteMp4PackagingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case avc1 = "AVC1"
-        case avc3 = "AVC3"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case high = "HIGH"
-        case higher = "HIGHER"
-        case low = "LOW"
-        case max = "MAX"
-        case medium = "MEDIUM"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum H265AlternateTransferFunctionSei: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct RenewalType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H265CodecLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case level1 = "LEVEL_1"
-        case level2 = "LEVEL_2"
-        case level21 = "LEVEL_2_1"
-        case level3 = "LEVEL_3"
-        case level31 = "LEVEL_3_1"
-        case level4 = "LEVEL_4"
-        case level41 = "LEVEL_4_1"
-        case level5 = "LEVEL_5"
-        case level51 = "LEVEL_5_1"
-        case level52 = "LEVEL_5_2"
-        case level6 = "LEVEL_6"
-        case level61 = "LEVEL_6_1"
-        case level62 = "LEVEL_6_2"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265CodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case main10High = "MAIN10_HIGH"
-        case main10Main = "MAIN10_MAIN"
-        case main42210BitHigh = "MAIN_422_10BIT_HIGH"
-        case main42210BitMain = "MAIN_422_10BIT_MAIN"
-        case main4228BitHigh = "MAIN_422_8BIT_HIGH"
-        case main4228BitMain = "MAIN_422_8BIT_MAIN"
-        case mainHigh = "MAIN_HIGH"
-        case mainMain = "MAIN_MAIN"
-        public var description: String { return self.rawValue }
+        @inlinable public static var autoRenew: Self { .init(rawValue: "AUTO_RENEW") }
+        @inlinable public static var expire: Self { .init(rawValue: "EXPIRE") }
     }
 
-    public enum H265Deblocking: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct RequiredFlag: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H265DynamicSubGop: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `static` = "STATIC"
-        case adaptive = "ADAPTIVE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265EndOfStreamMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case include = "INCLUDE"
-        case suppress = "SUPPRESS"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum H265FlickerAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct ReservationPlanStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H265FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
     }
 
-    public enum H265GopBReference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct RespondToAfd: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H265GopSizeUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case frames = "FRAMES"
-        case seconds = "SECONDS"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265InterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bottomField = "BOTTOM_FIELD"
-        case followBottomField = "FOLLOW_BOTTOM_FIELD"
-        case followTopField = "FOLLOW_TOP_FIELD"
-        case progressive = "PROGRESSIVE"
-        case topField = "TOP_FIELD"
-        public var description: String { return self.rawValue }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+        @inlinable public static var respond: Self { .init(rawValue: "RESPOND") }
     }
 
-    public enum H265MvOverPictureBoundaries: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct RuleType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H265MvTemporalPredictor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var allowedRenditions: Self { .init(rawValue: "ALLOWED_RENDITIONS") }
+        @inlinable public static var forceIncludeRenditions: Self { .init(rawValue: "FORCE_INCLUDE_RENDITIONS") }
+        @inlinable public static var minBottomRenditionSize: Self { .init(rawValue: "MIN_BOTTOM_RENDITION_SIZE") }
+        @inlinable public static var minTopRenditionSize: Self { .init(rawValue: "MIN_TOP_RENDITION_SIZE") }
     }
 
-    public enum H265QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiPassHq = "MULTI_PASS_HQ"
-        case singlePass = "SINGLE_PASS"
-        case singlePassHq = "SINGLE_PASS_HQ"
-        public var description: String { return self.rawValue }
-    }
+    public struct S3ObjectCannedAcl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H265RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbr = "CBR"
-        case qvbr = "QVBR"
-        case vbr = "VBR"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265SampleAdaptiveOffsetFilterMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        case adaptive = "ADAPTIVE"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+        @inlinable public static var authenticatedRead: Self { .init(rawValue: "AUTHENTICATED_READ") }
+        @inlinable public static var bucketOwnerFullControl: Self { .init(rawValue: "BUCKET_OWNER_FULL_CONTROL") }
+        @inlinable public static var bucketOwnerRead: Self { .init(rawValue: "BUCKET_OWNER_READ") }
+        @inlinable public static var publicRead: Self { .init(rawValue: "PUBLIC_READ") }
     }
 
-    public enum H265ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interlaced = "INTERLACED"
-        case interlacedOptimize = "INTERLACED_OPTIMIZE"
-        public var description: String { return self.rawValue }
-    }
+    public struct S3ServerSideEncryptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H265SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case transitionDetection = "TRANSITION_DETECTION"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265SlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var serverSideEncryptionKms: Self { .init(rawValue: "SERVER_SIDE_ENCRYPTION_KMS") }
+        @inlinable public static var serverSideEncryptionS3: Self { .init(rawValue: "SERVER_SIDE_ENCRYPTION_S3") }
     }
 
-    public enum H265SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct S3StorageClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H265Telecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hard = "HARD"
-        case none = "NONE"
-        case soft = "SOFT"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var deepArchive: Self { .init(rawValue: "DEEP_ARCHIVE") }
+        @inlinable public static var glacier: Self { .init(rawValue: "GLACIER") }
+        @inlinable public static var glacierIr: Self { .init(rawValue: "GLACIER_IR") }
+        @inlinable public static var intelligentTiering: Self { .init(rawValue: "INTELLIGENT_TIERING") }
+        @inlinable public static var onezoneIa: Self { .init(rawValue: "ONEZONE_IA") }
+        @inlinable public static var reducedRedundancy: Self { .init(rawValue: "REDUCED_REDUNDANCY") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
+        @inlinable public static var standardIa: Self { .init(rawValue: "STANDARD_IA") }
     }
 
-    public enum H265TemporalIds: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct SampleRangeConversion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H265TilePadding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case padded = "PADDED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265Tiles: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var limitedRangeClip: Self { .init(rawValue: "LIMITED_RANGE_CLIP") }
+        @inlinable public static var limitedRangeSqueeze: Self { .init(rawValue: "LIMITED_RANGE_SQUEEZE") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum H265TreeBlockSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case treeSize32X32 = "TREE_SIZE_32X32"
-        public var description: String { return self.rawValue }
-    }
+    public struct ScalingBehavior: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum H265UnregisteredSeiTimecode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum H265WriteMp4PackagingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hev1 = "HEV1"
-        case hvc1 = "HVC1"
-        public var description: String { return self.rawValue }
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
+        @inlinable public static var fill: Self { .init(rawValue: "FILL") }
+        @inlinable public static var fit: Self { .init(rawValue: "FIT") }
+        @inlinable public static var fitNoUpscale: Self { .init(rawValue: "FIT_NO_UPSCALE") }
+        @inlinable public static var smartCrop: Self { .init(rawValue: "SMART_CROP") }
+        @inlinable public static var stretchToOutput: Self { .init(rawValue: "STRETCH_TO_OUTPUT") }
     }
 
-    public enum HDRToSDRToneMapper: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case preserveDetails = "PRESERVE_DETAILS"
-        case vibrant = "VIBRANT"
-        public var description: String { return self.rawValue }
-    }
+    public struct SccDestinationFramerate: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Hdr10PlusPresence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case present = "PRESENT"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum HlsAdMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case elemental = "ELEMENTAL"
-        case elementalScte35 = "ELEMENTAL_SCTE35"
-        public var description: String { return self.rawValue }
+        @inlinable public static var framerate2397: Self { .init(rawValue: "FRAMERATE_23_97") }
+        @inlinable public static var framerate24: Self { .init(rawValue: "FRAMERATE_24") }
+        @inlinable public static var framerate25: Self { .init(rawValue: "FRAMERATE_25") }
+        @inlinable public static var framerate2997Dropframe: Self { .init(rawValue: "FRAMERATE_29_97_DROPFRAME") }
+        @inlinable public static var framerate2997NonDropframe: Self { .init(rawValue: "FRAMERATE_29_97_NON_DROPFRAME") }
     }
 
-    public enum HlsAudioOnlyContainer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case automatic = "AUTOMATIC"
-        case m2ts = "M2TS"
-        public var description: String { return self.rawValue }
-    }
+    public struct ShareStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum HlsAudioOnlyHeader: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum HlsAudioTrackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alternateAudioAutoSelect = "ALTERNATE_AUDIO_AUTO_SELECT"
-        case alternateAudioAutoSelectDefault = "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
-        case alternateAudioNotAutoSelect = "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
-        case audioOnlyVariantStream = "AUDIO_ONLY_VARIANT_STREAM"
-        public var description: String { return self.rawValue }
+        @inlinable public static var initiated: Self { .init(rawValue: "INITIATED") }
+        @inlinable public static var notShared: Self { .init(rawValue: "NOT_SHARED") }
+        @inlinable public static var shared: Self { .init(rawValue: "SHARED") }
     }
 
-    public enum HlsCaptionLanguageSetting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case insert = "INSERT"
-        case none = "NONE"
-        case omit = "OMIT"
-        public var description: String { return self.rawValue }
-    }
+    public struct SimulateReservedQueue: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum HlsCaptionSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case largeSegments = "LARGE_SEGMENTS"
-        case matchVideo = "MATCH_VIDEO"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum HlsClientCache: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum HlsCodecSpecification: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rfc4281 = "RFC_4281"
-        case rfc6381 = "RFC_6381"
-        public var description: String { return self.rawValue }
-    }
+    public struct SlowPalPitchCorrection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum HlsDescriptiveVideoServiceFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dontFlag = "DONT_FLAG"
-        case flag = "FLAG"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum HlsDirectoryStructure: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case singleDirectory = "SINGLE_DIRECTORY"
-        case subdirectoryPerStream = "SUBDIRECTORY_PER_STREAM"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum HlsEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes128 = "AES128"
-        case sampleAes = "SAMPLE_AES"
-        public var description: String { return self.rawValue }
-    }
+    public struct SrtStylePassthrough: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum HlsIFrameOnlyManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        case includeAsTs = "INCLUDE_AS_TS"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum HlsImageBasedTrickPlay: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case advanced = "ADVANCED"
-        case none = "NONE"
-        case thumbnail = "THUMBNAIL"
-        case thumbnailAndFullframe = "THUMBNAIL_AND_FULLFRAME"
-        case variants = "VARIANTS"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum HlsInitializationVectorInManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
+    public struct StatusUpdateInterval: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum HlsIntervalCadence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case followCustom = "FOLLOW_CUSTOM"
-        case followIframe = "FOLLOW_IFRAME"
-        case followSegmentation = "FOLLOW_SEGMENTATION"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum HlsKeyProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case speke = "SPEKE"
-        case staticKey = "STATIC_KEY"
-        public var description: String { return self.rawValue }
+        @inlinable public static var seconds10: Self { .init(rawValue: "SECONDS_10") }
+        @inlinable public static var seconds12: Self { .init(rawValue: "SECONDS_12") }
+        @inlinable public static var seconds120: Self { .init(rawValue: "SECONDS_120") }
+        @inlinable public static var seconds15: Self { .init(rawValue: "SECONDS_15") }
+        @inlinable public static var seconds180: Self { .init(rawValue: "SECONDS_180") }
+        @inlinable public static var seconds20: Self { .init(rawValue: "SECONDS_20") }
+        @inlinable public static var seconds240: Self { .init(rawValue: "SECONDS_240") }
+        @inlinable public static var seconds30: Self { .init(rawValue: "SECONDS_30") }
+        @inlinable public static var seconds300: Self { .init(rawValue: "SECONDS_300") }
+        @inlinable public static var seconds360: Self { .init(rawValue: "SECONDS_360") }
+        @inlinable public static var seconds420: Self { .init(rawValue: "SECONDS_420") }
+        @inlinable public static var seconds480: Self { .init(rawValue: "SECONDS_480") }
+        @inlinable public static var seconds540: Self { .init(rawValue: "SECONDS_540") }
+        @inlinable public static var seconds60: Self { .init(rawValue: "SECONDS_60") }
+        @inlinable public static var seconds600: Self { .init(rawValue: "SECONDS_600") }
     }
 
-    public enum HlsManifestCompression: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case gzip = "GZIP"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
+    public struct TamsGapHandling: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum HlsManifestDurationFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case floatingPoint = "FLOATING_POINT"
-        case integer = "INTEGER"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum HlsOfflineEncrypted: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var fillWithBlack: Self { .init(rawValue: "FILL_WITH_BLACK") }
+        @inlinable public static var holdLastFrame: Self { .init(rawValue: "HOLD_LAST_FRAME") }
+        @inlinable public static var skipGaps: Self { .init(rawValue: "SKIP_GAPS") }
     }
 
-    public enum HlsOutputSelection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case manifestsAndSegments = "MANIFESTS_AND_SEGMENTS"
-        case segmentsOnly = "SEGMENTS_ONLY"
-        public var description: String { return self.rawValue }
-    }
+    public struct TeletextPageType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum HlsProgramDateTime: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum HlsProgressiveWriteHlsManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var pageTypeAddlInfo: Self { .init(rawValue: "PAGE_TYPE_ADDL_INFO") }
+        @inlinable public static var pageTypeHearingImpairedSubtitle: Self { .init(rawValue: "PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE") }
+        @inlinable public static var pageTypeInitial: Self { .init(rawValue: "PAGE_TYPE_INITIAL") }
+        @inlinable public static var pageTypeProgramSchedule: Self { .init(rawValue: "PAGE_TYPE_PROGRAM_SCHEDULE") }
+        @inlinable public static var pageTypeSubtitle: Self { .init(rawValue: "PAGE_TYPE_SUBTITLE") }
     }
 
-    public enum HlsSegmentControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case segmentedFiles = "SEGMENTED_FILES"
-        case singleFile = "SINGLE_FILE"
-        public var description: String { return self.rawValue }
-    }
+    public struct TimecodeBurninPosition: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum HlsSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exact = "EXACT"
-        case gopMultiple = "GOP_MULTIPLE"
-        case match = "MATCH"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum HlsStreamInfResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var bottomCenter: Self { .init(rawValue: "BOTTOM_CENTER") }
+        @inlinable public static var bottomLeft: Self { .init(rawValue: "BOTTOM_LEFT") }
+        @inlinable public static var bottomRight: Self { .init(rawValue: "BOTTOM_RIGHT") }
+        @inlinable public static var middleCenter: Self { .init(rawValue: "MIDDLE_CENTER") }
+        @inlinable public static var middleLeft: Self { .init(rawValue: "MIDDLE_LEFT") }
+        @inlinable public static var middleRight: Self { .init(rawValue: "MIDDLE_RIGHT") }
+        @inlinable public static var topCenter: Self { .init(rawValue: "TOP_CENTER") }
+        @inlinable public static var topLeft: Self { .init(rawValue: "TOP_LEFT") }
+        @inlinable public static var topRight: Self { .init(rawValue: "TOP_RIGHT") }
     }
 
-    public enum HlsTargetDurationCompatibilityMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case legacy = "LEGACY"
-        case specCompliant = "SPEC_COMPLIANT"
-        public var description: String { return self.rawValue }
-    }
+    public struct TimecodeSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum HlsTimedMetadataId3Frame: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case priv = "PRIV"
-        case tdrl = "TDRL"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum ImscAccessibilitySubs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var embedded: Self { .init(rawValue: "EMBEDDED") }
+        @inlinable public static var specifiedstart: Self { .init(rawValue: "SPECIFIEDSTART") }
+        @inlinable public static var zerobased: Self { .init(rawValue: "ZEROBASED") }
     }
 
-    public enum ImscStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct TimecodeTrack: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum InputDeblockFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum InputDenoiseFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum InputFilterEnable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case disable = "DISABLE"
-        case force = "FORCE"
-        public var description: String { return self.rawValue }
-    }
+    public struct TimedMetadata: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum InputPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allowed = "ALLOWED"
-        case disallowed = "DISALLOWED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum InputPsiControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ignorePsi = "IGNORE_PSI"
-        case usePsi = "USE_PSI"
-        public var description: String { return self.rawValue }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
     }
 
-    public enum InputRotate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case degree0 = "DEGREE_0"
-        case degrees180 = "DEGREES_180"
-        case degrees270 = "DEGREES_270"
-        case degrees90 = "DEGREES_90"
-        public var description: String { return self.rawValue }
-    }
+    public struct TrackType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum InputSampleRange: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case follow = "FOLLOW"
-        case fullRange = "FULL_RANGE"
-        case limitedRange = "LIMITED_RANGE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum InputScanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case psf = "PSF"
-        public var description: String { return self.rawValue }
+        @inlinable public static var audio: Self { .init(rawValue: "audio") }
+        @inlinable public static var data: Self { .init(rawValue: "data") }
+        @inlinable public static var video: Self { .init(rawValue: "video") }
     }
 
-    public enum InputTimecodeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case embedded = "EMBEDDED"
-        case specifiedstart = "SPECIFIEDSTART"
-        case zerobased = "ZEROBASED"
-        public var description: String { return self.rawValue }
-    }
+    public struct TransferCharacteristics: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum JobPhase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case probing = "PROBING"
-        case transcoding = "TRANSCODING"
-        case uploading = "UPLOADING"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "CANCELED"
-        case complete = "COMPLETE"
-        case error = "ERROR"
-        case progressing = "PROGRESSING"
-        case submitted = "SUBMITTED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var aribB67: Self { .init(rawValue: "ARIB_B67") }
+        @inlinable public static var iec6196621: Self { .init(rawValue: "IEC_61966_2_1") }
+        @inlinable public static var iec6196624: Self { .init(rawValue: "IEC_61966_2_4") }
+        @inlinable public static var itu1361: Self { .init(rawValue: "ITU_1361") }
+        @inlinable public static var itu202010Bit: Self { .init(rawValue: "ITU_2020_10bit") }
+        @inlinable public static var itu202012Bit: Self { .init(rawValue: "ITU_2020_12bit") }
+        @inlinable public static var itu470Bg: Self { .init(rawValue: "ITU_470BG") }
+        @inlinable public static var itu470M: Self { .init(rawValue: "ITU_470M") }
+        @inlinable public static var itu709: Self { .init(rawValue: "ITU_709") }
+        @inlinable public static var last: Self { .init(rawValue: "LAST") }
+        @inlinable public static var linear: Self { .init(rawValue: "LINEAR") }
+        @inlinable public static var loc1025: Self { .init(rawValue: "LOC10_2_5") }
+        @inlinable public static var log102: Self { .init(rawValue: "LOG10_2") }
+        @inlinable public static var reserved: Self { .init(rawValue: "RESERVED") }
+        @inlinable public static var smpte170M: Self { .init(rawValue: "SMPTE_170M") }
+        @inlinable public static var smpte2084: Self { .init(rawValue: "SMPTE_2084") }
+        @inlinable public static var smpte240M: Self { .init(rawValue: "SMPTE_240M") }
+        @inlinable public static var smpte4281: Self { .init(rawValue: "SMPTE_428_1") }
+        @inlinable public static var unspecified: Self { .init(rawValue: "UNSPECIFIED") }
     }
 
-    public enum JobTemplateListBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creationDate = "CREATION_DATE"
-        case name = "NAME"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
-    }
+    public struct TsPtsOffset: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum JobsQueryFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case audioCodec = "audioCodec"
-        case errorCode = "errorCode"
-        case fileInput = "fileInput"
-        case jobEngineVersionRequested = "jobEngineVersionRequested"
-        case jobEngineVersionUsed = "jobEngineVersionUsed"
-        case queue = "queue"
-        case status = "status"
-        case videoCodec = "videoCodec"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum JobsQueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case complete = "COMPLETE"
-        case error = "ERROR"
-        case progressing = "PROGRESSING"
-        case submitted = "SUBMITTED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var milliseconds: Self { .init(rawValue: "MILLISECONDS") }
+        @inlinable public static var seconds: Self { .init(rawValue: "SECONDS") }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aar = "AAR"
-        case abk = "ABK"
-        case afr = "AFR"
-        case aka = "AKA"
-        case amh = "AMH"
-        case ara = "ARA"
-        case arg = "ARG"
-        case asm = "ASM"
-        case ava = "AVA"
-        case ave = "AVE"
-        case aym = "AYM"
-        case aze = "AZE"
-        case bak = "BAK"
-        case bam = "BAM"
-        case bel = "BEL"
-        case ben = "BEN"
-        case bih = "BIH"
-        case bis = "BIS"
-        case bod = "BOD"
-        case bos = "BOS"
-        case bre = "BRE"
-        case bul = "BUL"
-        case cat = "CAT"
-        case ces = "CES"
-        case cha = "CHA"
-        case che = "CHE"
-        case chu = "CHU"
-        case chv = "CHV"
-        case cor = "COR"
-        case cos = "COS"
-        case cre = "CRE"
-        case cym = "CYM"
-        case dan = "DAN"
-        case deu = "DEU"
-        case div = "DIV"
-        case dzo = "DZO"
-        case ell = "ELL"
-        case eng = "ENG"
-        case enm = "ENM"
-        case epo = "EPO"
-        case est = "EST"
-        case eus = "EUS"
-        case ewe = "EWE"
-        case fao = "FAO"
-        case fas = "FAS"
-        case fij = "FIJ"
-        case fin = "FIN"
-        case fra = "FRA"
-        case frm = "FRM"
-        case fry = "FRY"
-        case ful = "FUL"
-        case ger = "GER"
-        case gla = "GLA"
-        case gle = "GLE"
-        case glg = "GLG"
-        case glv = "GLV"
-        case grn = "GRN"
-        case guj = "GUJ"
-        case hat = "HAT"
-        case hau = "HAU"
-        case heb = "HEB"
-        case her = "HER"
-        case hin = "HIN"
-        case hmo = "HMO"
-        case hrv = "HRV"
-        case hun = "HUN"
-        case hye = "HYE"
-        case ibo = "IBO"
-        case ido = "IDO"
-        case iii = "III"
-        case iku = "IKU"
-        case ile = "ILE"
-        case ina = "INA"
-        case ind = "IND"
-        case ipk = "IPK"
-        case isl = "ISL"
-        case ita = "ITA"
-        case jav = "JAV"
-        case jpn = "JPN"
-        case kal = "KAL"
-        case kan = "KAN"
-        case kas = "KAS"
-        case kat = "KAT"
-        case kau = "KAU"
-        case kaz = "KAZ"
-        case khm = "KHM"
-        case kik = "KIK"
-        case kin = "KIN"
-        case kir = "KIR"
-        case kom = "KOM"
-        case kon = "KON"
-        case kor = "KOR"
-        case kua = "KUA"
-        case kur = "KUR"
-        case lao = "LAO"
-        case lat = "LAT"
-        case lav = "LAV"
-        case lim = "LIM"
-        case lin = "LIN"
-        case lit = "LIT"
-        case ltz = "LTZ"
-        case lub = "LUB"
-        case lug = "LUG"
-        case mah = "MAH"
-        case mal = "MAL"
-        case mar = "MAR"
-        case mkd = "MKD"
-        case mlg = "MLG"
-        case mlt = "MLT"
-        case mon = "MON"
-        case mri = "MRI"
-        case msa = "MSA"
-        case mya = "MYA"
-        case nau = "NAU"
-        case nav = "NAV"
-        case nbl = "NBL"
-        case nde = "NDE"
-        case ndo = "NDO"
-        case nep = "NEP"
-        case nld = "NLD"
-        case nno = "NNO"
-        case nob = "NOB"
-        case nor = "NOR"
-        case nya = "NYA"
-        case oci = "OCI"
-        case oji = "OJI"
-        case ori = "ORI"
-        case orj = "ORJ"
-        case orm = "ORM"
-        case oss = "OSS"
-        case pan = "PAN"
-        case pli = "PLI"
-        case pol = "POL"
-        case por = "POR"
-        case pus = "PUS"
-        case qaa = "QAA"
-        case qpc = "QPC"
-        case que = "QUE"
-        case roh = "ROH"
-        case ron = "RON"
-        case run = "RUN"
-        case rus = "RUS"
-        case sag = "SAG"
-        case san = "SAN"
-        case sin = "SIN"
-        case slk = "SLK"
-        case slv = "SLV"
-        case sme = "SME"
-        case smo = "SMO"
-        case sna = "SNA"
-        case snd = "SND"
-        case som = "SOM"
-        case sot = "SOT"
-        case spa = "SPA"
-        case sqi = "SQI"
-        case srb = "SRB"
-        case srd = "SRD"
-        case srp = "SRP"
-        case ssw = "SSW"
-        case sun = "SUN"
-        case swa = "SWA"
-        case swe = "SWE"
-        case tah = "TAH"
-        case tam = "TAM"
-        case tat = "TAT"
-        case tel = "TEL"
-        case tgk = "TGK"
-        case tgl = "TGL"
-        case tha = "THA"
-        case tir = "TIR"
-        case tng = "TNG"
-        case ton = "TON"
-        case tsn = "TSN"
-        case tso = "TSO"
-        case tuk = "TUK"
-        case tur = "TUR"
-        case twi = "TWI"
-        case uig = "UIG"
-        case ukr = "UKR"
-        case urd = "URD"
-        case uzb = "UZB"
-        case ven = "VEN"
-        case vie = "VIE"
-        case vol = "VOL"
-        case wln = "WLN"
-        case wol = "WOL"
-        case xho = "XHO"
-        case yid = "YID"
-        case yor = "YOR"
-        case zha = "ZHA"
-        case zho = "ZHO"
-        case zul = "ZUL"
-        public var description: String { return self.rawValue }
-    }
+    public struct TtmlBackgroundColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum M2tsAudioBufferModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case atsc = "ATSC"
-        case dvb = "DVB"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum M2tsAudioDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
-        case matchVideoDuration = "MATCH_VIDEO_DURATION"
-        public var description: String { return self.rawValue }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var white: Self { .init(rawValue: "WHITE") }
     }
 
-    public enum M2tsBufferModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiplex = "MULTIPLEX"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
+    public struct TtmlFontColor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum M2tsDataPtsControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alignToVideo = "ALIGN_TO_VIDEO"
-        case auto = "AUTO"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum M2tsEbpAudioInterval: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case videoAndFixedIntervals = "VIDEO_AND_FIXED_INTERVALS"
-        case videoInterval = "VIDEO_INTERVAL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var black: Self { .init(rawValue: "BLACK") }
+        @inlinable public static var blue: Self { .init(rawValue: "BLUE") }
+        @inlinable public static var green: Self { .init(rawValue: "GREEN") }
+        @inlinable public static var red: Self { .init(rawValue: "RED") }
+        @inlinable public static var white: Self { .init(rawValue: "WHITE") }
+        @inlinable public static var yellow: Self { .init(rawValue: "YELLOW") }
     }
 
-    public enum M2tsEbpPlacement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case videoAndAudioPids = "VIDEO_AND_AUDIO_PIDS"
-        case videoPid = "VIDEO_PID"
-        public var description: String { return self.rawValue }
-    }
+    public struct TtmlFontStyle: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum M2tsEsRateInPes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum M2tsForceTsVideoEbpOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        case force = "FORCE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var italic: Self { .init(rawValue: "ITALIC") }
+        @inlinable public static var normal: Self { .init(rawValue: "NORMAL") }
     }
 
-    public enum M2tsKlvMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
+    public struct TtmlFontWeight: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum M2tsNielsenId3: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case insert = "INSERT"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum M2tsPcrControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
-        case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
-        public var description: String { return self.rawValue }
+        @inlinable public static var bold: Self { .init(rawValue: "BOLD") }
+        @inlinable public static var normal: Self { .init(rawValue: "NORMAL") }
     }
 
-    public enum M2tsPreventBufferUnderflow: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct TtmlStylePassthrough: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum M2tsRateMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbr = "CBR"
-        case vbr = "VBR"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum M2tsScte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case manifestCues = "MANIFEST_CUES"
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum M2tsSegmentationMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ebp = "EBP"
-        case ebpLegacy = "EBP_LEGACY"
-        case none = "NONE"
-        case psiSegstart = "PSI_SEGSTART"
-        case raiAdapt = "RAI_ADAPT"
-        case raiSegstart = "RAI_SEGSTART"
-        public var description: String { return self.rawValue }
-    }
+    public struct TtmlTextDecoration: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum M2tsSegmentationStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case maintainCadence = "MAINTAIN_CADENCE"
-        case resetCadence = "RESET_CADENCE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum M3u8AudioDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
-        case matchVideoDuration = "MATCH_VIDEO_DURATION"
-        public var description: String { return self.rawValue }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var underline: Self { .init(rawValue: "UNDERLINE") }
     }
 
-    public enum M3u8DataPtsControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alignToVideo = "ALIGN_TO_VIDEO"
-        case auto = "AUTO"
-        public var description: String { return self.rawValue }
-    }
+    public struct UncompressedFourcc: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum M3u8NielsenId3: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case insert = "INSERT"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum M3u8PcrControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case configuredPcrPeriod = "CONFIGURED_PCR_PERIOD"
-        case pcrEveryPesPacket = "PCR_EVERY_PES_PACKET"
-        public var description: String { return self.rawValue }
+        @inlinable public static var i420: Self { .init(rawValue: "I420") }
+        @inlinable public static var i422: Self { .init(rawValue: "I422") }
+        @inlinable public static var i444: Self { .init(rawValue: "I444") }
     }
 
-    public enum M3u8Scte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case manifestCues = "MANIFEST_CUES"
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
+    public struct UncompressedFramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum MatrixCoefficients: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cdCl = "CD_CL"
-        case cdNcl = "CD_NCL"
-        case ebu3213 = "EBU3213"
-        case fcc = "FCC"
-        case ipt = "IPT"
-        case itu2020Cl = "ITU_2020_CL"
-        case itu2020Ncl = "ITU_2020_NCL"
-        case itu2100Ictcp = "ITU_2100ICtCp"
-        case itu470Bg = "ITU_470BG"
-        case itu709 = "ITU_709"
-        case last = "LAST"
-        case reserved = "RESERVED"
-        case rgb = "RGB"
-        case smpte170M = "SMPTE_170M"
-        case smpte2085 = "SMPTE_2085"
-        case smpte240M = "SMPTE_240M"
-        case unspecified = "UNSPECIFIED"
-        case yCgCo = "YCgCo"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum MotionImageInsertionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mov = "MOV"
-        case png = "PNG"
-        public var description: String { return self.rawValue }
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
 
-    public enum MotionImagePlayback: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `repeat` = "REPEAT"
-        case once = "ONCE"
-        public var description: String { return self.rawValue }
-    }
+    public struct UncompressedFramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum MovClapAtom: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum MovCslgAtom: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
     }
 
-    public enum MovMpeg2FourCCControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mpeg = "MPEG"
-        case xdcam = "XDCAM"
-        public var description: String { return self.rawValue }
-    }
+    public struct UncompressedInterlaceMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum MovPaddingControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case omneon = "OMNEON"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum MovReference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case external = "EXTERNAL"
-        case selfContained = "SELF_CONTAINED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var interlaced: Self { .init(rawValue: "INTERLACED") }
+        @inlinable public static var progressive: Self { .init(rawValue: "PROGRESSIVE") }
     }
 
-    public enum Mp2AudioDescriptionMix: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case broadcasterMixedAd = "BROADCASTER_MIXED_AD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
+    public struct UncompressedScanTypeConversionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Mp3RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbr = "CBR"
-        case vbr = "VBR"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Mp4C2paManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var interlaced: Self { .init(rawValue: "INTERLACED") }
+        @inlinable public static var interlacedOptimize: Self { .init(rawValue: "INTERLACED_OPTIMIZE") }
     }
 
-    public enum Mp4CslgAtom: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
+    public struct UncompressedSlowPal: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Mp4FreeSpaceBox: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Mp4MoovPlacement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case normal = "NORMAL"
-        case progressiveDownload = "PROGRESSIVE_DOWNLOAD"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum MpdAccessibilityCaptionHints: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
-    }
+    public struct UncompressedTelecine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum MpdAudioDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
-        case matchVideoDuration = "MATCH_VIDEO_DURATION"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum MpdC2paManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclude = "EXCLUDE"
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var hard: Self { .init(rawValue: "HARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum MpdCaptionContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fragmentedMp4 = "FRAGMENTED_MP4"
-        case raw = "RAW"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vc3Class: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum MpdKlvMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum MpdManifestMetadataSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var class1458Bit: Self { .init(rawValue: "CLASS_145_8BIT") }
+        @inlinable public static var class22010Bit: Self { .init(rawValue: "CLASS_220_10BIT") }
+        @inlinable public static var class2208Bit: Self { .init(rawValue: "CLASS_220_8BIT") }
     }
 
-    public enum MpdScte35Esam: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case insert = "INSERT"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vc3FramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum MpdScte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case manifestCues = "MANIFEST_CUES"
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum MpdTimedMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
 
-    public enum MpdTimedMetadataBoxVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case version0 = "VERSION_0"
-        case version1 = "VERSION_1"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vc3FramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Mpeg2AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "HIGH"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Mpeg2CodecLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case high = "HIGH"
-        case high1440 = "HIGH1440"
-        case low = "LOW"
-        case main = "MAIN"
-        public var description: String { return self.rawValue }
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
     }
 
-    public enum Mpeg2CodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case main = "MAIN"
-        case profile422 = "PROFILE_422"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vc3InterlaceMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Mpeg2DynamicSubGop: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `static` = "STATIC"
-        case adaptive = "ADAPTIVE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Mpeg2FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var interlaced: Self { .init(rawValue: "INTERLACED") }
+        @inlinable public static var progressive: Self { .init(rawValue: "PROGRESSIVE") }
     }
 
-    public enum Mpeg2FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vc3ScanTypeConversionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Mpeg2GopSizeUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case frames = "FRAMES"
-        case seconds = "SECONDS"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Mpeg2InterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bottomField = "BOTTOM_FIELD"
-        case followBottomField = "FOLLOW_BOTTOM_FIELD"
-        case followTopField = "FOLLOW_TOP_FIELD"
-        case progressive = "PROGRESSIVE"
-        case topField = "TOP_FIELD"
-        public var description: String { return self.rawValue }
+        @inlinable public static var interlaced: Self { .init(rawValue: "INTERLACED") }
+        @inlinable public static var interlacedOptimize: Self { .init(rawValue: "INTERLACED_OPTIMIZE") }
     }
 
-    public enum Mpeg2IntraDcPrecision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case intraDcPrecision10 = "INTRA_DC_PRECISION_10"
-        case intraDcPrecision11 = "INTRA_DC_PRECISION_11"
-        case intraDcPrecision8 = "INTRA_DC_PRECISION_8"
-        case intraDcPrecision9 = "INTRA_DC_PRECISION_9"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vc3SlowPal: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Mpeg2ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Mpeg2QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiPass = "MULTI_PASS"
-        case singlePass = "SINGLE_PASS"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum Mpeg2RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbr = "CBR"
-        case vbr = "VBR"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vc3Telecine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Mpeg2ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interlaced = "INTERLACED"
-        case interlacedOptimize = "INTERLACED_OPTIMIZE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Mpeg2SceneChangeDetect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var hard: Self { .init(rawValue: "HARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum Mpeg2SlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct VchipAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Mpeg2SpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Mpeg2Syntax: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        case d10 = "D_10"
-        public var description: String { return self.rawValue }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+        @inlinable public static var strip: Self { .init(rawValue: "STRIP") }
     }
 
-    public enum Mpeg2Telecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hard = "HARD"
-        case none = "NONE"
-        case soft = "SOFT"
-        public var description: String { return self.rawValue }
-    }
+    public struct VideoCodec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Mpeg2TemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum MsSmoothAudioDeduplication: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case combineDuplicateStreams = "COMBINE_DUPLICATE_STREAMS"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var av1: Self { .init(rawValue: "AV1") }
+        @inlinable public static var avcIntra: Self { .init(rawValue: "AVC_INTRA") }
+        @inlinable public static var frameCapture: Self { .init(rawValue: "FRAME_CAPTURE") }
+        @inlinable public static var gif: Self { .init(rawValue: "GIF") }
+        @inlinable public static var h264: Self { .init(rawValue: "H_264") }
+        @inlinable public static var h265: Self { .init(rawValue: "H_265") }
+        @inlinable public static var mpeg2: Self { .init(rawValue: "MPEG2") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+        @inlinable public static var prores: Self { .init(rawValue: "PRORES") }
+        @inlinable public static var uncompressed: Self { .init(rawValue: "UNCOMPRESSED") }
+        @inlinable public static var vc3: Self { .init(rawValue: "VC3") }
+        @inlinable public static var vp8: Self { .init(rawValue: "VP8") }
+        @inlinable public static var vp9: Self { .init(rawValue: "VP9") }
+        @inlinable public static var xavc: Self { .init(rawValue: "XAVC") }
     }
 
-    public enum MsSmoothFragmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exact = "EXACT"
-        case gopMultiple = "GOP_MULTIPLE"
-        public var description: String { return self.rawValue }
-    }
+    public struct VideoOverlayPlayBackMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum MsSmoothManifestEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case utf16 = "UTF16"
-        case utf8 = "UTF8"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum MxfAfdSignaling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case copyFromVideo = "COPY_FROM_VIDEO"
-        case noCopy = "NO_COPY"
-        public var description: String { return self.rawValue }
+        @inlinable public static var `repeat`: Self { .init(rawValue: "REPEAT") }
+        @inlinable public static var once: Self { .init(rawValue: "ONCE") }
     }
 
-    public enum MxfProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case d10 = "D_10"
-        case op1a = "OP1A"
-        case xavc = "XAVC"
-        case xdcam = "XDCAM"
-        case xdcamRdd9 = "XDCAM_RDD9"
-        public var description: String { return self.rawValue }
-    }
+    public struct VideoOverlayUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum MxfUncompressedAudioWrapping: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes3 = "AES3"
-        case auto = "AUTO"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum MxfXavcDurationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allowAnyDuration = "ALLOW_ANY_DURATION"
-        case dropFramesForCompliance = "DROP_FRAMES_FOR_COMPLIANCE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var percentage: Self { .init(rawValue: "PERCENTAGE") }
+        @inlinable public static var pixels: Self { .init(rawValue: "PIXELS") }
     }
 
-    public enum NielsenActiveWatermarkProcessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbet = "CBET"
-        case naes2AndNw = "NAES2_AND_NW"
-        case naes2AndNwAndCbet = "NAES2_AND_NW_AND_CBET"
-        public var description: String { return self.rawValue }
-    }
+    public struct VideoSelectorMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum NielsenSourceWatermarkStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case clean = "CLEAN"
-        case watermarked = "WATERMARKED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum NielsenUniqueTicPerAudioTrackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case reserveUniqueTicsPerTrack = "RESERVE_UNIQUE_TICS_PER_TRACK"
-        case sameTicsPerTrack = "SAME_TICS_PER_TRACK"
-        public var description: String { return self.rawValue }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var remuxAll: Self { .init(rawValue: "REMUX_ALL") }
     }
 
-    public enum NoiseFilterPostTemporalSharpening: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct VideoSelectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum NoiseFilterPostTemporalSharpeningStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "HIGH"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum NoiseReducerFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bilateral = "BILATERAL"
-        case conserve = "CONSERVE"
-        case gaussian = "GAUSSIAN"
-        case lanczos = "LANCZOS"
-        case mean = "MEAN"
-        case sharpen = "SHARPEN"
-        case spatial = "SPATIAL"
-        case temporal = "TEMPORAL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var stream: Self { .init(rawValue: "STREAM") }
     }
 
-    public enum Order: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
-    }
+    public struct VideoTimecodeInsertion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum OutputGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cmafGroupSettings = "CMAF_GROUP_SETTINGS"
-        case dashIsoGroupSettings = "DASH_ISO_GROUP_SETTINGS"
-        case fileGroupSettings = "FILE_GROUP_SETTINGS"
-        case hlsGroupSettings = "HLS_GROUP_SETTINGS"
-        case msSmoothGroupSettings = "MS_SMOOTH_GROUP_SETTINGS"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum OutputSdt: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sdtFollow = "SDT_FOLLOW"
-        case sdtFollowIfPresent = "SDT_FOLLOW_IF_PRESENT"
-        case sdtManual = "SDT_MANUAL"
-        case sdtNone = "SDT_NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var picTimingSei: Self { .init(rawValue: "PIC_TIMING_SEI") }
     }
 
-    public enum PadVideo: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case black = "BLACK"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vp8FramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum PassthroughSegmentationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case durationBased = "DURATION_BASED"
-        case gopCount = "GOP_COUNT"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum PresetListBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creationDate = "CREATION_DATE"
-        case name = "NAME"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
 
-    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case presetAudio1 = "PRESET_AUDIO_1"
-        case presetAudio2 = "PRESET_AUDIO_2"
-        case presetAudio3 = "PRESET_AUDIO_3"
-        case shared = "SHARED"
-        case unencrypted = "UNENCRYPTED"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vp8FramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case presetVideo1 = "PRESET_VIDEO_1"
-        case presetVideo2 = "PRESET_VIDEO_2"
-        case presetVideo3 = "PRESET_VIDEO_3"
-        case presetVideo4 = "PRESET_VIDEO_4"
-        case presetVideo5 = "PRESET_VIDEO_5"
-        case presetVideo6 = "PRESET_VIDEO_6"
-        case presetVideo7 = "PRESET_VIDEO_7"
-        case presetVideo8 = "PRESET_VIDEO_8"
-        case shared = "SHARED"
-        case unencrypted = "UNENCRYPTED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum PricingPlan: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case onDemand = "ON_DEMAND"
-        case reserved = "RESERVED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
     }
 
-    public enum ProresChromaSampling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case preserve444Sampling = "PRESERVE_444_SAMPLING"
-        case subsampleTo422 = "SUBSAMPLE_TO_422"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vp8ParControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum ProresCodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case appleProres422 = "APPLE_PRORES_422"
-        case appleProres422Hq = "APPLE_PRORES_422_HQ"
-        case appleProres422Lt = "APPLE_PRORES_422_LT"
-        case appleProres422Proxy = "APPLE_PRORES_422_PROXY"
-        case appleProres4444 = "APPLE_PRORES_4444"
-        case appleProres4444Xq = "APPLE_PRORES_4444_XQ"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum ProresFramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
 
-    public enum ProresFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vp8QualityTuningLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum ProresInterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bottomField = "BOTTOM_FIELD"
-        case followBottomField = "FOLLOW_BOTTOM_FIELD"
-        case followTopField = "FOLLOW_TOP_FIELD"
-        case progressive = "PROGRESSIVE"
-        case topField = "TOP_FIELD"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum ProresParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var multiPass: Self { .init(rawValue: "MULTI_PASS") }
+        @inlinable public static var multiPassHq: Self { .init(rawValue: "MULTI_PASS_HQ") }
     }
 
-    public enum ProresScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interlaced = "INTERLACED"
-        case interlacedOptimize = "INTERLACED_OPTIMIZE"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vp8RateControlMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum ProresSlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum ProresTelecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hard = "HARD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var vbr: Self { .init(rawValue: "VBR") }
     }
 
-    public enum QueueListBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creationDate = "CREATION_DATE"
-        case name = "NAME"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vp9FramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum QueueStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case paused = "PAUSED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum RemoveRubyReserveAttributes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
 
-    public enum RenewalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case autoRenew = "AUTO_RENEW"
-        case expire = "EXPIRE"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vp9FramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum RequiredFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum ReservationPlanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
     }
 
-    public enum RespondToAfd: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        case respond = "RESPOND"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vp9ParControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allowedRenditions = "ALLOWED_RENDITIONS"
-        case forceIncludeRenditions = "FORCE_INCLUDE_RENDITIONS"
-        case minBottomRenditionSize = "MIN_BOTTOM_RENDITION_SIZE"
-        case minTopRenditionSize = "MIN_TOP_RENDITION_SIZE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum S3ObjectCannedAcl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case authenticatedRead = "AUTHENTICATED_READ"
-        case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
-        case bucketOwnerRead = "BUCKET_OWNER_READ"
-        case publicRead = "PUBLIC_READ"
-        public var description: String { return self.rawValue }
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
 
-    public enum S3ServerSideEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case serverSideEncryptionKms = "SERVER_SIDE_ENCRYPTION_KMS"
-        case serverSideEncryptionS3 = "SERVER_SIDE_ENCRYPTION_S3"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vp9QualityTuningLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum S3StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deepArchive = "DEEP_ARCHIVE"
-        case glacier = "GLACIER"
-        case glacierIr = "GLACIER_IR"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        case onezoneIa = "ONEZONE_IA"
-        case reducedRedundancy = "REDUCED_REDUNDANCY"
-        case standard = "STANDARD"
-        case standardIa = "STANDARD_IA"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum SampleRangeConversion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case limitedRangeClip = "LIMITED_RANGE_CLIP"
-        case limitedRangeSqueeze = "LIMITED_RANGE_SQUEEZE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var multiPass: Self { .init(rawValue: "MULTI_PASS") }
+        @inlinable public static var multiPassHq: Self { .init(rawValue: "MULTI_PASS_HQ") }
     }
 
-    public enum ScalingBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        case fill = "FILL"
-        case fit = "FIT"
-        case fitNoUpscale = "FIT_NO_UPSCALE"
-        case smartCrop = "SMART_CROP"
-        case stretchToOutput = "STRETCH_TO_OUTPUT"
-        public var description: String { return self.rawValue }
-    }
+    public struct Vp9RateControlMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum SccDestinationFramerate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case framerate2397 = "FRAMERATE_23_97"
-        case framerate24 = "FRAMERATE_24"
-        case framerate25 = "FRAMERATE_25"
-        case framerate2997Dropframe = "FRAMERATE_29_97_DROPFRAME"
-        case framerate2997NonDropframe = "FRAMERATE_29_97_NON_DROPFRAME"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initiated = "INITIATED"
-        case notShared = "NOT_SHARED"
-        case shared = "SHARED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var vbr: Self { .init(rawValue: "VBR") }
     }
 
-    public enum SimulateReservedQueue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct WatermarkingStrength: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum SlowPalPitchCorrection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum SrtStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
+        @inlinable public static var lighter: Self { .init(rawValue: "LIGHTER") }
+        @inlinable public static var lightest: Self { .init(rawValue: "LIGHTEST") }
+        @inlinable public static var stronger: Self { .init(rawValue: "STRONGER") }
+        @inlinable public static var strongest: Self { .init(rawValue: "STRONGEST") }
     }
 
-    public enum StatusUpdateInterval: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case seconds10 = "SECONDS_10"
-        case seconds12 = "SECONDS_12"
-        case seconds120 = "SECONDS_120"
-        case seconds15 = "SECONDS_15"
-        case seconds180 = "SECONDS_180"
-        case seconds20 = "SECONDS_20"
-        case seconds240 = "SECONDS_240"
-        case seconds30 = "SECONDS_30"
-        case seconds300 = "SECONDS_300"
-        case seconds360 = "SECONDS_360"
-        case seconds420 = "SECONDS_420"
-        case seconds480 = "SECONDS_480"
-        case seconds540 = "SECONDS_540"
-        case seconds60 = "SECONDS_60"
-        case seconds600 = "SECONDS_600"
-        public var description: String { return self.rawValue }
-    }
+    public struct WavFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum TamsGapHandling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fillWithBlack = "FILL_WITH_BLACK"
-        case holdLastFrame = "HOLD_LAST_FRAME"
-        case skipGaps = "SKIP_GAPS"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum TeletextPageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pageTypeAddlInfo = "PAGE_TYPE_ADDL_INFO"
-        case pageTypeHearingImpairedSubtitle = "PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE"
-        case pageTypeInitial = "PAGE_TYPE_INITIAL"
-        case pageTypeProgramSchedule = "PAGE_TYPE_PROGRAM_SCHEDULE"
-        case pageTypeSubtitle = "PAGE_TYPE_SUBTITLE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var extensible: Self { .init(rawValue: "EXTENSIBLE") }
+        @inlinable public static var rf64: Self { .init(rawValue: "RF64") }
+        @inlinable public static var riff: Self { .init(rawValue: "RIFF") }
     }
 
-    public enum TimecodeBurninPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bottomCenter = "BOTTOM_CENTER"
-        case bottomLeft = "BOTTOM_LEFT"
-        case bottomRight = "BOTTOM_RIGHT"
-        case middleCenter = "MIDDLE_CENTER"
-        case middleLeft = "MIDDLE_LEFT"
-        case middleRight = "MIDDLE_RIGHT"
-        case topCenter = "TOP_CENTER"
-        case topLeft = "TOP_LEFT"
-        case topRight = "TOP_RIGHT"
-        public var description: String { return self.rawValue }
-    }
+    public struct WebvttAccessibilitySubs: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum TimecodeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case embedded = "EMBEDDED"
-        case specifiedstart = "SPECIFIEDSTART"
-        case zerobased = "ZEROBASED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum TimecodeTrack: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum TimedMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        public var description: String { return self.rawValue }
-    }
+    public struct WebvttStylePassthrough: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum TrackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case audio = "audio"
-        case data = "data"
-        case video = "video"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum TransferCharacteristics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aribB67 = "ARIB_B67"
-        case iec6196621 = "IEC_61966_2_1"
-        case iec6196624 = "IEC_61966_2_4"
-        case itu1361 = "ITU_1361"
-        case itu202010Bit = "ITU_2020_10bit"
-        case itu202012Bit = "ITU_2020_12bit"
-        case itu470Bg = "ITU_470BG"
-        case itu470M = "ITU_470M"
-        case itu709 = "ITU_709"
-        case last = "LAST"
-        case linear = "LINEAR"
-        case loc1025 = "LOC10_2_5"
-        case log102 = "LOG10_2"
-        case reserved = "RESERVED"
-        case smpte170M = "SMPTE_170M"
-        case smpte2084 = "SMPTE_2084"
-        case smpte240M = "SMPTE_240M"
-        case smpte4281 = "SMPTE_428_1"
-        case unspecified = "UNSPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var merge: Self { .init(rawValue: "MERGE") }
+        @inlinable public static var strict: Self { .init(rawValue: "STRICT") }
     }
 
-    public enum TsPtsOffset: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case milliseconds = "MILLISECONDS"
-        case seconds = "SECONDS"
-        public var description: String { return self.rawValue }
-    }
+    public struct Xavc4kIntraCbgProfileClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum TtmlBackgroundColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case black = "BLACK"
-        case none = "NONE"
-        case white = "WHITE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum TtmlFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case black = "BLACK"
-        case blue = "BLUE"
-        case green = "GREEN"
-        case red = "RED"
-        case white = "WHITE"
-        case yellow = "YELLOW"
-        public var description: String { return self.rawValue }
+        @inlinable public static var class100: Self { .init(rawValue: "CLASS_100") }
+        @inlinable public static var class300: Self { .init(rawValue: "CLASS_300") }
+        @inlinable public static var class480: Self { .init(rawValue: "CLASS_480") }
     }
 
-    public enum TtmlFontStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case italic = "ITALIC"
-        case normal = "NORMAL"
-        public var description: String { return self.rawValue }
-    }
+    public struct Xavc4kIntraVbrProfileClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum TtmlFontWeight: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bold = "BOLD"
-        case normal = "NORMAL"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum TtmlStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var class100: Self { .init(rawValue: "CLASS_100") }
+        @inlinable public static var class300: Self { .init(rawValue: "CLASS_300") }
+        @inlinable public static var class480: Self { .init(rawValue: "CLASS_480") }
     }
 
-    public enum TtmlTextDecoration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case underline = "UNDERLINE"
-        public var description: String { return self.rawValue }
-    }
+    public struct Xavc4kProfileBitrateClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum UncompressedFourcc: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case i420 = "I420"
-        case i422 = "I422"
-        case i444 = "I444"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum UncompressedFramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var bitrateClass100: Self { .init(rawValue: "BITRATE_CLASS_100") }
+        @inlinable public static var bitrateClass140: Self { .init(rawValue: "BITRATE_CLASS_140") }
+        @inlinable public static var bitrateClass200: Self { .init(rawValue: "BITRATE_CLASS_200") }
     }
 
-    public enum UncompressedFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
-    }
+    public struct Xavc4kProfileCodecProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum UncompressedInterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interlaced = "INTERLACED"
-        case progressive = "PROGRESSIVE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum UncompressedScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interlaced = "INTERLACED"
-        case interlacedOptimize = "INTERLACED_OPTIMIZE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var high422: Self { .init(rawValue: "HIGH_422") }
     }
 
-    public enum UncompressedSlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct Xavc4kProfileQualityTuningLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum UncompressedTelecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hard = "HARD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Vc3Class: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case class1458Bit = "CLASS_145_8BIT"
-        case class22010Bit = "CLASS_220_10BIT"
-        case class2208Bit = "CLASS_220_8BIT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var multiPassHq: Self { .init(rawValue: "MULTI_PASS_HQ") }
+        @inlinable public static var singlePass: Self { .init(rawValue: "SINGLE_PASS") }
+        @inlinable public static var singlePassHq: Self { .init(rawValue: "SINGLE_PASS_HQ") }
     }
 
-    public enum Vc3FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Vc3FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Vc3InterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interlaced = "INTERLACED"
-        case progressive = "PROGRESSIVE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var higher: Self { .init(rawValue: "HIGHER") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var max: Self { .init(rawValue: "MAX") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
     }
 
-    public enum Vc3ScanTypeConversionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interlaced = "INTERLACED"
-        case interlacedOptimize = "INTERLACED_OPTIMIZE"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcEntropyEncoding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Vc3SlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Vc3Telecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hard = "HARD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var cabac: Self { .init(rawValue: "CABAC") }
+        @inlinable public static var cavlc: Self { .init(rawValue: "CAVLC") }
     }
 
-    public enum VchipAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case passthrough = "PASSTHROUGH"
-        case strip = "STRIP"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcFlickerAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum VideoCodec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case av1 = "AV1"
-        case avcIntra = "AVC_INTRA"
-        case frameCapture = "FRAME_CAPTURE"
-        case gif = "GIF"
-        case h264 = "H_264"
-        case h265 = "H_265"
-        case mpeg2 = "MPEG2"
-        case passthrough = "PASSTHROUGH"
-        case prores = "PRORES"
-        case uncompressed = "UNCOMPRESSED"
-        case vc3 = "VC3"
-        case vp8 = "VP8"
-        case vp9 = "VP9"
-        case xavc = "XAVC"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum VideoOverlayPlayBackMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `repeat` = "REPEAT"
-        case once = "ONCE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum VideoOverlayUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case percentage = "PERCENTAGE"
-        case pixels = "PIXELS"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcFramerateControl: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum VideoSelectorMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case remuxAll = "REMUX_ALL"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum VideoSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case stream = "STREAM"
-        public var description: String { return self.rawValue }
+        @inlinable public static var initializeFromSource: Self { .init(rawValue: "INITIALIZE_FROM_SOURCE") }
+        @inlinable public static var specified: Self { .init(rawValue: "SPECIFIED") }
     }
 
-    public enum VideoTimecodeInsertion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case picTimingSei = "PIC_TIMING_SEI"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcFramerateConversionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Vp8FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Vp8FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var duplicateDrop: Self { .init(rawValue: "DUPLICATE_DROP") }
+        @inlinable public static var frameformer: Self { .init(rawValue: "FRAMEFORMER") }
+        @inlinable public static var interpolate: Self { .init(rawValue: "INTERPOLATE") }
+        @inlinable public static var maintainFrameCount: Self { .init(rawValue: "MAINTAIN_FRAME_COUNT") }
     }
 
-    public enum Vp8ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcGopBReference: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Vp8QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiPass = "MULTI_PASS"
-        case multiPassHq = "MULTI_PASS_HQ"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Vp8RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case vbr = "VBR"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum Vp9FramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcHdIntraCbgProfileClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Vp9FramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Vp9ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var class100: Self { .init(rawValue: "CLASS_100") }
+        @inlinable public static var class200: Self { .init(rawValue: "CLASS_200") }
+        @inlinable public static var class50: Self { .init(rawValue: "CLASS_50") }
     }
 
-    public enum Vp9QualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiPass = "MULTI_PASS"
-        case multiPassHq = "MULTI_PASS_HQ"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcHdProfileBitrateClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Vp9RateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case vbr = "VBR"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum WatermarkingStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        case lighter = "LIGHTER"
-        case lightest = "LIGHTEST"
-        case stronger = "STRONGER"
-        case strongest = "STRONGEST"
-        public var description: String { return self.rawValue }
+        @inlinable public static var bitrateClass25: Self { .init(rawValue: "BITRATE_CLASS_25") }
+        @inlinable public static var bitrateClass35: Self { .init(rawValue: "BITRATE_CLASS_35") }
+        @inlinable public static var bitrateClass50: Self { .init(rawValue: "BITRATE_CLASS_50") }
     }
 
-    public enum WavFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case extensible = "EXTENSIBLE"
-        case rf64 = "RF64"
-        case riff = "RIFF"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcHdProfileQualityTuningLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum WebvttAccessibilitySubs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum WebvttStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case merge = "MERGE"
-        case strict = "STRICT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var multiPassHq: Self { .init(rawValue: "MULTI_PASS_HQ") }
+        @inlinable public static var singlePass: Self { .init(rawValue: "SINGLE_PASS") }
+        @inlinable public static var singlePassHq: Self { .init(rawValue: "SINGLE_PASS_HQ") }
     }
 
-    public enum Xavc4kIntraCbgProfileClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case class100 = "CLASS_100"
-        case class300 = "CLASS_300"
-        case class480 = "CLASS_480"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcHdProfileTelecine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Xavc4kIntraVbrProfileClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case class100 = "CLASS_100"
-        case class300 = "CLASS_300"
-        case class480 = "CLASS_480"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum Xavc4kProfileBitrateClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bitrateClass100 = "BITRATE_CLASS_100"
-        case bitrateClass140 = "BITRATE_CLASS_140"
-        case bitrateClass200 = "BITRATE_CLASS_200"
-        public var description: String { return self.rawValue }
+        @inlinable public static var hard: Self { .init(rawValue: "HARD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum Xavc4kProfileCodecProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "HIGH"
-        case high422 = "HIGH_422"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcInterlaceMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Xavc4kProfileQualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiPassHq = "MULTI_PASS_HQ"
-        case singlePass = "SINGLE_PASS"
-        case singlePassHq = "SINGLE_PASS_HQ"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum XavcAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case high = "HIGH"
-        case higher = "HIGHER"
-        case low = "LOW"
-        case max = "MAX"
-        case medium = "MEDIUM"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+        @inlinable public static var bottomField: Self { .init(rawValue: "BOTTOM_FIELD") }
+        @inlinable public static var followBottomField: Self { .init(rawValue: "FOLLOW_BOTTOM_FIELD") }
+        @inlinable public static var followTopField: Self { .init(rawValue: "FOLLOW_TOP_FIELD") }
+        @inlinable public static var progressive: Self { .init(rawValue: "PROGRESSIVE") }
+        @inlinable public static var topField: Self { .init(rawValue: "TOP_FIELD") }
     }
 
-    public enum XavcEntropyEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case cabac = "CABAC"
-        case cavlc = "CAVLC"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcProfile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum XavcFlickerAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum XavcFramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
-        case specified = "SPECIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var xavc4K: Self { .init(rawValue: "XAVC_4K") }
+        @inlinable public static var xavc4KIntraCbg: Self { .init(rawValue: "XAVC_4K_INTRA_CBG") }
+        @inlinable public static var xavc4KIntraVbr: Self { .init(rawValue: "XAVC_4K_INTRA_VBR") }
+        @inlinable public static var xavcHd: Self { .init(rawValue: "XAVC_HD") }
+        @inlinable public static var xavcHdIntraCbg: Self { .init(rawValue: "XAVC_HD_INTRA_CBG") }
     }
 
-    public enum XavcFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateDrop = "DUPLICATE_DROP"
-        case frameformer = "FRAMEFORMER"
-        case interpolate = "INTERPOLATE"
-        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcSlowPal: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum XavcGopBReference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum XavcHdIntraCbgProfileClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case class100 = "CLASS_100"
-        case class200 = "CLASS_200"
-        case class50 = "CLASS_50"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum XavcHdProfileBitrateClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bitrateClass25 = "BITRATE_CLASS_25"
-        case bitrateClass35 = "BITRATE_CLASS_35"
-        case bitrateClass50 = "BITRATE_CLASS_50"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcSpatialAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum XavcHdProfileQualityTuningLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiPassHq = "MULTI_PASS_HQ"
-        case singlePass = "SINGLE_PASS"
-        case singlePassHq = "SINGLE_PASS_HQ"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum XavcHdProfileTelecine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hard = "HARD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum XavcInterlaceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bottomField = "BOTTOM_FIELD"
-        case followBottomField = "FOLLOW_BOTTOM_FIELD"
-        case followTopField = "FOLLOW_TOP_FIELD"
-        case progressive = "PROGRESSIVE"
-        case topField = "TOP_FIELD"
-        public var description: String { return self.rawValue }
-    }
+    public struct XavcTemporalAdaptiveQuantization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum XavcProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case xavc4K = "XAVC_4K"
-        case xavc4KIntraCbg = "XAVC_4K_INTRA_CBG"
-        case xavc4KIntraVbr = "XAVC_4K_INTRA_VBR"
-        case xavcHd = "XAVC_HD"
-        case xavcHdIntraCbg = "XAVC_HD_INTRA_CBG"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum XavcSlowPal: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum XavcSpatialAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+    public struct `Type`: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum XavcTemporalAdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case custom = "CUSTOM"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
+        @inlinable public static var custom: Self { .init(rawValue: "CUSTOM") }
+        @inlinable public static var system: Self { .init(rawValue: "SYSTEM") }
     }
 
     // MARK: Shapes

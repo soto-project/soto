@@ -25,27 +25,39 @@ import Foundation
 extension KinesisAnalytics {
     // MARK: Enums
 
-    public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleting = "DELETING"
-        case ready = "READY"
-        case running = "RUNNING"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct ApplicationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var starting: Self { .init(rawValue: "STARTING") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum InputStartingPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lastStoppedPoint = "LAST_STOPPED_POINT"
-        case now = "NOW"
-        case trimHorizon = "TRIM_HORIZON"
-        public var description: String { return self.rawValue }
+    public struct InputStartingPosition: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lastStoppedPoint: Self { .init(rawValue: "LAST_STOPPED_POINT") }
+        @inlinable public static var now: Self { .init(rawValue: "NOW") }
+        @inlinable public static var trimHorizon: Self { .init(rawValue: "TRIM_HORIZON") }
     }
 
-    public enum RecordFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "CSV"
-        case json = "JSON"
-        public var description: String { return self.rawValue }
+    public struct RecordFormatType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "CSV") }
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
     }
 
     // MARK: Shapes

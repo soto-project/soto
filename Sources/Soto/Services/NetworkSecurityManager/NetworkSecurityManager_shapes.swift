@@ -25,129 +25,197 @@ import Foundation
 extension NetworkSecurityManager {
     // MARK: Enums
 
-    public enum AdminAccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case offboarded = "OFFBOARDED"
-        case onboarded = "ONBOARDED"
-        public var description: String { return self.rawValue }
+    public struct AdminAccountStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var offboarded: Self { .init(rawValue: "OFFBOARDED") }
+        @inlinable public static var onboarded: Self { .init(rawValue: "ONBOARDED") }
     }
 
-    public enum EntityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case disabled = "DISABLED"
-        case draft = "DRAFT"
-        public var description: String { return self.rawValue }
+    public struct EntityStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var draft: Self { .init(rawValue: "DRAFT") }
     }
 
-    public enum EntityStatusFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case disabled = "DISABLED"
-        case draft = "DRAFT"
-        public var description: String { return self.rawValue }
+    public struct EntityStatusFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var draft: Self { .init(rawValue: "DRAFT") }
     }
 
-    public enum ExistingCustomerWebACLResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case noRemediation = "NO_REMEDIATION"
-        case overrideAssociation = "OVERRIDE_ASSOCIATION"
-        case retrofit = "RETROFIT"
-        public var description: String { return self.rawValue }
+    public struct ExistingCustomerWebACLResolution: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var noRemediation: Self { .init(rawValue: "NO_REMEDIATION") }
+        @inlinable public static var overrideAssociation: Self { .init(rawValue: "OVERRIDE_ASSOCIATION") }
+        @inlinable public static var retrofit: Self { .init(rawValue: "RETROFIT") }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dualstack = "dualstack"
-        case dualstackWithoutPublicIpv4 = "dualstack-without-public-ipv4"
-        case ipv4 = "ipv4"
-        public var description: String { return self.rawValue }
+    public struct IpAddressType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dualstack: Self { .init(rawValue: "dualstack") }
+        @inlinable public static var dualstackWithoutPublicIpv4: Self { .init(rawValue: "dualstack-without-public-ipv4") }
+        @inlinable public static var ipv4: Self { .init(rawValue: "ipv4") }
     }
 
-    public enum PolicyFirewallType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case shieldAdvanced = "SHIELD_ADVANCED"
-        case waf = "WAF"
-        public var description: String { return self.rawValue }
+    public struct PolicyFirewallType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var shieldAdvanced: Self { .init(rawValue: "SHIELD_ADVANCED") }
+        @inlinable public static var waf: Self { .init(rawValue: "WAF") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alb = "AWS::ElasticLoadBalancingV2::LoadBalancer::application"
-        case apigw = "AWS::ApiGateway::Stage"
-        case cfd = "AWS::CloudFront::Distribution"
-        case clb = "AWS::ElasticLoadBalancing::LoadBalancer"
-        case eip = "AWS::EC2::EIP"
-        case shieldProtection = "AWS::Shield::Protection"
-        case shieldregionalProtection = "AWS::ShieldRegional::Protection"
-        case wafV2Webacl = "AWS::WAFv2::WebACL"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alb: Self { .init(rawValue: "AWS::ElasticLoadBalancingV2::LoadBalancer::application") }
+        @inlinable public static var apigw: Self { .init(rawValue: "AWS::ApiGateway::Stage") }
+        @inlinable public static var cfd: Self { .init(rawValue: "AWS::CloudFront::Distribution") }
+        @inlinable public static var clb: Self { .init(rawValue: "AWS::ElasticLoadBalancing::LoadBalancer") }
+        @inlinable public static var eip: Self { .init(rawValue: "AWS::EC2::EIP") }
+        @inlinable public static var shieldProtection: Self { .init(rawValue: "AWS::Shield::Protection") }
+        @inlinable public static var shieldregionalProtection: Self { .init(rawValue: "AWS::ShieldRegional::Protection") }
+        @inlinable public static var wafV2Webacl: Self { .init(rawValue: "AWS::WAFv2::WebACL") }
     }
 
-    public enum RuleFirewallType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case waf = "WAF"
-        public var description: String { return self.rawValue }
+    public struct RuleFirewallType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var waf: Self { .init(rawValue: "WAF") }
     }
 
-    public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case configuration = "CONFIGURATION"
-        case inspection = "INSPECTION"
-        public var description: String { return self.rawValue }
+    public struct RuleType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var configuration: Self { .init(rawValue: "CONFIGURATION") }
+        @inlinable public static var inspection: Self { .init(rawValue: "INSPECTION") }
     }
 
-    public enum Scheme: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `internal` = "internal"
-        case internetFacing = "internet-facing"
-        public var description: String { return self.rawValue }
+    public struct Scheme: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `internal`: Self { .init(rawValue: "internal") }
+        @inlinable public static var internetFacing: Self { .init(rawValue: "internet-facing") }
     }
 
-    public enum ScopeResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alb = "AWS::ElasticLoadBalancingV2::LoadBalancer::application"
-        case apigw = "AWS::ApiGateway::Stage"
-        case cfd = "AWS::CloudFront::Distribution"
-        case clb = "AWS::ElasticLoadBalancing::LoadBalancer"
-        case eip = "AWS::EC2::EIP"
-        public var description: String { return self.rawValue }
+    public struct ScopeResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alb: Self { .init(rawValue: "AWS::ElasticLoadBalancingV2::LoadBalancer::application") }
+        @inlinable public static var apigw: Self { .init(rawValue: "AWS::ApiGateway::Stage") }
+        @inlinable public static var cfd: Self { .init(rawValue: "AWS::CloudFront::Distribution") }
+        @inlinable public static var clb: Self { .init(rawValue: "AWS::ElasticLoadBalancing::LoadBalancer") }
+        @inlinable public static var eip: Self { .init(rawValue: "AWS::EC2::EIP") }
     }
 
-    public enum ServiceResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deployment = "Deployment"
-        case policy = "Policy"
-        case rule = "Rule"
-        case scope = "Scope"
-        case template = "Template"
-        public var description: String { return self.rawValue }
+    public struct ServiceResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deployment: Self { .init(rawValue: "Deployment") }
+        @inlinable public static var policy: Self { .init(rawValue: "Policy") }
+        @inlinable public static var rule: Self { .init(rawValue: "Rule") }
+        @inlinable public static var scope: Self { .init(rawValue: "Scope") }
+        @inlinable public static var template: Self { .init(rawValue: "Template") }
     }
 
-    public enum SynchronizationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inSync = "IN_SYNC"
-        case notApplicable = "NOT_APPLICABLE"
-        case outOfSync = "OUT_OF_SYNC"
-        public var description: String { return self.rawValue }
+    public struct SynchronizationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inSync: Self { .init(rawValue: "IN_SYNC") }
+        @inlinable public static var notApplicable: Self { .init(rawValue: "NOT_APPLICABLE") }
+        @inlinable public static var outOfSync: Self { .init(rawValue: "OUT_OF_SYNC") }
     }
 
-    public enum TemplateFirewallType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case waf = "WAF"
-        public var description: String { return self.rawValue }
+    public struct TemplateFirewallType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var waf: Self { .init(rawValue: "WAF") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountNotOnboarded = "ACCOUNT_NOT_ONBOARDED"
-        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountNotOnboarded: Self { .init(rawValue: "ACCOUNT_NOT_ONBOARDED") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FIELD_VALIDATION_FAILED") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
     }
 
-    public enum WAFConfigDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case associationConfig = "AssociationConfig"
-        case captchaConfig = "CaptchaConfig"
-        case challengeConfig = "ChallengeConfig"
-        case customResponseBodies = "CustomResponseBodies"
-        case dataProtectionConfig = "DataProtectionConfig"
-        case defaultAction = "DefaultAction"
-        case loggingConfiguration = "LoggingConfiguration"
-        case onSourceDdosProtectionConfig = "OnSourceDDoSProtectionConfig"
-        case tokenDomains = "TokenDomains"
-        case visibilityConfig = "VisibilityConfig"
-        public var description: String { return self.rawValue }
+    public struct WAFConfigDataType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var associationConfig: Self { .init(rawValue: "AssociationConfig") }
+        @inlinable public static var captchaConfig: Self { .init(rawValue: "CaptchaConfig") }
+        @inlinable public static var challengeConfig: Self { .init(rawValue: "ChallengeConfig") }
+        @inlinable public static var customResponseBodies: Self { .init(rawValue: "CustomResponseBodies") }
+        @inlinable public static var dataProtectionConfig: Self { .init(rawValue: "DataProtectionConfig") }
+        @inlinable public static var defaultAction: Self { .init(rawValue: "DefaultAction") }
+        @inlinable public static var loggingConfiguration: Self { .init(rawValue: "LoggingConfiguration") }
+        @inlinable public static var onSourceDdosProtectionConfig: Self { .init(rawValue: "OnSourceDDoSProtectionConfig") }
+        @inlinable public static var tokenDomains: Self { .init(rawValue: "TokenDomains") }
+        @inlinable public static var visibilityConfig: Self { .init(rawValue: "VisibilityConfig") }
     }
 
-    public enum WAFConflictResolutionOptions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mergeWhereApplicable = "MERGE_WHERE_APPLICABLE"
-        public var description: String { return self.rawValue }
+    public struct WAFConflictResolutionOptions: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mergeWhereApplicable: Self { .init(rawValue: "MERGE_WHERE_APPLICABLE") }
     }
 
     public enum AccountFilter: AWSEncodableShape & AWSDecodableShape, Sendable {

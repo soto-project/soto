@@ -25,73 +25,109 @@ import Foundation
 extension EBS {
     // MARK: Enums
 
-    public enum AccessDeniedExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dependencyAccessDenied = "DEPENDENCY_ACCESS_DENIED"
-        case unauthorizedAccount = "UNAUTHORIZED_ACCOUNT"
-        public var description: String { return self.rawValue }
+    public struct AccessDeniedExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dependencyAccessDenied: Self { .init(rawValue: "DEPENDENCY_ACCESS_DENIED") }
+        @inlinable public static var unauthorizedAccount: Self { .init(rawValue: "UNAUTHORIZED_ACCOUNT") }
     }
 
-    public enum ChecksumAggregationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case checksumAggregationLinear = "LINEAR"
-        public var description: String { return self.rawValue }
+    public struct ChecksumAggregationMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var checksumAggregationLinear: Self { .init(rawValue: "LINEAR") }
     }
 
-    public enum ChecksumAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case checksumAlgorithmSha256 = "SHA256"
-        public var description: String { return self.rawValue }
+    public struct ChecksumAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var checksumAlgorithmSha256: Self { .init(rawValue: "SHA256") }
     }
 
-    public enum RequestThrottledExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountThrottled = "ACCOUNT_THROTTLED"
-        case dependencyRequestThrottled = "DEPENDENCY_REQUEST_THROTTLED"
-        case resourceLevelThrottle = "RESOURCE_LEVEL_THROTTLE"
-        public var description: String { return self.rawValue }
+    public struct RequestThrottledExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountThrottled: Self { .init(rawValue: "ACCOUNT_THROTTLED") }
+        @inlinable public static var dependencyRequestThrottled: Self { .init(rawValue: "DEPENDENCY_REQUEST_THROTTLED") }
+        @inlinable public static var resourceLevelThrottle: Self { .init(rawValue: "RESOURCE_LEVEL_THROTTLE") }
     }
 
-    public enum ResourceNotFoundExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dependencyResourceNotFound = "DEPENDENCY_RESOURCE_NOT_FOUND"
-        case grantNotFound = "GRANT_NOT_FOUND"
-        case imageNotFound = "IMAGE_NOT_FOUND"
-        case snapshotNotFound = "SNAPSHOT_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct ResourceNotFoundExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dependencyResourceNotFound: Self { .init(rawValue: "DEPENDENCY_RESOURCE_NOT_FOUND") }
+        @inlinable public static var grantNotFound: Self { .init(rawValue: "GRANT_NOT_FOUND") }
+        @inlinable public static var imageNotFound: Self { .init(rawValue: "IMAGE_NOT_FOUND") }
+        @inlinable public static var snapshotNotFound: Self { .init(rawValue: "SNAPSHOT_NOT_FOUND") }
     }
 
-    public enum SSEType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "none"
-        case sseEbs = "sse-ebs"
-        case sseKms = "sse-kms"
-        public var description: String { return self.rawValue }
+    public struct SSEType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "none") }
+        @inlinable public static var sseEbs: Self { .init(rawValue: "sse-ebs") }
+        @inlinable public static var sseKms: Self { .init(rawValue: "sse-kms") }
     }
 
-    public enum ServiceQuotaExceededExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dependencyServiceQuotaExceeded = "DEPENDENCY_SERVICE_QUOTA_EXCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ServiceQuotaExceededExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dependencyServiceQuotaExceeded: Self { .init(rawValue: "DEPENDENCY_SERVICE_QUOTA_EXCEEDED") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "completed"
-        case error = "error"
-        case pending = "pending"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "completed") }
+        @inlinable public static var error: Self { .init(rawValue: "error") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case conflictingBlockUpdate = "CONFLICTING_BLOCK_UPDATE"
-        case invalidBlock = "INVALID_BLOCK"
-        case invalidBlockToken = "INVALID_BLOCK_TOKEN"
-        case invalidContentEncoding = "INVALID_CONTENT_ENCODING"
-        case invalidCustomerKey = "INVALID_CUSTOMER_KEY"
-        case invalidDependencyRequest = "INVALID_DEPENDENCY_REQUEST"
-        case invalidGrantToken = "INVALID_GRANT_TOKEN"
-        case invalidImageId = "INVALID_IMAGE_ID"
-        case invalidPageToken = "INVALID_PAGE_TOKEN"
-        case invalidParameterValue = "INVALID_PARAMETER_VALUE"
-        case invalidSnapshotId = "INVALID_SNAPSHOT_ID"
-        case invalidTag = "INVALID_TAG"
-        case invalidVolumeSize = "INVALID_VOLUME_SIZE"
-        case unrelatedSnapshots = "UNRELATED_SNAPSHOTS"
-        case writeRequestTimeout = "WRITE_REQUEST_TIMEOUT"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var conflictingBlockUpdate: Self { .init(rawValue: "CONFLICTING_BLOCK_UPDATE") }
+        @inlinable public static var invalidBlock: Self { .init(rawValue: "INVALID_BLOCK") }
+        @inlinable public static var invalidBlockToken: Self { .init(rawValue: "INVALID_BLOCK_TOKEN") }
+        @inlinable public static var invalidContentEncoding: Self { .init(rawValue: "INVALID_CONTENT_ENCODING") }
+        @inlinable public static var invalidCustomerKey: Self { .init(rawValue: "INVALID_CUSTOMER_KEY") }
+        @inlinable public static var invalidDependencyRequest: Self { .init(rawValue: "INVALID_DEPENDENCY_REQUEST") }
+        @inlinable public static var invalidGrantToken: Self { .init(rawValue: "INVALID_GRANT_TOKEN") }
+        @inlinable public static var invalidImageId: Self { .init(rawValue: "INVALID_IMAGE_ID") }
+        @inlinable public static var invalidPageToken: Self { .init(rawValue: "INVALID_PAGE_TOKEN") }
+        @inlinable public static var invalidParameterValue: Self { .init(rawValue: "INVALID_PARAMETER_VALUE") }
+        @inlinable public static var invalidSnapshotId: Self { .init(rawValue: "INVALID_SNAPSHOT_ID") }
+        @inlinable public static var invalidTag: Self { .init(rawValue: "INVALID_TAG") }
+        @inlinable public static var invalidVolumeSize: Self { .init(rawValue: "INVALID_VOLUME_SIZE") }
+        @inlinable public static var unrelatedSnapshots: Self { .init(rawValue: "UNRELATED_SNAPSHOTS") }
+        @inlinable public static var writeRequestTimeout: Self { .init(rawValue: "WRITE_REQUEST_TIMEOUT") }
     }
 
     // MARK: Shapes

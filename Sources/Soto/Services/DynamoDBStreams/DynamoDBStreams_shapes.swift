@@ -25,46 +25,70 @@ import Foundation
 extension DynamoDBStreams {
     // MARK: Enums
 
-    public enum KeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hash = "HASH"
-        case range = "RANGE"
-        public var description: String { return self.rawValue }
+    public struct KeyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hash: Self { .init(rawValue: "HASH") }
+        @inlinable public static var range: Self { .init(rawValue: "RANGE") }
     }
 
-    public enum OperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case insert = "INSERT"
-        case modify = "MODIFY"
-        case remove = "REMOVE"
-        public var description: String { return self.rawValue }
+    public struct OperationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var insert: Self { .init(rawValue: "INSERT") }
+        @inlinable public static var modify: Self { .init(rawValue: "MODIFY") }
+        @inlinable public static var remove: Self { .init(rawValue: "REMOVE") }
     }
 
-    public enum ShardFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case childShards = "CHILD_SHARDS"
-        public var description: String { return self.rawValue }
+    public struct ShardFilterType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var childShards: Self { .init(rawValue: "CHILD_SHARDS") }
     }
 
-    public enum ShardIteratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
-        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
-        case latest = "LATEST"
-        case trimHorizon = "TRIM_HORIZON"
-        public var description: String { return self.rawValue }
+    public struct ShardIteratorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afterSequenceNumber: Self { .init(rawValue: "AFTER_SEQUENCE_NUMBER") }
+        @inlinable public static var atSequenceNumber: Self { .init(rawValue: "AT_SEQUENCE_NUMBER") }
+        @inlinable public static var latest: Self { .init(rawValue: "LATEST") }
+        @inlinable public static var trimHorizon: Self { .init(rawValue: "TRIM_HORIZON") }
     }
 
-    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case disabling = "DISABLING"
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
-        public var description: String { return self.rawValue }
+    public struct StreamStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var disabling: Self { .init(rawValue: "DISABLING") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var enabling: Self { .init(rawValue: "ENABLING") }
     }
 
-    public enum StreamViewType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case keysOnly = "KEYS_ONLY"
-        case newAndOldImages = "NEW_AND_OLD_IMAGES"
-        case newImage = "NEW_IMAGE"
-        case oldImage = "OLD_IMAGE"
-        public var description: String { return self.rawValue }
+    public struct StreamViewType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var keysOnly: Self { .init(rawValue: "KEYS_ONLY") }
+        @inlinable public static var newAndOldImages: Self { .init(rawValue: "NEW_AND_OLD_IMAGES") }
+        @inlinable public static var newImage: Self { .init(rawValue: "NEW_IMAGE") }
+        @inlinable public static var oldImage: Self { .init(rawValue: "OLD_IMAGE") }
     }
 
     public enum AttributeValue: AWSDecodableShape, Sendable {

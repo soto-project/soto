@@ -25,51 +25,79 @@ import Foundation
 extension DAX {
     // MARK: Enums
 
-    public enum ChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case immediate = "IMMEDIATE"
-        case requiresReboot = "REQUIRES_REBOOT"
-        public var description: String { return self.rawValue }
+    public struct ChangeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var immediate: Self { .init(rawValue: "IMMEDIATE") }
+        @inlinable public static var requiresReboot: Self { .init(rawValue: "REQUIRES_REBOOT") }
     }
 
-    public enum ClusterEndpointEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case tls = "TLS"
-        public var description: String { return self.rawValue }
+    public struct ClusterEndpointEncryptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var tls: Self { .init(rawValue: "TLS") }
     }
 
-    public enum IsModifiable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `false` = "FALSE"
-        case `true` = "TRUE"
-        case conditional = "CONDITIONAL"
-        public var description: String { return self.rawValue }
+    public struct IsModifiable: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `false`: Self { .init(rawValue: "FALSE") }
+        @inlinable public static var `true`: Self { .init(rawValue: "TRUE") }
+        @inlinable public static var conditional: Self { .init(rawValue: "CONDITIONAL") }
     }
 
-    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dualStack = "dual_stack"
-        case ipv4 = "ipv4"
-        case ipv6 = "ipv6"
-        public var description: String { return self.rawValue }
+    public struct NetworkType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dualStack: Self { .init(rawValue: "dual_stack") }
+        @inlinable public static var ipv4: Self { .init(rawValue: "ipv4") }
+        @inlinable public static var ipv6: Self { .init(rawValue: "ipv6") }
     }
 
-    public enum ParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        case nodeTypeSpecific = "NODE_TYPE_SPECIFIC"
-        public var description: String { return self.rawValue }
+    public struct ParameterType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
+        @inlinable public static var nodeTypeSpecific: Self { .init(rawValue: "NODE_TYPE_SPECIFIC") }
     }
 
-    public enum SSEStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case disabling = "DISABLING"
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
-        public var description: String { return self.rawValue }
+    public struct SSEStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var disabling: Self { .init(rawValue: "DISABLING") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var enabling: Self { .init(rawValue: "ENABLING") }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cluster = "CLUSTER"
-        case parameterGroup = "PARAMETER_GROUP"
-        case subnetGroup = "SUBNET_GROUP"
-        public var description: String { return self.rawValue }
+    public struct SourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cluster: Self { .init(rawValue: "CLUSTER") }
+        @inlinable public static var parameterGroup: Self { .init(rawValue: "PARAMETER_GROUP") }
+        @inlinable public static var subnetGroup: Self { .init(rawValue: "SUBNET_GROUP") }
     }
 
     // MARK: Shapes

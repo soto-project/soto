@@ -25,193 +25,265 @@ import Foundation
 extension Notifications {
     // MARK: Enums
 
-    public enum AccessStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct AccessStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum AccountContactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct AccountContactType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         ///     Alternate Billing Contact managed by AWS Account Management Service.
-        case accountAlternateBilling = "ACCOUNT_ALTERNATE_BILLING"
+        @inlinable public static var accountAlternateBilling: Self { .init(rawValue: "ACCOUNT_ALTERNATE_BILLING") }
         ///     Alternate Operations Contact managed by AWS Account Management Service.
-        case accountAlternateOperations = "ACCOUNT_ALTERNATE_OPERATIONS"
+        @inlinable public static var accountAlternateOperations: Self { .init(rawValue: "ACCOUNT_ALTERNATE_OPERATIONS") }
         ///     Alternate Security Contact managed by AWS Account Management Service.
-        case accountAlternateSecurity = "ACCOUNT_ALTERNATE_SECURITY"
+        @inlinable public static var accountAlternateSecurity: Self { .init(rawValue: "ACCOUNT_ALTERNATE_SECURITY") }
         ///     Primary Contact managed by AWS Account Management Service.
-        case accountPrimary = "ACCOUNT_PRIMARY"
-        public var description: String { return self.rawValue }
+        @inlinable public static var accountPrimary: Self { .init(rawValue: "ACCOUNT_PRIMARY") }
     }
 
-    public enum AggregationDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct AggregationDuration: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Aggregate notifications for long periods of time (12 hours)
-        case long = "LONG"
+        @inlinable public static var long: Self { .init(rawValue: "LONG") }
         /// Do not aggregate notifications sourced from a notification configuration
-        case none = "NONE"
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
         /// Aggregate notifications for short periods of time (5 mins)
-        case short = "SHORT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var short: Self { .init(rawValue: "SHORT") }
     }
 
-    public enum AggregationEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aggregate = "AGGREGATE"
-        case child = "CHILD"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct AggregationEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aggregate: Self { .init(rawValue: "AGGREGATE") }
+        @inlinable public static var child: Self { .init(rawValue: "CHILD") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum ChannelAssociationOverrideOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ChannelAssociationOverrideOption: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         ///     AWS User Notification service users can not associate or disassociate a Channel with a notification configuration.
-        case disabled = "DISABLED"
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
         ///     AWS User Notification service users can associate or disassociate a Channel with a notification configuration.
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ChannelType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// User Notification Service sends notifications to Account Managed contacts.
-        case accountContact = "ACCOUNT_CONTACT"
+        @inlinable public static var accountContact: Self { .init(rawValue: "ACCOUNT_CONTACT") }
         /// Chatbot sends notifications to group platforms, like Slack or Chime. Link:https://aws.amazon.com/chatbot/
-        case chatbot = "CHATBOT"
+        @inlinable public static var chatbot: Self { .init(rawValue: "CHATBOT") }
         /// Email sends notifications to email addresses.
-        case email = "EMAIL"
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
         /// AWS Console Mobile App sends notifications to mobile devices. Link:https://aws.amazon.com/console/mobile/
-        case mobile = "MOBILE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var mobile: Self { .init(rawValue: "MOBILE") }
     }
 
-    public enum EventRuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct EventRuleStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// EventRule is processing events. Any call can be executed.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// This EventRule is being created. Only GET/LIST calls can be executed.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// This EventRule is being deleted. Only GET/LIST calls can be executed.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// EventRule is in a bad state and may not be processing events. Any call can be executed.
-        case inactive = "INACTIVE"
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
         /// This EventRule is being updated. Only GET/LIST calls can be executed.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum EventStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        public var description: String { return self.rawValue }
+    public struct EventStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var healthy: Self { .init(rawValue: "HEALTHY") }
+        @inlinable public static var unhealthy: Self { .init(rawValue: "UNHEALTHY") }
     }
 
-    public enum LocaleCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct LocaleCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// German (Germany)
-        case deDE = "de_DE"
+        @inlinable public static var deDE: Self { .init(rawValue: "de_DE") }
         /// English (Canada)
-        case enCA = "en_CA"
+        @inlinable public static var enCA: Self { .init(rawValue: "en_CA") }
         /// English (United Kingdom)
-        case enUK = "en_UK"
+        @inlinable public static var enUK: Self { .init(rawValue: "en_UK") }
         /// English (United States). This is the default locale.
-        case enUS = "en_US"
+        @inlinable public static var enUS: Self { .init(rawValue: "en_US") }
         /// Spanish (Spain)
-        case esES = "es_ES"
+        @inlinable public static var esES: Self { .init(rawValue: "es_ES") }
         /// French (Canada)
-        case frCA = "fr_CA"
+        @inlinable public static var frCA: Self { .init(rawValue: "fr_CA") }
         /// French (France)
-        case frFR = "fr_FR"
+        @inlinable public static var frFR: Self { .init(rawValue: "fr_FR") }
         /// Bahasa Indonesian (Indonesia)
-        case idID = "id_ID"
+        @inlinable public static var idID: Self { .init(rawValue: "id_ID") }
         /// Italian (Italy)
-        case itIT = "it_IT"
+        @inlinable public static var itIT: Self { .init(rawValue: "it_IT") }
         /// Japanese (Japan)
-        case jaJP = "ja_JP"
+        @inlinable public static var jaJP: Self { .init(rawValue: "ja_JP") }
         /// Korean (Korea)
-        case koKR = "ko_KR"
+        @inlinable public static var koKR: Self { .init(rawValue: "ko_KR") }
         /// Portuguese (Brazil)
-        case ptBR = "pt_BR"
+        @inlinable public static var ptBR: Self { .init(rawValue: "pt_BR") }
         /// Turkish (Turkey)
-        case trTR = "tr_TR"
+        @inlinable public static var trTR: Self { .init(rawValue: "tr_TR") }
         /// Chinese (China)
-        case zhCN = "zh_CN"
+        @inlinable public static var zhCN: Self { .init(rawValue: "zh_CN") }
         /// Chinese (Taiwan)
-        case zhTW = "zh_TW"
-        public var description: String { return self.rawValue }
+        @inlinable public static var zhTW: Self { .init(rawValue: "zh_TW") }
     }
 
-    public enum MediaElementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case image = "IMAGE"
-        public var description: String { return self.rawValue }
+    public struct MediaElementType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var image: Self { .init(rawValue: "IMAGE") }
     }
 
-    public enum MemberAccountNotificationConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct MemberAccountNotificationConfigurationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The member account Notification Configuration status is ACTIVE.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// The member account Notification Configuration status is CREATING.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// The member account Notification Configuration status is DELETING.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// The member account Notification Configuration status is INACTIVE.
-        case inactive = "INACTIVE"
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
         /// The member account Notification Configuration status is PENDING.
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum NotificationConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct NotificationConfigurationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// All of the EventRules are in ACTIVE Status. Any call can be executed.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// This NotificationConfiguration is being deleted. Only GET/LIST calls can be executed.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// All of the EventRules are in INACTIVE Status. Any call can be executed.
-        case inactive = "INACTIVE"
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
         /// Some EventRules are in ACTIVE Status and some are INACTIVE. Any call can be executed.
-        case partiallyActive = "PARTIALLY_ACTIVE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var partiallyActive: Self { .init(rawValue: "PARTIALLY_ACTIVE") }
     }
 
-    public enum NotificationConfigurationSubtype: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct NotificationConfigurationSubtype: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Notification configuration created by the account
-        case account = "ACCOUNT"
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
         /// Notification configuration managed by an administrator account
-        case adminManaged = "ADMIN_MANAGED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var adminManaged: Self { .init(rawValue: "ADMIN_MANAGED") }
     }
 
-    public enum NotificationHubStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct NotificationHubStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Incoming Notification Events are being replicated to this Notification Hub. A Notification Hub with this status can be deregistered.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Notification Hub is being deleted. Cannot register a Notification Hub in the same region as one in this status.
-        case deregistering = "DEREGISTERING"
+        @inlinable public static var deregistering: Self { .init(rawValue: "DEREGISTERING") }
         /// Notification Hub is in a failure state. Incoming Notification Events are not being replicated to this Hub.
-        case inactive = "INACTIVE"
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
         /// Notification Hub is initializing. Cannot deregister a Notification Hub in this status.
-        case registering = "REGISTERING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var registering: Self { .init(rawValue: "REGISTERING") }
     }
 
-    public enum NotificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alert = "ALERT"
-        case announcement = "ANNOUNCEMENT"
-        case informational = "INFORMATIONAL"
-        case warning = "WARNING"
-        public var description: String { return self.rawValue }
+    public struct NotificationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alert: Self { .init(rawValue: "ALERT") }
+        @inlinable public static var announcement: Self { .init(rawValue: "ANNOUNCEMENT") }
+        @inlinable public static var informational: Self { .init(rawValue: "INFORMATIONAL") }
+        @inlinable public static var warning: Self { .init(rawValue: "WARNING") }
     }
 
-    public enum SchemaVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case v10 = "v1.0"
-        public var description: String { return self.rawValue }
+    public struct SchemaVersion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var v10: Self { .init(rawValue: "v1.0") }
     }
 
-    public enum TextPartType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case localizedText = "LOCALIZED_TEXT"
-        case plainText = "PLAIN_TEXT"
-        case portableText = "PORTABLE_TEXT"
-        case url = "URL"
-        public var description: String { return self.rawValue }
+    public struct TextPartType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var localizedText: Self { .init(rawValue: "LOCALIZED_TEXT") }
+        @inlinable public static var plainText: Self { .init(rawValue: "PLAIN_TEXT") }
+        @inlinable public static var portableText: Self { .init(rawValue: "PORTABLE_TEXT") }
+        @inlinable public static var url: Self { .init(rawValue: "URL") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fieldValidationFailed = "fieldValidationFailed"
-        case other = "other"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
     }
 
     // MARK: Shapes

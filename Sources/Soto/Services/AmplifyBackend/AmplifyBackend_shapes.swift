@@ -25,127 +25,191 @@ import Foundation
 extension AmplifyBackend {
     // MARK: Enums
 
-    public enum AdditionalConstraintsElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case requireDigit = "REQUIRE_DIGIT"
-        case requireLowercase = "REQUIRE_LOWERCASE"
-        case requireSymbol = "REQUIRE_SYMBOL"
-        case requireUppercase = "REQUIRE_UPPERCASE"
-        public var description: String { return self.rawValue }
+    public struct AdditionalConstraintsElement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var requireDigit: Self { .init(rawValue: "REQUIRE_DIGIT") }
+        @inlinable public static var requireLowercase: Self { .init(rawValue: "REQUIRE_LOWERCASE") }
+        @inlinable public static var requireSymbol: Self { .init(rawValue: "REQUIRE_SYMBOL") }
+        @inlinable public static var requireUppercase: Self { .init(rawValue: "REQUIRE_UPPERCASE") }
     }
 
-    public enum AuthResources: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case identityPoolAndUserPool = "IDENTITY_POOL_AND_USER_POOL"
-        case userPoolOnly = "USER_POOL_ONLY"
-        public var description: String { return self.rawValue }
+    public struct AuthResources: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var identityPoolAndUserPool: Self { .init(rawValue: "IDENTITY_POOL_AND_USER_POOL") }
+        @inlinable public static var userPoolOnly: Self { .init(rawValue: "USER_POOL_ONLY") }
     }
 
-    public enum AuthenticatedElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createAndUpdate = "CREATE_AND_UPDATE"
-        case delete = "DELETE"
-        case read = "READ"
-        public var description: String { return self.rawValue }
+    public struct AuthenticatedElement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createAndUpdate: Self { .init(rawValue: "CREATE_AND_UPDATE") }
+        @inlinable public static var delete: Self { .init(rawValue: "DELETE") }
+        @inlinable public static var read: Self { .init(rawValue: "READ") }
     }
 
-    public enum DeliveryMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case email = "EMAIL"
-        case sms = "SMS"
-        public var description: String { return self.rawValue }
+    public struct DeliveryMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
+        @inlinable public static var sms: Self { .init(rawValue: "SMS") }
     }
 
-    public enum MFAMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case off = "OFF"
-        case on = "ON"
-        case optional = "OPTIONAL"
-        public var description: String { return self.rawValue }
+    public struct MFAMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
+        @inlinable public static var on: Self { .init(rawValue: "ON") }
+        @inlinable public static var optional: Self { .init(rawValue: "OPTIONAL") }
     }
 
-    public enum MfaTypesElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sms = "SMS"
-        case totp = "TOTP"
-        public var description: String { return self.rawValue }
+    public struct MfaTypesElement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sms: Self { .init(rawValue: "SMS") }
+        @inlinable public static var totp: Self { .init(rawValue: "TOTP") }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
-        case apiKey = "API_KEY"
-        case awsIam = "AWS_IAM"
-        case openidConnect = "OPENID_CONNECT"
-        public var description: String { return self.rawValue }
+    public struct Mode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var amazonCognitoUserPools: Self { .init(rawValue: "AMAZON_COGNITO_USER_POOLS") }
+        @inlinable public static var apiKey: Self { .init(rawValue: "API_KEY") }
+        @inlinable public static var awsIam: Self { .init(rawValue: "AWS_IAM") }
+        @inlinable public static var openidConnect: Self { .init(rawValue: "OPENID_CONNECT") }
     }
 
-    public enum OAuthGrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case code = "CODE"
-        case implicit = "IMPLICIT"
-        public var description: String { return self.rawValue }
+    public struct OAuthGrantType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var code: Self { .init(rawValue: "CODE") }
+        @inlinable public static var implicit: Self { .init(rawValue: "IMPLICIT") }
     }
 
-    public enum OAuthScopesElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsCognitoSigninUserAdmin = "AWS_COGNITO_SIGNIN_USER_ADMIN"
-        case email = "EMAIL"
-        case openid = "OPENID"
-        case phone = "PHONE"
-        case profile = "PROFILE"
-        public var description: String { return self.rawValue }
+    public struct OAuthScopesElement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsCognitoSigninUserAdmin: Self { .init(rawValue: "AWS_COGNITO_SIGNIN_USER_ADMIN") }
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
+        @inlinable public static var openid: Self { .init(rawValue: "OPENID") }
+        @inlinable public static var phone: Self { .init(rawValue: "PHONE") }
+        @inlinable public static var profile: Self { .init(rawValue: "PROFILE") }
     }
 
-    public enum RequiredSignUpAttributesElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case address = "ADDRESS"
-        case birthdate = "BIRTHDATE"
-        case email = "EMAIL"
-        case familyName = "FAMILY_NAME"
-        case gender = "GENDER"
-        case givenName = "GIVEN_NAME"
-        case locale = "LOCALE"
-        case middleName = "MIDDLE_NAME"
-        case name = "NAME"
-        case nickname = "NICKNAME"
-        case phoneNumber = "PHONE_NUMBER"
-        case picture = "PICTURE"
-        case preferredUsername = "PREFERRED_USERNAME"
-        case profile = "PROFILE"
-        case updatedAt = "UPDATED_AT"
-        case website = "WEBSITE"
-        case zoneInfo = "ZONE_INFO"
-        public var description: String { return self.rawValue }
+    public struct RequiredSignUpAttributesElement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var address: Self { .init(rawValue: "ADDRESS") }
+        @inlinable public static var birthdate: Self { .init(rawValue: "BIRTHDATE") }
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
+        @inlinable public static var familyName: Self { .init(rawValue: "FAMILY_NAME") }
+        @inlinable public static var gender: Self { .init(rawValue: "GENDER") }
+        @inlinable public static var givenName: Self { .init(rawValue: "GIVEN_NAME") }
+        @inlinable public static var locale: Self { .init(rawValue: "LOCALE") }
+        @inlinable public static var middleName: Self { .init(rawValue: "MIDDLE_NAME") }
+        @inlinable public static var name: Self { .init(rawValue: "NAME") }
+        @inlinable public static var nickname: Self { .init(rawValue: "NICKNAME") }
+        @inlinable public static var phoneNumber: Self { .init(rawValue: "PHONE_NUMBER") }
+        @inlinable public static var picture: Self { .init(rawValue: "PICTURE") }
+        @inlinable public static var preferredUsername: Self { .init(rawValue: "PREFERRED_USERNAME") }
+        @inlinable public static var profile: Self { .init(rawValue: "PROFILE") }
+        @inlinable public static var updatedAt: Self { .init(rawValue: "UPDATED_AT") }
+        @inlinable public static var website: Self { .init(rawValue: "WEBSITE") }
+        @inlinable public static var zoneInfo: Self { .init(rawValue: "ZONE_INFO") }
     }
 
-    public enum ResolutionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case automerge = "AUTOMERGE"
-        case lambda = "LAMBDA"
-        case none = "NONE"
-        case optimisticConcurrency = "OPTIMISTIC_CONCURRENCY"
-        public var description: String { return self.rawValue }
+    public struct ResolutionStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var automerge: Self { .init(rawValue: "AUTOMERGE") }
+        @inlinable public static var lambda: Self { .init(rawValue: "LAMBDA") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var optimisticConcurrency: Self { .init(rawValue: "OPTIMISTIC_CONCURRENCY") }
     }
 
-    public enum Service: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cognito = "COGNITO"
-        public var description: String { return self.rawValue }
+    public struct Service: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cognito: Self { .init(rawValue: "COGNITO") }
     }
 
-    public enum ServiceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
+    public struct ServiceName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var s3: Self { .init(rawValue: "S3") }
     }
 
-    public enum SignInMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case email = "EMAIL"
-        case emailAndPhoneNumber = "EMAIL_AND_PHONE_NUMBER"
-        case phoneNumber = "PHONE_NUMBER"
-        case username = "USERNAME"
-        public var description: String { return self.rawValue }
+    public struct SignInMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
+        @inlinable public static var emailAndPhoneNumber: Self { .init(rawValue: "EMAIL_AND_PHONE_NUMBER") }
+        @inlinable public static var phoneNumber: Self { .init(rawValue: "PHONE_NUMBER") }
+        @inlinable public static var username: Self { .init(rawValue: "USERNAME") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case latest = "LATEST"
-        case stale = "STALE"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var latest: Self { .init(rawValue: "LATEST") }
+        @inlinable public static var stale: Self { .init(rawValue: "STALE") }
     }
 
-    public enum UnAuthenticatedElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createAndUpdate = "CREATE_AND_UPDATE"
-        case delete = "DELETE"
-        case read = "READ"
-        public var description: String { return self.rawValue }
+    public struct UnAuthenticatedElement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createAndUpdate: Self { .init(rawValue: "CREATE_AND_UPDATE") }
+        @inlinable public static var delete: Self { .init(rawValue: "DELETE") }
+        @inlinable public static var read: Self { .init(rawValue: "READ") }
     }
 
     // MARK: Shapes

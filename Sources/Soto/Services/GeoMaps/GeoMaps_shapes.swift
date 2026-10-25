@@ -25,128 +25,192 @@ import Foundation
 extension GeoMaps {
     // MARK: Enums
 
-    public enum Buildings: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case buildings3D = "Buildings3D"
-        public var description: String { return self.rawValue }
+    public struct Buildings: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var buildings3D: Self { .init(rawValue: "Buildings3D") }
     }
 
-    public enum ColorScheme: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dark = "Dark"
-        case light = "Light"
-        public var description: String { return self.rawValue }
+    public struct ColorScheme: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dark: Self { .init(rawValue: "Dark") }
+        @inlinable public static var light: Self { .init(rawValue: "Light") }
     }
 
-    public enum ContourDensity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "High"
-        case low = "Low"
-        case medium = "Medium"
-        public var description: String { return self.rawValue }
+    public struct ContourDensity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "High") }
+        @inlinable public static var low: Self { .init(rawValue: "Low") }
+        @inlinable public static var medium: Self { .init(rawValue: "Medium") }
     }
 
-    public enum LabelSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case large = "Large"
-        case small = "Small"
-        public var description: String { return self.rawValue }
+    public struct LabelSize: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var large: Self { .init(rawValue: "Large") }
+        @inlinable public static var small: Self { .init(rawValue: "Small") }
     }
 
-    public enum MapFeatureMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "Disabled"
-        case enabled = "Enabled"
-        public var description: String { return self.rawValue }
+    public struct MapFeatureMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "Disabled") }
+        @inlinable public static var enabled: Self { .init(rawValue: "Enabled") }
     }
 
-    public enum MapStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hybrid = "Hybrid"
-        case monochrome = "Monochrome"
-        case satellite = "Satellite"
-        case standard = "Standard"
-        public var description: String { return self.rawValue }
+    public struct MapStyle: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hybrid: Self { .init(rawValue: "Hybrid") }
+        @inlinable public static var monochrome: Self { .init(rawValue: "Monochrome") }
+        @inlinable public static var satellite: Self { .init(rawValue: "Satellite") }
+        @inlinable public static var standard: Self { .init(rawValue: "Standard") }
     }
 
-    public enum PoiCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accommodations = "Accommodations"
-        case businessAndServices = "BusinessAndServices"
-        case entertainment = "Entertainment"
-        case facilitiesAndBuildings = "FacilitiesAndBuildings"
-        case foodAndDrink = "FoodAndDrink"
-        case leisureAndOutdoor = "LeisureAndOutdoor"
-        case shopping = "Shopping"
-        case sightsAndMuseums = "SightsAndMuseums"
-        case transportation = "Transportation"
-        public var description: String { return self.rawValue }
+    public struct PoiCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accommodations: Self { .init(rawValue: "Accommodations") }
+        @inlinable public static var businessAndServices: Self { .init(rawValue: "BusinessAndServices") }
+        @inlinable public static var entertainment: Self { .init(rawValue: "Entertainment") }
+        @inlinable public static var facilitiesAndBuildings: Self { .init(rawValue: "FacilitiesAndBuildings") }
+        @inlinable public static var foodAndDrink: Self { .init(rawValue: "FoodAndDrink") }
+        @inlinable public static var leisureAndOutdoor: Self { .init(rawValue: "LeisureAndOutdoor") }
+        @inlinable public static var shopping: Self { .init(rawValue: "Shopping") }
+        @inlinable public static var sightsAndMuseums: Self { .init(rawValue: "SightsAndMuseums") }
+        @inlinable public static var transportation: Self { .init(rawValue: "Transportation") }
     }
 
-    public enum PoiDensity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "Default"
-        case dense = "Dense"
-        case off = "Off"
-        case sparse = "Sparse"
-        case veryDense = "VeryDense"
-        case verySparse = "VerySparse"
-        public var description: String { return self.rawValue }
+    public struct PoiDensity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "Default") }
+        @inlinable public static var dense: Self { .init(rawValue: "Dense") }
+        @inlinable public static var off: Self { .init(rawValue: "Off") }
+        @inlinable public static var sparse: Self { .init(rawValue: "Sparse") }
+        @inlinable public static var veryDense: Self { .init(rawValue: "VeryDense") }
+        @inlinable public static var verySparse: Self { .init(rawValue: "VerySparse") }
     }
 
-    public enum ScaleBarUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kilometers = "Kilometers"
-        case kilometersMiles = "KilometersMiles"
-        case miles = "Miles"
-        case milesKilometers = "MilesKilometers"
-        public var description: String { return self.rawValue }
+    public struct ScaleBarUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kilometers: Self { .init(rawValue: "Kilometers") }
+        @inlinable public static var kilometersMiles: Self { .init(rawValue: "KilometersMiles") }
+        @inlinable public static var miles: Self { .init(rawValue: "Miles") }
+        @inlinable public static var milesKilometers: Self { .init(rawValue: "MilesKilometers") }
     }
 
-    public enum StaticMapStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case satellite = "Satellite"
-        case standard = "Standard"
-        public var description: String { return self.rawValue }
+    public struct StaticMapStyle: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var satellite: Self { .init(rawValue: "Satellite") }
+        @inlinable public static var standard: Self { .init(rawValue: "Standard") }
     }
 
-    public enum Terrain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hillshade = "Hillshade"
-        case terrain3D = "Terrain3D"
-        public var description: String { return self.rawValue }
+    public struct Terrain: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hillshade: Self { .init(rawValue: "Hillshade") }
+        @inlinable public static var terrain3D: Self { .init(rawValue: "Terrain3D") }
     }
 
-    public enum TileAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct TileAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Map elevation contour lines.
-        case contourLines = "ContourLines"
+        @inlinable public static var contourLines: Self { .init(rawValue: "ContourLines") }
         /// Map hillshading details for shading elevation changes.
-        case hillshade = "Hillshade"
+        @inlinable public static var hillshade: Self { .init(rawValue: "Hillshade") }
         /// Map logistics details, including advanced pois and road networks.
-        case logistics = "Logistics"
+        @inlinable public static var logistics: Self { .init(rawValue: "Logistics") }
         /// Map transit details.
-        case transit = "Transit"
-        public var description: String { return self.rawValue }
+        @inlinable public static var transit: Self { .init(rawValue: "Transit") }
     }
 
-    public enum Traffic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "All"
-        case congestion = "Congestion"
-        public var description: String { return self.rawValue }
+    public struct Traffic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "All") }
+        @inlinable public static var congestion: Self { .init(rawValue: "Congestion") }
     }
 
-    public enum TravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case transit = "Transit"
-        case truck = "Truck"
-        public var description: String { return self.rawValue }
+    public struct TravelMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var transit: Self { .init(rawValue: "Transit") }
+        @inlinable public static var truck: Self { .init(rawValue: "Truck") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "CannotParse"
-        case fieldValidationFailed = "FieldValidationFailed"
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FieldValidationFailed") }
         /// The required input is missing.
-        case missing = "Missing"
+        @inlinable public static var missing: Self { .init(rawValue: "Missing") }
         /// The input is invalid but no more specific reason is applicable.
-        case other = "Other"
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
         /// No such field is supported.
-        case unknownField = "UnknownField"
+        @inlinable public static var unknownField: Self { .init(rawValue: "UnknownField") }
         /// No such operation is supported.
-        case unknownOperation = "UnknownOperation"
-        public var description: String { return self.rawValue }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UnknownOperation") }
     }
 
-    public enum Variant: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "Default"
-        public var description: String { return self.rawValue }
+    public struct Variant: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "Default") }
     }
 
     // MARK: Shapes

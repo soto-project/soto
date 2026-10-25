@@ -25,21 +25,29 @@ import Foundation
 extension Route53Profiles {
     // MARK: Enums
 
-    public enum ProfileStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case complete = "COMPLETE"
-        case creating = "CREATING"
-        case deleted = "DELETED"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct ProfileStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var complete: Self { .init(rawValue: "COMPLETE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum ShareStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notShared = "NOT_SHARED"
-        case sharedByMe = "SHARED_BY_ME"
-        case sharedWithMe = "SHARED_WITH_ME"
-        public var description: String { return self.rawValue }
+    public struct ShareStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notShared: Self { .init(rawValue: "NOT_SHARED") }
+        @inlinable public static var sharedByMe: Self { .init(rawValue: "SHARED_BY_ME") }
+        @inlinable public static var sharedWithMe: Self { .init(rawValue: "SHARED_WITH_ME") }
     }
 
     // MARK: Shapes

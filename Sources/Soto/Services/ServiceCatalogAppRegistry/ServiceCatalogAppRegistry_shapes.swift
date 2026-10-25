@@ -25,47 +25,71 @@ import Foundation
 extension ServiceCatalogAppRegistry {
     // MARK: Enums
 
-    public enum ApplicationTagStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failure = "FAILURE"
-        case inProgress = "IN_PROGRESS"
-        case success = "SUCCESS"
-        public var description: String { return self.rawValue }
+    public struct ApplicationTagStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failure: Self { .init(rawValue: "FAILURE") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var success: Self { .init(rawValue: "SUCCESS") }
     }
 
-    public enum AssociationOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case applyApplicationTag = "APPLY_APPLICATION_TAG"
-        case skipApplicationTag = "SKIP_APPLICATION_TAG"
-        public var description: String { return self.rawValue }
+    public struct AssociationOption: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var applyApplicationTag: Self { .init(rawValue: "APPLY_APPLICATION_TAG") }
+        @inlinable public static var skipApplicationTag: Self { .init(rawValue: "SKIP_APPLICATION_TAG") }
     }
 
-    public enum ResourceGroupState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createComplete = "CREATE_COMPLETE"
-        case createFailed = "CREATE_FAILED"
-        case creating = "CREATING"
-        case updateComplete = "UPDATE_COMPLETE"
-        case updateFailed = "UPDATE_FAILED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct ResourceGroupState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createComplete: Self { .init(rawValue: "CREATE_COMPLETE") }
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var updateComplete: Self { .init(rawValue: "UPDATE_COMPLETE") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum ResourceItemStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case skipped = "SKIPPED"
-        case success = "SUCCESS"
-        public var description: String { return self.rawValue }
+    public struct ResourceItemStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var skipped: Self { .init(rawValue: "SKIPPED") }
+        @inlinable public static var success: Self { .init(rawValue: "SUCCESS") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cfnStack = "CFN_STACK"
-        case resourceTagValue = "RESOURCE_TAG_VALUE"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cfnStack: Self { .init(rawValue: "CFN_STACK") }
+        @inlinable public static var resourceTagValue: Self { .init(rawValue: "RESOURCE_TAG_VALUE") }
     }
 
-    public enum SyncAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case noAction = "NO_ACTION"
-        case startSync = "START_SYNC"
-        public var description: String { return self.rawValue }
+    public struct SyncAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var noAction: Self { .init(rawValue: "NO_ACTION") }
+        @inlinable public static var startSync: Self { .init(rawValue: "START_SYNC") }
     }
 
     // MARK: Shapes

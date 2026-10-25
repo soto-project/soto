@@ -25,257 +25,361 @@ import Foundation
 extension SWF {
     // MARK: Enums
 
-    public enum ActivityTaskTimeoutType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case heartbeat = "HEARTBEAT"
-        case scheduleToClose = "SCHEDULE_TO_CLOSE"
-        case scheduleToStart = "SCHEDULE_TO_START"
-        case startToClose = "START_TO_CLOSE"
-        public var description: String { return self.rawValue }
+    public struct ActivityTaskTimeoutType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var heartbeat: Self { .init(rawValue: "HEARTBEAT") }
+        @inlinable public static var scheduleToClose: Self { .init(rawValue: "SCHEDULE_TO_CLOSE") }
+        @inlinable public static var scheduleToStart: Self { .init(rawValue: "SCHEDULE_TO_START") }
+        @inlinable public static var startToClose: Self { .init(rawValue: "START_TO_CLOSE") }
     }
 
-    public enum CancelTimerFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        case timerIdUnknown = "TIMER_ID_UNKNOWN"
-        public var description: String { return self.rawValue }
+    public struct CancelTimerFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
+        @inlinable public static var timerIdUnknown: Self { .init(rawValue: "TIMER_ID_UNKNOWN") }
     }
 
-    public enum CancelWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        case unhandledDecision = "UNHANDLED_DECISION"
-        public var description: String { return self.rawValue }
+    public struct CancelWorkflowExecutionFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
+        @inlinable public static var unhandledDecision: Self { .init(rawValue: "UNHANDLED_DECISION") }
     }
 
-    public enum ChildPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case abandon = "ABANDON"
-        case requestCancel = "REQUEST_CANCEL"
-        case terminate = "TERMINATE"
-        public var description: String { return self.rawValue }
+    public struct ChildPolicy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var abandon: Self { .init(rawValue: "ABANDON") }
+        @inlinable public static var requestCancel: Self { .init(rawValue: "REQUEST_CANCEL") }
+        @inlinable public static var terminate: Self { .init(rawValue: "TERMINATE") }
     }
 
-    public enum CloseStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "CANCELED"
-        case completed = "COMPLETED"
-        case continuedAsNew = "CONTINUED_AS_NEW"
-        case failed = "FAILED"
-        case terminated = "TERMINATED"
-        case timedOut = "TIMED_OUT"
-        public var description: String { return self.rawValue }
+    public struct CloseStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var continuedAsNew: Self { .init(rawValue: "CONTINUED_AS_NEW") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var terminated: Self { .init(rawValue: "TERMINATED") }
+        @inlinable public static var timedOut: Self { .init(rawValue: "TIMED_OUT") }
     }
 
-    public enum CompleteWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        case unhandledDecision = "UNHANDLED_DECISION"
-        public var description: String { return self.rawValue }
+    public struct CompleteWorkflowExecutionFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
+        @inlinable public static var unhandledDecision: Self { .init(rawValue: "UNHANDLED_DECISION") }
     }
 
-    public enum ContinueAsNewWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case continueAsNewWorkflowExecutionRateExceeded = "CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED"
-        case defaultChildPolicyUndefined = "DEFAULT_CHILD_POLICY_UNDEFINED"
-        case defaultExecutionStartToCloseTimeoutUndefined = "DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case defaultTaskListUndefined = "DEFAULT_TASK_LIST_UNDEFINED"
-        case defaultTaskStartToCloseTimeoutUndefined = "DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        case unhandledDecision = "UNHANDLED_DECISION"
-        case workflowTypeDeprecated = "WORKFLOW_TYPE_DEPRECATED"
-        case workflowTypeDoesNotExist = "WORKFLOW_TYPE_DOES_NOT_EXIST"
-        public var description: String { return self.rawValue }
+    public struct ContinueAsNewWorkflowExecutionFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var continueAsNewWorkflowExecutionRateExceeded: Self { .init(rawValue: "CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED") }
+        @inlinable public static var defaultChildPolicyUndefined: Self { .init(rawValue: "DEFAULT_CHILD_POLICY_UNDEFINED") }
+        @inlinable public static var defaultExecutionStartToCloseTimeoutUndefined: Self { .init(rawValue: "DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED") }
+        @inlinable public static var defaultTaskListUndefined: Self { .init(rawValue: "DEFAULT_TASK_LIST_UNDEFINED") }
+        @inlinable public static var defaultTaskStartToCloseTimeoutUndefined: Self { .init(rawValue: "DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED") }
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
+        @inlinable public static var unhandledDecision: Self { .init(rawValue: "UNHANDLED_DECISION") }
+        @inlinable public static var workflowTypeDeprecated: Self { .init(rawValue: "WORKFLOW_TYPE_DEPRECATED") }
+        @inlinable public static var workflowTypeDoesNotExist: Self { .init(rawValue: "WORKFLOW_TYPE_DOES_NOT_EXIST") }
     }
 
-    public enum DecisionTaskTimeoutType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case scheduleToStart = "SCHEDULE_TO_START"
-        case startToClose = "START_TO_CLOSE"
-        public var description: String { return self.rawValue }
+    public struct DecisionTaskTimeoutType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var scheduleToStart: Self { .init(rawValue: "SCHEDULE_TO_START") }
+        @inlinable public static var startToClose: Self { .init(rawValue: "START_TO_CLOSE") }
     }
 
-    public enum DecisionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelTimer = "CancelTimer"
-        case cancelWorkflowExecution = "CancelWorkflowExecution"
-        case completeWorkflowExecution = "CompleteWorkflowExecution"
-        case continueAsNewWorkflowExecution = "ContinueAsNewWorkflowExecution"
-        case failWorkflowExecution = "FailWorkflowExecution"
-        case recordMarker = "RecordMarker"
-        case requestCancelActivityTask = "RequestCancelActivityTask"
-        case requestCancelExternalWorkflowExecution = "RequestCancelExternalWorkflowExecution"
-        case scheduleActivityTask = "ScheduleActivityTask"
-        case scheduleLambdaFunction = "ScheduleLambdaFunction"
-        case signalExternalWorkflowExecution = "SignalExternalWorkflowExecution"
-        case startChildWorkflowExecution = "StartChildWorkflowExecution"
-        case startTimer = "StartTimer"
-        public var description: String { return self.rawValue }
+    public struct DecisionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelTimer: Self { .init(rawValue: "CancelTimer") }
+        @inlinable public static var cancelWorkflowExecution: Self { .init(rawValue: "CancelWorkflowExecution") }
+        @inlinable public static var completeWorkflowExecution: Self { .init(rawValue: "CompleteWorkflowExecution") }
+        @inlinable public static var continueAsNewWorkflowExecution: Self { .init(rawValue: "ContinueAsNewWorkflowExecution") }
+        @inlinable public static var failWorkflowExecution: Self { .init(rawValue: "FailWorkflowExecution") }
+        @inlinable public static var recordMarker: Self { .init(rawValue: "RecordMarker") }
+        @inlinable public static var requestCancelActivityTask: Self { .init(rawValue: "RequestCancelActivityTask") }
+        @inlinable public static var requestCancelExternalWorkflowExecution: Self { .init(rawValue: "RequestCancelExternalWorkflowExecution") }
+        @inlinable public static var scheduleActivityTask: Self { .init(rawValue: "ScheduleActivityTask") }
+        @inlinable public static var scheduleLambdaFunction: Self { .init(rawValue: "ScheduleLambdaFunction") }
+        @inlinable public static var signalExternalWorkflowExecution: Self { .init(rawValue: "SignalExternalWorkflowExecution") }
+        @inlinable public static var startChildWorkflowExecution: Self { .init(rawValue: "StartChildWorkflowExecution") }
+        @inlinable public static var startTimer: Self { .init(rawValue: "StartTimer") }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case activityTaskCancelRequested = "ActivityTaskCancelRequested"
-        case activityTaskCanceled = "ActivityTaskCanceled"
-        case activityTaskCompleted = "ActivityTaskCompleted"
-        case activityTaskFailed = "ActivityTaskFailed"
-        case activityTaskScheduled = "ActivityTaskScheduled"
-        case activityTaskStarted = "ActivityTaskStarted"
-        case activityTaskTimedOut = "ActivityTaskTimedOut"
-        case cancelTimerFailed = "CancelTimerFailed"
-        case cancelWorkflowExecutionFailed = "CancelWorkflowExecutionFailed"
-        case childWorkflowExecutionCanceled = "ChildWorkflowExecutionCanceled"
-        case childWorkflowExecutionCompleted = "ChildWorkflowExecutionCompleted"
-        case childWorkflowExecutionFailed = "ChildWorkflowExecutionFailed"
-        case childWorkflowExecutionStarted = "ChildWorkflowExecutionStarted"
-        case childWorkflowExecutionTerminated = "ChildWorkflowExecutionTerminated"
-        case childWorkflowExecutionTimedOut = "ChildWorkflowExecutionTimedOut"
-        case completeWorkflowExecutionFailed = "CompleteWorkflowExecutionFailed"
-        case continueAsNewWorkflowExecutionFailed = "ContinueAsNewWorkflowExecutionFailed"
-        case decisionTaskCompleted = "DecisionTaskCompleted"
-        case decisionTaskScheduled = "DecisionTaskScheduled"
-        case decisionTaskStarted = "DecisionTaskStarted"
-        case decisionTaskTimedOut = "DecisionTaskTimedOut"
-        case externalWorkflowExecutionCancelRequested = "ExternalWorkflowExecutionCancelRequested"
-        case externalWorkflowExecutionSignaled = "ExternalWorkflowExecutionSignaled"
-        case failWorkflowExecutionFailed = "FailWorkflowExecutionFailed"
-        case lambdaFunctionCompleted = "LambdaFunctionCompleted"
-        case lambdaFunctionFailed = "LambdaFunctionFailed"
-        case lambdaFunctionScheduled = "LambdaFunctionScheduled"
-        case lambdaFunctionStarted = "LambdaFunctionStarted"
-        case lambdaFunctionTimedOut = "LambdaFunctionTimedOut"
-        case markerRecorded = "MarkerRecorded"
-        case recordMarkerFailed = "RecordMarkerFailed"
-        case requestCancelActivityTaskFailed = "RequestCancelActivityTaskFailed"
-        case requestCancelExternalWorkflowExecutionFailed = "RequestCancelExternalWorkflowExecutionFailed"
-        case requestCancelExternalWorkflowExecutionInitiated = "RequestCancelExternalWorkflowExecutionInitiated"
-        case scheduleActivityTaskFailed = "ScheduleActivityTaskFailed"
-        case scheduleLambdaFunctionFailed = "ScheduleLambdaFunctionFailed"
-        case signalExternalWorkflowExecutionFailed = "SignalExternalWorkflowExecutionFailed"
-        case signalExternalWorkflowExecutionInitiated = "SignalExternalWorkflowExecutionInitiated"
-        case startChildWorkflowExecutionFailed = "StartChildWorkflowExecutionFailed"
-        case startChildWorkflowExecutionInitiated = "StartChildWorkflowExecutionInitiated"
-        case startLambdaFunctionFailed = "StartLambdaFunctionFailed"
-        case startTimerFailed = "StartTimerFailed"
-        case timerCanceled = "TimerCanceled"
-        case timerFired = "TimerFired"
-        case timerStarted = "TimerStarted"
-        case workflowExecutionCancelRequested = "WorkflowExecutionCancelRequested"
-        case workflowExecutionCanceled = "WorkflowExecutionCanceled"
-        case workflowExecutionCompleted = "WorkflowExecutionCompleted"
-        case workflowExecutionContinuedAsNew = "WorkflowExecutionContinuedAsNew"
-        case workflowExecutionFailed = "WorkflowExecutionFailed"
-        case workflowExecutionSignaled = "WorkflowExecutionSignaled"
-        case workflowExecutionStarted = "WorkflowExecutionStarted"
-        case workflowExecutionTerminated = "WorkflowExecutionTerminated"
-        case workflowExecutionTimedOut = "WorkflowExecutionTimedOut"
-        public var description: String { return self.rawValue }
+    public struct EventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var activityTaskCancelRequested: Self { .init(rawValue: "ActivityTaskCancelRequested") }
+        @inlinable public static var activityTaskCanceled: Self { .init(rawValue: "ActivityTaskCanceled") }
+        @inlinable public static var activityTaskCompleted: Self { .init(rawValue: "ActivityTaskCompleted") }
+        @inlinable public static var activityTaskFailed: Self { .init(rawValue: "ActivityTaskFailed") }
+        @inlinable public static var activityTaskScheduled: Self { .init(rawValue: "ActivityTaskScheduled") }
+        @inlinable public static var activityTaskStarted: Self { .init(rawValue: "ActivityTaskStarted") }
+        @inlinable public static var activityTaskTimedOut: Self { .init(rawValue: "ActivityTaskTimedOut") }
+        @inlinable public static var cancelTimerFailed: Self { .init(rawValue: "CancelTimerFailed") }
+        @inlinable public static var cancelWorkflowExecutionFailed: Self { .init(rawValue: "CancelWorkflowExecutionFailed") }
+        @inlinable public static var childWorkflowExecutionCanceled: Self { .init(rawValue: "ChildWorkflowExecutionCanceled") }
+        @inlinable public static var childWorkflowExecutionCompleted: Self { .init(rawValue: "ChildWorkflowExecutionCompleted") }
+        @inlinable public static var childWorkflowExecutionFailed: Self { .init(rawValue: "ChildWorkflowExecutionFailed") }
+        @inlinable public static var childWorkflowExecutionStarted: Self { .init(rawValue: "ChildWorkflowExecutionStarted") }
+        @inlinable public static var childWorkflowExecutionTerminated: Self { .init(rawValue: "ChildWorkflowExecutionTerminated") }
+        @inlinable public static var childWorkflowExecutionTimedOut: Self { .init(rawValue: "ChildWorkflowExecutionTimedOut") }
+        @inlinable public static var completeWorkflowExecutionFailed: Self { .init(rawValue: "CompleteWorkflowExecutionFailed") }
+        @inlinable public static var continueAsNewWorkflowExecutionFailed: Self { .init(rawValue: "ContinueAsNewWorkflowExecutionFailed") }
+        @inlinable public static var decisionTaskCompleted: Self { .init(rawValue: "DecisionTaskCompleted") }
+        @inlinable public static var decisionTaskScheduled: Self { .init(rawValue: "DecisionTaskScheduled") }
+        @inlinable public static var decisionTaskStarted: Self { .init(rawValue: "DecisionTaskStarted") }
+        @inlinable public static var decisionTaskTimedOut: Self { .init(rawValue: "DecisionTaskTimedOut") }
+        @inlinable public static var externalWorkflowExecutionCancelRequested: Self { .init(rawValue: "ExternalWorkflowExecutionCancelRequested") }
+        @inlinable public static var externalWorkflowExecutionSignaled: Self { .init(rawValue: "ExternalWorkflowExecutionSignaled") }
+        @inlinable public static var failWorkflowExecutionFailed: Self { .init(rawValue: "FailWorkflowExecutionFailed") }
+        @inlinable public static var lambdaFunctionCompleted: Self { .init(rawValue: "LambdaFunctionCompleted") }
+        @inlinable public static var lambdaFunctionFailed: Self { .init(rawValue: "LambdaFunctionFailed") }
+        @inlinable public static var lambdaFunctionScheduled: Self { .init(rawValue: "LambdaFunctionScheduled") }
+        @inlinable public static var lambdaFunctionStarted: Self { .init(rawValue: "LambdaFunctionStarted") }
+        @inlinable public static var lambdaFunctionTimedOut: Self { .init(rawValue: "LambdaFunctionTimedOut") }
+        @inlinable public static var markerRecorded: Self { .init(rawValue: "MarkerRecorded") }
+        @inlinable public static var recordMarkerFailed: Self { .init(rawValue: "RecordMarkerFailed") }
+        @inlinable public static var requestCancelActivityTaskFailed: Self { .init(rawValue: "RequestCancelActivityTaskFailed") }
+        @inlinable public static var requestCancelExternalWorkflowExecutionFailed: Self { .init(rawValue: "RequestCancelExternalWorkflowExecutionFailed") }
+        @inlinable public static var requestCancelExternalWorkflowExecutionInitiated: Self { .init(rawValue: "RequestCancelExternalWorkflowExecutionInitiated") }
+        @inlinable public static var scheduleActivityTaskFailed: Self { .init(rawValue: "ScheduleActivityTaskFailed") }
+        @inlinable public static var scheduleLambdaFunctionFailed: Self { .init(rawValue: "ScheduleLambdaFunctionFailed") }
+        @inlinable public static var signalExternalWorkflowExecutionFailed: Self { .init(rawValue: "SignalExternalWorkflowExecutionFailed") }
+        @inlinable public static var signalExternalWorkflowExecutionInitiated: Self { .init(rawValue: "SignalExternalWorkflowExecutionInitiated") }
+        @inlinable public static var startChildWorkflowExecutionFailed: Self { .init(rawValue: "StartChildWorkflowExecutionFailed") }
+        @inlinable public static var startChildWorkflowExecutionInitiated: Self { .init(rawValue: "StartChildWorkflowExecutionInitiated") }
+        @inlinable public static var startLambdaFunctionFailed: Self { .init(rawValue: "StartLambdaFunctionFailed") }
+        @inlinable public static var startTimerFailed: Self { .init(rawValue: "StartTimerFailed") }
+        @inlinable public static var timerCanceled: Self { .init(rawValue: "TimerCanceled") }
+        @inlinable public static var timerFired: Self { .init(rawValue: "TimerFired") }
+        @inlinable public static var timerStarted: Self { .init(rawValue: "TimerStarted") }
+        @inlinable public static var workflowExecutionCancelRequested: Self { .init(rawValue: "WorkflowExecutionCancelRequested") }
+        @inlinable public static var workflowExecutionCanceled: Self { .init(rawValue: "WorkflowExecutionCanceled") }
+        @inlinable public static var workflowExecutionCompleted: Self { .init(rawValue: "WorkflowExecutionCompleted") }
+        @inlinable public static var workflowExecutionContinuedAsNew: Self { .init(rawValue: "WorkflowExecutionContinuedAsNew") }
+        @inlinable public static var workflowExecutionFailed: Self { .init(rawValue: "WorkflowExecutionFailed") }
+        @inlinable public static var workflowExecutionSignaled: Self { .init(rawValue: "WorkflowExecutionSignaled") }
+        @inlinable public static var workflowExecutionStarted: Self { .init(rawValue: "WorkflowExecutionStarted") }
+        @inlinable public static var workflowExecutionTerminated: Self { .init(rawValue: "WorkflowExecutionTerminated") }
+        @inlinable public static var workflowExecutionTimedOut: Self { .init(rawValue: "WorkflowExecutionTimedOut") }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case closed = "CLOSED"
-        case open = "OPEN"
-        public var description: String { return self.rawValue }
+    public struct ExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var closed: Self { .init(rawValue: "CLOSED") }
+        @inlinable public static var open: Self { .init(rawValue: "OPEN") }
     }
 
-    public enum FailWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        case unhandledDecision = "UNHANDLED_DECISION"
-        public var description: String { return self.rawValue }
+    public struct FailWorkflowExecutionFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
+        @inlinable public static var unhandledDecision: Self { .init(rawValue: "UNHANDLED_DECISION") }
     }
 
-    public enum LambdaFunctionTimeoutType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case startToClose = "START_TO_CLOSE"
-        public var description: String { return self.rawValue }
+    public struct LambdaFunctionTimeoutType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var startToClose: Self { .init(rawValue: "START_TO_CLOSE") }
     }
 
-    public enum RecordMarkerFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        public var description: String { return self.rawValue }
+    public struct RecordMarkerFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deprecated = "DEPRECATED"
-        case registered = "REGISTERED"
-        public var description: String { return self.rawValue }
+    public struct RegistrationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deprecated: Self { .init(rawValue: "DEPRECATED") }
+        @inlinable public static var registered: Self { .init(rawValue: "REGISTERED") }
     }
 
-    public enum RequestCancelActivityTaskFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case activityIdUnknown = "ACTIVITY_ID_UNKNOWN"
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        public var description: String { return self.rawValue }
+    public struct RequestCancelActivityTaskFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var activityIdUnknown: Self { .init(rawValue: "ACTIVITY_ID_UNKNOWN") }
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
     }
 
-    public enum RequestCancelExternalWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        case requestCancelExternalWorkflowExecutionRateExceeded = "REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED"
-        case unknownExternalWorkflowExecution = "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
-        public var description: String { return self.rawValue }
+    public struct RequestCancelExternalWorkflowExecutionFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
+        @inlinable public static var requestCancelExternalWorkflowExecutionRateExceeded: Self { .init(rawValue: "REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED") }
+        @inlinable public static var unknownExternalWorkflowExecution: Self { .init(rawValue: "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION") }
     }
 
-    public enum ScheduleActivityTaskFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case activityCreationRateExceeded = "ACTIVITY_CREATION_RATE_EXCEEDED"
-        case activityIdAlreadyInUse = "ACTIVITY_ID_ALREADY_IN_USE"
-        case activityTypeDeprecated = "ACTIVITY_TYPE_DEPRECATED"
-        case activityTypeDoesNotExist = "ACTIVITY_TYPE_DOES_NOT_EXIST"
-        case defaultHeartbeatTimeoutUndefined = "DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED"
-        case defaultScheduleToCloseTimeoutUndefined = "DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case defaultScheduleToStartTimeoutUndefined = "DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED"
-        case defaultStartToCloseTimeoutUndefined = "DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case defaultTaskListUndefined = "DEFAULT_TASK_LIST_UNDEFINED"
-        case openActivitiesLimitExceeded = "OPEN_ACTIVITIES_LIMIT_EXCEEDED"
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        public var description: String { return self.rawValue }
+    public struct ScheduleActivityTaskFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var activityCreationRateExceeded: Self { .init(rawValue: "ACTIVITY_CREATION_RATE_EXCEEDED") }
+        @inlinable public static var activityIdAlreadyInUse: Self { .init(rawValue: "ACTIVITY_ID_ALREADY_IN_USE") }
+        @inlinable public static var activityTypeDeprecated: Self { .init(rawValue: "ACTIVITY_TYPE_DEPRECATED") }
+        @inlinable public static var activityTypeDoesNotExist: Self { .init(rawValue: "ACTIVITY_TYPE_DOES_NOT_EXIST") }
+        @inlinable public static var defaultHeartbeatTimeoutUndefined: Self { .init(rawValue: "DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED") }
+        @inlinable public static var defaultScheduleToCloseTimeoutUndefined: Self { .init(rawValue: "DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED") }
+        @inlinable public static var defaultScheduleToStartTimeoutUndefined: Self { .init(rawValue: "DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED") }
+        @inlinable public static var defaultStartToCloseTimeoutUndefined: Self { .init(rawValue: "DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED") }
+        @inlinable public static var defaultTaskListUndefined: Self { .init(rawValue: "DEFAULT_TASK_LIST_UNDEFINED") }
+        @inlinable public static var openActivitiesLimitExceeded: Self { .init(rawValue: "OPEN_ACTIVITIES_LIMIT_EXCEEDED") }
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
     }
 
-    public enum ScheduleLambdaFunctionFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case idAlreadyInUse = "ID_ALREADY_IN_USE"
-        case lambdaFunctionCreationRateExceeded = "LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED"
-        case lambdaServiceNotAvailableInRegion = "LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION"
-        case openLambdaFunctionsLimitExceeded = "OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ScheduleLambdaFunctionFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var idAlreadyInUse: Self { .init(rawValue: "ID_ALREADY_IN_USE") }
+        @inlinable public static var lambdaFunctionCreationRateExceeded: Self { .init(rawValue: "LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED") }
+        @inlinable public static var lambdaServiceNotAvailableInRegion: Self { .init(rawValue: "LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION") }
+        @inlinable public static var openLambdaFunctionsLimitExceeded: Self { .init(rawValue: "OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED") }
     }
 
-    public enum SignalExternalWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        case signalExternalWorkflowExecutionRateExceeded = "SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED"
-        case unknownExternalWorkflowExecution = "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
-        public var description: String { return self.rawValue }
+    public struct SignalExternalWorkflowExecutionFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
+        @inlinable public static var signalExternalWorkflowExecutionRateExceeded: Self { .init(rawValue: "SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED") }
+        @inlinable public static var unknownExternalWorkflowExecution: Self { .init(rawValue: "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION") }
     }
 
-    public enum StartChildWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case childCreationRateExceeded = "CHILD_CREATION_RATE_EXCEEDED"
-        case defaultChildPolicyUndefined = "DEFAULT_CHILD_POLICY_UNDEFINED"
-        case defaultExecutionStartToCloseTimeoutUndefined = "DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case defaultTaskListUndefined = "DEFAULT_TASK_LIST_UNDEFINED"
-        case defaultTaskStartToCloseTimeoutUndefined = "DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case openChildrenLimitExceeded = "OPEN_CHILDREN_LIMIT_EXCEEDED"
-        case openWorkflowsLimitExceeded = "OPEN_WORKFLOWS_LIMIT_EXCEEDED"
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        case workflowAlreadyRunning = "WORKFLOW_ALREADY_RUNNING"
-        case workflowTypeDeprecated = "WORKFLOW_TYPE_DEPRECATED"
-        case workflowTypeDoesNotExist = "WORKFLOW_TYPE_DOES_NOT_EXIST"
-        public var description: String { return self.rawValue }
+    public struct StartChildWorkflowExecutionFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var childCreationRateExceeded: Self { .init(rawValue: "CHILD_CREATION_RATE_EXCEEDED") }
+        @inlinable public static var defaultChildPolicyUndefined: Self { .init(rawValue: "DEFAULT_CHILD_POLICY_UNDEFINED") }
+        @inlinable public static var defaultExecutionStartToCloseTimeoutUndefined: Self { .init(rawValue: "DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED") }
+        @inlinable public static var defaultTaskListUndefined: Self { .init(rawValue: "DEFAULT_TASK_LIST_UNDEFINED") }
+        @inlinable public static var defaultTaskStartToCloseTimeoutUndefined: Self { .init(rawValue: "DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED") }
+        @inlinable public static var openChildrenLimitExceeded: Self { .init(rawValue: "OPEN_CHILDREN_LIMIT_EXCEEDED") }
+        @inlinable public static var openWorkflowsLimitExceeded: Self { .init(rawValue: "OPEN_WORKFLOWS_LIMIT_EXCEEDED") }
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
+        @inlinable public static var workflowAlreadyRunning: Self { .init(rawValue: "WORKFLOW_ALREADY_RUNNING") }
+        @inlinable public static var workflowTypeDeprecated: Self { .init(rawValue: "WORKFLOW_TYPE_DEPRECATED") }
+        @inlinable public static var workflowTypeDoesNotExist: Self { .init(rawValue: "WORKFLOW_TYPE_DOES_NOT_EXIST") }
     }
 
-    public enum StartLambdaFunctionFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case assumeRoleFailed = "ASSUME_ROLE_FAILED"
-        public var description: String { return self.rawValue }
+    public struct StartLambdaFunctionFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var assumeRoleFailed: Self { .init(rawValue: "ASSUME_ROLE_FAILED") }
     }
 
-    public enum StartTimerFailedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case openTimersLimitExceeded = "OPEN_TIMERS_LIMIT_EXCEEDED"
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
-        case timerCreationRateExceeded = "TIMER_CREATION_RATE_EXCEEDED"
-        case timerIdAlreadyInUse = "TIMER_ID_ALREADY_IN_USE"
-        public var description: String { return self.rawValue }
+    public struct StartTimerFailedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var openTimersLimitExceeded: Self { .init(rawValue: "OPEN_TIMERS_LIMIT_EXCEEDED") }
+        @inlinable public static var operationNotPermitted: Self { .init(rawValue: "OPERATION_NOT_PERMITTED") }
+        @inlinable public static var timerCreationRateExceeded: Self { .init(rawValue: "TIMER_CREATION_RATE_EXCEEDED") }
+        @inlinable public static var timerIdAlreadyInUse: Self { .init(rawValue: "TIMER_ID_ALREADY_IN_USE") }
     }
 
-    public enum WorkflowExecutionCancelRequestedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case childPolicyApplied = "CHILD_POLICY_APPLIED"
-        public var description: String { return self.rawValue }
+    public struct WorkflowExecutionCancelRequestedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var childPolicyApplied: Self { .init(rawValue: "CHILD_POLICY_APPLIED") }
     }
 
-    public enum WorkflowExecutionTerminatedCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case childPolicyApplied = "CHILD_POLICY_APPLIED"
-        case eventLimitExceeded = "EVENT_LIMIT_EXCEEDED"
-        case operatorInitiated = "OPERATOR_INITIATED"
-        public var description: String { return self.rawValue }
+    public struct WorkflowExecutionTerminatedCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var childPolicyApplied: Self { .init(rawValue: "CHILD_POLICY_APPLIED") }
+        @inlinable public static var eventLimitExceeded: Self { .init(rawValue: "EVENT_LIMIT_EXCEEDED") }
+        @inlinable public static var operatorInitiated: Self { .init(rawValue: "OPERATOR_INITIATED") }
     }
 
-    public enum WorkflowExecutionTimeoutType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case startToClose = "START_TO_CLOSE"
-        public var description: String { return self.rawValue }
+    public struct WorkflowExecutionTimeoutType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var startToClose: Self { .init(rawValue: "START_TO_CLOSE") }
     }
 
     // MARK: Shapes

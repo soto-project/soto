@@ -25,228 +25,332 @@ import Foundation
 extension APIGateway {
     // MARK: Enums
 
-    public enum AccessAssociationSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case vpce = "VPCE"
-        public var description: String { return self.rawValue }
+    public struct AccessAssociationSourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var vpce: Self { .init(rawValue: "VPCE") }
     }
 
-    public enum ApiKeySourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case authorizer = "AUTHORIZER"
-        case header = "HEADER"
-        public var description: String { return self.rawValue }
+    public struct ApiKeySourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var authorizer: Self { .init(rawValue: "AUTHORIZER") }
+        @inlinable public static var header: Self { .init(rawValue: "HEADER") }
     }
 
-    public enum ApiKeysFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "csv"
-        public var description: String { return self.rawValue }
+    public struct ApiKeysFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "csv") }
     }
 
-    public enum ApiStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct ApiStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum AuthorizerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cognitoUserPools = "COGNITO_USER_POOLS"
-        case request = "REQUEST"
-        case token = "TOKEN"
-        public var description: String { return self.rawValue }
+    public struct AuthorizerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cognitoUserPools: Self { .init(rawValue: "COGNITO_USER_POOLS") }
+        @inlinable public static var request: Self { .init(rawValue: "REQUEST") }
+        @inlinable public static var token: Self { .init(rawValue: "TOKEN") }
     }
 
-    public enum CacheClusterSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case size0Point5Gb = "0.5"
-        case size118Gb = "118"
-        case size13Point5Gb = "13.5"
-        case size1Point6Gb = "1.6"
-        case size237Gb = "237"
-        case size28Point4Gb = "28.4"
-        case size58Point2Gb = "58.2"
-        case size6Point1Gb = "6.1"
-        public var description: String { return self.rawValue }
+    public struct CacheClusterSize: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var size0Point5Gb: Self { .init(rawValue: "0.5") }
+        @inlinable public static var size118Gb: Self { .init(rawValue: "118") }
+        @inlinable public static var size13Point5Gb: Self { .init(rawValue: "13.5") }
+        @inlinable public static var size1Point6Gb: Self { .init(rawValue: "1.6") }
+        @inlinable public static var size237Gb: Self { .init(rawValue: "237") }
+        @inlinable public static var size28Point4Gb: Self { .init(rawValue: "28.4") }
+        @inlinable public static var size58Point2Gb: Self { .init(rawValue: "58.2") }
+        @inlinable public static var size6Point1Gb: Self { .init(rawValue: "6.1") }
     }
 
-    public enum CacheClusterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case flushInProgress = "FLUSH_IN_PROGRESS"
-        case notAvailable = "NOT_AVAILABLE"
-        public var description: String { return self.rawValue }
+    public struct CacheClusterStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
+        @inlinable public static var flushInProgress: Self { .init(rawValue: "FLUSH_IN_PROGRESS") }
+        @inlinable public static var notAvailable: Self { .init(rawValue: "NOT_AVAILABLE") }
     }
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case internet = "INTERNET"
-        case vpcLink = "VPC_LINK"
-        public var description: String { return self.rawValue }
+    public struct ConnectionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var internet: Self { .init(rawValue: "INTERNET") }
+        @inlinable public static var vpcLink: Self { .init(rawValue: "VPC_LINK") }
     }
 
-    public enum ContentHandlingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case convertToBinary = "CONVERT_TO_BINARY"
-        case convertToText = "CONVERT_TO_TEXT"
-        public var description: String { return self.rawValue }
+    public struct ContentHandlingStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var convertToBinary: Self { .init(rawValue: "CONVERT_TO_BINARY") }
+        @inlinable public static var convertToText: Self { .init(rawValue: "CONVERT_TO_TEXT") }
     }
 
-    public enum DocumentationPartType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case api = "API"
-        case authorizer = "AUTHORIZER"
-        case method = "METHOD"
-        case model = "MODEL"
-        case pathParameter = "PATH_PARAMETER"
-        case queryParameter = "QUERY_PARAMETER"
-        case requestBody = "REQUEST_BODY"
-        case requestHeader = "REQUEST_HEADER"
-        case resource = "RESOURCE"
-        case response = "RESPONSE"
-        case responseBody = "RESPONSE_BODY"
-        case responseHeader = "RESPONSE_HEADER"
-        public var description: String { return self.rawValue }
+    public struct DocumentationPartType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var api: Self { .init(rawValue: "API") }
+        @inlinable public static var authorizer: Self { .init(rawValue: "AUTHORIZER") }
+        @inlinable public static var method: Self { .init(rawValue: "METHOD") }
+        @inlinable public static var model: Self { .init(rawValue: "MODEL") }
+        @inlinable public static var pathParameter: Self { .init(rawValue: "PATH_PARAMETER") }
+        @inlinable public static var queryParameter: Self { .init(rawValue: "QUERY_PARAMETER") }
+        @inlinable public static var requestBody: Self { .init(rawValue: "REQUEST_BODY") }
+        @inlinable public static var requestHeader: Self { .init(rawValue: "REQUEST_HEADER") }
+        @inlinable public static var resource: Self { .init(rawValue: "RESOURCE") }
+        @inlinable public static var response: Self { .init(rawValue: "RESPONSE") }
+        @inlinable public static var responseBody: Self { .init(rawValue: "RESPONSE_BODY") }
+        @inlinable public static var responseHeader: Self { .init(rawValue: "RESPONSE_HEADER") }
     }
 
-    public enum DomainNameStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        case pendingCertificateReimport = "PENDING_CERTIFICATE_REIMPORT"
-        case pendingOwnershipVerification = "PENDING_OWNERSHIP_VERIFICATION"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct DomainNameStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var pendingCertificateReimport: Self { .init(rawValue: "PENDING_CERTIFICATE_REIMPORT") }
+        @inlinable public static var pendingOwnershipVerification: Self { .init(rawValue: "PENDING_OWNERSHIP_VERIFICATION") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum EndpointAccessMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case basic = "BASIC"
-        case strict = "STRICT"
-        public var description: String { return self.rawValue }
+    public struct EndpointAccessMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var basic: Self { .init(rawValue: "BASIC") }
+        @inlinable public static var strict: Self { .init(rawValue: "STRICT") }
     }
 
-    public enum EndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `private` = "PRIVATE"
-        case edge = "EDGE"
-        case regional = "REGIONAL"
-        public var description: String { return self.rawValue }
+    public struct EndpointType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `private`: Self { .init(rawValue: "PRIVATE") }
+        @inlinable public static var edge: Self { .init(rawValue: "EDGE") }
+        @inlinable public static var regional: Self { .init(rawValue: "REGIONAL") }
     }
 
-    public enum GatewayResponseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDenied = "ACCESS_DENIED"
-        case apiConfigurationError = "API_CONFIGURATION_ERROR"
-        case authorizerConfigurationError = "AUTHORIZER_CONFIGURATION_ERROR"
-        case authorizerFailure = "AUTHORIZER_FAILURE"
-        case badRequestBody = "BAD_REQUEST_BODY"
-        case badRequestParameters = "BAD_REQUEST_PARAMETERS"
-        case default4Xx = "DEFAULT_4XX"
-        case default5Xx = "DEFAULT_5XX"
-        case expiredToken = "EXPIRED_TOKEN"
-        case integrationFailure = "INTEGRATION_FAILURE"
-        case integrationTimeout = "INTEGRATION_TIMEOUT"
-        case invalidApiKey = "INVALID_API_KEY"
-        case invalidSignature = "INVALID_SIGNATURE"
-        case missingAuthenticationToken = "MISSING_AUTHENTICATION_TOKEN"
-        case quotaExceeded = "QUOTA_EXCEEDED"
-        case requestTooLarge = "REQUEST_TOO_LARGE"
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
-        case throttled = "THROTTLED"
-        case unauthorized = "UNAUTHORIZED"
-        case unsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE"
-        case wafFiltered = "WAF_FILTERED"
-        public var description: String { return self.rawValue }
+    public struct GatewayResponseType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDenied: Self { .init(rawValue: "ACCESS_DENIED") }
+        @inlinable public static var apiConfigurationError: Self { .init(rawValue: "API_CONFIGURATION_ERROR") }
+        @inlinable public static var authorizerConfigurationError: Self { .init(rawValue: "AUTHORIZER_CONFIGURATION_ERROR") }
+        @inlinable public static var authorizerFailure: Self { .init(rawValue: "AUTHORIZER_FAILURE") }
+        @inlinable public static var badRequestBody: Self { .init(rawValue: "BAD_REQUEST_BODY") }
+        @inlinable public static var badRequestParameters: Self { .init(rawValue: "BAD_REQUEST_PARAMETERS") }
+        @inlinable public static var default4Xx: Self { .init(rawValue: "DEFAULT_4XX") }
+        @inlinable public static var default5Xx: Self { .init(rawValue: "DEFAULT_5XX") }
+        @inlinable public static var expiredToken: Self { .init(rawValue: "EXPIRED_TOKEN") }
+        @inlinable public static var integrationFailure: Self { .init(rawValue: "INTEGRATION_FAILURE") }
+        @inlinable public static var integrationTimeout: Self { .init(rawValue: "INTEGRATION_TIMEOUT") }
+        @inlinable public static var invalidApiKey: Self { .init(rawValue: "INVALID_API_KEY") }
+        @inlinable public static var invalidSignature: Self { .init(rawValue: "INVALID_SIGNATURE") }
+        @inlinable public static var missingAuthenticationToken: Self { .init(rawValue: "MISSING_AUTHENTICATION_TOKEN") }
+        @inlinable public static var quotaExceeded: Self { .init(rawValue: "QUOTA_EXCEEDED") }
+        @inlinable public static var requestTooLarge: Self { .init(rawValue: "REQUEST_TOO_LARGE") }
+        @inlinable public static var resourceNotFound: Self { .init(rawValue: "RESOURCE_NOT_FOUND") }
+        @inlinable public static var throttled: Self { .init(rawValue: "THROTTLED") }
+        @inlinable public static var unauthorized: Self { .init(rawValue: "UNAUTHORIZED") }
+        @inlinable public static var unsupportedMediaType: Self { .init(rawValue: "UNSUPPORTED_MEDIA_TYPE") }
+        @inlinable public static var wafFiltered: Self { .init(rawValue: "WAF_FILTERED") }
     }
 
-    public enum IntegrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aws = "AWS"
-        case awsProxy = "AWS_PROXY"
-        case http = "HTTP"
-        case httpProxy = "HTTP_PROXY"
-        case mock = "MOCK"
-        public var description: String { return self.rawValue }
+    public struct IntegrationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aws: Self { .init(rawValue: "AWS") }
+        @inlinable public static var awsProxy: Self { .init(rawValue: "AWS_PROXY") }
+        @inlinable public static var http: Self { .init(rawValue: "HTTP") }
+        @inlinable public static var httpProxy: Self { .init(rawValue: "HTTP_PROXY") }
+        @inlinable public static var mock: Self { .init(rawValue: "MOCK") }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dualstack = "dualstack"
-        case ipv4 = "ipv4"
-        public var description: String { return self.rawValue }
+    public struct IpAddressType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dualstack: Self { .init(rawValue: "dualstack") }
+        @inlinable public static var ipv4: Self { .init(rawValue: "ipv4") }
     }
 
-    public enum LocationStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case documented = "DOCUMENTED"
-        case undocumented = "UNDOCUMENTED"
-        public var description: String { return self.rawValue }
+    public struct LocationStatusType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var documented: Self { .init(rawValue: "DOCUMENTED") }
+        @inlinable public static var undocumented: Self { .init(rawValue: "UNDOCUMENTED") }
     }
 
-    public enum Op: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case add = "add"
-        case copy = "copy"
-        case move = "move"
-        case remove = "remove"
-        case replace = "replace"
-        case test = "test"
-        public var description: String { return self.rawValue }
+    public struct Op: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var add: Self { .init(rawValue: "add") }
+        @inlinable public static var copy: Self { .init(rawValue: "copy") }
+        @inlinable public static var move: Self { .init(rawValue: "move") }
+        @inlinable public static var remove: Self { .init(rawValue: "remove") }
+        @inlinable public static var replace: Self { .init(rawValue: "replace") }
+        @inlinable public static var test: Self { .init(rawValue: "test") }
     }
 
-    public enum PutMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case merge = "merge"
-        case overwrite = "overwrite"
-        public var description: String { return self.rawValue }
+    public struct PutMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var merge: Self { .init(rawValue: "merge") }
+        @inlinable public static var overwrite: Self { .init(rawValue: "overwrite") }
     }
 
-    public enum QuotaPeriodType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case day = "DAY"
-        case month = "MONTH"
-        case week = "WEEK"
-        public var description: String { return self.rawValue }
+    public struct QuotaPeriodType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var day: Self { .init(rawValue: "DAY") }
+        @inlinable public static var month: Self { .init(rawValue: "MONTH") }
+        @inlinable public static var week: Self { .init(rawValue: "WEEK") }
     }
 
-    public enum ResourceOwner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case _self = "SELF"
-        case otherAccounts = "OTHER_ACCOUNTS"
-        public var description: String { return self.rawValue }
+    public struct ResourceOwner: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var _self: Self { .init(rawValue: "SELF") }
+        @inlinable public static var otherAccounts: Self { .init(rawValue: "OTHER_ACCOUNTS") }
     }
 
-    public enum ResponseTransferMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case buffered = "BUFFERED"
-        case stream = "STREAM"
-        public var description: String { return self.rawValue }
+    public struct ResponseTransferMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var buffered: Self { .init(rawValue: "BUFFERED") }
+        @inlinable public static var stream: Self { .init(rawValue: "STREAM") }
     }
 
-    public enum RoutingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case basePathMappingOnly = "BASE_PATH_MAPPING_ONLY"
-        case routingRuleOnly = "ROUTING_RULE_ONLY"
-        case routingRuleThenBasePathMapping = "ROUTING_RULE_THEN_BASE_PATH_MAPPING"
-        public var description: String { return self.rawValue }
+    public struct RoutingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var basePathMappingOnly: Self { .init(rawValue: "BASE_PATH_MAPPING_ONLY") }
+        @inlinable public static var routingRuleOnly: Self { .init(rawValue: "ROUTING_RULE_ONLY") }
+        @inlinable public static var routingRuleThenBasePathMapping: Self { .init(rawValue: "ROUTING_RULE_THEN_BASE_PATH_MAPPING") }
     }
 
-    public enum SecurityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case securityPolicyTLS122018EDGE = "SecurityPolicy_TLS12_2018_EDGE"
-        case securityPolicyTLS12PFS2025EDGE = "SecurityPolicy_TLS12_PFS_2025_EDGE"
-        case securityPolicyTLS1312202106 = "SecurityPolicy_TLS13_1_2_2021_06"
-        case securityPolicyTLS1312Ext2FIPSPQ202509 = "SecurityPolicy_TLS13_1_2_Ext2_FIPS_PQ_2025_09"
-        case securityPolicyTLS1312Ext2PQ202509 = "SecurityPolicy_TLS13_1_2_Ext2_PQ_2025_09"
-        case securityPolicyTLS1312FIPSPFSPQ202509 = "SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09"
-        case securityPolicyTLS1312FIPSPQ202509 = "SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09"
-        case securityPolicyTLS1312PFSPQ202509 = "SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09"
-        case securityPolicyTLS1312PQ202509 = "SecurityPolicy_TLS13_1_2_PQ_2025_09"
-        case securityPolicyTLS1313202509 = "SecurityPolicy_TLS13_1_3_2025_09"
-        case securityPolicyTLS1313FIPS202509 = "SecurityPolicy_TLS13_1_3_FIPS_2025_09"
-        case securityPolicyTLS132025EDGE = "SecurityPolicy_TLS13_2025_EDGE"
-        case tls10 = "TLS_1_0"
-        case tls12 = "TLS_1_2"
-        public var description: String { return self.rawValue }
+    public struct SecurityPolicy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var securityPolicyTLS122018EDGE: Self { .init(rawValue: "SecurityPolicy_TLS12_2018_EDGE") }
+        @inlinable public static var securityPolicyTLS12PFS2025EDGE: Self { .init(rawValue: "SecurityPolicy_TLS12_PFS_2025_EDGE") }
+        @inlinable public static var securityPolicyTLS1312202106: Self { .init(rawValue: "SecurityPolicy_TLS13_1_2_2021_06") }
+        @inlinable public static var securityPolicyTLS1312Ext2FIPSPQ202509: Self { .init(rawValue: "SecurityPolicy_TLS13_1_2_Ext2_FIPS_PQ_2025_09") }
+        @inlinable public static var securityPolicyTLS1312Ext2PQ202509: Self { .init(rawValue: "SecurityPolicy_TLS13_1_2_Ext2_PQ_2025_09") }
+        @inlinable public static var securityPolicyTLS1312FIPSPFSPQ202509: Self { .init(rawValue: "SecurityPolicy_TLS13_1_2_FIPS_PFS_PQ_2025_09") }
+        @inlinable public static var securityPolicyTLS1312FIPSPQ202509: Self { .init(rawValue: "SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09") }
+        @inlinable public static var securityPolicyTLS1312PFSPQ202509: Self { .init(rawValue: "SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09") }
+        @inlinable public static var securityPolicyTLS1312PQ202509: Self { .init(rawValue: "SecurityPolicy_TLS13_1_2_PQ_2025_09") }
+        @inlinable public static var securityPolicyTLS1313202509: Self { .init(rawValue: "SecurityPolicy_TLS13_1_3_2025_09") }
+        @inlinable public static var securityPolicyTLS1313FIPS202509: Self { .init(rawValue: "SecurityPolicy_TLS13_1_3_FIPS_2025_09") }
+        @inlinable public static var securityPolicyTLS132025EDGE: Self { .init(rawValue: "SecurityPolicy_TLS13_2025_EDGE") }
+        @inlinable public static var tls10: Self { .init(rawValue: "TLS_1_0") }
+        @inlinable public static var tls12: Self { .init(rawValue: "TLS_1_2") }
     }
 
-    public enum UnauthorizedCacheControlHeaderStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failWith403 = "FAIL_WITH_403"
-        case succeedWithResponseHeader = "SUCCEED_WITH_RESPONSE_HEADER"
-        case succeedWithoutResponseHeader = "SUCCEED_WITHOUT_RESPONSE_HEADER"
-        public var description: String { return self.rawValue }
+    public struct UnauthorizedCacheControlHeaderStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failWith403: Self { .init(rawValue: "FAIL_WITH_403") }
+        @inlinable public static var succeedWithResponseHeader: Self { .init(rawValue: "SUCCEED_WITH_RESPONSE_HEADER") }
+        @inlinable public static var succeedWithoutResponseHeader: Self { .init(rawValue: "SUCCEED_WITHOUT_RESPONSE_HEADER") }
     }
 
-    public enum VpcLinkStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct VpcLinkStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
     // MARK: Shapes

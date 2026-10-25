@@ -25,102 +25,146 @@ import Foundation
 extension ManagedBlockchainQuery {
     // MARK: Enums
 
-    public enum ConfirmationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case final = "FINAL"
-        case nonfinal = "NONFINAL"
-        public var description: String { return self.rawValue }
+    public struct ConfirmationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var final: Self { .init(rawValue: "FINAL") }
+        @inlinable public static var nonfinal: Self { .init(rawValue: "NONFINAL") }
     }
 
-    public enum ErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ErrorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// An API request retrieving an item that can't be found
-        case resourceNotFoundException = "RESOURCE_NOT_FOUND_EXCEPTION"
+        @inlinable public static var resourceNotFoundException: Self { .init(rawValue: "RESOURCE_NOT_FOUND_EXCEPTION") }
         /// An API request validation exception
-        case validationException = "VALIDATION_EXCEPTION"
-        public var description: String { return self.rawValue }
+        @inlinable public static var validationException: Self { .init(rawValue: "VALIDATION_EXCEPTION") }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ListFilteredTransactionEventsSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ListFilteredTransactionEventsSortBy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Timestamp of a transaction
-        case blockchainInstant = "blockchainInstant"
-        public var description: String { return self.rawValue }
+        @inlinable public static var blockchainInstant: Self { .init(rawValue: "blockchainInstant") }
     }
 
-    public enum ListTransactionsSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ListTransactionsSortBy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Timestamp of a transaction
-        case transactionTimestamp = "TRANSACTION_TIMESTAMP"
-        public var description: String { return self.rawValue }
+        @inlinable public static var transactionTimestamp: Self { .init(rawValue: "TRANSACTION_TIMESTAMP") }
     }
 
-    public enum QueryNetwork: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct QueryNetwork: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Bitcoin main network
-        case bitcoinMainnet = "BITCOIN_MAINNET"
+        @inlinable public static var bitcoinMainnet: Self { .init(rawValue: "BITCOIN_MAINNET") }
         /// Bitcoin test network
-        case bitcoinTestnet = "BITCOIN_TESTNET"
+        @inlinable public static var bitcoinTestnet: Self { .init(rawValue: "BITCOIN_TESTNET") }
         /// Ethereum main network
-        case ethereumMainnet = "ETHEREUM_MAINNET"
+        @inlinable public static var ethereumMainnet: Self { .init(rawValue: "ETHEREUM_MAINNET") }
         /// SEPOLIA network (ethereum testnet)
-        case ethereumSepoliaTestnet = "ETHEREUM_SEPOLIA_TESTNET"
-        public var description: String { return self.rawValue }
+        @inlinable public static var ethereumSepoliaTestnet: Self { .init(rawValue: "ETHEREUM_SEPOLIA_TESTNET") }
     }
 
-    public enum QueryTokenStandard: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case erc1155 = "ERC1155"
-        case erc20 = "ERC20"
-        case erc721 = "ERC721"
-        public var description: String { return self.rawValue }
+    public struct QueryTokenStandard: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var erc1155: Self { .init(rawValue: "ERC1155") }
+        @inlinable public static var erc20: Self { .init(rawValue: "ERC20") }
+        @inlinable public static var erc721: Self { .init(rawValue: "ERC721") }
     }
 
-    public enum QueryTransactionEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct QueryTransactionEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// A Bitcoin Vin transfer type
-        case bitcoinVin = "BITCOIN_VIN"
+        @inlinable public static var bitcoinVin: Self { .init(rawValue: "BITCOIN_VIN") }
         /// A Bitcoin Vout transfer type
-        case bitcoinVout = "BITCOIN_VOUT"
+        @inlinable public static var bitcoinVout: Self { .init(rawValue: "BITCOIN_VOUT") }
         /// An ERC1155 transfer type
-        case erc1155Transfer = "ERC1155_TRANSFER"
+        @inlinable public static var erc1155Transfer: Self { .init(rawValue: "ERC1155_TRANSFER") }
         /// An ERC20_BURN transfer type
-        case erc20Burn = "ERC20_BURN"
+        @inlinable public static var erc20Burn: Self { .init(rawValue: "ERC20_BURN") }
         /// An ERC20_DEPOSIT transfer type
-        case erc20Deposit = "ERC20_DEPOSIT"
+        @inlinable public static var erc20Deposit: Self { .init(rawValue: "ERC20_DEPOSIT") }
         /// An ERC20_MINT transfer type
-        case erc20Mint = "ERC20_MINT"
+        @inlinable public static var erc20Mint: Self { .init(rawValue: "ERC20_MINT") }
         /// An ERC20 transfer type
-        case erc20Transfer = "ERC20_TRANSFER"
+        @inlinable public static var erc20Transfer: Self { .init(rawValue: "ERC20_TRANSFER") }
         /// An ERC20_WITHDRAWAL transfer type
-        case erc20Withdrawal = "ERC20_WITHDRAWAL"
+        @inlinable public static var erc20Withdrawal: Self { .init(rawValue: "ERC20_WITHDRAWAL") }
         /// An ERC721 transfer type
-        case erc721Transfer = "ERC721_TRANSFER"
+        @inlinable public static var erc721Transfer: Self { .init(rawValue: "ERC721_TRANSFER") }
         /// An ETH transfer type
-        case ethTransfer = "ETH_TRANSFER"
+        @inlinable public static var ethTransfer: Self { .init(rawValue: "ETH_TRANSFER") }
         /// An internal ETH transfer type
-        case internalEthTransfer = "INTERNAL_ETH_TRANSFER"
-        public var description: String { return self.rawValue }
+        @inlinable public static var internalEthTransfer: Self { .init(rawValue: "INTERNAL_ETH_TRANSFER") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case collection = "collection"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var collection: Self { .init(rawValue: "collection") }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct SortOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Result sorted in ascending order
-        case ascending = "ASCENDING"
+        @inlinable public static var ascending: Self { .init(rawValue: "ASCENDING") }
         /// Result sorted in descending order
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var descending: Self { .init(rawValue: "DESCENDING") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "cannotParse"
-        case fieldValidationFailed = "fieldValidationFailed"
-        case other = "other"
-        case unknownOperation = "unknownOperation"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "cannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "unknownOperation") }
     }
 
     // MARK: Shapes

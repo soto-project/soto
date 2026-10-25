@@ -25,15 +25,19 @@ import Foundation
 extension OAM {
     // MARK: Enums
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsApplicationSignalsService = "AWS::ApplicationSignals::Service"
-        case awsApplicationSignalsSlo = "AWS::ApplicationSignals::ServiceLevelObjective"
-        case awsApplicationinsightsApplication = "AWS::ApplicationInsights::Application"
-        case awsCloudwatchMetric = "AWS::CloudWatch::Metric"
-        case awsInternetmonitorMonitor = "AWS::InternetMonitor::Monitor"
-        case awsLogsLoggroup = "AWS::Logs::LogGroup"
-        case awsXrayTrace = "AWS::XRay::Trace"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsApplicationSignalsService: Self { .init(rawValue: "AWS::ApplicationSignals::Service") }
+        @inlinable public static var awsApplicationSignalsSlo: Self { .init(rawValue: "AWS::ApplicationSignals::ServiceLevelObjective") }
+        @inlinable public static var awsApplicationinsightsApplication: Self { .init(rawValue: "AWS::ApplicationInsights::Application") }
+        @inlinable public static var awsCloudwatchMetric: Self { .init(rawValue: "AWS::CloudWatch::Metric") }
+        @inlinable public static var awsInternetmonitorMonitor: Self { .init(rawValue: "AWS::InternetMonitor::Monitor") }
+        @inlinable public static var awsLogsLoggroup: Self { .init(rawValue: "AWS::Logs::LogGroup") }
+        @inlinable public static var awsXrayTrace: Self { .init(rawValue: "AWS::XRay::Trace") }
     }
 
     // MARK: Shapes

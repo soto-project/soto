@@ -25,38 +25,54 @@ import Foundation
 extension MigrationHub {
     // MARK: Enums
 
-    public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case inProgress = "IN_PROGRESS"
-        case notStarted = "NOT_STARTED"
-        public var description: String { return self.rawValue }
+    public struct ApplicationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var notStarted: Self { .init(rawValue: "NOT_STARTED") }
     }
 
-    public enum ResourceAttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case biosId = "BIOS_ID"
-        case fqdn = "FQDN"
-        case ipv4Address = "IPV4_ADDRESS"
-        case ipv6Address = "IPV6_ADDRESS"
-        case macAddress = "MAC_ADDRESS"
-        case motherboardSerialNumber = "MOTHERBOARD_SERIAL_NUMBER"
-        case vmManagedObjectReference = "VM_MANAGED_OBJECT_REFERENCE"
-        case vmManagerId = "VM_MANAGER_ID"
-        case vmName = "VM_NAME"
-        case vmPath = "VM_PATH"
-        public var description: String { return self.rawValue }
+    public struct ResourceAttributeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var biosId: Self { .init(rawValue: "BIOS_ID") }
+        @inlinable public static var fqdn: Self { .init(rawValue: "FQDN") }
+        @inlinable public static var ipv4Address: Self { .init(rawValue: "IPV4_ADDRESS") }
+        @inlinable public static var ipv6Address: Self { .init(rawValue: "IPV6_ADDRESS") }
+        @inlinable public static var macAddress: Self { .init(rawValue: "MAC_ADDRESS") }
+        @inlinable public static var motherboardSerialNumber: Self { .init(rawValue: "MOTHERBOARD_SERIAL_NUMBER") }
+        @inlinable public static var vmManagedObjectReference: Self { .init(rawValue: "VM_MANAGED_OBJECT_REFERENCE") }
+        @inlinable public static var vmManagerId: Self { .init(rawValue: "VM_MANAGER_ID") }
+        @inlinable public static var vmName: Self { .init(rawValue: "VM_NAME") }
+        @inlinable public static var vmPath: Self { .init(rawValue: "VM_PATH") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case notStarted = "NOT_STARTED"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var notStarted: Self { .init(rawValue: "NOT_STARTED") }
     }
 
-    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case migrationTaskStateUpdated = "MIGRATION_TASK_STATE_UPDATED"
-        public var description: String { return self.rawValue }
+    public struct UpdateType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var migrationTaskStateUpdated: Self { .init(rawValue: "MIGRATION_TASK_STATE_UPDATED") }
     }
 
     // MARK: Shapes

@@ -25,453 +25,637 @@ import Foundation
 extension SecurityAgent {
     // MARK: Enums
 
-    public enum AccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct AccessType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Resource is private and has restricted access.
-        case `private` = "PRIVATE"
+        @inlinable public static var `private`: Self { .init(rawValue: "PRIVATE") }
         /// Resource is public and openly accessible.
-        case `public` = "PUBLIC"
-        public var description: String { return self.rawValue }
+        @inlinable public static var `public`: Self { .init(rawValue: "PUBLIC") }
     }
 
-    public enum ArtifactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case doc = "DOC"
-        case docx = "DOCX"
-        case jpeg = "JPEG"
-        case json = "JSON"
-        case md = "MD"
-        case pdf = "PDF"
-        case png = "PNG"
-        case txt = "TXT"
-        case yaml = "YAML"
-        public var description: String { return self.rawValue }
+    public struct ArtifactType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var doc: Self { .init(rawValue: "DOC") }
+        @inlinable public static var docx: Self { .init(rawValue: "DOCX") }
+        @inlinable public static var jpeg: Self { .init(rawValue: "JPEG") }
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
+        @inlinable public static var md: Self { .init(rawValue: "MD") }
+        @inlinable public static var pdf: Self { .init(rawValue: "PDF") }
+        @inlinable public static var png: Self { .init(rawValue: "PNG") }
+        @inlinable public static var txt: Self { .init(rawValue: "TXT") }
+        @inlinable public static var yaml: Self { .init(rawValue: "YAML") }
     }
 
-    public enum AuthenticationProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct AuthenticationProviderType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Authentication using an AWS IAM role.
-        case awsIamRole = "AWS_IAM_ROLE"
+        @inlinable public static var awsIamRole: Self { .init(rawValue: "AWS_IAM_ROLE") }
         /// Internal AWS authentication.
-        case awsInternal = "AWS_INTERNAL"
+        @inlinable public static var awsInternal: Self { .init(rawValue: "AWS_INTERNAL") }
         /// Credentials retrieved via AWS Lambda function.
-        case awsLambda = "AWS_LAMBDA"
+        @inlinable public static var awsLambda: Self { .init(rawValue: "AWS_LAMBDA") }
         /// Credentials stored in AWS Secrets Manager.
-        case secretsManager = "SECRETS_MANAGER"
-        public var description: String { return self.rawValue }
+        @inlinable public static var secretsManager: Self { .init(rawValue: "SECRETS_MANAGER") }
     }
 
-    public enum CleanUpStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct CleanUpStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Attempt to delete resources created during the pentest on a best-effort basis.
-        case bestEffortDelete = "BEST_EFFORT_DELETE"
+        @inlinable public static var bestEffortDelete: Self { .init(rawValue: "BEST_EFFORT_DELETE") }
         /// Retain all resources created during the pentest.
-        case retainAll = "RETAIN_ALL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var retainAll: Self { .init(rawValue: "RETAIN_ALL") }
     }
 
-    public enum CodeRemediationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct CodeRemediationStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Automatically generate code remediation for findings.
-        case automatic = "AUTOMATIC"
+        @inlinable public static var automatic: Self { .init(rawValue: "AUTOMATIC") }
         /// Code remediation is disabled.
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
     }
 
-    public enum CodeRemediationTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct CodeRemediationTaskStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
     }
 
-    public enum ConfidenceLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case falsePositive = "FALSE_POSITIVE"
-        case high = "HIGH"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case unconfirmed = "UNCONFIRMED"
-        public var description: String { return self.rawValue }
+    public struct ConfidenceLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var falsePositive: Self { .init(rawValue: "FALSE_POSITIVE") }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var unconfirmed: Self { .init(rawValue: "UNCONFIRMED") }
     }
 
-    public enum ContextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ContextType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Client-side error encountered during execution.
-        case clientError = "CLIENT_ERROR"
+        @inlinable public static var clientError: Self { .init(rawValue: "CLIENT_ERROR") }
         /// Error encountered during execution.
-        case error = "ERROR"
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
         /// Informational message during execution.
-        case info = "INFO"
+        @inlinable public static var info: Self { .init(rawValue: "INFO") }
         /// Warning encountered during execution.
-        case warning = "WARNING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var warning: Self { .init(rawValue: "WARNING") }
     }
 
-    public enum DNSRecordType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct DNSRecordType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// DNS TXT record.
-        case txt = "TXT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var txt: Self { .init(rawValue: "TXT") }
     }
 
-    public enum DomainVerificationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct DomainVerificationMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Verify ownership via DNS TXT record.
-        case dnsTxt = "DNS_TXT"
+        @inlinable public static var dnsTxt: Self { .init(rawValue: "DNS_TXT") }
         /// Verify ownership via HTTP route.
-        case httpRoute = "HTTP_ROUTE"
+        @inlinable public static var httpRoute: Self { .init(rawValue: "HTTP_ROUTE") }
         /// Verify ownership via IP for private VPC pentests.
-        case privateVpc = "PRIVATE_VPC"
-        public var description: String { return self.rawValue }
+        @inlinable public static var privateVpc: Self { .init(rawValue: "PRIVATE_VPC") }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Failure caused by a client-side error.
-        case clientError = "CLIENT_ERROR"
+        @inlinable public static var clientError: Self { .init(rawValue: "CLIENT_ERROR") }
         /// Failure caused by an internal error.
-        case internalError = "INTERNAL_ERROR"
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
         /// Pentest job was stopped by the user.
-        case stoppedByUser = "STOPPED_BY_USER"
-        public var description: String { return self.rawValue }
+        @inlinable public static var stoppedByUser: Self { .init(rawValue: "STOPPED_BY_USER") }
     }
 
-    public enum FindingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accepted = "ACCEPTED"
-        case active = "ACTIVE"
-        case falsePositive = "FALSE_POSITIVE"
-        case resolved = "RESOLVED"
-        public var description: String { return self.rawValue }
+    public struct FindingStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accepted: Self { .init(rawValue: "ACCEPTED") }
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var falsePositive: Self { .init(rawValue: "FALSE_POSITIVE") }
+        @inlinable public static var resolved: Self { .init(rawValue: "RESOLVED") }
     }
 
-    public enum GitLabTokenType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case group = "GROUP"
-        case personal = "PERSONAL"
-        public var description: String { return self.rawValue }
+    public struct GitLabTokenType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var group: Self { .init(rawValue: "GROUP") }
+        @inlinable public static var personal: Self { .init(rawValue: "PERSONAL") }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dualStack = "DUAL_STACK"
-        case ipv4 = "IPV4"
-        case ipv6 = "IPV6"
-        public var description: String { return self.rawValue }
+    public struct IpAddressType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dualStack: Self { .init(rawValue: "DUAL_STACK") }
+        @inlinable public static var ipv4: Self { .init(rawValue: "IPV4") }
+        @inlinable public static var ipv6: Self { .init(rawValue: "IPV6") }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct JobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Pentest job completed successfully.
-        case completed = "COMPLETED"
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
         /// Pentest job failed during execution.
-        case failed = "FAILED"
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
         /// Pentest job is currently running.
-        case inProgress = "IN_PROGRESS"
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
         /// Pentest job was stopped by the user.
-        case stopped = "STOPPED"
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
         /// Pentest job is being stopped.
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
     }
 
-    public enum JobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct JobType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// A CI/CD pentest job that tests only the code changes in a single pipeline run, as determined by the scope changes supplied when the job is started.
-        case cicd = "CICD"
+        @inlinable public static var cicd: Self { .init(rawValue: "CICD") }
         /// A full pentest job that executes all phases including scanning, managed execution, and guided exploration.
-        case full = "FULL"
+        @inlinable public static var full: Self { .init(rawValue: "FULL") }
         /// A targeted revalidation job that retests specific findings to determine whether they are still exploitable.
-        case revalidation = "REVALIDATION"
-        public var description: String { return self.rawValue }
+        @inlinable public static var revalidation: Self { .init(rawValue: "REVALIDATION") }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct LogType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Logs stored in CloudWatch.
-        case cloudwatch = "CLOUDWATCH"
-        public var description: String { return self.rawValue }
+        @inlinable public static var cloudwatch: Self { .init(rawValue: "CLOUDWATCH") }
     }
 
-    public enum ManagementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsManaged = "AWS_MANAGED"
-        case customerManaged = "CUSTOMER_MANAGED"
-        public var description: String { return self.rawValue }
+    public struct ManagementType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsManaged: Self { .init(rawValue: "AWS_MANAGED") }
+        @inlinable public static var customerManaged: Self { .init(rawValue: "CUSTOMER_MANAGED") }
     }
 
-    public enum MembershipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct MembershipType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Human user member.
-        case user = "USER"
-        public var description: String { return self.rawValue }
+        @inlinable public static var user: Self { .init(rawValue: "USER") }
     }
 
-    public enum MembershipTypeFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct MembershipTypeFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Show all member types.
-        case all = "ALL"
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
         /// Show only user members.
-        case user = "USER"
-        public var description: String { return self.rawValue }
+        @inlinable public static var user: Self { .init(rawValue: "USER") }
     }
 
-    public enum NetworkTrafficRuleEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct NetworkTrafficRuleEffect: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Allow matching traffic.
-        case allow = "ALLOW"
+        @inlinable public static var allow: Self { .init(rawValue: "ALLOW") }
         /// Deny matching traffic.
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
+        @inlinable public static var deny: Self { .init(rawValue: "DENY") }
     }
 
-    public enum NetworkTrafficRuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct NetworkTrafficRuleType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// URL-based traffic rule.
-        case url = "URL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var url: Self { .init(rawValue: "URL") }
     }
 
-    public enum PrivateConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case createFailed = "CREATE_FAILED"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct PrivateConnectionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
     }
 
-    public enum PrivateConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case selfManaged = "SELF_MANAGED"
-        case serviceManaged = "SERVICE_MANAGED"
-        public var description: String { return self.rawValue }
+    public struct PrivateConnectionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var selfManaged: Self { .init(rawValue: "SELF_MANAGED") }
+        @inlinable public static var serviceManaged: Self { .init(rawValue: "SERVICE_MANAGED") }
     }
 
-    public enum Provider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bitbucket = "BITBUCKET"
-        case confluence = "CONFLUENCE"
-        case github = "GITHUB"
-        case gitlab = "GITLAB"
-        public var description: String { return self.rawValue }
+    public struct Provider: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bitbucket: Self { .init(rawValue: "BITBUCKET") }
+        @inlinable public static var confluence: Self { .init(rawValue: "CONFLUENCE") }
+        @inlinable public static var github: Self { .init(rawValue: "GITHUB") }
+        @inlinable public static var gitlab: Self { .init(rawValue: "GITLAB") }
     }
 
-    public enum ProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case documentation = "DOCUMENTATION"
-        case sourceCode = "SOURCE_CODE"
-        public var description: String { return self.rawValue }
+    public struct ProviderType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var documentation: Self { .init(rawValue: "DOCUMENTATION") }
+        @inlinable public static var sourceCode: Self { .init(rawValue: "SOURCE_CODE") }
     }
 
-    public enum ResourceConfigDnsResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `public` = "PUBLIC"
-        case inVpc = "IN_VPC"
-        public var description: String { return self.rawValue }
+    public struct ResourceConfigDnsResolution: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `public`: Self { .init(rawValue: "PUBLIC") }
+        @inlinable public static var inVpc: Self { .init(rawValue: "IN_VPC") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case codeRepository = "CODE_REPOSITORY"
-        case document = "DOCUMENT"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var codeRepository: Self { .init(rawValue: "CODE_REPOSITORY") }
+        @inlinable public static var document: Self { .init(rawValue: "DOCUMENT") }
     }
 
-    public enum RiskLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case critical = "CRITICAL"
-        case high = "HIGH"
-        case informational = "INFORMATIONAL"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
+    public struct RiskLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var critical: Self { .init(rawValue: "CRITICAL") }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var informational: Self { .init(rawValue: "INFORMATIONAL") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
     }
 
-    public enum RiskType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct RiskType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Arbitrary file upload vulnerability.
-        case arbitraryFileUpload = "ARBITRARY_FILE_UPLOAD"
+        @inlinable public static var arbitraryFileUpload: Self { .init(rawValue: "ARBITRARY_FILE_UPLOAD") }
         /// Business logic vulnerability.
-        case businessLogicVulnerabilities = "BUSINESS_LOGIC_VULNERABILITIES"
+        @inlinable public static var businessLogicVulnerabilities: Self { .init(rawValue: "BUSINESS_LOGIC_VULNERABILITIES") }
         /// Code injection vulnerability.
-        case codeInjection = "CODE_INJECTION"
+        @inlinable public static var codeInjection: Self { .init(rawValue: "CODE_INJECTION") }
         /// Command injection vulnerability.
-        case commandInjection = "COMMAND_INJECTION"
+        @inlinable public static var commandInjection: Self { .init(rawValue: "COMMAND_INJECTION") }
         /// Cross-site scripting vulnerability.
-        case crossSiteScripting = "CROSS_SITE_SCRIPTING"
+        @inlinable public static var crossSiteScripting: Self { .init(rawValue: "CROSS_SITE_SCRIPTING") }
         /// Cryptographic vulnerability.
-        case cryptographicVulnerabilities = "CRYPTOGRAPHIC_VULNERABILITIES"
+        @inlinable public static var cryptographicVulnerabilities: Self { .init(rawValue: "CRYPTOGRAPHIC_VULNERABILITIES") }
         /// Unauthorized database access.
-        case databaseAccess = "DATABASE_ACCESS"
+        @inlinable public static var databaseAccess: Self { .init(rawValue: "DATABASE_ACCESS") }
         /// Unauthorized database modification.
-        case databaseModification = "DATABASE_MODIFICATION"
+        @inlinable public static var databaseModification: Self { .init(rawValue: "DATABASE_MODIFICATION") }
         /// Default or weak credentials detected.
-        case defaultCredentials = "DEFAULT_CREDENTIALS"
+        @inlinable public static var defaultCredentials: Self { .init(rawValue: "DEFAULT_CREDENTIALS") }
         /// Denial of service vulnerability.
-        case denialOfService = "DENIAL_OF_SERVICE"
+        @inlinable public static var denialOfService: Self { .init(rawValue: "DENIAL_OF_SERVICE") }
         /// Unauthorized file access vulnerability.
-        case fileAccess = "FILE_ACCESS"
+        @inlinable public static var fileAccess: Self { .init(rawValue: "FILE_ACCESS") }
         /// Unauthorized file creation vulnerability.
-        case fileCreation = "FILE_CREATION"
+        @inlinable public static var fileCreation: Self { .init(rawValue: "FILE_CREATION") }
         /// File deletion vulnerability.
-        case fileDeletion = "FILE_DELETION"
+        @inlinable public static var fileDeletion: Self { .init(rawValue: "FILE_DELETION") }
         /// GraphQL-specific vulnerability.
-        case graphqlVulnerabilities = "GRAPHQL_VULNERABILITIES"
+        @inlinable public static var graphqlVulnerabilities: Self { .init(rawValue: "GRAPHQL_VULNERABILITIES") }
         /// Information disclosure vulnerability.
-        case informationDisclosure = "INFORMATION_DISCLOSURE"
+        @inlinable public static var informationDisclosure: Self { .init(rawValue: "INFORMATION_DISCLOSURE") }
         /// Insecure deserialization vulnerability.
-        case insecureDeserialization = "INSECURE_DESERIALIZATION"
+        @inlinable public static var insecureDeserialization: Self { .init(rawValue: "INSECURE_DESERIALIZATION") }
         /// Insecure direct object reference vulnerability.
-        case insecureDirectObjectReference = "INSECURE_DIRECT_OBJECT_REFERENCE"
+        @inlinable public static var insecureDirectObjectReference: Self { .init(rawValue: "INSECURE_DIRECT_OBJECT_REFERENCE") }
         /// JSON Web Token vulnerability.
-        case jsonWebTokenVulnerabilities = "JSON_WEB_TOKEN_VULNERABILITIES"
+        @inlinable public static var jsonWebTokenVulnerabilities: Self { .init(rawValue: "JSON_WEB_TOKEN_VULNERABILITIES") }
         /// Local file inclusion vulnerability.
-        case localFileInclusion = "LOCAL_FILE_INCLUSION"
+        @inlinable public static var localFileInclusion: Self { .init(rawValue: "LOCAL_FILE_INCLUSION") }
         /// Other risk type not covered by specific categories.
-        case other = "OTHER"
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
         /// Outbound service request vulnerability.
-        case outboundServiceRequest = "OUTBOUND_SERVICE_REQUEST"
+        @inlinable public static var outboundServiceRequest: Self { .init(rawValue: "OUTBOUND_SERVICE_REQUEST") }
         /// Path traversal vulnerability.
-        case pathTraversal = "PATH_TRAVERSAL"
+        @inlinable public static var pathTraversal: Self { .init(rawValue: "PATH_TRAVERSAL") }
         /// Privilege escalation vulnerability.
-        case privilegeEscalation = "PRIVILEGE_ESCALATION"
+        @inlinable public static var privilegeEscalation: Self { .init(rawValue: "PRIVILEGE_ESCALATION") }
         /// Server-side request forgery vulnerability.
-        case serverSideRequestForgery = "SERVER_SIDE_REQUEST_FORGERY"
+        @inlinable public static var serverSideRequestForgery: Self { .init(rawValue: "SERVER_SIDE_REQUEST_FORGERY") }
         /// Server-side template injection vulnerability.
-        case serverSideTemplateInjection = "SERVER_SIDE_TEMPLATE_INJECTION"
+        @inlinable public static var serverSideTemplateInjection: Self { .init(rawValue: "SERVER_SIDE_TEMPLATE_INJECTION") }
         /// SQL injection vulnerability.
-        case sqlInjection = "SQL_INJECTION"
+        @inlinable public static var sqlInjection: Self { .init(rawValue: "SQL_INJECTION") }
         /// Unknown risk type.
-        case unknown = "UNKNOWN"
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
         /// XML external entity vulnerability.
-        case xmlExternalEntity = "XML_EXTERNAL_ENTITY"
-        public var description: String { return self.rawValue }
+        @inlinable public static var xmlExternalEntity: Self { .init(rawValue: "XML_EXTERNAL_ENTITY") }
     }
 
-    public enum ScopeDecision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ScopeDecision: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The code changes are in scope and are tested by the pentest job.
-        case inScope = "IN_SCOPE"
+        @inlinable public static var inScope: Self { .init(rawValue: "IN_SCOPE") }
         /// The code changes could not be conclusively scoped because of a conflict in the scoping inputs.
-        case scopeConflict = "SCOPE_CONFLICT"
+        @inlinable public static var scopeConflict: Self { .init(rawValue: "SCOPE_CONFLICT") }
         /// The code changes are out of scope and are not tested. No pentest is run for the changes.
-        case scopedOut = "SCOPED_OUT"
-        public var description: String { return self.rawValue }
+        @inlinable public static var scopedOut: Self { .init(rawValue: "SCOPED_OUT") }
     }
 
-    public enum SecurityRequirementArtifactFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case doc = "DOC"
-        case docx = "DOCX"
-        case md = "MD"
-        case pdf = "PDF"
-        case txt = "TXT"
-        public var description: String { return self.rawValue }
+    public struct SecurityRequirementArtifactFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var doc: Self { .init(rawValue: "DOC") }
+        @inlinable public static var docx: Self { .init(rawValue: "DOCX") }
+        @inlinable public static var md: Self { .init(rawValue: "MD") }
+        @inlinable public static var pdf: Self { .init(rawValue: "PDF") }
+        @inlinable public static var txt: Self { .init(rawValue: "TXT") }
     }
 
-    public enum SecurityRequirementPackImportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct SecurityRequirementPackImportStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum SecurityRequirementPackStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct SecurityRequirementPackStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum SkillType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct SkillType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The finding personalization skill learns customer preferences from finding edits and aligns future findings accordingly.
-        case findingPersonalization = "FINDING_PERSONALIZATION"
+        @inlinable public static var findingPersonalization: Self { .init(rawValue: "FINDING_PERSONALIZATION") }
         /// The login optimization skill learns application login flows to improve authentication success across runs.
-        case loginOptimization = "LOGIN_OPTIMIZATION"
-        public var description: String { return self.rawValue }
+        @inlinable public static var loginOptimization: Self { .init(rawValue: "LOGIN_OPTIMIZATION") }
     }
 
-    public enum StepName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct StepName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Cleanup of infrastructure and resources created by the agent.
-        case finalizing = "FINALIZING"
+        @inlinable public static var finalizing: Self { .init(rawValue: "FINALIZING") }
         /// Active pentest step.
-        case pentest = "PENTEST"
+        @inlinable public static var pentest: Self { .init(rawValue: "PENTEST") }
         /// Pre-flight validation and setup step.
-        case preflight = "PREFLIGHT"
+        @inlinable public static var preflight: Self { .init(rawValue: "PREFLIGHT") }
         /// Static code and network scan analysis step.
-        case staticAnalysis = "STATIC_ANALYSIS"
+        @inlinable public static var staticAnalysis: Self { .init(rawValue: "STATIC_ANALYSIS") }
         /// Simulated validation step that dynamically confirms vulnerability exploitability.
-        case validation = "VALIDATION"
-        public var description: String { return self.rawValue }
+        @inlinable public static var validation: Self { .init(rawValue: "VALIDATION") }
     }
 
-    public enum StepStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct StepStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Step completed successfully.
-        case completed = "COMPLETED"
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
         /// Step failed during execution.
-        case failed = "FAILED"
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
         /// Step is currently running.
-        case inProgress = "IN_PROGRESS"
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
         /// Step has not started yet.
-        case notStarted = "NOT_STARTED"
+        @inlinable public static var notStarted: Self { .init(rawValue: "NOT_STARTED") }
         /// Step was stopped by the user.
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
     }
 
-    public enum StrideCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case denialOfService = "DENIAL_OF_SERVICE"
-        case elevationOfPrivilege = "ELEVATION_OF_PRIVILEGE"
-        case informationDisclosure = "INFORMATION_DISCLOSURE"
-        case repudiation = "REPUDIATION"
-        case spoofing = "SPOOFING"
-        case tampering = "TAMPERING"
-        public var description: String { return self.rawValue }
+    public struct StrideCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var denialOfService: Self { .init(rawValue: "DENIAL_OF_SERVICE") }
+        @inlinable public static var elevationOfPrivilege: Self { .init(rawValue: "ELEVATION_OF_PRIVILEGE") }
+        @inlinable public static var informationDisclosure: Self { .init(rawValue: "INFORMATION_DISCLOSURE") }
+        @inlinable public static var repudiation: Self { .init(rawValue: "REPUDIATION") }
+        @inlinable public static var spoofing: Self { .init(rawValue: "SPOOFING") }
+        @inlinable public static var tampering: Self { .init(rawValue: "TAMPERING") }
     }
 
-    public enum TargetDomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct TargetDomainStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Domain verification failed.
-        case failed = "FAILED"
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
         /// Domain verification is pending.
-        case pending = "PENDING"
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
         /// Domain is unreachable for verification.
-        case unreachable = "UNREACHABLE"
+        @inlinable public static var unreachable: Self { .init(rawValue: "UNREACHABLE") }
         /// Domain ownership has been verified.
-        case verified = "VERIFIED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var verified: Self { .init(rawValue: "VERIFIED") }
     }
 
-    public enum TaskExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct TaskExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Task was aborted.
-        case aborted = "ABORTED"
+        @inlinable public static var aborted: Self { .init(rawValue: "ABORTED") }
         /// Task completed successfully.
-        case completed = "COMPLETED"
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
         /// Task failed during execution.
-        case failed = "FAILED"
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
         /// Task is currently running.
-        case inProgress = "IN_PROGRESS"
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
         /// Task failed due to an internal error.
-        case internalError = "INTERNAL_ERROR"
-        public var description: String { return self.rawValue }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
     }
 
-    public enum ThreatActor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ThreatActor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Threat was created or updated by an agent.
-        case agent = "AGENT"
+        @inlinable public static var agent: Self { .init(rawValue: "AGENT") }
         /// Threat was created or updated by a customer.
-        case customer = "CUSTOMER"
-        public var description: String { return self.rawValue }
+        @inlinable public static var customer: Self { .init(rawValue: "CUSTOMER") }
     }
 
-    public enum ThreatSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case critical = "CRITICAL"
-        case high = "HIGH"
-        case info = "INFO"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        public var description: String { return self.rawValue }
+    public struct ThreatSeverity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var critical: Self { .init(rawValue: "CRITICAL") }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var info: Self { .init(rawValue: "INFO") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
     }
 
-    public enum ThreatStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dismissed = "DISMISSED"
-        case open = "OPEN"
-        case resolved = "RESOLVED"
-        public var description: String { return self.rawValue }
+    public struct ThreatStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dismissed: Self { .init(rawValue: "DISMISSED") }
+        @inlinable public static var open: Self { .init(rawValue: "OPEN") }
+        @inlinable public static var resolved: Self { .init(rawValue: "RESOLVED") }
     }
 
-    public enum UserRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct UserRole: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Default member role with standard permissions.
-        case member = "MEMBER"
-        public var description: String { return self.rawValue }
+        @inlinable public static var member: Self { .init(rawValue: "MEMBER") }
     }
 
-    public enum ValidationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case simulated = "SIMULATED"
-        public var description: String { return self.rawValue }
+    public struct ValidationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var simulated: Self { .init(rawValue: "SIMULATED") }
     }
 
-    public enum ValidationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case confirmed = "CONFIRMED"
-        case notReproduced = "NOT_REPRODUCED"
-        case notValidated = "NOT_VALIDATED"
-        case validating = "VALIDATING"
-        case validationFailed = "VALIDATION_FAILED"
-        public var description: String { return self.rawValue }
+    public struct ValidationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var confirmed: Self { .init(rawValue: "CONFIRMED") }
+        @inlinable public static var notReproduced: Self { .init(rawValue: "NOT_REPRODUCED") }
+        @inlinable public static var notValidated: Self { .init(rawValue: "NOT_VALIDATED") }
+        @inlinable public static var validating: Self { .init(rawValue: "VALIDATING") }
+        @inlinable public static var validationFailed: Self { .init(rawValue: "VALIDATION_FAILED") }
     }
 
     public enum CaCertificateSource: AWSEncodableShape & AWSDecodableShape, Sendable {

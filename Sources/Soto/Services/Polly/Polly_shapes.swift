@@ -25,226 +25,270 @@ import Foundation
 extension Polly {
     // MARK: Enums
 
-    public enum Engine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case generative = "generative"
-        case longForm = "long-form"
-        case neural = "neural"
-        case standard = "standard"
-        public var description: String { return self.rawValue }
+    public struct Engine: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var generative: Self { .init(rawValue: "generative") }
+        @inlinable public static var longForm: Self { .init(rawValue: "long-form") }
+        @inlinable public static var neural: Self { .init(rawValue: "neural") }
+        @inlinable public static var standard: Self { .init(rawValue: "standard") }
     }
 
-    public enum Gender: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case female = "Female"
-        case male = "Male"
-        public var description: String { return self.rawValue }
+    public struct Gender: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var female: Self { .init(rawValue: "Female") }
+        @inlinable public static var male: Self { .init(rawValue: "Male") }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case arAE = "ar-AE"
-        case arb = "arb"
-        case caES = "ca-ES"
-        case cmnCN = "cmn-CN"
-        case csCZ = "cs-CZ"
-        case cyGB = "cy-GB"
-        case daDK = "da-DK"
-        case deAT = "de-AT"
-        case deCH = "de-CH"
-        case deDE = "de-DE"
-        case enAU = "en-AU"
-        case enGB = "en-GB"
-        case enGBWLS = "en-GB-WLS"
-        case enIE = "en-IE"
-        case enIN = "en-IN"
-        case enNZ = "en-NZ"
-        case enSG = "en-SG"
-        case enUS = "en-US"
-        case enZA = "en-ZA"
-        case esES = "es-ES"
-        case esMX = "es-MX"
-        case esUS = "es-US"
-        case fiFI = "fi-FI"
-        case frBE = "fr-BE"
-        case frCA = "fr-CA"
-        case frFR = "fr-FR"
-        case hiIN = "hi-IN"
-        case isIS = "is-IS"
-        case itIT = "it-IT"
-        case jaJP = "ja-JP"
-        case koKR = "ko-KR"
-        case nbNO = "nb-NO"
-        case nlBE = "nl-BE"
-        case nlNL = "nl-NL"
-        case plPL = "pl-PL"
-        case ptBR = "pt-BR"
-        case ptPT = "pt-PT"
-        case roRO = "ro-RO"
-        case ruRU = "ru-RU"
-        case svSE = "sv-SE"
-        case trTR = "tr-TR"
-        case yueCN = "yue-CN"
-        public var description: String { return self.rawValue }
+    public struct LanguageCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var arAE: Self { .init(rawValue: "ar-AE") }
+        @inlinable public static var arb: Self { .init(rawValue: "arb") }
+        @inlinable public static var caES: Self { .init(rawValue: "ca-ES") }
+        @inlinable public static var cmnCN: Self { .init(rawValue: "cmn-CN") }
+        @inlinable public static var csCZ: Self { .init(rawValue: "cs-CZ") }
+        @inlinable public static var cyGB: Self { .init(rawValue: "cy-GB") }
+        @inlinable public static var daDK: Self { .init(rawValue: "da-DK") }
+        @inlinable public static var deAT: Self { .init(rawValue: "de-AT") }
+        @inlinable public static var deCH: Self { .init(rawValue: "de-CH") }
+        @inlinable public static var deDE: Self { .init(rawValue: "de-DE") }
+        @inlinable public static var enAU: Self { .init(rawValue: "en-AU") }
+        @inlinable public static var enGB: Self { .init(rawValue: "en-GB") }
+        @inlinable public static var enGBWLS: Self { .init(rawValue: "en-GB-WLS") }
+        @inlinable public static var enIE: Self { .init(rawValue: "en-IE") }
+        @inlinable public static var enIN: Self { .init(rawValue: "en-IN") }
+        @inlinable public static var enNZ: Self { .init(rawValue: "en-NZ") }
+        @inlinable public static var enSG: Self { .init(rawValue: "en-SG") }
+        @inlinable public static var enUS: Self { .init(rawValue: "en-US") }
+        @inlinable public static var enZA: Self { .init(rawValue: "en-ZA") }
+        @inlinable public static var esES: Self { .init(rawValue: "es-ES") }
+        @inlinable public static var esMX: Self { .init(rawValue: "es-MX") }
+        @inlinable public static var esUS: Self { .init(rawValue: "es-US") }
+        @inlinable public static var fiFI: Self { .init(rawValue: "fi-FI") }
+        @inlinable public static var frBE: Self { .init(rawValue: "fr-BE") }
+        @inlinable public static var frCA: Self { .init(rawValue: "fr-CA") }
+        @inlinable public static var frFR: Self { .init(rawValue: "fr-FR") }
+        @inlinable public static var hiIN: Self { .init(rawValue: "hi-IN") }
+        @inlinable public static var isIS: Self { .init(rawValue: "is-IS") }
+        @inlinable public static var itIT: Self { .init(rawValue: "it-IT") }
+        @inlinable public static var jaJP: Self { .init(rawValue: "ja-JP") }
+        @inlinable public static var koKR: Self { .init(rawValue: "ko-KR") }
+        @inlinable public static var nbNO: Self { .init(rawValue: "nb-NO") }
+        @inlinable public static var nlBE: Self { .init(rawValue: "nl-BE") }
+        @inlinable public static var nlNL: Self { .init(rawValue: "nl-NL") }
+        @inlinable public static var plPL: Self { .init(rawValue: "pl-PL") }
+        @inlinable public static var ptBR: Self { .init(rawValue: "pt-BR") }
+        @inlinable public static var ptPT: Self { .init(rawValue: "pt-PT") }
+        @inlinable public static var roRO: Self { .init(rawValue: "ro-RO") }
+        @inlinable public static var ruRU: Self { .init(rawValue: "ru-RU") }
+        @inlinable public static var svSE: Self { .init(rawValue: "sv-SE") }
+        @inlinable public static var trTR: Self { .init(rawValue: "tr-TR") }
+        @inlinable public static var yueCN: Self { .init(rawValue: "yue-CN") }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alaw = "alaw"
-        case json = "json"
-        case mp3 = "mp3"
-        case mulaw = "mulaw"
-        case oggOpus = "ogg_opus"
-        case oggVorbis = "ogg_vorbis"
-        case pcm = "pcm"
-        public var description: String { return self.rawValue }
+    public struct OutputFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alaw: Self { .init(rawValue: "alaw") }
+        @inlinable public static var json: Self { .init(rawValue: "json") }
+        @inlinable public static var mp3: Self { .init(rawValue: "mp3") }
+        @inlinable public static var mulaw: Self { .init(rawValue: "mulaw") }
+        @inlinable public static var oggOpus: Self { .init(rawValue: "ogg_opus") }
+        @inlinable public static var oggVorbis: Self { .init(rawValue: "ogg_vorbis") }
+        @inlinable public static var pcm: Self { .init(rawValue: "pcm") }
     }
 
-    public enum QuotaCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inputStreamInboundEventTimeout = "input-stream-inbound-event-timeout"
-        case inputStreamTimeout = "input-stream-timeout"
-        public var description: String { return self.rawValue }
+    public struct QuotaCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inputStreamInboundEventTimeout: Self { .init(rawValue: "input-stream-inbound-event-timeout") }
+        @inlinable public static var inputStreamTimeout: Self { .init(rawValue: "input-stream-timeout") }
     }
 
-    public enum ServiceCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case polly = "polly"
-        public var description: String { return self.rawValue }
+    public struct ServiceCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var polly: Self { .init(rawValue: "polly") }
     }
 
-    public enum SpeechMarkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sentence = "sentence"
-        case ssml = "ssml"
-        case viseme = "viseme"
-        case word = "word"
-        public var description: String { return self.rawValue }
+    public struct SpeechMarkType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sentence: Self { .init(rawValue: "sentence") }
+        @inlinable public static var ssml: Self { .init(rawValue: "ssml") }
+        @inlinable public static var viseme: Self { .init(rawValue: "viseme") }
+        @inlinable public static var word: Self { .init(rawValue: "word") }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "completed"
-        case failed = "failed"
-        case inProgress = "inProgress"
-        case scheduled = "scheduled"
-        public var description: String { return self.rawValue }
+    public struct TaskStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "completed") }
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "inProgress") }
+        @inlinable public static var scheduled: Self { .init(rawValue: "scheduled") }
     }
 
-    public enum TextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ssml = "ssml"
-        case text = "text"
-        public var description: String { return self.rawValue }
+    public struct TextType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ssml: Self { .init(rawValue: "ssml") }
+        @inlinable public static var text: Self { .init(rawValue: "text") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fieldValidationFailed = "fieldValidationFailed"
-        case invalidInboundEvent = "invalidInboundEvent"
-        case other = "other"
-        case unsupportedOperation = "unsupportedOperation"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var invalidInboundEvent: Self { .init(rawValue: "invalidInboundEvent") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
+        @inlinable public static var unsupportedOperation: Self { .init(rawValue: "unsupportedOperation") }
     }
 
-    public enum VoiceId: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aditi = "Aditi"
-        case adriano = "Adriano"
-        case ambre = "Ambre"
-        case amy = "Amy"
-        case andres = "Andres"
-        case aria = "Aria"
-        case arlet = "Arlet"
-        case arthur = "Arthur"
-        case astrid = "Astrid"
-        case ayanda = "Ayanda"
-        case beatrice = "Beatrice"
-        case bianca = "Bianca"
-        case brian = "Brian"
-        case burcu = "Burcu"
-        case camila = "Camila"
-        case carla = "Carla"
-        case carmen = "Carmen"
-        case celine = "Celine"
-        case chantal = "Chantal"
-        case conchita = "Conchita"
-        case cristiano = "Cristiano"
-        case daniel = "Daniel"
-        case danielle = "Danielle"
-        case dora = "Dora"
-        case elin = "Elin"
-        case emma = "Emma"
-        case enrique = "Enrique"
-        case ewa = "Ewa"
-        case filiz = "Filiz"
-        case florian = "Florian"
-        case gabrielle = "Gabrielle"
-        case geraint = "Geraint"
-        case giorgio = "Giorgio"
-        case gregory = "Gregory"
-        case gwyneth = "Gwyneth"
-        case hala = "Hala"
-        case hannah = "Hannah"
-        case hans = "Hans"
-        case hiujin = "Hiujin"
-        case ida = "Ida"
-        case ines = "Ines"
-        case isabelle = "Isabelle"
-        case ivy = "Ivy"
-        case jacek = "Jacek"
-        case jan = "Jan"
-        case jasmine = "Jasmine"
-        case jihye = "Jihye"
-        case jitka = "Jitka"
-        case joanna = "Joanna"
-        case joey = "Joey"
-        case justin = "Justin"
-        case kajal = "Kajal"
-        case karl = "Karl"
-        case kazuha = "Kazuha"
-        case kendra = "Kendra"
-        case kevin = "Kevin"
-        case kimberly = "Kimberly"
-        case laura = "Laura"
-        case lea = "Lea"
-        case lennart = "Lennart"
-        case liam = "Liam"
-        case lisa = "Lisa"
-        case liv = "Liv"
-        case lorenzo = "Lorenzo"
-        case lotte = "Lotte"
-        case lucia = "Lucia"
-        case lupe = "Lupe"
-        case mads = "Mads"
-        case maja = "Maja"
-        case marlene = "Marlene"
-        case mathieu = "Mathieu"
-        case matthew = "Matthew"
-        case maxim = "Maxim"
-        case mia = "Mia"
-        case miguel = "Miguel"
-        case mizuki = "Mizuki"
-        case naja = "Naja"
-        case niamh = "Niamh"
-        case nicole = "Nicole"
-        case ola = "Ola"
-        case olivia = "Olivia"
-        case pedro = "Pedro"
-        case penelope = "Penelope"
-        case raveena = "Raveena"
-        case remi = "Remi"
-        case ricardo = "Ricardo"
-        case ruben = "Ruben"
-        case russell = "Russell"
-        case ruth = "Ruth"
-        case sabrina = "Sabrina"
-        case salli = "Salli"
-        case seoyeon = "Seoyeon"
-        case sergio = "Sergio"
-        case sofie = "Sofie"
-        case stephen = "Stephen"
-        case suvi = "Suvi"
-        case takumi = "Takumi"
-        case tatyana = "Tatyana"
-        case thiago = "Thiago"
-        case tiffany = "Tiffany"
-        case tomoko = "Tomoko"
-        case vicki = "Vicki"
-        case vitoria = "Vitoria"
-        case zayd = "Zayd"
-        case zeina = "Zeina"
-        case zhiyu = "Zhiyu"
-        public var description: String { return self.rawValue }
+    public struct VoiceId: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aditi: Self { .init(rawValue: "Aditi") }
+        @inlinable public static var adriano: Self { .init(rawValue: "Adriano") }
+        @inlinable public static var ambre: Self { .init(rawValue: "Ambre") }
+        @inlinable public static var amy: Self { .init(rawValue: "Amy") }
+        @inlinable public static var andres: Self { .init(rawValue: "Andres") }
+        @inlinable public static var aria: Self { .init(rawValue: "Aria") }
+        @inlinable public static var arlet: Self { .init(rawValue: "Arlet") }
+        @inlinable public static var arthur: Self { .init(rawValue: "Arthur") }
+        @inlinable public static var astrid: Self { .init(rawValue: "Astrid") }
+        @inlinable public static var ayanda: Self { .init(rawValue: "Ayanda") }
+        @inlinable public static var beatrice: Self { .init(rawValue: "Beatrice") }
+        @inlinable public static var bianca: Self { .init(rawValue: "Bianca") }
+        @inlinable public static var brian: Self { .init(rawValue: "Brian") }
+        @inlinable public static var burcu: Self { .init(rawValue: "Burcu") }
+        @inlinable public static var camila: Self { .init(rawValue: "Camila") }
+        @inlinable public static var carla: Self { .init(rawValue: "Carla") }
+        @inlinable public static var carmen: Self { .init(rawValue: "Carmen") }
+        @inlinable public static var celine: Self { .init(rawValue: "Celine") }
+        @inlinable public static var chantal: Self { .init(rawValue: "Chantal") }
+        @inlinable public static var conchita: Self { .init(rawValue: "Conchita") }
+        @inlinable public static var cristiano: Self { .init(rawValue: "Cristiano") }
+        @inlinable public static var daniel: Self { .init(rawValue: "Daniel") }
+        @inlinable public static var danielle: Self { .init(rawValue: "Danielle") }
+        @inlinable public static var dora: Self { .init(rawValue: "Dora") }
+        @inlinable public static var elin: Self { .init(rawValue: "Elin") }
+        @inlinable public static var emma: Self { .init(rawValue: "Emma") }
+        @inlinable public static var enrique: Self { .init(rawValue: "Enrique") }
+        @inlinable public static var ewa: Self { .init(rawValue: "Ewa") }
+        @inlinable public static var filiz: Self { .init(rawValue: "Filiz") }
+        @inlinable public static var florian: Self { .init(rawValue: "Florian") }
+        @inlinable public static var gabrielle: Self { .init(rawValue: "Gabrielle") }
+        @inlinable public static var geraint: Self { .init(rawValue: "Geraint") }
+        @inlinable public static var giorgio: Self { .init(rawValue: "Giorgio") }
+        @inlinable public static var gregory: Self { .init(rawValue: "Gregory") }
+        @inlinable public static var gwyneth: Self { .init(rawValue: "Gwyneth") }
+        @inlinable public static var hala: Self { .init(rawValue: "Hala") }
+        @inlinable public static var hannah: Self { .init(rawValue: "Hannah") }
+        @inlinable public static var hans: Self { .init(rawValue: "Hans") }
+        @inlinable public static var hiujin: Self { .init(rawValue: "Hiujin") }
+        @inlinable public static var ida: Self { .init(rawValue: "Ida") }
+        @inlinable public static var ines: Self { .init(rawValue: "Ines") }
+        @inlinable public static var isabelle: Self { .init(rawValue: "Isabelle") }
+        @inlinable public static var ivy: Self { .init(rawValue: "Ivy") }
+        @inlinable public static var jacek: Self { .init(rawValue: "Jacek") }
+        @inlinable public static var jan: Self { .init(rawValue: "Jan") }
+        @inlinable public static var jasmine: Self { .init(rawValue: "Jasmine") }
+        @inlinable public static var jihye: Self { .init(rawValue: "Jihye") }
+        @inlinable public static var jitka: Self { .init(rawValue: "Jitka") }
+        @inlinable public static var joanna: Self { .init(rawValue: "Joanna") }
+        @inlinable public static var joey: Self { .init(rawValue: "Joey") }
+        @inlinable public static var justin: Self { .init(rawValue: "Justin") }
+        @inlinable public static var kajal: Self { .init(rawValue: "Kajal") }
+        @inlinable public static var karl: Self { .init(rawValue: "Karl") }
+        @inlinable public static var kazuha: Self { .init(rawValue: "Kazuha") }
+        @inlinable public static var kendra: Self { .init(rawValue: "Kendra") }
+        @inlinable public static var kevin: Self { .init(rawValue: "Kevin") }
+        @inlinable public static var kimberly: Self { .init(rawValue: "Kimberly") }
+        @inlinable public static var laura: Self { .init(rawValue: "Laura") }
+        @inlinable public static var lea: Self { .init(rawValue: "Lea") }
+        @inlinable public static var lennart: Self { .init(rawValue: "Lennart") }
+        @inlinable public static var liam: Self { .init(rawValue: "Liam") }
+        @inlinable public static var lisa: Self { .init(rawValue: "Lisa") }
+        @inlinable public static var liv: Self { .init(rawValue: "Liv") }
+        @inlinable public static var lorenzo: Self { .init(rawValue: "Lorenzo") }
+        @inlinable public static var lotte: Self { .init(rawValue: "Lotte") }
+        @inlinable public static var lucia: Self { .init(rawValue: "Lucia") }
+        @inlinable public static var lupe: Self { .init(rawValue: "Lupe") }
+        @inlinable public static var mads: Self { .init(rawValue: "Mads") }
+        @inlinable public static var maja: Self { .init(rawValue: "Maja") }
+        @inlinable public static var marlene: Self { .init(rawValue: "Marlene") }
+        @inlinable public static var mathieu: Self { .init(rawValue: "Mathieu") }
+        @inlinable public static var matthew: Self { .init(rawValue: "Matthew") }
+        @inlinable public static var maxim: Self { .init(rawValue: "Maxim") }
+        @inlinable public static var mia: Self { .init(rawValue: "Mia") }
+        @inlinable public static var miguel: Self { .init(rawValue: "Miguel") }
+        @inlinable public static var mizuki: Self { .init(rawValue: "Mizuki") }
+        @inlinable public static var naja: Self { .init(rawValue: "Naja") }
+        @inlinable public static var niamh: Self { .init(rawValue: "Niamh") }
+        @inlinable public static var nicole: Self { .init(rawValue: "Nicole") }
+        @inlinable public static var ola: Self { .init(rawValue: "Ola") }
+        @inlinable public static var olivia: Self { .init(rawValue: "Olivia") }
+        @inlinable public static var pedro: Self { .init(rawValue: "Pedro") }
+        @inlinable public static var penelope: Self { .init(rawValue: "Penelope") }
+        @inlinable public static var raveena: Self { .init(rawValue: "Raveena") }
+        @inlinable public static var remi: Self { .init(rawValue: "Remi") }
+        @inlinable public static var ricardo: Self { .init(rawValue: "Ricardo") }
+        @inlinable public static var ruben: Self { .init(rawValue: "Ruben") }
+        @inlinable public static var russell: Self { .init(rawValue: "Russell") }
+        @inlinable public static var ruth: Self { .init(rawValue: "Ruth") }
+        @inlinable public static var sabrina: Self { .init(rawValue: "Sabrina") }
+        @inlinable public static var salli: Self { .init(rawValue: "Salli") }
+        @inlinable public static var seoyeon: Self { .init(rawValue: "Seoyeon") }
+        @inlinable public static var sergio: Self { .init(rawValue: "Sergio") }
+        @inlinable public static var sofie: Self { .init(rawValue: "Sofie") }
+        @inlinable public static var stephen: Self { .init(rawValue: "Stephen") }
+        @inlinable public static var suvi: Self { .init(rawValue: "Suvi") }
+        @inlinable public static var takumi: Self { .init(rawValue: "Takumi") }
+        @inlinable public static var tatyana: Self { .init(rawValue: "Tatyana") }
+        @inlinable public static var thiago: Self { .init(rawValue: "Thiago") }
+        @inlinable public static var tiffany: Self { .init(rawValue: "Tiffany") }
+        @inlinable public static var tomoko: Self { .init(rawValue: "Tomoko") }
+        @inlinable public static var vicki: Self { .init(rawValue: "Vicki") }
+        @inlinable public static var vitoria: Self { .init(rawValue: "Vitoria") }
+        @inlinable public static var zayd: Self { .init(rawValue: "Zayd") }
+        @inlinable public static var zeina: Self { .init(rawValue: "Zeina") }
+        @inlinable public static var zhiyu: Self { .init(rawValue: "Zhiyu") }
     }
 
     public enum StartSpeechSynthesisStreamActionStream: AWSEncodableShape, Sendable {

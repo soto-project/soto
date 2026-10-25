@@ -25,30 +25,46 @@ import Foundation
 extension CognitoIdentity {
     // MARK: Enums
 
-    public enum AmbiguousRoleResolutionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case authenticatedRole = "AuthenticatedRole"
-        case deny = "Deny"
-        public var description: String { return self.rawValue }
+    public struct AmbiguousRoleResolutionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var authenticatedRole: Self { .init(rawValue: "AuthenticatedRole") }
+        @inlinable public static var deny: Self { .init(rawValue: "Deny") }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDenied = "AccessDenied"
-        case internalServerError = "InternalServerError"
-        public var description: String { return self.rawValue }
+    public struct ErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDenied: Self { .init(rawValue: "AccessDenied") }
+        @inlinable public static var internalServerError: Self { .init(rawValue: "InternalServerError") }
     }
 
-    public enum MappingRuleMatchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case contains = "Contains"
-        case equals = "Equals"
-        case notEqual = "NotEqual"
-        case startsWith = "StartsWith"
-        public var description: String { return self.rawValue }
+    public struct MappingRuleMatchType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var contains: Self { .init(rawValue: "Contains") }
+        @inlinable public static var equals: Self { .init(rawValue: "Equals") }
+        @inlinable public static var notEqual: Self { .init(rawValue: "NotEqual") }
+        @inlinable public static var startsWith: Self { .init(rawValue: "StartsWith") }
     }
 
-    public enum RoleMappingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rules = "Rules"
-        case token = "Token"
-        public var description: String { return self.rawValue }
+    public struct RoleMappingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rules: Self { .init(rawValue: "Rules") }
+        @inlinable public static var token: Self { .init(rawValue: "Token") }
     }
 
     // MARK: Shapes

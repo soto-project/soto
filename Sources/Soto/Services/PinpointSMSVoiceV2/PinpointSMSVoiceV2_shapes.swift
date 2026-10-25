@@ -25,756 +25,1032 @@ import Foundation
 extension PinpointSMSVoiceV2 {
     // MARK: Enums
 
-    public enum AccessDeniedExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountDisabled = "ACCOUNT_DISABLED"
-        case insufficientAccountReputation = "INSUFFICIENT_ACCOUNT_REPUTATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AccountAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountTier = "ACCOUNT_TIER"
-        case defaultProtectConfigurationId = "DEFAULT_PROTECT_CONFIGURATION_ID"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AccountLimitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case configurationSets = "CONFIGURATION_SETS"
-        case optOutLists = "OPT_OUT_LISTS"
-        case phoneNumbers = "PHONE_NUMBERS"
-        case pools = "POOLS"
-        case registrations = "REGISTRATIONS"
-        case registrationAttachments = "REGISTRATION_ATTACHMENTS"
-        case senderIds = "SENDER_IDS"
-        case verifiedDestinationNumbers = "VERIFIED_DESTINATION_NUMBERS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleted = "DELETED"
-        case uploadComplete = "UPLOAD_COMPLETE"
-        case uploadFailed = "UPLOAD_FAILED"
-        case uploadInProgress = "UPLOAD_IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AttachmentUploadErrorReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case internalError = "INTERNAL_ERROR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CarrierStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case pending = "PENDING"
-        case rejected = "REJECTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConfigurationSetFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case defaultMessageFeedbackEnabled = "default-message-feedback-enabled"
-        case defaultMessageType = "default-message-type"
-        case defaultSenderId = "default-sender-id"
-        case eventDestinationName = "event-destination-name"
-        case matchingEventTypes = "matching-event-types"
-        case protectConfigurationId = "protect-configuration-id"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createRegistrationVersionNotAllowed = "CREATE_REGISTRATION_VERSION_NOT_ALLOWED"
-        case deletionProtectionEnabled = "DELETION_PROTECTION_ENABLED"
-        case destinationCountryBlockedByProtectConfiguration = "DESTINATION_COUNTRY_BLOCKED_BY_PROTECT_CONFIGURATION"
-        case destinationPhoneNumberBlockedByProtectNumberOverride = "DESTINATION_PHONE_NUMBER_BLOCKED_BY_PROTECT_NUMBER_OVERRIDE"
-        case destinationPhoneNumberNotVerified = "DESTINATION_PHONE_NUMBER_NOT_VERIFIED"
-        case destinationPhoneNumberOptedOut = "DESTINATION_PHONE_NUMBER_OPTED_OUT"
-        case disassociateRegistrationNotAllowed = "DISASSOCIATE_REGISTRATION_NOT_ALLOWED"
-        case discardRegistrationVersionNotAllowed = "DISCARD_REGISTRATION_VERSION_NOT_ALLOWED"
-        case editRegistrationFieldValuesNotAllowed = "EDIT_REGISTRATION_FIELD_VALUES_NOT_ALLOWED"
-        case eventDestinationMismatch = "EVENT_DESTINATION_MISMATCH"
-        case keywordMismatch = "KEYWORD_MISMATCH"
-        case lastPhoneNumber = "LAST_PHONE_NUMBER"
-        case messageTypeMismatch = "MESSAGE_TYPE_MISMATCH"
-        case notifyConfigurationNotActive = "NOTIFY_CONFIGURATION_NOT_ACTIVE"
-        case noOriginationIdentitiesFound = "NO_ORIGINATION_IDENTITIES_FOUND"
-        case numberCapabilitiesMismatch = "NUMBER_CAPABILITIES_MISMATCH"
-        case optOutListMismatch = "OPT_OUT_LIST_MISMATCH"
-        case phoneNumberAssociatedToPool = "PHONE_NUMBER_ASSOCIATED_TO_POOL"
-        case phoneNumberAssociatedToRegistration = "PHONE_NUMBER_ASSOCIATED_TO_REGISTRATION"
-        case phoneNumberNotAssociatedToPool = "PHONE_NUMBER_NOT_ASSOCIATED_TO_POOL"
-        case phoneNumberNotInRegistrationRegion = "PHONE_NUMBER_NOT_IN_REGISTRATION_REGION"
-        case poolAssociatedToNotifyConfiguration = "POOL_ASSOCIATED_TO_NOTIFY_CONFIGURATION"
-        case protectConfigurationAssociatedWithConfigurationSet = "PROTECT_CONFIGURATION_ASSOCIATED_WITH_CONFIGURATION_SET"
-        case protectConfigurationIsAccountDefault = "PROTECT_CONFIGURATION_IS_ACCOUNT_DEFAULT"
-        case protectConfigurationNotAssociatedWithConfigurationSet = "PROTECT_CONFIGURATION_NOT_ASSOCIATED_WITH_CONFIGURATION_SET"
-        case rcsAgentAlreadyAssociatedToRegistrationType = "RCS_AGENT_ALREADY_ASSOCIATED_TO_REGISTRATION_TYPE"
-        case rcsAgentAssociatedToPool = "RCS_AGENT_ASSOCIATED_TO_POOL"
-        case registrationAlreadySubmitted = "REGISTRATION_ALREADY_SUBMITTED"
-        case registrationNotComplete = "REGISTRATION_NOT_COMPLETE"
-        case resourceAlreadyAssociated = "RESOURCE_ALREADY_ASSOCIATED"
-        case resourceAlreadyExists = "RESOURCE_ALREADY_EXISTS"
-        case resourceDeletionNotAllowed = "RESOURCE_DELETION_NOT_ALLOWED"
-        case resourceModificationNotAllowed = "RESOURCE_MODIFICATION_NOT_ALLOWED"
-        case resourceNotActive = "RESOURCE_NOT_ACTIVE"
-        case resourceNotEmpty = "RESOURCE_NOT_EMPTY"
-        case selfManagedOptOutsMismatch = "SELF_MANAGED_OPT_OUTS_MISMATCH"
-        case senderIdAssociatedToPool = "SENDER_ID_ASSOCIATED_TO_POOL"
-        case submitRegistrationVersionNotAllowed = "SUBMIT_REGISTRATION_VERSION_NOT_ALLOWED"
-        case twoWayConfigMismatch = "TWO_WAY_CONFIG_MISMATCH"
-        case verificationAlreadyComplete = "VERIFICATION_ALREADY_COMPLETE"
-        case verificationCodeExpired = "VERIFICATION_CODE_EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CountryLaunchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case created = "CREATED"
-        case partial = "PARTIAL"
-        case pending = "PENDING"
-        case rejected = "REJECTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum CountryLaunchStatusFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case countryLaunchStatus = "country-launch-status"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DestinationCountryParameterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inEntityId = "IN_ENTITY_ID"
-        case inTemplateId = "IN_TEMPLATE_ID"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case mediaAll = "MEDIA_ALL"
-        case mediaBlocked = "MEDIA_BLOCKED"
-        case mediaCarrierBlocked = "MEDIA_CARRIER_BLOCKED"
-        case mediaCarrierUnreachable = "MEDIA_CARRIER_UNREACHABLE"
-        case mediaDelivered = "MEDIA_DELIVERED"
-        case mediaFileInaccessible = "MEDIA_FILE_INACCESSIBLE"
-        case mediaFileSizeExceeded = "MEDIA_FILE_SIZE_EXCEEDED"
-        case mediaFileTypeUnsupported = "MEDIA_FILE_TYPE_UNSUPPORTED"
-        case mediaInvalid = "MEDIA_INVALID"
-        case mediaInvalidMessage = "MEDIA_INVALID_MESSAGE"
-        case mediaPending = "MEDIA_PENDING"
-        case mediaQueued = "MEDIA_QUEUED"
-        case mediaSpam = "MEDIA_SPAM"
-        case mediaSuccessful = "MEDIA_SUCCESSFUL"
-        case mediaTtlExpired = "MEDIA_TTL_EXPIRED"
-        case mediaUnknown = "MEDIA_UNKNOWN"
-        case mediaUnreachable = "MEDIA_UNREACHABLE"
-        case rcsAll = "RCS_ALL"
-        case rcsDelivered = "RCS_DELIVERED"
-        case rcsFailed = "RCS_FAILED"
-        case rcsFallenBackToSms = "RCS_FALLEN_BACK_TO_SMS"
-        case rcsProtectBlocked = "RCS_PROTECT_BLOCKED"
-        case rcsQueued = "RCS_QUEUED"
-        case rcsRead = "RCS_READ"
-        case rcsSent = "RCS_SENT"
-        case rcsTtlExpired = "RCS_TTL_EXPIRED"
-        case textAll = "TEXT_ALL"
-        case textBlocked = "TEXT_BLOCKED"
-        case textCarrierBlocked = "TEXT_CARRIER_BLOCKED"
-        case textCarrierUnreachable = "TEXT_CARRIER_UNREACHABLE"
-        case textDelivered = "TEXT_DELIVERED"
-        case textInvalid = "TEXT_INVALID"
-        case textInvalidMessage = "TEXT_INVALID_MESSAGE"
-        case textPending = "TEXT_PENDING"
-        case textProtectBlocked = "TEXT_PROTECT_BLOCKED"
-        case textQueued = "TEXT_QUEUED"
-        case textSent = "TEXT_SENT"
-        case textSpam = "TEXT_SPAM"
-        case textSuccessful = "TEXT_SUCCESSFUL"
-        case textTtlExpired = "TEXT_TTL_EXPIRED"
-        case textUnknown = "TEXT_UNKNOWN"
-        case textUnreachable = "TEXT_UNREACHABLE"
-        case voiceAll = "VOICE_ALL"
-        case voiceAnswered = "VOICE_ANSWERED"
-        case voiceBusy = "VOICE_BUSY"
-        case voiceCompleted = "VOICE_COMPLETED"
-        case voiceFailed = "VOICE_FAILED"
-        case voiceInitiated = "VOICE_INITIATED"
-        case voiceNoAnswer = "VOICE_NO_ANSWER"
-        case voiceRinging = "VOICE_RINGING"
-        case voiceTtlExpired = "VOICE_TTL_EXPIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FieldRequirement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case conditional = "CONDITIONAL"
-        case optional = "OPTIONAL"
-        case required = "REQUIRED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case attachment = "ATTACHMENT"
-        case select = "SELECT"
-        case text = "TEXT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum KeywordAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case automaticResponse = "AUTOMATIC_RESPONSE"
-        case optIn = "OPT_IN"
-        case optOut = "OPT_OUT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum KeywordFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case keywordAction = "keyword-action"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deDe = "DE_DE"
-        case enGb = "EN_GB"
-        case enUs = "EN_US"
-        case es419 = "ES_419"
-        case esEs = "ES_ES"
-        case frCa = "FR_CA"
-        case frFr = "FR_FR"
-        case itIt = "IT_IT"
-        case jaJp = "JA_JP"
-        case koKr = "KO_KR"
-        case ptBr = "PT_BR"
-        case zhCn = "ZH_CN"
-        case zhTw = "ZH_TW"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MessageFeedbackStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case received = "RECEIVED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case promotional = "PROMOTIONAL"
-        case transactional = "TRANSACTIONAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotifyConfigurationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case defaultPool = "default-pool"
-        case defaultTemplate = "default-template"
-        case deletionProtectionEnabled = "deletion-protection-enabled"
-        case displayName = "display-name"
-        case enabledChannels = "enabled-channels"
-        case enabledCountries = "enabled-countries"
-        case status = "status"
-        case tierUpgradeStatus = "tier-upgrade-status"
-        case useCase = "use-case"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotifyConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case pending = "PENDING"
-        case rejected = "REJECTED"
-        case requiresVerification = "REQUIRES_VERIFICATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotifyConfigurationTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case advanced = "ADVANCED"
-        case basic = "BASIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotifyConfigurationUseCase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case codeVerification = "CODE_VERIFICATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotifyTemplateFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case channels = "channels"
-        case languageCode = "language-code"
-        case supportedCountries = "supported-countries"
-        case supportedVoiceIds = "supported-voice-ids"
-        case templateType = "template-type"
-        case tierAccess = "tier-access"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotifyTemplateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NotifyTemplateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case otpVerification = "OTP_VERIFICATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NumberCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mms = "MMS"
-        case rcs = "RCS"
-        case sms = "SMS"
-        case voice = "VOICE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NumberStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case associating = "ASSOCIATING"
-        case deleted = "DELETED"
-        case disassociating = "DISASSOCIATING"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum NumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case longCode = "LONG_CODE"
-        case shortCode = "SHORT_CODE"
-        case simulator = "SIMULATOR"
-        case tenDlc = "TEN_DLC"
-        case tollFree = "TOLL_FREE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OptedOutFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case endUserOptedOut = "end-user-opted-out"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Owner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case _self = "SELF"
-        case shared = "SHARED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PhoneNumberFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deletionProtectionEnabled = "deletion-protection-enabled"
-        case isoCountryCode = "iso-country-code"
-        case messageType = "message-type"
-        case numberCapability = "number-capability"
-        case numberType = "number-type"
-        case optOutListName = "opt-out-list-name"
-        case selfManagedOptOutsEnabled = "self-managed-opt-outs-enabled"
-        case status = "status"
-        case twoWayChannelArn = "two-way-channel-arn"
-        case twoWayEnabled = "two-way-enabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PhoneNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case invalid = "INVALID"
-        case landline = "LANDLINE"
-        case mobile = "MOBILE"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PoolFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deletionProtectionEnabled = "deletion-protection-enabled"
-        case messageType = "message-type"
-        case optOutListName = "opt-out-list-name"
-        case selfManagedOptOutsEnabled = "self-managed-opt-outs-enabled"
-        case sharedRoutesEnabled = "shared-routes-enabled"
-        case status = "status"
-        case twoWayChannelArn = "two-way-channel-arn"
-        case twoWayEnabled = "two-way-enabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PoolOriginationIdentitiesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case isoCountryCode = "iso-country-code"
-        case numberCapability = "number-capability"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PoolStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PreferenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case contains = "Contains"
-        case endsWith = "EndsWith"
-        case exactMatch = "ExactMatch"
-        case startsWith = "StartsWith"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProtectConfigurationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountDefault = "account-default"
-        case deletionProtectionEnabled = "deletion-protection-enabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProtectConfigurationRuleOverrideAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allow = "ALLOW"
-        case block = "BLOCK"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProtectConfigurationRuleSetNumberOverrideFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case action = "action"
-        case createdAfter = "created-after"
-        case createdBefore = "created-before"
-        case destinationPhoneNumberBeginsWith = "destination-phone-number-begins-with"
-        case expiresAfter = "expires-after"
-        case expiresBefore = "expires-before"
-        case isoCountryCode = "iso-country-code"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProtectStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allow = "ALLOW"
-        case block = "BLOCK"
-        case filter = "FILTER"
-        case monitor = "MONITOR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RcsAgentFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deletionProtectionEnabled = "deletion-protection-enabled"
-        case optOutListName = "opt-out-list-name"
-        case selfManagedOptOutsEnabled = "self-managed-opt-outs-enabled"
-        case status = "status"
-        case twoWayChannelArn = "two-way-channel-arn"
-        case twoWayEnabled = "two-way-enabled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RcsAgentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case created = "CREATED"
-        case deleted = "DELETED"
-        case partial = "PARTIAL"
-        case pending = "PENDING"
-        case testing = "TESTING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RcsFallbackChannel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mms = "MMS"
-        case sms = "SMS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RegistrationAssociationBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case associateAfterComplete = "ASSOCIATE_AFTER_COMPLETE"
-        case associateBeforeSubmit = "ASSOCIATE_BEFORE_SUBMIT"
-        case associateOnApproval = "ASSOCIATE_ON_APPROVAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RegistrationAssociationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case isoCountryCode = "iso-country-code"
-        case resourceType = "resource-type"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RegistrationAttachmentFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case attachmentStatus = "attachment-status"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RegistrationDisassociationBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleteRegistrationDisassociates = "DELETE_REGISTRATION_DISASSOCIATES"
-        case disassociateAllAllowsDeleteRegistration = "DISASSOCIATE_ALL_ALLOWS_DELETE_REGISTRATION"
-        case disassociateAllClosesRegistration = "DISASSOCIATE_ALL_CLOSES_REGISTRATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RegistrationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case registrationStatus = "registration-status"
-        case registrationType = "registration-type"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsReviewing = "AWS_REVIEWING"
-        case closed = "CLOSED"
-        case complete = "COMPLETE"
-        case created = "CREATED"
-        case deleted = "DELETED"
-        case provisioning = "PROVISIONING"
-        case requiresAuthentication = "REQUIRES_AUTHENTICATION"
-        case requiresUpdates = "REQUIRES_UPDATES"
-        case reviewing = "REVIEWING"
-        case submitted = "SUBMITTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RegistrationTypeFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case supportedAssociationIsoCountryCode = "supported-association-iso-country-code"
-        case supportedAssociationResourceType = "supported-association-resource-type"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RegistrationVersionFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case registrationVersionStatus = "registration-version-status"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RegistrationVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case approved = "APPROVED"
-        case archived = "ARCHIVED"
-        case awsReviewing = "AWS_REVIEWING"
-        case denied = "DENIED"
-        case discarded = "DISCARDED"
-        case draft = "DRAFT"
-        case requiresAuthentication = "REQUIRES_AUTHENTICATION"
-        case requiresOfflineReview = "REQUIRES_OFFLINE_REVIEW"
-        case reviewing = "REVIEWING"
-        case revoked = "REVOKED"
-        case submitted = "SUBMITTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RequestableNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case longCode = "LONG_CODE"
-        case simulator = "SIMULATOR"
-        case tenDlc = "TEN_DLC"
-        case tollFree = "TOLL_FREE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "account"
-        case configurationSet = "configuration-set"
-        case eventDestination = "event-destination"
-        case keyword = "keyword"
-        case message = "message"
-        case messageTemplate = "message-template"
-        case notifyConfiguration = "notify-configuration"
-        case notifyTemplate = "notify-template"
-        case optOutList = "opt-out-list"
-        case optedOutNumber = "opted-out-number"
-        case phoneNumber = "phone-number"
-        case policy = "policy"
-        case pool = "pool"
-        case protectConfiguration = "protect-configuration"
-        case rcsAgent = "rcs-agent"
-        case registration = "registration"
-        case registrationAttachment = "registration-attachment"
-        case senderId = "sender-id"
-        case verifiedDestinationNumber = "verified-destination-number"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SearchableNumberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case tenDlc = "TEN_DLC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SenderIdFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deletionProtectionEnabled = "deletion-protection-enabled"
-        case isoCountryCode = "iso-country-code"
-        case messageType = "message-type"
-        case registered = "registered"
-        case senderId = "sender-id"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServiceQuotaExceededExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case associationsPerRegistration = "ASSOCIATIONS_PER_REGISTRATION"
-        case configurationSetsPerAccount = "CONFIGURATION_SETS_PER_ACCOUNT"
-        case dailyDestinationCallLimit = "DAILY_DESTINATION_CALL_LIMIT"
-        case dailyNotifyTierMessageLimit = "DAILY_NOTIFY_TIER_MESSAGE_LIMIT"
-        case eventDestinationsPerConfigurationSet = "EVENT_DESTINATIONS_PER_CONFIGURATION_SET"
-        case keywordsPerPhoneNumber = "KEYWORDS_PER_PHONE_NUMBER"
-        case keywordsPerPool = "KEYWORDS_PER_POOL"
-        case monthlySpendLimitReachedForMedia = "MONTHLY_SPEND_LIMIT_REACHED_FOR_MEDIA"
-        case monthlySpendLimitReachedForNotify = "MONTHLY_SPEND_LIMIT_REACHED_FOR_NOTIFY"
-        case monthlySpendLimitReachedForRcs = "MONTHLY_SPEND_LIMIT_REACHED_FOR_RCS"
-        case monthlySpendLimitReachedForText = "MONTHLY_SPEND_LIMIT_REACHED_FOR_TEXT"
-        case monthlySpendLimitReachedForVoice = "MONTHLY_SPEND_LIMIT_REACHED_FOR_VOICE"
-        case notifyConfigurationsPerAccount = "NOTIFY_CONFIGURATIONS_PER_ACCOUNT"
-        case optOutListsPerAccount = "OPT_OUT_LISTS_PER_ACCOUNT"
-        case originationIdentitiesPerPool = "ORIGINATION_IDENTITIES_PER_POOL"
-        case phoneNumbersPerAccount = "PHONE_NUMBERS_PER_ACCOUNT"
-        case phoneNumbersPerRegistration = "PHONE_NUMBERS_PER_REGISTRATION"
-        case poolsPerAccount = "POOLS_PER_ACCOUNT"
-        case protectConfigurationsPerAccount = "PROTECT_CONFIGURATIONS_PER_ACCOUNT"
-        case rcsAgentsPerAccount = "RCS_AGENTS_PER_ACCOUNT"
-        case registrationsPerAccount = "REGISTRATIONS_PER_ACCOUNT"
-        case registrationAttachmentsCreatedPerDay = "REGISTRATION_ATTACHMENTS_CREATED_PER_DAY"
-        case registrationAttachmentsPerAccount = "REGISTRATION_ATTACHMENTS_PER_ACCOUNT"
-        case registrationVersionsCreatedPerDay = "REGISTRATION_VERSIONS_CREATED_PER_DAY"
-        case senderIdsPerAccount = "SENDER_IDS_PER_ACCOUNT"
-        case tagsPerResource = "TAGS_PER_RESOURCE"
-        case verificationAttemptsPerDay = "VERIFICATION_ATTEMPTS_PER_DAY"
-        case verifiedDestinationNumbersPerAccount = "VERIFIED_DESTINATION_NUMBERS_PER_ACCOUNT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SpendLimitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mediaMessageMonthlySpendLimit = "MEDIA_MESSAGE_MONTHLY_SPEND_LIMIT"
-        case notifyMessageMonthlySpendLimit = "NOTIFY_MESSAGE_MONTHLY_SPEND_LIMIT"
-        case rcsMessageMonthlySpendLimit = "RCS_MESSAGE_MONTHLY_SPEND_LIMIT"
-        case textMessageMonthlySpendLimit = "TEXT_MESSAGE_MONTHLY_SPEND_LIMIT"
-        case voiceMessageMonthlySpendLimit = "VOICE_MESSAGE_MONTHLY_SPEND_LIMIT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TemplateVariableSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case customer = "CUSTOMER"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TemplateVariableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case boolean = "BOOLEAN"
-        case integer = "INTEGER"
-        case string = "STRING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TestingAgentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case created = "CREATED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TierUpgradeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case advanced = "ADVANCED"
-        case basic = "BASIC"
-        case pendingUpgrade = "PENDING_UPGRADE"
-        case rejected = "REJECTED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case attachmentTypeNotSupported = "ATTACHMENT_TYPE_NOT_SUPPORTED"
-        case cannotAddOptedOutNumber = "CANNOT_ADD_OPTED_OUT_NUMBER"
-        case cannotParse = "CANNOT_PARSE"
-        case channelNotEnabled = "CHANNEL_NOT_ENABLED"
-        case countryCodeMismatch = "COUNTRY_CODE_MISMATCH"
-        case countryNotEnabled = "COUNTRY_NOT_ENABLED"
-        case destinationCountryBlocked = "DESTINATION_COUNTRY_BLOCKED"
-        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
-        case internationalSendingNotSupported = "INTERNATIONAL_SENDING_NOT_SUPPORTED"
-        case invalidArn = "INVALID_ARN"
-        case invalidFilterValues = "INVALID_FILTER_VALUES"
-        case invalidIdentityForDestinationCountry = "INVALID_IDENTITY_FOR_DESTINATION_COUNTRY"
-        case invalidNextToken = "INVALID_NEXT_TOKEN"
-        case invalidParameter = "INVALID_PARAMETER"
-        case invalidRegistrationAssociation = "INVALID_REGISTRATION_ASSOCIATION"
-        case invalidRequest = "INVALID_REQUEST"
-        case maximumSizeExceeded = "MAXIMUM_SIZE_EXCEEDED"
-        case mediaTypeNotSupported = "MEDIA_TYPE_NOT_SUPPORTED"
-        case missingParameter = "MISSING_PARAMETER"
-        case other = "OTHER"
-        case parametersCannotBeUsedTogether = "PARAMETERS_CANNOT_BE_USED_TOGETHER"
-        case phoneNumberCannotBeOptedIn = "PHONE_NUMBER_CANNOT_BE_OPTED_IN"
-        case phoneNumberCannotBeReleased = "PHONE_NUMBER_CANNOT_BE_RELEASED"
-        case priceOverThreshold = "PRICE_OVER_THRESHOLD"
-        case registrationFieldCannotBeDeleted = "REGISTRATION_FIELD_CANNOT_BE_DELETED"
-        case requestedSpendLimitHigherThanServiceLimit = "REQUESTED_SPEND_LIMIT_HIGHER_THAN_SERVICE_LIMIT"
-        case resourceNotAccessible = "RESOURCE_NOT_ACCESSIBLE"
-        case senderIdNotRegistered = "SENDER_ID_NOT_REGISTERED"
-        case senderIdNotSupported = "SENDER_ID_NOT_SUPPORTED"
-        case senderIdRequiresRegistration = "SENDER_ID_REQUIRES_REGISTRATION"
-        case twoWayChannelNotPresent = "TWO_WAY_CHANNEL_NOT_PRESENT"
-        case twoWayNotEnabled = "TWO_WAY_NOT_ENABLED"
-        case twoWayNotSupportedInCountry = "TWO_WAY_NOT_SUPPORTED_IN_COUNTRY"
-        case twoWayNotSupportedInRegion = "TWO_WAY_NOT_SUPPORTED_IN_REGION"
-        case twoWayTopicNotPresent = "TWO_WAY_TOPIC_NOT_PRESENT"
-        case unknownOperation = "UNKNOWN_OPERATION"
-        case unknownRegistrationField = "UNKNOWN_REGISTRATION_FIELD"
-        case unknownRegistrationSection = "UNKNOWN_REGISTRATION_SECTION"
-        case unknownRegistrationType = "UNKNOWN_REGISTRATION_TYPE"
-        case unknownRegistrationVersion = "UNKNOWN_REGISTRATION_VERSION"
-        case unspecifiedParameterNotSupported = "UNSPECIFIED_PARAMETER_NOT_SUPPORTED"
-        case verificationCodeMismatch = "VERIFICATION_CODE_MISMATCH"
-        case voiceCapabilityNotAvailable = "VOICE_CAPABILITY_NOT_AVAILABLE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VerificationChannel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case text = "TEXT"
-        case voice = "VOICE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pending = "PENDING"
-        case unsupported = "UNSUPPORTED"
-        case verified = "VERIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VerifiedDestinationNumberFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rcsAgentId = "rcs-agent-id"
-        case status = "status"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VoiceId: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case amy = "AMY"
-        case astrid = "ASTRID"
-        case bianca = "BIANCA"
-        case brian = "BRIAN"
-        case camila = "CAMILA"
-        case carla = "CARLA"
-        case carmen = "CARMEN"
-        case celine = "CELINE"
-        case chantal = "CHANTAL"
-        case conchita = "CONCHITA"
-        case cristiano = "CRISTIANO"
-        case dora = "DORA"
-        case emma = "EMMA"
-        case enrique = "ENRIQUE"
-        case ewa = "EWA"
-        case filiz = "FILIZ"
-        case geraint = "GERAINT"
-        case giorgio = "GIORGIO"
-        case gwyneth = "GWYNETH"
-        case hans = "HANS"
-        case ines = "INES"
-        case ivy = "IVY"
-        case jacek = "JACEK"
-        case jan = "JAN"
-        case joanna = "JOANNA"
-        case joey = "JOEY"
-        case justin = "JUSTIN"
-        case karl = "KARL"
-        case kendra = "KENDRA"
-        case kimberly = "KIMBERLY"
-        case lea = "LEA"
-        case liv = "LIV"
-        case lotte = "LOTTE"
-        case lucia = "LUCIA"
-        case lupe = "LUPE"
-        case mads = "MADS"
-        case maja = "MAJA"
-        case marlene = "MARLENE"
-        case mathieu = "MATHIEU"
-        case matthew = "MATTHEW"
-        case maxim = "MAXIM"
-        case mia = "MIA"
-        case miguel = "MIGUEL"
-        case mizuki = "MIZUKI"
-        case naja = "NAJA"
-        case nicole = "NICOLE"
-        case penelope = "PENELOPE"
-        case raveena = "RAVEENA"
-        case ricardo = "RICARDO"
-        case ruben = "RUBEN"
-        case russell = "RUSSELL"
-        case salli = "SALLI"
-        case seoyeon = "SEOYEON"
-        case takumi = "TAKUMI"
-        case tatyana = "TATYANA"
-        case vicki = "VICKI"
-        case vitoria = "VITORIA"
-        case zeina = "ZEINA"
-        case zhiyu = "ZHIYU"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum VoiceMessageBodyTextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ssml = "SSML"
-        case text = "TEXT"
-        public var description: String { return self.rawValue }
+    public struct AccessDeniedExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountDisabled: Self { .init(rawValue: "ACCOUNT_DISABLED") }
+        @inlinable public static var insufficientAccountReputation: Self { .init(rawValue: "INSUFFICIENT_ACCOUNT_REPUTATION") }
+    }
+
+    public struct AccountAttributeName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountTier: Self { .init(rawValue: "ACCOUNT_TIER") }
+        @inlinable public static var defaultProtectConfigurationId: Self { .init(rawValue: "DEFAULT_PROTECT_CONFIGURATION_ID") }
+    }
+
+    public struct AccountLimitName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var configurationSets: Self { .init(rawValue: "CONFIGURATION_SETS") }
+        @inlinable public static var optOutLists: Self { .init(rawValue: "OPT_OUT_LISTS") }
+        @inlinable public static var phoneNumbers: Self { .init(rawValue: "PHONE_NUMBERS") }
+        @inlinable public static var pools: Self { .init(rawValue: "POOLS") }
+        @inlinable public static var registrations: Self { .init(rawValue: "REGISTRATIONS") }
+        @inlinable public static var registrationAttachments: Self { .init(rawValue: "REGISTRATION_ATTACHMENTS") }
+        @inlinable public static var senderIds: Self { .init(rawValue: "SENDER_IDS") }
+        @inlinable public static var verifiedDestinationNumbers: Self { .init(rawValue: "VERIFIED_DESTINATION_NUMBERS") }
+    }
+
+    public struct AttachmentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var uploadComplete: Self { .init(rawValue: "UPLOAD_COMPLETE") }
+        @inlinable public static var uploadFailed: Self { .init(rawValue: "UPLOAD_FAILED") }
+        @inlinable public static var uploadInProgress: Self { .init(rawValue: "UPLOAD_IN_PROGRESS") }
+    }
+
+    public struct AttachmentUploadErrorReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+    }
+
+    public struct CarrierStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
+    }
+
+    public struct ConfigurationSetFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var defaultMessageFeedbackEnabled: Self { .init(rawValue: "default-message-feedback-enabled") }
+        @inlinable public static var defaultMessageType: Self { .init(rawValue: "default-message-type") }
+        @inlinable public static var defaultSenderId: Self { .init(rawValue: "default-sender-id") }
+        @inlinable public static var eventDestinationName: Self { .init(rawValue: "event-destination-name") }
+        @inlinable public static var matchingEventTypes: Self { .init(rawValue: "matching-event-types") }
+        @inlinable public static var protectConfigurationId: Self { .init(rawValue: "protect-configuration-id") }
+    }
+
+    public struct ConflictExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createRegistrationVersionNotAllowed: Self { .init(rawValue: "CREATE_REGISTRATION_VERSION_NOT_ALLOWED") }
+        @inlinable public static var deletionProtectionEnabled: Self { .init(rawValue: "DELETION_PROTECTION_ENABLED") }
+        @inlinable public static var destinationCountryBlockedByProtectConfiguration: Self { .init(rawValue: "DESTINATION_COUNTRY_BLOCKED_BY_PROTECT_CONFIGURATION") }
+        @inlinable public static var destinationPhoneNumberBlockedByProtectNumberOverride: Self { .init(rawValue: "DESTINATION_PHONE_NUMBER_BLOCKED_BY_PROTECT_NUMBER_OVERRIDE") }
+        @inlinable public static var destinationPhoneNumberNotVerified: Self { .init(rawValue: "DESTINATION_PHONE_NUMBER_NOT_VERIFIED") }
+        @inlinable public static var destinationPhoneNumberOptedOut: Self { .init(rawValue: "DESTINATION_PHONE_NUMBER_OPTED_OUT") }
+        @inlinable public static var disassociateRegistrationNotAllowed: Self { .init(rawValue: "DISASSOCIATE_REGISTRATION_NOT_ALLOWED") }
+        @inlinable public static var discardRegistrationVersionNotAllowed: Self { .init(rawValue: "DISCARD_REGISTRATION_VERSION_NOT_ALLOWED") }
+        @inlinable public static var editRegistrationFieldValuesNotAllowed: Self { .init(rawValue: "EDIT_REGISTRATION_FIELD_VALUES_NOT_ALLOWED") }
+        @inlinable public static var eventDestinationMismatch: Self { .init(rawValue: "EVENT_DESTINATION_MISMATCH") }
+        @inlinable public static var keywordMismatch: Self { .init(rawValue: "KEYWORD_MISMATCH") }
+        @inlinable public static var lastPhoneNumber: Self { .init(rawValue: "LAST_PHONE_NUMBER") }
+        @inlinable public static var messageTypeMismatch: Self { .init(rawValue: "MESSAGE_TYPE_MISMATCH") }
+        @inlinable public static var notifyConfigurationNotActive: Self { .init(rawValue: "NOTIFY_CONFIGURATION_NOT_ACTIVE") }
+        @inlinable public static var noOriginationIdentitiesFound: Self { .init(rawValue: "NO_ORIGINATION_IDENTITIES_FOUND") }
+        @inlinable public static var numberCapabilitiesMismatch: Self { .init(rawValue: "NUMBER_CAPABILITIES_MISMATCH") }
+        @inlinable public static var optOutListMismatch: Self { .init(rawValue: "OPT_OUT_LIST_MISMATCH") }
+        @inlinable public static var phoneNumberAssociatedToPool: Self { .init(rawValue: "PHONE_NUMBER_ASSOCIATED_TO_POOL") }
+        @inlinable public static var phoneNumberAssociatedToRegistration: Self { .init(rawValue: "PHONE_NUMBER_ASSOCIATED_TO_REGISTRATION") }
+        @inlinable public static var phoneNumberNotAssociatedToPool: Self { .init(rawValue: "PHONE_NUMBER_NOT_ASSOCIATED_TO_POOL") }
+        @inlinable public static var phoneNumberNotInRegistrationRegion: Self { .init(rawValue: "PHONE_NUMBER_NOT_IN_REGISTRATION_REGION") }
+        @inlinable public static var poolAssociatedToNotifyConfiguration: Self { .init(rawValue: "POOL_ASSOCIATED_TO_NOTIFY_CONFIGURATION") }
+        @inlinable public static var protectConfigurationAssociatedWithConfigurationSet: Self { .init(rawValue: "PROTECT_CONFIGURATION_ASSOCIATED_WITH_CONFIGURATION_SET") }
+        @inlinable public static var protectConfigurationIsAccountDefault: Self { .init(rawValue: "PROTECT_CONFIGURATION_IS_ACCOUNT_DEFAULT") }
+        @inlinable public static var protectConfigurationNotAssociatedWithConfigurationSet: Self { .init(rawValue: "PROTECT_CONFIGURATION_NOT_ASSOCIATED_WITH_CONFIGURATION_SET") }
+        @inlinable public static var rcsAgentAlreadyAssociatedToRegistrationType: Self { .init(rawValue: "RCS_AGENT_ALREADY_ASSOCIATED_TO_REGISTRATION_TYPE") }
+        @inlinable public static var rcsAgentAssociatedToPool: Self { .init(rawValue: "RCS_AGENT_ASSOCIATED_TO_POOL") }
+        @inlinable public static var registrationAlreadySubmitted: Self { .init(rawValue: "REGISTRATION_ALREADY_SUBMITTED") }
+        @inlinable public static var registrationNotComplete: Self { .init(rawValue: "REGISTRATION_NOT_COMPLETE") }
+        @inlinable public static var resourceAlreadyAssociated: Self { .init(rawValue: "RESOURCE_ALREADY_ASSOCIATED") }
+        @inlinable public static var resourceAlreadyExists: Self { .init(rawValue: "RESOURCE_ALREADY_EXISTS") }
+        @inlinable public static var resourceDeletionNotAllowed: Self { .init(rawValue: "RESOURCE_DELETION_NOT_ALLOWED") }
+        @inlinable public static var resourceModificationNotAllowed: Self { .init(rawValue: "RESOURCE_MODIFICATION_NOT_ALLOWED") }
+        @inlinable public static var resourceNotActive: Self { .init(rawValue: "RESOURCE_NOT_ACTIVE") }
+        @inlinable public static var resourceNotEmpty: Self { .init(rawValue: "RESOURCE_NOT_EMPTY") }
+        @inlinable public static var selfManagedOptOutsMismatch: Self { .init(rawValue: "SELF_MANAGED_OPT_OUTS_MISMATCH") }
+        @inlinable public static var senderIdAssociatedToPool: Self { .init(rawValue: "SENDER_ID_ASSOCIATED_TO_POOL") }
+        @inlinable public static var submitRegistrationVersionNotAllowed: Self { .init(rawValue: "SUBMIT_REGISTRATION_VERSION_NOT_ALLOWED") }
+        @inlinable public static var twoWayConfigMismatch: Self { .init(rawValue: "TWO_WAY_CONFIG_MISMATCH") }
+        @inlinable public static var verificationAlreadyComplete: Self { .init(rawValue: "VERIFICATION_ALREADY_COMPLETE") }
+        @inlinable public static var verificationCodeExpired: Self { .init(rawValue: "VERIFICATION_CODE_EXPIRED") }
+    }
+
+    public struct CountryLaunchStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var partial: Self { .init(rawValue: "PARTIAL") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
+    }
+
+    public struct CountryLaunchStatusFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var countryLaunchStatus: Self { .init(rawValue: "country-launch-status") }
+    }
+
+    public struct DestinationCountryParameterKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inEntityId: Self { .init(rawValue: "IN_ENTITY_ID") }
+        @inlinable public static var inTemplateId: Self { .init(rawValue: "IN_TEMPLATE_ID") }
+    }
+
+    public struct EventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var mediaAll: Self { .init(rawValue: "MEDIA_ALL") }
+        @inlinable public static var mediaBlocked: Self { .init(rawValue: "MEDIA_BLOCKED") }
+        @inlinable public static var mediaCarrierBlocked: Self { .init(rawValue: "MEDIA_CARRIER_BLOCKED") }
+        @inlinable public static var mediaCarrierUnreachable: Self { .init(rawValue: "MEDIA_CARRIER_UNREACHABLE") }
+        @inlinable public static var mediaDelivered: Self { .init(rawValue: "MEDIA_DELIVERED") }
+        @inlinable public static var mediaFileInaccessible: Self { .init(rawValue: "MEDIA_FILE_INACCESSIBLE") }
+        @inlinable public static var mediaFileSizeExceeded: Self { .init(rawValue: "MEDIA_FILE_SIZE_EXCEEDED") }
+        @inlinable public static var mediaFileTypeUnsupported: Self { .init(rawValue: "MEDIA_FILE_TYPE_UNSUPPORTED") }
+        @inlinable public static var mediaInvalid: Self { .init(rawValue: "MEDIA_INVALID") }
+        @inlinable public static var mediaInvalidMessage: Self { .init(rawValue: "MEDIA_INVALID_MESSAGE") }
+        @inlinable public static var mediaPending: Self { .init(rawValue: "MEDIA_PENDING") }
+        @inlinable public static var mediaQueued: Self { .init(rawValue: "MEDIA_QUEUED") }
+        @inlinable public static var mediaSpam: Self { .init(rawValue: "MEDIA_SPAM") }
+        @inlinable public static var mediaSuccessful: Self { .init(rawValue: "MEDIA_SUCCESSFUL") }
+        @inlinable public static var mediaTtlExpired: Self { .init(rawValue: "MEDIA_TTL_EXPIRED") }
+        @inlinable public static var mediaUnknown: Self { .init(rawValue: "MEDIA_UNKNOWN") }
+        @inlinable public static var mediaUnreachable: Self { .init(rawValue: "MEDIA_UNREACHABLE") }
+        @inlinable public static var rcsAll: Self { .init(rawValue: "RCS_ALL") }
+        @inlinable public static var rcsDelivered: Self { .init(rawValue: "RCS_DELIVERED") }
+        @inlinable public static var rcsFailed: Self { .init(rawValue: "RCS_FAILED") }
+        @inlinable public static var rcsFallenBackToSms: Self { .init(rawValue: "RCS_FALLEN_BACK_TO_SMS") }
+        @inlinable public static var rcsProtectBlocked: Self { .init(rawValue: "RCS_PROTECT_BLOCKED") }
+        @inlinable public static var rcsQueued: Self { .init(rawValue: "RCS_QUEUED") }
+        @inlinable public static var rcsRead: Self { .init(rawValue: "RCS_READ") }
+        @inlinable public static var rcsSent: Self { .init(rawValue: "RCS_SENT") }
+        @inlinable public static var rcsTtlExpired: Self { .init(rawValue: "RCS_TTL_EXPIRED") }
+        @inlinable public static var textAll: Self { .init(rawValue: "TEXT_ALL") }
+        @inlinable public static var textBlocked: Self { .init(rawValue: "TEXT_BLOCKED") }
+        @inlinable public static var textCarrierBlocked: Self { .init(rawValue: "TEXT_CARRIER_BLOCKED") }
+        @inlinable public static var textCarrierUnreachable: Self { .init(rawValue: "TEXT_CARRIER_UNREACHABLE") }
+        @inlinable public static var textDelivered: Self { .init(rawValue: "TEXT_DELIVERED") }
+        @inlinable public static var textInvalid: Self { .init(rawValue: "TEXT_INVALID") }
+        @inlinable public static var textInvalidMessage: Self { .init(rawValue: "TEXT_INVALID_MESSAGE") }
+        @inlinable public static var textPending: Self { .init(rawValue: "TEXT_PENDING") }
+        @inlinable public static var textProtectBlocked: Self { .init(rawValue: "TEXT_PROTECT_BLOCKED") }
+        @inlinable public static var textQueued: Self { .init(rawValue: "TEXT_QUEUED") }
+        @inlinable public static var textSent: Self { .init(rawValue: "TEXT_SENT") }
+        @inlinable public static var textSpam: Self { .init(rawValue: "TEXT_SPAM") }
+        @inlinable public static var textSuccessful: Self { .init(rawValue: "TEXT_SUCCESSFUL") }
+        @inlinable public static var textTtlExpired: Self { .init(rawValue: "TEXT_TTL_EXPIRED") }
+        @inlinable public static var textUnknown: Self { .init(rawValue: "TEXT_UNKNOWN") }
+        @inlinable public static var textUnreachable: Self { .init(rawValue: "TEXT_UNREACHABLE") }
+        @inlinable public static var voiceAll: Self { .init(rawValue: "VOICE_ALL") }
+        @inlinable public static var voiceAnswered: Self { .init(rawValue: "VOICE_ANSWERED") }
+        @inlinable public static var voiceBusy: Self { .init(rawValue: "VOICE_BUSY") }
+        @inlinable public static var voiceCompleted: Self { .init(rawValue: "VOICE_COMPLETED") }
+        @inlinable public static var voiceFailed: Self { .init(rawValue: "VOICE_FAILED") }
+        @inlinable public static var voiceInitiated: Self { .init(rawValue: "VOICE_INITIATED") }
+        @inlinable public static var voiceNoAnswer: Self { .init(rawValue: "VOICE_NO_ANSWER") }
+        @inlinable public static var voiceRinging: Self { .init(rawValue: "VOICE_RINGING") }
+        @inlinable public static var voiceTtlExpired: Self { .init(rawValue: "VOICE_TTL_EXPIRED") }
+    }
+
+    public struct FieldRequirement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var conditional: Self { .init(rawValue: "CONDITIONAL") }
+        @inlinable public static var optional: Self { .init(rawValue: "OPTIONAL") }
+        @inlinable public static var required: Self { .init(rawValue: "REQUIRED") }
+    }
+
+    public struct FieldType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var attachment: Self { .init(rawValue: "ATTACHMENT") }
+        @inlinable public static var select: Self { .init(rawValue: "SELECT") }
+        @inlinable public static var text: Self { .init(rawValue: "TEXT") }
+    }
+
+    public struct KeywordAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var automaticResponse: Self { .init(rawValue: "AUTOMATIC_RESPONSE") }
+        @inlinable public static var optIn: Self { .init(rawValue: "OPT_IN") }
+        @inlinable public static var optOut: Self { .init(rawValue: "OPT_OUT") }
+    }
+
+    public struct KeywordFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var keywordAction: Self { .init(rawValue: "keyword-action") }
+    }
+
+    public struct LanguageCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deDe: Self { .init(rawValue: "DE_DE") }
+        @inlinable public static var enGb: Self { .init(rawValue: "EN_GB") }
+        @inlinable public static var enUs: Self { .init(rawValue: "EN_US") }
+        @inlinable public static var es419: Self { .init(rawValue: "ES_419") }
+        @inlinable public static var esEs: Self { .init(rawValue: "ES_ES") }
+        @inlinable public static var frCa: Self { .init(rawValue: "FR_CA") }
+        @inlinable public static var frFr: Self { .init(rawValue: "FR_FR") }
+        @inlinable public static var itIt: Self { .init(rawValue: "IT_IT") }
+        @inlinable public static var jaJp: Self { .init(rawValue: "JA_JP") }
+        @inlinable public static var koKr: Self { .init(rawValue: "KO_KR") }
+        @inlinable public static var ptBr: Self { .init(rawValue: "PT_BR") }
+        @inlinable public static var zhCn: Self { .init(rawValue: "ZH_CN") }
+        @inlinable public static var zhTw: Self { .init(rawValue: "ZH_TW") }
+    }
+
+    public struct MessageFeedbackStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var received: Self { .init(rawValue: "RECEIVED") }
+    }
+
+    public struct MessageType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var promotional: Self { .init(rawValue: "PROMOTIONAL") }
+        @inlinable public static var transactional: Self { .init(rawValue: "TRANSACTIONAL") }
+    }
+
+    public struct NotifyConfigurationFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var defaultPool: Self { .init(rawValue: "default-pool") }
+        @inlinable public static var defaultTemplate: Self { .init(rawValue: "default-template") }
+        @inlinable public static var deletionProtectionEnabled: Self { .init(rawValue: "deletion-protection-enabled") }
+        @inlinable public static var displayName: Self { .init(rawValue: "display-name") }
+        @inlinable public static var enabledChannels: Self { .init(rawValue: "enabled-channels") }
+        @inlinable public static var enabledCountries: Self { .init(rawValue: "enabled-countries") }
+        @inlinable public static var status: Self { .init(rawValue: "status") }
+        @inlinable public static var tierUpgradeStatus: Self { .init(rawValue: "tier-upgrade-status") }
+        @inlinable public static var useCase: Self { .init(rawValue: "use-case") }
+    }
+
+    public struct NotifyConfigurationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
+        @inlinable public static var requiresVerification: Self { .init(rawValue: "REQUIRES_VERIFICATION") }
+    }
+
+    public struct NotifyConfigurationTier: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var advanced: Self { .init(rawValue: "ADVANCED") }
+        @inlinable public static var basic: Self { .init(rawValue: "BASIC") }
+    }
+
+    public struct NotifyConfigurationUseCase: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var codeVerification: Self { .init(rawValue: "CODE_VERIFICATION") }
+    }
+
+    public struct NotifyTemplateFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var channels: Self { .init(rawValue: "channels") }
+        @inlinable public static var languageCode: Self { .init(rawValue: "language-code") }
+        @inlinable public static var supportedCountries: Self { .init(rawValue: "supported-countries") }
+        @inlinable public static var supportedVoiceIds: Self { .init(rawValue: "supported-voice-ids") }
+        @inlinable public static var templateType: Self { .init(rawValue: "template-type") }
+        @inlinable public static var tierAccess: Self { .init(rawValue: "tier-access") }
+    }
+
+    public struct NotifyTemplateStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
+    }
+
+    public struct NotifyTemplateType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var otpVerification: Self { .init(rawValue: "OTP_VERIFICATION") }
+    }
+
+    public struct NumberCapability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mms: Self { .init(rawValue: "MMS") }
+        @inlinable public static var rcs: Self { .init(rawValue: "RCS") }
+        @inlinable public static var sms: Self { .init(rawValue: "SMS") }
+        @inlinable public static var voice: Self { .init(rawValue: "VOICE") }
+    }
+
+    public struct NumberStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var associating: Self { .init(rawValue: "ASSOCIATING") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var disassociating: Self { .init(rawValue: "DISASSOCIATING") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+    }
+
+    public struct NumberType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var longCode: Self { .init(rawValue: "LONG_CODE") }
+        @inlinable public static var shortCode: Self { .init(rawValue: "SHORT_CODE") }
+        @inlinable public static var simulator: Self { .init(rawValue: "SIMULATOR") }
+        @inlinable public static var tenDlc: Self { .init(rawValue: "TEN_DLC") }
+        @inlinable public static var tollFree: Self { .init(rawValue: "TOLL_FREE") }
+    }
+
+    public struct OptedOutFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var endUserOptedOut: Self { .init(rawValue: "end-user-opted-out") }
+    }
+
+    public struct Owner: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var _self: Self { .init(rawValue: "SELF") }
+        @inlinable public static var shared: Self { .init(rawValue: "SHARED") }
+    }
+
+    public struct PhoneNumberFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deletionProtectionEnabled: Self { .init(rawValue: "deletion-protection-enabled") }
+        @inlinable public static var isoCountryCode: Self { .init(rawValue: "iso-country-code") }
+        @inlinable public static var messageType: Self { .init(rawValue: "message-type") }
+        @inlinable public static var numberCapability: Self { .init(rawValue: "number-capability") }
+        @inlinable public static var numberType: Self { .init(rawValue: "number-type") }
+        @inlinable public static var optOutListName: Self { .init(rawValue: "opt-out-list-name") }
+        @inlinable public static var selfManagedOptOutsEnabled: Self { .init(rawValue: "self-managed-opt-outs-enabled") }
+        @inlinable public static var status: Self { .init(rawValue: "status") }
+        @inlinable public static var twoWayChannelArn: Self { .init(rawValue: "two-way-channel-arn") }
+        @inlinable public static var twoWayEnabled: Self { .init(rawValue: "two-way-enabled") }
+    }
+
+    public struct PhoneNumberType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var invalid: Self { .init(rawValue: "INVALID") }
+        @inlinable public static var landline: Self { .init(rawValue: "LANDLINE") }
+        @inlinable public static var mobile: Self { .init(rawValue: "MOBILE") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+    }
+
+    public struct PoolFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deletionProtectionEnabled: Self { .init(rawValue: "deletion-protection-enabled") }
+        @inlinable public static var messageType: Self { .init(rawValue: "message-type") }
+        @inlinable public static var optOutListName: Self { .init(rawValue: "opt-out-list-name") }
+        @inlinable public static var selfManagedOptOutsEnabled: Self { .init(rawValue: "self-managed-opt-outs-enabled") }
+        @inlinable public static var sharedRoutesEnabled: Self { .init(rawValue: "shared-routes-enabled") }
+        @inlinable public static var status: Self { .init(rawValue: "status") }
+        @inlinable public static var twoWayChannelArn: Self { .init(rawValue: "two-way-channel-arn") }
+        @inlinable public static var twoWayEnabled: Self { .init(rawValue: "two-way-enabled") }
+    }
+
+    public struct PoolOriginationIdentitiesFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var isoCountryCode: Self { .init(rawValue: "iso-country-code") }
+        @inlinable public static var numberCapability: Self { .init(rawValue: "number-capability") }
+    }
+
+    public struct PoolStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+    }
+
+    public struct PreferenceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var contains: Self { .init(rawValue: "Contains") }
+        @inlinable public static var endsWith: Self { .init(rawValue: "EndsWith") }
+        @inlinable public static var exactMatch: Self { .init(rawValue: "ExactMatch") }
+        @inlinable public static var startsWith: Self { .init(rawValue: "StartsWith") }
+    }
+
+    public struct ProtectConfigurationFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountDefault: Self { .init(rawValue: "account-default") }
+        @inlinable public static var deletionProtectionEnabled: Self { .init(rawValue: "deletion-protection-enabled") }
+    }
+
+    public struct ProtectConfigurationRuleOverrideAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allow: Self { .init(rawValue: "ALLOW") }
+        @inlinable public static var block: Self { .init(rawValue: "BLOCK") }
+    }
+
+    public struct ProtectConfigurationRuleSetNumberOverrideFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var action: Self { .init(rawValue: "action") }
+        @inlinable public static var createdAfter: Self { .init(rawValue: "created-after") }
+        @inlinable public static var createdBefore: Self { .init(rawValue: "created-before") }
+        @inlinable public static var destinationPhoneNumberBeginsWith: Self { .init(rawValue: "destination-phone-number-begins-with") }
+        @inlinable public static var expiresAfter: Self { .init(rawValue: "expires-after") }
+        @inlinable public static var expiresBefore: Self { .init(rawValue: "expires-before") }
+        @inlinable public static var isoCountryCode: Self { .init(rawValue: "iso-country-code") }
+    }
+
+    public struct ProtectStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allow: Self { .init(rawValue: "ALLOW") }
+        @inlinable public static var block: Self { .init(rawValue: "BLOCK") }
+        @inlinable public static var filter: Self { .init(rawValue: "FILTER") }
+        @inlinable public static var monitor: Self { .init(rawValue: "MONITOR") }
+    }
+
+    public struct RcsAgentFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deletionProtectionEnabled: Self { .init(rawValue: "deletion-protection-enabled") }
+        @inlinable public static var optOutListName: Self { .init(rawValue: "opt-out-list-name") }
+        @inlinable public static var selfManagedOptOutsEnabled: Self { .init(rawValue: "self-managed-opt-outs-enabled") }
+        @inlinable public static var status: Self { .init(rawValue: "status") }
+        @inlinable public static var twoWayChannelArn: Self { .init(rawValue: "two-way-channel-arn") }
+        @inlinable public static var twoWayEnabled: Self { .init(rawValue: "two-way-enabled") }
+    }
+
+    public struct RcsAgentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var partial: Self { .init(rawValue: "PARTIAL") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var testing: Self { .init(rawValue: "TESTING") }
+    }
+
+    public struct RcsFallbackChannel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mms: Self { .init(rawValue: "MMS") }
+        @inlinable public static var sms: Self { .init(rawValue: "SMS") }
+    }
+
+    public struct RegistrationAssociationBehavior: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var associateAfterComplete: Self { .init(rawValue: "ASSOCIATE_AFTER_COMPLETE") }
+        @inlinable public static var associateBeforeSubmit: Self { .init(rawValue: "ASSOCIATE_BEFORE_SUBMIT") }
+        @inlinable public static var associateOnApproval: Self { .init(rawValue: "ASSOCIATE_ON_APPROVAL") }
+    }
+
+    public struct RegistrationAssociationFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var isoCountryCode: Self { .init(rawValue: "iso-country-code") }
+        @inlinable public static var resourceType: Self { .init(rawValue: "resource-type") }
+    }
+
+    public struct RegistrationAttachmentFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var attachmentStatus: Self { .init(rawValue: "attachment-status") }
+    }
+
+    public struct RegistrationDisassociationBehavior: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleteRegistrationDisassociates: Self { .init(rawValue: "DELETE_REGISTRATION_DISASSOCIATES") }
+        @inlinable public static var disassociateAllAllowsDeleteRegistration: Self { .init(rawValue: "DISASSOCIATE_ALL_ALLOWS_DELETE_REGISTRATION") }
+        @inlinable public static var disassociateAllClosesRegistration: Self { .init(rawValue: "DISASSOCIATE_ALL_CLOSES_REGISTRATION") }
+    }
+
+    public struct RegistrationFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var registrationStatus: Self { .init(rawValue: "registration-status") }
+        @inlinable public static var registrationType: Self { .init(rawValue: "registration-type") }
+    }
+
+    public struct RegistrationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsReviewing: Self { .init(rawValue: "AWS_REVIEWING") }
+        @inlinable public static var closed: Self { .init(rawValue: "CLOSED") }
+        @inlinable public static var complete: Self { .init(rawValue: "COMPLETE") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var provisioning: Self { .init(rawValue: "PROVISIONING") }
+        @inlinable public static var requiresAuthentication: Self { .init(rawValue: "REQUIRES_AUTHENTICATION") }
+        @inlinable public static var requiresUpdates: Self { .init(rawValue: "REQUIRES_UPDATES") }
+        @inlinable public static var reviewing: Self { .init(rawValue: "REVIEWING") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
+    }
+
+    public struct RegistrationTypeFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var supportedAssociationIsoCountryCode: Self { .init(rawValue: "supported-association-iso-country-code") }
+        @inlinable public static var supportedAssociationResourceType: Self { .init(rawValue: "supported-association-resource-type") }
+    }
+
+    public struct RegistrationVersionFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var registrationVersionStatus: Self { .init(rawValue: "registration-version-status") }
+    }
+
+    public struct RegistrationVersionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var approved: Self { .init(rawValue: "APPROVED") }
+        @inlinable public static var archived: Self { .init(rawValue: "ARCHIVED") }
+        @inlinable public static var awsReviewing: Self { .init(rawValue: "AWS_REVIEWING") }
+        @inlinable public static var denied: Self { .init(rawValue: "DENIED") }
+        @inlinable public static var discarded: Self { .init(rawValue: "DISCARDED") }
+        @inlinable public static var draft: Self { .init(rawValue: "DRAFT") }
+        @inlinable public static var requiresAuthentication: Self { .init(rawValue: "REQUIRES_AUTHENTICATION") }
+        @inlinable public static var requiresOfflineReview: Self { .init(rawValue: "REQUIRES_OFFLINE_REVIEW") }
+        @inlinable public static var reviewing: Self { .init(rawValue: "REVIEWING") }
+        @inlinable public static var revoked: Self { .init(rawValue: "REVOKED") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
+    }
+
+    public struct RequestableNumberType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var longCode: Self { .init(rawValue: "LONG_CODE") }
+        @inlinable public static var simulator: Self { .init(rawValue: "SIMULATOR") }
+        @inlinable public static var tenDlc: Self { .init(rawValue: "TEN_DLC") }
+        @inlinable public static var tollFree: Self { .init(rawValue: "TOLL_FREE") }
+    }
+
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "account") }
+        @inlinable public static var configurationSet: Self { .init(rawValue: "configuration-set") }
+        @inlinable public static var eventDestination: Self { .init(rawValue: "event-destination") }
+        @inlinable public static var keyword: Self { .init(rawValue: "keyword") }
+        @inlinable public static var message: Self { .init(rawValue: "message") }
+        @inlinable public static var messageTemplate: Self { .init(rawValue: "message-template") }
+        @inlinable public static var notifyConfiguration: Self { .init(rawValue: "notify-configuration") }
+        @inlinable public static var notifyTemplate: Self { .init(rawValue: "notify-template") }
+        @inlinable public static var optOutList: Self { .init(rawValue: "opt-out-list") }
+        @inlinable public static var optedOutNumber: Self { .init(rawValue: "opted-out-number") }
+        @inlinable public static var phoneNumber: Self { .init(rawValue: "phone-number") }
+        @inlinable public static var policy: Self { .init(rawValue: "policy") }
+        @inlinable public static var pool: Self { .init(rawValue: "pool") }
+        @inlinable public static var protectConfiguration: Self { .init(rawValue: "protect-configuration") }
+        @inlinable public static var rcsAgent: Self { .init(rawValue: "rcs-agent") }
+        @inlinable public static var registration: Self { .init(rawValue: "registration") }
+        @inlinable public static var registrationAttachment: Self { .init(rawValue: "registration-attachment") }
+        @inlinable public static var senderId: Self { .init(rawValue: "sender-id") }
+        @inlinable public static var verifiedDestinationNumber: Self { .init(rawValue: "verified-destination-number") }
+    }
+
+    public struct SearchableNumberType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var tenDlc: Self { .init(rawValue: "TEN_DLC") }
+    }
+
+    public struct SenderIdFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deletionProtectionEnabled: Self { .init(rawValue: "deletion-protection-enabled") }
+        @inlinable public static var isoCountryCode: Self { .init(rawValue: "iso-country-code") }
+        @inlinable public static var messageType: Self { .init(rawValue: "message-type") }
+        @inlinable public static var registered: Self { .init(rawValue: "registered") }
+        @inlinable public static var senderId: Self { .init(rawValue: "sender-id") }
+    }
+
+    public struct ServiceQuotaExceededExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var associationsPerRegistration: Self { .init(rawValue: "ASSOCIATIONS_PER_REGISTRATION") }
+        @inlinable public static var configurationSetsPerAccount: Self { .init(rawValue: "CONFIGURATION_SETS_PER_ACCOUNT") }
+        @inlinable public static var dailyDestinationCallLimit: Self { .init(rawValue: "DAILY_DESTINATION_CALL_LIMIT") }
+        @inlinable public static var dailyNotifyTierMessageLimit: Self { .init(rawValue: "DAILY_NOTIFY_TIER_MESSAGE_LIMIT") }
+        @inlinable public static var eventDestinationsPerConfigurationSet: Self { .init(rawValue: "EVENT_DESTINATIONS_PER_CONFIGURATION_SET") }
+        @inlinable public static var keywordsPerPhoneNumber: Self { .init(rawValue: "KEYWORDS_PER_PHONE_NUMBER") }
+        @inlinable public static var keywordsPerPool: Self { .init(rawValue: "KEYWORDS_PER_POOL") }
+        @inlinable public static var monthlySpendLimitReachedForMedia: Self { .init(rawValue: "MONTHLY_SPEND_LIMIT_REACHED_FOR_MEDIA") }
+        @inlinable public static var monthlySpendLimitReachedForNotify: Self { .init(rawValue: "MONTHLY_SPEND_LIMIT_REACHED_FOR_NOTIFY") }
+        @inlinable public static var monthlySpendLimitReachedForRcs: Self { .init(rawValue: "MONTHLY_SPEND_LIMIT_REACHED_FOR_RCS") }
+        @inlinable public static var monthlySpendLimitReachedForText: Self { .init(rawValue: "MONTHLY_SPEND_LIMIT_REACHED_FOR_TEXT") }
+        @inlinable public static var monthlySpendLimitReachedForVoice: Self { .init(rawValue: "MONTHLY_SPEND_LIMIT_REACHED_FOR_VOICE") }
+        @inlinable public static var notifyConfigurationsPerAccount: Self { .init(rawValue: "NOTIFY_CONFIGURATIONS_PER_ACCOUNT") }
+        @inlinable public static var optOutListsPerAccount: Self { .init(rawValue: "OPT_OUT_LISTS_PER_ACCOUNT") }
+        @inlinable public static var originationIdentitiesPerPool: Self { .init(rawValue: "ORIGINATION_IDENTITIES_PER_POOL") }
+        @inlinable public static var phoneNumbersPerAccount: Self { .init(rawValue: "PHONE_NUMBERS_PER_ACCOUNT") }
+        @inlinable public static var phoneNumbersPerRegistration: Self { .init(rawValue: "PHONE_NUMBERS_PER_REGISTRATION") }
+        @inlinable public static var poolsPerAccount: Self { .init(rawValue: "POOLS_PER_ACCOUNT") }
+        @inlinable public static var protectConfigurationsPerAccount: Self { .init(rawValue: "PROTECT_CONFIGURATIONS_PER_ACCOUNT") }
+        @inlinable public static var rcsAgentsPerAccount: Self { .init(rawValue: "RCS_AGENTS_PER_ACCOUNT") }
+        @inlinable public static var registrationsPerAccount: Self { .init(rawValue: "REGISTRATIONS_PER_ACCOUNT") }
+        @inlinable public static var registrationAttachmentsCreatedPerDay: Self { .init(rawValue: "REGISTRATION_ATTACHMENTS_CREATED_PER_DAY") }
+        @inlinable public static var registrationAttachmentsPerAccount: Self { .init(rawValue: "REGISTRATION_ATTACHMENTS_PER_ACCOUNT") }
+        @inlinable public static var registrationVersionsCreatedPerDay: Self { .init(rawValue: "REGISTRATION_VERSIONS_CREATED_PER_DAY") }
+        @inlinable public static var senderIdsPerAccount: Self { .init(rawValue: "SENDER_IDS_PER_ACCOUNT") }
+        @inlinable public static var tagsPerResource: Self { .init(rawValue: "TAGS_PER_RESOURCE") }
+        @inlinable public static var verificationAttemptsPerDay: Self { .init(rawValue: "VERIFICATION_ATTEMPTS_PER_DAY") }
+        @inlinable public static var verifiedDestinationNumbersPerAccount: Self { .init(rawValue: "VERIFIED_DESTINATION_NUMBERS_PER_ACCOUNT") }
+    }
+
+    public struct SpendLimitName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mediaMessageMonthlySpendLimit: Self { .init(rawValue: "MEDIA_MESSAGE_MONTHLY_SPEND_LIMIT") }
+        @inlinable public static var notifyMessageMonthlySpendLimit: Self { .init(rawValue: "NOTIFY_MESSAGE_MONTHLY_SPEND_LIMIT") }
+        @inlinable public static var rcsMessageMonthlySpendLimit: Self { .init(rawValue: "RCS_MESSAGE_MONTHLY_SPEND_LIMIT") }
+        @inlinable public static var textMessageMonthlySpendLimit: Self { .init(rawValue: "TEXT_MESSAGE_MONTHLY_SPEND_LIMIT") }
+        @inlinable public static var voiceMessageMonthlySpendLimit: Self { .init(rawValue: "VOICE_MESSAGE_MONTHLY_SPEND_LIMIT") }
+    }
+
+    public struct TemplateVariableSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var customer: Self { .init(rawValue: "CUSTOMER") }
+        @inlinable public static var system: Self { .init(rawValue: "SYSTEM") }
+    }
+
+    public struct TemplateVariableType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var boolean: Self { .init(rawValue: "BOOLEAN") }
+        @inlinable public static var integer: Self { .init(rawValue: "INTEGER") }
+        @inlinable public static var string: Self { .init(rawValue: "STRING") }
+    }
+
+    public struct TestingAgentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+    }
+
+    public struct TierUpgradeStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var advanced: Self { .init(rawValue: "ADVANCED") }
+        @inlinable public static var basic: Self { .init(rawValue: "BASIC") }
+        @inlinable public static var pendingUpgrade: Self { .init(rawValue: "PENDING_UPGRADE") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
+    }
+
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var attachmentTypeNotSupported: Self { .init(rawValue: "ATTACHMENT_TYPE_NOT_SUPPORTED") }
+        @inlinable public static var cannotAddOptedOutNumber: Self { .init(rawValue: "CANNOT_ADD_OPTED_OUT_NUMBER") }
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CANNOT_PARSE") }
+        @inlinable public static var channelNotEnabled: Self { .init(rawValue: "CHANNEL_NOT_ENABLED") }
+        @inlinable public static var countryCodeMismatch: Self { .init(rawValue: "COUNTRY_CODE_MISMATCH") }
+        @inlinable public static var countryNotEnabled: Self { .init(rawValue: "COUNTRY_NOT_ENABLED") }
+        @inlinable public static var destinationCountryBlocked: Self { .init(rawValue: "DESTINATION_COUNTRY_BLOCKED") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FIELD_VALIDATION_FAILED") }
+        @inlinable public static var internationalSendingNotSupported: Self { .init(rawValue: "INTERNATIONAL_SENDING_NOT_SUPPORTED") }
+        @inlinable public static var invalidArn: Self { .init(rawValue: "INVALID_ARN") }
+        @inlinable public static var invalidFilterValues: Self { .init(rawValue: "INVALID_FILTER_VALUES") }
+        @inlinable public static var invalidIdentityForDestinationCountry: Self { .init(rawValue: "INVALID_IDENTITY_FOR_DESTINATION_COUNTRY") }
+        @inlinable public static var invalidNextToken: Self { .init(rawValue: "INVALID_NEXT_TOKEN") }
+        @inlinable public static var invalidParameter: Self { .init(rawValue: "INVALID_PARAMETER") }
+        @inlinable public static var invalidRegistrationAssociation: Self { .init(rawValue: "INVALID_REGISTRATION_ASSOCIATION") }
+        @inlinable public static var invalidRequest: Self { .init(rawValue: "INVALID_REQUEST") }
+        @inlinable public static var maximumSizeExceeded: Self { .init(rawValue: "MAXIMUM_SIZE_EXCEEDED") }
+        @inlinable public static var mediaTypeNotSupported: Self { .init(rawValue: "MEDIA_TYPE_NOT_SUPPORTED") }
+        @inlinable public static var missingParameter: Self { .init(rawValue: "MISSING_PARAMETER") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var parametersCannotBeUsedTogether: Self { .init(rawValue: "PARAMETERS_CANNOT_BE_USED_TOGETHER") }
+        @inlinable public static var phoneNumberCannotBeOptedIn: Self { .init(rawValue: "PHONE_NUMBER_CANNOT_BE_OPTED_IN") }
+        @inlinable public static var phoneNumberCannotBeReleased: Self { .init(rawValue: "PHONE_NUMBER_CANNOT_BE_RELEASED") }
+        @inlinable public static var priceOverThreshold: Self { .init(rawValue: "PRICE_OVER_THRESHOLD") }
+        @inlinable public static var registrationFieldCannotBeDeleted: Self { .init(rawValue: "REGISTRATION_FIELD_CANNOT_BE_DELETED") }
+        @inlinable public static var requestedSpendLimitHigherThanServiceLimit: Self { .init(rawValue: "REQUESTED_SPEND_LIMIT_HIGHER_THAN_SERVICE_LIMIT") }
+        @inlinable public static var resourceNotAccessible: Self { .init(rawValue: "RESOURCE_NOT_ACCESSIBLE") }
+        @inlinable public static var senderIdNotRegistered: Self { .init(rawValue: "SENDER_ID_NOT_REGISTERED") }
+        @inlinable public static var senderIdNotSupported: Self { .init(rawValue: "SENDER_ID_NOT_SUPPORTED") }
+        @inlinable public static var senderIdRequiresRegistration: Self { .init(rawValue: "SENDER_ID_REQUIRES_REGISTRATION") }
+        @inlinable public static var twoWayChannelNotPresent: Self { .init(rawValue: "TWO_WAY_CHANNEL_NOT_PRESENT") }
+        @inlinable public static var twoWayNotEnabled: Self { .init(rawValue: "TWO_WAY_NOT_ENABLED") }
+        @inlinable public static var twoWayNotSupportedInCountry: Self { .init(rawValue: "TWO_WAY_NOT_SUPPORTED_IN_COUNTRY") }
+        @inlinable public static var twoWayNotSupportedInRegion: Self { .init(rawValue: "TWO_WAY_NOT_SUPPORTED_IN_REGION") }
+        @inlinable public static var twoWayTopicNotPresent: Self { .init(rawValue: "TWO_WAY_TOPIC_NOT_PRESENT") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UNKNOWN_OPERATION") }
+        @inlinable public static var unknownRegistrationField: Self { .init(rawValue: "UNKNOWN_REGISTRATION_FIELD") }
+        @inlinable public static var unknownRegistrationSection: Self { .init(rawValue: "UNKNOWN_REGISTRATION_SECTION") }
+        @inlinable public static var unknownRegistrationType: Self { .init(rawValue: "UNKNOWN_REGISTRATION_TYPE") }
+        @inlinable public static var unknownRegistrationVersion: Self { .init(rawValue: "UNKNOWN_REGISTRATION_VERSION") }
+        @inlinable public static var unspecifiedParameterNotSupported: Self { .init(rawValue: "UNSPECIFIED_PARAMETER_NOT_SUPPORTED") }
+        @inlinable public static var verificationCodeMismatch: Self { .init(rawValue: "VERIFICATION_CODE_MISMATCH") }
+        @inlinable public static var voiceCapabilityNotAvailable: Self { .init(rawValue: "VOICE_CAPABILITY_NOT_AVAILABLE") }
+    }
+
+    public struct VerificationChannel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var text: Self { .init(rawValue: "TEXT") }
+        @inlinable public static var voice: Self { .init(rawValue: "VOICE") }
+    }
+
+    public struct VerificationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var unsupported: Self { .init(rawValue: "UNSUPPORTED") }
+        @inlinable public static var verified: Self { .init(rawValue: "VERIFIED") }
+    }
+
+    public struct VerifiedDestinationNumberFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rcsAgentId: Self { .init(rawValue: "rcs-agent-id") }
+        @inlinable public static var status: Self { .init(rawValue: "status") }
+    }
+
+    public struct VoiceId: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var amy: Self { .init(rawValue: "AMY") }
+        @inlinable public static var astrid: Self { .init(rawValue: "ASTRID") }
+        @inlinable public static var bianca: Self { .init(rawValue: "BIANCA") }
+        @inlinable public static var brian: Self { .init(rawValue: "BRIAN") }
+        @inlinable public static var camila: Self { .init(rawValue: "CAMILA") }
+        @inlinable public static var carla: Self { .init(rawValue: "CARLA") }
+        @inlinable public static var carmen: Self { .init(rawValue: "CARMEN") }
+        @inlinable public static var celine: Self { .init(rawValue: "CELINE") }
+        @inlinable public static var chantal: Self { .init(rawValue: "CHANTAL") }
+        @inlinable public static var conchita: Self { .init(rawValue: "CONCHITA") }
+        @inlinable public static var cristiano: Self { .init(rawValue: "CRISTIANO") }
+        @inlinable public static var dora: Self { .init(rawValue: "DORA") }
+        @inlinable public static var emma: Self { .init(rawValue: "EMMA") }
+        @inlinable public static var enrique: Self { .init(rawValue: "ENRIQUE") }
+        @inlinable public static var ewa: Self { .init(rawValue: "EWA") }
+        @inlinable public static var filiz: Self { .init(rawValue: "FILIZ") }
+        @inlinable public static var geraint: Self { .init(rawValue: "GERAINT") }
+        @inlinable public static var giorgio: Self { .init(rawValue: "GIORGIO") }
+        @inlinable public static var gwyneth: Self { .init(rawValue: "GWYNETH") }
+        @inlinable public static var hans: Self { .init(rawValue: "HANS") }
+        @inlinable public static var ines: Self { .init(rawValue: "INES") }
+        @inlinable public static var ivy: Self { .init(rawValue: "IVY") }
+        @inlinable public static var jacek: Self { .init(rawValue: "JACEK") }
+        @inlinable public static var jan: Self { .init(rawValue: "JAN") }
+        @inlinable public static var joanna: Self { .init(rawValue: "JOANNA") }
+        @inlinable public static var joey: Self { .init(rawValue: "JOEY") }
+        @inlinable public static var justin: Self { .init(rawValue: "JUSTIN") }
+        @inlinable public static var karl: Self { .init(rawValue: "KARL") }
+        @inlinable public static var kendra: Self { .init(rawValue: "KENDRA") }
+        @inlinable public static var kimberly: Self { .init(rawValue: "KIMBERLY") }
+        @inlinable public static var lea: Self { .init(rawValue: "LEA") }
+        @inlinable public static var liv: Self { .init(rawValue: "LIV") }
+        @inlinable public static var lotte: Self { .init(rawValue: "LOTTE") }
+        @inlinable public static var lucia: Self { .init(rawValue: "LUCIA") }
+        @inlinable public static var lupe: Self { .init(rawValue: "LUPE") }
+        @inlinable public static var mads: Self { .init(rawValue: "MADS") }
+        @inlinable public static var maja: Self { .init(rawValue: "MAJA") }
+        @inlinable public static var marlene: Self { .init(rawValue: "MARLENE") }
+        @inlinable public static var mathieu: Self { .init(rawValue: "MATHIEU") }
+        @inlinable public static var matthew: Self { .init(rawValue: "MATTHEW") }
+        @inlinable public static var maxim: Self { .init(rawValue: "MAXIM") }
+        @inlinable public static var mia: Self { .init(rawValue: "MIA") }
+        @inlinable public static var miguel: Self { .init(rawValue: "MIGUEL") }
+        @inlinable public static var mizuki: Self { .init(rawValue: "MIZUKI") }
+        @inlinable public static var naja: Self { .init(rawValue: "NAJA") }
+        @inlinable public static var nicole: Self { .init(rawValue: "NICOLE") }
+        @inlinable public static var penelope: Self { .init(rawValue: "PENELOPE") }
+        @inlinable public static var raveena: Self { .init(rawValue: "RAVEENA") }
+        @inlinable public static var ricardo: Self { .init(rawValue: "RICARDO") }
+        @inlinable public static var ruben: Self { .init(rawValue: "RUBEN") }
+        @inlinable public static var russell: Self { .init(rawValue: "RUSSELL") }
+        @inlinable public static var salli: Self { .init(rawValue: "SALLI") }
+        @inlinable public static var seoyeon: Self { .init(rawValue: "SEOYEON") }
+        @inlinable public static var takumi: Self { .init(rawValue: "TAKUMI") }
+        @inlinable public static var tatyana: Self { .init(rawValue: "TATYANA") }
+        @inlinable public static var vicki: Self { .init(rawValue: "VICKI") }
+        @inlinable public static var vitoria: Self { .init(rawValue: "VITORIA") }
+        @inlinable public static var zeina: Self { .init(rawValue: "ZEINA") }
+        @inlinable public static var zhiyu: Self { .init(rawValue: "ZHIYU") }
+    }
+
+    public struct VoiceMessageBodyTextType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ssml: Self { .init(rawValue: "SSML") }
+        @inlinable public static var text: Self { .init(rawValue: "TEXT") }
     }
 
     public enum RcsContent: AWSEncodableShape, Sendable {

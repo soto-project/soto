@@ -25,57 +25,85 @@ import Foundation
 extension CodeGuruSecurity {
     // MARK: Enums
 
-    public enum AnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "All"
-        case security = "Security"
-        public var description: String { return self.rawValue }
+    public struct AnalysisType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "All") }
+        @inlinable public static var security: Self { .init(rawValue: "Security") }
     }
 
-    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateIdentifier = "DUPLICATE_IDENTIFIER"
-        case internalError = "INTERNAL_ERROR"
-        case invalidFindingId = "INVALID_FINDING_ID"
-        case invalidScanName = "INVALID_SCAN_NAME"
-        case itemDoesNotExist = "ITEM_DOES_NOT_EXIST"
-        public var description: String { return self.rawValue }
+    public struct ErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var duplicateIdentifier: Self { .init(rawValue: "DUPLICATE_IDENTIFIER") }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+        @inlinable public static var invalidFindingId: Self { .init(rawValue: "INVALID_FINDING_ID") }
+        @inlinable public static var invalidScanName: Self { .init(rawValue: "INVALID_SCAN_NAME") }
+        @inlinable public static var itemDoesNotExist: Self { .init(rawValue: "ITEM_DOES_NOT_EXIST") }
     }
 
-    public enum ScanState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "Failed"
-        case inProgress = "InProgress"
-        case successful = "Successful"
-        public var description: String { return self.rawValue }
+    public struct ScanState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "InProgress") }
+        @inlinable public static var successful: Self { .init(rawValue: "Successful") }
     }
 
-    public enum ScanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case express = "Express"
-        case standard = "Standard"
-        public var description: String { return self.rawValue }
+    public struct ScanType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var express: Self { .init(rawValue: "Express") }
+        @inlinable public static var standard: Self { .init(rawValue: "Standard") }
     }
 
-    public enum Severity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case critical = "Critical"
-        case high = "High"
-        case info = "Info"
-        case low = "Low"
-        case medium = "Medium"
-        public var description: String { return self.rawValue }
+    public struct Severity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var critical: Self { .init(rawValue: "Critical") }
+        @inlinable public static var high: Self { .init(rawValue: "High") }
+        @inlinable public static var info: Self { .init(rawValue: "Info") }
+        @inlinable public static var low: Self { .init(rawValue: "Low") }
+        @inlinable public static var medium: Self { .init(rawValue: "Medium") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "All"
-        case closed = "Closed"
-        case open = "Open"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "All") }
+        @inlinable public static var closed: Self { .init(rawValue: "Closed") }
+        @inlinable public static var open: Self { .init(rawValue: "Open") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "cannotParse"
-        case fieldValidationFailed = "fieldValidationFailed"
-        case lambdaCodeShaMismatch = "lambdaCodeShaMisMatch"
-        case other = "other"
-        case unknownOperation = "unknownOperation"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "cannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var lambdaCodeShaMismatch: Self { .init(rawValue: "lambdaCodeShaMisMatch") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "unknownOperation") }
     }
 
     // MARK: Shapes

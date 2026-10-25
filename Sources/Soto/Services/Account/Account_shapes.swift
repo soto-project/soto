@@ -25,50 +25,74 @@ import Foundation
 extension Account {
     // MARK: Enums
 
-    public enum AccountState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case closed = "CLOSED"
-        case pendingActivation = "PENDING_ACTIVATION"
-        case suspended = "SUSPENDED"
-        public var description: String { return self.rawValue }
+    public struct AccountState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var closed: Self { .init(rawValue: "CLOSED") }
+        @inlinable public static var pendingActivation: Self { .init(rawValue: "PENDING_ACTIVATION") }
+        @inlinable public static var suspended: Self { .init(rawValue: "SUSPENDED") }
     }
 
-    public enum AlternateContactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billing = "BILLING"
-        case operations = "OPERATIONS"
-        case security = "SECURITY"
-        public var description: String { return self.rawValue }
+    public struct AlternateContactType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billing: Self { .init(rawValue: "BILLING") }
+        @inlinable public static var operations: Self { .init(rawValue: "OPERATIONS") }
+        @inlinable public static var security: Self { .init(rawValue: "SECURITY") }
     }
 
-    public enum AwsAccountState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case closed = "CLOSED"
-        case pendingActivation = "PENDING_ACTIVATION"
-        case suspended = "SUSPENDED"
-        public var description: String { return self.rawValue }
+    public struct AwsAccountState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var closed: Self { .init(rawValue: "CLOSED") }
+        @inlinable public static var pendingActivation: Self { .init(rawValue: "PENDING_ACTIVATION") }
+        @inlinable public static var suspended: Self { .init(rawValue: "SUSPENDED") }
     }
 
-    public enum PrimaryEmailUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accepted = "ACCEPTED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct PrimaryEmailUpdateStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accepted: Self { .init(rawValue: "ACCEPTED") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum RegionOptStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case disabling = "DISABLING"
-        case enabled = "ENABLED"
-        case enabledByDefault = "ENABLED_BY_DEFAULT"
-        case enabling = "ENABLING"
-        public var description: String { return self.rawValue }
+    public struct RegionOptStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var disabling: Self { .init(rawValue: "DISABLING") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var enabledByDefault: Self { .init(rawValue: "ENABLED_BY_DEFAULT") }
+        @inlinable public static var enabling: Self { .init(rawValue: "ENABLING") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fieldValidationFailed = "fieldValidationFailed"
-        case invalidRegionOptTarget = "invalidRegionOptTarget"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var invalidRegionOptTarget: Self { .init(rawValue: "invalidRegionOptTarget") }
     }
 
     // MARK: Shapes

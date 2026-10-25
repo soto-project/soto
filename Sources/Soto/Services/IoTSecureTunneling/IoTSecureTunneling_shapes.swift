@@ -25,23 +25,35 @@ import Foundation
 extension IoTSecureTunneling {
     // MARK: Enums
 
-    public enum ClientMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case destination = "DESTINATION"
-        case source = "SOURCE"
-        public var description: String { return self.rawValue }
+    public struct ClientMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var destination: Self { .init(rawValue: "DESTINATION") }
+        @inlinable public static var source: Self { .init(rawValue: "SOURCE") }
     }
 
-    public enum ConnectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case connected = "CONNECTED"
-        case disconnected = "DISCONNECTED"
-        public var description: String { return self.rawValue }
+    public struct ConnectionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var connected: Self { .init(rawValue: "CONNECTED") }
+        @inlinable public static var disconnected: Self { .init(rawValue: "DISCONNECTED") }
     }
 
-    public enum TunnelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case closed = "CLOSED"
-        case open = "OPEN"
-        public var description: String { return self.rawValue }
+    public struct TunnelStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var closed: Self { .init(rawValue: "CLOSED") }
+        @inlinable public static var open: Self { .init(rawValue: "OPEN") }
     }
 
     // MARK: Shapes

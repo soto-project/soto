@@ -25,67 +25,95 @@ import Foundation
 extension FreeTier {
     // MARK: Enums
 
-    public enum AccountPlanStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case expired = "EXPIRED"
-        case notStarted = "NOT_STARTED"
-        public var description: String { return self.rawValue }
+    public struct AccountPlanStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var notStarted: Self { .init(rawValue: "NOT_STARTED") }
     }
 
-    public enum AccountPlanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case free = "FREE"
-        case paid = "PAID"
-        public var description: String { return self.rawValue }
+    public struct AccountPlanType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var free: Self { .init(rawValue: "FREE") }
+        @inlinable public static var paid: Self { .init(rawValue: "PAID") }
     }
 
-    public enum ActivityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case expiring = "EXPIRING"
-        case inProgress = "IN_PROGRESS"
-        case notStarted = "NOT_STARTED"
-        public var description: String { return self.rawValue }
+    public struct ActivityStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var expiring: Self { .init(rawValue: "EXPIRING") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var notStarted: Self { .init(rawValue: "NOT_STARTED") }
     }
 
-    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case usd = "USD"
-        public var description: String { return self.rawValue }
+    public struct CurrencyCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var usd: Self { .init(rawValue: "USD") }
     }
 
-    public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case description = "DESCRIPTION"
-        case freeTierType = "FREE_TIER_TYPE"
-        case operation = "OPERATION"
-        case region = "REGION"
-        case service = "SERVICE"
-        case usagePercentage = "USAGE_PERCENTAGE"
-        case usageType = "USAGE_TYPE"
-        public var description: String { return self.rawValue }
+    public struct Dimension: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var description: Self { .init(rawValue: "DESCRIPTION") }
+        @inlinable public static var freeTierType: Self { .init(rawValue: "FREE_TIER_TYPE") }
+        @inlinable public static var operation: Self { .init(rawValue: "OPERATION") }
+        @inlinable public static var region: Self { .init(rawValue: "REGION") }
+        @inlinable public static var service: Self { .init(rawValue: "SERVICE") }
+        @inlinable public static var usagePercentage: Self { .init(rawValue: "USAGE_PERCENTAGE") }
+        @inlinable public static var usageType: Self { .init(rawValue: "USAGE_TYPE") }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deDe = "de-DE"
-        case enGb = "en-GB"
-        case enUs = "en-US"
-        case esEs = "es-ES"
-        case frFr = "fr-FR"
-        case idId = "id-ID"
-        case itIt = "it-IT"
-        case jaJp = "ja-JP"
-        case koKr = "ko-KR"
-        case ptPt = "pt-PT"
-        case trTr = "tr-TR"
-        case zhCn = "zh-CN"
-        case zhTw = "zh-TW"
-        public var description: String { return self.rawValue }
+    public struct LanguageCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deDe: Self { .init(rawValue: "de-DE") }
+        @inlinable public static var enGb: Self { .init(rawValue: "en-GB") }
+        @inlinable public static var enUs: Self { .init(rawValue: "en-US") }
+        @inlinable public static var esEs: Self { .init(rawValue: "es-ES") }
+        @inlinable public static var frFr: Self { .init(rawValue: "fr-FR") }
+        @inlinable public static var idId: Self { .init(rawValue: "id-ID") }
+        @inlinable public static var itIt: Self { .init(rawValue: "it-IT") }
+        @inlinable public static var jaJp: Self { .init(rawValue: "ja-JP") }
+        @inlinable public static var koKr: Self { .init(rawValue: "ko-KR") }
+        @inlinable public static var ptPt: Self { .init(rawValue: "pt-PT") }
+        @inlinable public static var trTr: Self { .init(rawValue: "tr-TR") }
+        @inlinable public static var zhCn: Self { .init(rawValue: "zh-CN") }
+        @inlinable public static var zhTw: Self { .init(rawValue: "zh-TW") }
     }
 
-    public enum MatchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case contains = "CONTAINS"
-        case endsWith = "ENDS_WITH"
-        case equals = "EQUALS"
-        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
-        case startsWith = "STARTS_WITH"
-        public var description: String { return self.rawValue }
+    public struct MatchOption: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var endsWith: Self { .init(rawValue: "ENDS_WITH") }
+        @inlinable public static var equals: Self { .init(rawValue: "EQUALS") }
+        @inlinable public static var greaterThanOrEqual: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL") }
+        @inlinable public static var startsWith: Self { .init(rawValue: "STARTS_WITH") }
     }
 
     // MARK: Shapes

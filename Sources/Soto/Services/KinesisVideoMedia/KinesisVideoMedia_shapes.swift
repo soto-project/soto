@@ -25,14 +25,18 @@ import Foundation
 extension KinesisVideoMedia {
     // MARK: Enums
 
-    public enum StartSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case continuationToken = "CONTINUATION_TOKEN"
-        case earliest = "EARLIEST"
-        case fragmentNumber = "FRAGMENT_NUMBER"
-        case now = "NOW"
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
+    public struct StartSelectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var continuationToken: Self { .init(rawValue: "CONTINUATION_TOKEN") }
+        @inlinable public static var earliest: Self { .init(rawValue: "EARLIEST") }
+        @inlinable public static var fragmentNumber: Self { .init(rawValue: "FRAGMENT_NUMBER") }
+        @inlinable public static var now: Self { .init(rawValue: "NOW") }
+        @inlinable public static var producerTimestamp: Self { .init(rawValue: "PRODUCER_TIMESTAMP") }
+        @inlinable public static var serverTimestamp: Self { .init(rawValue: "SERVER_TIMESTAMP") }
     }
 
     // MARK: Shapes

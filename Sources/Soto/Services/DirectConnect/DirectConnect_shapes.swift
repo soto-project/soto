@@ -25,203 +25,299 @@ import Foundation
 extension DirectConnect {
     // MARK: Enums
 
-    public enum AddressFamily: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case iPv4 = "ipv4"
-        case iPv6 = "ipv6"
-        public var description: String { return self.rawValue }
+    public struct AddressFamily: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var iPv4: Self { .init(rawValue: "ipv4") }
+        @inlinable public static var iPv6: Self { .init(rawValue: "ipv6") }
     }
 
-    public enum AsPathType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case seq = "seq"
-        case set = "set"
-        public var description: String { return self.rawValue }
+    public struct AsPathType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var seq: Self { .init(rawValue: "seq") }
+        @inlinable public static var set: Self { .init(rawValue: "set") }
     }
 
-    public enum BGPPeerState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case pending = "pending"
-        case verifying = "verifying"
-        public var description: String { return self.rawValue }
+    public struct BGPPeerState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
+        @inlinable public static var verifying: Self { .init(rawValue: "verifying") }
     }
 
-    public enum BGPStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case down = "down"
-        case unknown = "unknown"
-        case up = "up"
-        public var description: String { return self.rawValue }
+    public struct BGPStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var down: Self { .init(rawValue: "down") }
+        @inlinable public static var unknown: Self { .init(rawValue: "unknown") }
+        @inlinable public static var up: Self { .init(rawValue: "up") }
     }
 
-    public enum BillingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case flatRateTier1 = "FlatRateTier1"
-        case flatRateTier2 = "FlatRateTier2"
-        case flatRateTier3 = "FlatRateTier3"
-        case flatRateTier4 = "FlatRateTier4"
-        case flatRateTier5 = "FlatRateTier5"
-        case payAsYouGo = "PayAsYouGo"
-        case portPairFlatRateTier1 = "PortPairFlatRateTier1"
-        case portPairFlatRateTier2 = "PortPairFlatRateTier2"
-        case portPairFlatRateTier3 = "PortPairFlatRateTier3"
-        case portPairFlatRateTier4 = "PortPairFlatRateTier4"
-        case portPairFlatRateTier5 = "PortPairFlatRateTier5"
-        public var description: String { return self.rawValue }
+    public struct BillingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var flatRateTier1: Self { .init(rawValue: "FlatRateTier1") }
+        @inlinable public static var flatRateTier2: Self { .init(rawValue: "FlatRateTier2") }
+        @inlinable public static var flatRateTier3: Self { .init(rawValue: "FlatRateTier3") }
+        @inlinable public static var flatRateTier4: Self { .init(rawValue: "FlatRateTier4") }
+        @inlinable public static var flatRateTier5: Self { .init(rawValue: "FlatRateTier5") }
+        @inlinable public static var payAsYouGo: Self { .init(rawValue: "PayAsYouGo") }
+        @inlinable public static var portPairFlatRateTier1: Self { .init(rawValue: "PortPairFlatRateTier1") }
+        @inlinable public static var portPairFlatRateTier2: Self { .init(rawValue: "PortPairFlatRateTier2") }
+        @inlinable public static var portPairFlatRateTier3: Self { .init(rawValue: "PortPairFlatRateTier3") }
+        @inlinable public static var portPairFlatRateTier4: Self { .init(rawValue: "PortPairFlatRateTier4") }
+        @inlinable public static var portPairFlatRateTier5: Self { .init(rawValue: "PortPairFlatRateTier5") }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case down = "down"
-        case ordering = "ordering"
-        case pending = "pending"
-        case rejected = "rejected"
-        case requested = "requested"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
+    public struct ConnectionState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var down: Self { .init(rawValue: "down") }
+        @inlinable public static var ordering: Self { .init(rawValue: "ordering") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
+        @inlinable public static var rejected: Self { .init(rawValue: "rejected") }
+        @inlinable public static var requested: Self { .init(rawValue: "requested") }
+        @inlinable public static var unknown: Self { .init(rawValue: "unknown") }
     }
 
-    public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accepted = "accepted"
-        case deleted = "deleted"
-        case requested = "requested"
-        public var description: String { return self.rawValue }
+    public struct DirectConnectGatewayAssociationProposalState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accepted: Self { .init(rawValue: "accepted") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var requested: Self { .init(rawValue: "requested") }
     }
 
-    public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case associated = "associated"
-        case associating = "associating"
-        case disassociated = "disassociated"
-        case disassociating = "disassociating"
-        case updating = "updating"
-        public var description: String { return self.rawValue }
+    public struct DirectConnectGatewayAssociationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var associated: Self { .init(rawValue: "associated") }
+        @inlinable public static var associating: Self { .init(rawValue: "associating") }
+        @inlinable public static var disassociated: Self { .init(rawValue: "disassociated") }
+        @inlinable public static var disassociating: Self { .init(rawValue: "disassociating") }
+        @inlinable public static var updating: Self { .init(rawValue: "updating") }
     }
 
-    public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case attached = "attached"
-        case attaching = "attaching"
-        case detached = "detached"
-        case detaching = "detaching"
-        public var description: String { return self.rawValue }
+    public struct DirectConnectGatewayAttachmentState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var attached: Self { .init(rawValue: "attached") }
+        @inlinable public static var attaching: Self { .init(rawValue: "attaching") }
+        @inlinable public static var detached: Self { .init(rawValue: "detached") }
+        @inlinable public static var detaching: Self { .init(rawValue: "detaching") }
     }
 
-    public enum DirectConnectGatewayAttachmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case privateVirtualInterface = "PrivateVirtualInterface"
-        case transitVirtualInterface = "TransitVirtualInterface"
-        public var description: String { return self.rawValue }
+    public struct DirectConnectGatewayAttachmentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var privateVirtualInterface: Self { .init(rawValue: "PrivateVirtualInterface") }
+        @inlinable public static var transitVirtualInterface: Self { .init(rawValue: "TransitVirtualInterface") }
     }
 
-    public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case pending = "pending"
-        public var description: String { return self.rawValue }
+    public struct DirectConnectGatewayState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
     }
 
-    public enum GatewayType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case transitGateway = "transitGateway"
-        case virtualPrivateGateway = "virtualPrivateGateway"
-        public var description: String { return self.rawValue }
+    public struct GatewayType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var transitGateway: Self { .init(rawValue: "transitGateway") }
+        @inlinable public static var virtualPrivateGateway: Self { .init(rawValue: "virtualPrivateGateway") }
     }
 
-    public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case no = "no"
-        case unknown = "unknown"
-        case yes = "yes"
-        public var description: String { return self.rawValue }
+    public struct HasLogicalRedundancy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var no: Self { .init(rawValue: "no") }
+        @inlinable public static var unknown: Self { .init(rawValue: "unknown") }
+        @inlinable public static var yes: Self { .init(rawValue: "yes") }
     }
 
-    public enum InterconnectState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case down = "down"
-        case pending = "pending"
-        case requested = "requested"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
+    public struct InterconnectState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var down: Self { .init(rawValue: "down") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
+        @inlinable public static var requested: Self { .init(rawValue: "requested") }
+        @inlinable public static var unknown: Self { .init(rawValue: "unknown") }
     }
 
-    public enum LagState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case down = "down"
-        case pending = "pending"
-        case requested = "requested"
-        case unknown = "unknown"
-        public var description: String { return self.rawValue }
+    public struct LagState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var down: Self { .init(rawValue: "down") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
+        @inlinable public static var requested: Self { .init(rawValue: "requested") }
+        @inlinable public static var unknown: Self { .init(rawValue: "unknown") }
     }
 
-    public enum LoaContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pdf = "application/pdf"
-        public var description: String { return self.rawValue }
+    public struct LoaContentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pdf: Self { .init(rawValue: "application/pdf") }
     }
 
-    public enum NniPartnerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case nonPartner = "nonPartner"
-        case v1 = "v1"
-        case v2 = "v2"
-        public var description: String { return self.rawValue }
+    public struct NniPartnerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var nonPartner: Self { .init(rawValue: "nonPartner") }
+        @inlinable public static var v1: Self { .init(rawValue: "v1") }
+        @inlinable public static var v2: Self { .init(rawValue: "v2") }
     }
 
-    public enum RequestBillingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case flatRateTier1 = "FlatRateTier1"
-        case flatRateTier2 = "FlatRateTier2"
-        case flatRateTier3 = "FlatRateTier3"
-        case flatRateTier4 = "FlatRateTier4"
-        case flatRateTier5 = "FlatRateTier5"
-        case payAsYouGo = "PayAsYouGo"
-        public var description: String { return self.rawValue }
+    public struct RequestBillingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var flatRateTier1: Self { .init(rawValue: "FlatRateTier1") }
+        @inlinable public static var flatRateTier2: Self { .init(rawValue: "FlatRateTier2") }
+        @inlinable public static var flatRateTier3: Self { .init(rawValue: "FlatRateTier3") }
+        @inlinable public static var flatRateTier4: Self { .init(rawValue: "FlatRateTier4") }
+        @inlinable public static var flatRateTier5: Self { .init(rawValue: "FlatRateTier5") }
+        @inlinable public static var payAsYouGo: Self { .init(rawValue: "PayAsYouGo") }
     }
 
-    public enum ResiliencyGroupAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case associated = "associated"
-        case associating = "associating"
-        case disassociated = "disassociated"
-        case disassociating = "disassociating"
-        public var description: String { return self.rawValue }
+    public struct ResiliencyGroupAssociationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var associated: Self { .init(rawValue: "associated") }
+        @inlinable public static var associating: Self { .init(rawValue: "associating") }
+        @inlinable public static var disassociated: Self { .init(rawValue: "disassociated") }
+        @inlinable public static var disassociating: Self { .init(rawValue: "disassociating") }
     }
 
-    public enum ResiliencyGroupState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case pending = "pending"
-        public var description: String { return self.rawValue }
+    public struct ResiliencyGroupState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
     }
 
-    public enum ResiliencyGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case managed = "Managed"
-        public var description: String { return self.rawValue }
+    public struct ResiliencyGroupType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var managed: Self { .init(rawValue: "Managed") }
     }
 
-    public enum ResiliencyModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case basicResiliency = "basic-resiliency"
-        case highResiliency = "high-resiliency"
-        case maximumResiliency = "maximum-resiliency"
-        public var description: String { return self.rawValue }
+    public struct ResiliencyModel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var basicResiliency: Self { .init(rawValue: "basic-resiliency") }
+        @inlinable public static var highResiliency: Self { .init(rawValue: "high-resiliency") }
+        @inlinable public static var maximumResiliency: Self { .init(rawValue: "maximum-resiliency") }
     }
 
-    public enum RouteDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accepted = "accepted"
-        case advertised = "advertised"
-        public var description: String { return self.rawValue }
+    public struct RouteDirection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accepted: Self { .init(rawValue: "accepted") }
+        @inlinable public static var advertised: Self { .init(rawValue: "advertised") }
     }
 
-    public enum VirtualInterfaceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case confirming = "confirming"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case down = "down"
-        case pending = "pending"
-        case rejected = "rejected"
-        case testing = "testing"
-        case unknown = "unknown"
-        case verifying = "verifying"
-        public var description: String { return self.rawValue }
+    public struct VirtualInterfaceState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var confirming: Self { .init(rawValue: "confirming") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var down: Self { .init(rawValue: "down") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
+        @inlinable public static var rejected: Self { .init(rawValue: "rejected") }
+        @inlinable public static var testing: Self { .init(rawValue: "testing") }
+        @inlinable public static var unknown: Self { .init(rawValue: "unknown") }
+        @inlinable public static var verifying: Self { .init(rawValue: "verifying") }
     }
 
     // MARK: Shapes

@@ -25,39 +25,47 @@ import Foundation
 extension MarketplaceCommerceAnalytics {
     // MARK: Enums
 
-    public enum DataSetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case customerProfileByGeography = "customer_profile_by_geography"
-        case customerProfileByIndustry = "customer_profile_by_industry"
-        case customerProfileByRevenue = "customer_profile_by_revenue"
-        case customerSubscriberAnnualSubscriptions = "customer_subscriber_annual_subscriptions"
-        case customerSubscriberHourlyMonthlySubscriptions = "customer_subscriber_hourly_monthly_subscriptions"
-        case dailyBusinessCanceledProductSubscribers = "daily_business_canceled_product_subscribers"
-        case dailyBusinessFees = "daily_business_fees"
-        case dailyBusinessFreeTrialConversions = "daily_business_free_trial_conversions"
-        case dailyBusinessNewInstances = "daily_business_new_instances"
-        case dailyBusinessNewProductSubscribers = "daily_business_new_product_subscribers"
-        case dailyBusinessUsageByInstanceType = "daily_business_usage_by_instance_type"
-        case disbursedAmountByAgeOfDisbursedFunds = "disbursed_amount_by_age_of_disbursed_funds"
-        case disbursedAmountByAgeOfPastDueFunds = "disbursed_amount_by_age_of_past_due_funds"
-        case disbursedAmountByAgeOfUncollectedFunds = "disbursed_amount_by_age_of_uncollected_funds"
-        case disbursedAmountByCustomerGeo = "disbursed_amount_by_customer_geo"
-        case disbursedAmountByInstanceHours = "disbursed_amount_by_instance_hours"
-        case disbursedAmountByProduct = "disbursed_amount_by_product"
-        case disbursedAmountByProductWithUncollectedFunds = "disbursed_amount_by_product_with_uncollected_funds"
-        case disbursedAmountByUncollectedFundsBreakdown = "disbursed_amount_by_uncollected_funds_breakdown"
-        case monthlyRevenueAnnualSubscriptions = "monthly_revenue_annual_subscriptions"
-        case monthlyRevenueBillingAndRevenueData = "monthly_revenue_billing_and_revenue_data"
-        case monthlyRevenueFieldDemonstrationUsage = "monthly_revenue_field_demonstration_usage"
-        case monthlyRevenueFlexiblePaymentSchedule = "monthly_revenue_flexible_payment_schedule"
-        case salesCompensationBilledRevenue = "sales_compensation_billed_revenue"
-        case usSalesAndUseTaxRecords = "us_sales_and_use_tax_records"
-        public var description: String { return self.rawValue }
+    public struct DataSetType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var customerProfileByGeography: Self { .init(rawValue: "customer_profile_by_geography") }
+        @inlinable public static var customerProfileByIndustry: Self { .init(rawValue: "customer_profile_by_industry") }
+        @inlinable public static var customerProfileByRevenue: Self { .init(rawValue: "customer_profile_by_revenue") }
+        @inlinable public static var customerSubscriberAnnualSubscriptions: Self { .init(rawValue: "customer_subscriber_annual_subscriptions") }
+        @inlinable public static var customerSubscriberHourlyMonthlySubscriptions: Self { .init(rawValue: "customer_subscriber_hourly_monthly_subscriptions") }
+        @inlinable public static var dailyBusinessCanceledProductSubscribers: Self { .init(rawValue: "daily_business_canceled_product_subscribers") }
+        @inlinable public static var dailyBusinessFees: Self { .init(rawValue: "daily_business_fees") }
+        @inlinable public static var dailyBusinessFreeTrialConversions: Self { .init(rawValue: "daily_business_free_trial_conversions") }
+        @inlinable public static var dailyBusinessNewInstances: Self { .init(rawValue: "daily_business_new_instances") }
+        @inlinable public static var dailyBusinessNewProductSubscribers: Self { .init(rawValue: "daily_business_new_product_subscribers") }
+        @inlinable public static var dailyBusinessUsageByInstanceType: Self { .init(rawValue: "daily_business_usage_by_instance_type") }
+        @inlinable public static var disbursedAmountByAgeOfDisbursedFunds: Self { .init(rawValue: "disbursed_amount_by_age_of_disbursed_funds") }
+        @inlinable public static var disbursedAmountByAgeOfPastDueFunds: Self { .init(rawValue: "disbursed_amount_by_age_of_past_due_funds") }
+        @inlinable public static var disbursedAmountByAgeOfUncollectedFunds: Self { .init(rawValue: "disbursed_amount_by_age_of_uncollected_funds") }
+        @inlinable public static var disbursedAmountByCustomerGeo: Self { .init(rawValue: "disbursed_amount_by_customer_geo") }
+        @inlinable public static var disbursedAmountByInstanceHours: Self { .init(rawValue: "disbursed_amount_by_instance_hours") }
+        @inlinable public static var disbursedAmountByProduct: Self { .init(rawValue: "disbursed_amount_by_product") }
+        @inlinable public static var disbursedAmountByProductWithUncollectedFunds: Self { .init(rawValue: "disbursed_amount_by_product_with_uncollected_funds") }
+        @inlinable public static var disbursedAmountByUncollectedFundsBreakdown: Self { .init(rawValue: "disbursed_amount_by_uncollected_funds_breakdown") }
+        @inlinable public static var monthlyRevenueAnnualSubscriptions: Self { .init(rawValue: "monthly_revenue_annual_subscriptions") }
+        @inlinable public static var monthlyRevenueBillingAndRevenueData: Self { .init(rawValue: "monthly_revenue_billing_and_revenue_data") }
+        @inlinable public static var monthlyRevenueFieldDemonstrationUsage: Self { .init(rawValue: "monthly_revenue_field_demonstration_usage") }
+        @inlinable public static var monthlyRevenueFlexiblePaymentSchedule: Self { .init(rawValue: "monthly_revenue_flexible_payment_schedule") }
+        @inlinable public static var salesCompensationBilledRevenue: Self { .init(rawValue: "sales_compensation_billed_revenue") }
+        @inlinable public static var usSalesAndUseTaxRecords: Self { .init(rawValue: "us_sales_and_use_tax_records") }
     }
 
-    public enum SupportDataSetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case customerSupportContactsData = "customer_support_contacts_data"
-        case testCustomerSupportContactsData = "test_customer_support_contacts_data"
-        public var description: String { return self.rawValue }
+    public struct SupportDataSetType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var customerSupportContactsData: Self { .init(rawValue: "customer_support_contacts_data") }
+        @inlinable public static var testCustomerSupportContactsData: Self { .init(rawValue: "test_customer_support_contacts_data") }
     }
 
     // MARK: Shapes

@@ -25,110 +25,162 @@ import Foundation
 extension MTurk {
     // MARK: Enums
 
-    public enum AssignmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case approved = "Approved"
-        case rejected = "Rejected"
-        case submitted = "Submitted"
-        public var description: String { return self.rawValue }
+    public struct AssignmentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var approved: Self { .init(rawValue: "Approved") }
+        @inlinable public static var rejected: Self { .init(rawValue: "Rejected") }
+        @inlinable public static var submitted: Self { .init(rawValue: "Submitted") }
     }
 
-    public enum Comparator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `in` = "In"
-        case doesNotExist = "DoesNotExist"
-        case equalTo = "EqualTo"
-        case exists = "Exists"
-        case greaterThan = "GreaterThan"
-        case greaterThanOrEqualTo = "GreaterThanOrEqualTo"
-        case lessThan = "LessThan"
-        case lessThanOrEqualTo = "LessThanOrEqualTo"
-        case notEqualTo = "NotEqualTo"
-        case notIn = "NotIn"
-        public var description: String { return self.rawValue }
+    public struct Comparator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `in`: Self { .init(rawValue: "In") }
+        @inlinable public static var doesNotExist: Self { .init(rawValue: "DoesNotExist") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EqualTo") }
+        @inlinable public static var exists: Self { .init(rawValue: "Exists") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GreaterThan") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GreaterThanOrEqualTo") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LessThan") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LessThanOrEqualTo") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NotEqualTo") }
+        @inlinable public static var notIn: Self { .init(rawValue: "NotIn") }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case assignmentAbandoned = "AssignmentAbandoned"
-        case assignmentAccepted = "AssignmentAccepted"
-        case assignmentApproved = "AssignmentApproved"
-        case assignmentRejected = "AssignmentRejected"
-        case assignmentReturned = "AssignmentReturned"
-        case assignmentSubmitted = "AssignmentSubmitted"
-        case hitCreated = "HITCreated"
-        case hitDisposed = "HITDisposed"
-        case hitExpired = "HITExpired"
-        case hitExtended = "HITExtended"
-        case hitReviewable = "HITReviewable"
-        case ping = "Ping"
-        public var description: String { return self.rawValue }
+    public struct EventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var assignmentAbandoned: Self { .init(rawValue: "AssignmentAbandoned") }
+        @inlinable public static var assignmentAccepted: Self { .init(rawValue: "AssignmentAccepted") }
+        @inlinable public static var assignmentApproved: Self { .init(rawValue: "AssignmentApproved") }
+        @inlinable public static var assignmentRejected: Self { .init(rawValue: "AssignmentRejected") }
+        @inlinable public static var assignmentReturned: Self { .init(rawValue: "AssignmentReturned") }
+        @inlinable public static var assignmentSubmitted: Self { .init(rawValue: "AssignmentSubmitted") }
+        @inlinable public static var hitCreated: Self { .init(rawValue: "HITCreated") }
+        @inlinable public static var hitDisposed: Self { .init(rawValue: "HITDisposed") }
+        @inlinable public static var hitExpired: Self { .init(rawValue: "HITExpired") }
+        @inlinable public static var hitExtended: Self { .init(rawValue: "HITExtended") }
+        @inlinable public static var hitReviewable: Self { .init(rawValue: "HITReviewable") }
+        @inlinable public static var ping: Self { .init(rawValue: "Ping") }
     }
 
-    public enum HITAccessActions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accept = "Accept"
-        case discoverPreviewAndAccept = "DiscoverPreviewAndAccept"
-        case previewAndAccept = "PreviewAndAccept"
-        public var description: String { return self.rawValue }
+    public struct HITAccessActions: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accept: Self { .init(rawValue: "Accept") }
+        @inlinable public static var discoverPreviewAndAccept: Self { .init(rawValue: "DiscoverPreviewAndAccept") }
+        @inlinable public static var previewAndAccept: Self { .init(rawValue: "PreviewAndAccept") }
     }
 
-    public enum HITReviewStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case markedForReview = "MarkedForReview"
-        case notReviewed = "NotReviewed"
-        case reviewedAppropriate = "ReviewedAppropriate"
-        case reviewedInappropriate = "ReviewedInappropriate"
-        public var description: String { return self.rawValue }
+    public struct HITReviewStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var markedForReview: Self { .init(rawValue: "MarkedForReview") }
+        @inlinable public static var notReviewed: Self { .init(rawValue: "NotReviewed") }
+        @inlinable public static var reviewedAppropriate: Self { .init(rawValue: "ReviewedAppropriate") }
+        @inlinable public static var reviewedInappropriate: Self { .init(rawValue: "ReviewedInappropriate") }
     }
 
-    public enum HITStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case assignable = "Assignable"
-        case disposed = "Disposed"
-        case reviewable = "Reviewable"
-        case reviewing = "Reviewing"
-        case unassignable = "Unassignable"
-        public var description: String { return self.rawValue }
+    public struct HITStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var assignable: Self { .init(rawValue: "Assignable") }
+        @inlinable public static var disposed: Self { .init(rawValue: "Disposed") }
+        @inlinable public static var reviewable: Self { .init(rawValue: "Reviewable") }
+        @inlinable public static var reviewing: Self { .init(rawValue: "Reviewing") }
+        @inlinable public static var unassignable: Self { .init(rawValue: "Unassignable") }
     }
 
-    public enum NotificationTransport: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case email = "Email"
-        case sns = "SNS"
-        case sqs = "SQS"
-        public var description: String { return self.rawValue }
+    public struct NotificationTransport: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var email: Self { .init(rawValue: "Email") }
+        @inlinable public static var sns: Self { .init(rawValue: "SNS") }
+        @inlinable public static var sqs: Self { .init(rawValue: "SQS") }
     }
 
-    public enum NotifyWorkersFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hardFailure = "HardFailure"
-        case softFailure = "SoftFailure"
-        public var description: String { return self.rawValue }
+    public struct NotifyWorkersFailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hardFailure: Self { .init(rawValue: "HardFailure") }
+        @inlinable public static var softFailure: Self { .init(rawValue: "SoftFailure") }
     }
 
-    public enum QualificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case granted = "Granted"
-        case revoked = "Revoked"
-        public var description: String { return self.rawValue }
+    public struct QualificationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var granted: Self { .init(rawValue: "Granted") }
+        @inlinable public static var revoked: Self { .init(rawValue: "Revoked") }
     }
 
-    public enum QualificationTypeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
+    public struct QualificationTypeStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var inactive: Self { .init(rawValue: "Inactive") }
     }
 
-    public enum ReviewActionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "Cancelled"
-        case failed = "Failed"
-        case intended = "Intended"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
+    public struct ReviewActionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "Cancelled") }
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var intended: Self { .init(rawValue: "Intended") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "Succeeded") }
     }
 
-    public enum ReviewPolicyLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case assignment = "Assignment"
-        case hit = "HIT"
-        public var description: String { return self.rawValue }
+    public struct ReviewPolicyLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var assignment: Self { .init(rawValue: "Assignment") }
+        @inlinable public static var hit: Self { .init(rawValue: "HIT") }
     }
 
-    public enum ReviewableHITStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case reviewable = "Reviewable"
-        case reviewing = "Reviewing"
-        public var description: String { return self.rawValue }
+    public struct ReviewableHITStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var reviewable: Self { .init(rawValue: "Reviewable") }
+        @inlinable public static var reviewing: Self { .init(rawValue: "Reviewing") }
     }
 
     // MARK: Shapes

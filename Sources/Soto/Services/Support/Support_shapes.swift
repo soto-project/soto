@@ -25,11 +25,15 @@ import Foundation
 extension Support {
     // MARK: Enums
 
-    public enum UploadStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case attachmentNotReady = "attachment-not-ready"
-        case attachmentReady = "attachment-ready"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
+    public struct UploadStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var attachmentNotReady: Self { .init(rawValue: "attachment-not-ready") }
+        @inlinable public static var attachmentReady: Self { .init(rawValue: "attachment-ready") }
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
     }
 
     // MARK: Shapes

@@ -25,79 +25,111 @@ import Foundation
 extension LambdaCore {
     // MARK: Enums
 
-    public enum ComputeResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ComputeResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// MicroVm compute resource type
-        case microVm = "MicroVm"
-        public var description: String { return self.rawValue }
+        @inlinable public static var microVm: Self { .init(rawValue: "MicroVm") }
     }
 
-    public enum NetworkConnectorLastUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "Failed"
-        case inProgress = "InProgress"
-        case successful = "Successful"
-        public var description: String { return self.rawValue }
+    public struct NetworkConnectorLastUpdateStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "InProgress") }
+        @inlinable public static var successful: Self { .init(rawValue: "Successful") }
     }
 
-    public enum NetworkConnectorLastUpdateStatusReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disallowedByVpcEncryptionControl = "DisallowedByVpcEncryptionControl"
-        case ec2RequestLimitExceeded = "Ec2RequestLimitExceeded"
-        case insufficientRolePermissions = "InsufficientRolePermissions"
-        case internalError = "InternalError"
-        case invalidSecurityGroup = "InvalidSecurityGroup"
-        case invalidSubnet = "InvalidSubnet"
-        case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
-        public var description: String { return self.rawValue }
+    public struct NetworkConnectorLastUpdateStatusReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disallowedByVpcEncryptionControl: Self { .init(rawValue: "DisallowedByVpcEncryptionControl") }
+        @inlinable public static var ec2RequestLimitExceeded: Self { .init(rawValue: "Ec2RequestLimitExceeded") }
+        @inlinable public static var insufficientRolePermissions: Self { .init(rawValue: "InsufficientRolePermissions") }
+        @inlinable public static var internalError: Self { .init(rawValue: "InternalError") }
+        @inlinable public static var invalidSecurityGroup: Self { .init(rawValue: "InvalidSecurityGroup") }
+        @inlinable public static var invalidSubnet: Self { .init(rawValue: "InvalidSubnet") }
+        @inlinable public static var subnetOutOfIPAddresses: Self { .init(rawValue: "SubnetOutOfIPAddresses") }
     }
 
-    public enum NetworkConnectorState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct NetworkConnectorState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Active and ready for use
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Deletion failed
-        case deleteFailed = "DELETE_FAILED"
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
         /// Being deleted, cleaning up resources
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Creation or update failed
-        case failed = "FAILED"
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
         /// Temporarily inactive
-        case inactive = "INACTIVE"
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
         /// Being created, resources provisioning
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum NetworkConnectorStateReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disallowedByVpcEncryptionControl = "DisallowedByVpcEncryptionControl"
-        case ec2RequestLimitExceeded = "Ec2RequestLimitExceeded"
-        case insufficientRolePermissions = "InsufficientRolePermissions"
-        case internalError = "InternalError"
-        case invalidSecurityGroup = "InvalidSecurityGroup"
-        case invalidSubnet = "InvalidSubnet"
-        case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
-        public var description: String { return self.rawValue }
+    public struct NetworkConnectorStateReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disallowedByVpcEncryptionControl: Self { .init(rawValue: "DisallowedByVpcEncryptionControl") }
+        @inlinable public static var ec2RequestLimitExceeded: Self { .init(rawValue: "Ec2RequestLimitExceeded") }
+        @inlinable public static var insufficientRolePermissions: Self { .init(rawValue: "InsufficientRolePermissions") }
+        @inlinable public static var internalError: Self { .init(rawValue: "InternalError") }
+        @inlinable public static var invalidSecurityGroup: Self { .init(rawValue: "InvalidSecurityGroup") }
+        @inlinable public static var invalidSubnet: Self { .init(rawValue: "InvalidSubnet") }
+        @inlinable public static var subnetOutOfIPAddresses: Self { .init(rawValue: "SubnetOutOfIPAddresses") }
     }
 
-    public enum NetworkConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct NetworkConnectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// VPC egress connectivity
-        case vpcEgress = "VPC_EGRESS"
-        public var description: String { return self.rawValue }
+        @inlinable public static var vpcEgress: Self { .init(rawValue: "VPC_EGRESS") }
     }
 
-    public enum NetworkProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct NetworkProtocol: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// DualStack
-        case dualStack = "DualStack"
+        @inlinable public static var dualStack: Self { .init(rawValue: "DualStack") }
         /// IPv4
-        case iPv4 = "IPv4"
-        public var description: String { return self.rawValue }
+        @inlinable public static var iPv4: Self { .init(rawValue: "IPv4") }
     }
 
-    public enum ThrottleReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case callerRateLimitExceeded = "CallerRateLimitExceeded"
-        case concurrentInvocationLimitExceeded = "ConcurrentInvocationLimitExceeded"
-        case concurrentSnapshotCreateLimitExceeded = "ConcurrentSnapshotCreateLimitExceeded"
-        case functionInvocationRateLimitExceeded = "FunctionInvocationRateLimitExceeded"
-        case reservedFunctionConcurrentInvocationLimitExceeded = "ReservedFunctionConcurrentInvocationLimitExceeded"
-        case reservedFunctionInvocationRateLimitExceeded = "ReservedFunctionInvocationRateLimitExceeded"
-        public var description: String { return self.rawValue }
+    public struct ThrottleReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var callerRateLimitExceeded: Self { .init(rawValue: "CallerRateLimitExceeded") }
+        @inlinable public static var concurrentInvocationLimitExceeded: Self { .init(rawValue: "ConcurrentInvocationLimitExceeded") }
+        @inlinable public static var concurrentSnapshotCreateLimitExceeded: Self { .init(rawValue: "ConcurrentSnapshotCreateLimitExceeded") }
+        @inlinable public static var functionInvocationRateLimitExceeded: Self { .init(rawValue: "FunctionInvocationRateLimitExceeded") }
+        @inlinable public static var reservedFunctionConcurrentInvocationLimitExceeded: Self { .init(rawValue: "ReservedFunctionConcurrentInvocationLimitExceeded") }
+        @inlinable public static var reservedFunctionInvocationRateLimitExceeded: Self { .init(rawValue: "ReservedFunctionInvocationRateLimitExceeded") }
     }
 
     // MARK: Shapes

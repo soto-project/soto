@@ -25,10 +25,14 @@ import Foundation
 extension IoTDataPlane {
     // MARK: Enums
 
-    public enum PayloadFormatIndicator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case unspecifiedBytes = "UNSPECIFIED_BYTES"
-        case utf8Data = "UTF8_DATA"
-        public var description: String { return self.rawValue }
+    public struct PayloadFormatIndicator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var unspecifiedBytes: Self { .init(rawValue: "UNSPECIFIED_BYTES") }
+        @inlinable public static var utf8Data: Self { .init(rawValue: "UTF8_DATA") }
     }
 
     // MARK: Shapes

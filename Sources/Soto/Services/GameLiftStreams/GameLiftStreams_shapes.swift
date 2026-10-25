@@ -25,150 +25,214 @@ import Foundation
 extension GameLiftStreams {
     // MARK: Enums
 
-    public enum ApplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleting = "DELETING"
-        case error = "ERROR"
-        case initialized = "INITIALIZED"
-        case processing = "PROCESSING"
-        case ready = "READY"
-        public var description: String { return self.rawValue }
+    public struct ApplicationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var initialized: Self { .init(rawValue: "INITIALIZED") }
+        @inlinable public static var processing: Self { .init(rawValue: "PROCESSING") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
     }
 
-    public enum ApplicationStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDenied = "accessDenied"
-        case internalError = "internalError"
-        case sourceModified = "sourceModified"
-        public var description: String { return self.rawValue }
+    public struct ApplicationStatusReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDenied: Self { .init(rawValue: "accessDenied") }
+        @inlinable public static var internalError: Self { .init(rawValue: "internalError") }
+        @inlinable public static var sourceModified: Self { .init(rawValue: "sourceModified") }
     }
 
-    public enum ExportFilesStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case pending = "PENDING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ExportFilesStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ReplicationStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case replicating = "REPLICATING"
-        public var description: String { return self.rawValue }
+    public struct ReplicationStatusType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var replicating: Self { .init(rawValue: "REPLICATING") }
     }
 
-    public enum RevocationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case revokeAndTerminateSessions = "REVOKE_AND_TERMINATE_SESSIONS"
-        case revokeUrl = "REVOKE_URL"
-        public var description: String { return self.rawValue }
+    public struct RevocationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var revokeAndTerminateSessions: Self { .init(rawValue: "REVOKE_AND_TERMINATE_SESSIONS") }
+        @inlinable public static var revokeUrl: Self { .init(rawValue: "REVOKE_URL") }
     }
 
-    public enum RuntimeEnvironmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case proton = "PROTON"
-        case ubuntu = "UBUNTU"
-        case windows = "WINDOWS"
-        public var description: String { return self.rawValue }
+    public struct RuntimeEnvironmentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var proton: Self { .init(rawValue: "PROTON") }
+        @inlinable public static var ubuntu: Self { .init(rawValue: "UBUNTU") }
+        @inlinable public static var windows: Self { .init(rawValue: "WINDOWS") }
     }
 
-    public enum ShaderCacheStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleting = "DELETING"
-        case error = "ERROR"
-        case initialized = "INITIALIZED"
-        case processing = "PROCESSING"
-        case ready = "READY"
-        public var description: String { return self.rawValue }
+    public struct ShaderCacheStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var initialized: Self { .init(rawValue: "INITIALIZED") }
+        @inlinable public static var processing: Self { .init(rawValue: "PROCESSING") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
     }
 
-    public enum StreamClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case gen4nHigh = "gen4n_high"
-        case gen4nUltra = "gen4n_ultra"
-        case gen4nWin2022 = "gen4n_win2022"
-        case gen5nHigh = "gen5n_high"
-        case gen5nUltra = "gen5n_ultra"
-        case gen5nWin2022 = "gen5n_win2022"
-        case gen6ePro = "gen6e_pro"
-        case gen6eProWin2022 = "gen6e_pro_win2022"
-        case gen6nHigh = "gen6n_high"
-        case gen6nMedium = "gen6n_medium"
-        case gen6nMediumWin2022 = "gen6n_medium_win2022"
-        case gen6nPro = "gen6n_pro"
-        case gen6nProWin2022 = "gen6n_pro_win2022"
-        case gen6nSmall = "gen6n_small"
-        case gen6nSmallWin2022 = "gen6n_small_win2022"
-        case gen6nUltra = "gen6n_ultra"
-        case gen6nUltraWin2022 = "gen6n_ultra_win2022"
-        public var description: String { return self.rawValue }
+    public struct StreamClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var gen4nHigh: Self { .init(rawValue: "gen4n_high") }
+        @inlinable public static var gen4nUltra: Self { .init(rawValue: "gen4n_ultra") }
+        @inlinable public static var gen4nWin2022: Self { .init(rawValue: "gen4n_win2022") }
+        @inlinable public static var gen5nHigh: Self { .init(rawValue: "gen5n_high") }
+        @inlinable public static var gen5nUltra: Self { .init(rawValue: "gen5n_ultra") }
+        @inlinable public static var gen5nWin2022: Self { .init(rawValue: "gen5n_win2022") }
+        @inlinable public static var gen6ePro: Self { .init(rawValue: "gen6e_pro") }
+        @inlinable public static var gen6eProWin2022: Self { .init(rawValue: "gen6e_pro_win2022") }
+        @inlinable public static var gen6nHigh: Self { .init(rawValue: "gen6n_high") }
+        @inlinable public static var gen6nMedium: Self { .init(rawValue: "gen6n_medium") }
+        @inlinable public static var gen6nMediumWin2022: Self { .init(rawValue: "gen6n_medium_win2022") }
+        @inlinable public static var gen6nPro: Self { .init(rawValue: "gen6n_pro") }
+        @inlinable public static var gen6nProWin2022: Self { .init(rawValue: "gen6n_pro_win2022") }
+        @inlinable public static var gen6nSmall: Self { .init(rawValue: "gen6n_small") }
+        @inlinable public static var gen6nSmallWin2022: Self { .init(rawValue: "gen6n_small_win2022") }
+        @inlinable public static var gen6nUltra: Self { .init(rawValue: "gen6n_ultra") }
+        @inlinable public static var gen6nUltraWin2022: Self { .init(rawValue: "gen6n_ultra_win2022") }
     }
 
-    public enum StreamGroupLocationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case activating = "ACTIVATING"
-        case active = "ACTIVE"
-        case error = "ERROR"
-        case removing = "REMOVING"
-        public var description: String { return self.rawValue }
+    public struct StreamGroupLocationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var activating: Self { .init(rawValue: "ACTIVATING") }
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var removing: Self { .init(rawValue: "REMOVING") }
     }
 
-    public enum StreamGroupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case activating = "ACTIVATING"
-        case active = "ACTIVE"
-        case activeWithErrors = "ACTIVE_WITH_ERRORS"
-        case deleting = "DELETING"
-        case error = "ERROR"
-        case expired = "EXPIRED"
-        case updatingLocations = "UPDATING_LOCATIONS"
-        public var description: String { return self.rawValue }
+    public struct StreamGroupStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var activating: Self { .init(rawValue: "ACTIVATING") }
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var activeWithErrors: Self { .init(rawValue: "ACTIVE_WITH_ERRORS") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var updatingLocations: Self { .init(rawValue: "UPDATING_LOCATIONS") }
     }
 
-    public enum StreamGroupStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case internalError = "internalError"
-        case noAvailableInstances = "noAvailableInstances"
-        public var description: String { return self.rawValue }
+    public struct StreamGroupStatusReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var internalError: Self { .init(rawValue: "internalError") }
+        @inlinable public static var noAvailableInstances: Self { .init(rawValue: "noAvailableInstances") }
     }
 
-    public enum StreamSessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case activating = "ACTIVATING"
-        case active = "ACTIVE"
-        case connected = "CONNECTED"
-        case error = "ERROR"
-        case pendingClientReconnection = "PENDING_CLIENT_RECONNECTION"
-        case reconnecting = "RECONNECTING"
-        case terminated = "TERMINATED"
-        case terminating = "TERMINATING"
-        public var description: String { return self.rawValue }
+    public struct StreamSessionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var activating: Self { .init(rawValue: "ACTIVATING") }
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var connected: Self { .init(rawValue: "CONNECTED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var pendingClientReconnection: Self { .init(rawValue: "PENDING_CLIENT_RECONNECTION") }
+        @inlinable public static var reconnecting: Self { .init(rawValue: "RECONNECTING") }
+        @inlinable public static var terminated: Self { .init(rawValue: "TERMINATED") }
+        @inlinable public static var terminating: Self { .init(rawValue: "TERMINATING") }
     }
 
-    public enum StreamSessionStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case apiTerminated = "apiTerminated"
-        case appLogS3DestinationError = "applicationLogS3DestinationError"
-        case applicationExit = "applicationExit"
-        case assumeRoleFailed = "assumeRoleFailed"
-        case connectionTimeout = "connectionTimeout"
-        case idleTimeout = "idleTimeout"
-        case internalError = "internalError"
-        case invalidSignalRequest = "invalidSignalRequest"
-        case maxSessionLengthTimeout = "maxSessionLengthTimeout"
-        case placementTimeout = "placementTimeout"
-        case reconnectionTimeout = "reconnectionTimeout"
-        public var description: String { return self.rawValue }
+    public struct StreamSessionStatusReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var apiTerminated: Self { .init(rawValue: "apiTerminated") }
+        @inlinable public static var appLogS3DestinationError: Self { .init(rawValue: "applicationLogS3DestinationError") }
+        @inlinable public static var applicationExit: Self { .init(rawValue: "applicationExit") }
+        @inlinable public static var assumeRoleFailed: Self { .init(rawValue: "assumeRoleFailed") }
+        @inlinable public static var connectionTimeout: Self { .init(rawValue: "connectionTimeout") }
+        @inlinable public static var idleTimeout: Self { .init(rawValue: "idleTimeout") }
+        @inlinable public static var internalError: Self { .init(rawValue: "internalError") }
+        @inlinable public static var invalidSignalRequest: Self { .init(rawValue: "invalidSignalRequest") }
+        @inlinable public static var maxSessionLengthTimeout: Self { .init(rawValue: "maxSessionLengthTimeout") }
+        @inlinable public static var placementTimeout: Self { .init(rawValue: "placementTimeout") }
+        @inlinable public static var reconnectionTimeout: Self { .init(rawValue: "reconnectionTimeout") }
     }
 
-    public enum StreamUrlStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case expired = "EXPIRED"
-        case limitReached = "LIMIT_REACHED"
-        case revoked = "REVOKED"
-        public var description: String { return self.rawValue }
+    public struct StreamUrlStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var limitReached: Self { .init(rawValue: "LIMIT_REACHED") }
+        @inlinable public static var revoked: Self { .init(rawValue: "REVOKED") }
     }
 
-    public enum StreamUrlStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case applicationDeleted = "applicationDeleted"
-        case revokedAndSessionsTerminated = "revokedAndSessionsTerminated"
-        case revokedAndTerminatingSessions = "revokedAndTerminatingSessions"
-        case streamGroupDeleted = "streamGroupDeleted"
-        case userRevoked = "userRevoked"
-        public var description: String { return self.rawValue }
+    public struct StreamUrlStatusReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var applicationDeleted: Self { .init(rawValue: "applicationDeleted") }
+        @inlinable public static var revokedAndSessionsTerminated: Self { .init(rawValue: "revokedAndSessionsTerminated") }
+        @inlinable public static var revokedAndTerminatingSessions: Self { .init(rawValue: "revokedAndTerminatingSessions") }
+        @inlinable public static var streamGroupDeleted: Self { .init(rawValue: "streamGroupDeleted") }
+        @inlinable public static var userRevoked: Self { .init(rawValue: "userRevoked") }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case webrtc = "WebRTC"
-        public var description: String { return self.rawValue }
+    public struct `Protocol`: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var webrtc: Self { .init(rawValue: "WebRTC") }
     }
 
     // MARK: Shapes

@@ -25,61 +25,93 @@ import Foundation
 extension NovaAct {
     // MARK: Enums
 
-    public enum ActStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case pendingClientAction = "PENDING_CLIENT_ACTION"
-        case pendingHumanAction = "PENDING_HUMAN_ACTION"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case timedOut = "TIMED_OUT"
-        public var description: String { return self.rawValue }
+    public struct ActStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pendingClientAction: Self { .init(rawValue: "PENDING_CLIENT_ACTION") }
+        @inlinable public static var pendingHumanAction: Self { .init(rawValue: "PENDING_HUMAN_ACTION") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
+        @inlinable public static var timedOut: Self { .init(rawValue: "TIMED_OUT") }
     }
 
-    public enum InternalServerExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case invalidModelGeneration = "InvalidModelGeneration"
-        case tokenLimitExceeded = "RequestTokenLimitExceeded"
-        public var description: String { return self.rawValue }
+    public struct InternalServerExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var invalidModelGeneration: Self { .init(rawValue: "InvalidModelGeneration") }
+        @inlinable public static var tokenLimitExceeded: Self { .init(rawValue: "RequestTokenLimitExceeded") }
     }
 
-    public enum ModelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deprecated = "DEPRECATED"
-        case legacy = "LEGACY"
-        case preview = "PREVIEW"
-        public var description: String { return self.rawValue }
+    public struct ModelStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deprecated: Self { .init(rawValue: "DEPRECATED") }
+        @inlinable public static var legacy: Self { .init(rawValue: "LEGACY") }
+        @inlinable public static var preview: Self { .init(rawValue: "PREVIEW") }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asc = "Ascending"
-        case desc = "Descending"
-        public var description: String { return self.rawValue }
+    public struct SortOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asc: Self { .init(rawValue: "Ascending") }
+        @inlinable public static var desc: Self { .init(rawValue: "Descending") }
     }
 
-    public enum TraceLocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
+    public struct TraceLocationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var s3: Self { .init(rawValue: "S3") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fieldValidationFailed = "FieldValidationFailed"
-        case guardrailIntervened = "GuardrailIntervened"
-        case invalidStatus = "InvalidStatus"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FieldValidationFailed") }
+        @inlinable public static var guardrailIntervened: Self { .init(rawValue: "GuardrailIntervened") }
+        @inlinable public static var invalidStatus: Self { .init(rawValue: "InvalidStatus") }
     }
 
-    public enum WorkflowDefinitionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
+    public struct WorkflowDefinitionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
     }
 
-    public enum WorkflowRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case timedOut = "TIMED_OUT"
-        public var description: String { return self.rawValue }
+    public struct WorkflowRunStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
+        @inlinable public static var timedOut: Self { .init(rawValue: "TIMED_OUT") }
     }
 
     // MARK: Shapes

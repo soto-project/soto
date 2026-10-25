@@ -25,59 +25,95 @@ import Foundation
 extension Scheduler {
     // MARK: Enums
 
-    public enum ActionAfterCompletion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case delete = "DELETE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct ActionAfterCompletion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var delete: Self { .init(rawValue: "DELETE") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum AssignPublicIp: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct AssignPublicIp: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum FlexibleTimeWindowMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case flexible = "FLEXIBLE"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+    public struct FlexibleTimeWindowMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var flexible: Self { .init(rawValue: "FLEXIBLE") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
     }
 
-    public enum LaunchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ec2 = "EC2"
-        case external = "EXTERNAL"
-        case fargate = "FARGATE"
-        public var description: String { return self.rawValue }
+    public struct LaunchType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ec2: Self { .init(rawValue: "EC2") }
+        @inlinable public static var external: Self { .init(rawValue: "EXTERNAL") }
+        @inlinable public static var fargate: Self { .init(rawValue: "FARGATE") }
     }
 
-    public enum PlacementConstraintType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case distinctInstance = "distinctInstance"
-        case memberOf = "memberOf"
-        public var description: String { return self.rawValue }
+    public struct PlacementConstraintType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var distinctInstance: Self { .init(rawValue: "distinctInstance") }
+        @inlinable public static var memberOf: Self { .init(rawValue: "memberOf") }
     }
 
-    public enum PlacementStrategyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case binpack = "binpack"
-        case random = "random"
-        case spread = "spread"
-        public var description: String { return self.rawValue }
+    public struct PlacementStrategyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var binpack: Self { .init(rawValue: "binpack") }
+        @inlinable public static var random: Self { .init(rawValue: "random") }
+        @inlinable public static var spread: Self { .init(rawValue: "spread") }
     }
 
-    public enum PropagateTags: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case taskDefinition = "TASK_DEFINITION"
-        public var description: String { return self.rawValue }
+    public struct PropagateTags: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var taskDefinition: Self { .init(rawValue: "TASK_DEFINITION") }
     }
 
-    public enum ScheduleGroupState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
+    public struct ScheduleGroupState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
     }
 
-    public enum ScheduleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct ScheduleState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
     // MARK: Shapes

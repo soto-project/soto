@@ -25,69 +25,101 @@ import Foundation
 extension FIS {
     // MARK: Enums
 
-    public enum AccountTargeting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiAccount = "multi-account"
-        case singleAccount = "single-account"
-        public var description: String { return self.rawValue }
+    public struct AccountTargeting: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var multiAccount: Self { .init(rawValue: "multi-account") }
+        @inlinable public static var singleAccount: Self { .init(rawValue: "single-account") }
     }
 
-    public enum ActionsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case runAll = "run-all"
-        case skipAll = "skip-all"
-        public var description: String { return self.rawValue }
+    public struct ActionsMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var runAll: Self { .init(rawValue: "run-all") }
+        @inlinable public static var skipAll: Self { .init(rawValue: "skip-all") }
     }
 
-    public enum EmptyTargetResolutionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fail = "fail"
-        case skip = "skip"
-        public var description: String { return self.rawValue }
+    public struct EmptyTargetResolutionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fail: Self { .init(rawValue: "fail") }
+        @inlinable public static var skip: Self { .init(rawValue: "skip") }
     }
 
-    public enum ExperimentActionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "cancelled"
-        case completed = "completed"
-        case failed = "failed"
-        case initiating = "initiating"
-        case pending = "pending"
-        case running = "running"
-        case skipped = "skipped"
-        case stopped = "stopped"
-        case stopping = "stopping"
-        public var description: String { return self.rawValue }
+    public struct ExperimentActionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "cancelled") }
+        @inlinable public static var completed: Self { .init(rawValue: "completed") }
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
+        @inlinable public static var initiating: Self { .init(rawValue: "initiating") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
+        @inlinable public static var running: Self { .init(rawValue: "running") }
+        @inlinable public static var skipped: Self { .init(rawValue: "skipped") }
+        @inlinable public static var stopped: Self { .init(rawValue: "stopped") }
+        @inlinable public static var stopping: Self { .init(rawValue: "stopping") }
     }
 
-    public enum ExperimentReportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "cancelled"
-        case completed = "completed"
-        case failed = "failed"
-        case pending = "pending"
-        case running = "running"
-        public var description: String { return self.rawValue }
+    public struct ExperimentReportStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "cancelled") }
+        @inlinable public static var completed: Self { .init(rawValue: "completed") }
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
+        @inlinable public static var running: Self { .init(rawValue: "running") }
     }
 
-    public enum ExperimentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "cancelled"
-        case completed = "completed"
-        case failed = "failed"
-        case initiating = "initiating"
-        case pending = "pending"
-        case running = "running"
-        case stopped = "stopped"
-        case stopping = "stopping"
-        public var description: String { return self.rawValue }
+    public struct ExperimentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "cancelled") }
+        @inlinable public static var completed: Self { .init(rawValue: "completed") }
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
+        @inlinable public static var initiating: Self { .init(rawValue: "initiating") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
+        @inlinable public static var running: Self { .init(rawValue: "running") }
+        @inlinable public static var stopped: Self { .init(rawValue: "stopped") }
+        @inlinable public static var stopping: Self { .init(rawValue: "stopping") }
     }
 
-    public enum SafetyLeverStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disengaged = "disengaged"
-        case engaged = "engaged"
-        case engaging = "engaging"
-        public var description: String { return self.rawValue }
+    public struct SafetyLeverStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disengaged: Self { .init(rawValue: "disengaged") }
+        @inlinable public static var engaged: Self { .init(rawValue: "engaged") }
+        @inlinable public static var engaging: Self { .init(rawValue: "engaging") }
     }
 
-    public enum SafetyLeverStatusInput: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disengaged = "disengaged"
-        case engaged = "engaged"
-        public var description: String { return self.rawValue }
+    public struct SafetyLeverStatusInput: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disengaged: Self { .init(rawValue: "disengaged") }
+        @inlinable public static var engaged: Self { .init(rawValue: "engaged") }
     }
 
     // MARK: Shapes

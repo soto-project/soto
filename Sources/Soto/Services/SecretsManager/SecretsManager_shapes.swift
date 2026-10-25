@@ -25,36 +25,52 @@ import Foundation
 extension SecretsManager {
     // MARK: Enums
 
-    public enum FilterNameStringType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "all"
-        case description = "description"
-        case name = "name"
-        case owningService = "owning-service"
-        case primaryRegion = "primary-region"
-        case tagKey = "tag-key"
-        case tagValue = "tag-value"
-        public var description: String { return self.rawValue }
+    public struct FilterNameStringType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "all") }
+        @inlinable public static var description: Self { .init(rawValue: "description") }
+        @inlinable public static var name: Self { .init(rawValue: "name") }
+        @inlinable public static var owningService: Self { .init(rawValue: "owning-service") }
+        @inlinable public static var primaryRegion: Self { .init(rawValue: "primary-region") }
+        @inlinable public static var tagKey: Self { .init(rawValue: "tag-key") }
+        @inlinable public static var tagValue: Self { .init(rawValue: "tag-value") }
     }
 
-    public enum SortByType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createdDate = "created-date"
-        case lastAccessedDate = "last-accessed-date"
-        case lastChangedDate = "last-changed-date"
-        case name = "name"
-        public var description: String { return self.rawValue }
+    public struct SortByType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createdDate: Self { .init(rawValue: "created-date") }
+        @inlinable public static var lastAccessedDate: Self { .init(rawValue: "last-accessed-date") }
+        @inlinable public static var lastChangedDate: Self { .init(rawValue: "last-changed-date") }
+        @inlinable public static var name: Self { .init(rawValue: "name") }
     }
 
-    public enum SortOrderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asc = "asc"
-        case desc = "desc"
-        public var description: String { return self.rawValue }
+    public struct SortOrderType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asc: Self { .init(rawValue: "asc") }
+        @inlinable public static var desc: Self { .init(rawValue: "desc") }
     }
 
-    public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "Failed"
-        case inProgress = "InProgress"
-        case inSync = "InSync"
-        public var description: String { return self.rawValue }
+    public struct StatusType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "InProgress") }
+        @inlinable public static var inSync: Self { .init(rawValue: "InSync") }
     }
 
     // MARK: Shapes

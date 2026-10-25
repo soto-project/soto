@@ -25,34 +25,50 @@ import Foundation
 extension Interconnect {
     // MARK: Enums
 
-    public enum AttachPointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case directConnectGateway = "DirectConnectGateway"
-        public var description: String { return self.rawValue }
+    public struct AttachPointType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var directConnectGateway: Self { .init(rawValue: "DirectConnectGateway") }
     }
 
-    public enum ConnectionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case down = "down"
-        case failed = "failed"
-        case pending = "pending"
-        case requested = "requested"
-        case updating = "updating"
-        public var description: String { return self.rawValue }
+    public struct ConnectionState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var down: Self { .init(rawValue: "down") }
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
+        @inlinable public static var requested: Self { .init(rawValue: "requested") }
+        @inlinable public static var updating: Self { .init(rawValue: "updating") }
     }
 
-    public enum EnvironmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case limited = "limited"
-        case unavailable = "unavailable"
-        public var description: String { return self.rawValue }
+    public struct EnvironmentState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var limited: Self { .init(rawValue: "limited") }
+        @inlinable public static var unavailable: Self { .init(rawValue: "unavailable") }
     }
 
-    public enum RemoteAccountIdentifierType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "account"
-        case email = "email"
-        public var description: String { return self.rawValue }
+    public struct RemoteAccountIdentifierType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "account") }
+        @inlinable public static var email: Self { .init(rawValue: "email") }
     }
 
     public enum AttachPoint: AWSEncodableShape & AWSDecodableShape, Sendable {

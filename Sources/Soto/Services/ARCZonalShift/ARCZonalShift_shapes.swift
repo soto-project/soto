@@ -25,98 +25,142 @@ import Foundation
 extension ARCZonalShift {
     // MARK: Enums
 
-    public enum AppliedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case applied = "APPLIED"
-        case notApplied = "NOT_APPLIED"
-        public var description: String { return self.rawValue }
+    public struct AppliedStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var applied: Self { .init(rawValue: "APPLIED") }
+        @inlinable public static var notApplied: Self { .init(rawValue: "NOT_APPLIED") }
     }
 
-    public enum AutoshiftAppliedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case applied = "APPLIED"
-        case notApplied = "NOT_APPLIED"
-        public var description: String { return self.rawValue }
+    public struct AutoshiftAppliedStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var applied: Self { .init(rawValue: "APPLIED") }
+        @inlinable public static var notApplied: Self { .init(rawValue: "NOT_APPLIED") }
     }
 
-    public enum AutoshiftExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case completed = "COMPLETED"
-        public var description: String { return self.rawValue }
+    public struct AutoshiftExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
     }
 
-    public enum AutoshiftObserverNotificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct AutoshiftObserverNotificationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case autoshiftEnabled = "AutoShiftEnabled"
-        case practiceBlockingAlarmsRed = "PracticeBlockingAlarmsRed"
-        case practiceConfigurationAlreadyExists = "PracticeConfigurationAlreadyExists"
-        case practiceConfigurationDoesNotExist = "PracticeConfigurationDoesNotExist"
-        case practiceInBlockedDates = "PracticeInBlockedDates"
-        case practiceInBlockedWindows = "PracticeInBlockedWindows"
-        case practiceOutcomeAlarmsRed = "PracticeOutcomeAlarmsRed"
-        case practiceOutsideAllowedWindows = "PracticeOutsideAllowedWindows"
-        case simultaneousZonalShiftsConflict = "SimultaneousZonalShiftsConflict"
-        case zonalAutoshiftActive = "ZonalAutoshiftActive"
-        case zonalShiftAlreadyExists = "ZonalShiftAlreadyExists"
-        case zonalShiftStatusNotActive = "ZonalShiftStatusNotActive"
-        public var description: String { return self.rawValue }
+    public struct ConflictExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var autoshiftEnabled: Self { .init(rawValue: "AutoShiftEnabled") }
+        @inlinable public static var practiceBlockingAlarmsRed: Self { .init(rawValue: "PracticeBlockingAlarmsRed") }
+        @inlinable public static var practiceConfigurationAlreadyExists: Self { .init(rawValue: "PracticeConfigurationAlreadyExists") }
+        @inlinable public static var practiceConfigurationDoesNotExist: Self { .init(rawValue: "PracticeConfigurationDoesNotExist") }
+        @inlinable public static var practiceInBlockedDates: Self { .init(rawValue: "PracticeInBlockedDates") }
+        @inlinable public static var practiceInBlockedWindows: Self { .init(rawValue: "PracticeInBlockedWindows") }
+        @inlinable public static var practiceOutcomeAlarmsRed: Self { .init(rawValue: "PracticeOutcomeAlarmsRed") }
+        @inlinable public static var practiceOutsideAllowedWindows: Self { .init(rawValue: "PracticeOutsideAllowedWindows") }
+        @inlinable public static var simultaneousZonalShiftsConflict: Self { .init(rawValue: "SimultaneousZonalShiftsConflict") }
+        @inlinable public static var zonalAutoshiftActive: Self { .init(rawValue: "ZonalAutoshiftActive") }
+        @inlinable public static var zonalShiftAlreadyExists: Self { .init(rawValue: "ZonalShiftAlreadyExists") }
+        @inlinable public static var zonalShiftStatusNotActive: Self { .init(rawValue: "ZonalShiftStatusNotActive") }
     }
 
-    public enum ControlConditionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cloudwatch = "CLOUDWATCH"
-        public var description: String { return self.rawValue }
+    public struct ControlConditionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cloudwatch: Self { .init(rawValue: "CLOUDWATCH") }
     }
 
-    public enum PracticeRunOutcome: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case capacityCheckFailed = "CAPACITY_CHECK_FAILED"
-        case failed = "FAILED"
-        case interrupted = "INTERRUPTED"
-        case pending = "PENDING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct PracticeRunOutcome: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var capacityCheckFailed: Self { .init(rawValue: "CAPACITY_CHECK_FAILED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var interrupted: Self { .init(rawValue: "INTERRUPTED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ShiftType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fisExperiment = "FIS_EXPERIMENT"
-        case practiceRun = "PRACTICE_RUN"
-        case zonalAutoshift = "ZONAL_AUTOSHIFT"
-        case zonalShift = "ZONAL_SHIFT"
-        public var description: String { return self.rawValue }
+    public struct ShiftType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fisExperiment: Self { .init(rawValue: "FIS_EXPERIMENT") }
+        @inlinable public static var practiceRun: Self { .init(rawValue: "PRACTICE_RUN") }
+        @inlinable public static var zonalAutoshift: Self { .init(rawValue: "ZONAL_AUTOSHIFT") }
+        @inlinable public static var zonalShift: Self { .init(rawValue: "ZONAL_SHIFT") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case autoshiftUpdateNotAllowed = "AutoshiftUpdateNotAllowed"
-        case conflictingPracticeWindows = "InvalidPracticeWindows"
-        case fisExperimentUpdateNotAllowed = "FISExperimentUpdateNotAllowed"
-        case invalidAlarmCondition = "InvalidAlarmCondition"
-        case invalidAz = "InvalidAz"
-        case invalidConditionType = "InvalidConditionType"
-        case invalidExpiresIn = "InvalidExpiresIn"
-        case invalidPracticeAllowedWindow = "InvalidPracticeAllowedWindow"
-        case invalidPracticeBlocker = "InvalidPracticeBlocker"
-        case invalidResourceIdentifier = "InvalidResourceIdentifier"
-        case invalidStatus = "InvalidStatus"
-        case invalidToken = "InvalidToken"
-        case missingValue = "MissingValue"
-        case unsupportedAz = "UnsupportedAz"
-        case unsupportedPracticeCancelShiftType = "UnsupportedPracticeCancelShiftType"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var autoshiftUpdateNotAllowed: Self { .init(rawValue: "AutoshiftUpdateNotAllowed") }
+        @inlinable public static var conflictingPracticeWindows: Self { .init(rawValue: "InvalidPracticeWindows") }
+        @inlinable public static var fisExperimentUpdateNotAllowed: Self { .init(rawValue: "FISExperimentUpdateNotAllowed") }
+        @inlinable public static var invalidAlarmCondition: Self { .init(rawValue: "InvalidAlarmCondition") }
+        @inlinable public static var invalidAz: Self { .init(rawValue: "InvalidAz") }
+        @inlinable public static var invalidConditionType: Self { .init(rawValue: "InvalidConditionType") }
+        @inlinable public static var invalidExpiresIn: Self { .init(rawValue: "InvalidExpiresIn") }
+        @inlinable public static var invalidPracticeAllowedWindow: Self { .init(rawValue: "InvalidPracticeAllowedWindow") }
+        @inlinable public static var invalidPracticeBlocker: Self { .init(rawValue: "InvalidPracticeBlocker") }
+        @inlinable public static var invalidResourceIdentifier: Self { .init(rawValue: "InvalidResourceIdentifier") }
+        @inlinable public static var invalidStatus: Self { .init(rawValue: "InvalidStatus") }
+        @inlinable public static var invalidToken: Self { .init(rawValue: "InvalidToken") }
+        @inlinable public static var missingValue: Self { .init(rawValue: "MissingValue") }
+        @inlinable public static var unsupportedAz: Self { .init(rawValue: "UnsupportedAz") }
+        @inlinable public static var unsupportedPracticeCancelShiftType: Self { .init(rawValue: "UnsupportedPracticeCancelShiftType") }
     }
 
-    public enum ZonalAutoshiftStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct ZonalAutoshiftStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum ZonalShiftStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case canceled = "CANCELED"
-        case expired = "EXPIRED"
-        public var description: String { return self.rawValue }
+    public struct ZonalShiftStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
     }
 
     // MARK: Shapes

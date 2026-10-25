@@ -25,19 +25,27 @@ import Foundation
 extension S3Outposts {
     // MARK: Enums
 
-    public enum EndpointAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `private` = "Private"
-        case customerOwnedIp = "CustomerOwnedIp"
-        public var description: String { return self.rawValue }
+    public struct EndpointAccessType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `private`: Self { .init(rawValue: "Private") }
+        @inlinable public static var customerOwnedIp: Self { .init(rawValue: "CustomerOwnedIp") }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "Available"
-        case createFailed = "Create_Failed"
-        case deleteFailed = "Delete_Failed"
-        case deleting = "Deleting"
-        case pending = "Pending"
-        public var description: String { return self.rawValue }
+    public struct EndpointStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "Available") }
+        @inlinable public static var createFailed: Self { .init(rawValue: "Create_Failed") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "Delete_Failed") }
+        @inlinable public static var deleting: Self { .init(rawValue: "Deleting") }
+        @inlinable public static var pending: Self { .init(rawValue: "Pending") }
     }
 
     // MARK: Shapes

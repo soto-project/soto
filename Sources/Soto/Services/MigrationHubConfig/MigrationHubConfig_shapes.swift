@@ -25,9 +25,13 @@ import Foundation
 extension MigrationHubConfig {
     // MARK: Enums
 
-    public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
+    public struct TargetType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
     }
 
     // MARK: Shapes

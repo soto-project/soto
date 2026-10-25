@@ -25,18 +25,26 @@ import Foundation
 extension SimpleDBv2 {
     // MARK: Enums
 
-    public enum ExportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case pending = "PENDING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ExportStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum S3SseAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes256 = "AES256"
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
+    public struct S3SseAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes256: Self { .init(rawValue: "AES256") }
+        @inlinable public static var kms: Self { .init(rawValue: "KMS") }
     }
 
     // MARK: Shapes

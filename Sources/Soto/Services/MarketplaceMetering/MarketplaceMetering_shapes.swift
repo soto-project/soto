@@ -25,11 +25,15 @@ import Foundation
 extension MarketplaceMetering {
     // MARK: Enums
 
-    public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case customerNotSubscribed = "CustomerNotSubscribed"
-        case duplicateRecord = "DuplicateRecord"
-        case success = "Success"
-        public var description: String { return self.rawValue }
+    public struct UsageRecordResultStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var customerNotSubscribed: Self { .init(rawValue: "CustomerNotSubscribed") }
+        @inlinable public static var duplicateRecord: Self { .init(rawValue: "DuplicateRecord") }
+        @inlinable public static var success: Self { .init(rawValue: "Success") }
     }
 
     // MARK: Shapes

@@ -25,237 +25,329 @@ import Foundation
 extension GroundStation {
     // MARK: Enums
 
-    public enum AgentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        case inactive = "INACTIVE"
-        case success = "SUCCESS"
-        public var description: String { return self.rawValue }
+    public struct AgentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
+        @inlinable public static var success: Self { .init(rawValue: "SUCCESS") }
     }
 
-    public enum AngleUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case degreeAngle = "DEGREE_ANGLE"
-        case radian = "RADIAN"
-        public var description: String { return self.rawValue }
+    public struct AngleUnits: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var degreeAngle: Self { .init(rawValue: "DEGREE_ANGLE") }
+        @inlinable public static var radian: Self { .init(rawValue: "RADIAN") }
     }
 
-    public enum AuditResults: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        public var description: String { return self.rawValue }
+    public struct AuditResults: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var healthy: Self { .init(rawValue: "HEALTHY") }
+        @inlinable public static var unhealthy: Self { .init(rawValue: "UNHEALTHY") }
     }
 
-    public enum BandwidthUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ghz = "GHz"
-        case khz = "kHz"
-        case mhz = "MHz"
-        public var description: String { return self.rawValue }
+    public struct BandwidthUnits: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ghz: Self { .init(rawValue: "GHz") }
+        @inlinable public static var khz: Self { .init(rawValue: "kHz") }
+        @inlinable public static var mhz: Self { .init(rawValue: "MHz") }
     }
 
-    public enum CapabilityHealth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        public var description: String { return self.rawValue }
+    public struct CapabilityHealth: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var healthy: Self { .init(rawValue: "HEALTHY") }
+        @inlinable public static var unhealthy: Self { .init(rawValue: "UNHEALTHY") }
     }
 
-    public enum CapabilityHealthReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dataplaneFailure = "DATAPLANE_FAILURE"
-        case healthy = "HEALTHY"
-        case initializingDataplane = "INITIALIZING_DATAPLANE"
-        case invalidIpOwnership = "INVALID_IP_OWNERSHIP"
-        case noRegisteredAgent = "NO_REGISTERED_AGENT"
-        case notAuthorizedToCreateSlr = "NOT_AUTHORIZED_TO_CREATE_SLR"
-        case unverifiedIpOwnership = "UNVERIFIED_IP_OWNERSHIP"
-        public var description: String { return self.rawValue }
+    public struct CapabilityHealthReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dataplaneFailure: Self { .init(rawValue: "DATAPLANE_FAILURE") }
+        @inlinable public static var healthy: Self { .init(rawValue: "HEALTHY") }
+        @inlinable public static var initializingDataplane: Self { .init(rawValue: "INITIALIZING_DATAPLANE") }
+        @inlinable public static var invalidIpOwnership: Self { .init(rawValue: "INVALID_IP_OWNERSHIP") }
+        @inlinable public static var noRegisteredAgent: Self { .init(rawValue: "NO_REGISTERED_AGENT") }
+        @inlinable public static var notAuthorizedToCreateSlr: Self { .init(rawValue: "NOT_AUTHORIZED_TO_CREATE_SLR") }
+        @inlinable public static var unverifiedIpOwnership: Self { .init(rawValue: "UNVERIFIED_IP_OWNERSHIP") }
     }
 
-    public enum ConfigCapabilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case antennaDownlink = "antenna-downlink"
-        case antennaDownlinkDemodDecode = "antenna-downlink-demod-decode"
-        case antennaUplink = "antenna-uplink"
-        case dataflowEndpoint = "dataflow-endpoint"
-        case s3Recording = "s3-recording"
-        case telemetrySink = "telemetry-sink"
-        case tracking = "tracking"
-        case uplinkEcho = "uplink-echo"
-        public var description: String { return self.rawValue }
+    public struct ConfigCapabilityType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var antennaDownlink: Self { .init(rawValue: "antenna-downlink") }
+        @inlinable public static var antennaDownlinkDemodDecode: Self { .init(rawValue: "antenna-downlink-demod-decode") }
+        @inlinable public static var antennaUplink: Self { .init(rawValue: "antenna-uplink") }
+        @inlinable public static var dataflowEndpoint: Self { .init(rawValue: "dataflow-endpoint") }
+        @inlinable public static var s3Recording: Self { .init(rawValue: "s3-recording") }
+        @inlinable public static var telemetrySink: Self { .init(rawValue: "telemetry-sink") }
+        @inlinable public static var tracking: Self { .init(rawValue: "tracking") }
+        @inlinable public static var uplinkEcho: Self { .init(rawValue: "uplink-echo") }
     }
 
-    public enum ContactStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case awsCancelled = "AWS_CANCELLED"
-        case awsFailed = "AWS_FAILED"
-        case cancelled = "CANCELLED"
-        case cancelling = "CANCELLING"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case failedToSchedule = "FAILED_TO_SCHEDULE"
-        case pass = "PASS"
-        case postpass = "POSTPASS"
-        case prepass = "PREPASS"
-        case scheduled = "SCHEDULED"
-        case scheduling = "SCHEDULING"
-        public var description: String { return self.rawValue }
+    public struct ContactStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var awsCancelled: Self { .init(rawValue: "AWS_CANCELLED") }
+        @inlinable public static var awsFailed: Self { .init(rawValue: "AWS_FAILED") }
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var cancelling: Self { .init(rawValue: "CANCELLING") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var failedToSchedule: Self { .init(rawValue: "FAILED_TO_SCHEDULE") }
+        @inlinable public static var pass: Self { .init(rawValue: "PASS") }
+        @inlinable public static var postpass: Self { .init(rawValue: "POSTPASS") }
+        @inlinable public static var prepass: Self { .init(rawValue: "PREPASS") }
+        @inlinable public static var scheduled: Self { .init(rawValue: "SCHEDULED") }
+        @inlinable public static var scheduling: Self { .init(rawValue: "SCHEDULING") }
     }
 
-    public enum Criticality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case preferred = "PREFERRED"
-        case removed = "REMOVED"
-        case required = "REQUIRED"
-        public var description: String { return self.rawValue }
+    public struct Criticality: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var preferred: Self { .init(rawValue: "PREFERRED") }
+        @inlinable public static var removed: Self { .init(rawValue: "REMOVED") }
+        @inlinable public static var required: Self { .init(rawValue: "REQUIRED") }
     }
 
-    public enum EirpUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dbw = "dBW"
-        public var description: String { return self.rawValue }
+    public struct EirpUnits: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dbw: Self { .init(rawValue: "dBW") }
     }
 
-    public enum EndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case created = "created"
-        case creating = "creating"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case failed = "failed"
-        public var description: String { return self.rawValue }
+    public struct EndpointStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var created: Self { .init(rawValue: "created") }
+        @inlinable public static var creating: Self { .init(rawValue: "creating") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
     }
 
-    public enum EphemerisErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case azElSegmentEndTimeBeforeStartTime = "AZ_EL_SEGMENT_END_TIME_BEFORE_START_TIME"
-        case azElSegmentEndTimeInvalid = "AZ_EL_SEGMENT_END_TIME_INVALID"
-        case azElSegmentEndTimeTooLate = "AZ_EL_SEGMENT_END_TIME_TOO_LATE"
-        case azElSegmentListMissing = "AZ_EL_SEGMENT_LIST_MISSING"
-        case azElSegmentReferenceEpochInvalid = "AZ_EL_SEGMENT_REFERENCE_EPOCH_INVALID"
-        case azElSegmentStartTimeInvalid = "AZ_EL_SEGMENT_START_TIME_INVALID"
-        case azElSegmentTimesOverlap = "AZ_EL_SEGMENT_TIMES_OVERLAP"
-        case azElSegmentValidTimeRangeInvalid = "AZ_EL_SEGMENT_VALID_TIME_RANGE_INVALID"
-        case azElSegmentsOutOfOrder = "AZ_EL_SEGMENTS_OUT_OF_ORDER"
-        case azElTotalDurationExceeded = "AZ_EL_TOTAL_DURATION_EXCEEDED"
-        case centerBodyUnsupported = "CENTER_BODY_UNSUPPORTED"
-        case creationDateMissing = "CREATION_DATE_MISSING"
-        case endTimeInPast = "END_TIME_IN_PAST"
-        case expirationTimeTooEarly = "EXPIRATION_TIME_TOO_EARLY"
-        case fileFormatInvalid = "FILE_FORMAT_INVALID"
-        case insufficientKmsPermissions = "INSUFFICIENT_KMS_PERMISSIONS"
-        case insufficientTimeAzEl = "INSUFFICIENT_TIME_AZ_EL"
-        case internalError = "INTERNAL_ERROR"
-        case interpolationDegreeInvalid = "INTERPOLATION_DEGREE_INVALID"
-        case interpolationMissing = "INTERPOLATION_MISSING"
-        case meanMotionInvalid = "MEAN_MOTION_INVALID"
-        case mismatchedSatcatId = "MISMATCHED_SATCAT_ID"
-        case objectIdMissing = "OBJECT_ID_MISSING"
-        case objectNameMissing = "OBJECT_NAME_MISSING"
-        case oemVersionUnsupported = "OEM_VERSION_UNSUPPORTED"
-        case originatorMissing = "ORIGINATOR_MISSING"
-        case refFrameEpochUnsupported = "REF_FRAME_EPOCH_UNSUPPORTED"
-        case refFrameUnsupported = "REF_FRAME_UNSUPPORTED"
-        case startTimeInFuture = "START_TIME_IN_FUTURE"
-        case startTimeMetadataTooEarly = "START_TIME_METADATA_TOO_EARLY"
-        case stopTimeMetadataTooLate = "STOP_TIME_METADATA_TOO_LATE"
-        case timeAzElAngleUnitsInvalid = "TIME_AZ_EL_ANGLE_UNITS_INVALID"
-        case timeAzElAzDegreeRangeInvalid = "TIME_AZ_EL_AZ_DEGREE_RANGE_INVALID"
-        case timeAzElAzRadianRangeInvalid = "TIME_AZ_EL_AZ_RADIAN_RANGE_INVALID"
-        case timeAzElElDegreeRangeInvalid = "TIME_AZ_EL_EL_DEGREE_RANGE_INVALID"
-        case timeAzElElRadianRangeInvalid = "TIME_AZ_EL_EL_RADIAN_RANGE_INVALID"
-        case timeAzElItemsOutOfOrder = "TIME_AZ_EL_ITEMS_OUT_OF_ORDER"
-        case timeSystemUnsupported = "TIME_SYSTEM_UNSUPPORTED"
-        public var description: String { return self.rawValue }
+    public struct EphemerisErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var azElSegmentEndTimeBeforeStartTime: Self { .init(rawValue: "AZ_EL_SEGMENT_END_TIME_BEFORE_START_TIME") }
+        @inlinable public static var azElSegmentEndTimeInvalid: Self { .init(rawValue: "AZ_EL_SEGMENT_END_TIME_INVALID") }
+        @inlinable public static var azElSegmentEndTimeTooLate: Self { .init(rawValue: "AZ_EL_SEGMENT_END_TIME_TOO_LATE") }
+        @inlinable public static var azElSegmentListMissing: Self { .init(rawValue: "AZ_EL_SEGMENT_LIST_MISSING") }
+        @inlinable public static var azElSegmentReferenceEpochInvalid: Self { .init(rawValue: "AZ_EL_SEGMENT_REFERENCE_EPOCH_INVALID") }
+        @inlinable public static var azElSegmentStartTimeInvalid: Self { .init(rawValue: "AZ_EL_SEGMENT_START_TIME_INVALID") }
+        @inlinable public static var azElSegmentTimesOverlap: Self { .init(rawValue: "AZ_EL_SEGMENT_TIMES_OVERLAP") }
+        @inlinable public static var azElSegmentValidTimeRangeInvalid: Self { .init(rawValue: "AZ_EL_SEGMENT_VALID_TIME_RANGE_INVALID") }
+        @inlinable public static var azElSegmentsOutOfOrder: Self { .init(rawValue: "AZ_EL_SEGMENTS_OUT_OF_ORDER") }
+        @inlinable public static var azElTotalDurationExceeded: Self { .init(rawValue: "AZ_EL_TOTAL_DURATION_EXCEEDED") }
+        @inlinable public static var centerBodyUnsupported: Self { .init(rawValue: "CENTER_BODY_UNSUPPORTED") }
+        @inlinable public static var creationDateMissing: Self { .init(rawValue: "CREATION_DATE_MISSING") }
+        @inlinable public static var endTimeInPast: Self { .init(rawValue: "END_TIME_IN_PAST") }
+        @inlinable public static var expirationTimeTooEarly: Self { .init(rawValue: "EXPIRATION_TIME_TOO_EARLY") }
+        @inlinable public static var fileFormatInvalid: Self { .init(rawValue: "FILE_FORMAT_INVALID") }
+        @inlinable public static var insufficientKmsPermissions: Self { .init(rawValue: "INSUFFICIENT_KMS_PERMISSIONS") }
+        @inlinable public static var insufficientTimeAzEl: Self { .init(rawValue: "INSUFFICIENT_TIME_AZ_EL") }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+        @inlinable public static var interpolationDegreeInvalid: Self { .init(rawValue: "INTERPOLATION_DEGREE_INVALID") }
+        @inlinable public static var interpolationMissing: Self { .init(rawValue: "INTERPOLATION_MISSING") }
+        @inlinable public static var meanMotionInvalid: Self { .init(rawValue: "MEAN_MOTION_INVALID") }
+        @inlinable public static var mismatchedSatcatId: Self { .init(rawValue: "MISMATCHED_SATCAT_ID") }
+        @inlinable public static var objectIdMissing: Self { .init(rawValue: "OBJECT_ID_MISSING") }
+        @inlinable public static var objectNameMissing: Self { .init(rawValue: "OBJECT_NAME_MISSING") }
+        @inlinable public static var oemVersionUnsupported: Self { .init(rawValue: "OEM_VERSION_UNSUPPORTED") }
+        @inlinable public static var originatorMissing: Self { .init(rawValue: "ORIGINATOR_MISSING") }
+        @inlinable public static var refFrameEpochUnsupported: Self { .init(rawValue: "REF_FRAME_EPOCH_UNSUPPORTED") }
+        @inlinable public static var refFrameUnsupported: Self { .init(rawValue: "REF_FRAME_UNSUPPORTED") }
+        @inlinable public static var startTimeInFuture: Self { .init(rawValue: "START_TIME_IN_FUTURE") }
+        @inlinable public static var startTimeMetadataTooEarly: Self { .init(rawValue: "START_TIME_METADATA_TOO_EARLY") }
+        @inlinable public static var stopTimeMetadataTooLate: Self { .init(rawValue: "STOP_TIME_METADATA_TOO_LATE") }
+        @inlinable public static var timeAzElAngleUnitsInvalid: Self { .init(rawValue: "TIME_AZ_EL_ANGLE_UNITS_INVALID") }
+        @inlinable public static var timeAzElAzDegreeRangeInvalid: Self { .init(rawValue: "TIME_AZ_EL_AZ_DEGREE_RANGE_INVALID") }
+        @inlinable public static var timeAzElAzRadianRangeInvalid: Self { .init(rawValue: "TIME_AZ_EL_AZ_RADIAN_RANGE_INVALID") }
+        @inlinable public static var timeAzElElDegreeRangeInvalid: Self { .init(rawValue: "TIME_AZ_EL_EL_DEGREE_RANGE_INVALID") }
+        @inlinable public static var timeAzElElRadianRangeInvalid: Self { .init(rawValue: "TIME_AZ_EL_EL_RADIAN_RANGE_INVALID") }
+        @inlinable public static var timeAzElItemsOutOfOrder: Self { .init(rawValue: "TIME_AZ_EL_ITEMS_OUT_OF_ORDER") }
+        @inlinable public static var timeSystemUnsupported: Self { .init(rawValue: "TIME_SYSTEM_UNSUPPORTED") }
     }
 
-    public enum EphemerisInvalidReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct EphemerisInvalidReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Provided KMS key is invalid.
-        case kmsKeyInvalid = "KMS_KEY_INVALID"
+        @inlinable public static var kmsKeyInvalid: Self { .init(rawValue: "KMS_KEY_INVALID") }
         /// Provided spacecraft identifiers such as spacecraft NORAD ID are invalid.
-        case metadataInvalid = "METADATA_INVALID"
+        @inlinable public static var metadataInvalid: Self { .init(rawValue: "METADATA_INVALID") }
         /// Start, end, or expiration time(s) are invalid for the provided ephemeris.
-        case timeRangeInvalid = "TIME_RANGE_INVALID"
+        @inlinable public static var timeRangeInvalid: Self { .init(rawValue: "TIME_RANGE_INVALID") }
         /// Provided ephemeris defines invalid spacecraft trajectory.
-        case trajectoryInvalid = "TRAJECTORY_INVALID"
+        @inlinable public static var trajectoryInvalid: Self { .init(rawValue: "TRAJECTORY_INVALID") }
         /// Internal service error occurred while processing ephemeris.
-        case validationError = "VALIDATION_ERROR"
-        public var description: String { return self.rawValue }
+        @inlinable public static var validationError: Self { .init(rawValue: "VALIDATION_ERROR") }
     }
 
-    public enum EphemerisSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case customerProvided = "CUSTOMER_PROVIDED"
-        case spaceTrack = "SPACE_TRACK"
-        public var description: String { return self.rawValue }
+    public struct EphemerisSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var customerProvided: Self { .init(rawValue: "CUSTOMER_PROVIDED") }
+        @inlinable public static var spaceTrack: Self { .init(rawValue: "SPACE_TRACK") }
     }
 
-    public enum EphemerisStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case error = "ERROR"
-        case expired = "EXPIRED"
-        case invalid = "INVALID"
-        case validating = "VALIDATING"
-        public var description: String { return self.rawValue }
+    public struct EphemerisStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var invalid: Self { .init(rawValue: "INVALID") }
+        @inlinable public static var validating: Self { .init(rawValue: "VALIDATING") }
     }
 
-    public enum EphemerisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case azEl = "AZ_EL"
-        case oem = "OEM"
-        case serviceManaged = "SERVICE_MANAGED"
-        case tle = "TLE"
-        public var description: String { return self.rawValue }
+    public struct EphemerisType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var azEl: Self { .init(rawValue: "AZ_EL") }
+        @inlinable public static var oem: Self { .init(rawValue: "OEM") }
+        @inlinable public static var serviceManaged: Self { .init(rawValue: "SERVICE_MANAGED") }
+        @inlinable public static var tle: Self { .init(rawValue: "TLE") }
     }
 
-    public enum FrequencyUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ghz = "GHz"
-        case khz = "kHz"
-        case mhz = "MHz"
-        public var description: String { return self.rawValue }
+    public struct FrequencyUnits: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ghz: Self { .init(rawValue: "GHz") }
+        @inlinable public static var khz: Self { .init(rawValue: "kHz") }
+        @inlinable public static var mhz: Self { .init(rawValue: "MHz") }
     }
 
-    public enum MaintenanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case planned = "PLANNED"
-        case unplanned = "UNPLANNED"
-        public var description: String { return self.rawValue }
+    public struct MaintenanceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var planned: Self { .init(rawValue: "PLANNED") }
+        @inlinable public static var unplanned: Self { .init(rawValue: "UNPLANNED") }
     }
 
-    public enum Polarization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case leftHand = "LEFT_HAND"
-        case none = "NONE"
-        case rightHand = "RIGHT_HAND"
-        public var description: String { return self.rawValue }
+    public struct Polarization: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var leftHand: Self { .init(rawValue: "LEFT_HAND") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var rightHand: Self { .init(rawValue: "RIGHT_HAND") }
     }
 
-    public enum ReservationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case contact = "CONTACT"
-        case maintenance = "MAINTENANCE"
-        public var description: String { return self.rawValue }
+    public struct ReservationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var contact: Self { .init(rawValue: "CONTACT") }
+        @inlinable public static var maintenance: Self { .init(rawValue: "MAINTENANCE") }
     }
 
-    public enum TelemetrySinkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kinesisDataStream = "KINESIS_DATA_STREAM"
-        public var description: String { return self.rawValue }
+    public struct TelemetrySinkType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kinesisDataStream: Self { .init(rawValue: "KINESIS_DATA_STREAM") }
     }
 
-    public enum VersionFailureReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case azelEphemerisInvalidStatus = "AZEL_EPHEMERIS_INVALID_STATUS"
-        case azelEphemerisNotFound = "AZEL_EPHEMERIS_NOT_FOUND"
-        case azelEphemerisTimeRangeInvalid = "AZEL_EPHEMERIS_TIME_RANGE_INVALID"
-        case azelEphemerisWrongGroundStation = "AZEL_EPHEMERIS_WRONG_GROUND_STATION"
-        case ephemerisNotEnabled = "EPHEMERIS_NOT_ENABLED"
-        case ephemerisNotFound = "EPHEMERIS_NOT_FOUND"
-        case ephemerisTimeRangeInvalid = "EPHEMERIS_TIME_RANGE_INVALID"
-        case internalError = "INTERNAL_ERROR"
-        case invalidSatelliteArn = "INVALID_SATELLITE_ARN"
-        case invalidUpdateContactRequest = "INVALID_UPDATE_CONTACT_REQUEST"
-        case notOnboardedToAzelEphemeris = "NOT_ONBOARDED_TO_AZEL_EPHEMERIS"
-        case satelliteDoesNotMatchEphemeris = "SATELLITE_DOES_NOT_MATCH_EPHEMERIS"
-        public var description: String { return self.rawValue }
+    public struct VersionFailureReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var azelEphemerisInvalidStatus: Self { .init(rawValue: "AZEL_EPHEMERIS_INVALID_STATUS") }
+        @inlinable public static var azelEphemerisNotFound: Self { .init(rawValue: "AZEL_EPHEMERIS_NOT_FOUND") }
+        @inlinable public static var azelEphemerisTimeRangeInvalid: Self { .init(rawValue: "AZEL_EPHEMERIS_TIME_RANGE_INVALID") }
+        @inlinable public static var azelEphemerisWrongGroundStation: Self { .init(rawValue: "AZEL_EPHEMERIS_WRONG_GROUND_STATION") }
+        @inlinable public static var ephemerisNotEnabled: Self { .init(rawValue: "EPHEMERIS_NOT_ENABLED") }
+        @inlinable public static var ephemerisNotFound: Self { .init(rawValue: "EPHEMERIS_NOT_FOUND") }
+        @inlinable public static var ephemerisTimeRangeInvalid: Self { .init(rawValue: "EPHEMERIS_TIME_RANGE_INVALID") }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+        @inlinable public static var invalidSatelliteArn: Self { .init(rawValue: "INVALID_SATELLITE_ARN") }
+        @inlinable public static var invalidUpdateContactRequest: Self { .init(rawValue: "INVALID_UPDATE_CONTACT_REQUEST") }
+        @inlinable public static var notOnboardedToAzelEphemeris: Self { .init(rawValue: "NOT_ONBOARDED_TO_AZEL_EPHEMERIS") }
+        @inlinable public static var satelliteDoesNotMatchEphemeris: Self { .init(rawValue: "SATELLITE_DOES_NOT_MATCH_EPHEMERIS") }
     }
 
-    public enum VersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct VersionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The version is the current active version of the contact.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// The version update failed.
-        case failedToUpdate = "FAILED_TO_UPDATE"
+        @inlinable public static var failedToUpdate: Self { .init(rawValue: "FAILED_TO_UPDATE") }
         /// The version has been replaced by a newer version.
-        case superseded = "SUPERSEDED"
+        @inlinable public static var superseded: Self { .init(rawValue: "SUPERSEDED") }
         /// The version is being applied to the contact.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
     public enum AzElSegmentsData: AWSEncodableShape, Sendable {

@@ -25,124 +25,184 @@ import Foundation
 extension SupplyChain {
     // MARK: Enums
 
-    public enum ConfigurationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case new = "NEW"
-        case queued = "QUEUED"
-        case success = "SUCCESS"
-        public var description: String { return self.rawValue }
+    public struct ConfigurationJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var new: Self { .init(rawValue: "NEW") }
+        @inlinable public static var queued: Self { .init(rawValue: "QUEUED") }
+        @inlinable public static var success: Self { .init(rawValue: "SUCCESS") }
     }
 
-    public enum DataIntegrationEventDatasetLoadStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationEventDatasetLoadStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum DataIntegrationEventDatasetOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case append = "APPEND"
-        case delete = "DELETE"
-        case upsert = "UPSERT"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationEventDatasetOperationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var append: Self { .init(rawValue: "APPEND") }
+        @inlinable public static var delete: Self { .init(rawValue: "DELETE") }
+        @inlinable public static var upsert: Self { .init(rawValue: "UPSERT") }
     }
 
-    public enum DataIntegrationEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dataset = "scn.data.dataset"
-        case forecast = "scn.data.forecast"
-        case inboundOrder = "scn.data.inboundorder"
-        case inboundOrderLine = "scn.data.inboundorderline"
-        case inboundOrderLineSchedule = "scn.data.inboundorderlineschedule"
-        case inventoryLevel = "scn.data.inventorylevel"
-        case outboundOrderLine = "scn.data.outboundorderline"
-        case outboundShipment = "scn.data.outboundshipment"
-        case processHeader = "scn.data.processheader"
-        case processOperation = "scn.data.processoperation"
-        case processProduct = "scn.data.processproduct"
-        case reservation = "scn.data.reservation"
-        case shipment = "scn.data.shipment"
-        case shipmentStop = "scn.data.shipmentstop"
-        case shipmentStopOrder = "scn.data.shipmentstoporder"
-        case supplyPlan = "scn.data.supplyplan"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dataset: Self { .init(rawValue: "scn.data.dataset") }
+        @inlinable public static var forecast: Self { .init(rawValue: "scn.data.forecast") }
+        @inlinable public static var inboundOrder: Self { .init(rawValue: "scn.data.inboundorder") }
+        @inlinable public static var inboundOrderLine: Self { .init(rawValue: "scn.data.inboundorderline") }
+        @inlinable public static var inboundOrderLineSchedule: Self { .init(rawValue: "scn.data.inboundorderlineschedule") }
+        @inlinable public static var inventoryLevel: Self { .init(rawValue: "scn.data.inventorylevel") }
+        @inlinable public static var outboundOrderLine: Self { .init(rawValue: "scn.data.outboundorderline") }
+        @inlinable public static var outboundShipment: Self { .init(rawValue: "scn.data.outboundshipment") }
+        @inlinable public static var processHeader: Self { .init(rawValue: "scn.data.processheader") }
+        @inlinable public static var processOperation: Self { .init(rawValue: "scn.data.processoperation") }
+        @inlinable public static var processProduct: Self { .init(rawValue: "scn.data.processproduct") }
+        @inlinable public static var reservation: Self { .init(rawValue: "scn.data.reservation") }
+        @inlinable public static var shipment: Self { .init(rawValue: "scn.data.shipment") }
+        @inlinable public static var shipmentStop: Self { .init(rawValue: "scn.data.shipmentstop") }
+        @inlinable public static var shipmentStopOrder: Self { .init(rawValue: "scn.data.shipmentstoporder") }
+        @inlinable public static var supplyPlan: Self { .init(rawValue: "scn.data.supplyplan") }
     }
 
-    public enum DataIntegrationFlowDedupeStrategyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fieldPriority = "FIELD_PRIORITY"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationFlowDedupeStrategyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fieldPriority: Self { .init(rawValue: "FIELD_PRIORITY") }
     }
 
-    public enum DataIntegrationFlowExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationFlowExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum DataIntegrationFlowFieldPriorityDedupeSortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationFlowFieldPriorityDedupeSortOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asc: Self { .init(rawValue: "ASC") }
+        @inlinable public static var desc: Self { .init(rawValue: "DESC") }
     }
 
-    public enum DataIntegrationFlowFileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "CSV"
-        case json = "JSON"
-        case parquet = "PARQUET"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationFlowFileType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "CSV") }
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
+        @inlinable public static var parquet: Self { .init(rawValue: "PARQUET") }
     }
 
-    public enum DataIntegrationFlowLoadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case incremental = "INCREMENTAL"
-        case replace = "REPLACE"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationFlowLoadType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var incremental: Self { .init(rawValue: "INCREMENTAL") }
+        @inlinable public static var replace: Self { .init(rawValue: "REPLACE") }
     }
 
-    public enum DataIntegrationFlowSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dataset = "DATASET"
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationFlowSourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dataset: Self { .init(rawValue: "DATASET") }
+        @inlinable public static var s3: Self { .init(rawValue: "S3") }
     }
 
-    public enum DataIntegrationFlowTargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dataset = "DATASET"
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationFlowTargetType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dataset: Self { .init(rawValue: "DATASET") }
+        @inlinable public static var s3: Self { .init(rawValue: "S3") }
     }
 
-    public enum DataIntegrationFlowTransformationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case sql = "SQL"
-        public var description: String { return self.rawValue }
+    public struct DataIntegrationFlowTransformationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var sql: Self { .init(rawValue: "SQL") }
     }
 
-    public enum DataLakeDatasetPartitionTransformType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case day = "DAY"
-        case hour = "HOUR"
-        case identity = "IDENTITY"
-        case month = "MONTH"
-        case year = "YEAR"
-        public var description: String { return self.rawValue }
+    public struct DataLakeDatasetPartitionTransformType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var day: Self { .init(rawValue: "DAY") }
+        @inlinable public static var hour: Self { .init(rawValue: "HOUR") }
+        @inlinable public static var identity: Self { .init(rawValue: "IDENTITY") }
+        @inlinable public static var month: Self { .init(rawValue: "MONTH") }
+        @inlinable public static var year: Self { .init(rawValue: "YEAR") }
     }
 
-    public enum DataLakeDatasetSchemaFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case double = "DOUBLE"
-        case int = "INT"
-        case long = "LONG"
-        case string = "STRING"
-        case timestamp = "TIMESTAMP"
-        public var description: String { return self.rawValue }
+    public struct DataLakeDatasetSchemaFieldType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var double: Self { .init(rawValue: "DOUBLE") }
+        @inlinable public static var int: Self { .init(rawValue: "INT") }
+        @inlinable public static var long: Self { .init(rawValue: "LONG") }
+        @inlinable public static var string: Self { .init(rawValue: "STRING") }
+        @inlinable public static var timestamp: Self { .init(rawValue: "TIMESTAMP") }
     }
 
-    public enum InstanceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case createFailed = "CreateFailed"
-        case deleteFailed = "DeleteFailed"
-        case deleted = "Deleted"
-        case deleting = "Deleting"
-        case initializing = "Initializing"
-        public var description: String { return self.rawValue }
+    public struct InstanceState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var createFailed: Self { .init(rawValue: "CreateFailed") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DeleteFailed") }
+        @inlinable public static var deleted: Self { .init(rawValue: "Deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "Deleting") }
+        @inlinable public static var initializing: Self { .init(rawValue: "Initializing") }
     }
 
     // MARK: Shapes

@@ -25,67 +25,95 @@ import Foundation
 extension DirectoryServiceData {
     // MARK: Enums
 
-    public enum AccessDeniedReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dataDisabled = "DATA_DISABLED"
-        case directoryAuth = "DIRECTORY_AUTH"
-        case iamAuth = "IAM_AUTH"
-        public var description: String { return self.rawValue }
+    public struct AccessDeniedReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dataDisabled: Self { .init(rawValue: "DATA_DISABLED") }
+        @inlinable public static var directoryAuth: Self { .init(rawValue: "DIRECTORY_AUTH") }
+        @inlinable public static var iamAuth: Self { .init(rawValue: "IAM_AUTH") }
     }
 
-    public enum DirectoryUnavailableReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case directoryResourcesExceeded = "DIRECTORY_RESOURCES_EXCEEDED"
-        case directoryTimeout = "DIRECTORY_TIMEOUT"
-        case invalidDirectoryState = "INVALID_DIRECTORY_STATE"
-        case noDiskSpace = "NO_DISK_SPACE"
-        case trustAuthFailure = "TRUST_AUTH_FAILURE"
-        public var description: String { return self.rawValue }
+    public struct DirectoryUnavailableReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var directoryResourcesExceeded: Self { .init(rawValue: "DIRECTORY_RESOURCES_EXCEEDED") }
+        @inlinable public static var directoryTimeout: Self { .init(rawValue: "DIRECTORY_TIMEOUT") }
+        @inlinable public static var invalidDirectoryState: Self { .init(rawValue: "INVALID_DIRECTORY_STATE") }
+        @inlinable public static var noDiskSpace: Self { .init(rawValue: "NO_DISK_SPACE") }
+        @inlinable public static var trustAuthFailure: Self { .init(rawValue: "TRUST_AUTH_FAILURE") }
     }
 
-    public enum GroupScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case builtinLocal = "BuiltinLocal"
-        case domainLocal = "DomainLocal"
-        case global = "Global"
-        case universal = "Universal"
-        public var description: String { return self.rawValue }
+    public struct GroupScope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var builtinLocal: Self { .init(rawValue: "BuiltinLocal") }
+        @inlinable public static var domainLocal: Self { .init(rawValue: "DomainLocal") }
+        @inlinable public static var global: Self { .init(rawValue: "Global") }
+        @inlinable public static var universal: Self { .init(rawValue: "Universal") }
     }
 
-    public enum GroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case distribution = "Distribution"
-        case security = "Security"
-        public var description: String { return self.rawValue }
+    public struct GroupType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var distribution: Self { .init(rawValue: "Distribution") }
+        @inlinable public static var security: Self { .init(rawValue: "Security") }
     }
 
-    public enum MemberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case computer = "COMPUTER"
-        case group = "GROUP"
-        case user = "USER"
-        public var description: String { return self.rawValue }
+    public struct MemberType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var computer: Self { .init(rawValue: "COMPUTER") }
+        @inlinable public static var group: Self { .init(rawValue: "GROUP") }
+        @inlinable public static var user: Self { .init(rawValue: "USER") }
     }
 
-    public enum UpdateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case add = "ADD"
-        case remove = "REMOVE"
-        case replace = "REPLACE"
-        public var description: String { return self.rawValue }
+    public struct UpdateType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var add: Self { .init(rawValue: "ADD") }
+        @inlinable public static var remove: Self { .init(rawValue: "REMOVE") }
+        @inlinable public static var replace: Self { .init(rawValue: "REPLACE") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case attributeExists = "ATTRIBUTE_EXISTS"
-        case duplicateAttribute = "DUPLICATE_ATTRIBUTE"
-        case invalidAttributeForGroup = "INVALID_ATTRIBUTE_FOR_GROUP"
-        case invalidAttributeForModify = "INVALID_ATTRIBUTE_FOR_MODIFY"
-        case invalidAttributeForSearch = "INVALID_ATTRIBUTE_FOR_SEARCH"
-        case invalidAttributeForUser = "INVALID_ATTRIBUTE_FOR_USER"
-        case invalidAttributeName = "INVALID_ATTRIBUTE_NAME"
-        case invalidAttributeValue = "INVALID_ATTRIBUTE_VALUE"
-        case invalidDirectoryType = "INVALID_DIRECTORY_TYPE"
-        case invalidNextToken = "INVALID_NEXT_TOKEN"
-        case invalidRealm = "INVALID_REALM"
-        case invalidSecondaryRegion = "INVALID_SECONDARY_REGION"
-        case ldapSizeLimitExceeded = "LDAP_SIZE_LIMIT_EXCEEDED"
-        case ldapUnsupportedOperation = "LDAP_UNSUPPORTED_OPERATION"
-        case missingAttribute = "MISSING_ATTRIBUTE"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var attributeExists: Self { .init(rawValue: "ATTRIBUTE_EXISTS") }
+        @inlinable public static var duplicateAttribute: Self { .init(rawValue: "DUPLICATE_ATTRIBUTE") }
+        @inlinable public static var invalidAttributeForGroup: Self { .init(rawValue: "INVALID_ATTRIBUTE_FOR_GROUP") }
+        @inlinable public static var invalidAttributeForModify: Self { .init(rawValue: "INVALID_ATTRIBUTE_FOR_MODIFY") }
+        @inlinable public static var invalidAttributeForSearch: Self { .init(rawValue: "INVALID_ATTRIBUTE_FOR_SEARCH") }
+        @inlinable public static var invalidAttributeForUser: Self { .init(rawValue: "INVALID_ATTRIBUTE_FOR_USER") }
+        @inlinable public static var invalidAttributeName: Self { .init(rawValue: "INVALID_ATTRIBUTE_NAME") }
+        @inlinable public static var invalidAttributeValue: Self { .init(rawValue: "INVALID_ATTRIBUTE_VALUE") }
+        @inlinable public static var invalidDirectoryType: Self { .init(rawValue: "INVALID_DIRECTORY_TYPE") }
+        @inlinable public static var invalidNextToken: Self { .init(rawValue: "INVALID_NEXT_TOKEN") }
+        @inlinable public static var invalidRealm: Self { .init(rawValue: "INVALID_REALM") }
+        @inlinable public static var invalidSecondaryRegion: Self { .init(rawValue: "INVALID_SECONDARY_REGION") }
+        @inlinable public static var ldapSizeLimitExceeded: Self { .init(rawValue: "LDAP_SIZE_LIMIT_EXCEEDED") }
+        @inlinable public static var ldapUnsupportedOperation: Self { .init(rawValue: "LDAP_UNSUPPORTED_OPERATION") }
+        @inlinable public static var missingAttribute: Self { .init(rawValue: "MISSING_ATTRIBUTE") }
     }
 
     public enum AttributeValue: AWSEncodableShape & AWSDecodableShape, Sendable {

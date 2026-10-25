@@ -25,99 +25,151 @@ import Foundation
 extension Billing {
     // MARK: Enums
 
-    public enum ApplicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afterDiscounts = "AFTER_DISCOUNTS"
-        case beforeCrossServiceDiscounts = "BEFORE_CROSS_SERVICE_DISCOUNTS"
-        public var description: String { return self.rawValue }
+    public struct ApplicationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afterDiscounts: Self { .init(rawValue: "AFTER_DISCOUNTS") }
+        @inlinable public static var beforeCrossServiceDiscounts: Self { .init(rawValue: "BEFORE_CROSS_SERVICE_DISCOUNTS") }
     }
 
-    public enum BillingDomain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billable = "BILLABLE"
-        case proForma = "PRO_FORMA"
-        public var description: String { return self.rawValue }
+    public struct BillingDomain: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billable: Self { .init(rawValue: "BILLABLE") }
+        @inlinable public static var proForma: Self { .init(rawValue: "PRO_FORMA") }
     }
 
-    public enum BillingFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billingAlerts = "BILLING_ALERTS"
-        case creditLevelSharing = "CREDIT_LEVEL_SHARING"
-        case creditPreferenceOptions = "CREDIT_PREFERENCE_OPTIONS"
-        case creditSharing = "CREDIT_SHARING"
-        case creditSharingHistory = "CREDIT_SHARING_HISTORY"
-        case riSharing = "RI_SHARING"
-        case riSharingHistory = "RI_SHARING_HISTORY"
-        public var description: String { return self.rawValue }
+    public struct BillingFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billingAlerts: Self { .init(rawValue: "BILLING_ALERTS") }
+        @inlinable public static var creditLevelSharing: Self { .init(rawValue: "CREDIT_LEVEL_SHARING") }
+        @inlinable public static var creditPreferenceOptions: Self { .init(rawValue: "CREDIT_PREFERENCE_OPTIONS") }
+        @inlinable public static var creditSharing: Self { .init(rawValue: "CREDIT_SHARING") }
+        @inlinable public static var creditSharingHistory: Self { .init(rawValue: "CREDIT_SHARING_HISTORY") }
+        @inlinable public static var riSharing: Self { .init(rawValue: "RI_SHARING") }
+        @inlinable public static var riSharingHistory: Self { .init(rawValue: "RI_SHARING_HISTORY") }
     }
 
-    public enum BillingFeatureFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case preferenceKey = "PREFERENCE_KEY"
-        public var description: String { return self.rawValue }
+    public struct BillingFeatureFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var preferenceKey: Self { .init(rawValue: "PREFERENCE_KEY") }
     }
 
-    public enum BillingViewStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creating = "CREATING"
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct BillingViewStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var healthy: Self { .init(rawValue: "HEALTHY") }
+        @inlinable public static var unhealthy: Self { .init(rawValue: "UNHEALTHY") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum BillingViewStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aggregateSource = "AGGREGATE_SOURCE"
-        case cyclicDependency = "CYCLIC_DEPENDENCY"
-        case sourceViewAccessDenied = "SOURCE_VIEW_ACCESS_DENIED"
-        case sourceViewDepthExceeded = "SOURCE_VIEW_DEPTH_EXCEEDED"
-        case sourceViewNotFound = "SOURCE_VIEW_NOT_FOUND"
-        case sourceViewUnhealthy = "SOURCE_VIEW_UNHEALTHY"
-        case sourceViewUpdating = "SOURCE_VIEW_UPDATING"
-        case viewOwnerNotManagementAccount = "VIEW_OWNER_NOT_MANAGEMENT_ACCOUNT"
-        public var description: String { return self.rawValue }
+    public struct BillingViewStatusReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aggregateSource: Self { .init(rawValue: "AGGREGATE_SOURCE") }
+        @inlinable public static var cyclicDependency: Self { .init(rawValue: "CYCLIC_DEPENDENCY") }
+        @inlinable public static var sourceViewAccessDenied: Self { .init(rawValue: "SOURCE_VIEW_ACCESS_DENIED") }
+        @inlinable public static var sourceViewDepthExceeded: Self { .init(rawValue: "SOURCE_VIEW_DEPTH_EXCEEDED") }
+        @inlinable public static var sourceViewNotFound: Self { .init(rawValue: "SOURCE_VIEW_NOT_FOUND") }
+        @inlinable public static var sourceViewUnhealthy: Self { .init(rawValue: "SOURCE_VIEW_UNHEALTHY") }
+        @inlinable public static var sourceViewUpdating: Self { .init(rawValue: "SOURCE_VIEW_UPDATING") }
+        @inlinable public static var viewOwnerNotManagementAccount: Self { .init(rawValue: "VIEW_OWNER_NOT_MANAGEMENT_ACCOUNT") }
     }
 
-    public enum BillingViewType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billingGroup = "BILLING_GROUP"
-        case billingTransfer = "BILLING_TRANSFER"
-        case billingTransferShowback = "BILLING_TRANSFER_SHOWBACK"
-        case custom = "CUSTOM"
-        case primary = "PRIMARY"
-        public var description: String { return self.rawValue }
+    public struct BillingViewType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billingGroup: Self { .init(rawValue: "BILLING_GROUP") }
+        @inlinable public static var billingTransfer: Self { .init(rawValue: "BILLING_TRANSFER") }
+        @inlinable public static var billingTransferShowback: Self { .init(rawValue: "BILLING_TRANSFER_SHOWBACK") }
+        @inlinable public static var custom: Self { .init(rawValue: "CUSTOM") }
+        @inlinable public static var primary: Self { .init(rawValue: "PRIMARY") }
     }
 
-    public enum CreditSharingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        case costCategoryRule = "COST_CATEGORY_RULE"
-        case custom = "CUSTOM"
-        case disabled = "DISABLED"
-        public var description: String { return self.rawValue }
+    public struct CreditSharingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
+        @inlinable public static var costCategoryRule: Self { .init(rawValue: "COST_CATEGORY_RULE") }
+        @inlinable public static var custom: Self { .init(rawValue: "CUSTOM") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
     }
 
-    public enum CreditStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct CreditStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case linkedAccount = "LINKED_ACCOUNT"
-        public var description: String { return self.rawValue }
+    public struct Dimension: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var linkedAccount: Self { .init(rawValue: "LINKED_ACCOUNT") }
     }
 
-    public enum PreferenceValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct PreferenceValue: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum SearchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case startsWith = "STARTS_WITH"
-        public var description: String { return self.rawValue }
+    public struct SearchOption: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var startsWith: Self { .init(rawValue: "STARTS_WITH") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "cannotParse"
-        case fieldValidationFailed = "fieldValidationFailed"
-        case other = "other"
-        case unknownOperation = "unknownOperation"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "cannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "unknownOperation") }
     }
 
     // MARK: Shapes

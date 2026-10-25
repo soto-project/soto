@@ -25,35 +25,47 @@ import Foundation
 extension AppConfigData {
     // MARK: Enums
 
-    public enum BadRequestReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct BadRequestReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates there was a problem with one or more of the parameters.
         /// See InvalidParameters in the BadRequestDetails for more information.
-        case invalidParameters = "InvalidParameters"
-        public var description: String { return self.rawValue }
+        @inlinable public static var invalidParameters: Self { .init(rawValue: "InvalidParameters") }
     }
 
-    public enum InvalidParameterProblem: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct InvalidParameterProblem: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The parameter was corrupted and could not be understood by the service.
-        case corrupted = "Corrupted"
+        @inlinable public static var corrupted: Self { .init(rawValue: "Corrupted") }
         /// The parameter was expired and can no longer be used.
-        case expired = "Expired"
+        @inlinable public static var expired: Self { .init(rawValue: "Expired") }
         /// The client called the service before the time specified in the poll interval.
-        case pollIntervalNotSatisfied = "PollIntervalNotSatisfied"
-        public var description: String { return self.rawValue }
+        @inlinable public static var pollIntervalNotSatisfied: Self { .init(rawValue: "PollIntervalNotSatisfied") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Resource type value for the Application resource.
-        case application = "Application"
+        @inlinable public static var application: Self { .init(rawValue: "Application") }
         /// Resource type value for the Configuration resource.
-        case configuration = "Configuration"
+        @inlinable public static var configuration: Self { .init(rawValue: "Configuration") }
         /// Resource type value for the ConfigurationProfile resource.
-        case configurationProfile = "ConfigurationProfile"
+        @inlinable public static var configurationProfile: Self { .init(rawValue: "ConfigurationProfile") }
         /// Resource type value for the Deployment resource.
-        case deployment = "Deployment"
+        @inlinable public static var deployment: Self { .init(rawValue: "Deployment") }
         /// Resource type value for the Environment resource.
-        case environment = "Environment"
-        public var description: String { return self.rawValue }
+        @inlinable public static var environment: Self { .init(rawValue: "Environment") }
     }
 
     // MARK: Shapes

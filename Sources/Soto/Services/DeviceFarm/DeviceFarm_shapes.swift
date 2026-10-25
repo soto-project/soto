@@ -25,316 +25,436 @@ import Foundation
 extension DeviceFarm {
     // MARK: Enums
 
-    public enum ArtifactCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case file = "FILE"
-        case log = "LOG"
-        case screenshot = "SCREENSHOT"
-        public var description: String { return self.rawValue }
+    public struct ArtifactCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var file: Self { .init(rawValue: "FILE") }
+        @inlinable public static var log: Self { .init(rawValue: "LOG") }
+        @inlinable public static var screenshot: Self { .init(rawValue: "SCREENSHOT") }
     }
 
-    public enum ArtifactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case appiumJavaOutput = "APPIUM_JAVA_OUTPUT"
-        case appiumJavaXmlOutput = "APPIUM_JAVA_XML_OUTPUT"
-        case appiumPythonOutput = "APPIUM_PYTHON_OUTPUT"
-        case appiumPythonXmlOutput = "APPIUM_PYTHON_XML_OUTPUT"
-        case appiumServerOutput = "APPIUM_SERVER_OUTPUT"
-        case applicationCrashReport = "APPLICATION_CRASH_REPORT"
-        case automationOutput = "AUTOMATION_OUTPUT"
-        case calabashJavaXmlOutput = "CALABASH_JAVA_XML_OUTPUT"
-        case calabashJsonOutput = "CALABASH_JSON_OUTPUT"
-        case calabashPrettyOutput = "CALABASH_PRETTY_OUTPUT"
-        case calabashStandardOutput = "CALABASH_STANDARD_OUTPUT"
-        case customerArtifact = "CUSTOMER_ARTIFACT"
-        case customerArtifactLog = "CUSTOMER_ARTIFACT_LOG"
-        case deviceLog = "DEVICE_LOG"
-        case exerciserMonkeyOutput = "EXERCISER_MONKEY_OUTPUT"
-        case explorerEventLog = "EXPLORER_EVENT_LOG"
-        case explorerSummaryLog = "EXPLORER_SUMMARY_LOG"
-        case instrumentationOutput = "INSTRUMENTATION_OUTPUT"
-        case messageLog = "MESSAGE_LOG"
-        case resultLog = "RESULT_LOG"
-        case screenshot = "SCREENSHOT"
-        case serviceLog = "SERVICE_LOG"
-        case testspecOutput = "TESTSPEC_OUTPUT"
-        case unknown = "UNKNOWN"
-        case video = "VIDEO"
-        case videoLog = "VIDEO_LOG"
-        case webkitLog = "WEBKIT_LOG"
-        case xctestLog = "XCTEST_LOG"
-        public var description: String { return self.rawValue }
+    public struct ArtifactType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var appiumJavaOutput: Self { .init(rawValue: "APPIUM_JAVA_OUTPUT") }
+        @inlinable public static var appiumJavaXmlOutput: Self { .init(rawValue: "APPIUM_JAVA_XML_OUTPUT") }
+        @inlinable public static var appiumPythonOutput: Self { .init(rawValue: "APPIUM_PYTHON_OUTPUT") }
+        @inlinable public static var appiumPythonXmlOutput: Self { .init(rawValue: "APPIUM_PYTHON_XML_OUTPUT") }
+        @inlinable public static var appiumServerOutput: Self { .init(rawValue: "APPIUM_SERVER_OUTPUT") }
+        @inlinable public static var applicationCrashReport: Self { .init(rawValue: "APPLICATION_CRASH_REPORT") }
+        @inlinable public static var automationOutput: Self { .init(rawValue: "AUTOMATION_OUTPUT") }
+        @inlinable public static var calabashJavaXmlOutput: Self { .init(rawValue: "CALABASH_JAVA_XML_OUTPUT") }
+        @inlinable public static var calabashJsonOutput: Self { .init(rawValue: "CALABASH_JSON_OUTPUT") }
+        @inlinable public static var calabashPrettyOutput: Self { .init(rawValue: "CALABASH_PRETTY_OUTPUT") }
+        @inlinable public static var calabashStandardOutput: Self { .init(rawValue: "CALABASH_STANDARD_OUTPUT") }
+        @inlinable public static var customerArtifact: Self { .init(rawValue: "CUSTOMER_ARTIFACT") }
+        @inlinable public static var customerArtifactLog: Self { .init(rawValue: "CUSTOMER_ARTIFACT_LOG") }
+        @inlinable public static var deviceLog: Self { .init(rawValue: "DEVICE_LOG") }
+        @inlinable public static var exerciserMonkeyOutput: Self { .init(rawValue: "EXERCISER_MONKEY_OUTPUT") }
+        @inlinable public static var explorerEventLog: Self { .init(rawValue: "EXPLORER_EVENT_LOG") }
+        @inlinable public static var explorerSummaryLog: Self { .init(rawValue: "EXPLORER_SUMMARY_LOG") }
+        @inlinable public static var instrumentationOutput: Self { .init(rawValue: "INSTRUMENTATION_OUTPUT") }
+        @inlinable public static var messageLog: Self { .init(rawValue: "MESSAGE_LOG") }
+        @inlinable public static var resultLog: Self { .init(rawValue: "RESULT_LOG") }
+        @inlinable public static var screenshot: Self { .init(rawValue: "SCREENSHOT") }
+        @inlinable public static var serviceLog: Self { .init(rawValue: "SERVICE_LOG") }
+        @inlinable public static var testspecOutput: Self { .init(rawValue: "TESTSPEC_OUTPUT") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
+        @inlinable public static var video: Self { .init(rawValue: "VIDEO") }
+        @inlinable public static var videoLog: Self { .init(rawValue: "VIDEO_LOG") }
+        @inlinable public static var webkitLog: Self { .init(rawValue: "WEBKIT_LOG") }
+        @inlinable public static var xctestLog: Self { .init(rawValue: "XCTEST_LOG") }
     }
 
-    public enum BillingMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case metered = "METERED"
-        case unmetered = "UNMETERED"
-        public var description: String { return self.rawValue }
+    public struct BillingMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var metered: Self { .init(rawValue: "METERED") }
+        @inlinable public static var unmetered: Self { .init(rawValue: "UNMETERED") }
     }
 
-    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case usd = "USD"
-        public var description: String { return self.rawValue }
+    public struct CurrencyCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var usd: Self { .init(rawValue: "USD") }
     }
 
-    public enum DeviceAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case appiumVersion = "APPIUM_VERSION"
-        case arn = "ARN"
-        case availability = "AVAILABILITY"
-        case fleetType = "FLEET_TYPE"
-        case formFactor = "FORM_FACTOR"
-        case instanceArn = "INSTANCE_ARN"
-        case instanceLabels = "INSTANCE_LABELS"
-        case manufacturer = "MANUFACTURER"
-        case model = "MODEL"
-        case osVersion = "OS_VERSION"
-        case platform = "PLATFORM"
-        case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
-        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
-        public var description: String { return self.rawValue }
+    public struct DeviceAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var appiumVersion: Self { .init(rawValue: "APPIUM_VERSION") }
+        @inlinable public static var arn: Self { .init(rawValue: "ARN") }
+        @inlinable public static var availability: Self { .init(rawValue: "AVAILABILITY") }
+        @inlinable public static var fleetType: Self { .init(rawValue: "FLEET_TYPE") }
+        @inlinable public static var formFactor: Self { .init(rawValue: "FORM_FACTOR") }
+        @inlinable public static var instanceArn: Self { .init(rawValue: "INSTANCE_ARN") }
+        @inlinable public static var instanceLabels: Self { .init(rawValue: "INSTANCE_LABELS") }
+        @inlinable public static var manufacturer: Self { .init(rawValue: "MANUFACTURER") }
+        @inlinable public static var model: Self { .init(rawValue: "MODEL") }
+        @inlinable public static var osVersion: Self { .init(rawValue: "OS_VERSION") }
+        @inlinable public static var platform: Self { .init(rawValue: "PLATFORM") }
+        @inlinable public static var remoteAccessEnabled: Self { .init(rawValue: "REMOTE_ACCESS_ENABLED") }
+        @inlinable public static var remoteDebugEnabled: Self { .init(rawValue: "REMOTE_DEBUG_ENABLED") }
     }
 
-    public enum DeviceAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case busy = "BUSY"
-        case highlyAvailable = "HIGHLY_AVAILABLE"
-        case temporaryNotAvailable = "TEMPORARY_NOT_AVAILABLE"
-        public var description: String { return self.rawValue }
+    public struct DeviceAvailability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var busy: Self { .init(rawValue: "BUSY") }
+        @inlinable public static var highlyAvailable: Self { .init(rawValue: "HIGHLY_AVAILABLE") }
+        @inlinable public static var temporaryNotAvailable: Self { .init(rawValue: "TEMPORARY_NOT_AVAILABLE") }
     }
 
-    public enum DeviceFilterAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case arn = "ARN"
-        case availability = "AVAILABILITY"
-        case fleetType = "FLEET_TYPE"
-        case formFactor = "FORM_FACTOR"
-        case instanceArn = "INSTANCE_ARN"
-        case instanceLabels = "INSTANCE_LABELS"
-        case manufacturer = "MANUFACTURER"
-        case model = "MODEL"
-        case osVersion = "OS_VERSION"
-        case platform = "PLATFORM"
-        case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
-        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
-        public var description: String { return self.rawValue }
+    public struct DeviceFilterAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var arn: Self { .init(rawValue: "ARN") }
+        @inlinable public static var availability: Self { .init(rawValue: "AVAILABILITY") }
+        @inlinable public static var fleetType: Self { .init(rawValue: "FLEET_TYPE") }
+        @inlinable public static var formFactor: Self { .init(rawValue: "FORM_FACTOR") }
+        @inlinable public static var instanceArn: Self { .init(rawValue: "INSTANCE_ARN") }
+        @inlinable public static var instanceLabels: Self { .init(rawValue: "INSTANCE_LABELS") }
+        @inlinable public static var manufacturer: Self { .init(rawValue: "MANUFACTURER") }
+        @inlinable public static var model: Self { .init(rawValue: "MODEL") }
+        @inlinable public static var osVersion: Self { .init(rawValue: "OS_VERSION") }
+        @inlinable public static var platform: Self { .init(rawValue: "PLATFORM") }
+        @inlinable public static var remoteAccessEnabled: Self { .init(rawValue: "REMOTE_ACCESS_ENABLED") }
+        @inlinable public static var remoteDebugEnabled: Self { .init(rawValue: "REMOTE_DEBUG_ENABLED") }
     }
 
-    public enum DeviceFormFactor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case phone = "PHONE"
-        case tablet = "TABLET"
-        public var description: String { return self.rawValue }
+    public struct DeviceFormFactor: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var phone: Self { .init(rawValue: "PHONE") }
+        @inlinable public static var tablet: Self { .init(rawValue: "TABLET") }
     }
 
-    public enum DevicePlatform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case android = "ANDROID"
-        case ios = "IOS"
-        public var description: String { return self.rawValue }
+    public struct DevicePlatform: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var android: Self { .init(rawValue: "ANDROID") }
+        @inlinable public static var ios: Self { .init(rawValue: "IOS") }
     }
 
-    public enum DevicePoolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `private` = "PRIVATE"
-        case curated = "CURATED"
-        public var description: String { return self.rawValue }
+    public struct DevicePoolType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `private`: Self { .init(rawValue: "PRIVATE") }
+        @inlinable public static var curated: Self { .init(rawValue: "CURATED") }
     }
 
-    public enum ExecutionResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case errored = "ERRORED"
-        case failed = "FAILED"
-        case passed = "PASSED"
-        case pending = "PENDING"
-        case skipped = "SKIPPED"
-        case stopped = "STOPPED"
-        case warned = "WARNED"
-        public var description: String { return self.rawValue }
+    public struct ExecutionResult: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var errored: Self { .init(rawValue: "ERRORED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var passed: Self { .init(rawValue: "PASSED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var skipped: Self { .init(rawValue: "SKIPPED") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var warned: Self { .init(rawValue: "WARNED") }
     }
 
-    public enum ExecutionResultCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case parsingFailed = "PARSING_FAILED"
-        case vpcEndpointSetupFailed = "VPC_ENDPOINT_SETUP_FAILED"
-        public var description: String { return self.rawValue }
+    public struct ExecutionResultCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var parsingFailed: Self { .init(rawValue: "PARSING_FAILED") }
+        @inlinable public static var vpcEndpointSetupFailed: Self { .init(rawValue: "VPC_ENDPOINT_SETUP_FAILED") }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case pending = "PENDING"
-        case pendingConcurrnecy = "PENDING_CONCURRENCY"
-        case pendingDevice = "PENDING_DEVICE"
-        case preparing = "PREPARING"
-        case processing = "PROCESSING"
-        case running = "RUNNING"
-        case scheduling = "SCHEDULING"
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
+    public struct ExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var pendingConcurrnecy: Self { .init(rawValue: "PENDING_CONCURRENCY") }
+        @inlinable public static var pendingDevice: Self { .init(rawValue: "PENDING_DEVICE") }
+        @inlinable public static var preparing: Self { .init(rawValue: "PREPARING") }
+        @inlinable public static var processing: Self { .init(rawValue: "PROCESSING") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var scheduling: Self { .init(rawValue: "SCHEDULING") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
     }
 
-    public enum InsightsType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case testReport = "TEST_REPORT"
-        public var description: String { return self.rawValue }
+    public struct InsightsType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var testReport: Self { .init(rawValue: "TEST_REPORT") }
     }
 
-    public enum InstanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case inUse = "IN_USE"
-        case notAvailable = "NOT_AVAILABLE"
-        case preparing = "PREPARING"
-        public var description: String { return self.rawValue }
+    public struct InstanceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var inUse: Self { .init(rawValue: "IN_USE") }
+        @inlinable public static var notAvailable: Self { .init(rawValue: "NOT_AVAILABLE") }
+        @inlinable public static var preparing: Self { .init(rawValue: "PREPARING") }
     }
 
-    public enum InteractionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interactive = "INTERACTIVE"
-        case noVideo = "NO_VIDEO"
-        case videoOnly = "VIDEO_ONLY"
-        public var description: String { return self.rawValue }
+    public struct InteractionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var interactive: Self { .init(rawValue: "INTERACTIVE") }
+        @inlinable public static var noVideo: Self { .init(rawValue: "NO_VIDEO") }
+        @inlinable public static var videoOnly: Self { .init(rawValue: "VIDEO_ONLY") }
     }
 
-    public enum NetworkProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `private` = "PRIVATE"
-        case curated = "CURATED"
-        public var description: String { return self.rawValue }
+    public struct NetworkProfileType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `private`: Self { .init(rawValue: "PRIVATE") }
+        @inlinable public static var curated: Self { .init(rawValue: "CURATED") }
     }
 
-    public enum OfferingTransactionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case purchase = "PURCHASE"
-        case renew = "RENEW"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
+    public struct OfferingTransactionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var purchase: Self { .init(rawValue: "PURCHASE") }
+        @inlinable public static var renew: Self { .init(rawValue: "RENEW") }
+        @inlinable public static var system: Self { .init(rawValue: "SYSTEM") }
     }
 
-    public enum OfferingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case recurring = "RECURRING"
-        public var description: String { return self.rawValue }
+    public struct OfferingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var recurring: Self { .init(rawValue: "RECURRING") }
     }
 
-    public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case monthly = "MONTHLY"
-        public var description: String { return self.rawValue }
+    public struct RecurringChargeFrequency: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var monthly: Self { .init(rawValue: "MONTHLY") }
     }
 
-    public enum ReportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case errored = "ERRORED"
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case skipped = "SKIPPED"
-        public var description: String { return self.rawValue }
+    public struct ReportStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var errored: Self { .init(rawValue: "ERRORED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var skipped: Self { .init(rawValue: "SKIPPED") }
     }
 
-    public enum RuleOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `in` = "IN"
-        case contains = "CONTAINS"
-        case equals = "EQUALS"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEquals = "GREATER_THAN_OR_EQUALS"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEquals = "LESS_THAN_OR_EQUALS"
-        case notIn = "NOT_IN"
-        public var description: String { return self.rawValue }
+    public struct RuleOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `in`: Self { .init(rawValue: "IN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var equals: Self { .init(rawValue: "EQUALS") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEquals: Self { .init(rawValue: "GREATER_THAN_OR_EQUALS") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEquals: Self { .init(rawValue: "LESS_THAN_OR_EQUALS") }
+        @inlinable public static var notIn: Self { .init(rawValue: "NOT_IN") }
     }
 
-    public enum SampleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cpu = "CPU"
-        case memory = "MEMORY"
-        case nativeAvgDrawtime = "NATIVE_AVG_DRAWTIME"
-        case nativeFps = "NATIVE_FPS"
-        case nativeFrames = "NATIVE_FRAMES"
-        case nativeMaxDrawtime = "NATIVE_MAX_DRAWTIME"
-        case nativeMinDrawtime = "NATIVE_MIN_DRAWTIME"
-        case openglAvgDrawtime = "OPENGL_AVG_DRAWTIME"
-        case openglFps = "OPENGL_FPS"
-        case openglFrames = "OPENGL_FRAMES"
-        case openglMaxDrawtime = "OPENGL_MAX_DRAWTIME"
-        case openglMinDrawtime = "OPENGL_MIN_DRAWTIME"
-        case rx = "RX"
-        case rxRate = "RX_RATE"
-        case threads = "THREADS"
-        case tx = "TX"
-        case txRate = "TX_RATE"
-        public var description: String { return self.rawValue }
+    public struct SampleType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cpu: Self { .init(rawValue: "CPU") }
+        @inlinable public static var memory: Self { .init(rawValue: "MEMORY") }
+        @inlinable public static var nativeAvgDrawtime: Self { .init(rawValue: "NATIVE_AVG_DRAWTIME") }
+        @inlinable public static var nativeFps: Self { .init(rawValue: "NATIVE_FPS") }
+        @inlinable public static var nativeFrames: Self { .init(rawValue: "NATIVE_FRAMES") }
+        @inlinable public static var nativeMaxDrawtime: Self { .init(rawValue: "NATIVE_MAX_DRAWTIME") }
+        @inlinable public static var nativeMinDrawtime: Self { .init(rawValue: "NATIVE_MIN_DRAWTIME") }
+        @inlinable public static var openglAvgDrawtime: Self { .init(rawValue: "OPENGL_AVG_DRAWTIME") }
+        @inlinable public static var openglFps: Self { .init(rawValue: "OPENGL_FPS") }
+        @inlinable public static var openglFrames: Self { .init(rawValue: "OPENGL_FRAMES") }
+        @inlinable public static var openglMaxDrawtime: Self { .init(rawValue: "OPENGL_MAX_DRAWTIME") }
+        @inlinable public static var openglMinDrawtime: Self { .init(rawValue: "OPENGL_MIN_DRAWTIME") }
+        @inlinable public static var rx: Self { .init(rawValue: "RX") }
+        @inlinable public static var rxRate: Self { .init(rawValue: "RX_RATE") }
+        @inlinable public static var threads: Self { .init(rawValue: "THREADS") }
+        @inlinable public static var tx: Self { .init(rawValue: "TX") }
+        @inlinable public static var txRate: Self { .init(rawValue: "TX_RATE") }
     }
 
-    public enum TestGridSessionArtifactCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case log = "LOG"
-        case video = "VIDEO"
-        public var description: String { return self.rawValue }
+    public struct TestGridSessionArtifactCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var log: Self { .init(rawValue: "LOG") }
+        @inlinable public static var video: Self { .init(rawValue: "VIDEO") }
     }
 
-    public enum TestGridSessionArtifactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case seleniumLog = "SELENIUM_LOG"
-        case unknown = "UNKNOWN"
-        case video = "VIDEO"
-        public var description: String { return self.rawValue }
+    public struct TestGridSessionArtifactType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var seleniumLog: Self { .init(rawValue: "SELENIUM_LOG") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
+        @inlinable public static var video: Self { .init(rawValue: "VIDEO") }
     }
 
-    public enum TestGridSessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case closed = "CLOSED"
-        case errored = "ERRORED"
-        public var description: String { return self.rawValue }
+    public struct TestGridSessionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var closed: Self { .init(rawValue: "CLOSED") }
+        @inlinable public static var errored: Self { .init(rawValue: "ERRORED") }
     }
 
-    public enum TestType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case appiumJavaJunit = "APPIUM_JAVA_JUNIT"
-        case appiumJavaTestng = "APPIUM_JAVA_TESTNG"
-        case appiumNode = "APPIUM_NODE"
-        case appiumPython = "APPIUM_PYTHON"
-        case appiumRuby = "APPIUM_RUBY"
-        case appiumWebJavaJunit = "APPIUM_WEB_JAVA_JUNIT"
-        case appiumWebJavaTestng = "APPIUM_WEB_JAVA_TESTNG"
-        case appiumWebNode = "APPIUM_WEB_NODE"
-        case appiumWebPython = "APPIUM_WEB_PYTHON"
-        case appiumWebRuby = "APPIUM_WEB_RUBY"
-        case builtinFuzz = "BUILTIN_FUZZ"
-        case instrumentation = "INSTRUMENTATION"
-        case xctest = "XCTEST"
-        case xctestUi = "XCTEST_UI"
-        public var description: String { return self.rawValue }
+    public struct TestType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var appiumJavaJunit: Self { .init(rawValue: "APPIUM_JAVA_JUNIT") }
+        @inlinable public static var appiumJavaTestng: Self { .init(rawValue: "APPIUM_JAVA_TESTNG") }
+        @inlinable public static var appiumNode: Self { .init(rawValue: "APPIUM_NODE") }
+        @inlinable public static var appiumPython: Self { .init(rawValue: "APPIUM_PYTHON") }
+        @inlinable public static var appiumRuby: Self { .init(rawValue: "APPIUM_RUBY") }
+        @inlinable public static var appiumWebJavaJunit: Self { .init(rawValue: "APPIUM_WEB_JAVA_JUNIT") }
+        @inlinable public static var appiumWebJavaTestng: Self { .init(rawValue: "APPIUM_WEB_JAVA_TESTNG") }
+        @inlinable public static var appiumWebNode: Self { .init(rawValue: "APPIUM_WEB_NODE") }
+        @inlinable public static var appiumWebPython: Self { .init(rawValue: "APPIUM_WEB_PYTHON") }
+        @inlinable public static var appiumWebRuby: Self { .init(rawValue: "APPIUM_WEB_RUBY") }
+        @inlinable public static var builtinFuzz: Self { .init(rawValue: "BUILTIN_FUZZ") }
+        @inlinable public static var instrumentation: Self { .init(rawValue: "INSTRUMENTATION") }
+        @inlinable public static var xctest: Self { .init(rawValue: "XCTEST") }
+        @inlinable public static var xctestUi: Self { .init(rawValue: "XCTEST_UI") }
     }
 
-    public enum UploadCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `private` = "PRIVATE"
-        case curated = "CURATED"
-        public var description: String { return self.rawValue }
+    public struct UploadCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `private`: Self { .init(rawValue: "PRIVATE") }
+        @inlinable public static var curated: Self { .init(rawValue: "CURATED") }
     }
 
-    public enum UploadStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case initialized = "INITIALIZED"
-        case processing = "PROCESSING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct UploadStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var initialized: Self { .init(rawValue: "INITIALIZED") }
+        @inlinable public static var processing: Self { .init(rawValue: "PROCESSING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum UploadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case androidApp = "ANDROID_APP"
-        case appiumJavaJunitTestPackage = "APPIUM_JAVA_JUNIT_TEST_PACKAGE"
-        case appiumJavaJunitTestSpec = "APPIUM_JAVA_JUNIT_TEST_SPEC"
-        case appiumJavaTestngTestPackage = "APPIUM_JAVA_TESTNG_TEST_PACKAGE"
-        case appiumJavaTestngTestSpec = "APPIUM_JAVA_TESTNG_TEST_SPEC"
-        case appiumNodeTestPackage = "APPIUM_NODE_TEST_PACKAGE"
-        case appiumNodeTestSpec = "APPIUM_NODE_TEST_SPEC"
-        case appiumPythonTestPackage = "APPIUM_PYTHON_TEST_PACKAGE"
-        case appiumPythonTestSpec = "APPIUM_PYTHON_TEST_SPEC"
-        case appiumRubyTestPackage = "APPIUM_RUBY_TEST_PACKAGE"
-        case appiumRubyTestSpec = "APPIUM_RUBY_TEST_SPEC"
-        case appiumWebJavaJunitTestPackage = "APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE"
-        case appiumWebJavaJunitTestSpec = "APPIUM_WEB_JAVA_JUNIT_TEST_SPEC"
-        case appiumWebJavaTestngTestPackage = "APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE"
-        case appiumWebJavaTestngTestSpec = "APPIUM_WEB_JAVA_TESTNG_TEST_SPEC"
-        case appiumWebNodeTestPackage = "APPIUM_WEB_NODE_TEST_PACKAGE"
-        case appiumWebNodeTestSpec = "APPIUM_WEB_NODE_TEST_SPEC"
-        case appiumWebPythonTestPackage = "APPIUM_WEB_PYTHON_TEST_PACKAGE"
-        case appiumWebPythonTestSpec = "APPIUM_WEB_PYTHON_TEST_SPEC"
-        case appiumWebRubyTestPackage = "APPIUM_WEB_RUBY_TEST_PACKAGE"
-        case appiumWebRubyTestSpec = "APPIUM_WEB_RUBY_TEST_SPEC"
-        case calabashTestPackage = "CALABASH_TEST_PACKAGE"
-        case externalData = "EXTERNAL_DATA"
-        case instrumentationTestPackage = "INSTRUMENTATION_TEST_PACKAGE"
-        case instrumentationTestSpec = "INSTRUMENTATION_TEST_SPEC"
-        case iosApp = "IOS_APP"
-        case uiautomationTestPackage = "UIAUTOMATION_TEST_PACKAGE"
-        case uiautomatorTestPackage = "UIAUTOMATOR_TEST_PACKAGE"
-        case webApp = "WEB_APP"
-        case xctestTestPackage = "XCTEST_TEST_PACKAGE"
-        case xctestUiTestPackage = "XCTEST_UI_TEST_PACKAGE"
-        case xctestUiTestSpec = "XCTEST_UI_TEST_SPEC"
-        public var description: String { return self.rawValue }
+    public struct UploadType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var androidApp: Self { .init(rawValue: "ANDROID_APP") }
+        @inlinable public static var appiumJavaJunitTestPackage: Self { .init(rawValue: "APPIUM_JAVA_JUNIT_TEST_PACKAGE") }
+        @inlinable public static var appiumJavaJunitTestSpec: Self { .init(rawValue: "APPIUM_JAVA_JUNIT_TEST_SPEC") }
+        @inlinable public static var appiumJavaTestngTestPackage: Self { .init(rawValue: "APPIUM_JAVA_TESTNG_TEST_PACKAGE") }
+        @inlinable public static var appiumJavaTestngTestSpec: Self { .init(rawValue: "APPIUM_JAVA_TESTNG_TEST_SPEC") }
+        @inlinable public static var appiumNodeTestPackage: Self { .init(rawValue: "APPIUM_NODE_TEST_PACKAGE") }
+        @inlinable public static var appiumNodeTestSpec: Self { .init(rawValue: "APPIUM_NODE_TEST_SPEC") }
+        @inlinable public static var appiumPythonTestPackage: Self { .init(rawValue: "APPIUM_PYTHON_TEST_PACKAGE") }
+        @inlinable public static var appiumPythonTestSpec: Self { .init(rawValue: "APPIUM_PYTHON_TEST_SPEC") }
+        @inlinable public static var appiumRubyTestPackage: Self { .init(rawValue: "APPIUM_RUBY_TEST_PACKAGE") }
+        @inlinable public static var appiumRubyTestSpec: Self { .init(rawValue: "APPIUM_RUBY_TEST_SPEC") }
+        @inlinable public static var appiumWebJavaJunitTestPackage: Self { .init(rawValue: "APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE") }
+        @inlinable public static var appiumWebJavaJunitTestSpec: Self { .init(rawValue: "APPIUM_WEB_JAVA_JUNIT_TEST_SPEC") }
+        @inlinable public static var appiumWebJavaTestngTestPackage: Self { .init(rawValue: "APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE") }
+        @inlinable public static var appiumWebJavaTestngTestSpec: Self { .init(rawValue: "APPIUM_WEB_JAVA_TESTNG_TEST_SPEC") }
+        @inlinable public static var appiumWebNodeTestPackage: Self { .init(rawValue: "APPIUM_WEB_NODE_TEST_PACKAGE") }
+        @inlinable public static var appiumWebNodeTestSpec: Self { .init(rawValue: "APPIUM_WEB_NODE_TEST_SPEC") }
+        @inlinable public static var appiumWebPythonTestPackage: Self { .init(rawValue: "APPIUM_WEB_PYTHON_TEST_PACKAGE") }
+        @inlinable public static var appiumWebPythonTestSpec: Self { .init(rawValue: "APPIUM_WEB_PYTHON_TEST_SPEC") }
+        @inlinable public static var appiumWebRubyTestPackage: Self { .init(rawValue: "APPIUM_WEB_RUBY_TEST_PACKAGE") }
+        @inlinable public static var appiumWebRubyTestSpec: Self { .init(rawValue: "APPIUM_WEB_RUBY_TEST_SPEC") }
+        @inlinable public static var calabashTestPackage: Self { .init(rawValue: "CALABASH_TEST_PACKAGE") }
+        @inlinable public static var externalData: Self { .init(rawValue: "EXTERNAL_DATA") }
+        @inlinable public static var instrumentationTestPackage: Self { .init(rawValue: "INSTRUMENTATION_TEST_PACKAGE") }
+        @inlinable public static var instrumentationTestSpec: Self { .init(rawValue: "INSTRUMENTATION_TEST_SPEC") }
+        @inlinable public static var iosApp: Self { .init(rawValue: "IOS_APP") }
+        @inlinable public static var uiautomationTestPackage: Self { .init(rawValue: "UIAUTOMATION_TEST_PACKAGE") }
+        @inlinable public static var uiautomatorTestPackage: Self { .init(rawValue: "UIAUTOMATOR_TEST_PACKAGE") }
+        @inlinable public static var webApp: Self { .init(rawValue: "WEB_APP") }
+        @inlinable public static var xctestTestPackage: Self { .init(rawValue: "XCTEST_TEST_PACKAGE") }
+        @inlinable public static var xctestUiTestPackage: Self { .init(rawValue: "XCTEST_UI_TEST_PACKAGE") }
+        @inlinable public static var xctestUiTestSpec: Self { .init(rawValue: "XCTEST_UI_TEST_SPEC") }
     }
 
     // MARK: Shapes

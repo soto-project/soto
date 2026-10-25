@@ -25,114 +25,166 @@ import Foundation
 extension IoTThingsGraph {
     // MARK: Enums
 
-    public enum DefinitionLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case graphql = "GRAPHQL"
-        public var description: String { return self.rawValue }
+    public struct DefinitionLanguage: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var graphql: Self { .init(rawValue: "GRAPHQL") }
     }
 
-    public enum DeploymentTarget: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cloud = "CLOUD"
-        case greengrass = "GREENGRASS"
-        public var description: String { return self.rawValue }
+    public struct DeploymentTarget: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cloud: Self { .init(rawValue: "CLOUD") }
+        @inlinable public static var greengrass: Self { .init(rawValue: "GREENGRASS") }
     }
 
-    public enum EntityFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case name = "NAME"
-        case namespace = "NAMESPACE"
-        case referencedEntityId = "REFERENCED_ENTITY_ID"
-        case semanticTypePath = "SEMANTIC_TYPE_PATH"
-        public var description: String { return self.rawValue }
+    public struct EntityFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var name: Self { .init(rawValue: "NAME") }
+        @inlinable public static var namespace: Self { .init(rawValue: "NAMESPACE") }
+        @inlinable public static var referencedEntityId: Self { .init(rawValue: "REFERENCED_ENTITY_ID") }
+        @inlinable public static var semanticTypePath: Self { .init(rawValue: "SEMANTIC_TYPE_PATH") }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `enum` = "ENUM"
-        case action = "ACTION"
-        case capability = "CAPABILITY"
-        case device = "DEVICE"
-        case deviceModel = "DEVICE_MODEL"
-        case event = "EVENT"
-        case mapping = "MAPPING"
-        case property = "PROPERTY"
-        case service = "SERVICE"
-        case state = "STATE"
-        public var description: String { return self.rawValue }
+    public struct EntityType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `enum`: Self { .init(rawValue: "ENUM") }
+        @inlinable public static var action: Self { .init(rawValue: "ACTION") }
+        @inlinable public static var capability: Self { .init(rawValue: "CAPABILITY") }
+        @inlinable public static var device: Self { .init(rawValue: "DEVICE") }
+        @inlinable public static var deviceModel: Self { .init(rawValue: "DEVICE_MODEL") }
+        @inlinable public static var event: Self { .init(rawValue: "EVENT") }
+        @inlinable public static var mapping: Self { .init(rawValue: "MAPPING") }
+        @inlinable public static var property: Self { .init(rawValue: "PROPERTY") }
+        @inlinable public static var service: Self { .init(rawValue: "SERVICE") }
+        @inlinable public static var state: Self { .init(rawValue: "STATE") }
     }
 
-    public enum FlowExecutionEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case acknowledgeTaskMessage = "ACKNOWLEDGE_TASK_MESSAGE"
-        case activityFailed = "ACTIVITY_FAILED"
-        case activityScheduled = "ACTIVITY_SCHEDULED"
-        case activityStarted = "ACTIVITY_STARTED"
-        case activitySucceeded = "ACTIVITY_SUCCEEDED"
-        case executionAborted = "EXECUTION_ABORTED"
-        case executionFailed = "EXECUTION_FAILED"
-        case executionStarted = "EXECUTION_STARTED"
-        case executionSucceeded = "EXECUTION_SUCCEEDED"
-        case scheduleNextReadyStepsTask = "SCHEDULE_NEXT_READY_STEPS_TASK"
-        case startFlowExecutionTask = "START_FLOW_EXECUTION_TASK"
-        case stepFailed = "STEP_FAILED"
-        case stepStarted = "STEP_STARTED"
-        case stepSucceeded = "STEP_SUCCEEDED"
-        case thingActionTask = "THING_ACTION_TASK"
-        case thingActionTaskFailed = "THING_ACTION_TASK_FAILED"
-        case thingActionTaskSucceeded = "THING_ACTION_TASK_SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct FlowExecutionEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var acknowledgeTaskMessage: Self { .init(rawValue: "ACKNOWLEDGE_TASK_MESSAGE") }
+        @inlinable public static var activityFailed: Self { .init(rawValue: "ACTIVITY_FAILED") }
+        @inlinable public static var activityScheduled: Self { .init(rawValue: "ACTIVITY_SCHEDULED") }
+        @inlinable public static var activityStarted: Self { .init(rawValue: "ACTIVITY_STARTED") }
+        @inlinable public static var activitySucceeded: Self { .init(rawValue: "ACTIVITY_SUCCEEDED") }
+        @inlinable public static var executionAborted: Self { .init(rawValue: "EXECUTION_ABORTED") }
+        @inlinable public static var executionFailed: Self { .init(rawValue: "EXECUTION_FAILED") }
+        @inlinable public static var executionStarted: Self { .init(rawValue: "EXECUTION_STARTED") }
+        @inlinable public static var executionSucceeded: Self { .init(rawValue: "EXECUTION_SUCCEEDED") }
+        @inlinable public static var scheduleNextReadyStepsTask: Self { .init(rawValue: "SCHEDULE_NEXT_READY_STEPS_TASK") }
+        @inlinable public static var startFlowExecutionTask: Self { .init(rawValue: "START_FLOW_EXECUTION_TASK") }
+        @inlinable public static var stepFailed: Self { .init(rawValue: "STEP_FAILED") }
+        @inlinable public static var stepStarted: Self { .init(rawValue: "STEP_STARTED") }
+        @inlinable public static var stepSucceeded: Self { .init(rawValue: "STEP_SUCCEEDED") }
+        @inlinable public static var thingActionTask: Self { .init(rawValue: "THING_ACTION_TASK") }
+        @inlinable public static var thingActionTaskFailed: Self { .init(rawValue: "THING_ACTION_TASK_FAILED") }
+        @inlinable public static var thingActionTaskSucceeded: Self { .init(rawValue: "THING_ACTION_TASK_SUCCEEDED") }
     }
 
-    public enum FlowExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aborted = "ABORTED"
-        case failed = "FAILED"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct FlowExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aborted: Self { .init(rawValue: "ABORTED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum FlowTemplateFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deviceModelId = "DEVICE_MODEL_ID"
-        public var description: String { return self.rawValue }
+    public struct FlowTemplateFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deviceModelId: Self { .init(rawValue: "DEVICE_MODEL_ID") }
     }
 
-    public enum NamespaceDeletionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct NamespaceDeletionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum NamespaceDeletionStatusErrorCodes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case validationFailed = "VALIDATION_FAILED"
-        public var description: String { return self.rawValue }
+    public struct NamespaceDeletionStatusErrorCodes: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var validationFailed: Self { .init(rawValue: "VALIDATION_FAILED") }
     }
 
-    public enum SystemInstanceDeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bootstrap = "BOOTSTRAP"
-        case deletedInTarget = "DELETED_IN_TARGET"
-        case deployInProgress = "DEPLOY_IN_PROGRESS"
-        case deployedInTarget = "DEPLOYED_IN_TARGET"
-        case failed = "FAILED"
-        case notDeployed = "NOT_DEPLOYED"
-        case pendingDelete = "PENDING_DELETE"
-        case undeployInProgress = "UNDEPLOY_IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct SystemInstanceDeploymentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bootstrap: Self { .init(rawValue: "BOOTSTRAP") }
+        @inlinable public static var deletedInTarget: Self { .init(rawValue: "DELETED_IN_TARGET") }
+        @inlinable public static var deployInProgress: Self { .init(rawValue: "DEPLOY_IN_PROGRESS") }
+        @inlinable public static var deployedInTarget: Self { .init(rawValue: "DEPLOYED_IN_TARGET") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var notDeployed: Self { .init(rawValue: "NOT_DEPLOYED") }
+        @inlinable public static var pendingDelete: Self { .init(rawValue: "PENDING_DELETE") }
+        @inlinable public static var undeployInProgress: Self { .init(rawValue: "UNDEPLOY_IN_PROGRESS") }
     }
 
-    public enum SystemInstanceFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case greengrassGroupName = "GREENGRASS_GROUP_NAME"
-        case status = "STATUS"
-        case systemTemplateId = "SYSTEM_TEMPLATE_ID"
-        public var description: String { return self.rawValue }
+    public struct SystemInstanceFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var greengrassGroupName: Self { .init(rawValue: "GREENGRASS_GROUP_NAME") }
+        @inlinable public static var status: Self { .init(rawValue: "STATUS") }
+        @inlinable public static var systemTemplateId: Self { .init(rawValue: "SYSTEM_TEMPLATE_ID") }
     }
 
-    public enum SystemTemplateFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case flowTemplateId = "FLOW_TEMPLATE_ID"
-        public var description: String { return self.rawValue }
+    public struct SystemTemplateFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var flowTemplateId: Self { .init(rawValue: "FLOW_TEMPLATE_ID") }
     }
 
-    public enum UploadStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct UploadStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
     // MARK: Shapes

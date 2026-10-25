@@ -25,34 +25,46 @@ import Foundation
 extension SocialMessaging {
     // MARK: Enums
 
-    public enum MetaFlowCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case appointmentBooking = "APPOINTMENT_BOOKING"
-        case contactUs = "CONTACT_US"
-        case customerSupport = "CUSTOMER_SUPPORT"
-        case leadGeneration = "LEAD_GENERATION"
-        case other = "OTHER"
-        case shopping = "SHOPPING"
-        case signIn = "SIGN_IN"
-        case signUp = "SIGN_UP"
-        case survey = "SURVEY"
-        public var description: String { return self.rawValue }
+    public struct MetaFlowCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var appointmentBooking: Self { .init(rawValue: "APPOINTMENT_BOOKING") }
+        @inlinable public static var contactUs: Self { .init(rawValue: "CONTACT_US") }
+        @inlinable public static var customerSupport: Self { .init(rawValue: "CUSTOMER_SUPPORT") }
+        @inlinable public static var leadGeneration: Self { .init(rawValue: "LEAD_GENERATION") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var shopping: Self { .init(rawValue: "SHOPPING") }
+        @inlinable public static var signIn: Self { .init(rawValue: "SIGN_IN") }
+        @inlinable public static var signUp: Self { .init(rawValue: "SIGN_UP") }
+        @inlinable public static var survey: Self { .init(rawValue: "SURVEY") }
     }
 
-    public enum RegistrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case complete = "COMPLETE"
-        case incomplete = "INCOMPLETE"
-        public var description: String { return self.rawValue }
+    public struct RegistrationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var complete: Self { .init(rawValue: "COMPLETE") }
+        @inlinable public static var incomplete: Self { .init(rawValue: "INCOMPLETE") }
     }
 
-    public enum WhatsAppDayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case friday = "FRIDAY"
-        case monday = "MONDAY"
-        case saturday = "SATURDAY"
-        case sunday = "SUNDAY"
-        case thursday = "THURSDAY"
-        case tuesday = "TUESDAY"
-        case wednesday = "WEDNESDAY"
-        public var description: String { return self.rawValue }
+    public struct WhatsAppDayOfWeek: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var friday: Self { .init(rawValue: "FRIDAY") }
+        @inlinable public static var monday: Self { .init(rawValue: "MONDAY") }
+        @inlinable public static var saturday: Self { .init(rawValue: "SATURDAY") }
+        @inlinable public static var sunday: Self { .init(rawValue: "SUNDAY") }
+        @inlinable public static var thursday: Self { .init(rawValue: "THURSDAY") }
+        @inlinable public static var tuesday: Self { .init(rawValue: "TUESDAY") }
+        @inlinable public static var wednesday: Self { .init(rawValue: "WEDNESDAY") }
     }
 
     // MARK: Shapes

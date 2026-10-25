@@ -25,32 +25,48 @@ import Foundation
 extension RDSData {
     // MARK: Enums
 
-    public enum DecimalReturnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case doubleOrLong = "DOUBLE_OR_LONG"
-        case string = "STRING"
-        public var description: String { return self.rawValue }
+    public struct DecimalReturnType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var doubleOrLong: Self { .init(rawValue: "DOUBLE_OR_LONG") }
+        @inlinable public static var string: Self { .init(rawValue: "STRING") }
     }
 
-    public enum LongReturnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case long = "LONG"
-        case string = "STRING"
-        public var description: String { return self.rawValue }
+    public struct LongReturnType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var long: Self { .init(rawValue: "LONG") }
+        @inlinable public static var string: Self { .init(rawValue: "STRING") }
     }
 
-    public enum RecordsFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case json = "JSON"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct RecordsFormatType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum TypeHint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case date = "DATE"
-        case decimal = "DECIMAL"
-        case json = "JSON"
-        case time = "TIME"
-        case timestamp = "TIMESTAMP"
-        case uuid = "UUID"
-        public var description: String { return self.rawValue }
+    public struct TypeHint: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var date: Self { .init(rawValue: "DATE") }
+        @inlinable public static var decimal: Self { .init(rawValue: "DECIMAL") }
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
+        @inlinable public static var time: Self { .init(rawValue: "TIME") }
+        @inlinable public static var timestamp: Self { .init(rawValue: "TIMESTAMP") }
+        @inlinable public static var uuid: Self { .init(rawValue: "UUID") }
     }
 
     public enum ArrayValue: AWSEncodableShape & AWSDecodableShape, Sendable {

@@ -25,214 +25,302 @@ import Foundation
 extension PaymentCryptography {
     // MARK: Enums
 
-    public enum As2805KeyVariant: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dataEncryptionKeyVariant22 = "DATA_ENCRYPTION_KEY_VARIANT_22"
-        case messageAuthenticationKeyVariant24 = "MESSAGE_AUTHENTICATION_KEY_VARIANT_24"
-        case pinEncryptionKeyVariant28 = "PIN_ENCRYPTION_KEY_VARIANT_28"
-        case terminalMajorKeyVariant00 = "TERMINAL_MAJOR_KEY_VARIANT_00"
-        public var description: String { return self.rawValue }
+    public struct As2805KeyVariant: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dataEncryptionKeyVariant22: Self { .init(rawValue: "DATA_ENCRYPTION_KEY_VARIANT_22") }
+        @inlinable public static var messageAuthenticationKeyVariant24: Self { .init(rawValue: "MESSAGE_AUTHENTICATION_KEY_VARIANT_24") }
+        @inlinable public static var pinEncryptionKeyVariant28: Self { .init(rawValue: "PIN_ENCRYPTION_KEY_VARIANT_28") }
+        @inlinable public static var terminalMajorKeyVariant00: Self { .init(rawValue: "TERMINAL_MAJOR_KEY_VARIANT_00") }
     }
 
-    public enum AssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deletePending = "DELETE_PENDING"
-        case updatePending = "UPDATE_PENDING"
-        public var description: String { return self.rawValue }
+    public struct AssociationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deletePending: Self { .init(rawValue: "DELETE_PENDING") }
+        @inlinable public static var updatePending: Self { .init(rawValue: "UPDATE_PENDING") }
     }
 
-    public enum DeriveKeyUsage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case tr31B0BaseDerivationKey = "TR31_B0_BASE_DERIVATION_KEY"
-        case tr31C0CardVerificationKey = "TR31_C0_CARD_VERIFICATION_KEY"
-        case tr31D0SymmetricDataEncryptionKey = "TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY"
-        case tr31E0EmvMkeyAppCryptograms = "TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS"
-        case tr31E1EmvMkeyConfidentiality = "TR31_E1_EMV_MKEY_CONFIDENTIALITY"
-        case tr31E2EmvMkeyIntegrity = "TR31_E2_EMV_MKEY_INTEGRITY"
-        case tr31E4EmvMkeyDynamicNumbers = "TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS"
-        case tr31E5EmvMkeyCardPersonalization = "TR31_E5_EMV_MKEY_CARD_PERSONALIZATION"
-        case tr31E6EmvMkeyOther = "TR31_E6_EMV_MKEY_OTHER"
-        case tr31K0KeyEncryptionKey = "TR31_K0_KEY_ENCRYPTION_KEY"
-        case tr31K1KeyBlockProtectionKey = "TR31_K1_KEY_BLOCK_PROTECTION_KEY"
-        case tr31M1Iso97971MacKey = "TR31_M1_ISO_9797_1_MAC_KEY"
-        case tr31M3Iso97973MacKey = "TR31_M3_ISO_9797_3_MAC_KEY"
-        case tr31M6Iso97975CmacKey = "TR31_M6_ISO_9797_5_CMAC_KEY"
-        case tr31M7HmacKey = "TR31_M7_HMAC_KEY"
-        case tr31P0PinEncryptionKey = "TR31_P0_PIN_ENCRYPTION_KEY"
-        case tr31P1PinGenerationKey = "TR31_P1_PIN_GENERATION_KEY"
-        case tr31V1Ibm3624PinVerificationKey = "TR31_V1_IBM3624_PIN_VERIFICATION_KEY"
-        case tr31V2VisaPinVerificationKey = "TR31_V2_VISA_PIN_VERIFICATION_KEY"
-        public var description: String { return self.rawValue }
+    public struct DeriveKeyUsage: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var tr31B0BaseDerivationKey: Self { .init(rawValue: "TR31_B0_BASE_DERIVATION_KEY") }
+        @inlinable public static var tr31C0CardVerificationKey: Self { .init(rawValue: "TR31_C0_CARD_VERIFICATION_KEY") }
+        @inlinable public static var tr31D0SymmetricDataEncryptionKey: Self { .init(rawValue: "TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY") }
+        @inlinable public static var tr31E0EmvMkeyAppCryptograms: Self { .init(rawValue: "TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS") }
+        @inlinable public static var tr31E1EmvMkeyConfidentiality: Self { .init(rawValue: "TR31_E1_EMV_MKEY_CONFIDENTIALITY") }
+        @inlinable public static var tr31E2EmvMkeyIntegrity: Self { .init(rawValue: "TR31_E2_EMV_MKEY_INTEGRITY") }
+        @inlinable public static var tr31E4EmvMkeyDynamicNumbers: Self { .init(rawValue: "TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS") }
+        @inlinable public static var tr31E5EmvMkeyCardPersonalization: Self { .init(rawValue: "TR31_E5_EMV_MKEY_CARD_PERSONALIZATION") }
+        @inlinable public static var tr31E6EmvMkeyOther: Self { .init(rawValue: "TR31_E6_EMV_MKEY_OTHER") }
+        @inlinable public static var tr31K0KeyEncryptionKey: Self { .init(rawValue: "TR31_K0_KEY_ENCRYPTION_KEY") }
+        @inlinable public static var tr31K1KeyBlockProtectionKey: Self { .init(rawValue: "TR31_K1_KEY_BLOCK_PROTECTION_KEY") }
+        @inlinable public static var tr31M1Iso97971MacKey: Self { .init(rawValue: "TR31_M1_ISO_9797_1_MAC_KEY") }
+        @inlinable public static var tr31M3Iso97973MacKey: Self { .init(rawValue: "TR31_M3_ISO_9797_3_MAC_KEY") }
+        @inlinable public static var tr31M6Iso97975CmacKey: Self { .init(rawValue: "TR31_M6_ISO_9797_5_CMAC_KEY") }
+        @inlinable public static var tr31M7HmacKey: Self { .init(rawValue: "TR31_M7_HMAC_KEY") }
+        @inlinable public static var tr31P0PinEncryptionKey: Self { .init(rawValue: "TR31_P0_PIN_ENCRYPTION_KEY") }
+        @inlinable public static var tr31P1PinGenerationKey: Self { .init(rawValue: "TR31_P1_PIN_GENERATION_KEY") }
+        @inlinable public static var tr31V1Ibm3624PinVerificationKey: Self { .init(rawValue: "TR31_V1_IBM3624_PIN_VERIFICATION_KEY") }
+        @inlinable public static var tr31V2VisaPinVerificationKey: Self { .init(rawValue: "TR31_V2_VISA_PIN_VERIFICATION_KEY") }
     }
 
-    public enum KeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes128 = "AES_128"
-        case aes192 = "AES_192"
-        case aes256 = "AES_256"
-        case eccNistP256 = "ECC_NIST_P256"
-        case eccNistP384 = "ECC_NIST_P384"
-        case eccNistP521 = "ECC_NIST_P521"
-        case hmacSha224 = "HMAC_SHA224"
-        case hmacSha256 = "HMAC_SHA256"
-        case hmacSha384 = "HMAC_SHA384"
-        case hmacSha512 = "HMAC_SHA512"
-        case rsa2048 = "RSA_2048"
-        case rsa3072 = "RSA_3072"
-        case rsa4096 = "RSA_4096"
-        case tdes2Key = "TDES_2KEY"
-        case tdes3Key = "TDES_3KEY"
-        public var description: String { return self.rawValue }
+    public struct KeyAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes128: Self { .init(rawValue: "AES_128") }
+        @inlinable public static var aes192: Self { .init(rawValue: "AES_192") }
+        @inlinable public static var aes256: Self { .init(rawValue: "AES_256") }
+        @inlinable public static var eccNistP256: Self { .init(rawValue: "ECC_NIST_P256") }
+        @inlinable public static var eccNistP384: Self { .init(rawValue: "ECC_NIST_P384") }
+        @inlinable public static var eccNistP521: Self { .init(rawValue: "ECC_NIST_P521") }
+        @inlinable public static var hmacSha224: Self { .init(rawValue: "HMAC_SHA224") }
+        @inlinable public static var hmacSha256: Self { .init(rawValue: "HMAC_SHA256") }
+        @inlinable public static var hmacSha384: Self { .init(rawValue: "HMAC_SHA384") }
+        @inlinable public static var hmacSha512: Self { .init(rawValue: "HMAC_SHA512") }
+        @inlinable public static var rsa2048: Self { .init(rawValue: "RSA_2048") }
+        @inlinable public static var rsa3072: Self { .init(rawValue: "RSA_3072") }
+        @inlinable public static var rsa4096: Self { .init(rawValue: "RSA_4096") }
+        @inlinable public static var tdes2Key: Self { .init(rawValue: "TDES_2KEY") }
+        @inlinable public static var tdes3Key: Self { .init(rawValue: "TDES_3KEY") }
     }
 
-    public enum KeyCheckValueAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ansiX924 = "ANSI_X9_24"
-        case cmac = "CMAC"
-        case hmac = "HMAC"
-        case sha1 = "SHA_1"
-        public var description: String { return self.rawValue }
+    public struct KeyCheckValueAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ansiX924: Self { .init(rawValue: "ANSI_X9_24") }
+        @inlinable public static var cmac: Self { .init(rawValue: "CMAC") }
+        @inlinable public static var hmac: Self { .init(rawValue: "HMAC") }
+        @inlinable public static var sha1: Self { .init(rawValue: "SHA_1") }
     }
 
-    public enum KeyClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asymmetricKeyPair = "ASYMMETRIC_KEY_PAIR"
-        case privateKey = "PRIVATE_KEY"
-        case publicKey = "PUBLIC_KEY"
-        case symmetricKey = "SYMMETRIC_KEY"
-        public var description: String { return self.rawValue }
+    public struct KeyClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asymmetricKeyPair: Self { .init(rawValue: "ASYMMETRIC_KEY_PAIR") }
+        @inlinable public static var privateKey: Self { .init(rawValue: "PRIVATE_KEY") }
+        @inlinable public static var publicKey: Self { .init(rawValue: "PUBLIC_KEY") }
+        @inlinable public static var symmetricKey: Self { .init(rawValue: "SYMMETRIC_KEY") }
     }
 
-    public enum KeyDerivationFunction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ansiX963 = "ANSI_X963"
-        case nistSp800 = "NIST_SP800"
-        public var description: String { return self.rawValue }
+    public struct KeyDerivationFunction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ansiX963: Self { .init(rawValue: "ANSI_X963") }
+        @inlinable public static var nistSp800: Self { .init(rawValue: "NIST_SP800") }
     }
 
-    public enum KeyDerivationHashAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sha256 = "SHA_256"
-        case sha384 = "SHA_384"
-        case sha512 = "SHA_512"
-        public var description: String { return self.rawValue }
+    public struct KeyDerivationHashAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sha256: Self { .init(rawValue: "SHA_256") }
+        @inlinable public static var sha384: Self { .init(rawValue: "SHA_384") }
+        @inlinable public static var sha512: Self { .init(rawValue: "SHA_512") }
     }
 
-    public enum KeyExportability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exportable = "EXPORTABLE"
-        case nonExportable = "NON_EXPORTABLE"
-        case sensitive = "SENSITIVE"
-        public var description: String { return self.rawValue }
+    public struct KeyExportability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exportable: Self { .init(rawValue: "EXPORTABLE") }
+        @inlinable public static var nonExportable: Self { .init(rawValue: "NON_EXPORTABLE") }
+        @inlinable public static var sensitive: Self { .init(rawValue: "SENSITIVE") }
     }
 
-    public enum KeyMaterialType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case keyCryptogram = "KEY_CRYPTOGRAM"
-        case rootPublicKeyCertificate = "ROOT_PUBLIC_KEY_CERTIFICATE"
-        case tr31KeyBlock = "TR31_KEY_BLOCK"
-        case tr34KeyBlock = "TR34_KEY_BLOCK"
-        case trustedPublicKeyCertificate = "TRUSTED_PUBLIC_KEY_CERTIFICATE"
-        public var description: String { return self.rawValue }
+    public struct KeyMaterialType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var keyCryptogram: Self { .init(rawValue: "KEY_CRYPTOGRAM") }
+        @inlinable public static var rootPublicKeyCertificate: Self { .init(rawValue: "ROOT_PUBLIC_KEY_CERTIFICATE") }
+        @inlinable public static var tr31KeyBlock: Self { .init(rawValue: "TR31_KEY_BLOCK") }
+        @inlinable public static var tr34KeyBlock: Self { .init(rawValue: "TR34_KEY_BLOCK") }
+        @inlinable public static var trustedPublicKeyCertificate: Self { .init(rawValue: "TRUSTED_PUBLIC_KEY_CERTIFICATE") }
     }
 
-    public enum KeyOrigin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsPaymentCryptography = "AWS_PAYMENT_CRYPTOGRAPHY"
-        case external = "EXTERNAL"
-        public var description: String { return self.rawValue }
+    public struct KeyOrigin: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsPaymentCryptography: Self { .init(rawValue: "AWS_PAYMENT_CRYPTOGRAPHY") }
+        @inlinable public static var external: Self { .init(rawValue: "EXTERNAL") }
     }
 
-    public enum KeyReplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case synchronized = "SYNCHRONIZED"
-        public var description: String { return self.rawValue }
+    public struct KeyReplicationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var synchronized: Self { .init(rawValue: "SYNCHRONIZED") }
     }
 
-    public enum KeyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createComplete = "CREATE_COMPLETE"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case deleteComplete = "DELETE_COMPLETE"
-        case deletePending = "DELETE_PENDING"
-        public var description: String { return self.rawValue }
+    public struct KeyState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createComplete: Self { .init(rawValue: "CREATE_COMPLETE") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var deleteComplete: Self { .init(rawValue: "DELETE_COMPLETE") }
+        @inlinable public static var deletePending: Self { .init(rawValue: "DELETE_PENDING") }
     }
 
-    public enum KeyUsage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case tr31B0BaseDerivationKey = "TR31_B0_BASE_DERIVATION_KEY"
-        case tr31C0CardVerificationKey = "TR31_C0_CARD_VERIFICATION_KEY"
-        case tr31D0SymmetricDataEncryptionKey = "TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY"
-        case tr31D1AsymmetricKeyForDataEncryption = "TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION"
-        case tr31E0EmvMkeyAppCryptograms = "TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS"
-        case tr31E1EmvMkeyConfidentiality = "TR31_E1_EMV_MKEY_CONFIDENTIALITY"
-        case tr31E2EmvMkeyIntegrity = "TR31_E2_EMV_MKEY_INTEGRITY"
-        case tr31E4EmvMkeyDynamicNumbers = "TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS"
-        case tr31E5EmvMkeyCardPersonalization = "TR31_E5_EMV_MKEY_CARD_PERSONALIZATION"
-        case tr31E6EmvMkeyOther = "TR31_E6_EMV_MKEY_OTHER"
-        case tr31K0KeyEncryptionKey = "TR31_K0_KEY_ENCRYPTION_KEY"
-        case tr31K1KeyBlockProtectionKey = "TR31_K1_KEY_BLOCK_PROTECTION_KEY"
-        case tr31K2Tr34AsymmetricKey = "TR31_K2_TR34_ASYMMETRIC_KEY"
-        case tr31K3AsymmetricKeyForKeyAgreement = "TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT"
-        case tr31M0Iso16609MacKey = "TR31_M0_ISO_16609_MAC_KEY"
-        case tr31M1Iso97971MacKey = "TR31_M1_ISO_9797_1_MAC_KEY"
-        case tr31M3Iso97973MacKey = "TR31_M3_ISO_9797_3_MAC_KEY"
-        case tr31M6Iso97975CmacKey = "TR31_M6_ISO_9797_5_CMAC_KEY"
-        case tr31M7HmacKey = "TR31_M7_HMAC_KEY"
-        case tr31P0PinEncryptionKey = "TR31_P0_PIN_ENCRYPTION_KEY"
-        case tr31P1PinGenerationKey = "TR31_P1_PIN_GENERATION_KEY"
-        case tr31S0AsymmetricKeyForDigitalSignature = "TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE"
-        case tr31V1Ibm3624PinVerificationKey = "TR31_V1_IBM3624_PIN_VERIFICATION_KEY"
-        case tr31V2VisaPinVerificationKey = "TR31_V2_VISA_PIN_VERIFICATION_KEY"
-        public var description: String { return self.rawValue }
+    public struct KeyUsage: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var tr31B0BaseDerivationKey: Self { .init(rawValue: "TR31_B0_BASE_DERIVATION_KEY") }
+        @inlinable public static var tr31C0CardVerificationKey: Self { .init(rawValue: "TR31_C0_CARD_VERIFICATION_KEY") }
+        @inlinable public static var tr31D0SymmetricDataEncryptionKey: Self { .init(rawValue: "TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY") }
+        @inlinable public static var tr31D1AsymmetricKeyForDataEncryption: Self { .init(rawValue: "TR31_D1_ASYMMETRIC_KEY_FOR_DATA_ENCRYPTION") }
+        @inlinable public static var tr31E0EmvMkeyAppCryptograms: Self { .init(rawValue: "TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS") }
+        @inlinable public static var tr31E1EmvMkeyConfidentiality: Self { .init(rawValue: "TR31_E1_EMV_MKEY_CONFIDENTIALITY") }
+        @inlinable public static var tr31E2EmvMkeyIntegrity: Self { .init(rawValue: "TR31_E2_EMV_MKEY_INTEGRITY") }
+        @inlinable public static var tr31E4EmvMkeyDynamicNumbers: Self { .init(rawValue: "TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS") }
+        @inlinable public static var tr31E5EmvMkeyCardPersonalization: Self { .init(rawValue: "TR31_E5_EMV_MKEY_CARD_PERSONALIZATION") }
+        @inlinable public static var tr31E6EmvMkeyOther: Self { .init(rawValue: "TR31_E6_EMV_MKEY_OTHER") }
+        @inlinable public static var tr31K0KeyEncryptionKey: Self { .init(rawValue: "TR31_K0_KEY_ENCRYPTION_KEY") }
+        @inlinable public static var tr31K1KeyBlockProtectionKey: Self { .init(rawValue: "TR31_K1_KEY_BLOCK_PROTECTION_KEY") }
+        @inlinable public static var tr31K2Tr34AsymmetricKey: Self { .init(rawValue: "TR31_K2_TR34_ASYMMETRIC_KEY") }
+        @inlinable public static var tr31K3AsymmetricKeyForKeyAgreement: Self { .init(rawValue: "TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT") }
+        @inlinable public static var tr31M0Iso16609MacKey: Self { .init(rawValue: "TR31_M0_ISO_16609_MAC_KEY") }
+        @inlinable public static var tr31M1Iso97971MacKey: Self { .init(rawValue: "TR31_M1_ISO_9797_1_MAC_KEY") }
+        @inlinable public static var tr31M3Iso97973MacKey: Self { .init(rawValue: "TR31_M3_ISO_9797_3_MAC_KEY") }
+        @inlinable public static var tr31M6Iso97975CmacKey: Self { .init(rawValue: "TR31_M6_ISO_9797_5_CMAC_KEY") }
+        @inlinable public static var tr31M7HmacKey: Self { .init(rawValue: "TR31_M7_HMAC_KEY") }
+        @inlinable public static var tr31P0PinEncryptionKey: Self { .init(rawValue: "TR31_P0_PIN_ENCRYPTION_KEY") }
+        @inlinable public static var tr31P1PinGenerationKey: Self { .init(rawValue: "TR31_P1_PIN_GENERATION_KEY") }
+        @inlinable public static var tr31S0AsymmetricKeyForDigitalSignature: Self { .init(rawValue: "TR31_S0_ASYMMETRIC_KEY_FOR_DIGITAL_SIGNATURE") }
+        @inlinable public static var tr31V1Ibm3624PinVerificationKey: Self { .init(rawValue: "TR31_V1_IBM3624_PIN_VERIFICATION_KEY") }
+        @inlinable public static var tr31V2VisaPinVerificationKey: Self { .init(rawValue: "TR31_V2_VISA_PIN_VERIFICATION_KEY") }
     }
 
-    public enum MpaOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case importRootPublicKeyCertificate = "IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE"
-        public var description: String { return self.rawValue }
+    public struct MpaOperation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var importRootPublicKeyCertificate: Self { .init(rawValue: "IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE") }
     }
 
-    public enum MultiRegionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case primary = "PRIMARY"
-        case replica = "REPLICA"
-        public var description: String { return self.rawValue }
+    public struct MultiRegionKeyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var primary: Self { .init(rawValue: "PRIMARY") }
+        @inlinable public static var replica: Self { .init(rawValue: "REPLICA") }
     }
 
-    public enum SessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case approved = "APPROVED"
-        case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct SessionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var approved: Self { .init(rawValue: "APPROVED") }
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum SigningAlgorithmType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sha224 = "SHA224"
-        case sha256 = "SHA256"
-        case sha384 = "SHA384"
-        case sha512 = "SHA512"
-        public var description: String { return self.rawValue }
+    public struct SigningAlgorithmType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sha224: Self { .init(rawValue: "SHA224") }
+        @inlinable public static var sha256: Self { .init(rawValue: "SHA256") }
+        @inlinable public static var sha384: Self { .init(rawValue: "SHA384") }
+        @inlinable public static var sha512: Self { .init(rawValue: "SHA512") }
     }
 
-    public enum SymmetricKeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes128 = "AES_128"
-        case aes192 = "AES_192"
-        case aes256 = "AES_256"
-        case hmacSha224 = "HMAC_SHA224"
-        case hmacSha256 = "HMAC_SHA256"
-        case hmacSha384 = "HMAC_SHA384"
-        case hmacSha512 = "HMAC_SHA512"
-        case tdes2Key = "TDES_2KEY"
-        case tdes3Key = "TDES_3KEY"
-        public var description: String { return self.rawValue }
+    public struct SymmetricKeyAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes128: Self { .init(rawValue: "AES_128") }
+        @inlinable public static var aes192: Self { .init(rawValue: "AES_192") }
+        @inlinable public static var aes256: Self { .init(rawValue: "AES_256") }
+        @inlinable public static var hmacSha224: Self { .init(rawValue: "HMAC_SHA224") }
+        @inlinable public static var hmacSha256: Self { .init(rawValue: "HMAC_SHA256") }
+        @inlinable public static var hmacSha384: Self { .init(rawValue: "HMAC_SHA384") }
+        @inlinable public static var hmacSha512: Self { .init(rawValue: "HMAC_SHA512") }
+        @inlinable public static var tdes2Key: Self { .init(rawValue: "TDES_2KEY") }
+        @inlinable public static var tdes3Key: Self { .init(rawValue: "TDES_3KEY") }
     }
 
-    public enum Tr34KeyBlockFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case x9Tr342012 = "X9_TR34_2012"
-        public var description: String { return self.rawValue }
+    public struct Tr34KeyBlockFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var x9Tr342012: Self { .init(rawValue: "X9_TR34_2012") }
     }
 
-    public enum WrappedKeyMaterialFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case keyCryptogram = "KEY_CRYPTOGRAM"
-        case tr31KeyBlock = "TR31_KEY_BLOCK"
-        case tr34KeyBlock = "TR34_KEY_BLOCK"
-        public var description: String { return self.rawValue }
+    public struct WrappedKeyMaterialFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var keyCryptogram: Self { .init(rawValue: "KEY_CRYPTOGRAM") }
+        @inlinable public static var tr31KeyBlock: Self { .init(rawValue: "TR31_KEY_BLOCK") }
+        @inlinable public static var tr34KeyBlock: Self { .init(rawValue: "TR34_KEY_BLOCK") }
     }
 
-    public enum WrappingKeySpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rsaOaepSha256 = "RSA_OAEP_SHA_256"
-        case rsaOaepSha512 = "RSA_OAEP_SHA_512"
-        public var description: String { return self.rawValue }
+    public struct WrappingKeySpec: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rsaOaepSha256: Self { .init(rawValue: "RSA_OAEP_SHA_256") }
+        @inlinable public static var rsaOaepSha512: Self { .init(rawValue: "RSA_OAEP_SHA_512") }
     }
 
     public enum ExportKeyMaterial: AWSEncodableShape, Sendable {

@@ -25,233 +25,321 @@ import Foundation
 extension PartnerCentralAccount {
     // MARK: Enums
 
-    public enum AccessDeniedExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDenied = "ACCESS_DENIED"
-        case incompatibleBenefitAwsPartnerState = "INCOMPATIBLE_BENEFIT_AWS_PARTNER_STATE"
-        public var description: String { return self.rawValue }
+    public struct AccessDeniedExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDenied: Self { .init(rawValue: "ACCESS_DENIED") }
+        @inlinable public static var incompatibleBenefitAwsPartnerState: Self { .init(rawValue: "INCOMPATIBLE_BENEFIT_AWS_PARTNER_STATE") }
     }
 
-    public enum AccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allowAll = "ALLOW_ALL"
-        case allowByDefaultDenySome = "ALLOW_BY_DEFAULT_DENY_SOME"
-        case denyAll = "DENY_ALL"
-        public var description: String { return self.rawValue }
+    public struct AccessType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allowAll: Self { .init(rawValue: "ALLOW_ALL") }
+        @inlinable public static var allowByDefaultDenySome: Self { .init(rawValue: "ALLOW_BY_DEFAULT_DENY_SOME") }
+        @inlinable public static var denyAll: Self { .init(rawValue: "DENY_ALL") }
     }
 
-    public enum BusinessValidationCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case incompatibleConnectionInvitationRequest = "INCOMPATIBLE_CONNECTION_INVITATION_REQUEST"
-        case incompatibleDomain = "INCOMPATIBLE_DOMAIN"
-        case incompatibleIdentityVerificationStatus = "INCOMPATIBLE_IDENTITY_VERIFICATION_STATUS"
-        case incompatibleKnowYourBusinessStatus = "INCOMPATIBLE_KNOW_YOUR_BUSINESS_STATUS"
-        case incompatibleLegalName = "INCOMPATIBLE_LEGAL_NAME"
-        case incompatiblePrimaryPartner = "INCOMPATIBLE_PRIMARY_PARTNER"
-        case incompatibleSubsidiaryConnection = "INCOMPATIBLE_SUBSIDIARY_CONNECTION"
-        case ineligibleAccountTier = "INELIGIBLE_ACCOUNT_TIER"
-        case invalidAccountLinkingStatus = "INVALID_ACCOUNT_LINKING_STATUS"
-        case invalidAccountState = "INVALID_ACCOUNT_STATE"
-        case missingActiveSubsidiaryConnection = "MISSING_ACTIVE_SUBSIDIARY_CONNECTION"
-        case qualificationsAssociationExists = "QUALIFICATIONS_ASSOCIATION_EXISTS"
-        case qualificationsAssociationLimitExceeded = "QUALIFICATIONS_ASSOCIATION_LIMIT_EXCEEDED"
-        case qualificationsAssociationNotFound = "QUALIFICATIONS_ASSOCIATION_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct BusinessValidationCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var incompatibleConnectionInvitationRequest: Self { .init(rawValue: "INCOMPATIBLE_CONNECTION_INVITATION_REQUEST") }
+        @inlinable public static var incompatibleDomain: Self { .init(rawValue: "INCOMPATIBLE_DOMAIN") }
+        @inlinable public static var incompatibleIdentityVerificationStatus: Self { .init(rawValue: "INCOMPATIBLE_IDENTITY_VERIFICATION_STATUS") }
+        @inlinable public static var incompatibleKnowYourBusinessStatus: Self { .init(rawValue: "INCOMPATIBLE_KNOW_YOUR_BUSINESS_STATUS") }
+        @inlinable public static var incompatibleLegalName: Self { .init(rawValue: "INCOMPATIBLE_LEGAL_NAME") }
+        @inlinable public static var incompatiblePrimaryPartner: Self { .init(rawValue: "INCOMPATIBLE_PRIMARY_PARTNER") }
+        @inlinable public static var incompatibleSubsidiaryConnection: Self { .init(rawValue: "INCOMPATIBLE_SUBSIDIARY_CONNECTION") }
+        @inlinable public static var ineligibleAccountTier: Self { .init(rawValue: "INELIGIBLE_ACCOUNT_TIER") }
+        @inlinable public static var invalidAccountLinkingStatus: Self { .init(rawValue: "INVALID_ACCOUNT_LINKING_STATUS") }
+        @inlinable public static var invalidAccountState: Self { .init(rawValue: "INVALID_ACCOUNT_STATE") }
+        @inlinable public static var missingActiveSubsidiaryConnection: Self { .init(rawValue: "MISSING_ACTIVE_SUBSIDIARY_CONNECTION") }
+        @inlinable public static var qualificationsAssociationExists: Self { .init(rawValue: "QUALIFICATIONS_ASSOCIATION_EXISTS") }
+        @inlinable public static var qualificationsAssociationLimitExceeded: Self { .init(rawValue: "QUALIFICATIONS_ASSOCIATION_LIMIT_EXCEEDED") }
+        @inlinable public static var qualificationsAssociationNotFound: Self { .init(rawValue: "QUALIFICATIONS_ASSOCIATION_NOT_FOUND") }
     }
 
-    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountAlreadyVerified = "ACCOUNT_ALREADY_VERIFIED"
-        case conflictClientToken = "CONFLICT_CLIENT_TOKEN"
-        case duplicateConnection = "DUPLICATE_CONNECTION"
-        case duplicateConnectionInvitation = "DUPLICATE_CONNECTION_INVITATION"
-        case duplicatePartner = "DUPLICATE_PARTNER"
-        case incompatibleConnectionInvitationReceiver = "INCOMPATIBLE_CONNECTION_INVITATION_RECEIVER"
-        case incompatibleConnectionInvitationState = "INCOMPATIBLE_CONNECTION_INVITATION_STATE"
-        case incompatibleConnectionPreferencesRevision = "INCOMPATIBLE_CONNECTION_PREFERENCES_REVISION"
-        case incompatibleConnectionState = "INCOMPATIBLE_CONNECTION_STATE"
-        case incompatiblePartnerProfileTaskState = "INCOMPATIBLE_PARTNER_PROFILE_TASK_STATE"
-        case incompatibleProfileState = "INCOMPATIBLE_PROFILE_STATE"
-        case incompatibleQualificationsAssociationTaskState = "INCOMPATIBLE_QUALIFICATIONS_ASSOCIATION_TASK_STATE"
-        case verificationAlreadyInProgress = "VERIFICATION_ALREADY_IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct ConflictExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountAlreadyVerified: Self { .init(rawValue: "ACCOUNT_ALREADY_VERIFIED") }
+        @inlinable public static var conflictClientToken: Self { .init(rawValue: "CONFLICT_CLIENT_TOKEN") }
+        @inlinable public static var duplicateConnection: Self { .init(rawValue: "DUPLICATE_CONNECTION") }
+        @inlinable public static var duplicateConnectionInvitation: Self { .init(rawValue: "DUPLICATE_CONNECTION_INVITATION") }
+        @inlinable public static var duplicatePartner: Self { .init(rawValue: "DUPLICATE_PARTNER") }
+        @inlinable public static var incompatibleConnectionInvitationReceiver: Self { .init(rawValue: "INCOMPATIBLE_CONNECTION_INVITATION_RECEIVER") }
+        @inlinable public static var incompatibleConnectionInvitationState: Self { .init(rawValue: "INCOMPATIBLE_CONNECTION_INVITATION_STATE") }
+        @inlinable public static var incompatibleConnectionPreferencesRevision: Self { .init(rawValue: "INCOMPATIBLE_CONNECTION_PREFERENCES_REVISION") }
+        @inlinable public static var incompatibleConnectionState: Self { .init(rawValue: "INCOMPATIBLE_CONNECTION_STATE") }
+        @inlinable public static var incompatiblePartnerProfileTaskState: Self { .init(rawValue: "INCOMPATIBLE_PARTNER_PROFILE_TASK_STATE") }
+        @inlinable public static var incompatibleProfileState: Self { .init(rawValue: "INCOMPATIBLE_PROFILE_STATE") }
+        @inlinable public static var incompatibleQualificationsAssociationTaskState: Self { .init(rawValue: "INCOMPATIBLE_QUALIFICATIONS_ASSOCIATION_TASK_STATE") }
+        @inlinable public static var verificationAlreadyInProgress: Self { .init(rawValue: "VERIFICATION_ALREADY_IN_PROGRESS") }
     }
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case opportunityCollaboration = "OPPORTUNITY_COLLABORATION"
-        case subsidiary = "SUBSIDIARY"
-        public var description: String { return self.rawValue }
+    public struct ConnectionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var opportunityCollaboration: Self { .init(rawValue: "OPPORTUNITY_COLLABORATION") }
+        @inlinable public static var subsidiary: Self { .init(rawValue: "SUBSIDIARY") }
     }
 
-    public enum ConnectionTypeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case canceled = "CANCELED"
-        public var description: String { return self.rawValue }
+    public struct ConnectionTypeStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
     }
 
-    public enum FieldValidationCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case actionNotPermitted = "ACTION_NOT_PERMITTED"
-        case duplicateValue = "DUPLICATE_VALUE"
-        case invalidEnumValue = "INVALID_ENUM_VALUE"
-        case invalidStringFormat = "INVALID_STRING_FORMAT"
-        case invalidValue = "INVALID_VALUE"
-        case requiredFieldMissing = "REQUIRED_FIELD_MISSING"
-        case tooManyValues = "TOO_MANY_VALUES"
-        public var description: String { return self.rawValue }
+    public struct FieldValidationCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var actionNotPermitted: Self { .init(rawValue: "ACTION_NOT_PERMITTED") }
+        @inlinable public static var duplicateValue: Self { .init(rawValue: "DUPLICATE_VALUE") }
+        @inlinable public static var invalidEnumValue: Self { .init(rawValue: "INVALID_ENUM_VALUE") }
+        @inlinable public static var invalidStringFormat: Self { .init(rawValue: "INVALID_STRING_FORMAT") }
+        @inlinable public static var invalidValue: Self { .init(rawValue: "INVALID_VALUE") }
+        @inlinable public static var requiredFieldMissing: Self { .init(rawValue: "REQUIRED_FIELD_MISSING") }
+        @inlinable public static var tooManyValues: Self { .init(rawValue: "TOO_MANY_VALUES") }
     }
 
-    public enum IndustrySegment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case agricultureMining = "AGRICULTURE_MINING"
-        case biotechnology = "BIOTECHNOLOGY"
-        case businessConsumerServices = "BUSINESS_CONSUMER_SERVICES"
-        case businessServ = "BUSINESS_SERV"
-        case communications = "COMMUNICATIONS"
-        case computerHardware = "COMPUTER_HARDWARE"
-        case computerSoftware = "COMPUTER_SOFTWARE"
-        case computersElectronics = "COMPUTERS_ELECTRONICS"
-        case consumerGoods = "CONSUMER_GOODS"
-        case consumerRelated = "CONSUMER_RELATED"
-        case education = "EDUCATION"
-        case energyUtilities = "ENERGY_UTILITIES"
-        case financialServices = "FINANCIAL_SERVICES"
-        case gaming = "GAMING"
-        case government = "GOVERNMENT"
-        case governmentEducationPublicServices = "GOVERNMENT_EDUCATION_PUBLIC_SERVICES"
-        case healthcare = "HEALTHCARE"
-        case healthcarePharmaceuticalsBiotech = "HEALTHCARE_PHARMACEUTICALS_BIOTECH"
-        case industrialEnergy = "INDUSTRIAL_ENERGY"
-        case internetSpecific = "INTERNET_SPECIFIC"
-        case lifeSciences = "LIFE_SCIENCES"
-        case manufacturing = "MANUFACTURING"
-        case mediaEntertainment = "MEDIA_ENTERTAINMENT"
-        case mediaEntertainmentLeisure = "MEDIA_ENTERTAINMENT_LEISURE"
-        case medicalHealth = "MEDICAL_HEALTH"
-        case nonProfitOrganization = "NON_PROFIT_ORGANIZATION"
-        case other = "OTHER"
-        case professionalServices = "PROFESSIONAL_SERVICES"
-        case realEstateConstruction = "REAL_ESTATE_CONSTRUCTION"
-        case retail = "RETAIL"
-        case retailWholesaleDistribution = "RETAIL_WHOLESALE_DISTRIBUTION"
-        case semiconductorElectr = "SEMICONDUCTOR_ELECTR"
-        case softwareInternet = "SOFTWARE_INTERNET"
-        case telecommunications = "TELECOMMUNICATIONS"
-        case transportationLogistics = "TRANSPORTATION_LOGISTICS"
-        case travelHospitality = "TRAVEL_HOSPITALITY"
-        case wholesaleDistribution = "WHOLESALE_DISTRIBUTION"
-        public var description: String { return self.rawValue }
+    public struct IndustrySegment: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var agricultureMining: Self { .init(rawValue: "AGRICULTURE_MINING") }
+        @inlinable public static var biotechnology: Self { .init(rawValue: "BIOTECHNOLOGY") }
+        @inlinable public static var businessConsumerServices: Self { .init(rawValue: "BUSINESS_CONSUMER_SERVICES") }
+        @inlinable public static var businessServ: Self { .init(rawValue: "BUSINESS_SERV") }
+        @inlinable public static var communications: Self { .init(rawValue: "COMMUNICATIONS") }
+        @inlinable public static var computerHardware: Self { .init(rawValue: "COMPUTER_HARDWARE") }
+        @inlinable public static var computerSoftware: Self { .init(rawValue: "COMPUTER_SOFTWARE") }
+        @inlinable public static var computersElectronics: Self { .init(rawValue: "COMPUTERS_ELECTRONICS") }
+        @inlinable public static var consumerGoods: Self { .init(rawValue: "CONSUMER_GOODS") }
+        @inlinable public static var consumerRelated: Self { .init(rawValue: "CONSUMER_RELATED") }
+        @inlinable public static var education: Self { .init(rawValue: "EDUCATION") }
+        @inlinable public static var energyUtilities: Self { .init(rawValue: "ENERGY_UTILITIES") }
+        @inlinable public static var financialServices: Self { .init(rawValue: "FINANCIAL_SERVICES") }
+        @inlinable public static var gaming: Self { .init(rawValue: "GAMING") }
+        @inlinable public static var government: Self { .init(rawValue: "GOVERNMENT") }
+        @inlinable public static var governmentEducationPublicServices: Self { .init(rawValue: "GOVERNMENT_EDUCATION_PUBLIC_SERVICES") }
+        @inlinable public static var healthcare: Self { .init(rawValue: "HEALTHCARE") }
+        @inlinable public static var healthcarePharmaceuticalsBiotech: Self { .init(rawValue: "HEALTHCARE_PHARMACEUTICALS_BIOTECH") }
+        @inlinable public static var industrialEnergy: Self { .init(rawValue: "INDUSTRIAL_ENERGY") }
+        @inlinable public static var internetSpecific: Self { .init(rawValue: "INTERNET_SPECIFIC") }
+        @inlinable public static var lifeSciences: Self { .init(rawValue: "LIFE_SCIENCES") }
+        @inlinable public static var manufacturing: Self { .init(rawValue: "MANUFACTURING") }
+        @inlinable public static var mediaEntertainment: Self { .init(rawValue: "MEDIA_ENTERTAINMENT") }
+        @inlinable public static var mediaEntertainmentLeisure: Self { .init(rawValue: "MEDIA_ENTERTAINMENT_LEISURE") }
+        @inlinable public static var medicalHealth: Self { .init(rawValue: "MEDICAL_HEALTH") }
+        @inlinable public static var nonProfitOrganization: Self { .init(rawValue: "NON_PROFIT_ORGANIZATION") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var professionalServices: Self { .init(rawValue: "PROFESSIONAL_SERVICES") }
+        @inlinable public static var realEstateConstruction: Self { .init(rawValue: "REAL_ESTATE_CONSTRUCTION") }
+        @inlinable public static var retail: Self { .init(rawValue: "RETAIL") }
+        @inlinable public static var retailWholesaleDistribution: Self { .init(rawValue: "RETAIL_WHOLESALE_DISTRIBUTION") }
+        @inlinable public static var semiconductorElectr: Self { .init(rawValue: "SEMICONDUCTOR_ELECTR") }
+        @inlinable public static var softwareInternet: Self { .init(rawValue: "SOFTWARE_INTERNET") }
+        @inlinable public static var telecommunications: Self { .init(rawValue: "TELECOMMUNICATIONS") }
+        @inlinable public static var transportationLogistics: Self { .init(rawValue: "TRANSPORTATION_LOGISTICS") }
+        @inlinable public static var travelHospitality: Self { .init(rawValue: "TRAVEL_HOSPITALITY") }
+        @inlinable public static var wholesaleDistribution: Self { .init(rawValue: "WHOLESALE_DISTRIBUTION") }
     }
 
-    public enum InvitationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accepted = "ACCEPTED"
-        case canceled = "CANCELED"
-        case expired = "EXPIRED"
-        case pending = "PENDING"
-        case rejected = "REJECTED"
-        public var description: String { return self.rawValue }
+    public struct InvitationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accepted: Self { .init(rawValue: "ACCEPTED") }
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
     }
 
-    public enum ParticipantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case receiver = "RECEIVER"
-        case sender = "SENDER"
-        public var description: String { return self.rawValue }
+    public struct ParticipantType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var receiver: Self { .init(rawValue: "RECEIVER") }
+        @inlinable public static var sender: Self { .init(rawValue: "SENDER") }
     }
 
-    public enum PrimarySolutionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case communicationServices = "COMMUNICATION_SERVICES"
-        case consultingServices = "CONSULTING_SERVICES"
-        case hardwareProducts = "HARDWARE_PRODUCTS"
-        case managedServices = "MANAGED_SERVICES"
-        case professionalServices = "PROFESSIONAL_SERVICES"
-        case softwareProducts = "SOFTWARE_PRODUCTS"
-        case trainingServices = "TRAINING_SERVICES"
-        case valueAddedResaleAwsServices = "VALUE_ADDED_RESALE_AWS_SERVICES"
-        public var description: String { return self.rawValue }
+    public struct PrimarySolutionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var communicationServices: Self { .init(rawValue: "COMMUNICATION_SERVICES") }
+        @inlinable public static var consultingServices: Self { .init(rawValue: "CONSULTING_SERVICES") }
+        @inlinable public static var hardwareProducts: Self { .init(rawValue: "HARDWARE_PRODUCTS") }
+        @inlinable public static var managedServices: Self { .init(rawValue: "MANAGED_SERVICES") }
+        @inlinable public static var professionalServices: Self { .init(rawValue: "PROFESSIONAL_SERVICES") }
+        @inlinable public static var softwareProducts: Self { .init(rawValue: "SOFTWARE_PRODUCTS") }
+        @inlinable public static var trainingServices: Self { .init(rawValue: "TRAINING_SERVICES") }
+        @inlinable public static var valueAddedResaleAwsServices: Self { .init(rawValue: "VALUE_ADDED_RESALE_AWS_SERVICES") }
     }
 
-    public enum ProfileTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "CANCELED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ProfileTaskStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ProfileValidationErrorReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duplicateProfile = "DUPLICATE_PROFILE"
-        case invalidContent = "INVALID_CONTENT"
-        case invalidLogo = "INVALID_LOGO"
-        case invalidLogoFile = "INVALID_LOGO_FILE"
-        case invalidLogoSize = "INVALID_LOGO_SIZE"
-        case invalidLogoUrl = "INVALID_LOGO_URL"
-        case invalidWebsiteUrl = "INVALID_WEBSITE_URL"
-        public var description: String { return self.rawValue }
+    public struct ProfileValidationErrorReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var duplicateProfile: Self { .init(rawValue: "DUPLICATE_PROFILE") }
+        @inlinable public static var invalidContent: Self { .init(rawValue: "INVALID_CONTENT") }
+        @inlinable public static var invalidLogo: Self { .init(rawValue: "INVALID_LOGO") }
+        @inlinable public static var invalidLogoFile: Self { .init(rawValue: "INVALID_LOGO_FILE") }
+        @inlinable public static var invalidLogoSize: Self { .init(rawValue: "INVALID_LOGO_SIZE") }
+        @inlinable public static var invalidLogoUrl: Self { .init(rawValue: "INVALID_LOGO_URL") }
+        @inlinable public static var invalidWebsiteUrl: Self { .init(rawValue: "INVALID_WEBSITE_URL") }
     }
 
-    public enum ProfileVisibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `private` = "PRIVATE"
-        case `public` = "PUBLIC"
-        public var description: String { return self.rawValue }
+    public struct ProfileVisibility: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `private`: Self { .init(rawValue: "PRIVATE") }
+        @inlinable public static var `public`: Self { .init(rawValue: "PUBLIC") }
     }
 
-    public enum QualificationsAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case associated = "ASSOCIATED"
-        case notAssociated = "NOT_ASSOCIATED"
-        public var description: String { return self.rawValue }
+    public struct QualificationsAssociationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var associated: Self { .init(rawValue: "ASSOCIATED") }
+        @inlinable public static var notAssociated: Self { .init(rawValue: "NOT_ASSOCIATED") }
     }
 
-    public enum QualificationsAssociationTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct QualificationsAssociationTaskStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum QualificationsDisassociationTaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct QualificationsDisassociationTaskStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ResourceNotFoundExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case connectionInvitationNotFound = "CONNECTION_INVITATION_NOT_FOUND"
-        case connectionNotFound = "CONNECTION_NOT_FOUND"
-        case partnerDomainNotFound = "PARTNER_DOMAIN_NOT_FOUND"
-        case partnerNotFound = "PARTNER_NOT_FOUND"
-        case partnerProfileNotFound = "PARTNER_PROFILE_NOT_FOUND"
-        case partnerProfileTaskNotFound = "PARTNER_PROFILE_TASK_NOT_FOUND"
-        case qualificationsAssociationTaskNotFound = "QUALIFICATIONS_ASSOCIATION_TASK_NOT_FOUND"
-        case qualificationsDisassociationTaskNotFound = "QUALIFICATIONS_DISASSOCIATION_TASK_NOT_FOUND"
-        case receiverProfileNotFound = "RECEIVER_PROFILE_NOT_FOUND"
-        case senderProfileNotFound = "SENDER_PROFILE_NOT_FOUND"
-        case verificationNotFound = "VERIFICATION_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct ResourceNotFoundExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var connectionInvitationNotFound: Self { .init(rawValue: "CONNECTION_INVITATION_NOT_FOUND") }
+        @inlinable public static var connectionNotFound: Self { .init(rawValue: "CONNECTION_NOT_FOUND") }
+        @inlinable public static var partnerDomainNotFound: Self { .init(rawValue: "PARTNER_DOMAIN_NOT_FOUND") }
+        @inlinable public static var partnerNotFound: Self { .init(rawValue: "PARTNER_NOT_FOUND") }
+        @inlinable public static var partnerProfileNotFound: Self { .init(rawValue: "PARTNER_PROFILE_NOT_FOUND") }
+        @inlinable public static var partnerProfileTaskNotFound: Self { .init(rawValue: "PARTNER_PROFILE_TASK_NOT_FOUND") }
+        @inlinable public static var qualificationsAssociationTaskNotFound: Self { .init(rawValue: "QUALIFICATIONS_ASSOCIATION_TASK_NOT_FOUND") }
+        @inlinable public static var qualificationsDisassociationTaskNotFound: Self { .init(rawValue: "QUALIFICATIONS_DISASSOCIATION_TASK_NOT_FOUND") }
+        @inlinable public static var receiverProfileNotFound: Self { .init(rawValue: "RECEIVER_PROFILE_NOT_FOUND") }
+        @inlinable public static var senderProfileNotFound: Self { .init(rawValue: "SENDER_PROFILE_NOT_FOUND") }
+        @inlinable public static var verificationNotFound: Self { .init(rawValue: "VERIFICATION_NOT_FOUND") }
     }
 
-    public enum ServiceQuotaExceededExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case limitExceededNumberOfActiveConnection = "LIMIT_EXCEEDED_NUMBER_OF_ACTIVE_CONNECTION"
-        case limitExceededNumberOfConnectionInvitationPerDay = "LIMIT_EXCEEDED_NUMBER_OF_CONNECTION_INVITATION_PER_DAY"
-        case limitExceededNumberOfDomain = "LIMIT_EXCEEDED_NUMBER_OF_DOMAIN"
-        case limitExceededNumberOfEmail = "LIMIT_EXCEEDED_NUMBER_OF_EMAIL"
-        case limitExceededNumberOfOpenConnectionInvitation = "LIMIT_EXCEEDED_NUMBER_OF_OPEN_CONNECTION_INVITATION"
-        case limitExceededNumberOfProfileUpdatePerDay = "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_UPDATE_PER_DAY"
-        case limitExceededNumberOfProfileVisibilityUpdatePerDay = "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_VISIBILITY_UPDATE_PER_DAY"
-        public var description: String { return self.rawValue }
+    public struct ServiceQuotaExceededExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var limitExceededNumberOfActiveConnection: Self { .init(rawValue: "LIMIT_EXCEEDED_NUMBER_OF_ACTIVE_CONNECTION") }
+        @inlinable public static var limitExceededNumberOfConnectionInvitationPerDay: Self { .init(rawValue: "LIMIT_EXCEEDED_NUMBER_OF_CONNECTION_INVITATION_PER_DAY") }
+        @inlinable public static var limitExceededNumberOfDomain: Self { .init(rawValue: "LIMIT_EXCEEDED_NUMBER_OF_DOMAIN") }
+        @inlinable public static var limitExceededNumberOfEmail: Self { .init(rawValue: "LIMIT_EXCEEDED_NUMBER_OF_EMAIL") }
+        @inlinable public static var limitExceededNumberOfOpenConnectionInvitation: Self { .init(rawValue: "LIMIT_EXCEEDED_NUMBER_OF_OPEN_CONNECTION_INVITATION") }
+        @inlinable public static var limitExceededNumberOfProfileUpdatePerDay: Self { .init(rawValue: "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_UPDATE_PER_DAY") }
+        @inlinable public static var limitExceededNumberOfProfileVisibilityUpdatePerDay: Self { .init(rawValue: "LIMIT_EXCEEDED_NUMBER_OF_PROFILE_VISIBILITY_UPDATE_PER_DAY") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case businessValidationFailed = "BUSINESS_VALIDATION_FAILED"
-        case requestValidationFailed = "REQUEST_VALIDATION_FAILED"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var businessValidationFailed: Self { .init(rawValue: "BUSINESS_VALIDATION_FAILED") }
+        @inlinable public static var requestValidationFailed: Self { .init(rawValue: "REQUEST_VALIDATION_FAILED") }
     }
 
-    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case pendingCustomerAction = "PENDING_CUSTOMER_ACTION"
-        case rejected = "REJECTED"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct VerificationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pendingCustomerAction: Self { .init(rawValue: "PENDING_CUSTOMER_ACTION") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum VerificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case businessVerification = "BUSINESS_VERIFICATION"
-        case registrantVerification = "REGISTRANT_VERIFICATION"
-        public var description: String { return self.rawValue }
+    public struct VerificationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var businessVerification: Self { .init(rawValue: "BUSINESS_VERIFICATION") }
+        @inlinable public static var registrantVerification: Self { .init(rawValue: "REGISTRANT_VERIFICATION") }
     }
 
     public enum Participant: AWSDecodableShape, Sendable {

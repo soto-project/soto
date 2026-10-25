@@ -25,129 +25,193 @@ import Foundation
 extension MediaPackage {
     // MARK: Enums
 
-    public enum AdMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case daterange = "DATERANGE"
-        case none = "NONE"
-        case passthrough = "PASSTHROUGH"
-        case scte35Enhanced = "SCTE35_ENHANCED"
-        public var description: String { return self.rawValue }
+    public struct AdMarkers: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var daterange: Self { .init(rawValue: "DATERANGE") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var passthrough: Self { .init(rawValue: "PASSTHROUGH") }
+        @inlinable public static var scte35Enhanced: Self { .init(rawValue: "SCTE35_ENHANCED") }
     }
 
-    public enum AdTriggersElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `break` = "BREAK"
-        case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
-        case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
-        case distributorPlacementOpportunity = "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
-        case providerAdvertisement = "PROVIDER_ADVERTISEMENT"
-        case providerOverlayPlacementOpportunity = "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
-        case providerPlacementOpportunity = "PROVIDER_PLACEMENT_OPPORTUNITY"
-        case spliceInsert = "SPLICE_INSERT"
-        public var description: String { return self.rawValue }
+    public struct AdTriggersElement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `break`: Self { .init(rawValue: "BREAK") }
+        @inlinable public static var distributorAdvertisement: Self { .init(rawValue: "DISTRIBUTOR_ADVERTISEMENT") }
+        @inlinable public static var distributorOverlayPlacementOpportunity: Self { .init(rawValue: "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY") }
+        @inlinable public static var distributorPlacementOpportunity: Self { .init(rawValue: "DISTRIBUTOR_PLACEMENT_OPPORTUNITY") }
+        @inlinable public static var providerAdvertisement: Self { .init(rawValue: "PROVIDER_ADVERTISEMENT") }
+        @inlinable public static var providerOverlayPlacementOpportunity: Self { .init(rawValue: "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY") }
+        @inlinable public static var providerPlacementOpportunity: Self { .init(rawValue: "PROVIDER_PLACEMENT_OPPORTUNITY") }
+        @inlinable public static var spliceInsert: Self { .init(rawValue: "SPLICE_INSERT") }
     }
 
-    public enum AdsOnDeliveryRestrictions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case both = "BOTH"
-        case none = "NONE"
-        case restricted = "RESTRICTED"
-        case unrestricted = "UNRESTRICTED"
-        public var description: String { return self.rawValue }
+    public struct AdsOnDeliveryRestrictions: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var both: Self { .init(rawValue: "BOTH") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var restricted: Self { .init(rawValue: "RESTRICTED") }
+        @inlinable public static var unrestricted: Self { .init(rawValue: "UNRESTRICTED") }
     }
 
-    public enum CmafEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aesCtr = "AES_CTR"
-        case sampleAes = "SAMPLE_AES"
-        public var description: String { return self.rawValue }
+    public struct CmafEncryptionMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aesCtr: Self { .init(rawValue: "AES_CTR") }
+        @inlinable public static var sampleAes: Self { .init(rawValue: "SAMPLE_AES") }
     }
 
-    public enum EncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes128 = "AES_128"
-        case sampleAes = "SAMPLE_AES"
-        public var description: String { return self.rawValue }
+    public struct EncryptionMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes128: Self { .init(rawValue: "AES_128") }
+        @inlinable public static var sampleAes: Self { .init(rawValue: "SAMPLE_AES") }
     }
 
-    public enum ManifestLayout: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case compact = "COMPACT"
-        case drmTopLevelCompact = "DRM_TOP_LEVEL_COMPACT"
-        case full = "FULL"
-        public var description: String { return self.rawValue }
+    public struct ManifestLayout: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var compact: Self { .init(rawValue: "COMPACT") }
+        @inlinable public static var drmTopLevelCompact: Self { .init(rawValue: "DRM_TOP_LEVEL_COMPACT") }
+        @inlinable public static var full: Self { .init(rawValue: "FULL") }
     }
 
-    public enum Origination: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
+    public struct Origination: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allow: Self { .init(rawValue: "ALLOW") }
+        @inlinable public static var deny: Self { .init(rawValue: "DENY") }
     }
 
-    public enum PeriodTriggersElement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ads = "ADS"
-        public var description: String { return self.rawValue }
+    public struct PeriodTriggersElement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ads: Self { .init(rawValue: "ADS") }
     }
 
-    public enum PlaylistType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case event = "EVENT"
-        case none = "NONE"
-        case vod = "VOD"
-        public var description: String { return self.rawValue }
+    public struct PlaylistType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var event: Self { .init(rawValue: "EVENT") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var vod: Self { .init(rawValue: "VOD") }
     }
 
-    public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case presetAudio1 = "PRESET-AUDIO-1"
-        case presetAudio2 = "PRESET-AUDIO-2"
-        case presetAudio3 = "PRESET-AUDIO-3"
-        case shared = "SHARED"
-        case unencrypted = "UNENCRYPTED"
-        public var description: String { return self.rawValue }
+    public struct PresetSpeke20Audio: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var presetAudio1: Self { .init(rawValue: "PRESET-AUDIO-1") }
+        @inlinable public static var presetAudio2: Self { .init(rawValue: "PRESET-AUDIO-2") }
+        @inlinable public static var presetAudio3: Self { .init(rawValue: "PRESET-AUDIO-3") }
+        @inlinable public static var shared: Self { .init(rawValue: "SHARED") }
+        @inlinable public static var unencrypted: Self { .init(rawValue: "UNENCRYPTED") }
     }
 
-    public enum PresetSpeke20Video: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case presetVideo1 = "PRESET-VIDEO-1"
-        case presetVideo2 = "PRESET-VIDEO-2"
-        case presetVideo3 = "PRESET-VIDEO-3"
-        case presetVideo4 = "PRESET-VIDEO-4"
-        case presetVideo5 = "PRESET-VIDEO-5"
-        case presetVideo6 = "PRESET-VIDEO-6"
-        case presetVideo7 = "PRESET-VIDEO-7"
-        case presetVideo8 = "PRESET-VIDEO-8"
-        case shared = "SHARED"
-        case unencrypted = "UNENCRYPTED"
-        public var description: String { return self.rawValue }
+    public struct PresetSpeke20Video: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var presetVideo1: Self { .init(rawValue: "PRESET-VIDEO-1") }
+        @inlinable public static var presetVideo2: Self { .init(rawValue: "PRESET-VIDEO-2") }
+        @inlinable public static var presetVideo3: Self { .init(rawValue: "PRESET-VIDEO-3") }
+        @inlinable public static var presetVideo4: Self { .init(rawValue: "PRESET-VIDEO-4") }
+        @inlinable public static var presetVideo5: Self { .init(rawValue: "PRESET-VIDEO-5") }
+        @inlinable public static var presetVideo6: Self { .init(rawValue: "PRESET-VIDEO-6") }
+        @inlinable public static var presetVideo7: Self { .init(rawValue: "PRESET-VIDEO-7") }
+        @inlinable public static var presetVideo8: Self { .init(rawValue: "PRESET-VIDEO-8") }
+        @inlinable public static var shared: Self { .init(rawValue: "SHARED") }
+        @inlinable public static var unencrypted: Self { .init(rawValue: "UNENCRYPTED") }
     }
 
-    public enum Profile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dvbDash2014 = "DVB_DASH_2014"
-        case hbbtv15 = "HBBTV_1_5"
-        case hybridcast = "HYBRIDCAST"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct Profile: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dvbDash2014: Self { .init(rawValue: "DVB_DASH_2014") }
+        @inlinable public static var hbbtv15: Self { .init(rawValue: "HBBTV_1_5") }
+        @inlinable public static var hybridcast: Self { .init(rawValue: "HYBRIDCAST") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case numberWithDuration = "NUMBER_WITH_DURATION"
-        case numberWithTimeline = "NUMBER_WITH_TIMELINE"
-        case timeWithTimeline = "TIME_WITH_TIMELINE"
-        public var description: String { return self.rawValue }
+    public struct SegmentTemplateFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var numberWithDuration: Self { .init(rawValue: "NUMBER_WITH_DURATION") }
+        @inlinable public static var numberWithTimeline: Self { .init(rawValue: "NUMBER_WITH_TIMELINE") }
+        @inlinable public static var timeWithTimeline: Self { .init(rawValue: "TIME_WITH_TIMELINE") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum StreamOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case original = "ORIGINAL"
-        case videoBitrateAscending = "VIDEO_BITRATE_ASCENDING"
-        case videoBitrateDescending = "VIDEO_BITRATE_DESCENDING"
-        public var description: String { return self.rawValue }
+    public struct StreamOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var original: Self { .init(rawValue: "ORIGINAL") }
+        @inlinable public static var videoBitrateAscending: Self { .init(rawValue: "VIDEO_BITRATE_ASCENDING") }
+        @inlinable public static var videoBitrateDescending: Self { .init(rawValue: "VIDEO_BITRATE_DESCENDING") }
     }
 
-    public enum UtcTiming: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case httpHead = "HTTP-HEAD"
-        case httpIso = "HTTP-ISO"
-        case httpXsdate = "HTTP-XSDATE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct UtcTiming: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var httpHead: Self { .init(rawValue: "HTTP-HEAD") }
+        @inlinable public static var httpIso: Self { .init(rawValue: "HTTP-ISO") }
+        @inlinable public static var httpXsdate: Self { .init(rawValue: "HTTP-XSDATE") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
     // MARK: Shapes

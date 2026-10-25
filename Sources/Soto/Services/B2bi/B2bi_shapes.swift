@@ -25,476 +25,560 @@ import Foundation
 extension B2bi {
     // MARK: Enums
 
-    public enum CapabilityDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inbound = "INBOUND"
-        case outbound = "OUTBOUND"
-        public var description: String { return self.rawValue }
+    public struct CapabilityDirection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inbound: Self { .init(rawValue: "INBOUND") }
+        @inlinable public static var outbound: Self { .init(rawValue: "OUTBOUND") }
     }
 
-    public enum CapabilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case edi = "edi"
-        public var description: String { return self.rawValue }
+    public struct CapabilityType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var edi: Self { .init(rawValue: "edi") }
     }
 
-    public enum ConversionSourceFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case json = "JSON"
-        case xml = "XML"
-        public var description: String { return self.rawValue }
+    public struct ConversionSourceFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
+        @inlinable public static var xml: Self { .init(rawValue: "XML") }
     }
 
-    public enum ConversionTargetFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case x12 = "X12"
-        public var description: String { return self.rawValue }
+    public struct ConversionTargetFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var x12: Self { .init(rawValue: "X12") }
     }
 
-    public enum ElementRequirement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mandatory = "MANDATORY"
-        case optional = "OPTIONAL"
-        public var description: String { return self.rawValue }
+    public struct ElementRequirement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mandatory: Self { .init(rawValue: "MANDATORY") }
+        @inlinable public static var optional: Self { .init(rawValue: "OPTIONAL") }
     }
 
-    public enum FileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case json = "JSON"
-        case notUsed = "NOT_USED"
-        case xml = "XML"
-        public var description: String { return self.rawValue }
+    public struct FileFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
+        @inlinable public static var notUsed: Self { .init(rawValue: "NOT_USED") }
+        @inlinable public static var xml: Self { .init(rawValue: "XML") }
     }
 
-    public enum FromFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case x12 = "X12"
-        public var description: String { return self.rawValue }
+    public struct FromFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var x12: Self { .init(rawValue: "X12") }
     }
 
-    public enum LineTerminator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cr = "CR"
-        case crlf = "CRLF"
-        case lf = "LF"
-        public var description: String { return self.rawValue }
+    public struct LineTerminator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cr: Self { .init(rawValue: "CR") }
+        @inlinable public static var crlf: Self { .init(rawValue: "CRLF") }
+        @inlinable public static var lf: Self { .init(rawValue: "LF") }
     }
 
-    public enum Logging: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct Logging: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum MappingTemplateLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jsonata = "JSONATA"
-        case xslt = "XSLT"
-        public var description: String { return self.rawValue }
+    public struct MappingTemplateLanguage: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jsonata: Self { .init(rawValue: "JSONATA") }
+        @inlinable public static var xslt: Self { .init(rawValue: "XSLT") }
     }
 
-    public enum MappingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jsonata = "JSONATA"
-        case xslt = "XSLT"
-        public var description: String { return self.rawValue }
+    public struct MappingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jsonata: Self { .init(rawValue: "JSONATA") }
+        @inlinable public static var xslt: Self { .init(rawValue: "XSLT") }
     }
 
-    public enum ToFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case x12 = "X12"
-        public var description: String { return self.rawValue }
+    public struct ToFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var x12: Self { .init(rawValue: "X12") }
     }
 
-    public enum TransformerJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "failed"
-        case running = "running"
-        case succeeded = "succeeded"
-        public var description: String { return self.rawValue }
+    public struct TransformerJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
+        @inlinable public static var running: Self { .init(rawValue: "running") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "succeeded") }
     }
 
-    public enum TransformerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "active"
-        case inactive = "inactive"
-        public var description: String { return self.rawValue }
+    public struct TransformerStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "active") }
+        @inlinable public static var inactive: Self { .init(rawValue: "inactive") }
     }
 
-    public enum WrapFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lineLength = "LINE_LENGTH"
-        case oneLine = "ONE_LINE"
-        case segment = "SEGMENT"
-        public var description: String { return self.rawValue }
+    public struct WrapFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lineLength: Self { .init(rawValue: "LINE_LENGTH") }
+        @inlinable public static var oneLine: Self { .init(rawValue: "ONE_LINE") }
+        @inlinable public static var segment: Self { .init(rawValue: "SEGMENT") }
     }
 
-    public enum X12FunctionalAcknowledgment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case doNotGenerate = "DO_NOT_GENERATE"
-        case generateAllSegments = "GENERATE_ALL_SEGMENTS"
-        case generateWithoutTransactionSetResponseLoop = "GENERATE_WITHOUT_TRANSACTION_SET_RESPONSE_LOOP"
-        public var description: String { return self.rawValue }
+    public struct X12FunctionalAcknowledgment: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var doNotGenerate: Self { .init(rawValue: "DO_NOT_GENERATE") }
+        @inlinable public static var generateAllSegments: Self { .init(rawValue: "GENERATE_ALL_SEGMENTS") }
+        @inlinable public static var generateWithoutTransactionSetResponseLoop: Self { .init(rawValue: "GENERATE_WITHOUT_TRANSACTION_SET_RESPONSE_LOOP") }
     }
 
-    public enum X12GS05TimeFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hhmm = "HHMM"
-        case hhmmss = "HHMMSS"
-        case hhmmssdd = "HHMMSSDD"
-        public var description: String { return self.rawValue }
+    public struct X12GS05TimeFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hhmm: Self { .init(rawValue: "HHMM") }
+        @inlinable public static var hhmmss: Self { .init(rawValue: "HHMMSS") }
+        @inlinable public static var hhmmssdd: Self { .init(rawValue: "HHMMSSDD") }
     }
 
-    public enum X12SplitBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case transaction = "TRANSACTION"
-        public var description: String { return self.rawValue }
+    public struct X12SplitBy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var transaction: Self { .init(rawValue: "TRANSACTION") }
     }
 
-    public enum X12TechnicalAcknowledgment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case doNotGenerate = "DO_NOT_GENERATE"
-        case generateAllSegments = "GENERATE_ALL_SEGMENTS"
-        public var description: String { return self.rawValue }
+    public struct X12TechnicalAcknowledgment: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var doNotGenerate: Self { .init(rawValue: "DO_NOT_GENERATE") }
+        @inlinable public static var generateAllSegments: Self { .init(rawValue: "GENERATE_ALL_SEGMENTS") }
     }
 
-    public enum X12TransactionSet: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case x12100 = "X12_100"
-        case x12101 = "X12_101"
-        case x12102 = "X12_102"
-        case x12103 = "X12_103"
-        case x12104 = "X12_104"
-        case x12105 = "X12_105"
-        case x12106 = "X12_106"
-        case x12107 = "X12_107"
-        case x12108 = "X12_108"
-        case x12109 = "X12_109"
-        case x12110 = "X12_110"
-        case x12111 = "X12_111"
-        case x12112 = "X12_112"
-        case x12113 = "X12_113"
-        case x12120 = "X12_120"
-        case x12121 = "X12_121"
-        case x12124 = "X12_124"
-        case x12125 = "X12_125"
-        case x12126 = "X12_126"
-        case x12127 = "X12_127"
-        case x12128 = "X12_128"
-        case x12129 = "X12_129"
-        case x12130 = "X12_130"
-        case x12131 = "X12_131"
-        case x12132 = "X12_132"
-        case x12133 = "X12_133"
-        case x12135 = "X12_135"
-        case x12138 = "X12_138"
-        case x12139 = "X12_139"
-        case x12140 = "X12_140"
-        case x12141 = "X12_141"
-        case x12142 = "X12_142"
-        case x12143 = "X12_143"
-        case x12144 = "X12_144"
-        case x12146 = "X12_146"
-        case x12147 = "X12_147"
-        case x12148 = "X12_148"
-        case x12149 = "X12_149"
-        case x12150 = "X12_150"
-        case x12151 = "X12_151"
-        case x12152 = "X12_152"
-        case x12153 = "X12_153"
-        case x12154 = "X12_154"
-        case x12155 = "X12_155"
-        case x12157 = "X12_157"
-        case x12158 = "X12_158"
-        case x12159 = "X12_159"
-        case x12160 = "X12_160"
-        case x12161 = "X12_161"
-        case x12163 = "X12_163"
-        case x12170 = "X12_170"
-        case x12175 = "X12_175"
-        case x12176 = "X12_176"
-        case x12179 = "X12_179"
-        case x12180 = "X12_180"
-        case x12185 = "X12_185"
-        case x12186 = "X12_186"
-        case x12187 = "X12_187"
-        case x12188 = "X12_188"
-        case x12189 = "X12_189"
-        case x12190 = "X12_190"
-        case x12191 = "X12_191"
-        case x12194 = "X12_194"
-        case x12195 = "X12_195"
-        case x12196 = "X12_196"
-        case x12197 = "X12_197"
-        case x12198 = "X12_198"
-        case x12199 = "X12_199"
-        case x12200 = "X12_200"
-        case x12201 = "X12_201"
-        case x12202 = "X12_202"
-        case x12203 = "X12_203"
-        case x12204 = "X12_204"
-        case x12205 = "X12_205"
-        case x12206 = "X12_206"
-        case x12210 = "X12_210"
-        case x12211 = "X12_211"
-        case x12212 = "X12_212"
-        case x12213 = "X12_213"
-        case x12214 = "X12_214"
-        case x12215 = "X12_215"
-        case x12216 = "X12_216"
-        case x12217 = "X12_217"
-        case x12218 = "X12_218"
-        case x12219 = "X12_219"
-        case x12220 = "X12_220"
-        case x12222 = "X12_222"
-        case x12223 = "X12_223"
-        case x12224 = "X12_224"
-        case x12225 = "X12_225"
-        case x12227 = "X12_227"
-        case x12228 = "X12_228"
-        case x12240 = "X12_240"
-        case x12242 = "X12_242"
-        case x12244 = "X12_244"
-        case x12245 = "X12_245"
-        case x12248 = "X12_248"
-        case x12249 = "X12_249"
-        case x12250 = "X12_250"
-        case x12251 = "X12_251"
-        case x12252 = "X12_252"
-        case x12255 = "X12_255"
-        case x12256 = "X12_256"
-        case x12259 = "X12_259"
-        case x12260 = "X12_260"
-        case x12261 = "X12_261"
-        case x12262 = "X12_262"
-        case x12263 = "X12_263"
-        case x12264 = "X12_264"
-        case x12265 = "X12_265"
-        case x12266 = "X12_266"
-        case x12267 = "X12_267"
-        case x12268 = "X12_268"
-        case x12269 = "X12_269"
-        case x12270 = "X12_270"
-        case x12270X279 = "X12_270_X279"
-        case x12271 = "X12_271"
-        case x12271X279 = "X12_271_X279"
-        case x12272 = "X12_272"
-        case x12273 = "X12_273"
-        case x12274 = "X12_274"
-        case x12275 = "X12_275"
-        case x12275X210 = "X12_275_X210"
-        case x12275X211 = "X12_275_X211"
-        case x12276 = "X12_276"
-        case x12276X212 = "X12_276_X212"
-        case x12277 = "X12_277"
-        case x12277X212 = "X12_277_X212"
-        case x12277X214 = "X12_277_X214"
-        case x12277X364 = "X12_277_X364"
-        case x12278 = "X12_278"
-        case x12278X217 = "X12_278_X217"
-        case x12280 = "X12_280"
-        case x12283 = "X12_283"
-        case x12284 = "X12_284"
-        case x12285 = "X12_285"
-        case x12286 = "X12_286"
-        case x12288 = "X12_288"
-        case x12290 = "X12_290"
-        case x12300 = "X12_300"
-        case x12301 = "X12_301"
-        case x12303 = "X12_303"
-        case x12304 = "X12_304"
-        case x12309 = "X12_309"
-        case x12310 = "X12_310"
-        case x12311 = "X12_311"
-        case x12312 = "X12_312"
-        case x12313 = "X12_313"
-        case x12315 = "X12_315"
-        case x12317 = "X12_317"
-        case x12319 = "X12_319"
-        case x12322 = "X12_322"
-        case x12323 = "X12_323"
-        case x12324 = "X12_324"
-        case x12325 = "X12_325"
-        case x12326 = "X12_326"
-        case x12350 = "X12_350"
-        case x12352 = "X12_352"
-        case x12353 = "X12_353"
-        case x12354 = "X12_354"
-        case x12355 = "X12_355"
-        case x12356 = "X12_356"
-        case x12357 = "X12_357"
-        case x12358 = "X12_358"
-        case x12361 = "X12_361"
-        case x12362 = "X12_362"
-        case x12404 = "X12_404"
-        case x12410 = "X12_410"
-        case x12412 = "X12_412"
-        case x12414 = "X12_414"
-        case x12417 = "X12_417"
-        case x12418 = "X12_418"
-        case x12419 = "X12_419"
-        case x12420 = "X12_420"
-        case x12421 = "X12_421"
-        case x12422 = "X12_422"
-        case x12423 = "X12_423"
-        case x12424 = "X12_424"
-        case x12425 = "X12_425"
-        case x12426 = "X12_426"
-        case x12429 = "X12_429"
-        case x12431 = "X12_431"
-        case x12432 = "X12_432"
-        case x12433 = "X12_433"
-        case x12434 = "X12_434"
-        case x12435 = "X12_435"
-        case x12436 = "X12_436"
-        case x12437 = "X12_437"
-        case x12440 = "X12_440"
-        case x12451 = "X12_451"
-        case x12452 = "X12_452"
-        case x12453 = "X12_453"
-        case x12455 = "X12_455"
-        case x12456 = "X12_456"
-        case x12460 = "X12_460"
-        case x12463 = "X12_463"
-        case x12466 = "X12_466"
-        case x12468 = "X12_468"
-        case x12470 = "X12_470"
-        case x12475 = "X12_475"
-        case x12485 = "X12_485"
-        case x12486 = "X12_486"
-        case x12490 = "X12_490"
-        case x12492 = "X12_492"
-        case x12494 = "X12_494"
-        case x12500 = "X12_500"
-        case x12501 = "X12_501"
-        case x12503 = "X12_503"
-        case x12504 = "X12_504"
-        case x12511 = "X12_511"
-        case x12517 = "X12_517"
-        case x12521 = "X12_521"
-        case x12527 = "X12_527"
-        case x12536 = "X12_536"
-        case x12540 = "X12_540"
-        case x12561 = "X12_561"
-        case x12567 = "X12_567"
-        case x12568 = "X12_568"
-        case x12601 = "X12_601"
-        case x12602 = "X12_602"
-        case x12620 = "X12_620"
-        case x12625 = "X12_625"
-        case x12650 = "X12_650"
-        case x12715 = "X12_715"
-        case x12753 = "X12_753"
-        case x12754 = "X12_754"
-        case x12805 = "X12_805"
-        case x12806 = "X12_806"
-        case x12810 = "X12_810"
-        case x12811 = "X12_811"
-        case x12812 = "X12_812"
-        case x12813 = "X12_813"
-        case x12814 = "X12_814"
-        case x12815 = "X12_815"
-        case x12816 = "X12_816"
-        case x12818 = "X12_818"
-        case x12819 = "X12_819"
-        case x12820 = "X12_820"
-        case x12820X218 = "X12_820_X218"
-        case x12820X306 = "X12_820_X306"
-        case x12821 = "X12_821"
-        case x12822 = "X12_822"
-        case x12823 = "X12_823"
-        case x12824 = "X12_824"
-        case x12824X186 = "X12_824_X186"
-        case x12826 = "X12_826"
-        case x12827 = "X12_827"
-        case x12828 = "X12_828"
-        case x12829 = "X12_829"
-        case x12830 = "X12_830"
-        case x12831 = "X12_831"
-        case x12832 = "X12_832"
-        case x12833 = "X12_833"
-        case x12834 = "X12_834"
-        case x12834X220 = "X12_834_X220"
-        case x12834X307 = "X12_834_X307"
-        case x12834X318 = "X12_834_X318"
-        case x12835 = "X12_835"
-        case x12835X221 = "X12_835_X221"
-        case x12836 = "X12_836"
-        case x12837 = "X12_837"
-        case x12837X222 = "X12_837_X222"
-        case x12837X223 = "X12_837_X223"
-        case x12837X224 = "X12_837_X224"
-        case x12837X291 = "X12_837_X291"
-        case x12837X292 = "X12_837_X292"
-        case x12837X298 = "X12_837_X298"
-        case x12838 = "X12_838"
-        case x12839 = "X12_839"
-        case x12840 = "X12_840"
-        case x12841 = "X12_841"
-        case x12842 = "X12_842"
-        case x12843 = "X12_843"
-        case x12844 = "X12_844"
-        case x12845 = "X12_845"
-        case x12846 = "X12_846"
-        case x12847 = "X12_847"
-        case x12848 = "X12_848"
-        case x12849 = "X12_849"
-        case x12850 = "X12_850"
-        case x12851 = "X12_851"
-        case x12852 = "X12_852"
-        case x12853 = "X12_853"
-        case x12854 = "X12_854"
-        case x12855 = "X12_855"
-        case x12856 = "X12_856"
-        case x12857 = "X12_857"
-        case x12858 = "X12_858"
-        case x12859 = "X12_859"
-        case x12860 = "X12_860"
-        case x12861 = "X12_861"
-        case x12862 = "X12_862"
-        case x12863 = "X12_863"
-        case x12864 = "X12_864"
-        case x12865 = "X12_865"
-        case x12866 = "X12_866"
-        case x12867 = "X12_867"
-        case x12868 = "X12_868"
-        case x12869 = "X12_869"
-        case x12870 = "X12_870"
-        case x12871 = "X12_871"
-        case x12872 = "X12_872"
-        case x12873 = "X12_873"
-        case x12874 = "X12_874"
-        case x12875 = "X12_875"
-        case x12876 = "X12_876"
-        case x12877 = "X12_877"
-        case x12878 = "X12_878"
-        case x12879 = "X12_879"
-        case x12880 = "X12_880"
-        case x12881 = "X12_881"
-        case x12882 = "X12_882"
-        case x12883 = "X12_883"
-        case x12884 = "X12_884"
-        case x12885 = "X12_885"
-        case x12886 = "X12_886"
-        case x12887 = "X12_887"
-        case x12888 = "X12_888"
-        case x12889 = "X12_889"
-        case x12891 = "X12_891"
-        case x12893 = "X12_893"
-        case x12894 = "X12_894"
-        case x12895 = "X12_895"
-        case x12896 = "X12_896"
-        case x12920 = "X12_920"
-        case x12924 = "X12_924"
-        case x12925 = "X12_925"
-        case x12926 = "X12_926"
-        case x12928 = "X12_928"
-        case x12940 = "X12_940"
-        case x12943 = "X12_943"
-        case x12944 = "X12_944"
-        case x12945 = "X12_945"
-        case x12947 = "X12_947"
-        case x12980 = "X12_980"
-        case x12990 = "X12_990"
-        case x12993 = "X12_993"
-        case x12996 = "X12_996"
-        case x12997 = "X12_997"
-        case x12998 = "X12_998"
-        case x12999 = "X12_999"
-        case x12999X231 = "X12_999_X231"
-        public var description: String { return self.rawValue }
+    public struct X12TransactionSet: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var x12100: Self { .init(rawValue: "X12_100") }
+        @inlinable public static var x12101: Self { .init(rawValue: "X12_101") }
+        @inlinable public static var x12102: Self { .init(rawValue: "X12_102") }
+        @inlinable public static var x12103: Self { .init(rawValue: "X12_103") }
+        @inlinable public static var x12104: Self { .init(rawValue: "X12_104") }
+        @inlinable public static var x12105: Self { .init(rawValue: "X12_105") }
+        @inlinable public static var x12106: Self { .init(rawValue: "X12_106") }
+        @inlinable public static var x12107: Self { .init(rawValue: "X12_107") }
+        @inlinable public static var x12108: Self { .init(rawValue: "X12_108") }
+        @inlinable public static var x12109: Self { .init(rawValue: "X12_109") }
+        @inlinable public static var x12110: Self { .init(rawValue: "X12_110") }
+        @inlinable public static var x12111: Self { .init(rawValue: "X12_111") }
+        @inlinable public static var x12112: Self { .init(rawValue: "X12_112") }
+        @inlinable public static var x12113: Self { .init(rawValue: "X12_113") }
+        @inlinable public static var x12120: Self { .init(rawValue: "X12_120") }
+        @inlinable public static var x12121: Self { .init(rawValue: "X12_121") }
+        @inlinable public static var x12124: Self { .init(rawValue: "X12_124") }
+        @inlinable public static var x12125: Self { .init(rawValue: "X12_125") }
+        @inlinable public static var x12126: Self { .init(rawValue: "X12_126") }
+        @inlinable public static var x12127: Self { .init(rawValue: "X12_127") }
+        @inlinable public static var x12128: Self { .init(rawValue: "X12_128") }
+        @inlinable public static var x12129: Self { .init(rawValue: "X12_129") }
+        @inlinable public static var x12130: Self { .init(rawValue: "X12_130") }
+        @inlinable public static var x12131: Self { .init(rawValue: "X12_131") }
+        @inlinable public static var x12132: Self { .init(rawValue: "X12_132") }
+        @inlinable public static var x12133: Self { .init(rawValue: "X12_133") }
+        @inlinable public static var x12135: Self { .init(rawValue: "X12_135") }
+        @inlinable public static var x12138: Self { .init(rawValue: "X12_138") }
+        @inlinable public static var x12139: Self { .init(rawValue: "X12_139") }
+        @inlinable public static var x12140: Self { .init(rawValue: "X12_140") }
+        @inlinable public static var x12141: Self { .init(rawValue: "X12_141") }
+        @inlinable public static var x12142: Self { .init(rawValue: "X12_142") }
+        @inlinable public static var x12143: Self { .init(rawValue: "X12_143") }
+        @inlinable public static var x12144: Self { .init(rawValue: "X12_144") }
+        @inlinable public static var x12146: Self { .init(rawValue: "X12_146") }
+        @inlinable public static var x12147: Self { .init(rawValue: "X12_147") }
+        @inlinable public static var x12148: Self { .init(rawValue: "X12_148") }
+        @inlinable public static var x12149: Self { .init(rawValue: "X12_149") }
+        @inlinable public static var x12150: Self { .init(rawValue: "X12_150") }
+        @inlinable public static var x12151: Self { .init(rawValue: "X12_151") }
+        @inlinable public static var x12152: Self { .init(rawValue: "X12_152") }
+        @inlinable public static var x12153: Self { .init(rawValue: "X12_153") }
+        @inlinable public static var x12154: Self { .init(rawValue: "X12_154") }
+        @inlinable public static var x12155: Self { .init(rawValue: "X12_155") }
+        @inlinable public static var x12157: Self { .init(rawValue: "X12_157") }
+        @inlinable public static var x12158: Self { .init(rawValue: "X12_158") }
+        @inlinable public static var x12159: Self { .init(rawValue: "X12_159") }
+        @inlinable public static var x12160: Self { .init(rawValue: "X12_160") }
+        @inlinable public static var x12161: Self { .init(rawValue: "X12_161") }
+        @inlinable public static var x12163: Self { .init(rawValue: "X12_163") }
+        @inlinable public static var x12170: Self { .init(rawValue: "X12_170") }
+        @inlinable public static var x12175: Self { .init(rawValue: "X12_175") }
+        @inlinable public static var x12176: Self { .init(rawValue: "X12_176") }
+        @inlinable public static var x12179: Self { .init(rawValue: "X12_179") }
+        @inlinable public static var x12180: Self { .init(rawValue: "X12_180") }
+        @inlinable public static var x12185: Self { .init(rawValue: "X12_185") }
+        @inlinable public static var x12186: Self { .init(rawValue: "X12_186") }
+        @inlinable public static var x12187: Self { .init(rawValue: "X12_187") }
+        @inlinable public static var x12188: Self { .init(rawValue: "X12_188") }
+        @inlinable public static var x12189: Self { .init(rawValue: "X12_189") }
+        @inlinable public static var x12190: Self { .init(rawValue: "X12_190") }
+        @inlinable public static var x12191: Self { .init(rawValue: "X12_191") }
+        @inlinable public static var x12194: Self { .init(rawValue: "X12_194") }
+        @inlinable public static var x12195: Self { .init(rawValue: "X12_195") }
+        @inlinable public static var x12196: Self { .init(rawValue: "X12_196") }
+        @inlinable public static var x12197: Self { .init(rawValue: "X12_197") }
+        @inlinable public static var x12198: Self { .init(rawValue: "X12_198") }
+        @inlinable public static var x12199: Self { .init(rawValue: "X12_199") }
+        @inlinable public static var x12200: Self { .init(rawValue: "X12_200") }
+        @inlinable public static var x12201: Self { .init(rawValue: "X12_201") }
+        @inlinable public static var x12202: Self { .init(rawValue: "X12_202") }
+        @inlinable public static var x12203: Self { .init(rawValue: "X12_203") }
+        @inlinable public static var x12204: Self { .init(rawValue: "X12_204") }
+        @inlinable public static var x12205: Self { .init(rawValue: "X12_205") }
+        @inlinable public static var x12206: Self { .init(rawValue: "X12_206") }
+        @inlinable public static var x12210: Self { .init(rawValue: "X12_210") }
+        @inlinable public static var x12211: Self { .init(rawValue: "X12_211") }
+        @inlinable public static var x12212: Self { .init(rawValue: "X12_212") }
+        @inlinable public static var x12213: Self { .init(rawValue: "X12_213") }
+        @inlinable public static var x12214: Self { .init(rawValue: "X12_214") }
+        @inlinable public static var x12215: Self { .init(rawValue: "X12_215") }
+        @inlinable public static var x12216: Self { .init(rawValue: "X12_216") }
+        @inlinable public static var x12217: Self { .init(rawValue: "X12_217") }
+        @inlinable public static var x12218: Self { .init(rawValue: "X12_218") }
+        @inlinable public static var x12219: Self { .init(rawValue: "X12_219") }
+        @inlinable public static var x12220: Self { .init(rawValue: "X12_220") }
+        @inlinable public static var x12222: Self { .init(rawValue: "X12_222") }
+        @inlinable public static var x12223: Self { .init(rawValue: "X12_223") }
+        @inlinable public static var x12224: Self { .init(rawValue: "X12_224") }
+        @inlinable public static var x12225: Self { .init(rawValue: "X12_225") }
+        @inlinable public static var x12227: Self { .init(rawValue: "X12_227") }
+        @inlinable public static var x12228: Self { .init(rawValue: "X12_228") }
+        @inlinable public static var x12240: Self { .init(rawValue: "X12_240") }
+        @inlinable public static var x12242: Self { .init(rawValue: "X12_242") }
+        @inlinable public static var x12244: Self { .init(rawValue: "X12_244") }
+        @inlinable public static var x12245: Self { .init(rawValue: "X12_245") }
+        @inlinable public static var x12248: Self { .init(rawValue: "X12_248") }
+        @inlinable public static var x12249: Self { .init(rawValue: "X12_249") }
+        @inlinable public static var x12250: Self { .init(rawValue: "X12_250") }
+        @inlinable public static var x12251: Self { .init(rawValue: "X12_251") }
+        @inlinable public static var x12252: Self { .init(rawValue: "X12_252") }
+        @inlinable public static var x12255: Self { .init(rawValue: "X12_255") }
+        @inlinable public static var x12256: Self { .init(rawValue: "X12_256") }
+        @inlinable public static var x12259: Self { .init(rawValue: "X12_259") }
+        @inlinable public static var x12260: Self { .init(rawValue: "X12_260") }
+        @inlinable public static var x12261: Self { .init(rawValue: "X12_261") }
+        @inlinable public static var x12262: Self { .init(rawValue: "X12_262") }
+        @inlinable public static var x12263: Self { .init(rawValue: "X12_263") }
+        @inlinable public static var x12264: Self { .init(rawValue: "X12_264") }
+        @inlinable public static var x12265: Self { .init(rawValue: "X12_265") }
+        @inlinable public static var x12266: Self { .init(rawValue: "X12_266") }
+        @inlinable public static var x12267: Self { .init(rawValue: "X12_267") }
+        @inlinable public static var x12268: Self { .init(rawValue: "X12_268") }
+        @inlinable public static var x12269: Self { .init(rawValue: "X12_269") }
+        @inlinable public static var x12270: Self { .init(rawValue: "X12_270") }
+        @inlinable public static var x12270X279: Self { .init(rawValue: "X12_270_X279") }
+        @inlinable public static var x12271: Self { .init(rawValue: "X12_271") }
+        @inlinable public static var x12271X279: Self { .init(rawValue: "X12_271_X279") }
+        @inlinable public static var x12272: Self { .init(rawValue: "X12_272") }
+        @inlinable public static var x12273: Self { .init(rawValue: "X12_273") }
+        @inlinable public static var x12274: Self { .init(rawValue: "X12_274") }
+        @inlinable public static var x12275: Self { .init(rawValue: "X12_275") }
+        @inlinable public static var x12275X210: Self { .init(rawValue: "X12_275_X210") }
+        @inlinable public static var x12275X211: Self { .init(rawValue: "X12_275_X211") }
+        @inlinable public static var x12276: Self { .init(rawValue: "X12_276") }
+        @inlinable public static var x12276X212: Self { .init(rawValue: "X12_276_X212") }
+        @inlinable public static var x12277: Self { .init(rawValue: "X12_277") }
+        @inlinable public static var x12277X212: Self { .init(rawValue: "X12_277_X212") }
+        @inlinable public static var x12277X214: Self { .init(rawValue: "X12_277_X214") }
+        @inlinable public static var x12277X364: Self { .init(rawValue: "X12_277_X364") }
+        @inlinable public static var x12278: Self { .init(rawValue: "X12_278") }
+        @inlinable public static var x12278X217: Self { .init(rawValue: "X12_278_X217") }
+        @inlinable public static var x12280: Self { .init(rawValue: "X12_280") }
+        @inlinable public static var x12283: Self { .init(rawValue: "X12_283") }
+        @inlinable public static var x12284: Self { .init(rawValue: "X12_284") }
+        @inlinable public static var x12285: Self { .init(rawValue: "X12_285") }
+        @inlinable public static var x12286: Self { .init(rawValue: "X12_286") }
+        @inlinable public static var x12288: Self { .init(rawValue: "X12_288") }
+        @inlinable public static var x12290: Self { .init(rawValue: "X12_290") }
+        @inlinable public static var x12300: Self { .init(rawValue: "X12_300") }
+        @inlinable public static var x12301: Self { .init(rawValue: "X12_301") }
+        @inlinable public static var x12303: Self { .init(rawValue: "X12_303") }
+        @inlinable public static var x12304: Self { .init(rawValue: "X12_304") }
+        @inlinable public static var x12309: Self { .init(rawValue: "X12_309") }
+        @inlinable public static var x12310: Self { .init(rawValue: "X12_310") }
+        @inlinable public static var x12311: Self { .init(rawValue: "X12_311") }
+        @inlinable public static var x12312: Self { .init(rawValue: "X12_312") }
+        @inlinable public static var x12313: Self { .init(rawValue: "X12_313") }
+        @inlinable public static var x12315: Self { .init(rawValue: "X12_315") }
+        @inlinable public static var x12317: Self { .init(rawValue: "X12_317") }
+        @inlinable public static var x12319: Self { .init(rawValue: "X12_319") }
+        @inlinable public static var x12322: Self { .init(rawValue: "X12_322") }
+        @inlinable public static var x12323: Self { .init(rawValue: "X12_323") }
+        @inlinable public static var x12324: Self { .init(rawValue: "X12_324") }
+        @inlinable public static var x12325: Self { .init(rawValue: "X12_325") }
+        @inlinable public static var x12326: Self { .init(rawValue: "X12_326") }
+        @inlinable public static var x12350: Self { .init(rawValue: "X12_350") }
+        @inlinable public static var x12352: Self { .init(rawValue: "X12_352") }
+        @inlinable public static var x12353: Self { .init(rawValue: "X12_353") }
+        @inlinable public static var x12354: Self { .init(rawValue: "X12_354") }
+        @inlinable public static var x12355: Self { .init(rawValue: "X12_355") }
+        @inlinable public static var x12356: Self { .init(rawValue: "X12_356") }
+        @inlinable public static var x12357: Self { .init(rawValue: "X12_357") }
+        @inlinable public static var x12358: Self { .init(rawValue: "X12_358") }
+        @inlinable public static var x12361: Self { .init(rawValue: "X12_361") }
+        @inlinable public static var x12362: Self { .init(rawValue: "X12_362") }
+        @inlinable public static var x12404: Self { .init(rawValue: "X12_404") }
+        @inlinable public static var x12410: Self { .init(rawValue: "X12_410") }
+        @inlinable public static var x12412: Self { .init(rawValue: "X12_412") }
+        @inlinable public static var x12414: Self { .init(rawValue: "X12_414") }
+        @inlinable public static var x12417: Self { .init(rawValue: "X12_417") }
+        @inlinable public static var x12418: Self { .init(rawValue: "X12_418") }
+        @inlinable public static var x12419: Self { .init(rawValue: "X12_419") }
+        @inlinable public static var x12420: Self { .init(rawValue: "X12_420") }
+        @inlinable public static var x12421: Self { .init(rawValue: "X12_421") }
+        @inlinable public static var x12422: Self { .init(rawValue: "X12_422") }
+        @inlinable public static var x12423: Self { .init(rawValue: "X12_423") }
+        @inlinable public static var x12424: Self { .init(rawValue: "X12_424") }
+        @inlinable public static var x12425: Self { .init(rawValue: "X12_425") }
+        @inlinable public static var x12426: Self { .init(rawValue: "X12_426") }
+        @inlinable public static var x12429: Self { .init(rawValue: "X12_429") }
+        @inlinable public static var x12431: Self { .init(rawValue: "X12_431") }
+        @inlinable public static var x12432: Self { .init(rawValue: "X12_432") }
+        @inlinable public static var x12433: Self { .init(rawValue: "X12_433") }
+        @inlinable public static var x12434: Self { .init(rawValue: "X12_434") }
+        @inlinable public static var x12435: Self { .init(rawValue: "X12_435") }
+        @inlinable public static var x12436: Self { .init(rawValue: "X12_436") }
+        @inlinable public static var x12437: Self { .init(rawValue: "X12_437") }
+        @inlinable public static var x12440: Self { .init(rawValue: "X12_440") }
+        @inlinable public static var x12451: Self { .init(rawValue: "X12_451") }
+        @inlinable public static var x12452: Self { .init(rawValue: "X12_452") }
+        @inlinable public static var x12453: Self { .init(rawValue: "X12_453") }
+        @inlinable public static var x12455: Self { .init(rawValue: "X12_455") }
+        @inlinable public static var x12456: Self { .init(rawValue: "X12_456") }
+        @inlinable public static var x12460: Self { .init(rawValue: "X12_460") }
+        @inlinable public static var x12463: Self { .init(rawValue: "X12_463") }
+        @inlinable public static var x12466: Self { .init(rawValue: "X12_466") }
+        @inlinable public static var x12468: Self { .init(rawValue: "X12_468") }
+        @inlinable public static var x12470: Self { .init(rawValue: "X12_470") }
+        @inlinable public static var x12475: Self { .init(rawValue: "X12_475") }
+        @inlinable public static var x12485: Self { .init(rawValue: "X12_485") }
+        @inlinable public static var x12486: Self { .init(rawValue: "X12_486") }
+        @inlinable public static var x12490: Self { .init(rawValue: "X12_490") }
+        @inlinable public static var x12492: Self { .init(rawValue: "X12_492") }
+        @inlinable public static var x12494: Self { .init(rawValue: "X12_494") }
+        @inlinable public static var x12500: Self { .init(rawValue: "X12_500") }
+        @inlinable public static var x12501: Self { .init(rawValue: "X12_501") }
+        @inlinable public static var x12503: Self { .init(rawValue: "X12_503") }
+        @inlinable public static var x12504: Self { .init(rawValue: "X12_504") }
+        @inlinable public static var x12511: Self { .init(rawValue: "X12_511") }
+        @inlinable public static var x12517: Self { .init(rawValue: "X12_517") }
+        @inlinable public static var x12521: Self { .init(rawValue: "X12_521") }
+        @inlinable public static var x12527: Self { .init(rawValue: "X12_527") }
+        @inlinable public static var x12536: Self { .init(rawValue: "X12_536") }
+        @inlinable public static var x12540: Self { .init(rawValue: "X12_540") }
+        @inlinable public static var x12561: Self { .init(rawValue: "X12_561") }
+        @inlinable public static var x12567: Self { .init(rawValue: "X12_567") }
+        @inlinable public static var x12568: Self { .init(rawValue: "X12_568") }
+        @inlinable public static var x12601: Self { .init(rawValue: "X12_601") }
+        @inlinable public static var x12602: Self { .init(rawValue: "X12_602") }
+        @inlinable public static var x12620: Self { .init(rawValue: "X12_620") }
+        @inlinable public static var x12625: Self { .init(rawValue: "X12_625") }
+        @inlinable public static var x12650: Self { .init(rawValue: "X12_650") }
+        @inlinable public static var x12715: Self { .init(rawValue: "X12_715") }
+        @inlinable public static var x12753: Self { .init(rawValue: "X12_753") }
+        @inlinable public static var x12754: Self { .init(rawValue: "X12_754") }
+        @inlinable public static var x12805: Self { .init(rawValue: "X12_805") }
+        @inlinable public static var x12806: Self { .init(rawValue: "X12_806") }
+        @inlinable public static var x12810: Self { .init(rawValue: "X12_810") }
+        @inlinable public static var x12811: Self { .init(rawValue: "X12_811") }
+        @inlinable public static var x12812: Self { .init(rawValue: "X12_812") }
+        @inlinable public static var x12813: Self { .init(rawValue: "X12_813") }
+        @inlinable public static var x12814: Self { .init(rawValue: "X12_814") }
+        @inlinable public static var x12815: Self { .init(rawValue: "X12_815") }
+        @inlinable public static var x12816: Self { .init(rawValue: "X12_816") }
+        @inlinable public static var x12818: Self { .init(rawValue: "X12_818") }
+        @inlinable public static var x12819: Self { .init(rawValue: "X12_819") }
+        @inlinable public static var x12820: Self { .init(rawValue: "X12_820") }
+        @inlinable public static var x12820X218: Self { .init(rawValue: "X12_820_X218") }
+        @inlinable public static var x12820X306: Self { .init(rawValue: "X12_820_X306") }
+        @inlinable public static var x12821: Self { .init(rawValue: "X12_821") }
+        @inlinable public static var x12822: Self { .init(rawValue: "X12_822") }
+        @inlinable public static var x12823: Self { .init(rawValue: "X12_823") }
+        @inlinable public static var x12824: Self { .init(rawValue: "X12_824") }
+        @inlinable public static var x12824X186: Self { .init(rawValue: "X12_824_X186") }
+        @inlinable public static var x12826: Self { .init(rawValue: "X12_826") }
+        @inlinable public static var x12827: Self { .init(rawValue: "X12_827") }
+        @inlinable public static var x12828: Self { .init(rawValue: "X12_828") }
+        @inlinable public static var x12829: Self { .init(rawValue: "X12_829") }
+        @inlinable public static var x12830: Self { .init(rawValue: "X12_830") }
+        @inlinable public static var x12831: Self { .init(rawValue: "X12_831") }
+        @inlinable public static var x12832: Self { .init(rawValue: "X12_832") }
+        @inlinable public static var x12833: Self { .init(rawValue: "X12_833") }
+        @inlinable public static var x12834: Self { .init(rawValue: "X12_834") }
+        @inlinable public static var x12834X220: Self { .init(rawValue: "X12_834_X220") }
+        @inlinable public static var x12834X307: Self { .init(rawValue: "X12_834_X307") }
+        @inlinable public static var x12834X318: Self { .init(rawValue: "X12_834_X318") }
+        @inlinable public static var x12835: Self { .init(rawValue: "X12_835") }
+        @inlinable public static var x12835X221: Self { .init(rawValue: "X12_835_X221") }
+        @inlinable public static var x12836: Self { .init(rawValue: "X12_836") }
+        @inlinable public static var x12837: Self { .init(rawValue: "X12_837") }
+        @inlinable public static var x12837X222: Self { .init(rawValue: "X12_837_X222") }
+        @inlinable public static var x12837X223: Self { .init(rawValue: "X12_837_X223") }
+        @inlinable public static var x12837X224: Self { .init(rawValue: "X12_837_X224") }
+        @inlinable public static var x12837X291: Self { .init(rawValue: "X12_837_X291") }
+        @inlinable public static var x12837X292: Self { .init(rawValue: "X12_837_X292") }
+        @inlinable public static var x12837X298: Self { .init(rawValue: "X12_837_X298") }
+        @inlinable public static var x12838: Self { .init(rawValue: "X12_838") }
+        @inlinable public static var x12839: Self { .init(rawValue: "X12_839") }
+        @inlinable public static var x12840: Self { .init(rawValue: "X12_840") }
+        @inlinable public static var x12841: Self { .init(rawValue: "X12_841") }
+        @inlinable public static var x12842: Self { .init(rawValue: "X12_842") }
+        @inlinable public static var x12843: Self { .init(rawValue: "X12_843") }
+        @inlinable public static var x12844: Self { .init(rawValue: "X12_844") }
+        @inlinable public static var x12845: Self { .init(rawValue: "X12_845") }
+        @inlinable public static var x12846: Self { .init(rawValue: "X12_846") }
+        @inlinable public static var x12847: Self { .init(rawValue: "X12_847") }
+        @inlinable public static var x12848: Self { .init(rawValue: "X12_848") }
+        @inlinable public static var x12849: Self { .init(rawValue: "X12_849") }
+        @inlinable public static var x12850: Self { .init(rawValue: "X12_850") }
+        @inlinable public static var x12851: Self { .init(rawValue: "X12_851") }
+        @inlinable public static var x12852: Self { .init(rawValue: "X12_852") }
+        @inlinable public static var x12853: Self { .init(rawValue: "X12_853") }
+        @inlinable public static var x12854: Self { .init(rawValue: "X12_854") }
+        @inlinable public static var x12855: Self { .init(rawValue: "X12_855") }
+        @inlinable public static var x12856: Self { .init(rawValue: "X12_856") }
+        @inlinable public static var x12857: Self { .init(rawValue: "X12_857") }
+        @inlinable public static var x12858: Self { .init(rawValue: "X12_858") }
+        @inlinable public static var x12859: Self { .init(rawValue: "X12_859") }
+        @inlinable public static var x12860: Self { .init(rawValue: "X12_860") }
+        @inlinable public static var x12861: Self { .init(rawValue: "X12_861") }
+        @inlinable public static var x12862: Self { .init(rawValue: "X12_862") }
+        @inlinable public static var x12863: Self { .init(rawValue: "X12_863") }
+        @inlinable public static var x12864: Self { .init(rawValue: "X12_864") }
+        @inlinable public static var x12865: Self { .init(rawValue: "X12_865") }
+        @inlinable public static var x12866: Self { .init(rawValue: "X12_866") }
+        @inlinable public static var x12867: Self { .init(rawValue: "X12_867") }
+        @inlinable public static var x12868: Self { .init(rawValue: "X12_868") }
+        @inlinable public static var x12869: Self { .init(rawValue: "X12_869") }
+        @inlinable public static var x12870: Self { .init(rawValue: "X12_870") }
+        @inlinable public static var x12871: Self { .init(rawValue: "X12_871") }
+        @inlinable public static var x12872: Self { .init(rawValue: "X12_872") }
+        @inlinable public static var x12873: Self { .init(rawValue: "X12_873") }
+        @inlinable public static var x12874: Self { .init(rawValue: "X12_874") }
+        @inlinable public static var x12875: Self { .init(rawValue: "X12_875") }
+        @inlinable public static var x12876: Self { .init(rawValue: "X12_876") }
+        @inlinable public static var x12877: Self { .init(rawValue: "X12_877") }
+        @inlinable public static var x12878: Self { .init(rawValue: "X12_878") }
+        @inlinable public static var x12879: Self { .init(rawValue: "X12_879") }
+        @inlinable public static var x12880: Self { .init(rawValue: "X12_880") }
+        @inlinable public static var x12881: Self { .init(rawValue: "X12_881") }
+        @inlinable public static var x12882: Self { .init(rawValue: "X12_882") }
+        @inlinable public static var x12883: Self { .init(rawValue: "X12_883") }
+        @inlinable public static var x12884: Self { .init(rawValue: "X12_884") }
+        @inlinable public static var x12885: Self { .init(rawValue: "X12_885") }
+        @inlinable public static var x12886: Self { .init(rawValue: "X12_886") }
+        @inlinable public static var x12887: Self { .init(rawValue: "X12_887") }
+        @inlinable public static var x12888: Self { .init(rawValue: "X12_888") }
+        @inlinable public static var x12889: Self { .init(rawValue: "X12_889") }
+        @inlinable public static var x12891: Self { .init(rawValue: "X12_891") }
+        @inlinable public static var x12893: Self { .init(rawValue: "X12_893") }
+        @inlinable public static var x12894: Self { .init(rawValue: "X12_894") }
+        @inlinable public static var x12895: Self { .init(rawValue: "X12_895") }
+        @inlinable public static var x12896: Self { .init(rawValue: "X12_896") }
+        @inlinable public static var x12920: Self { .init(rawValue: "X12_920") }
+        @inlinable public static var x12924: Self { .init(rawValue: "X12_924") }
+        @inlinable public static var x12925: Self { .init(rawValue: "X12_925") }
+        @inlinable public static var x12926: Self { .init(rawValue: "X12_926") }
+        @inlinable public static var x12928: Self { .init(rawValue: "X12_928") }
+        @inlinable public static var x12940: Self { .init(rawValue: "X12_940") }
+        @inlinable public static var x12943: Self { .init(rawValue: "X12_943") }
+        @inlinable public static var x12944: Self { .init(rawValue: "X12_944") }
+        @inlinable public static var x12945: Self { .init(rawValue: "X12_945") }
+        @inlinable public static var x12947: Self { .init(rawValue: "X12_947") }
+        @inlinable public static var x12980: Self { .init(rawValue: "X12_980") }
+        @inlinable public static var x12990: Self { .init(rawValue: "X12_990") }
+        @inlinable public static var x12993: Self { .init(rawValue: "X12_993") }
+        @inlinable public static var x12996: Self { .init(rawValue: "X12_996") }
+        @inlinable public static var x12997: Self { .init(rawValue: "X12_997") }
+        @inlinable public static var x12998: Self { .init(rawValue: "X12_998") }
+        @inlinable public static var x12999: Self { .init(rawValue: "X12_999") }
+        @inlinable public static var x12999X231: Self { .init(rawValue: "X12_999_X231") }
     }
 
-    public enum X12Version: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case version4010 = "VERSION_4010"
-        case version4030 = "VERSION_4030"
-        case version4050 = "VERSION_4050"
-        case version4060 = "VERSION_4060"
-        case version5010 = "VERSION_5010"
-        case version5010Hipaa = "VERSION_5010_HIPAA"
-        public var description: String { return self.rawValue }
+    public struct X12Version: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var version4010: Self { .init(rawValue: "VERSION_4010") }
+        @inlinable public static var version4030: Self { .init(rawValue: "VERSION_4030") }
+        @inlinable public static var version4050: Self { .init(rawValue: "VERSION_4050") }
+        @inlinable public static var version4060: Self { .init(rawValue: "VERSION_4060") }
+        @inlinable public static var version5010: Self { .init(rawValue: "VERSION_5010") }
+        @inlinable public static var version5010Hipaa: Self { .init(rawValue: "VERSION_5010_HIPAA") }
     }
 
     public enum X12ValidationRule: AWSEncodableShape & AWSDecodableShape, Sendable {

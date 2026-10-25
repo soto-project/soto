@@ -25,95 +25,139 @@ import Foundation
 extension KafkaConnect {
     // MARK: Enums
 
-    public enum ConnectorOperationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pending = "PENDING"
-        case restartComplete = "RESTART_COMPLETE"
-        case restartFailed = "RESTART_FAILED"
-        case restartInProgress = "RESTART_IN_PROGRESS"
-        case rollbackComplete = "ROLLBACK_COMPLETE"
-        case rollbackFailed = "ROLLBACK_FAILED"
-        case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
-        case updateComplete = "UPDATE_COMPLETE"
-        case updateFailed = "UPDATE_FAILED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct ConnectorOperationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var restartComplete: Self { .init(rawValue: "RESTART_COMPLETE") }
+        @inlinable public static var restartFailed: Self { .init(rawValue: "RESTART_FAILED") }
+        @inlinable public static var restartInProgress: Self { .init(rawValue: "RESTART_IN_PROGRESS") }
+        @inlinable public static var rollbackComplete: Self { .init(rawValue: "ROLLBACK_COMPLETE") }
+        @inlinable public static var rollbackFailed: Self { .init(rawValue: "ROLLBACK_FAILED") }
+        @inlinable public static var rollbackInProgress: Self { .init(rawValue: "ROLLBACK_IN_PROGRESS") }
+        @inlinable public static var updateComplete: Self { .init(rawValue: "UPDATE_COMPLETE") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updateInProgress: Self { .init(rawValue: "UPDATE_IN_PROGRESS") }
     }
 
-    public enum ConnectorOperationStepState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct ConnectorOperationStepState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum ConnectorOperationStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case finalizeUpdate = "FINALIZE_UPDATE"
-        case initializeUpdate = "INITIALIZE_UPDATE"
-        case updateConnectorConfiguration = "UPDATE_CONNECTOR_CONFIGURATION"
-        case updateWorkerSetting = "UPDATE_WORKER_SETTING"
-        case validateUpdate = "VALIDATE_UPDATE"
-        public var description: String { return self.rawValue }
+    public struct ConnectorOperationStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var finalizeUpdate: Self { .init(rawValue: "FINALIZE_UPDATE") }
+        @inlinable public static var initializeUpdate: Self { .init(rawValue: "INITIALIZE_UPDATE") }
+        @inlinable public static var updateConnectorConfiguration: Self { .init(rawValue: "UPDATE_CONNECTOR_CONFIGURATION") }
+        @inlinable public static var updateWorkerSetting: Self { .init(rawValue: "UPDATE_WORKER_SETTING") }
+        @inlinable public static var validateUpdate: Self { .init(rawValue: "VALIDATE_UPDATE") }
     }
 
-    public enum ConnectorOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case isolateConnector = "ISOLATE_CONNECTOR"
-        case restartConnector = "RESTART_CONNECTOR"
-        case restoreConnector = "RESTORE_CONNECTOR"
-        case updateConnectorConfiguration = "UPDATE_CONNECTOR_CONFIGURATION"
-        case updateWorkerSetting = "UPDATE_WORKER_SETTING"
-        public var description: String { return self.rawValue }
+    public struct ConnectorOperationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var isolateConnector: Self { .init(rawValue: "ISOLATE_CONNECTOR") }
+        @inlinable public static var restartConnector: Self { .init(rawValue: "RESTART_CONNECTOR") }
+        @inlinable public static var restoreConnector: Self { .init(rawValue: "RESTORE_CONNECTOR") }
+        @inlinable public static var updateConnectorConfiguration: Self { .init(rawValue: "UPDATE_CONNECTOR_CONFIGURATION") }
+        @inlinable public static var updateWorkerSetting: Self { .init(rawValue: "UPDATE_WORKER_SETTING") }
     }
 
-    public enum ConnectorState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case restarting = "RESTARTING"
-        case running = "RUNNING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct ConnectorState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var restarting: Self { .init(rawValue: "RESTARTING") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum CustomPluginContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jar = "JAR"
-        case zip = "ZIP"
-        public var description: String { return self.rawValue }
+    public struct CustomPluginContentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jar: Self { .init(rawValue: "JAR") }
+        @inlinable public static var zip: Self { .init(rawValue: "ZIP") }
     }
 
-    public enum CustomPluginState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case createFailed = "CREATE_FAILED"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case updateFailed = "UPDATE_FAILED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct CustomPluginState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum KafkaClusterClientAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case iam = "IAM"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct KafkaClusterClientAuthenticationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var iam: Self { .init(rawValue: "IAM") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum KafkaClusterEncryptionInTransitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case plaintext = "PLAINTEXT"
-        case tls = "TLS"
-        public var description: String { return self.rawValue }
+    public struct KafkaClusterEncryptionInTransitType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var plaintext: Self { .init(rawValue: "PLAINTEXT") }
+        @inlinable public static var tls: Self { .init(rawValue: "TLS") }
     }
 
-    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dual = "DUAL"
-        case ipv4 = "IPV4"
-        public var description: String { return self.rawValue }
+    public struct NetworkType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dual: Self { .init(rawValue: "DUAL") }
+        @inlinable public static var ipv4: Self { .init(rawValue: "IPV4") }
     }
 
-    public enum WorkerConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
+    public struct WorkerConfigurationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
     }
 
     // MARK: Shapes
