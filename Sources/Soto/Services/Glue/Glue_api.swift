@@ -485,6 +485,35 @@ public struct Glue: AWSService {
         return try await self.batchGetDataQualityResult(input, logger: logger)
     }
 
+    /// Retrieves a list of data quality results for the specified result IDs. You can specify up to 100 result IDs in a single request.
+    @Sendable
+    @inlinable
+    public func batchGetDataQualityResultV2(_ input: BatchGetDataQualityResultV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetDataQualityResultV2Response {
+        try await self.client.execute(
+            operation: "BatchGetDataQualityResultV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of data quality results for the specified result IDs. You can specify up to 100 result IDs in a single request.
+    ///
+    /// Parameters:
+    ///   - resultIds: A list of unique result IDs for the data quality results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetDataQualityResultV2(
+        resultIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetDataQualityResultV2Response {
+        let input = BatchGetDataQualityResultV2Request(
+            resultIds: resultIds
+        )
+        return try await self.batchGetDataQualityResultV2(input, logger: logger)
+    }
+
     /// Retrieves the details of multiple evaluation runs in a single request.
     @Sendable
     @inlinable
@@ -1215,6 +1244,7 @@ public struct Glue: AWSService {
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
     ///
     /// Parameters:
+    ///   - catalogId: The ID of the Data Catalog in which to store the crawler's output. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - classifiers: A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
     ///   - configuration: Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
     ///   - crawlerSecurityConfiguration: The name of the SecurityConfiguration structure to be used by this crawler.
@@ -1233,6 +1263,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createCrawler(
+        catalogId: String? = nil,
         classifiers: [String]? = nil,
         configuration: String? = nil,
         crawlerSecurityConfiguration: String? = nil,
@@ -1251,6 +1282,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCrawlerResponse {
         let input = CreateCrawlerRequest(
+            catalogId: catalogId, 
             classifiers: classifiers, 
             configuration: configuration, 
             crawlerSecurityConfiguration: crawlerSecurityConfiguration, 
@@ -1740,7 +1772,7 @@ public struct Glue: AWSService {
     ///   - sourceControlDetails: The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
     ///   - tags: The tags to use with this job. You may use tags to limit access to the job. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide.
     ///   - timeout: The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
-    ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Spain), Europe (Stockholm), and South America (São Paulo).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
+    ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.025X, G.1X, G.2X, G.4X, G.8X, G.12X, G.16X, R.1X, R.2X, R.4X, or R.8X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the G.12X worker type, each worker maps to 12 DPU (48 vCPUs, 192 GB of memory) with 768GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the G.16X worker type, each worker maps to 16 DPU (64 vCPUs, 256 GB of memory) with 1024GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.1X worker type, each worker maps to 1 M-DPU (4 vCPUs, 32 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.2X worker type, each worker maps to 2 M-DPU (8 vCPUs, 64 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.4X worker type, each worker maps to 4 M-DPU (16 vCPUs, 128 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.8X worker type, each worker maps to 8 M-DPU (32 vCPUs, 256 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     ///   - logger: Logger use during operation
     @inlinable
     public func createJob(
@@ -2120,7 +2152,7 @@ public struct Glue: AWSService {
     ///   - sessionType: The type of session to create.
     ///   - tags: The map of key value pairs (tags) belonging to the session.
     ///   - timeout:  The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes). Consult the documentation for other job types.
-    ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
+    ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X, G.12X, G.16X, R.1X, R.2X, R.4X, or R.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the G.12X worker type, each worker maps to 12 DPU (48 vCPUs, 192 GB of memory) with 768GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the G.16X worker type, each worker maps to 16 DPU (64 vCPUs, 256 GB of memory) with 1024GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.1X worker type, each worker maps to 1 M-DPU (4 vCPUs, 32 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.2X worker type, each worker maps to 2 M-DPU (8 vCPUs, 64 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.4X worker type, each worker maps to 4 M-DPU (16 vCPUs, 128 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.8X worker type, each worker maps to 8 M-DPU (32 vCPUs, 256 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     ///   - logger: Logger use during operation
     @inlinable
     public func createSession(
@@ -2699,16 +2731,19 @@ public struct Glue: AWSService {
     /// Deletes settings for a column statistics task.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - tableName: The name of the table for which to delete column statistics.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteColumnStatisticsTaskSettings(
+        catalogID: String? = nil,
         databaseName: String,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteColumnStatisticsTaskSettingsResponse {
         let input = DeleteColumnStatisticsTaskSettingsRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             tableName: tableName
         )
@@ -4314,6 +4349,7 @@ public struct Glue: AWSService {
     /// Retrieves information about all runs associated with the specified table.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - maxResults: The maximum size of the response.
     ///   - nextToken: A continuation token, if this is a continuation call.
@@ -4321,6 +4357,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getColumnStatisticsTaskRuns(
+        catalogID: String? = nil,
         databaseName: String,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -4328,6 +4365,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetColumnStatisticsTaskRunsResponse {
         let input = GetColumnStatisticsTaskRunsRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -4352,16 +4390,19 @@ public struct Glue: AWSService {
     /// Gets settings for a column statistics task.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - tableName: The name of the table for which to retrieve column statistics.
     ///   - logger: Logger use during operation
     @inlinable
     public func getColumnStatisticsTaskSettings(
+        catalogID: String? = nil,
         databaseName: String,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetColumnStatisticsTaskSettingsResponse {
         let input = GetColumnStatisticsTaskSettingsRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             tableName: tableName
         )
@@ -4753,6 +4794,35 @@ public struct Glue: AWSService {
             resultId: resultId
         )
         return try await self.getDataQualityResult(input, logger: logger)
+    }
+
+    /// Retrieves the result of a data quality rule evaluation published from any supported data platform.
+    @Sendable
+    @inlinable
+    public func getDataQualityResultV2(_ input: GetDataQualityResultV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataQualityResultV2Response {
+        try await self.client.execute(
+            operation: "GetDataQualityResultV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the result of a data quality rule evaluation published from any supported data platform.
+    ///
+    /// Parameters:
+    ///   - resultId: A unique result ID for the data quality result.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataQualityResultV2(
+        resultId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataQualityResultV2Response {
+        let input = GetDataQualityResultV2Request(
+            resultId: resultId
+        )
+        return try await self.getDataQualityResultV2(input, logger: logger)
     }
 
     /// Gets the specified recommendation run that was used to generate rules.
@@ -6168,6 +6238,67 @@ public struct Glue: AWSService {
         return try await self.getStatement(input, logger: logger)
     }
 
+    /// Retrieves the system logs for a job run.
+    @Sendable
+    @inlinable
+    public func getSystemLogsForJobRun(_ input: GetSystemLogsForJobRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSystemLogsForJobRunResponse {
+        try await self.client.execute(
+            operation: "GetSystemLogsForJobRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the system logs for a job run.
+    ///
+    /// Parameters:
+    ///   - jobName: The name of the job.
+    ///   - runId: The ID of the job run.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSystemLogsForJobRun(
+        jobName: String,
+        runId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSystemLogsForJobRunResponse {
+        let input = GetSystemLogsForJobRunRequest(
+            jobName: jobName, 
+            runId: runId
+        )
+        return try await self.getSystemLogsForJobRun(input, logger: logger)
+    }
+
+    /// Retrieves the system logs for an interactive session.
+    @Sendable
+    @inlinable
+    public func getSystemLogsForSession(_ input: GetSystemLogsForSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSystemLogsForSessionResponse {
+        try await self.client.execute(
+            operation: "GetSystemLogsForSession", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the system logs for an interactive session.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSystemLogsForSession(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSystemLogsForSessionResponse {
+        let input = GetSystemLogsForSessionRequest(
+            id: id
+        )
+        return try await self.getSystemLogsForSession(input, logger: logger)
+    }
+
     /// Retrieves the Table definition in a Data Catalog for a specified table.
     @Sendable
     @inlinable
@@ -7209,6 +7340,41 @@ public struct Glue: AWSService {
         return try await self.listDataQualityResults(input, logger: logger)
     }
 
+    /// Returns a paginated list of data quality execution results for your account, filtered by the specified criteria. Use the NextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listDataQualityResultsV2(_ input: ListDataQualityResultsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataQualityResultsV2Response {
+        try await self.client.execute(
+            operation: "ListDataQualityResultsV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of data quality execution results for your account, filtered by the specified criteria. Use the NextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - filter: The filter criteria.
+    ///   - maxResults: The maximum number of results to return. If you don't specify a value, the operation uses the default number of results.
+    ///   - nextToken: A pagination token to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataQualityResultsV2(
+        filter: DataQualityResultsV2FilterCriteria? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataQualityResultsV2Response {
+        let input = ListDataQualityResultsV2Request(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDataQualityResultsV2(input, logger: logger)
+    }
+
     /// Lists the recommendation runs meeting the filter criteria.
     @Sendable
     @inlinable
@@ -8164,6 +8330,83 @@ public struct Glue: AWSService {
         return try await self.modifyIntegration(input, logger: logger)
     }
 
+    ///  This operation is intended for internal use. Do not call it directly.  AWS Glue Data Quality uses this operation to publish a data quality result.
+    @Sendable
+    @inlinable
+    public func publishDataQualityResultV2(_ input: PublishDataQualityResultV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishDataQualityResultV2Response {
+        try await self.client.execute(
+            operation: "PublishDataQualityResultV2", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  This operation is intended for internal use. Do not call it directly.  AWS Glue Data Quality uses this operation to publish a data quality result.
+    ///
+    /// Parameters:
+    ///   - aggregatedMetrics: The aggregated metrics for the result.
+    ///   - analyzerResults: The analyzer level results.
+    ///   - clientToken: The client token for the request.
+    ///   - dataQualitySecurityConfiguration: The security configuration for the result.
+    ///   - descriptors: The descriptors for the result.
+    ///   - dimensions: The dimensions for the result.
+    ///   - evaluationContext: The evaluation context for the result.
+    ///   - executionCompletedOn: The time execution completed for the result.
+    ///   - executionStartedOn: The time execution started for the result.
+    ///   - observations: The observations for the result.
+    ///   - ruleResults: The rule level results.
+    ///   - rulesetName: The ruleset name for the result.
+    ///   - runConfiguration: The run configuration for the result.
+    ///   - score: The score for the result.
+    ///   - statistics: The statistics for the result.
+    ///   - tags: The tags for the result.
+    ///   - telemetry: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func publishDataQualityResultV2(
+        aggregatedMetrics: DataQualityAggregatedMetrics? = nil,
+        analyzerResults: [DataQualityAnalyzerResult]? = nil,
+        clientToken: String? = PublishDataQualityResultV2Request.idempotencyToken(),
+        dataQualitySecurityConfiguration: String? = nil,
+        descriptors: [String: String]? = nil,
+        dimensions: [String: String],
+        evaluationContext: String,
+        executionCompletedOn: Date? = nil,
+        executionStartedOn: Date? = nil,
+        observations: [DataQualityObservation]? = nil,
+        ruleResults: [DataQualityRuleResult],
+        rulesetName: String? = nil,
+        runConfiguration: DataQualityConfigurationV2? = nil,
+        score: Double,
+        statistics: [StatisticSummary]? = nil,
+        tags: [String: String]? = nil,
+        telemetry: DataQualityTelemetry? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PublishDataQualityResultV2Response {
+        let input = PublishDataQualityResultV2Request(
+            aggregatedMetrics: aggregatedMetrics, 
+            analyzerResults: analyzerResults, 
+            clientToken: clientToken, 
+            dataQualitySecurityConfiguration: dataQualitySecurityConfiguration, 
+            descriptors: descriptors, 
+            dimensions: dimensions, 
+            evaluationContext: evaluationContext, 
+            executionCompletedOn: executionCompletedOn, 
+            executionStartedOn: executionStartedOn, 
+            observations: observations, 
+            ruleResults: ruleResults, 
+            rulesetName: rulesetName, 
+            runConfiguration: runConfiguration, 
+            score: score, 
+            statistics: statistics, 
+            tags: tags, 
+            telemetry: telemetry
+        )
+        return try await self.publishDataQualityResultV2(input, logger: logger)
+    }
+
     /// Creates or updates an asset in Glue Data Catalog. If the asset already exists, this operation updates it; otherwise, a new asset is created.
     @Sendable
     @inlinable
@@ -8990,16 +9233,19 @@ public struct Glue: AWSService {
     /// Starts a column statistics task run schedule.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - tableName: The name of the table for which to start a column statistic task run schedule.
     ///   - logger: Logger use during operation
     @inlinable
     public func startColumnStatisticsTaskRunSchedule(
+        catalogID: String? = nil,
         databaseName: String,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartColumnStatisticsTaskRunScheduleResponse {
         let input = StartColumnStatisticsTaskRunScheduleRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             tableName: tableName
         )
@@ -9261,7 +9507,7 @@ public struct Glue: AWSService {
     ///   - numberOfWorkers: The number of workers of a defined workerType that are allocated when a job runs.
     ///   - securityConfiguration: The name of the SecurityConfiguration structure to be used with this job run.
     ///   - timeout: The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
-    ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
+    ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.025X, G.1X, G.2X, G.4X, G.8X, G.12X, G.16X, R.1X, R.2X, R.4X, or R.8X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the G.12X worker type, each worker maps to 12 DPU (48 vCPUs, 192 GB of memory) with 768GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the G.16X worker type, each worker maps to 16 DPU (64 vCPUs, 256 GB of memory) with 1024GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.1X worker type, each worker maps to 1 M-DPU (4 vCPUs, 32 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.2X worker type, each worker maps to 2 M-DPU (8 vCPUs, 64 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.4X worker type, each worker maps to 4 M-DPU (16 vCPUs, 128 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the R.8X worker type, each worker maps to 8 M-DPU (32 vCPUs, 256 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see Configuring job properties for Spark jobs in the developer guide.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     ///   - logger: Logger use during operation
     @inlinable
     public func startJobRun(
@@ -9472,16 +9718,19 @@ public struct Glue: AWSService {
     /// Stops a task run for the specified table.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - tableName: The name of the table.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopColumnStatisticsTaskRun(
+        catalogID: String? = nil,
         databaseName: String,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StopColumnStatisticsTaskRunResponse {
         let input = StopColumnStatisticsTaskRunRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             tableName: tableName
         )
@@ -9504,16 +9753,19 @@ public struct Glue: AWSService {
     /// Stops a column statistics task run schedule.
     ///
     /// Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - tableName: The name of the table for which to stop a column statistic task run schedule.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopColumnStatisticsTaskRunSchedule(
+        catalogID: String? = nil,
         databaseName: String,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StopColumnStatisticsTaskRunScheduleResponse {
         let input = StopColumnStatisticsTaskRunScheduleRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             tableName: tableName
         )
@@ -10128,6 +10380,7 @@ public struct Glue: AWSService {
     /// Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
     ///
     /// Parameters:
+    ///   - catalogId: The ID of the Data Catalog in which to store the crawler's output. If you omit this value, the existing value on the crawler is preserved.
     ///   - classifiers: A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
     ///   - configuration: Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Setting crawler configuration options.
     ///   - crawlerSecurityConfiguration: The name of the SecurityConfiguration structure to be used by this crawler.
@@ -10145,6 +10398,7 @@ public struct Glue: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCrawler(
+        catalogId: String? = nil,
         classifiers: [String]? = nil,
         configuration: String? = nil,
         crawlerSecurityConfiguration: String? = nil,
@@ -10162,6 +10416,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateCrawlerResponse {
         let input = UpdateCrawlerRequest(
+            catalogId: catalogId, 
             classifiers: classifiers, 
             configuration: configuration, 
             crawlerSecurityConfiguration: crawlerSecurityConfiguration, 
@@ -11213,18 +11468,21 @@ extension Glue {
     /// Return PaginatorSequence for operation ``getColumnStatisticsTaskRuns(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - catalogID: The ID of the Data Catalog where the table resides. If none is supplied, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - maxResults: The maximum size of the response.
     ///   - tableName: The name of the table.
     ///   - logger: Logger used for logging
     @inlinable
     public func getColumnStatisticsTaskRunsPaginator(
+        catalogID: String? = nil,
         databaseName: String,
         maxResults: Int? = nil,
         tableName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetColumnStatisticsTaskRunsRequest, GetColumnStatisticsTaskRunsResponse> {
         let input = GetColumnStatisticsTaskRunsRequest(
+            catalogID: catalogID, 
             databaseName: databaseName, 
             maxResults: maxResults, 
             tableName: tableName
@@ -12287,6 +12545,43 @@ extension Glue {
         return self.listDataQualityResultsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listDataQualityResultsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataQualityResultsV2Paginator(
+        _ input: ListDataQualityResultsV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataQualityResultsV2Request, ListDataQualityResultsV2Response> {
+        return .init(
+            input: input,
+            command: self.listDataQualityResultsV2,
+            inputKey: \ListDataQualityResultsV2Request.nextToken,
+            outputKey: \ListDataQualityResultsV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataQualityResultsV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: The filter criteria.
+    ///   - maxResults: The maximum number of results to return. If you don't specify a value, the operation uses the default number of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataQualityResultsV2Paginator(
+        filter: DataQualityResultsV2FilterCriteria? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataQualityResultsV2Request, ListDataQualityResultsV2Response> {
+        let input = ListDataQualityResultsV2Request(
+            filter: filter, 
+            maxResults: maxResults
+        )
+        return self.listDataQualityResultsV2Paginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDataQualityRuleRecommendationRuns(_:logger:)``.
     ///
     /// - Parameters:
@@ -13188,6 +13483,7 @@ extension Glue.GetColumnStatisticsTaskRunsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Glue.GetColumnStatisticsTaskRunsRequest {
         return .init(
+            catalogID: self.catalogID,
             databaseName: self.databaseName,
             maxResults: self.maxResults,
             nextToken: token,
@@ -13505,6 +13801,17 @@ extension Glue.ListCustomEntityTypesRequest: AWSPaginateToken {
 extension Glue.ListDataQualityResultsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Glue.ListDataQualityResultsRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Glue.ListDataQualityResultsV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.ListDataQualityResultsV2Request {
         return .init(
             filter: self.filter,
             maxResults: self.maxResults,

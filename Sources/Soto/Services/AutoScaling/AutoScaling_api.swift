@@ -871,6 +871,41 @@ public struct AutoScaling: AWSService {
         )
     }
 
+    ///  Describes the current Amazon EC2 Auto Scaling account settings for your account. Account settings are a framework that allows you to enable or disable features for your account. The framework also gives you visibility into features that will be enforced by a given date, providing a time window to prepare for backwards-incompatible changes.
+    @Sendable
+    @inlinable
+    public func describeAccountSettings(_ input: DescribeAccountSettingsType, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountSettingsAnswer {
+        try await self.client.execute(
+            operation: "DescribeAccountSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Describes the current Amazon EC2 Auto Scaling account settings for your account. Account settings are a framework that allows you to enable or disable features for your account. The framework also gives you visibility into features that will be enforced by a given date, providing a time window to prepare for backwards-incompatible changes.
+    ///
+    /// Parameters:
+    ///   - maxRecords:  The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    ///   - name:  The name of the account setting to describe. If you omit this parameter, all account settings are described.
+    ///   - nextToken:  The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAccountSettings(
+        maxRecords: Int? = nil,
+        name: String? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAccountSettingsAnswer {
+        let input = DescribeAccountSettingsType(
+            maxRecords: maxRecords, 
+            name: name, 
+            nextToken: nextToken
+        )
+        return try await self.describeAccountSettings(input, logger: logger)
+    }
+
     /// Describes the available adjustment types for step scaling and simple scaling policies. The following adjustment types are supported:    ChangeInCapacity     ExactCapacity     PercentChangeInCapacity
     @Sendable
     @inlinable
@@ -1861,6 +1896,38 @@ public struct AutoScaling: AWSService {
             subnetIds: subnetIds
         )
         return try await self.launchInstances(input, logger: logger)
+    }
+
+    ///  Modifies an account setting for your account. You can use this operation to opt in or opt out of features provided through account settings when permitted. Account settings give you control over features that might have backwards-incompatible changes. When Amazon EC2 Auto Scaling introduces such changes, account settings allow you to test and adopt new features. Some account settings are enforced after a specified date. This means that after the enforcement date, you can no longer modify the setting.
+    @Sendable
+    @inlinable
+    public func putAccountSetting(_ input: PutAccountSettingType, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSettingAnswer {
+        try await self.client.execute(
+            operation: "PutAccountSetting", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Modifies an account setting for your account. You can use this operation to opt in or opt out of features provided through account settings when permitted. Account settings give you control over features that might have backwards-incompatible changes. When Amazon EC2 Auto Scaling introduces such changes, account settings allow you to test and adopt new features. Some account settings are enforced after a specified date. This means that after the enforcement date, you can no longer modify the setting.
+    ///
+    /// Parameters:
+    ///   - name:  The name of the account setting to modify. Each account setting has a unique name that identifies the specific feature it controls.
+    ///   - value:  The value for the account setting.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAccountSetting(
+        name: String? = nil,
+        value: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAccountSettingAnswer {
+        let input = PutAccountSettingType(
+            name: name, 
+            value: value
+        )
+        return try await self.putAccountSetting(input, logger: logger)
     }
 
     /// Creates or updates a lifecycle hook for the specified Auto Scaling group. Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:   (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due to a lifecycle hook.   (Optional) Create a Lambda function and a rule that allows Amazon EventBridge to invoke your Lambda function when an instance is put into a wait state due to a lifecycle hook.   (Optional) Create a notification target and an IAM role. The target can be either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish lifecycle notifications to the target.    Create the lifecycle hook. Specify whether the hook is used when the instances launch or terminate.    If you need more time, record the lifecycle action heartbeat to keep the instance in a wait state using the RecordLifecycleActionHeartbeat API call.   If you finish before the timeout period ends, send a callback by using the CompleteLifecycleAction API call.   For more information, see Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto Scaling group, the call fails. You can view the lifecycle hooks for an Auto Scaling group using the  DescribeLifecycleHooks API call. If you are no longer using a lifecycle hook, you can delete it by calling the DeleteLifecycleHook API.

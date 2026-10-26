@@ -229,7 +229,7 @@ public struct ElastiCache: AWSService {
         return try await self.batchStopUpdateAction(input, logger: logger)
     }
 
-    /// Complete the migration of data.
+    /// Completes the migration of data.
     @Sendable
     @inlinable
     public func completeMigration(_ input: CompleteMigrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CompleteMigrationResponse {
@@ -242,21 +242,24 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Complete the migration of data.
+    /// Completes the migration of data.
     ///
     /// Parameters:
     ///   - force: Forces the migration to stop without ensuring that data is in sync. It is recommended to use this option only to abort the migration and not recommended when application wants to continue migration to ElastiCache.
     ///   - replicationGroupId: The ID of the replication group to which data is being migrated.
+    ///   - serverlessCacheName: The name of the serverless cache to which data is being migrated.
     ///   - logger: Logger use during operation
     @inlinable
     public func completeMigration(
         force: Bool? = nil,
         replicationGroupId: String? = nil,
+        serverlessCacheName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CompleteMigrationResponse {
         let input = CompleteMigrationMessage(
             force: force, 
-            replicationGroupId: replicationGroupId
+            replicationGroupId: replicationGroupId, 
+            serverlessCacheName: serverlessCacheName
         )
         return try await self.completeMigration(input, logger: logger)
     }
@@ -768,6 +771,7 @@ public struct ElastiCache: AWSService {
     ///
     /// Parameters:
     ///   - cacheUsageLimits: Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
+    ///   - connectionType: The connection type for the serverless cache. Must be either vpc | public. Use vpc to access the cache through a VPC endpoint, or public to access the cache over the internet. If not specified, defaults to vpc. This value cannot be changed after the serverless cache is created. Setting this to public requires Valkey 9 or above.
     ///   - dailySnapshotTime: The daily time that snapshots will be created from the new serverless cache. By default this number is populated with  0, i.e. no snapshots will be created on an automatic daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - description: User-provided description for the serverless cache.   The default is NULL, i.e. if no description is provided then an empty string will be returned.  The maximum length is 255 characters.
     ///   - engine: The name of the cache engine to be used for creating the serverless cache.
@@ -785,6 +789,7 @@ public struct ElastiCache: AWSService {
     @inlinable
     public func createServerlessCache(
         cacheUsageLimits: CacheUsageLimits? = nil,
+        connectionType: ConnectionType? = nil,
         dailySnapshotTime: String? = nil,
         description: String? = nil,
         engine: String? = nil,
@@ -802,6 +807,7 @@ public struct ElastiCache: AWSService {
     ) async throws -> CreateServerlessCacheResponse {
         let input = CreateServerlessCacheRequest(
             cacheUsageLimits: cacheUsageLimits, 
+            connectionType: connectionType, 
             dailySnapshotTime: dailySnapshotTime, 
             description: description, 
             engine: engine, 
@@ -2927,6 +2933,44 @@ public struct ElastiCache: AWSService {
         return try await self.modifyUserGroup(input, logger: logger)
     }
 
+    /// Prepares the serverless cache for data migration by validating the configuration and setting up the migration resources.
+    @Sendable
+    @inlinable
+    public func prepareMigration(_ input: PrepareMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PrepareMigrationResponse {
+        try await self.client.execute(
+            operation: "PrepareMigration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Prepares the serverless cache for data migration by validating the configuration and setting up the migration resources.
+    ///
+    /// Parameters:
+    ///   - customerNodeEndpointList: The list of endpoints from which to migrate data. For serverless cache migrations, the list should have only one element.
+    ///   - serverlessCacheName: The name of the serverless cache to prepare for migration.
+    ///   - sourceAuthenticationConfiguration: The authentication configuration for connecting to the source during migration.
+    ///   - sourceTlsConfiguration: The TLS configuration for connecting to the source during migration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func prepareMigration(
+        customerNodeEndpointList: [CustomerNodeEndpoint]? = nil,
+        serverlessCacheName: String? = nil,
+        sourceAuthenticationConfiguration: SourceAuthenticationConfiguration? = nil,
+        sourceTlsConfiguration: SourceTlsConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PrepareMigrationResponse {
+        let input = PrepareMigrationRequest(
+            customerNodeEndpointList: customerNodeEndpointList, 
+            serverlessCacheName: serverlessCacheName, 
+            sourceAuthenticationConfiguration: sourceAuthenticationConfiguration, 
+            sourceTlsConfiguration: sourceTlsConfiguration
+        )
+        return try await self.prepareMigration(input, logger: logger)
+    }
+
     /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see Managing Costs with Reserved Nodes.
     @Sendable
     @inlinable
@@ -3131,7 +3175,7 @@ public struct ElastiCache: AWSService {
         return try await self.revokeCacheSecurityGroupIngress(input, logger: logger)
     }
 
-    /// Start the migration of data.
+    /// Starts the migration of data.
     @Sendable
     @inlinable
     public func startMigration(_ input: StartMigrationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMigrationResponse {
@@ -3144,23 +3188,61 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// Start the migration of data.
+    /// Starts the migration of data.
     ///
     /// Parameters:
-    ///   - customerNodeEndpointList: List of endpoints from which data should be migrated. For Valkey or Redis OSS (cluster mode disabled), the list should have only one element.
+    ///   - autoCutover: Specifies whether ElastiCache automatically attempts to complete the migration after data sync is established.
+    ///   - clearTargetCacheData: Specifies whether ElastiCache deletes existing data in the serverless cache before migration begins. After StopMigration, StartMigration requires this option to restart the data sync.
+    ///   - customerNodeEndpointList: The list of endpoints from which to migrate data. For Valkey or Redis OSS (cluster mode disabled), the list should have only one element. For serverless cache migrations, ElastiCache uses the endpoint that you provided in PrepareMigration.
     ///   - replicationGroupId: The ID of the replication group to which data should be migrated.
+    ///   - serverlessCacheName: The name of the serverless cache to which data is being migrated.
     ///   - logger: Logger use during operation
     @inlinable
     public func startMigration(
+        autoCutover: Bool? = nil,
+        clearTargetCacheData: Bool? = nil,
         customerNodeEndpointList: [CustomerNodeEndpoint]? = nil,
         replicationGroupId: String? = nil,
+        serverlessCacheName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartMigrationResponse {
         let input = StartMigrationMessage(
+            autoCutover: autoCutover, 
+            clearTargetCacheData: clearTargetCacheData, 
             customerNodeEndpointList: customerNodeEndpointList, 
-            replicationGroupId: replicationGroupId
+            replicationGroupId: replicationGroupId, 
+            serverlessCacheName: serverlessCacheName
         )
         return try await self.startMigration(input, logger: logger)
+    }
+
+    /// Stops an ongoing data sync between the source and the serverless cache. The migration remains open and the data sync can be restarted. This operation is valid only while the migration is syncing; during cutover it returns InvalidServerlessCacheStateFault.
+    @Sendable
+    @inlinable
+    public func stopMigration(_ input: StopMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMigrationResponse {
+        try await self.client.execute(
+            operation: "StopMigration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops an ongoing data sync between the source and the serverless cache. The migration remains open and the data sync can be restarted. This operation is valid only while the migration is syncing; during cutover it returns InvalidServerlessCacheStateFault.
+    ///
+    /// Parameters:
+    ///   - serverlessCacheName: The name of the serverless cache for which to stop the data sync.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopMigration(
+        serverlessCacheName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopMigrationResponse {
+        let input = StopMigrationRequest(
+            serverlessCacheName: serverlessCacheName
+        )
+        return try await self.stopMigration(input, logger: logger)
     }
 
     /// Represents the input of a TestFailover operation which tests automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console). This API is designed for testing the behavior of your application in case of ElastiCache failover. It is not designed to be an operational tool for initiating a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large-scale operational events, Amazon may block this API.   Note the following    A customer can use this operation to test automatic failover on up to 15 shards (called node groups in the ElastiCache API and Amazon CLI) in any rolling 24-hour period.   If calling this operation on shards in different clusters (called replication groups in the API and CLI), the calls can be made concurrently.    If calling this operation multiple times on different shards in the same Valkey or Redis OSS (cluster mode enabled) replication group, the first node replacement must complete before a subsequent call can be made.   To determine whether the node replacement is complete you can check Events using the Amazon ElastiCache console, the Amazon CLI, or the ElastiCache API. Look for the following automatic failover related events, listed here in order of occurrance:   Replication group message: Test Failover API called for node group     Cache cluster message: Failover from primary node to replica node  completed    Replication group message: Failover from primary node to replica node  completed    Cache cluster message: Recovering cache nodes     Cache cluster message: Finished recovery for cache nodes     For more information see:    Viewing ElastiCache Events in the ElastiCache User Guide     DescribeEvents in the ElastiCache API Reference     Also see, Testing Multi-AZ  in the ElastiCache User Guide.

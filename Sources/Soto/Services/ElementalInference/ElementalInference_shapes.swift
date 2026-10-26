@@ -50,6 +50,12 @@ extension ElementalInference {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExtendedAnalysisMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FeedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
@@ -76,6 +82,19 @@ extension ElementalInference {
         case censor = "CENSOR"
         case disabled = "DISABLED"
         case drop = "DROP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduleActionErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalError = "INTERNAL_ERROR"
+        case invalidActionTarget = "INVALID_ACTION_TARGET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduleActionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -165,6 +184,66 @@ extension ElementalInference {
             case contextualMetadata = "contextualMetadata"
             case cropping = "cropping"
             case subtitling = "subtitling"
+        }
+    }
+
+    public enum ScheduleActionOperation: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The operation type that removes the game from an event clipping output.
+        case removeClippingDataSourceConfiguration(RemoveClippingDataSourceConfiguration)
+        /// The operation type that attaches a game to an event clipping output.
+        case updateClippingDataSourceConfiguration(UpdateClippingDataSourceConfiguration)
+        /// The operation type that enables or disables an output.
+        case updateOutputStatus(UpdateOutputStatus)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .removeClippingDataSourceConfiguration:
+                let value = try container.decode(RemoveClippingDataSourceConfiguration.self, forKey: .removeClippingDataSourceConfiguration)
+                self = .removeClippingDataSourceConfiguration(value)
+            case .updateClippingDataSourceConfiguration:
+                let value = try container.decode(UpdateClippingDataSourceConfiguration.self, forKey: .updateClippingDataSourceConfiguration)
+                self = .updateClippingDataSourceConfiguration(value)
+            case .updateOutputStatus:
+                let value = try container.decode(UpdateOutputStatus.self, forKey: .updateOutputStatus)
+                self = .updateOutputStatus(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .removeClippingDataSourceConfiguration(let value):
+                try container.encode(value, forKey: .removeClippingDataSourceConfiguration)
+            case .updateClippingDataSourceConfiguration(let value):
+                try container.encode(value, forKey: .updateClippingDataSourceConfiguration)
+            case .updateOutputStatus(let value):
+                try container.encode(value, forKey: .updateOutputStatus)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .removeClippingDataSourceConfiguration(let value):
+                try value.validate(name: "\(name).removeClippingDataSourceConfiguration")
+            case .updateClippingDataSourceConfiguration(let value):
+                try value.validate(name: "\(name).updateClippingDataSourceConfiguration")
+            case .updateOutputStatus(let value):
+                try value.validate(name: "\(name).updateOutputStatus")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case removeClippingDataSourceConfiguration = "removeClippingDataSourceConfiguration"
+            case updateClippingDataSourceConfiguration = "updateClippingDataSourceConfiguration"
+            case updateOutputStatus = "updateOutputStatus"
         }
     }
 
@@ -293,15 +372,19 @@ extension ElementalInference {
     }
 
     public struct ContextualMetadataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether Elemental Inference generates a descriptive summary of the media content for this output.  Valid values:   ENABLED (default) – Elemental Inference generates a descriptive summary along with IAB taxonomy and GARM suitability classifications.    DISABLED – No descriptive summary is generated.
+        /// Specifies whether Elemental Inference generates extended analysis of the media content for this output. Extended analysis identifies the people, environments, brands, and on-screen text in the media content. This setting is independent of summaryGeneration.  Valid values:   ENABLED (default) – Elemental Inference populates the people, environments, brands, and on-screen text fields.    DISABLED – Elemental Inference doesn't populate the people, environments, brands, and on-screen text fields.
+        public let extendedAnalysis: ExtendedAnalysisMode?
+        /// Specifies whether Elemental Inference generates a descriptive summary of the media content for this output, along with the objects and actions that it detects. This setting is independent of extendedAnalysis.  Valid values:   ENABLED (default) – Elemental Inference populates the summary, objects, and actions fields, along with the IAB taxonomy and GARM suitability classifications.    DISABLED – Elemental Inference doesn't populate the summary, objects, and actions fields.
         public let summaryGeneration: SummaryGenerationMode?
 
         @inlinable
-        public init(summaryGeneration: SummaryGenerationMode? = nil) {
+        public init(extendedAnalysis: ExtendedAnalysisMode? = nil, summaryGeneration: SummaryGenerationMode? = nil) {
+            self.extendedAnalysis = extendedAnalysis
             self.summaryGeneration = summaryGeneration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case extendedAnalysis = "extendedAnalysis"
             case summaryGeneration = "summaryGeneration"
         }
     }
@@ -500,6 +583,80 @@ extension ElementalInference {
         }
     }
 
+    public struct CreateScheduleActionRequest: AWSEncodableShape {
+        /// A name for the schedule action. The name must be unique within the feed. You can reuse the name of an action that you deleted.
+        public let actionName: String
+        /// Specifies the ID of the feed that you want to add the schedule action to.
+        public let id: String
+        /// Specifies the list of configuration changes that you want to make to the feed. Elemental Inference applies all the operations in an action together, in the order that you specify them. If any operation fails, Elemental Inference doesn't apply any of them.
+        public let operations: [ScheduleActionOperation]
+        /// Specifies when the action runs.
+        public let startConfiguration: ScheduleActionStartConfiguration
+
+        @inlinable
+        public init(actionName: String, id: String, operations: [ScheduleActionOperation], startConfiguration: ScheduleActionStartConfiguration) {
+            self.actionName = actionName
+            self.id = id
+            self.operations = operations
+            self.startConfiguration = startConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.actionName, forKey: .actionName)
+            request.encodePath(self.id, key: "id")
+            try container.encode(self.operations, forKey: .operations)
+            try container.encode(self.startConfiguration, forKey: .startConfiguration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionName, name: "actionName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{19}$")
+            try self.operations.forEach {
+                try $0.validate(name: "\(name).operations[]")
+            }
+            try self.validate(self.operations, name: "operations", parent: name, max: 10)
+            try self.validate(self.operations, name: "operations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "actionName"
+            case operations = "operations"
+            case startConfiguration = "startConfiguration"
+        }
+    }
+
+    public struct CreateScheduleActionResponse: AWSDecodableShape {
+        /// The name that you specified.
+        public let actionName: String
+        /// A description of why the action failed. Elemental Inference returns this property only when the status is FAILED.
+        public let error: ScheduleActionError?
+        /// The configuration changes that the action makes to the feed.
+        public let operations: [ScheduleActionOperation]
+        /// Specifies when the action runs.
+        public let startConfiguration: ScheduleActionStartConfiguration
+        /// The status of the action. After you create the action successfully, Elemental Inference sets the status to PENDING.
+        public let status: ScheduleActionStatus
+
+        @inlinable
+        public init(actionName: String, error: ScheduleActionError? = nil, operations: [ScheduleActionOperation], startConfiguration: ScheduleActionStartConfiguration, status: ScheduleActionStatus) {
+            self.actionName = actionName
+            self.error = error
+            self.operations = operations
+            self.startConfiguration = startConfiguration
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "actionName"
+            case error = "error"
+            case operations = "operations"
+            case startConfiguration = "startConfiguration"
+            case status = "status"
+        }
+    }
+
     public struct CroppingConfig: AWSEncodableShape & AWSDecodableShape {
         /// An array of template groups for the crop output. Each template group provides the graphics-compositing templates that Elemental Inference applies to the cropped video. You can specify from 1 to 4 template groups.
         public let templateGroups: [TemplateGroup]?
@@ -650,6 +807,47 @@ extension ElementalInference {
             case arn = "arn"
             case id = "id"
             case status = "status"
+        }
+    }
+
+    public struct DeleteScheduleActionRequest: AWSEncodableShape {
+        /// The name of the schedule action that you want to delete.
+        public let actionName: String
+        /// The ID of the feed that holds the schedule action.
+        public let id: String
+
+        @inlinable
+        public init(actionName: String, id: String) {
+            self.actionName = actionName
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.actionName, key: "actionName")
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionName, name: "actionName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{19}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteScheduleActionResponse: AWSDecodableShape {
+        /// The name of the schedule action that Elemental Inference deleted.
+        public let actionName: String
+
+        @inlinable
+        public init(actionName: String) {
+            self.actionName = actionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "actionName"
         }
     }
 
@@ -816,6 +1014,20 @@ extension ElementalInference {
             case id = "id"
             case name = "name"
             case status = "status"
+        }
+    }
+
+    public struct FixedModeScheduleActionStartSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The UTC time at which the action runs. Specify the time in whole seconds. For the range of times that you can specify, see the AWS Elemental Inference User Guide.  This time is approximate. The change can take a few minutes to take effect on the media that the feed is processing.
+        public let scheduledAt: Date
+
+        @inlinable
+        public init(scheduledAt: Date) {
+            self.scheduledAt = scheduledAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledAt = "scheduledAt"
         }
     }
 
@@ -1186,6 +1398,54 @@ extension ElementalInference {
         }
     }
 
+    public struct ListScheduleActionsRequest: AWSEncodableShape {
+        /// The ID of the feed that you want to query.
+        public let id: String
+        /// The maximum number of results to return for each API request. If you don't specify MaxResults, Elemental Inference returns a maximum of 10 results for each page.
+        public let maxResults: Int?
+        /// The token that identifies the batch of results that you want to see. To see the next batch, submit the request a second time and specify the NextToken value that Elemental Inference returned.
+        public let nextToken: String?
+
+        @inlinable
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{19}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListScheduleActionsResponse: AWSDecodableShape {
+        /// The token that identifies the next batch of results. Elemental Inference returns it only when more results are available.
+        public let nextToken: String?
+        /// A list of the schedule actions on the feed.
+        public let scheduleActions: [ScheduleAction]
+
+        @inlinable
+        public init(nextToken: String? = nil, scheduleActions: [ScheduleAction]) {
+            self.nextToken = nextToken
+            self.scheduleActions = scheduleActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case scheduleActions = "scheduleActions"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The ARN of the resource whose tags you want to query.
         public let resourceArn: String
@@ -1202,7 +1462,7 @@ extension ElementalInference {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:elemental-inference[a-z\\-]*:[a-z0-9\\-]+:[0-9]{12}:(feed|dictionary)/[a-zA-Z0-9]{1,19}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:elemental-inference[a-z\\-]*:[a-z0-9\\-]+:[0-9]{12}:[a-z]+/[a-zA-Z0-9]{1,19}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1254,6 +1514,72 @@ extension ElementalInference {
 
     public struct PutFeedPolicyResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct RemoveClippingDataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the output that you want to remove the game from.
+        public let outputName: String
+
+        @inlinable
+        public init(outputName: String) {
+            self.outputName = outputName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outputName, name: "outputName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputName = "outputName"
+        }
+    }
+
+    public struct ScheduleAction: AWSDecodableShape {
+        /// The name of the schedule action. The name is unique within the feed.
+        public let actionName: String
+        /// A description of why the action failed. Elemental Inference returns this property only when the status is FAILED.
+        public let error: ScheduleActionError?
+        /// The configuration changes that the action makes to the feed.
+        public let operations: [ScheduleActionOperation]
+        /// Specifies when the action runs.
+        public let startConfiguration: ScheduleActionStartConfiguration
+        /// The status of the action. Valid values are the following:  PENDING  The action is waiting for its scheduled time.  COMPLETED  Elemental Inference applied all the action's operations to the feed.  FAILED  Elemental Inference couldn't apply the action.
+        public let status: ScheduleActionStatus
+
+        @inlinable
+        public init(actionName: String, error: ScheduleActionError? = nil, operations: [ScheduleActionOperation], startConfiguration: ScheduleActionStartConfiguration, status: ScheduleActionStatus) {
+            self.actionName = actionName
+            self.error = error
+            self.operations = operations
+            self.startConfiguration = startConfiguration
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionName = "actionName"
+            case error = "error"
+            case operations = "operations"
+            case startConfiguration = "startConfiguration"
+            case status = "status"
+        }
+    }
+
+    public struct ScheduleActionError: AWSDecodableShape {
+        /// The type of failure. Valid values are the following:  INVALID_ACTION_TARGET  The action referred to something that didn't exist or wasn't valid at the scheduled time, for example an output that you deleted.   INTERNAL_ERROR  An unexpected error prevented the action from completing.
+        public let errorCode: ScheduleActionErrorCode
+        /// A description of the failure.
+        public let errorMessage: String
+
+        @inlinable
+        public init(errorCode: ScheduleActionErrorCode, errorMessage: String) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+        }
     }
 
     public struct SearchFilter: AWSEncodableShape {
@@ -1395,7 +1721,7 @@ extension ElementalInference {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:elemental-inference[a-z\\-]*:[a-z0-9\\-]+:[0-9]{12}:(feed|dictionary)/[a-zA-Z0-9]{1,19}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:elemental-inference[a-z\\-]*:[a-z0-9\\-]+:[0-9]{12}:[a-z]+/[a-zA-Z0-9]{1,19}$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1457,7 +1783,7 @@ extension ElementalInference {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:elemental-inference[a-z\\-]*:[a-z0-9\\-]+:[0-9]{12}:(feed|dictionary)/[a-zA-Z0-9]{1,19}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:elemental-inference[a-z\\-]*:[a-z0-9\\-]+:[0-9]{12}:[a-z]+/[a-zA-Z0-9]{1,19}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1465,6 +1791,29 @@ extension ElementalInference {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateClippingDataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The game that you want to attach to the output.
+        public let dataSourceConfiguration: DataSourceConfiguration
+        /// The name of the output that you want to attach the game to.
+        public let outputName: String
+
+        @inlinable
+        public init(dataSourceConfiguration: DataSourceConfiguration, outputName: String) {
+            self.dataSourceConfiguration = dataSourceConfiguration
+            self.outputName = outputName
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSourceConfiguration.validate(name: "\(name).dataSourceConfiguration")
+            try self.validate(self.outputName, name: "outputName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceConfiguration = "dataSourceConfiguration"
+            case outputName = "outputName"
+        }
     }
 
     public struct UpdateDictionaryRequest: AWSEncodableShape {
@@ -1672,6 +2021,42 @@ extension ElementalInference {
             case name = "name"
             case outputConfig = "outputConfig"
             case status = "status"
+        }
+    }
+
+    public struct UpdateOutputStatus: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the output that you want to enable or disable. The output must exist in the feed when you create the action.
+        public let outputName: String
+        /// Specifies whether the output is enabled or disabled after the action runs.
+        public let status: OutputStatus
+
+        @inlinable
+        public init(outputName: String, status: OutputStatus) {
+            self.outputName = outputName
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outputName, name: "outputName", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputName = "outputName"
+            case status = "status"
+        }
+    }
+
+    public struct ScheduleActionStartConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The start settings type for an action that runs once, at a fixed time.
+        public let fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings?
+
+        @inlinable
+        public init(fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings? = nil) {
+            self.fixedModeScheduleActionStartSettings = fixedModeScheduleActionStartSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fixedModeScheduleActionStartSettings = "fixedModeScheduleActionStartSettings"
         }
     }
 }

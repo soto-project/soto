@@ -2534,12 +2534,20 @@ extension TimestreamInfluxDB {
         public let replicationInterval: Duration?
         /// The interval at which retention policies are checked and enforced. Enter as a human-readable time–for example: 30m or 1h. Default: 30m
         public let retentionCheckInterval: Duration?
+        /// The time-based trigger that controls how often the ingester creates snapshots. This value is also used on query nodes as the bucket rotation interval for the replica buffer.
+        public let snapshotDuration: Duration?
+        /// The maximum size of the active snapshot bucket before it is rotated for snapshotting.
+        public let snapshotSize: PercentOrAbsoluteLong?
         /// Specifies the number of snapshotted WAL files to retain in the object store. Flushing the WAL files does not clear the WAL files immediately; they are deleted when the number of snapshotted WAL files exceeds this number. Default: 300
         public let snapshottedWalFilesToKeep: Int?
         /// Limits the concurrency level for table index cache operations. Default: 8
         public let tableIndexCacheConcurrencyLimit: Int?
         /// Specifies the maximum number of entries in the table index cache. Default: 1000
         public let tableIndexCacheMaxEntries: Int?
+        /// Specifies whether to migrate the cluster from the Parquet storage engine to PachaTree. This action cannot be reversed. To create a new cluster on Parquet, set this to false.
+        public let upgradePachaTree: Bool?
+        /// The maximum size, in bytes, of the in-memory WAL buffer before a flush is triggered regardless of the flush interval. Increase this value if WAL files are flushed before the interval elapses.
+        public let walBufferSize: Int64?
         /// Specifies the maximum number of write requests that can be buffered before a flush must be executed and succeed. Default: 100000
         public let walMaxWriteBufferSize: Int?
         /// Concurrency limit during WAL replay. Setting this number too high can lead to OOM. The default is dynamically determined. Default: max(num_cpus, 10)
@@ -2550,7 +2558,7 @@ extension TimestreamInfluxDB {
         public let walSnapshotSize: Int?
 
         @inlinable
-        public init(catalogSyncInterval: Duration? = nil, compactionCheckInterval: Duration? = nil, compactionCleanupWait: Duration? = nil, compactionGen2Duration: Duration? = nil, compactionMaxNumFilesPerPlan: Int? = nil, compactionMultipliers: String? = nil, compactionRowLimit: Int? = nil, dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, dedicatedCompactor: Bool, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, distinctValueCacheDisableFromHistory: Bool? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, ingestQueryInstances: Int, lastCacheEvictionInterval: Duration? = nil, lastValueCacheDisableFromHistory: Bool? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, pluginRepositorySecretArn: String? = nil, pluginRepositoryUrl: String? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, queryOnlyInstances: Int, replicationInterval: Duration? = nil, retentionCheckInterval: Duration? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
+        public init(catalogSyncInterval: Duration? = nil, compactionCheckInterval: Duration? = nil, compactionCleanupWait: Duration? = nil, compactionGen2Duration: Duration? = nil, compactionMaxNumFilesPerPlan: Int? = nil, compactionMultipliers: String? = nil, compactionRowLimit: Int? = nil, dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, dedicatedCompactor: Bool, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, distinctValueCacheDisableFromHistory: Bool? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, ingestQueryInstances: Int, lastCacheEvictionInterval: Duration? = nil, lastValueCacheDisableFromHistory: Bool? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, pluginRepositorySecretArn: String? = nil, pluginRepositoryUrl: String? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, queryOnlyInstances: Int, replicationInterval: Duration? = nil, retentionCheckInterval: Duration? = nil, snapshotDuration: Duration? = nil, snapshotSize: PercentOrAbsoluteLong? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, upgradePachaTree: Bool? = nil, walBufferSize: Int64? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
             self.catalogSyncInterval = catalogSyncInterval
             self.compactionCheckInterval = compactionCheckInterval
             self.compactionCleanupWait = compactionCleanupWait
@@ -2598,9 +2606,13 @@ extension TimestreamInfluxDB {
             self.queryOnlyInstances = queryOnlyInstances
             self.replicationInterval = replicationInterval
             self.retentionCheckInterval = retentionCheckInterval
+            self.snapshotDuration = snapshotDuration
+            self.snapshotSize = snapshotSize
             self.snapshottedWalFilesToKeep = snapshottedWalFilesToKeep
             self.tableIndexCacheConcurrencyLimit = tableIndexCacheConcurrencyLimit
             self.tableIndexCacheMaxEntries = tableIndexCacheMaxEntries
+            self.upgradePachaTree = upgradePachaTree
+            self.walBufferSize = walBufferSize
             self.walMaxWriteBufferSize = walMaxWriteBufferSize
             self.walReplayConcurrencyLimit = walReplayConcurrencyLimit
             self.walReplayFailOnError = walReplayFailOnError
@@ -2661,9 +2673,13 @@ extension TimestreamInfluxDB {
             case queryOnlyInstances = "queryOnlyInstances"
             case replicationInterval = "replicationInterval"
             case retentionCheckInterval = "retentionCheckInterval"
+            case snapshotDuration = "snapshotDuration"
+            case snapshotSize = "snapshotSize"
             case snapshottedWalFilesToKeep = "snapshottedWalFilesToKeep"
             case tableIndexCacheConcurrencyLimit = "tableIndexCacheConcurrencyLimit"
             case tableIndexCacheMaxEntries = "tableIndexCacheMaxEntries"
+            case upgradePachaTree = "upgradePachaTree"
+            case walBufferSize = "walBufferSize"
             case walMaxWriteBufferSize = "walMaxWriteBufferSize"
             case walReplayConcurrencyLimit = "walReplayConcurrencyLimit"
             case walReplayFailOnError = "walReplayFailOnError"

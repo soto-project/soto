@@ -26,10 +26,16 @@ extension KafkaConnect {
     // MARK: Enums
 
     public enum ConnectorOperationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pauseComplete = "PAUSE_COMPLETE"
+        case pauseFailed = "PAUSE_FAILED"
+        case pauseInProgress = "PAUSE_IN_PROGRESS"
         case pending = "PENDING"
         case restartComplete = "RESTART_COMPLETE"
         case restartFailed = "RESTART_FAILED"
         case restartInProgress = "RESTART_IN_PROGRESS"
+        case resumeComplete = "RESUME_COMPLETE"
+        case resumeFailed = "RESUME_FAILED"
+        case resumeInProgress = "RESUME_IN_PROGRESS"
         case rollbackComplete = "ROLLBACK_COMPLETE"
         case rollbackFailed = "ROLLBACK_FAILED"
         case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
@@ -59,8 +65,10 @@ extension KafkaConnect {
 
     public enum ConnectorOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case isolateConnector = "ISOLATE_CONNECTOR"
+        case pauseConnector = "PAUSE_CONNECTOR"
         case restartConnector = "RESTART_CONNECTOR"
         case restoreConnector = "RESTORE_CONNECTOR"
+        case resumeConnector = "RESUME_CONNECTOR"
         case updateConnectorConfiguration = "UPDATE_CONNECTOR_CONFIGURATION"
         case updateWorkerSetting = "UPDATE_WORKER_SETTING"
         public var description: String { return self.rawValue }
@@ -70,7 +78,10 @@ extension KafkaConnect {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case paused = "PAUSED"
+        case pausing = "PAUSING"
         case restarting = "RESTARTING"
+        case resuming = "RESUMING"
         case running = "RUNNING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
@@ -1670,6 +1681,42 @@ extension KafkaConnect {
         }
     }
 
+    public struct PauseConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector that you want to pause.
+        public let connectorArn: String
+
+        @inlinable
+        public init(connectorArn: String) {
+            self.connectorArn = connectorArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorArn, key: "connectorArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct PauseConnectorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let connectorArn: String?
+        /// The Amazon Resource Name (ARN) of the connector operation created to perform the pause.
+        public let connectorOperationArn: String?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorOperationArn: String? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorOperationArn = connectorOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "connectorArn"
+            case connectorOperationArn = "connectorOperationArn"
+        }
+    }
+
     public struct Plugin: AWSEncodableShape {
         /// Details about a custom plugin.
         public let customPlugin: CustomPlugin
@@ -1792,6 +1839,42 @@ extension KafkaConnect {
         /// The Amazon Resource Name (ARN) of the connector.
         public let connectorArn: String?
         /// The Amazon Resource Name (ARN) of the connector operation created to perform the restart.
+        public let connectorOperationArn: String?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorOperationArn: String? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorOperationArn = connectorOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "connectorArn"
+            case connectorOperationArn = "connectorOperationArn"
+        }
+    }
+
+    public struct ResumeConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector that you want to resume.
+        public let connectorArn: String
+
+        @inlinable
+        public init(connectorArn: String) {
+            self.connectorArn = connectorArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorArn, key: "connectorArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ResumeConnectorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let connectorArn: String?
+        /// The Amazon Resource Name (ARN) of the connector operation created to perform the resume.
         public let connectorOperationArn: String?
 
         @inlinable
@@ -2096,13 +2179,16 @@ extension KafkaConnect {
         public let connectorConfiguration: [String: String]?
         /// The current version of the connector that you want to update.
         public let currentVersion: String
+        /// Specifies whether the update bypasses connector-level and task-level health checks. If true, the update skips the health checks. The update stays in effect even if the connector or its tasks are unhealthy, and Amazon MSK Connect doesn't roll it back. If false or not specified, the health checks run. If they fail, MSK Connect automatically rolls the connector back to its previous configuration, and the update doesn't take effect. To update a connector that is in the PAUSED state, you must set this parameter to true.
+        public let skipHealthValidation: Bool?
 
         @inlinable
-        public init(capacity: CapacityUpdate? = nil, connectorArn: String, connectorConfiguration: [String: String]? = nil, currentVersion: String) {
+        public init(capacity: CapacityUpdate? = nil, connectorArn: String, connectorConfiguration: [String: String]? = nil, currentVersion: String, skipHealthValidation: Bool? = nil) {
             self.capacity = capacity
             self.connectorArn = connectorArn
             self.connectorConfiguration = connectorConfiguration
             self.currentVersion = currentVersion
+            self.skipHealthValidation = skipHealthValidation
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2112,6 +2198,7 @@ extension KafkaConnect {
             request.encodePath(self.connectorArn, key: "connectorArn")
             try container.encodeIfPresent(self.connectorConfiguration, forKey: .connectorConfiguration)
             request.encodeQuery(self.currentVersion, key: "currentVersion")
+            try container.encodeIfPresent(self.skipHealthValidation, forKey: .skipHealthValidation)
         }
 
         public func validate(name: String) throws {
@@ -2121,6 +2208,7 @@ extension KafkaConnect {
         private enum CodingKeys: String, CodingKey {
             case capacity = "capacity"
             case connectorConfiguration = "connectorConfiguration"
+            case skipHealthValidation = "skipHealthValidation"
         }
     }
 

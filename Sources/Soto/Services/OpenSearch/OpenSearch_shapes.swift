@@ -214,6 +214,12 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disk = "DISK"
+        case native = "NATIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EngineMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case general = "GENERAL"
         case optimized = "OPTIMIZED"
@@ -638,6 +644,7 @@ extension OpenSearch {
     public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
         case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
+        case policyMinTls12FipsPq202610 = "Policy-Min-TLS-1-2-FIPS-PQ-2026-10"
         case policyMinTls12Pfs202310 = "Policy-Min-TLS-1-2-PFS-2023-10"
         case policyMinTls12Rfc9151Fips202408 = "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
         public var description: String { return self.rawValue }
@@ -660,6 +667,12 @@ extension OpenSearch {
         case preUpgradeCheck = "PRE_UPGRADE_CHECK"
         case snapshot = "SNAPSHOT"
         case upgrade = "UPGRADE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationFailureSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case critical = "Critical"
+        case warning = "Warning"
         public var description: String { return self.rawValue }
     }
 
@@ -1993,6 +2006,8 @@ extension OpenSearch {
     }
 
     public struct ChangeProgressStatusDetails: AWSDecodableShape {
+        /// The list of advisory warning codes that were accepted for the configuration change.
+        public let acceptedWarnings: [String]?
         /// The unique change identifier associated with a specific domain configuration change.
         public let changeId: String?
         /// The specific stages that the domain is going through to perform the configuration change.
@@ -2013,9 +2028,12 @@ extension OpenSearch {
         public let status: OverallChangeStatus?
         /// The total number of stages required for the configuration change.
         public let totalNumberOfStages: Int?
+        /// The validation failures that occurred as a result of the configuration change.
+        public let validationFailures: [ValidationFailure]?
 
         @inlinable
-        public init(changeId: String? = nil, changeProgressStages: [ChangeProgressStage]? = nil, completedProperties: [String]? = nil, configChangeStatus: ConfigChangeStatus? = nil, initiatedBy: InitiatedBy? = nil, lastUpdatedTime: Date? = nil, pendingProperties: [String]? = nil, startTime: Date? = nil, status: OverallChangeStatus? = nil, totalNumberOfStages: Int? = nil) {
+        public init(acceptedWarnings: [String]? = nil, changeId: String? = nil, changeProgressStages: [ChangeProgressStage]? = nil, completedProperties: [String]? = nil, configChangeStatus: ConfigChangeStatus? = nil, initiatedBy: InitiatedBy? = nil, lastUpdatedTime: Date? = nil, pendingProperties: [String]? = nil, startTime: Date? = nil, status: OverallChangeStatus? = nil, totalNumberOfStages: Int? = nil, validationFailures: [ValidationFailure]? = nil) {
+            self.acceptedWarnings = acceptedWarnings
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
             self.completedProperties = completedProperties
@@ -2026,9 +2044,11 @@ extension OpenSearch {
             self.startTime = startTime
             self.status = status
             self.totalNumberOfStages = totalNumberOfStages
+            self.validationFailures = validationFailures
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptedWarnings = "AcceptedWarnings"
             case changeId = "ChangeId"
             case changeProgressStages = "ChangeProgressStages"
             case completedProperties = "CompletedProperties"
@@ -2039,6 +2059,7 @@ extension OpenSearch {
             case startTime = "StartTime"
             case status = "Status"
             case totalNumberOfStages = "TotalNumberOfStages"
+            case validationFailures = "ValidationFailures"
         }
     }
 
@@ -4370,7 +4391,7 @@ extension OpenSearch {
         public let customEndpointEnabled: Bool?
         /// True to require that all traffic to the domain arrive over HTTPS.
         public let enforceHTTPS: Bool?
-        /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The policy can be one of the following values:    Policy-Min-TLS-1-0-2019-07: TLS security policy that supports TLS version 1.0 to TLS version 1.2    Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2    Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites    Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08: TLS  security policy that supports TLS version 1.3 with FIPS
+        /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The policy can be one of the following values:    Policy-Min-TLS-1-0-2019-07: TLS security policy that supports TLS version 1.0 to TLS version 1.2    Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2    Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites    Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08: TLS  security policy that supports TLS version 1.3 with FIPS    Policy-Min-TLS-1-2-FIPS-PQ-2026-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with FIPS and post-quantum cipher suites
         public let tlsSecurityPolicy: TLSSecurityPolicy?
 
         @inlinable
@@ -4755,6 +4776,8 @@ extension OpenSearch {
     }
 
     public struct DryRunProgressStatus: AWSDecodableShape {
+        /// The list of advisory warning codes that were accepted for the configuration change.
+        public let acceptedWarnings: [String]?
         /// The timestamp when the dry run was initiated.
         public let creationDate: String
         /// The unique identifier of the dry run.
@@ -4763,11 +4786,12 @@ extension OpenSearch {
         public let dryRunStatus: String
         /// The timestamp when the dry run was last updated.
         public let updateDate: String
-        /// Any validation failures that occurred as a result of the dry run.
+        /// The validation failures that occurred as a result of the dry run.
         public let validationFailures: [ValidationFailure]?
 
         @inlinable
-        public init(creationDate: String, dryRunId: String, dryRunStatus: String, updateDate: String, validationFailures: [ValidationFailure]? = nil) {
+        public init(acceptedWarnings: [String]? = nil, creationDate: String, dryRunId: String, dryRunStatus: String, updateDate: String, validationFailures: [ValidationFailure]? = nil) {
+            self.acceptedWarnings = acceptedWarnings
             self.creationDate = creationDate
             self.dryRunId = dryRunId
             self.dryRunStatus = dryRunStatus
@@ -4776,6 +4800,7 @@ extension OpenSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptedWarnings = "AcceptedWarnings"
             case creationDate = "CreationDate"
             case dryRunId = "DryRunId"
             case dryRunStatus = "DryRunStatus"
@@ -4876,12 +4901,15 @@ extension OpenSearch {
     public struct EncryptionAtRestOptions: AWSEncodableShape & AWSDecodableShape {
         /// True to enable encryption at rest.
         public let enabled: Bool?
+        /// The type of encryption at rest applied to the domain's data. Valid values are DISK and NATIVE. DISK is the default and uses volume-level encryption. NATIVE uses engine-native, index-level encryption and requires encryption at rest to be enabled and OpenSearch version 3.3 or later. After the mode is set to NATIVE, it can't be changed back to DISK.
+        public let encryptionMode: EncryptionMode?
         /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
         public let kmsKeyId: String?
 
         @inlinable
-        public init(enabled: Bool? = nil, kmsKeyId: String? = nil) {
+        public init(enabled: Bool? = nil, encryptionMode: EncryptionMode? = nil, kmsKeyId: String? = nil) {
             self.enabled = enabled
+            self.encryptionMode = encryptionMode
             self.kmsKeyId = kmsKeyId
         }
 
@@ -4893,6 +4921,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+            case encryptionMode = "EncryptionMode"
             case kmsKeyId = "KmsKeyId"
         }
     }
@@ -9143,6 +9172,8 @@ extension OpenSearch {
     }
 
     public struct UpdateDomainConfigRequest: AWSEncodableShape {
+        /// A list of advisory warning codes to accept for this configuration change. By default, any advisory warning blocks the change. Include the code of each warning you want to accept so the change can proceed. You can find warning codes in the ValidationFailures list returned by DescribeDomainChangeProgress and DescribeDryRunProgress. Critical validation failures cannot be accepted and always block the change. If you omit this parameter or pass an empty list, all warnings block the change. For more information, see Validating a domain update.
+        public let acceptedWarnings: [String]?
         /// Identity and Access Management (IAM) access policy as a JSON-formatted string.
         public let accessPolicies: String?
         /// Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:    "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether explicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true.    "indices.fielddata.cache.size": "80"  - Note the use of a string rather than a boolean. Specifies the percentage of heap space allocated to field data. Default is unbounded.    "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error.   For more information, see Advanced cluster parameters.
@@ -9194,7 +9225,8 @@ extension OpenSearch {
         public let vpcOptions: VPCOptions?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineMode: EngineMode? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, useCase: DomainUseCase? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(acceptedWarnings: [String]? = nil, accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineMode: EngineMode? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, useCase: DomainUseCase? = nil, vpcOptions: VPCOptions? = nil) {
+            self.acceptedWarnings = acceptedWarnings
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -9225,6 +9257,7 @@ extension OpenSearch {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.acceptedWarnings, forKey: .acceptedWarnings)
             try container.encodeIfPresent(self.accessPolicies, forKey: .accessPolicies)
             try container.encodeIfPresent(self.advancedOptions, forKey: .advancedOptions)
             try container.encodeIfPresent(self.advancedSecurityOptions, forKey: .advancedSecurityOptions)
@@ -9253,6 +9286,7 @@ extension OpenSearch {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.acceptedWarnings, name: "acceptedWarnings", parent: name, max: 25)
             try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, max: 102400)
             try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, pattern: ".*")
             try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
@@ -9271,6 +9305,7 @@ extension OpenSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptedWarnings = "AcceptedWarnings"
             case accessPolicies = "AccessPolicies"
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
@@ -9791,16 +9826,20 @@ extension OpenSearch {
         public let code: String?
         /// A message corresponding to the failure.
         public let message: String?
+        /// The severity of the validation failure.
+        public let severity: ValidationFailureSeverity?
 
         @inlinable
-        public init(code: String? = nil, message: String? = nil) {
+        public init(code: String? = nil, message: String? = nil, severity: ValidationFailureSeverity? = nil) {
             self.code = code
             self.message = message
+            self.severity = severity
         }
 
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case message = "Message"
+            case severity = "Severity"
         }
     }
 

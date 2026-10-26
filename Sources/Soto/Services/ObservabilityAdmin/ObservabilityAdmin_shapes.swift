@@ -49,6 +49,11 @@ extension ObservabilityAdmin {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeletionProtection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudwatchLogs = "cloud-watch-logs"
         public var description: String { return self.rawValue }
@@ -136,6 +141,7 @@ extension ObservabilityAdmin {
         case awsBedrockAgentcoreCodeInterpreter = "AWS::BedrockAgentCore::CodeInterpreter"
         case awsBedrockAgentcoreGateway = "AWS::BedrockAgentCore::Gateway"
         case awsBedrockAgentcoreMemory = "AWS::BedrockAgentCore::Memory"
+        case awsBedrockAgentcorePaymentManager = "AWS::BedrockAgentCore::PaymentManager"
         case awsBedrockAgentcoreRuntime = "AWS::BedrockAgentCore::Runtime"
         case awsBedrockAgentcoreWorkloadIdentity = "AWS::BedrockAgentCore::WorkloadIdentity"
         case awsBedrockKnowledgebase = "AWS::Bedrock::KnowledgeBase"
@@ -153,6 +159,7 @@ extension ObservabilityAdmin {
         case awsSecurityHub = "AWS::SecurityHub::Hub"
         case awsSecurityHubHubv2 = "AWS::SecurityHub::HubV2"
         case awsWafV2WebAcl = "AWS::WAFv2::WebACL"
+        case awsXrayTransactionSearchConfig = "AWS::XRay::TransactionSearchConfig"
         public var description: String { return self.rawValue }
     }
 
@@ -243,6 +250,7 @@ extension ObservabilityAdmin {
     }
 
     public enum TelemetryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case insights = "Insights"
         case logs = "Logs"
         case metrics = "Metrics"
         case traces = "Traces"
@@ -1079,6 +1087,8 @@ extension ObservabilityAdmin {
     public struct DestinationLogsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Configuration defining the backup region and an optional KMS key for the backup destination.
         public let backupConfiguration: LogsBackupConfiguration?
+        /// Specifies whether this centralization rule enables deletion protection on the destination log groups that it creates. If you don't specify this setting, the rule doesn't enable deletion protection on the log groups that it creates. If you specify a backup Region in BackupConfiguration, the setting also applies to the log groups that the rule creates in the backup Region. When you set this to ENABLED, the rule enables deletion protection only on log groups that it creates after you enable the setting. It does not add deletion protection to log groups the rule created before you enabled the setting. If you remove this setting from the rule or delete the rule, deletion protection stays enabled on log groups that already have it. To delete one of these log groups, first disable deletion protection on the log group in the destination account.
+        public let logGroupDeletionProtection: DeletionProtection?
         /// Configuration that specifies a naming pattern for destination log groups created during centralization. The pattern supports static text and dynamic variables that are replaced with source attributes when log groups are created.
         public let logGroupNameConfiguration: LogGroupNameConfiguration?
         /// The encryption configuration for centralization destination log groups.
@@ -1087,8 +1097,9 @@ extension ObservabilityAdmin {
         public let tagPropagationConfiguration: TagPropagationConfiguration?
 
         @inlinable
-        public init(backupConfiguration: LogsBackupConfiguration? = nil, logGroupNameConfiguration: LogGroupNameConfiguration? = nil, logsEncryptionConfiguration: LogsEncryptionConfiguration? = nil, tagPropagationConfiguration: TagPropagationConfiguration? = nil) {
+        public init(backupConfiguration: LogsBackupConfiguration? = nil, logGroupDeletionProtection: DeletionProtection? = nil, logGroupNameConfiguration: LogGroupNameConfiguration? = nil, logsEncryptionConfiguration: LogsEncryptionConfiguration? = nil, tagPropagationConfiguration: TagPropagationConfiguration? = nil) {
             self.backupConfiguration = backupConfiguration
+            self.logGroupDeletionProtection = logGroupDeletionProtection
             self.logGroupNameConfiguration = logGroupNameConfiguration
             self.logsEncryptionConfiguration = logsEncryptionConfiguration
             self.tagPropagationConfiguration = tagPropagationConfiguration
@@ -1103,6 +1114,7 @@ extension ObservabilityAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case backupConfiguration = "BackupConfiguration"
+            case logGroupDeletionProtection = "LogGroupDeletionProtection"
             case logGroupNameConfiguration = "LogGroupNameConfiguration"
             case logsEncryptionConfiguration = "LogsEncryptionConfiguration"
             case tagPropagationConfiguration = "TagPropagationConfiguration"
@@ -2703,7 +2715,7 @@ extension ObservabilityAdmin {
         public let elbLoadBalancerLoggingParameters: ELBLoadBalancerLoggingParameters?
         ///  The Amazon Resource Name (ARN) of the customer-managed Amazon Web Services KMS key used to encrypt the log groups created during telemetry rule remediation.
         public let kmsKeyArn: String?
-        /// The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases or Elastic Load Balancing Application Load Balancers.
+        /// The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases, Amazon Bedrock AgentCore payment managers, or Elastic Load Balancing Application Load Balancers.
         public let logDeliveryParameters: LogDeliveryParameters?
         ///  Configuration parameters specific to MSK monitoring when MSK is the resource type.
         public let mskMonitoringParameters: MskMonitoringParameters?
@@ -2873,7 +2885,7 @@ extension ObservabilityAdmin {
         public let destinationConfiguration: TelemetryDestinationConfiguration?
         ///  An optional list of Amazon Web Services Regions where this telemetry rule should be replicated. When specified, the rule is created in the home region and automatically replicated to all listed regions. Mutually exclusive with AllRegions.
         public let regions: [String]?
-        ///  The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, or AWS::Bedrock::KnowledgeBase).
+        ///  The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Bedrock::KnowledgeBase, AWS::BedrockAgentCore::PaymentManager, or AWS::XRay::TransactionSearchConfig).
         public let resourceType: ResourceType?
         ///  The organizational scope to which the rule applies, specified using accounts or organizational units.
         public let scope: String?

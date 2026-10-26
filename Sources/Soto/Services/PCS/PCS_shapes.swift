@@ -1588,17 +1588,20 @@ extension PCS {
         public let nodeID: String
         /// The node lifecycle actions configured for the node group, including scripts to run when a compute node finishes bootstrapping or becomes ready to accept jobs.
         public let nodeLifecycleActions: NodeLifecycleActions?
+        /// The scheduler version that the cluster is running. A compute node uses this value to run the matching scheduler version.
+        public let schedulerVersion: String?
         /// For the Slurm scheduler, this is the shared Munge key the scheduler uses to authenticate compute node group instances.
         public let sharedSecret: String
 
         @inlinable
-        public init(clusterName: String? = nil, computeNodeGroupId: String? = nil, computeNodeGroupName: String? = nil, endpoints: [Endpoint], nodeID: String, nodeLifecycleActions: NodeLifecycleActions? = nil, sharedSecret: String) {
+        public init(clusterName: String? = nil, computeNodeGroupId: String? = nil, computeNodeGroupName: String? = nil, endpoints: [Endpoint], nodeID: String, nodeLifecycleActions: NodeLifecycleActions? = nil, schedulerVersion: String? = nil, sharedSecret: String) {
             self.clusterName = clusterName
             self.computeNodeGroupId = computeNodeGroupId
             self.computeNodeGroupName = computeNodeGroupName
             self.endpoints = endpoints
             self.nodeID = nodeID
             self.nodeLifecycleActions = nodeLifecycleActions
+            self.schedulerVersion = schedulerVersion
             self.sharedSecret = sharedSecret
         }
 
@@ -1609,6 +1612,7 @@ extension PCS {
             case endpoints = "endpoints"
             case nodeID = "nodeID"
             case nodeLifecycleActions = "nodeLifecycleActions"
+            case schedulerVersion = "schedulerVersion"
             case sharedSecret = "sharedSecret"
         }
     }

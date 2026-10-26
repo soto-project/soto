@@ -229,6 +229,11 @@ extension Deadline {
         public var description: String { return self.rawValue }
     }
 
+    public enum FleetSoftwareAddOnName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case docker = "docker"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FleetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case createFailed = "CREATE_FAILED"
@@ -303,6 +308,14 @@ extension Deadline {
         case manager = "MANAGER"
         case owner = "OWNER"
         case viewer = "VIEWER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MembershipResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case farm = "FARM"
+        case fleet = "FLEET"
+        case job = "JOB"
+        case queue = "QUEUE"
         public var description: String { return self.rawValue }
     }
 
@@ -795,14 +808,30 @@ extension Deadline {
     }
 
     public enum JobParameter: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A boolean value represented as a string. Accepted values are true, false, yes, no, on, off, 1, and 0, case-insensitive.
+        case bool(String)
+        /// A list of boolean values, each represented as a string.
+        case boolList([String])
         /// A double precision IEEE-754 floating point number represented as a string.
         case float(String)
+        /// A list of double precision IEEE-754 floating point numbers, each represented as a string.
+        case floatList([String])
         /// A signed integer represented as a string.
         case int(String)
+        /// A list of signed integers, each represented as a string.
+        case intList([String])
+        /// A list of lists of signed integers, each represented as a string.
+        case intListList([[String]])
         /// A file system path represented as a string.
         case path(String)
+        /// A list of file system paths, each represented as a string.
+        case pathList([String])
+        /// An Open Job Description range expression represented as a string, such as 1-10:2.
+        case rangeExpr(String)
         /// A UTF-8 string.
         case string(String)
+        /// A list of UTF-8 strings.
+        case stringList([String])
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -814,57 +843,191 @@ extension Deadline {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .bool:
+                let value = try container.decode(String.self, forKey: .bool)
+                self = .bool(value)
+            case .boolList:
+                let value = try container.decode([String].self, forKey: .boolList)
+                self = .boolList(value)
             case .float:
                 let value = try container.decode(String.self, forKey: .float)
                 self = .float(value)
+            case .floatList:
+                let value = try container.decode([String].self, forKey: .floatList)
+                self = .floatList(value)
             case .int:
                 let value = try container.decode(String.self, forKey: .int)
                 self = .int(value)
+            case .intList:
+                let value = try container.decode([String].self, forKey: .intList)
+                self = .intList(value)
+            case .intListList:
+                let value = try container.decode([[String]].self, forKey: .intListList)
+                self = .intListList(value)
             case .path:
                 let value = try container.decode(String.self, forKey: .path)
                 self = .path(value)
+            case .pathList:
+                let value = try container.decode([String].self, forKey: .pathList)
+                self = .pathList(value)
+            case .rangeExpr:
+                let value = try container.decode(String.self, forKey: .rangeExpr)
+                self = .rangeExpr(value)
             case .string:
                 let value = try container.decode(String.self, forKey: .string)
                 self = .string(value)
+            case .stringList:
+                let value = try container.decode([String].self, forKey: .stringList)
+                self = .stringList(value)
             }
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .bool(let value):
+                try container.encode(value, forKey: .bool)
+            case .boolList(let value):
+                try container.encode(value, forKey: .boolList)
             case .float(let value):
                 try container.encode(value, forKey: .float)
+            case .floatList(let value):
+                try container.encode(value, forKey: .floatList)
             case .int(let value):
                 try container.encode(value, forKey: .int)
+            case .intList(let value):
+                try container.encode(value, forKey: .intList)
+            case .intListList(let value):
+                try container.encode(value, forKey: .intListList)
             case .path(let value):
                 try container.encode(value, forKey: .path)
+            case .pathList(let value):
+                try container.encode(value, forKey: .pathList)
+            case .rangeExpr(let value):
+                try container.encode(value, forKey: .rangeExpr)
             case .string(let value):
                 try container.encode(value, forKey: .string)
+            case .stringList(let value):
+                try container.encode(value, forKey: .stringList)
             }
         }
 
         public func validate(name: String) throws {
             switch self {
+            case .bool(let value):
+                try self.validate(value, name: "bool", parent: name, max: 5)
+                try self.validate(value, name: "bool", parent: name, min: 1)
+                try self.validate(value, name: "bool", parent: name, pattern: "^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]|[Yy][Ee][Ss]|[Nn][Oo]|[Oo][Nn]|[Oo][Ff][Ff]|[01])$")
+            case .boolList(let value):
+                try value.forEach {
+                    try validate($0, name: "boolList[]", parent: name, max: 5)
+                    try validate($0, name: "boolList[]", parent: name, min: 1)
+                    try validate($0, name: "boolList[]", parent: name, pattern: "^([Tt][Rr][Uu][Ee]|[Ff][Aa][Ll][Ss][Ee]|[Yy][Ee][Ss]|[Nn][Oo]|[Oo][Nn]|[Oo][Ff][Ff]|[01])$")
+                }
+                try self.validate(value, name: "boolList", parent: name, max: 512)
             case .float(let value):
                 try self.validate(value, name: "float", parent: name, max: 26)
                 try self.validate(value, name: "float", parent: name, min: 1)
                 try self.validate(value, name: "float", parent: name, pattern: "^[-]?(0|[1-9][0-9]*)([.][0-9]+)?([eE][+-]?[0-9]+)?$")
+            case .floatList(let value):
+                try value.forEach {
+                    try validate($0, name: "floatList[]", parent: name, max: 26)
+                    try validate($0, name: "floatList[]", parent: name, min: 1)
+                    try validate($0, name: "floatList[]", parent: name, pattern: "^[-]?(0|[1-9][0-9]*)([.][0-9]+)?([eE][+-]?[0-9]+)?$")
+                }
+                try self.validate(value, name: "floatList", parent: name, max: 512)
             case .int(let value):
                 try self.validate(value, name: "int", parent: name, max: 20)
                 try self.validate(value, name: "int", parent: name, min: 1)
                 try self.validate(value, name: "int", parent: name, pattern: "^[-]?(0|[1-9][0-9]*)$")
+            case .intList(let value):
+                try value.forEach {
+                    try validate($0, name: "intList[]", parent: name, max: 20)
+                    try validate($0, name: "intList[]", parent: name, min: 1)
+                    try validate($0, name: "intList[]", parent: name, pattern: "^[-]?(0|[1-9][0-9]*)$")
+                }
+                try self.validate(value, name: "intList", parent: name, max: 512)
+            case .intListList(let value):
+                try value.forEach {
+                    try validate($0, name: "intListList[]", parent: name, max: 64)
+                }
+                try self.validate(value, name: "intListList", parent: name, max: 512)
             case .path(let value):
                 try self.validate(value, name: "path", parent: name, max: 1024)
+            case .pathList(let value):
+                try value.forEach {
+                    try validate($0, name: "pathList[]", parent: name, max: 1024)
+                }
+                try self.validate(value, name: "pathList", parent: name, max: 64)
+            case .rangeExpr(let value):
+                try self.validate(value, name: "rangeExpr", parent: name, max: 1024)
+                try self.validate(value, name: "rangeExpr", parent: name, min: 1)
             case .string(let value):
                 try self.validate(value, name: "string", parent: name, max: 1024)
+            case .stringList(let value):
+                try value.forEach {
+                    try validate($0, name: "stringList[]", parent: name, max: 1024)
+                }
+                try self.validate(value, name: "stringList", parent: name, max: 64)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bool = "bool"
+            case boolList = "boolList"
             case float = "float"
+            case floatList = "floatList"
             case int = "int"
+            case intList = "intList"
+            case intListList = "intListList"
             case path = "path"
+            case pathList = "pathList"
+            case rangeExpr = "rangeExpr"
             case string = "string"
+            case stringList = "stringList"
+        }
+    }
+
+    public enum MembershipSummary: AWSDecodableShape, Sendable {
+        /// A membership on a farm.
+        case farm(FarmMember)
+        /// A membership on a fleet.
+        case fleet(FleetMember)
+        /// A membership on a job.
+        case job(JobMember)
+        /// A membership on a queue.
+        case queue(QueueMember)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .farm:
+                let value = try container.decode(FarmMember.self, forKey: .farm)
+                self = .farm(value)
+            case .fleet:
+                let value = try container.decode(FleetMember.self, forKey: .fleet)
+                self = .fleet(value)
+            case .job:
+                let value = try container.decode(JobMember.self, forKey: .job)
+                self = .job(value)
+            case .queue:
+                let value = try container.decode(QueueMember.self, forKey: .queue)
+                self = .queue(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case farm = "farm"
+            case fleet = "fleet"
+            case job = "job"
+            case queue = "queue"
         }
     }
 
@@ -1354,15 +1517,18 @@ extension Deadline {
         public let jobId: String
         /// The log configuration for the worker's assigned session.
         public let logConfiguration: LogConfiguration
+        /// Key-value hints that the service provides to guide how the session runs. This value is used by the worker agent.
+        public let metadata: [String: String]?
         /// The queue ID of the assigned session.
         public let queueId: String
         /// The session actions to apply to the assigned session.
         public let sessionActions: [AssignedSessionAction]
 
         @inlinable
-        public init(jobId: String, logConfiguration: LogConfiguration, queueId: String, sessionActions: [AssignedSessionAction]) {
+        public init(jobId: String, logConfiguration: LogConfiguration, metadata: [String: String]? = nil, queueId: String, sessionActions: [AssignedSessionAction]) {
             self.jobId = jobId
             self.logConfiguration = logConfiguration
+            self.metadata = metadata
             self.queueId = queueId
             self.sessionActions = sessionActions
         }
@@ -1370,6 +1536,7 @@ extension Deadline {
         private enum CodingKeys: String, CodingKey {
             case jobId = "jobId"
             case logConfiguration = "logConfiguration"
+            case metadata = "metadata"
             case queueId = "queueId"
             case sessionActions = "sessionActions"
         }
@@ -3223,7 +3390,7 @@ extension Deadline {
             try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, min: 0)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 2147483647)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: -1)
-            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, max: 512)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.priority, name: "priority", parent: name, max: 100)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
@@ -3980,11 +4147,12 @@ extension Deadline {
             try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, min: 0)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 2147483647)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: -1)
-            try self.validate(self.nameOverride, name: "nameOverride", parent: name, max: 128)
+            try self.validate(self.nameOverride, name: "nameOverride", parent: name, max: 512)
             try self.validate(self.nameOverride, name: "nameOverride", parent: name, min: 1)
             try self.parameters?.forEach {
                 try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
             }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 200)
             try self.validate(self.priority, name: "priority", parent: name, max: 100)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
@@ -5438,24 +5606,32 @@ extension Deadline {
     public struct EnvironmentDetailsEntity: AWSDecodableShape {
         /// The environment ID.
         public let environmentId: String
+        /// The Open Job Description extensions that the environment uses. This value is used by the worker agent.
+        public let extensions: [String]?
         /// The job ID.
         public let jobId: String
+        /// The resolved symbol table for the environment's expressions, serialized as JSON. This value is used by the worker agent.
+        public let resolvedSymbolTable: String?
         /// The schema version in the environment.
         public let schemaVersion: String
         /// The template used for the environment.
         public let template: AWSDocument
 
         @inlinable
-        public init(environmentId: String, jobId: String, schemaVersion: String, template: AWSDocument) {
+        public init(environmentId: String, extensions: [String]? = nil, jobId: String, resolvedSymbolTable: String? = nil, schemaVersion: String, template: AWSDocument) {
             self.environmentId = environmentId
+            self.extensions = extensions
             self.jobId = jobId
+            self.resolvedSymbolTable = resolvedSymbolTable
             self.schemaVersion = schemaVersion
             self.template = template
         }
 
         private enum CodingKeys: String, CodingKey {
             case environmentId = "environmentId"
+            case extensions = "extensions"
             case jobId = "jobId"
+            case resolvedSymbolTable = "resolvedSymbolTable"
             case schemaVersion = "schemaVersion"
             case template = "template"
         }
@@ -5813,6 +5989,20 @@ extension Deadline {
             case membershipLevel = "membershipLevel"
             case principalId = "principalId"
             case principalType = "principalType"
+        }
+    }
+
+    public struct FleetSoftwareAddOn: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the software add-on. The supported value is docker.
+        public let name: FleetSoftwareAddOnName
+
+        @inlinable
+        public init(name: FleetSoftwareAddOnName) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
@@ -7909,6 +8099,8 @@ extension Deadline {
     }
 
     public struct JobDetailsEntity: AWSDecodableShape {
+        /// The Open Job Description extensions that the job template uses. This value is used by the worker agent.
+        public let extensions: [String]?
         /// The job attachment settings.
         public let jobAttachmentSettings: JobDetailsJobAttachmentSettings?
         /// The job ID.
@@ -7927,7 +8119,8 @@ extension Deadline {
         public let schemaVersion: String
 
         @inlinable
-        public init(jobAttachmentSettings: JobDetailsJobAttachmentSettings? = nil, jobId: String, jobRunAsUser: JobRunAsUser? = nil, logGroupName: String, parameters: [String: JobParameter]? = nil, pathMappingRules: [PathMappingRule]? = nil, queueRoleArn: String? = nil, schemaVersion: String) {
+        public init(extensions: [String]? = nil, jobAttachmentSettings: JobDetailsJobAttachmentSettings? = nil, jobId: String, jobRunAsUser: JobRunAsUser? = nil, logGroupName: String, parameters: [String: JobParameter]? = nil, pathMappingRules: [PathMappingRule]? = nil, queueRoleArn: String? = nil, schemaVersion: String) {
+            self.extensions = extensions
             self.jobAttachmentSettings = jobAttachmentSettings
             self.jobId = jobId
             self.jobRunAsUser = jobRunAsUser
@@ -7939,6 +8132,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case extensions = "extensions"
             case jobAttachmentSettings = "jobAttachmentSettings"
             case jobId = "jobId"
             case jobRunAsUser = "jobRunAsUser"
@@ -8941,6 +9135,79 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case limits = "limits"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListMembershipsRequest: AWSEncodableShape {
+        /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Amazon Web Services Region in which you make the request.
+        public let identityCenterRegion: String?
+        /// The identity store ID that contains the principal. This parameter is required for callers that do not use a monitor session.
+        public let identityStoreId: String?
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null to start from the beginning.
+        public let nextToken: String?
+        /// The ID of the IAM Identity Center principal whose Deadline Cloud resource memberships you want to list.
+        public let principalId: String
+        /// The resource types to include when listing the principal's memberships. If not specified, memberships for all supported resource types are returned.
+        public let resourceTypes: [MembershipResourceType]?
+
+        @inlinable
+        public init(identityCenterRegion: String? = nil, identityStoreId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, principalId: String, resourceTypes: [MembershipResourceType]? = nil) {
+            self.identityCenterRegion = identityCenterRegion
+            self.identityStoreId = identityStoreId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.principalId = principalId
+            self.resourceTypes = resourceTypes
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.identityCenterRegion, key: "identityCenterRegion")
+            request.encodeQuery(self.identityStoreId, key: "identityStoreId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.principalId, key: "principalId")
+            request.encodeQuery(self.resourceTypes, key: "resourceTypes")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, max: 25)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, min: 1)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
+            try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
+            try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
+            try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, max: 4)
+            try self.validate(self.resourceTypes, name: "resourceTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMembershipsResponse: AWSDecodableShape {
+        /// The memberships associated with the specified principal.
+        public let memberships: [MembershipSummary]
+        /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+        public let nextToken: String?
+
+        @inlinable
+        public init(memberships: [MembershipSummary], nextToken: String? = nil) {
+            self.memberships = memberships
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberships = "memberships"
             case nextToken = "nextToken"
         }
     }
@@ -11144,11 +11411,13 @@ extension Deadline {
         public let osFamily: ServiceManagedFleetOperatingSystemFamily
         /// The root EBS volume.
         public let rootEbsVolume: Ec2EbsVolume?
+        /// The software add-ons that the service installs on worker hosts when they launch.
+        public let softwareAddOns: [FleetSoftwareAddOn]?
         /// The amount of vCPU to require for instances in this fleet.
         public let vCpuCount: VCpuCountRange
 
         @inlinable
-        public init(acceleratorCapabilities: AcceleratorCapabilities? = nil, allowedInstanceTypes: [String]? = nil, cpuArchitectureType: CpuArchitectureType, customAmounts: [FleetAmountCapability]? = nil, customAttributes: [FleetAttributeCapability]? = nil, excludedInstanceTypes: [String]? = nil, memoryMiB: MemoryMiBRange, osFamily: ServiceManagedFleetOperatingSystemFamily, rootEbsVolume: Ec2EbsVolume? = nil, vCpuCount: VCpuCountRange) {
+        public init(acceleratorCapabilities: AcceleratorCapabilities? = nil, allowedInstanceTypes: [String]? = nil, cpuArchitectureType: CpuArchitectureType, customAmounts: [FleetAmountCapability]? = nil, customAttributes: [FleetAttributeCapability]? = nil, excludedInstanceTypes: [String]? = nil, memoryMiB: MemoryMiBRange, osFamily: ServiceManagedFleetOperatingSystemFamily, rootEbsVolume: Ec2EbsVolume? = nil, softwareAddOns: [FleetSoftwareAddOn]? = nil, vCpuCount: VCpuCountRange) {
             self.acceleratorCapabilities = acceleratorCapabilities
             self.allowedInstanceTypes = allowedInstanceTypes
             self.cpuArchitectureType = cpuArchitectureType
@@ -11158,6 +11427,7 @@ extension Deadline {
             self.memoryMiB = memoryMiB
             self.osFamily = osFamily
             self.rootEbsVolume = rootEbsVolume
+            self.softwareAddOns = softwareAddOns
             self.vCpuCount = vCpuCount
         }
 
@@ -11187,6 +11457,7 @@ extension Deadline {
             try self.validate(self.excludedInstanceTypes, name: "excludedInstanceTypes", parent: name, min: 1)
             try self.memoryMiB.validate(name: "\(name).memoryMiB")
             try self.rootEbsVolume?.validate(name: "\(name).rootEbsVolume")
+            try self.validate(self.softwareAddOns, name: "softwareAddOns", parent: name, max: 10)
             try self.vCpuCount.validate(name: "\(name).vCpuCount")
         }
 
@@ -11200,6 +11471,7 @@ extension Deadline {
             case memoryMiB = "memoryMiB"
             case osFamily = "osFamily"
             case rootEbsVolume = "rootEbsVolume"
+            case softwareAddOns = "softwareAddOns"
             case vCpuCount = "vCpuCount"
         }
     }
@@ -11366,7 +11638,7 @@ extension Deadline {
         public var startTime: Date
         /// One to four statistics to return.
         public let statistics: [UsageStatistic]
-        /// The timezone to use for the statistics. Use UTC notation such as "UTC+8."
+        /// The time zone to use for the statistics. Use UTC notation such as "UTC+8."
         public let timezone: String?
 
         @inlinable
@@ -11608,8 +11880,12 @@ extension Deadline {
     public struct StepDetailsEntity: AWSDecodableShape {
         /// The dependencies for a step.
         public let dependencies: [String]
+        /// The Open Job Description extensions that the step uses. This value is used by the worker agent.
+        public let extensions: [String]?
         /// The job ID.
         public let jobId: String
+        /// The resolved symbol table for the step's expressions, serialized as JSON. This value is used by the worker agent.
+        public let resolvedSymbolTable: String?
         /// The schema version for a step template.
         public let schemaVersion: String
         /// The step ID.
@@ -11618,9 +11894,11 @@ extension Deadline {
         public let template: AWSDocument
 
         @inlinable
-        public init(dependencies: [String], jobId: String, schemaVersion: String, stepId: String, template: AWSDocument) {
+        public init(dependencies: [String], extensions: [String]? = nil, jobId: String, resolvedSymbolTable: String? = nil, schemaVersion: String, stepId: String, template: AWSDocument) {
             self.dependencies = dependencies
+            self.extensions = extensions
             self.jobId = jobId
+            self.resolvedSymbolTable = resolvedSymbolTable
             self.schemaVersion = schemaVersion
             self.stepId = stepId
             self.template = template
@@ -11628,7 +11906,9 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case dependencies = "dependencies"
+            case extensions = "extensions"
             case jobId = "jobId"
+            case resolvedSymbolTable = "resolvedSymbolTable"
             case schemaVersion = "schemaVersion"
             case stepId = "stepId"
             case template = "template"
@@ -12595,7 +12875,7 @@ extension Deadline {
             try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, min: 0)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 2147483647)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: -1)
-            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, max: 512)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.priority, name: "priority", parent: name, max: 100)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)

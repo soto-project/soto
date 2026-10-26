@@ -571,6 +571,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacityReservationLaunchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case launchable = "launchable"
+        case unlaunchable = "unlaunchable"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapacityReservationModificationQuoteState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case expired = "expired"
@@ -2019,6 +2025,7 @@ extension EC2 {
         public static var i8g8Xlarge: Self { .init(rawValue: "i8g.8xlarge") }
         public static var i8gLarge: Self { .init(rawValue: "i8g.large") }
         public static var i8gMetal24Xl: Self { .init(rawValue: "i8g.metal-24xl") }
+        public static var i8gMetal48Xl: Self { .init(rawValue: "i8g.metal-48xl") }
         public static var i8gXlarge: Self { .init(rawValue: "i8g.xlarge") }
         public static var i8ge12Xlarge: Self { .init(rawValue: "i8ge.12xlarge") }
         public static var i8ge18Xlarge: Self { .init(rawValue: "i8ge.18xlarge") }
@@ -2424,6 +2431,7 @@ extension EC2 {
         public static var m9gd4Xlarge: Self { .init(rawValue: "m9gd.4xlarge") }
         public static var m9gd8Xlarge: Self { .init(rawValue: "m9gd.8xlarge") }
         public static var m9gdLarge: Self { .init(rawValue: "m9gd.large") }
+        public static var m9gdMedium: Self { .init(rawValue: "m9gd.medium") }
         public static var m9gdMetal24Xl: Self { .init(rawValue: "m9gd.metal-24xl") }
         public static var m9gdMetal48Xl: Self { .init(rawValue: "m9gd.metal-48xl") }
         public static var m9gdXlarge: Self { .init(rawValue: "m9gd.xlarge") }
@@ -2672,11 +2680,13 @@ extension EC2 {
         public static var r8gb16Xlarge: Self { .init(rawValue: "r8gb.16xlarge") }
         public static var r8gb24Xlarge: Self { .init(rawValue: "r8gb.24xlarge") }
         public static var r8gb2Xlarge: Self { .init(rawValue: "r8gb.2xlarge") }
+        public static var r8gb48Xlarge: Self { .init(rawValue: "r8gb.48xlarge") }
         public static var r8gb4Xlarge: Self { .init(rawValue: "r8gb.4xlarge") }
         public static var r8gb8Xlarge: Self { .init(rawValue: "r8gb.8xlarge") }
         public static var r8gbLarge: Self { .init(rawValue: "r8gb.large") }
         public static var r8gbMedium: Self { .init(rawValue: "r8gb.medium") }
         public static var r8gbMetal24Xl: Self { .init(rawValue: "r8gb.metal-24xl") }
+        public static var r8gbMetal48Xl: Self { .init(rawValue: "r8gb.metal-48xl") }
         public static var r8gbXlarge: Self { .init(rawValue: "r8gb.xlarge") }
         public static var r8gd12Xlarge: Self { .init(rawValue: "r8gd.12xlarge") }
         public static var r8gd16Xlarge: Self { .init(rawValue: "r8gd.16xlarge") }
@@ -2838,11 +2848,16 @@ extension EC2 {
         public static var t4gNano: Self { .init(rawValue: "t4g.nano") }
         public static var t4gSmall: Self { .init(rawValue: "t4g.small") }
         public static var t4gXlarge: Self { .init(rawValue: "t4g.xlarge") }
+        public static var t8iMedium: Self { .init(rawValue: "t8i.medium") }
+        public static var t8iMicro: Self { .init(rawValue: "t8i.micro") }
+        public static var t8iNano: Self { .init(rawValue: "t8i.nano") }
+        public static var t8iSmall: Self { .init(rawValue: "t8i.small") }
         public static var trn12Xlarge: Self { .init(rawValue: "trn1.2xlarge") }
         public static var trn132Xlarge: Self { .init(rawValue: "trn1.32xlarge") }
         public static var trn1n32Xlarge: Self { .init(rawValue: "trn1n.32xlarge") }
         public static var trn23Xlarge: Self { .init(rawValue: "trn2.3xlarge") }
         public static var trn248Xlarge: Self { .init(rawValue: "trn2.48xlarge") }
+        public static var trn2u48Xlarge: Self { .init(rawValue: "trn2u.48xlarge") }
         public static var u12Tb1112Xlarge: Self { .init(rawValue: "u-12tb1.112xlarge") }
         public static var u12Tb1Metal: Self { .init(rawValue: "u-12tb1.metal") }
         public static var u18Tb1112Xlarge: Self { .init(rawValue: "u-18tb1.112xlarge") }
@@ -4695,7 +4710,6 @@ extension EC2 {
     public enum SupportedAdditionalProcessorFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amdSevSnp = "amd-sev-snp"
         case nestedVirtualization = "nested-virtualization"
-        case metalCompatibility = "metal-compatibility"
         public var description: String { return self.rawValue }
     }
 
@@ -4822,6 +4836,26 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransitGatewayAttachmentNatGatewaySupportState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case disabling = "disabling"
+        case enabled = "enabled"
+        case enabling = "enabling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayAttachmentNatGatewaySupportValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "disable"
+        case enable = "enable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayAttachmentNatSystemRouteSupportValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "disable"
+        case enable = "enable"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TransitGatewayAttachmentResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clientVpn = "client-vpn"
         case connect = "connect"
@@ -4911,6 +4945,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransitGatewayNatRuleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activated = "activated"
+        case deactivated = "deactivated"
+        case deleting = "deleting"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TransitGatewayPolicyTableEntryState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case deleted = "deleted"
@@ -4977,6 +5019,7 @@ extension EC2 {
     public enum TransitGatewayRouteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "static"
         case propagated = "propagated"
+        case system = "system"
         public var description: String { return self.rawValue }
     }
 
@@ -6810,6 +6853,44 @@ extension EC2 {
             case prefixListId = "prefixListId"
             case `protocol` = "protocol"
             case securityGroupId = "securityGroupId"
+        }
+    }
+
+    public struct AnalysisTransitGatewayPolicyTableEntry: AWSDecodableShape {
+        /// The destination CIDR block. If this value is not present, the entry matches any destination address.
+        public let destinationCidr: String?
+        /// The destination port range. If this value is not present, the entry matches any destination port.
+        public let destinationPortRange: PortRange?
+        /// The protocol number. A value of -1 means that the entry matches all protocols.
+        public let `protocol`: String?
+        /// The rule number for the policy table entry. Entries are evaluated in ascending order of rule number.
+        public let ruleNumber: Int?
+        /// The source CIDR block. If this value is not present, the entry matches any source address.
+        public let sourceCidr: String?
+        /// The source port range. If this value is not present, the entry matches any source port.
+        public let sourcePortRange: PortRange?
+        /// The ID of the transit gateway route table to which the entry routes matching traffic.
+        public let targetRouteTableId: String?
+
+        @inlinable
+        public init(destinationCidr: String? = nil, destinationPortRange: PortRange? = nil, protocol: String? = nil, ruleNumber: Int? = nil, sourceCidr: String? = nil, sourcePortRange: PortRange? = nil, targetRouteTableId: String? = nil) {
+            self.destinationCidr = destinationCidr
+            self.destinationPortRange = destinationPortRange
+            self.`protocol` = `protocol`
+            self.ruleNumber = ruleNumber
+            self.sourceCidr = sourceCidr
+            self.sourcePortRange = sourcePortRange
+            self.targetRouteTableId = targetRouteTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCidr = "destinationCidr"
+            case destinationPortRange = "destinationPortRange"
+            case `protocol` = "protocol"
+            case ruleNumber = "ruleNumber"
+            case sourceCidr = "sourceCidr"
+            case sourcePortRange = "sourcePortRange"
+            case targetRouteTableId = "targetRouteTableId"
         }
     }
 
@@ -10615,6 +10696,11 @@ extension EC2 {
         /// 			Information about the interruption configuration and association with the source reservation for interruptible Capacity Reservations.
         ///
         public let interruptionInfo: InterruptionInfo?
+        ///  Only supported for UltraServers.  Indicates whether you can launch instances into the Capacity Reservation. A Capacity
+        /// 			Reservation can have the following launch statuses:    launchable - You can launch instances into the Capacity
+        /// 					Reservation.    unlaunchable - You can't launch instances into the Capacity
+        /// 					Reservation. For example, the Capacity Reservation is not active.
+        public let launchStatus: CapacityReservationLaunchStatus?
         /// The start date that you originally requested for the Capacity Reservation, in the ISO8601
         /// 			format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). This value doesn't
         /// 			change when you push out the start date.
@@ -10671,7 +10757,7 @@ extension EC2 {
         public let zeroSizePreference: ZeroSizePreference?
 
         @inlinable
-        public init(adjustmentDetails: CapacityReservationAdjustmentDetails? = nil, adjustmentStatus: CapacityReservationAdjustmentStatus? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, interruptible: Bool? = nil, interruptibleCapacityAllocation: InterruptibleCapacityAllocation? = nil, interruptionInfo: InterruptionInfo? = nil, originalStartDate: Date? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil, zeroSizePreference: ZeroSizePreference? = nil) {
+        public init(adjustmentDetails: CapacityReservationAdjustmentDetails? = nil, adjustmentStatus: CapacityReservationAdjustmentStatus? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, interruptible: Bool? = nil, interruptibleCapacityAllocation: InterruptibleCapacityAllocation? = nil, interruptionInfo: InterruptionInfo? = nil, launchStatus: CapacityReservationLaunchStatus? = nil, originalStartDate: Date? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil, zeroSizePreference: ZeroSizePreference? = nil) {
             self.adjustmentDetails = adjustmentDetails
             self.adjustmentStatus = adjustmentStatus
             self.availabilityZone = availabilityZone
@@ -10695,6 +10781,7 @@ extension EC2 {
             self.interruptible = interruptible
             self.interruptibleCapacityAllocation = interruptibleCapacityAllocation
             self.interruptionInfo = interruptionInfo
+            self.launchStatus = launchStatus
             self.originalStartDate = originalStartDate
             self.outpostArn = outpostArn
             self.ownerId = ownerId
@@ -10733,6 +10820,7 @@ extension EC2 {
             case interruptible = "interruptible"
             case interruptibleCapacityAllocation = "interruptibleCapacityAllocation"
             case interruptionInfo = "interruptionInfo"
+            case launchStatus = "launchStatus"
             case originalStartDate = "originalStartDate"
             case outpostArn = "outpostArn"
             case ownerId = "ownerId"
@@ -12630,7 +12718,7 @@ extension EC2 {
 
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in Amazon EC2 API requests in the Amazon EC2 API Reference.
         public let clientToken: String?
-        /// Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts   Default: Your user-defined AMI tags are not copied.
+        /// Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts, except tags with the ec2:SharedTag/ prefix. For more information about tag sharing, see Sharing tags in the Amazon EC2 User Guide.   Default: Your user-defined AMI tags are not copied.
         public let copyImageTags: Bool?
         /// A description for the new AMI.
         public let description: String?
@@ -39644,6 +39732,10 @@ extension EC2 {
         public let transitGateway: AnalysisComponent?
         /// The transit gateway attachment.
         public let transitGatewayAttachment: AnalysisComponent?
+        /// The transit gateway policy table.
+        public let transitGatewayPolicyTable: AnalysisComponent?
+        /// The transit gateway policy table entry.
+        public let transitGatewayPolicyTableEntry: AnalysisTransitGatewayPolicyTableEntry?
         /// The transit gateway route table.
         public let transitGatewayRouteTable: AnalysisComponent?
         /// The transit gateway route table route.
@@ -39660,7 +39752,7 @@ extension EC2 {
         public let vpnGateway: AnalysisComponent?
 
         @inlinable
-        public init(acl: AnalysisComponent? = nil, aclRule: AnalysisAclRule? = nil, address: String? = nil, addresses: [String]? = nil, attachedTo: AnalysisComponent? = nil, availabilityZoneIds: [String]? = nil, availabilityZones: [String]? = nil, cidrs: [String]? = nil, classicLoadBalancerListener: AnalysisLoadBalancerListener? = nil, component: AnalysisComponent? = nil, componentAccount: String? = nil, componentRegion: String? = nil, customerGateway: AnalysisComponent? = nil, destination: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, direction: String? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanationCode: String? = nil, firewallStatefulRule: FirewallStatefulRule? = nil, firewallStatelessRule: FirewallStatelessRule? = nil, ingressRouteTable: AnalysisComponent? = nil, internetGateway: AnalysisComponent? = nil, loadBalancerArn: String? = nil, loadBalancerListenerPort: Int? = nil, loadBalancerTarget: AnalysisLoadBalancerTarget? = nil, loadBalancerTargetGroup: AnalysisComponent? = nil, loadBalancerTargetGroups: [AnalysisComponent]? = nil, loadBalancerTargetPort: Int? = nil, missingComponent: String? = nil, natGateway: AnalysisComponent? = nil, networkInterface: AnalysisComponent? = nil, packetField: String? = nil, port: Int? = nil, portRanges: [PortRange]? = nil, prefixList: AnalysisComponent? = nil, protocols: [String]? = nil, routeTable: AnalysisComponent? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroup: AnalysisComponent? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, securityGroups: [AnalysisComponent]? = nil, sourceVpc: AnalysisComponent? = nil, state: String? = nil, subnet: AnalysisComponent? = nil, subnetRouteTable: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayAttachment: AnalysisComponent? = nil, transitGatewayRouteTable: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil, vpcEndpoint: AnalysisComponent? = nil, vpcPeeringConnection: AnalysisComponent? = nil, vpnConnection: AnalysisComponent? = nil, vpnGateway: AnalysisComponent? = nil) {
+        public init(acl: AnalysisComponent? = nil, aclRule: AnalysisAclRule? = nil, address: String? = nil, addresses: [String]? = nil, attachedTo: AnalysisComponent? = nil, availabilityZoneIds: [String]? = nil, availabilityZones: [String]? = nil, cidrs: [String]? = nil, classicLoadBalancerListener: AnalysisLoadBalancerListener? = nil, component: AnalysisComponent? = nil, componentAccount: String? = nil, componentRegion: String? = nil, customerGateway: AnalysisComponent? = nil, destination: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, direction: String? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanationCode: String? = nil, firewallStatefulRule: FirewallStatefulRule? = nil, firewallStatelessRule: FirewallStatelessRule? = nil, ingressRouteTable: AnalysisComponent? = nil, internetGateway: AnalysisComponent? = nil, loadBalancerArn: String? = nil, loadBalancerListenerPort: Int? = nil, loadBalancerTarget: AnalysisLoadBalancerTarget? = nil, loadBalancerTargetGroup: AnalysisComponent? = nil, loadBalancerTargetGroups: [AnalysisComponent]? = nil, loadBalancerTargetPort: Int? = nil, missingComponent: String? = nil, natGateway: AnalysisComponent? = nil, networkInterface: AnalysisComponent? = nil, packetField: String? = nil, port: Int? = nil, portRanges: [PortRange]? = nil, prefixList: AnalysisComponent? = nil, protocols: [String]? = nil, routeTable: AnalysisComponent? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroup: AnalysisComponent? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, securityGroups: [AnalysisComponent]? = nil, sourceVpc: AnalysisComponent? = nil, state: String? = nil, subnet: AnalysisComponent? = nil, subnetRouteTable: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayAttachment: AnalysisComponent? = nil, transitGatewayPolicyTable: AnalysisComponent? = nil, transitGatewayPolicyTableEntry: AnalysisTransitGatewayPolicyTableEntry? = nil, transitGatewayRouteTable: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil, vpcEndpoint: AnalysisComponent? = nil, vpcPeeringConnection: AnalysisComponent? = nil, vpnConnection: AnalysisComponent? = nil, vpnGateway: AnalysisComponent? = nil) {
             self.acl = acl
             self.aclRule = aclRule
             self.address = address
@@ -39708,6 +39800,8 @@ extension EC2 {
             self.subnetRouteTable = subnetRouteTable
             self.transitGateway = transitGateway
             self.transitGatewayAttachment = transitGatewayAttachment
+            self.transitGatewayPolicyTable = transitGatewayPolicyTable
+            self.transitGatewayPolicyTableEntry = transitGatewayPolicyTableEntry
             self.transitGatewayRouteTable = transitGatewayRouteTable
             self.transitGatewayRouteTableRoute = transitGatewayRouteTableRoute
             self.vpc = vpc
@@ -39765,6 +39859,8 @@ extension EC2 {
             case subnetRouteTable = "subnetRouteTable"
             case transitGateway = "transitGateway"
             case transitGatewayAttachment = "transitGatewayAttachment"
+            case transitGatewayPolicyTable = "transitGatewayPolicyTable"
+            case transitGatewayPolicyTableEntry = "transitGatewayPolicyTableEntry"
             case transitGatewayRouteTable = "transitGatewayRouteTable"
             case transitGatewayRouteTableRoute = "transitGatewayRouteTableRoute"
             case vpc = "vpc"
@@ -44708,7 +44804,7 @@ extension EC2 {
 
         /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
         public let nextToken: String?
-        /// The Spot placement score for the top 10 Regions or Availability Zones, scored on a scale from 1 to 10. Each score reflects how likely it is that each Region or Availability Zone will succeed at fulfilling the specified target capacity at the time of the Spot placement score request. A score of 10 means that your Spot capacity request is highly likely to succeed in that Region or Availability Zone.  If you request a Spot placement score for Regions, a high score assumes that your fleet request will be configured to use all Availability Zones and the capacity-optimized allocation strategy. If you request a Spot placement score for Availability Zones, a high score assumes that your fleet request will be configured to use a single Availability Zone and the capacity-optimized allocation strategy. Different Regions or Availability Zones might return the same score.  The Spot placement score serves as a recommendation only. No score guarantees that your Spot request will be fully or partially fulfilled.
+        /// The Spot placement score for the top 10 Regions or Availability Zones, scored on a scale from 1 to 10. Each score  reflects how likely it is that each Region or Availability Zone will succeed at fulfilling the specified target capacity  at the time of the Spot placement score request. A score of 10 means that your Spot capacity request is highly likely to succeed in that Region or Availability Zone.  If you request a Spot placement score for Regions, a high score assumes that your fleet request will be configured to use all Availability Zones and the capacity-optimized allocation strategy. If you request a Spot placement score for Availability Zones, a high score assumes that your fleet request will be configured to use a single Availability Zone and the capacity-optimized allocation strategy. Different  Regions or Availability Zones might return the same score.  The Spot placement score serves as a recommendation only. No score guarantees that your Spot request will be fully or partially fulfilled.
         @OptionalCustomCoding<EC2ArrayCoder<_SpotPlacementScoresEncoding, SpotPlacementScore>>
         public var spotPlacementScores: [SpotPlacementScore]?
 
@@ -44787,6 +44883,53 @@ extension EC2 {
             case nextToken = "nextToken"
             case subnetIpv4CidrReservations = "subnetIpv4CidrReservationSet"
             case subnetIpv6CidrReservations = "subnetIpv6CidrReservationSet"
+        }
+    }
+
+    public struct GetTransitGatewayAttachmentNatConfigurationRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the transit gateway attachment.
+        public let transitGatewayAttachmentId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
+            self.dryRun = dryRun
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+        }
+    }
+
+    public struct GetTransitGatewayAttachmentNatConfigurationResult: AWSDecodableShape {
+        public struct _NatGatewayRulesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The NAT gateway rules for the attachment.
+        @OptionalCustomCoding<EC2ArrayCoder<_NatGatewayRulesEncoding, TransitGatewayNatRule>>
+        public var natGatewayRules: [TransitGatewayNatRule]?
+        /// The state of NAT gateway support for the attachment.
+        public let natGatewaySupport: TransitGatewayAttachmentNatGatewaySupportState?
+        /// Specifies whether the transit gateway installs routes for the NAT CIDRs in the route tables to which the attachment propagates.
+        public let natSystemRouteSupport: TransitGatewayAttachmentNatSystemRouteSupportValue?
+        /// The ID of the transit gateway attachment.
+        public let transitGatewayAttachmentId: String?
+
+        @inlinable
+        public init(natGatewayRules: [TransitGatewayNatRule]? = nil, natGatewaySupport: TransitGatewayAttachmentNatGatewaySupportState? = nil, natSystemRouteSupport: TransitGatewayAttachmentNatSystemRouteSupportValue? = nil, transitGatewayAttachmentId: String? = nil) {
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case natGatewayRules = "natGatewayRuleSet"
+            case natGatewaySupport = "natGatewaySupport"
+            case natSystemRouteSupport = "natSystemRouteSupport"
+            case transitGatewayAttachmentId = "transitGatewayAttachmentId"
         }
     }
 
@@ -49897,11 +50040,13 @@ extension EC2 {
         public let `operator`: OperatorResponse?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
+        /// Reports the performance-related health status for the instance. This information is returned only when performance status checks are enabled for the instance.
+        public let performanceStatus: PerformanceStatusSummary?
         /// Reports impaired functionality that stems from issues related to the systems that support an instance, such as hardware failures and network connectivity problems.
         public let systemStatus: InstanceStatusSummary?
 
         @inlinable
-        public init(applicationStatus: ApplicationStatusSummary? = nil, attachedEbsStatus: EbsStatusSummary? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, events: [InstanceStatusEvent]? = nil, instanceId: String? = nil, instanceState: InstanceState? = nil, instanceStatus: InstanceStatusSummary? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, systemStatus: InstanceStatusSummary? = nil) {
+        public init(applicationStatus: ApplicationStatusSummary? = nil, attachedEbsStatus: EbsStatusSummary? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, events: [InstanceStatusEvent]? = nil, instanceId: String? = nil, instanceState: InstanceState? = nil, instanceStatus: InstanceStatusSummary? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, performanceStatus: PerformanceStatusSummary? = nil, systemStatus: InstanceStatusSummary? = nil) {
             self.applicationStatus = applicationStatus
             self.attachedEbsStatus = attachedEbsStatus
             self.availabilityZone = availabilityZone
@@ -49912,6 +50057,7 @@ extension EC2 {
             self.instanceStatus = instanceStatus
             self.`operator` = `operator`
             self.outpostArn = outpostArn
+            self.performanceStatus = performanceStatus
             self.systemStatus = systemStatus
         }
 
@@ -49926,6 +50072,7 @@ extension EC2 {
             case instanceStatus = "instanceStatus"
             case `operator` = "operator"
             case outpostArn = "outpostArn"
+            case performanceStatus = "performanceStatus"
             case systemStatus = "systemStatus"
         }
     }
@@ -55903,7 +56050,7 @@ extension EC2 {
         public let connectionLogOptions: ConnectionLogOptions?
         /// A brief description of the Client VPN endpoint.
         public let description: String?
-        /// The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To remove all device trust providers, specify an empty list.
+        /// The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To disable device posture and remove all device trust providers, specify false for Enabled.
         public let devicePostureOptions: DevicePostureOptions?
         /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
         public let disconnectOnSessionTimeout: Bool?
@@ -58346,6 +58493,76 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case trafficMirrorSession = "trafficMirrorSession"
+        }
+    }
+
+    public struct ModifyTransitGatewayAttachmentNatConfigurationRequest: AWSEncodableShape {
+        public struct _NatGatewayRulesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The NAT gateway rules for the attachment. The rules that you specify replace all existing NAT gateway rules for the attachment.  You can specify up to 50 rules for an attachment. If you omit this parameter, the existing rules don't change.  To remove all rules, use ResetNatGatewayRules.
+        @OptionalCustomCoding<EC2ArrayCoder<_NatGatewayRulesEncoding, TransitGatewayNatRuleRequest>>
+        public var natGatewayRules: [TransitGatewayNatRuleRequest]?
+        /// Specifies whether to enable or disable NAT gateway support for the attachment. To enable NAT gateway support, the attachment  must have at least one NAT gateway rule. You can't modify the NAT configuration while NAT gateway support is enabling  or disabling. If you omit this parameter, the current value doesn't change.
+        public let natGatewaySupport: TransitGatewayAttachmentNatGatewaySupportValue?
+        /// Specifies whether the transit gateway installs routes for the NAT CIDRs in the route tables to which the attachment  propagates. For VPC attachments, the transit gateway always installs these routes. You can enable or disable this option only for  Amazon Web Services Direct Connect gateway attachments and Site-to-Site VPN attachments that use dynamic routing. For these  attachments, the default is enable. If you omit this parameter, the current value doesn't change.
+        public let natSystemRouteSupport: TransitGatewayAttachmentNatSystemRouteSupportValue?
+        /// Specifies whether to remove all NAT gateway rules from the attachment. If you omit this parameter, the transit gateway doesn't  remove any rules. You can't specify this parameter together with NatGatewayRules. Because you can't enable  NAT gateway support without rules, also set NatGatewaySupport to disable in the same request  if NAT gateway support is currently enabled.
+        public let resetNatGatewayRules: Bool?
+        /// The ID of the transit gateway attachment.
+        public let transitGatewayAttachmentId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, natGatewayRules: [TransitGatewayNatRuleRequest]? = nil, natGatewaySupport: TransitGatewayAttachmentNatGatewaySupportValue? = nil, natSystemRouteSupport: TransitGatewayAttachmentNatSystemRouteSupportValue? = nil, resetNatGatewayRules: Bool? = nil, transitGatewayAttachmentId: String? = nil) {
+            self.dryRun = dryRun
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
+            self.resetNatGatewayRules = resetNatGatewayRules
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.natGatewayRules, name: "natGatewayRules", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case natGatewayRules = "NatGatewayRule"
+            case natGatewaySupport = "NatGatewaySupport"
+            case natSystemRouteSupport = "NatSystemRouteSupport"
+            case resetNatGatewayRules = "ResetNatGatewayRules"
+            case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
+        }
+    }
+
+    public struct ModifyTransitGatewayAttachmentNatConfigurationResult: AWSDecodableShape {
+        public struct _NatGatewayRulesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The NAT gateway rules for the attachment.
+        @OptionalCustomCoding<EC2ArrayCoder<_NatGatewayRulesEncoding, TransitGatewayNatRule>>
+        public var natGatewayRules: [TransitGatewayNatRule]?
+        /// The state of NAT gateway support for the attachment.
+        public let natGatewaySupport: TransitGatewayAttachmentNatGatewaySupportState?
+        /// Specifies whether the transit gateway installs routes for the NAT CIDRs in the route tables to which the attachment propagates.
+        public let natSystemRouteSupport: TransitGatewayAttachmentNatSystemRouteSupportValue?
+        /// The ID of the transit gateway attachment.
+        public let transitGatewayAttachmentId: String?
+
+        @inlinable
+        public init(natGatewayRules: [TransitGatewayNatRule]? = nil, natGatewaySupport: TransitGatewayAttachmentNatGatewaySupportState? = nil, natSystemRouteSupport: TransitGatewayAttachmentNatSystemRouteSupportValue? = nil, transitGatewayAttachmentId: String? = nil) {
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case natGatewayRules = "natGatewayRuleSet"
+            case natGatewaySupport = "natGatewaySupport"
+            case natSystemRouteSupport = "natSystemRouteSupport"
+            case transitGatewayAttachmentId = "transitGatewayAttachmentId"
         }
     }
 
@@ -62093,13 +62310,15 @@ extension EC2 {
         public let subnet: AnalysisComponent?
         /// The transit gateway.
         public let transitGateway: AnalysisComponent?
+        /// The entry in a transit gateway policy table.
+        public let transitGatewayPolicyTableEntry: AnalysisTransitGatewayPolicyTableEntry?
         /// The route in a transit gateway route table.
         public let transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute?
         /// The component VPC.
         public let vpc: AnalysisComponent?
 
         @inlinable
-        public init(aclRule: AnalysisAclRule? = nil, additionalDetails: [AdditionalDetail]? = nil, attachedTo: AnalysisComponent? = nil, component: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanations: [Explanation]? = nil, firewallStatefulRule: FirewallStatefulRule? = nil, firewallStatelessRule: FirewallStatelessRule? = nil, inboundHeader: AnalysisPacketHeader? = nil, outboundHeader: AnalysisPacketHeader? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, sequenceNumber: Int? = nil, serviceName: String? = nil, sourceVpc: AnalysisComponent? = nil, subnet: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil) {
+        public init(aclRule: AnalysisAclRule? = nil, additionalDetails: [AdditionalDetail]? = nil, attachedTo: AnalysisComponent? = nil, component: AnalysisComponent? = nil, destinationVpc: AnalysisComponent? = nil, elasticLoadBalancerListener: AnalysisComponent? = nil, explanations: [Explanation]? = nil, firewallStatefulRule: FirewallStatefulRule? = nil, firewallStatelessRule: FirewallStatelessRule? = nil, inboundHeader: AnalysisPacketHeader? = nil, outboundHeader: AnalysisPacketHeader? = nil, routeTableRoute: AnalysisRouteTableRoute? = nil, securityGroupRule: AnalysisSecurityGroupRule? = nil, sequenceNumber: Int? = nil, serviceName: String? = nil, sourceVpc: AnalysisComponent? = nil, subnet: AnalysisComponent? = nil, transitGateway: AnalysisComponent? = nil, transitGatewayPolicyTableEntry: AnalysisTransitGatewayPolicyTableEntry? = nil, transitGatewayRouteTableRoute: TransitGatewayRouteTableRoute? = nil, vpc: AnalysisComponent? = nil) {
             self.aclRule = aclRule
             self.additionalDetails = additionalDetails
             self.attachedTo = attachedTo
@@ -62118,6 +62337,7 @@ extension EC2 {
             self.sourceVpc = sourceVpc
             self.subnet = subnet
             self.transitGateway = transitGateway
+            self.transitGatewayPolicyTableEntry = transitGatewayPolicyTableEntry
             self.transitGatewayRouteTableRoute = transitGatewayRouteTableRoute
             self.vpc = vpc
         }
@@ -62141,6 +62361,7 @@ extension EC2 {
             case sourceVpc = "sourceVpc"
             case subnet = "subnet"
             case transitGateway = "transitGateway"
+            case transitGatewayPolicyTableEntry = "transitGatewayPolicyTableEntry"
             case transitGatewayRouteTableRoute = "transitGatewayRouteTableRoute"
             case vpc = "vpc"
         }
@@ -62400,6 +62621,28 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case instanceFamily = "InstanceFamily"
+        }
+    }
+
+    public struct PerformanceStatusSummary: AWSDecodableShape {
+        /// The date and time when the performance status became impaired.
+        public let impairedSince: Date?
+        /// The recommended action to remediate the impaired instance, if one is available. This value is returned only when the instance is impaired.
+        public let remediation: String?
+        /// The current status.
+        public let status: SummaryStatus?
+
+        @inlinable
+        public init(impairedSince: Date? = nil, remediation: String? = nil, status: SummaryStatus? = nil) {
+            self.impairedSince = impairedSince
+            self.remediation = remediation
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impairedSince = "impairedSince"
+            case remediation = "remediation"
+            case status = "status"
         }
     }
 
@@ -72446,6 +72689,8 @@ extension EC2 {
         public let association: TransitGatewayAttachmentAssociation?
         /// The creation time.
         public let creationTime: Date?
+        /// The state of NAT gateway support for the attachment. Only the owner of the transit gateway receives this parameter.
+        public let natGatewaySupport: TransitGatewayAttachmentNatGatewaySupportState?
         /// The ID of the resource.
         public let resourceId: String?
         /// The ID of the Amazon Web Services account that owns the resource.
@@ -72465,9 +72710,10 @@ extension EC2 {
         public let transitGatewayOwnerId: String?
 
         @inlinable
-        public init(association: TransitGatewayAttachmentAssociation? = nil, creationTime: Date? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayAttachmentState? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, transitGatewayOwnerId: String? = nil) {
+        public init(association: TransitGatewayAttachmentAssociation? = nil, creationTime: Date? = nil, natGatewaySupport: TransitGatewayAttachmentNatGatewaySupportState? = nil, resourceId: String? = nil, resourceOwnerId: String? = nil, resourceType: TransitGatewayAttachmentResourceType? = nil, state: TransitGatewayAttachmentState? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, transitGatewayOwnerId: String? = nil) {
             self.association = association
             self.creationTime = creationTime
+            self.natGatewaySupport = natGatewaySupport
             self.resourceId = resourceId
             self.resourceOwnerId = resourceOwnerId
             self.resourceType = resourceType
@@ -72481,6 +72727,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case association = "association"
             case creationTime = "creationTime"
+            case natGatewaySupport = "natGatewaySupport"
             case resourceId = "resourceId"
             case resourceOwnerId = "resourceOwnerId"
             case resourceType = "resourceType"
@@ -73199,6 +73446,54 @@ extension EC2 {
             case groupIpAddress = "groupIpAddress"
             case registeredNetworkInterfaceIds = "registeredNetworkInterfaceIds"
             case transitGatewayMulticastDomainId = "transitGatewayMulticastDomainId"
+        }
+    }
+
+    public struct TransitGatewayNatRule: AWSDecodableShape {
+        /// The IPv4 CIDR block of the source addresses to translate.
+        public let matchSourceCidr: String?
+        /// The IPv4 CIDR block that the transit gateway translates the source addresses to.
+        public let natCidr: String?
+        /// The rule number.
+        public let ruleNumber: Int?
+        /// The state of the NAT gateway rule. The possible values are:    pending - The transit gateway is applying a change to the rule.    activated - The rule is in effect because NAT gateway support is enabled for the attachment.    deactivated - The rule isn't in effect because NAT gateway support is disabled for the attachment.
+        public let state: TransitGatewayNatRuleState?
+
+        @inlinable
+        public init(matchSourceCidr: String? = nil, natCidr: String? = nil, ruleNumber: Int? = nil, state: TransitGatewayNatRuleState? = nil) {
+            self.matchSourceCidr = matchSourceCidr
+            self.natCidr = natCidr
+            self.ruleNumber = ruleNumber
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchSourceCidr = "matchSourceCidr"
+            case natCidr = "natCidr"
+            case ruleNumber = "ruleNumber"
+            case state = "state"
+        }
+    }
+
+    public struct TransitGatewayNatRuleRequest: AWSEncodableShape {
+        /// The IPv4 CIDR block of the source addresses to translate. The CIDR block can't overlap the multicast  range (224.0.0.0/4) or the link-local range (169.254.0.0/16).
+        public let matchSourceCidr: String?
+        /// The IPv4 CIDR block to translate the source addresses to. The CIDR block must be in a private (RFC 1918)  or shared address space (RFC 6598) range, and must have the same prefix length as MatchSourceCidr.  The CIDR blocks in the rules for an attachment can't overlap each other.
+        public let natCidr: String?
+        /// The rule number. Valid values are 1 to 32766. Each rule number must be unique within the request.
+        public let ruleNumber: Int?
+
+        @inlinable
+        public init(matchSourceCidr: String? = nil, natCidr: String? = nil, ruleNumber: Int? = nil) {
+            self.matchSourceCidr = matchSourceCidr
+            self.natCidr = natCidr
+            self.ruleNumber = ruleNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchSourceCidr = "MatchSourceCidr"
+            case natCidr = "NatCidr"
+            case ruleNumber = "RuleNumber"
         }
     }
 

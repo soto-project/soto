@@ -889,6 +889,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
     ///
     /// Parameters:
+    ///   - certificateConfigurations: The private certificate authority (CA) configurations for the gateway target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certificate authority configuration in this list.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
     ///   - credentialProviderConfigurations: The credential provider configurations for the target. These configurations specify how the gateway authenticates with the target endpoint.
     ///   - description: The description of the gateway target.
@@ -900,6 +901,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createGatewayTarget(
+        certificateConfigurations: [CertificateConfiguration]? = nil,
         clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(),
         credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil,
         description: String? = nil,
@@ -911,6 +913,7 @@ public struct BedrockAgentCoreControl: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGatewayTargetResponse {
         let input = CreateGatewayTargetRequest(
+            certificateConfigurations: certificateConfigurations, 
             clientToken: clientToken, 
             credentialProviderConfigurations: credentialProviderConfigurations, 
             description: description, 
@@ -1360,7 +1363,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using Cedar or Dogwood, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion. If the new policy is a temporal policy, creating it invalidates the policy engine's active temporal sessions. For more information about temporal policy sessions, see session-based temporal policies. The policy engine returns an HTTP 409 ConflictException to in-flight sessions. To resume, you must start a new session with a new session ID.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure the idempotency of the request. The Amazon Web Services SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy.
     ///   - definition: The Cedar or Dogwood policy statement that defines the access control rules. This contains the actual policy logic written in Cedar or Dogwood, specifying effect (permit or forbid), principals, actions, resources, and conditions for agent behavior control.
     ///   - description: A human-readable description of the policy's purpose and functionality (1-4,096 characters). This helps policy administrators understand the policy's intent, business rules, and operational scope. Use this field to document why the policy exists, what business requirement it addresses, and any special considerations for maintenance. Clear descriptions are essential for policy governance, auditing, and troubleshooting.
     ///   - enforcementMode: The enforcement mode for the policy. Run this policy in LOG_ONLY mode to collect data on how it affects your application. Once you are satisfied with the data gathered, switch the policy to ACTIVE. Defaults to ACTIVE.
@@ -2156,7 +2159,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Deletes an Amazon Bedrock AgentCore Memory resource. When you delete a memory resource, it is permanently removed.
     ///
     /// Parameters:
-    ///   - clientToken: A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier.
+    ///   - clientToken: A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique Amazon Web Services identifier.
     ///   - memoryId: The unique identifier of the memory to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5063,7 +5066,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Initiates the AI-powered generation of Dogwood policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Dogwood policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Dogwood syntax, though generated policies may require refinement for complex scenarios.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure the idempotency of the request. The Amazon Web Services SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation.
     ///   - content: The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Dogwood policy statements that match the described intent.
     ///   - name: A customer-assigned name for the policy generation request. This helps track and identify generation operations, especially when running multiple generations simultaneously.
     ///   - policyEngineId: The identifier of the policy engine that provides the context for policy generation. This engine's schema and tool context are used to ensure generated policies are valid and applicable.
@@ -5434,7 +5437,7 @@ public struct BedrockAgentCoreControl: AWSService {
         bundleId: String,
         bundleName: String? = nil,
         clientToken: String? = UpdateConfigurationBundleRequest.idempotencyToken(),
-        commitMessage: String? = nil,
+        commitMessage: String,
         components: [String: ComponentConfiguration]? = nil,
         createdBy: VersionCreatedBySource? = nil,
         description: String? = nil,
@@ -5609,7 +5612,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.updateEvaluator(input, logger: logger)
     }
 
-    /// Updates an existing gateway.
+    /// Updates an existing gateway. Replaces the entire gateway configuration. Any optional field that you omit, including fields in protocolConfiguration, is reset. For information about retrieving the current configuration, see GetGateway.
     @Sendable
     @inlinable
     public func updateGateway(_ input: UpdateGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayResponse {
@@ -5622,7 +5625,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing gateway.
+    /// Updates an existing gateway. Replaces the entire gateway configuration. Any optional field that you omit, including fields in protocolConfiguration, is reset. For information about retrieving the current configuration, see GetGateway.
     ///
     /// Parameters:
     ///   - authorizerConfiguration: The updated authorizer configuration for the gateway.
@@ -5775,6 +5778,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Updates an existing gateway target. You cannot update a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before updating the target.
     ///
     /// Parameters:
+    ///   - certificateConfigurations: The private certificate authority (CA) configurations for the gateway target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certificate authority configuration in this list. To remove a previously configured certificate authority, omit this field on update.
     ///   - credentialProviderConfigurations: The updated credential provider configurations for the gateway target.
     ///   - description: The updated description for the gateway target.
     ///   - gatewayIdentifier: The unique identifier of the gateway associated with the target.
@@ -5786,6 +5790,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGatewayTarget(
+        certificateConfigurations: [CertificateConfiguration]? = nil,
         credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil,
         description: String? = nil,
         gatewayIdentifier: String,
@@ -5797,6 +5802,7 @@ public struct BedrockAgentCoreControl: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateGatewayTargetResponse {
         let input = UpdateGatewayTargetRequest(
+            certificateConfigurations: certificateConfigurations, 
             credentialProviderConfigurations: credentialProviderConfigurations, 
             description: description, 
             gatewayIdentifier: gatewayIdentifier, 
@@ -5947,7 +5953,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - addIndexedKeys: Additional metadata keys to index. Previously indexed keys cannot be removed.
-    ///   - clientToken: A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier.
+    ///   - clientToken: A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique Amazon Web Services identifier.
     ///   - description: The updated description of the AgentCore Memory resource.
     ///   - eventExpiryDuration: The number of days after which memory events will expire, between 7 and 365 days.
     ///   - memoryExecutionRoleArn: The ARN of the IAM role that provides permissions for the AgentCore Memory resource.

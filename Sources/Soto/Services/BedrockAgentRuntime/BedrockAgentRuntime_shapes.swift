@@ -254,6 +254,7 @@ extension BedrockAgentRuntime {
 
     public enum FoundationModelConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bedrockFoundationModel = "BEDROCK_FOUNDATION_MODEL"
+        case mantleFoundationModel = "MANTLE_FOUNDATION_MODEL"
         public var description: String { return self.rawValue }
     }
 
@@ -2250,6 +2251,24 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct AgenticRetrieveAppliedInstruction: AWSDecodableShape {
+        /// The identifier of the retrieval instruction applied.
+        public let id: String
+        /// The version that was applied: a version number, or DRAFT. The service reports this version whenever it reports appliedInstruction, including DRAFT when the request did not specify a version.
+        public let version: String?
+
+        @inlinable
+        public init(id: String, version: String? = nil) {
+            self.id = id
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case version = "version"
+        }
+    }
+
     public struct AgenticRetrieveBedrockGuardrailConfiguration: AWSEncodableShape {
         /// The unique identifier of the guardrail.
         public let guardrailId: String
@@ -2449,6 +2468,33 @@ extension BedrockAgentRuntime {
             case action = "action"
             case id = "id"
             case message = "message"
+            case version = "version"
+        }
+    }
+
+    public struct AgenticRetrieveInstructionConfiguration: AWSEncodableShape {
+        /// The identifier of the retrieval instruction. The instruction must exist in the caller's account and its status must be ACTIVE.
+        public let retrievalInstructionId: String
+        /// The version of the retrieval instruction to apply: a version number, or DRAFT for the instruction's current reviewed content. When omitted, DRAFT is used. This default is permanent.
+        public let version: String?
+
+        @inlinable
+        public init(retrievalInstructionId: String, version: String? = nil) {
+            self.retrievalInstructionId = retrievalInstructionId
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, max: 64)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, min: 1)
+            try self.validate(self.retrievalInstructionId, name: "retrievalInstructionId", parent: name, pattern: "^[a-z0-9]+$")
+            try self.validate(self.version, name: "version", parent: name, max: 9)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+            try self.validate(self.version, name: "version", parent: name, pattern: "^(DRAFT|[1-9][0-9]{0,8})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retrievalInstructionId = "retrievalInstructionId"
             case version = "version"
         }
     }
@@ -2785,19 +2831,22 @@ extension BedrockAgentRuntime {
         public let nextToken: String?
         /// Policy configuration for guardrails and content filtering.
         public let policyConfiguration: AgenticRetrievePolicyConfiguration?
+        /// A retrieval instruction to apply to this request.
+        public let retrievalInstructionConfiguration: AgenticRetrieveInstructionConfiguration?
         /// The list of retrievers to use for agentic retrieval.
         public let retrievers: [AgenticRetriever]
         /// Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
         public let userContext: UserContext?
 
         @inlinable
-        public init(agenticRetrieveConfiguration: AgenticRetrieveConfiguration, generateResponse: Bool? = nil, memoryConfiguration: AgenticRetrieveMemoryConfiguration? = nil, messages: [AgenticRetrieveMessage], nextToken: String? = nil, policyConfiguration: AgenticRetrievePolicyConfiguration? = nil, retrievers: [AgenticRetriever], userContext: UserContext? = nil) {
+        public init(agenticRetrieveConfiguration: AgenticRetrieveConfiguration, generateResponse: Bool? = nil, memoryConfiguration: AgenticRetrieveMemoryConfiguration? = nil, messages: [AgenticRetrieveMessage], nextToken: String? = nil, policyConfiguration: AgenticRetrievePolicyConfiguration? = nil, retrievalInstructionConfiguration: AgenticRetrieveInstructionConfiguration? = nil, retrievers: [AgenticRetriever], userContext: UserContext? = nil) {
             self.agenticRetrieveConfiguration = agenticRetrieveConfiguration
             self.generateResponse = generateResponse
             self.memoryConfiguration = memoryConfiguration
             self.messages = messages
             self.nextToken = nextToken
             self.policyConfiguration = policyConfiguration
+            self.retrievalInstructionConfiguration = retrievalInstructionConfiguration
             self.retrievers = retrievers
             self.userContext = userContext
         }
@@ -2808,6 +2857,7 @@ extension BedrockAgentRuntime {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.retrievalInstructionConfiguration?.validate(name: "\(name).retrievalInstructionConfiguration")
             try self.retrievers.forEach {
                 try $0.validate(name: "\(name).retrievers[]")
             }
@@ -2820,6 +2870,7 @@ extension BedrockAgentRuntime {
             case messages = "messages"
             case nextToken = "nextToken"
             case policyConfiguration = "policyConfiguration"
+            case retrievalInstructionConfiguration = "retrievalInstructionConfiguration"
             case retrievers = "retrievers"
             case userContext = "userContext"
         }
@@ -2868,6 +2919,8 @@ extension BedrockAgentRuntime {
     public struct AgenticRetrieveTraceEventAttributes: AWSDecodableShape {
         /// The list of actions taken during this step.
         public let actions: [AgenticRetrieveAction]?
+        /// The agent reports the retrieval instruction applied to this request on the first planning step.
+        public let appliedInstruction: AgenticRetrieveAppliedInstruction?
         /// Failures that occurred during this step.
         public let failures: [AgenticRetrieveFailure]?
         /// A human-readable message describing the trace event.
@@ -2884,8 +2937,9 @@ extension BedrockAgentRuntime {
         public let warnings: [AgenticRetrieveWarning]?
 
         @inlinable
-        public init(actions: [AgenticRetrieveAction]? = nil, failures: [AgenticRetrieveFailure]? = nil, message: String, retrievalMetadata: [AgenticRetrieveSourceMetadata]? = nil, retrievalResponse: [AgenticRetrieveTraceResultItem]? = nil, status: AgenticRetrieveStatus, step: AgenticRetrieveStep, warnings: [AgenticRetrieveWarning]? = nil) {
+        public init(actions: [AgenticRetrieveAction]? = nil, appliedInstruction: AgenticRetrieveAppliedInstruction? = nil, failures: [AgenticRetrieveFailure]? = nil, message: String, retrievalMetadata: [AgenticRetrieveSourceMetadata]? = nil, retrievalResponse: [AgenticRetrieveTraceResultItem]? = nil, status: AgenticRetrieveStatus, step: AgenticRetrieveStep, warnings: [AgenticRetrieveWarning]? = nil) {
             self.actions = actions
+            self.appliedInstruction = appliedInstruction
             self.failures = failures
             self.message = message
             self.retrievalMetadata = retrievalMetadata
@@ -2897,6 +2951,7 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case actions = "actions"
+            case appliedInstruction = "appliedInstruction"
             case failures = "failures"
             case message = "message"
             case retrievalMetadata = "retrievalMetadata"
@@ -4803,21 +4858,26 @@ extension BedrockAgentRuntime {
     public struct FoundationModelConfiguration: AWSEncodableShape {
         /// The Bedrock foundation model configuration.
         public let bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration?
+        /// The Mantle foundation model configuration.
+        public let mantleFoundationModelConfiguration: MantleFoundationModelConfiguration?
         /// The type of foundation model configuration.
         public let type: FoundationModelConfigurationType
 
         @inlinable
-        public init(bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration? = nil, type: FoundationModelConfigurationType) {
+        public init(bedrockFoundationModelConfiguration: BedrockFoundationModelConfiguration? = nil, mantleFoundationModelConfiguration: MantleFoundationModelConfiguration? = nil, type: FoundationModelConfigurationType) {
             self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.mantleFoundationModelConfiguration = mantleFoundationModelConfiguration
             self.type = type
         }
 
         public func validate(name: String) throws {
             try self.bedrockFoundationModelConfiguration?.validate(name: "\(name).bedrockFoundationModelConfiguration")
+            try self.mantleFoundationModelConfiguration?.validate(name: "\(name).mantleFoundationModelConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case bedrockFoundationModelConfiguration = "bedrockFoundationModelConfiguration"
+            case mantleFoundationModelConfiguration = "mantleFoundationModelConfiguration"
             case type = "type"
         }
     }
@@ -7348,6 +7408,50 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case bedrockRerankingConfiguration = "bedrockRerankingConfiguration"
             case type = "type"
+        }
+    }
+
+    public struct MantleFoundationModelConfiguration: AWSEncodableShape {
+        /// The model configuration containing the model ARN and project ID.
+        public let modelConfiguration: MantleFoundationModelModelConfiguration
+
+        @inlinable
+        public init(modelConfiguration: MantleFoundationModelModelConfiguration) {
+            self.modelConfiguration = modelConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.modelConfiguration.validate(name: "\(name).modelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelConfiguration = "modelConfiguration"
+        }
+    }
+
+    public struct MantleFoundationModelModelConfiguration: AWSEncodableShape {
+        /// The ARN of the Mantle foundation model.
+        public let modelArn: String
+        /// The Amazon Bedrock project ID used for billing and usage attribution. If you don't specify a value, the service uses the default project.
+        public let projectId: String?
+
+        @inlinable
+        public init(modelArn: String, projectId: String? = nil) {
+            self.modelArn = modelArn
+            self.projectId = projectId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]+)?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+            try self.validate(self.projectId, name: "projectId", parent: name, max: 128)
+            try self.validate(self.projectId, name: "projectId", parent: name, pattern: "^(proj_[a-zA-Z0-9]+|default)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "modelArn"
+            case projectId = "projectId"
         }
     }
 

@@ -171,6 +171,13 @@ extension BedrockAgentCore {
         public var description: String { return self.rawValue }
     }
 
+    public enum FindingTargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case spanId = "SPAN_ID"
+        case spanName = "SPAN_NAME"
+        case traceId = "TRACE_ID"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HarnessBedrockApiFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Use the Chat Completions API format.
         case chatCompletions = "chat_completions"
@@ -247,6 +254,11 @@ extension BedrockAgentCore {
         case mcpToolUse = "mcp_tool_use"
         case serverToolUse = "server_tool_use"
         case toolUse = "tool_use"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failure = "FAILURE"
         public var description: String { return self.rawValue }
     }
 
@@ -408,6 +420,11 @@ extension BedrockAgentCore {
     public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case systemPromptRecommendation = "SYSTEM_PROMPT_RECOMMENDATION"
         case toolDescriptionRecommendation = "TOOL_DESCRIPTION_RECOMMENDATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordExpiryAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case remove = "REMOVE"
         public var description: String { return self.rawValue }
     }
 
@@ -1073,7 +1090,7 @@ extension BedrockAgentCore {
         case awsIam
         /// No authentication.
         case none
-        /// OAuth 2.0 authentication via AgentCore Identity.
+        /// OAuth 2.0 authentication via AgentCore Identity. The AUTHORIZATION_CODE grant type is not supported for outbound authentication from a harness to an AgentCore Gateway, even when defaultReturnUrl is specified.
         case oauth(OAuthCredentialProvider)
 
         public func encode(to encoder: Encoder) throws {
@@ -1209,7 +1226,7 @@ extension BedrockAgentCore {
     }
 
     public enum HarnessSkill: AWSEncodableShape, Sendable {
-        /// AWS Skills baked into the Harness's underlying Runtime.
+        /// Amazon Web Services Skills baked into the Harness's underlying Runtime.
         case awsSkills(HarnessSkillAwsSkillsSource)
         /// A git repository containing the skill.
         case git(HarnessSkillGitSource)
@@ -2006,6 +2023,37 @@ extension BedrockAgentCore {
         }
     }
 
+    public enum RecordExpirySpecification: AWSEncodableShape, Sendable {
+        /// The action to apply to the existing record expiry configuration. Set to REMOVE to remove a previously configured expiry so that the records no longer expire. This value does not apply when creating records.
+        case action(RecordExpiryAction)
+        /// The duration, in days, after which the records in this request expire. The minimum is 31 days.
+        case recordExpiryDurationDays(Int)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .action(let value):
+                try container.encode(value, forKey: .action)
+            case .recordExpiryDurationDays(let value):
+                try container.encode(value, forKey: .recordExpiryDurationDays)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .recordExpiryDurationDays(let value):
+                try self.validate(value, name: "recordExpiryDurationDays", parent: name, min: 31)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case recordExpiryDurationDays = "recordExpiryDurationDays"
+        }
+    }
+
     public enum SystemPromptConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The system prompt sourced from a configuration bundle version.
         case configurationBundle(SystemPromptConfigurationBundle)
@@ -2456,13 +2504,16 @@ extension BedrockAgentCore {
         public let clientToken: String?
         /// The unique ID of the memory resource where records will be created.
         public let memoryId: String
+        /// The record expiry (long-term memory time-to-live) applied to every record created by this request. Set recordExpiryDurationDays to the number of days after which the records expire. Only the expiry provided here is applied; the records' strategy association has no effect on their expiry. If you do not provide this value, the records do not expire. The REMOVE action does not apply when creating records.
+        public let recordExpirySpecification: RecordExpirySpecification?
         /// A list of memory record creation inputs to be processed in the batch operation.
         public let records: [MemoryRecordCreateInput]
 
         @inlinable
-        public init(clientToken: String? = BatchCreateMemoryRecordsInput.idempotencyToken(), memoryId: String, records: [MemoryRecordCreateInput]) {
+        public init(clientToken: String? = BatchCreateMemoryRecordsInput.idempotencyToken(), memoryId: String, recordExpirySpecification: RecordExpirySpecification? = nil, records: [MemoryRecordCreateInput]) {
             self.clientToken = clientToken
             self.memoryId = memoryId
+            self.recordExpirySpecification = recordExpirySpecification
             self.records = records
         }
 
@@ -2471,12 +2522,14 @@ extension BedrockAgentCore {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.memoryId, key: "memoryId")
+            try container.encodeIfPresent(self.recordExpirySpecification, forKey: .recordExpirySpecification)
             try container.encode(self.records, forKey: .records)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
             try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^(arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
+            try self.recordExpirySpecification?.validate(name: "\(name).recordExpirySpecification")
             try self.records.forEach {
                 try $0.validate(name: "\(name).records[]")
             }
@@ -2485,6 +2538,7 @@ extension BedrockAgentCore {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case recordExpirySpecification = "recordExpirySpecification"
             case records = "records"
         }
     }
@@ -2633,12 +2687,15 @@ extension BedrockAgentCore {
     public struct BatchUpdateMemoryRecordsInput: AWSEncodableShape {
         /// The unique ID of the memory resource where records will be updated.
         public let memoryId: String
+        /// The record expiry (long-term memory time-to-live) applied to every record updated by this request. Set recordExpiryDurationDays to configure or overwrite the number of days after which the records expire, or set action to REMOVE to clear a previously configured expiry so that the records no longer expire. When you do not provide this value, the service determines each record's expiry from its current state:   If the record already has an expiry configured, the service resets and reapplies the expiry based on the last applied recordExpiryDurationDays.   If the record does not have an expiry configured, no expiry is applied and the record remains non-expiring. This is the outcome regardless of whether the record's strategy configures an expiry.   Providing an explicit recordExpiryDurationDays always takes precedence: it overwrites an existing expiry, or sets one on a record that previously had none.
+        public let recordExpirySpecification: RecordExpirySpecification?
         /// A list of memory record update inputs to be processed in the batch operation.
         public let records: [MemoryRecordUpdateInput]
 
         @inlinable
-        public init(memoryId: String, records: [MemoryRecordUpdateInput]) {
+        public init(memoryId: String, recordExpirySpecification: RecordExpirySpecification? = nil, records: [MemoryRecordUpdateInput]) {
             self.memoryId = memoryId
+            self.recordExpirySpecification = recordExpirySpecification
             self.records = records
         }
 
@@ -2646,12 +2703,14 @@ extension BedrockAgentCore {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.memoryId, key: "memoryId")
+            try container.encodeIfPresent(self.recordExpirySpecification, forKey: .recordExpirySpecification)
             try container.encode(self.records, forKey: .records)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
             try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^(arn:(aws|aws-cn|aws-us-gov):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:memory/)?[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
+            try self.recordExpirySpecification?.validate(name: "\(name).recordExpirySpecification")
             try self.records.forEach {
                 try $0.validate(name: "\(name).records[]")
             }
@@ -2659,6 +2718,7 @@ extension BedrockAgentCore {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case recordExpirySpecification = "recordExpirySpecification"
             case records = "records"
         }
     }
@@ -4458,6 +4518,8 @@ extension BedrockAgentCore {
         public let errorCode: String?
         ///  The error message describing what went wrong if the evaluation failed. Provides detailed information about evaluation failures to help diagnose and resolve issues with evaluator configuration or input data.
         public let errorMessage: String?
+        ///  The name of the dimension that this result scores. This field is set only on results produced by an evaluator that uses a multi-dimensional rating scale, where each dimension is scored independently. For evaluators with a single rating scale, this field is absent.
+        public let evaluationDimensionName: String?
         ///  The Amazon Resource Name (ARN) of the evaluator used to generate this result. For custom evaluators, this is the full ARN; for built-in evaluators, this follows the pattern Builtin.{EvaluatorName}.
         public let evaluatorArn: String
         ///  The unique identifier of the evaluator that produced this result. This matches the evaluatorId provided in the evaluation request and can be used to identify which evaluator generated specific results.
@@ -4476,10 +4538,11 @@ extension BedrockAgentCore {
         public let value: Double?
 
         @inlinable
-        public init(context: Context, errorCode: String? = nil, errorMessage: String? = nil, evaluatorArn: String, evaluatorId: String, evaluatorName: String, explanation: String? = nil, ignoredReferenceInputFields: [String]? = nil, label: String? = nil, tokenUsage: TokenUsage? = nil, value: Double? = nil) {
+        public init(context: Context, errorCode: String? = nil, errorMessage: String? = nil, evaluationDimensionName: String? = nil, evaluatorArn: String, evaluatorId: String, evaluatorName: String, explanation: String? = nil, ignoredReferenceInputFields: [String]? = nil, label: String? = nil, tokenUsage: TokenUsage? = nil, value: Double? = nil) {
             self.context = context
             self.errorCode = errorCode
             self.errorMessage = errorMessage
+            self.evaluationDimensionName = evaluationDimensionName
             self.evaluatorArn = evaluatorArn
             self.evaluatorId = evaluatorId
             self.evaluatorName = evaluatorName
@@ -4494,6 +4557,7 @@ extension BedrockAgentCore {
             case context = "context"
             case errorCode = "errorCode"
             case errorMessage = "errorMessage"
+            case evaluationDimensionName = "evaluationDimensionName"
             case evaluatorArn = "evaluatorArn"
             case evaluatorId = "evaluatorId"
             case evaluatorName = "evaluatorName"
@@ -4562,6 +4626,8 @@ extension BedrockAgentCore {
     }
 
     public struct EvaluatorSummary: AWSDecodableShape {
+        /// The name of the dimension that this summary covers. This field is set only for evaluators that use a multi-dimensional rating scale, where each dimension is summarized separately. For single-scale evaluators, this field is not set.
+        public let evaluationDimensionName: String?
         /// The unique identifier of the evaluator.
         public let evaluatorId: String?
         /// The aggregated statistics for this evaluator.
@@ -4572,7 +4638,8 @@ extension BedrockAgentCore {
         public let totalFailed: Int?
 
         @inlinable
-        public init(evaluatorId: String? = nil, statistics: EvaluatorStatistics? = nil, totalEvaluated: Int? = nil, totalFailed: Int? = nil) {
+        public init(evaluationDimensionName: String? = nil, evaluatorId: String? = nil, statistics: EvaluatorStatistics? = nil, totalEvaluated: Int? = nil, totalFailed: Int? = nil) {
+            self.evaluationDimensionName = evaluationDimensionName
             self.evaluatorId = evaluatorId
             self.statistics = statistics
             self.totalEvaluated = totalEvaluated
@@ -4580,6 +4647,7 @@ extension BedrockAgentCore {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case evaluationDimensionName = "evaluationDimensionName"
             case evaluatorId = "evaluatorId"
             case statistics = "statistics"
             case totalEvaluated = "totalEvaluated"
@@ -5222,6 +5290,8 @@ extension BedrockAgentCore {
         public let executionSummaryResult: ExecutionSummaryClusteringResultContent?
         /// The failure analysis results from insights, containing categorized failure clusters with root causes and recommendations.
         public let failureAnalysisResult: FailureAnalysisResultContent?
+        /// The insights generated when the batch evaluation includes the Builtin.FailureAnalysis evaluator. Each insight groups related failures found across the evaluated sessions. An empty list means that no failures were found. If the analysis fails, this field is omitted and errorDetails describes the error.
+        public let insightResults: [InsightResult]?
         /// The list of insight analyses applied during the batch evaluation.
         public let insights: [Insight]?
         /// The ARN of the KMS key used to encrypt evaluation data.
@@ -5236,7 +5306,7 @@ extension BedrockAgentCore {
         public let userIntentResult: UserIntentClusteringResultContent?
 
         @inlinable
-        public init(batchEvaluationArn: String, batchEvaluationId: String, batchEvaluationName: String, createdAt: Date, dataSourceConfig: DataSourceConfig? = nil, description: String? = nil, errorDetails: [String]? = nil, evaluationResults: EvaluationJobResults? = nil, evaluators: [Evaluator]? = nil, executionSummaryResult: ExecutionSummaryClusteringResultContent? = nil, failureAnalysisResult: FailureAnalysisResultContent? = nil, insights: [Insight]? = nil, kmsKeyArn: String? = nil, outputConfig: OutputConfig? = nil, status: BatchEvaluationStatus, updatedAt: Date? = nil, userIntentResult: UserIntentClusteringResultContent? = nil) {
+        public init(batchEvaluationArn: String, batchEvaluationId: String, batchEvaluationName: String, createdAt: Date, dataSourceConfig: DataSourceConfig? = nil, description: String? = nil, errorDetails: [String]? = nil, evaluationResults: EvaluationJobResults? = nil, evaluators: [Evaluator]? = nil, executionSummaryResult: ExecutionSummaryClusteringResultContent? = nil, failureAnalysisResult: FailureAnalysisResultContent? = nil, insightResults: [InsightResult]? = nil, insights: [Insight]? = nil, kmsKeyArn: String? = nil, outputConfig: OutputConfig? = nil, status: BatchEvaluationStatus, updatedAt: Date? = nil, userIntentResult: UserIntentClusteringResultContent? = nil) {
             self.batchEvaluationArn = batchEvaluationArn
             self.batchEvaluationId = batchEvaluationId
             self.batchEvaluationName = batchEvaluationName
@@ -5248,6 +5318,7 @@ extension BedrockAgentCore {
             self.evaluators = evaluators
             self.executionSummaryResult = executionSummaryResult
             self.failureAnalysisResult = failureAnalysisResult
+            self.insightResults = insightResults
             self.insights = insights
             self.kmsKeyArn = kmsKeyArn
             self.outputConfig = outputConfig
@@ -5268,6 +5339,7 @@ extension BedrockAgentCore {
             case evaluators = "evaluators"
             case executionSummaryResult = "executionSummaryResult"
             case failureAnalysisResult = "failureAnalysisResult"
+            case insightResults = "insightResults"
             case insights = "insights"
             case kmsKeyArn = "kmsKeyArn"
             case outputConfig = "outputConfig"
@@ -7131,6 +7203,74 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct InsightResult: AWSDecodableShape {
+        /// The number of distinct sessions affected by the insight.
+        public let affectedSessionCount: Int?
+        /// The timestamp when the insight was generated.
+        public let createdAt: Date
+        /// A description of the failure pattern that the insight represents.
+        public let description: String
+        /// A generated label for the insight. The name is not an identifier and can differ between batch evaluations.
+        public let name: String
+        /// The root causes identified for the insight.
+        public let rootCauses: [InsightRootCause]?
+        /// A sample of up to 10 sessions affected by the insight. Returned only when the insight has no root causes. Otherwise, sample sessions are returned for each root cause.
+        public let sampleSessions: [SampleSession]?
+        /// The type of insight. FAILURE indicates a group of related failures.
+        public let type: InsightType
+
+        @inlinable
+        public init(affectedSessionCount: Int? = nil, createdAt: Date, description: String, name: String, rootCauses: [InsightRootCause]? = nil, sampleSessions: [SampleSession]? = nil, type: InsightType) {
+            self.affectedSessionCount = affectedSessionCount
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.rootCauses = rootCauses
+            self.sampleSessions = sampleSessions
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedSessionCount = "affectedSessionCount"
+            case createdAt = "createdAt"
+            case description = "description"
+            case name = "name"
+            case rootCauses = "rootCauses"
+            case sampleSessions = "sampleSessions"
+            case type = "type"
+        }
+    }
+
+    public struct InsightRootCause: AWSDecodableShape {
+        /// The number of distinct sessions affected by the root cause. A session can be affected by more than one root cause of the same insight.
+        public let affectedSessionCount: Int?
+        /// An explanation of how the root cause leads to the failures in the insight.
+        public let explanation: String
+        /// A generated label for the root cause.
+        public let name: String
+        /// A sample of up to 10 sessions affected by the root cause.
+        public let sampleSessions: [SampleSession]?
+        /// A suggested change to the agent that addresses the root cause.
+        public let suggestedFix: String?
+
+        @inlinable
+        public init(affectedSessionCount: Int? = nil, explanation: String, name: String, sampleSessions: [SampleSession]? = nil, suggestedFix: String? = nil) {
+            self.affectedSessionCount = affectedSessionCount
+            self.explanation = explanation
+            self.name = name
+            self.sampleSessions = sampleSessions
+            self.suggestedFix = suggestedFix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedSessionCount = "affectedSessionCount"
+            case explanation = "explanation"
+            case name = "name"
+            case sampleSessions = "sampleSessions"
+            case suggestedFix = "suggestedFix"
+        }
+    }
+
     public struct InsightsFailureSignal: AWSDecodableShape {
         /// The failure category classification for this signal.
         public let category: InsightsFailureCategory
@@ -8286,7 +8426,7 @@ extension BedrockAgentCore {
         public let memoryStrategyId: String?
         /// A list of metadata filter expressions to scope the returned memory records.
         public let metadataFilters: [MemoryMetadataFilterExpression]?
-        /// The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
+        /// The exact namespace to filter memory records by. Returns all memory records that matches the provided namespace. Either namespace or namespacePath is required.
         public let namespace: String?
         /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
         public let namespacePath: String?
@@ -8701,6 +8841,8 @@ extension BedrockAgentCore {
         public let content: MemoryContent
         /// The timestamp when the memory record was created.
         public let createdAt: Date
+        /// The timestamp at which the memory record expires and becomes eligible for deletion. This value is set when a record expiry (long-term memory time-to-live) applies to the record, either from the strategy the record belongs to or from a record expiry provided on the batch request that created or updated it. If the record has no expiry configured, this value is not present and the record does not expire.
+        public let expiresAt: Date?
         /// The unique identifier of the memory record.
         public let memoryRecordId: String
         /// The identifier of the memory strategy associated with this record.
@@ -8709,24 +8851,30 @@ extension BedrockAgentCore {
         public let metadata: [String: MemoryRecordMetadataValue]?
         /// The namespaces associated with this memory record. Namespaces help organize and categorize memory records.
         public let namespaces: [String]
+        /// The timestamp based on which the memory record was ingested. This reflects the time of the source content that the record was derived from, which can differ from createdAt, the time the record itself was written.
+        public let timestamp: Date?
 
         @inlinable
-        public init(content: MemoryContent, createdAt: Date, memoryRecordId: String, memoryStrategyId: String, metadata: [String: MemoryRecordMetadataValue]? = nil, namespaces: [String]) {
+        public init(content: MemoryContent, createdAt: Date, expiresAt: Date? = nil, memoryRecordId: String, memoryStrategyId: String, metadata: [String: MemoryRecordMetadataValue]? = nil, namespaces: [String], timestamp: Date? = nil) {
             self.content = content
             self.createdAt = createdAt
+            self.expiresAt = expiresAt
             self.memoryRecordId = memoryRecordId
             self.memoryStrategyId = memoryStrategyId
             self.metadata = metadata
             self.namespaces = namespaces
+            self.timestamp = timestamp
         }
 
         private enum CodingKeys: String, CodingKey {
             case content = "content"
             case createdAt = "createdAt"
+            case expiresAt = "expiresAt"
             case memoryRecordId = "memoryRecordId"
             case memoryStrategyId = "memoryStrategyId"
             case metadata = "metadata"
             case namespaces = "namespaces"
+            case timestamp = "timestamp"
         }
     }
 
@@ -8859,9 +9007,11 @@ extension BedrockAgentCore {
         public let namespaces: [String]
         /// The relevance score of the memory record when returned as part of a search result. Higher values indicate greater relevance to the search query.
         public let score: Double?
+        /// The timestamp based on which the memory record was ingested. This reflects the time of the source content that the record was derived from, which can differ from createdAt, the time the record itself was written.
+        public let timestamp: Date?
 
         @inlinable
-        public init(content: MemoryContent, createdAt: Date, memoryRecordId: String, memoryStrategyId: String, metadata: [String: MemoryRecordMetadataValue]? = nil, namespaces: [String], score: Double? = nil) {
+        public init(content: MemoryContent, createdAt: Date, memoryRecordId: String, memoryStrategyId: String, metadata: [String: MemoryRecordMetadataValue]? = nil, namespaces: [String], score: Double? = nil, timestamp: Date? = nil) {
             self.content = content
             self.createdAt = createdAt
             self.memoryRecordId = memoryRecordId
@@ -8869,6 +9019,7 @@ extension BedrockAgentCore {
             self.metadata = metadata
             self.namespaces = namespaces
             self.score = score
+            self.timestamp = timestamp
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8879,6 +9030,7 @@ extension BedrockAgentCore {
             case metadata = "metadata"
             case namespaces = "namespaces"
             case score = "score"
+            case timestamp = "timestamp"
         }
     }
 
@@ -9914,7 +10066,7 @@ extension BedrockAgentCore {
         public let maxResults: Int?
         /// The identifier of the AgentCore Memory resource from which to retrieve memory records.
         public let memoryId: String
-        /// The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
+        /// The exact namespace to filter memory records by. Searches for memory records that matches the provided namespace value. Either namespace or namespacePath is required.
         public let namespace: String?
         /// Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
         public let namespacePath: String?
@@ -10083,6 +10235,28 @@ extension BedrockAgentCore {
             case bucket = "bucket"
             case prefix = "prefix"
             case versionId = "versionId"
+        }
+    }
+
+    public struct SampleSession: AWSDecodableShape {
+        /// The failures found in the session that belong to the insight or root cause, up to 10.
+        public let findings: [SessionFinding]?
+        /// The latest timestamp observed for the session in the batch evaluation input.
+        public let lastSeenAt: Date?
+        /// The unique identifier of the session.
+        public let sessionId: String
+
+        @inlinable
+        public init(findings: [SessionFinding]? = nil, lastSeenAt: Date? = nil, sessionId: String) {
+            self.findings = findings
+            self.lastSeenAt = lastSeenAt
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "findings"
+            case lastSeenAt = "lastSeenAt"
+            case sessionId = "sessionId"
         }
     }
 
@@ -10362,6 +10536,36 @@ extension BedrockAgentCore {
         private enum CodingKeys: String, CodingKey {
             case endTime = "endTime"
             case startTime = "startTime"
+        }
+    }
+
+    public struct SessionFinding: AWSDecodableShape {
+        /// The category of the failure.
+        public let category: String?
+        /// The confidence that the finding is a failure, from 0 to 1.
+        public let confidence: Double?
+        /// A description of the failure.
+        public let description: String
+        /// The identifier or name of the location in the session where the failure was found, interpreted according to targetType.
+        public let targetId: String?
+        /// The type of location that targetId refers to.
+        public let targetType: FindingTargetType?
+
+        @inlinable
+        public init(category: String? = nil, confidence: Double? = nil, description: String, targetId: String? = nil, targetType: FindingTargetType? = nil) {
+            self.category = category
+            self.confidence = confidence
+            self.description = description
+            self.targetId = targetId
+            self.targetType = targetType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+            case confidence = "confidence"
+            case description = "description"
+            case targetId = "targetId"
+            case targetType = "targetType"
         }
     }
 

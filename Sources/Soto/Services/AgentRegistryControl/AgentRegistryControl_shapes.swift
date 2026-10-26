@@ -647,7 +647,7 @@ extension AgentRegistryControl {
     public struct CreateRegistryRecordRequest: AWSEncodableShape {
         /// Client token for idempotency
         public let clientToken: String?
-        /// The custom metadata to attach to the registry record. Each key must match a property defined in the registry's custom metadata schema. Values can be strings (maximum 128 characters) or native JSON booleans (true or false). Values are validated against the schema at creation time.
+        /// The custom metadata for the record. Values are strings or JSON booleans.
         public let customMetadata: AWSDocument?
         /// The description of the registry record
         public let description: String?
@@ -966,9 +966,9 @@ extension AgentRegistryControl {
     }
 
     public struct CustomMetadataSchemaConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The default JSON Schema that applies to record types without a specific override. Supported property types are string, string with an enum constraint, string with a uri format, and boolean.
+        /// A JSON Schema with the common attributes: fields that records of every record type can carry.
         public let defaultSchema: String?
-        /// A list of per-record-type schema overrides. When a record's type matches an override, that override's schema is used instead of the default schema for validation. If you don't specify an override for a record type, the default schema applies. If no default schema exists, custom metadata on records of that type is rejected.
+        /// The fields for individual record types. Records of a record type can carry the common attributes defined in defaultSchema plus that record type's fields.
         public let recordTypeSchemaOverrides: [RecordTypeSchemaOverride]?
 
         @inlinable
@@ -978,12 +978,12 @@ extension AgentRegistryControl {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.defaultSchema, name: "defaultSchema", parent: name, max: 10240)
+            try self.validate(self.defaultSchema, name: "defaultSchema", parent: name, max: 16384)
             try self.validate(self.defaultSchema, name: "defaultSchema", parent: name, min: 1)
             try self.recordTypeSchemaOverrides?.forEach {
                 try $0.validate(name: "\(name).recordTypeSchemaOverrides[]")
             }
-            try self.validate(self.recordTypeSchemaOverrides, name: "recordTypeSchemaOverrides", parent: name, max: 5)
+            try self.validate(self.recordTypeSchemaOverrides, name: "recordTypeSchemaOverrides", parent: name, max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1792,9 +1792,9 @@ extension AgentRegistryControl {
     }
 
     public struct RecordTypeSchemaOverride: AWSEncodableShape & AWSDecodableShape {
-        /// The record type that this schema override applies to.
+        /// The record type these fields apply to.
         public let recordType: RecordType
-        /// The JSON Schema for the specified record type. Must follow the same structural rules as the default schema.
+        /// A JSON Schema with the fields for this record type.
         public let schema: String
 
         @inlinable
@@ -1804,7 +1804,7 @@ extension AgentRegistryControl {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.schema, name: "schema", parent: name, max: 10240)
+            try self.validate(self.schema, name: "schema", parent: name, max: 16384)
             try self.validate(self.schema, name: "schema", parent: name, min: 1)
         }
 
@@ -2478,7 +2478,7 @@ extension AgentRegistryControl {
         public let approvalConfiguration: UpdatedApprovalConfiguration?
         /// The updated auto-detection configuration for the registry, with PATCH semantics. Omit this field to leave the current configuration unchanged. Supply an empty wrapper to unset it. Supply optionalValue to replace it.
         public let autoDetectionConfiguration: UpdatedAutoDetectionConfiguration?
-        /// Updated custom metadata schema configuration for the registry. Omit to leave the existing schema unchanged. Schema evolution is additive only: you can add properties and enum values, but you cannot remove properties, change property types or formats, add or remove enum constraints, or remove record type overrides.
+        /// The new custom metadata schema configuration, which replaces the current one. You can add fields and allowed values, but you can't remove a field or an allowed value, or change a field's type.
         public let customMetadataSchemaConfiguration: UpdatedCustomMetadataSchemaConfiguration?
         /// The updated description of the registry
         public let description: UpdatedDescription?

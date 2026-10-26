@@ -93,6 +93,38 @@ public struct ECS: AWSService {
 
     // MARK: API Calls
 
+    /// Associates a gateway with an Amazon ECS cluster. After a cluster is associated with a gateway, services in that cluster can use the gateway for ingress. No changes take effect until you update a service in the cluster to use the gateway. A single cluster can be associated with up to 5 gateways.
+    @Sendable
+    @inlinable
+    public func associateGatewayWithCluster(_ input: AssociateGatewayWithClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateGatewayWithClusterResponse {
+        try await self.client.execute(
+            operation: "AssociateGatewayWithCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a gateway with an Amazon ECS cluster. After a cluster is associated with a gateway, services in that cluster can use the gateway for ingress. No changes take effect until you update a service in the cluster to use the gateway. A single cluster can be associated with up to 5 gateways.
+    ///
+    /// Parameters:
+    ///   - cluster: The name or Amazon Resource Name (ARN) of the cluster to associate the gateway with.
+    ///   - gateway: The name or Amazon Resource Name (ARN) of the gateway to associate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateGatewayWithCluster(
+        cluster: String,
+        gateway: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateGatewayWithClusterResponse {
+        let input = AssociateGatewayWithClusterRequest(
+            cluster: cluster, 
+            gateway: gateway
+        )
+        return try await self.associateGatewayWithCluster(input, logger: logger)
+    }
+
     /// Continues or rolls back an Amazon ECS service deployment that is paused at a lifecycle hook. When a service deployment reaches a lifecycle stage that has a PAUSE hook configured, the deployment pauses and waits for an explicit action. Use this API to either continue the deployment to the next stage or roll back to the previous service revision. To find the hookId of the paused hook, call DescribeServiceDeployments and inspect the lifecycleHookDetails field. For more information, see Continuing Amazon ECS service deployments in the Amazon Elastic Container Service Developer Guide.
     @Sendable
     @inlinable
@@ -293,7 +325,7 @@ public struct ECS: AWSService {
     /// Parameters:
     ///   - cluster: The short name or full Amazon Resource Name (ARN) of the cluster on which to create the Express service. If you do not specify a cluster, the default cluster is assumed.
     ///   - cpu: The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
-    ///   - cpuArchitecture: The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the default is X86_64. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Make sure that the container image that you specify supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+    ///   - cpuArchitecture: The CPU architecture that the task runs on. If you don't specify a value, the default is X86_64. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Ensure that the container image you specify supports the architecture you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture together with taskDefinitionArn.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
     ///   - healthCheckPath: The path on the container that the Application Load Balancer uses for health checks. This should be a valid HTTP endpoint that returns a successful response (HTTP 200) when the application is healthy. If not specified, the default health check path is /ping. The health check path must start with a forward slash and can include query parameters. Examples: /health, /api/status, /ping?format=json.
     ///   - infrastructureRoleArn: The Amazon Resource Name (ARN) of the infrastructure role that grants Amazon ECS permission to create and manage Amazon Web Services resources on your behalf for the Express service. This role is used to provision and manage Application Load Balancers, target groups, security groups, auto-scaling policies, and other Amazon Web Services infrastructure components. The infrastructure role must include permissions for Elastic Load Balancing, Application Auto Scaling, Amazon EC2 (for security groups), and other services required for managed infrastructure. This role is only used during Express service creation, updates, and deletion operations.
@@ -343,6 +375,53 @@ public struct ECS: AWSService {
         return try await self.createExpressGatewayService(input, logger: logger)
     }
 
+    /// Creates a gateway. A gateway defines and dynamically manages ingress paths for your Amazon ECS services, handling traffic routing and infrastructure across multiple services while optimizing infrastructure usage. CreateGateway is a synchronous operation and the gateway is returned with a status of ACTIVE. The load balancers and other infrastructure that a gateway manages aren't created until a service in an associated cluster begins using the gateway. To use this operation, you must have the iam:PassRole permission for the infrastructure role that you specify in infrastructureRoleArn.
+    @Sendable
+    @inlinable
+    public func createGateway(_ input: CreateGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGatewayResponse {
+        try await self.client.execute(
+            operation: "CreateGateway", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a gateway. A gateway defines and dynamically manages ingress paths for your Amazon ECS services, handling traffic routing and infrastructure across multiple services while optimizing infrastructure usage. CreateGateway is a synchronous operation and the gateway is returned with a status of ACTIVE. The load balancers and other infrastructure that a gateway manages aren't created until a service in an associated cluster begins using the gateway. To use this operation, you must have the iam:PassRole permission for the infrastructure role that you specify in infrastructureRoleArn.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    ///   - configuration: The type-specific configuration for the gateway. Exactly one configuration variant must be set, and it determines the gateway type. For example, hostSharedAlb configures a gateway that uses Application Load Balancers with host-based routing.
+    ///   - deletionProtection: Specifies whether to enable deletion protection for the gateway. When enabled, the gateway can't be deleted, and the gateway propagates this setting to the load balancers it manages. The default is true.
+    ///   - infrastructureRoleArn: The Amazon Resource Name (ARN) of the IAM role that the gateway assumes to create and manage infrastructure on your behalf.
+    ///   - name: The name for the gateway. The name must be unique within your account and can be up to 255 characters.
+    ///   - propagateTags: Specifies whether to propagate the tags from the gateway to the infrastructure that the gateway manages. The default is GATEWAY.
+    ///   - tags: The metadata that you apply to the gateway to help you categorize and organize it. Each tag consists of a key and an optional value. Depending on propagateTags, these tags can be applied to the infrastructure the gateway manages.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createGateway(
+        clientToken: String? = CreateGatewayRequest.idempotencyToken(),
+        configuration: GatewayConfiguration,
+        deletionProtection: Bool? = nil,
+        infrastructureRoleArn: String,
+        name: String,
+        propagateTags: PropagateGatewayTags? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateGatewayResponse {
+        let input = CreateGatewayRequest(
+            clientToken: clientToken, 
+            configuration: configuration, 
+            deletionProtection: deletionProtection, 
+            infrastructureRoleArn: infrastructureRoleArn, 
+            name: name, 
+            propagateTags: propagateTags, 
+            tags: tags
+        )
+        return try await self.createGateway(input, logger: logger)
+    }
+
     /// Runs and maintains your desired number of tasks from a specified task definition. If the number of tasks running in a service drops below the desiredCount, Amazon ECS runs another copy of the task in the specified cluster. To update an existing service, use UpdateService.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.   Amazon Elastic Inference (EI) is no longer available to customers.  In addition to maintaining the desired count of tasks in your service, you can optionally run your service behind one or more load balancers. The load balancers distribute traffic across the tasks that are associated with the service. For more information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when creating or updating a service. volumeConfigurations is only supported for REPLICA service and not DAEMON service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. Tasks for services that don't use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer. There are two service scheduler strategies available:    REPLICA - The replica scheduling strategy places and maintains your desired number of tasks across your cluster. By default, the service scheduler spreads tasks across Availability Zones. You can use task placement strategies and constraints to customize task placement decisions. For more information, see Service scheduler concepts in the Amazon Elastic Container Service Developer Guide.    DAEMON - The daemon scheduling strategy deploys exactly one task on each active container instance that meets all of the task placement constraints that you specify in your cluster. The service scheduler also evaluates the task placement constraints for running tasks. It also stops tasks that don't meet the placement constraints. When using this strategy, you don't need to specify a desired number of tasks, a task placement strategy, or use Service Auto Scaling policies. For more information, see Amazon ECS services in the Amazon Elastic Container Service Developer Guide.   The deployment controller is the mechanism that determines how tasks are deployed for your service. The valid options are:   ECS  When you create a service which uses the ECS deployment controller, you can choose between the following deployment strategies (which you can set in the “strategy” field in “deploymentConfiguration”): :    ROLLING: When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration. For more information, see Deploy Amazon ECS services by replacing tasks in the Amazon Elastic Container Service Developer Guide. Rolling update deployments are best suited for the following scenarios:   Gradual service updates: You need to update your service incrementally without taking the entire service offline at once.   Limited resource requirements: You want to avoid the additional resource costs of running two complete environments simultaneously (as required by blue/green deployments).   Acceptable deployment time: Your application can tolerate a longer deployment process, as rolling updates replace tasks one by one.   No need for instant roll back: Your service can tolerate a rollback process that takes minutes rather than seconds.   Simple deployment process: You prefer a straightforward deployment approach without the complexity of managing multiple environments, target groups, and listeners.   No load balancer requirement: Your service doesn't use or require a load balancer, Application Load Balancer, Network Load Balancer, or Service Connect (which are required for blue/green deployments).   Stateful applications: Your application maintains state that makes it difficult to run two parallel environments.   Cost sensitivity: You want to minimize deployment costs by not running duplicate environments during deployment.   Rolling updates are the default deployment strategy for services and provide a balance between deployment safety and resource efficiency for many common application scenarios.    BLUE_GREEN: A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and risk by running two identical production environments called blue and green. With Amazon ECS blue/green deployments, you can validate new service revisions before directing production traffic to them. This approach provides a safer way to deploy changes with the ability to quickly roll back if needed. For more information, see Amazon ECS blue/green deployments in the Amazon Elastic Container Service Developer Guide. Amazon ECS blue/green deployments are best suited for the following scenarios:   Service validation: When you need to validate new service revisions before directing production traffic to them   Zero downtime: When your service requires zero-downtime deployments   Instant roll back: When you need the ability to quickly roll back if issues are detected   Load balancer requirement: When your service uses Application Load Balancer, Network Load Balancer, or Service Connect      LINEAR: A linear deployment strategy (LINEAR) gradually shifts traffic from the current production environment to a new environment in equal percentage increments. With Amazon ECS linear deployments, you can control the pace of traffic shifting and validate new service revisions with increasing amounts of production traffic. Linear deployments are best suited for the following scenarios:   Gradual validation: When you want to gradually validate your new service version with increasing traffic   Performance monitoring: When you need time to monitor metrics and performance during the deployment   Risk minimization: When you want to minimize risk by exposing the new version to production traffic incrementally   Load balancer requirement: When your service uses Application Load Balancer or Service Connect      CANARY: A canary deployment strategy (CANARY) shifts a small percentage of traffic to the new service revision first, then shifts the remaining traffic all at once after a specified time period. This allows you to test the new version with a subset of users before full deployment. Canary deployments are best suited for the following scenarios:   Feature testing: When you want to test new features with a small subset of users before full rollout   Production validation: When you need to validate performance and functionality with real production traffic   Blast radius control: When you want to minimize blast radius if issues are discovered in the new version   Load balancer requirement: When your service uses Application Load Balancer or Service Connect       External Use a third-party deployment controller.   Blue/green deployment (powered by CodeDeploy) CodeDeploy installs an updated version of the application as a new replacement task set and reroutes production traffic from the original application task set to the replacement task set. The original task set is terminated after a successful deployment. Use this deployment controller to verify a new deployment of a service before sending production traffic to it.   When creating a service that uses the EXTERNAL deployment controller, you can specify only parameters that aren't controlled at the task set level. The only required parameter is the service name. You control your services using the CreateTaskSet. For more information, see Amazon ECS deployment types in the Amazon Elastic Container Service Developer Guide. When the service scheduler launches new tasks, it determines task placement. For information about task placement and task placement strategies, see Amazon ECS task placement in the Amazon Elastic Container Service Developer Guide
     @Sendable
     @inlinable
@@ -368,6 +447,7 @@ public struct ECS: AWSService {
     ///   - desiredCount: The number of instantiations of the specified task definition to place and keep running in your service. This is required if schedulingStrategy is REPLICA or isn't specified. If schedulingStrategy is DAEMON then this isn't required.
     ///   - enableECSManagedTags: Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For more information, see Tagging your Amazon ECS resources in the Amazon Elastic Container Service Developer Guide. When you use Amazon ECS managed tags, you must set the propagateTags request parameter.
     ///   - enableExecuteCommand: Determines whether the execute command functionality is turned on for the service. If true, this enables execute command functionality on all containers in the service tasks.
+    ///   - gatewayConnectors: The gateway connectors that attach the service to a gateway ingress path. You can specify at most one gateway connector.
     ///   - healthCheckGracePeriodSeconds: The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you do not specify a health check grace period value, the default value of 0 is used. If you do not use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
     ///   - launchType: The infrastructure that you run your service on. For more information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide.  If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter.  The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure.  Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see Fargate capacity providers in the Amazon ECS Developer Guide.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
     ///   - loadBalancers: A load balancer object representing the load balancers to use with your service. For more information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. If the service uses the ECS deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see Using service-linked roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
@@ -398,6 +478,7 @@ public struct ECS: AWSService {
         desiredCount: Int? = nil,
         enableECSManagedTags: Bool? = nil,
         enableExecuteCommand: Bool? = nil,
+        gatewayConnectors: [GatewayConnector]? = nil,
         healthCheckGracePeriodSeconds: Int? = nil,
         launchType: LaunchType? = nil,
         loadBalancers: [LoadBalancer]? = nil,
@@ -428,6 +509,7 @@ public struct ECS: AWSService {
             desiredCount: desiredCount, 
             enableECSManagedTags: enableECSManagedTags, 
             enableExecuteCommand: enableExecuteCommand, 
+            gatewayConnectors: gatewayConnectors, 
             healthCheckGracePeriodSeconds: healthCheckGracePeriodSeconds, 
             launchType: launchType, 
             loadBalancers: loadBalancers, 
@@ -725,6 +807,35 @@ public struct ECS: AWSService {
             serviceArn: serviceArn
         )
         return try await self.deleteExpressGatewayService(input, logger: logger)
+    }
+
+    /// Deletes a gateway. Before you can delete a gateway, deletion protection must be disabled and the gateway must not have any cluster associations that are in the ACTIVE or DISASSOCIATING state. If associations exist, the operation fails; disassociate all clusters first. DeleteGateway is a synchronous operation. After you delete a gateway, subsequent requests for it return a GatewayNotFoundException.
+    @Sendable
+    @inlinable
+    public func deleteGateway(_ input: DeleteGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGatewayResponse {
+        try await self.client.execute(
+            operation: "DeleteGateway", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a gateway. Before you can delete a gateway, deletion protection must be disabled and the gateway must not have any cluster associations that are in the ACTIVE or DISASSOCIATING state. If associations exist, the operation fails; disassociate all clusters first. DeleteGateway is a synchronous operation. After you delete a gateway, subsequent requests for it return a GatewayNotFoundException.
+    ///
+    /// Parameters:
+    ///   - gateway: The name or Amazon Resource Name (ARN) of the gateway to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteGateway(
+        gateway: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteGatewayResponse {
+        let input = DeleteGatewayRequest(
+            gateway: gateway
+        )
+        return try await self.deleteGateway(input, logger: logger)
     }
 
     /// Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you can't delete it, and you must update the service to a desired task count of zero. For more information, see UpdateService.  When you delete a service, if there are still running tasks that require cleanup, the service status moves from ACTIVE to DRAINING, and the service is no longer visible in the console or in the ListServices API operation. After all tasks have transitioned to either STOPPING or STOPPED status, the service status moves from DRAINING to INACTIVE. Services in the DRAINING or INACTIVE status can still be viewed with the DescribeServices API operation. However, in the future, INACTIVE services may be cleaned up and purged from Amazon ECS record keeping, and DescribeServices calls on those services return a ServiceNotFoundException error.   If you attempt to create a new service with the same name as an existing service in either ACTIVE or DRAINING status, you receive an error.
@@ -1149,6 +1260,99 @@ public struct ECS: AWSService {
         return try await self.describeExpressGatewayService(input, logger: logger)
     }
 
+    /// Describes a gateway, including its configuration, status, and the type-specific infrastructure settings that it uses.
+    @Sendable
+    @inlinable
+    public func describeGateway(_ input: DescribeGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayResponse {
+        try await self.client.execute(
+            operation: "DescribeGateway", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a gateway, including its configuration, status, and the type-specific infrastructure settings that it uses.
+    ///
+    /// Parameters:
+    ///   - gateway: The name or Amazon Resource Name (ARN) of the gateway to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeGateway(
+        gateway: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeGatewayResponse {
+        let input = DescribeGatewayRequest(
+            gateway: gateway
+        )
+        return try await self.describeGateway(input, logger: logger)
+    }
+
+    /// Returns the infrastructure that a gateway has created and manages, so that you can follow the traffic path from top-level shared resources, such as load balancers, to the service-specific resources represented as gateway routes. Responses include only the Amazon Resource Names (ARNs) of gateway-managed infrastructure. For the current state of a resource, describe it with the corresponding Amazon Web Services service (Elastic Load Balancing, Amazon EC2, or Amazon Web Services Certificate Manager). The results are paginated.
+    @Sendable
+    @inlinable
+    public func describeGatewayResources(_ input: DescribeGatewayResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayResourcesResponse {
+        try await self.client.execute(
+            operation: "DescribeGatewayResources", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the infrastructure that a gateway has created and manages, so that you can follow the traffic path from top-level shared resources, such as load balancers, to the service-specific resources represented as gateway routes. Responses include only the Amazon Resource Names (ARNs) of gateway-managed infrastructure. For the current state of a resource, describe it with the corresponding Amazon Web Services service (Elastic Load Balancing, Amazon EC2, or Amazon Web Services Certificate Manager). The results are paginated.
+    ///
+    /// Parameters:
+    ///   - gateway: The name or Amazon Resource Name (ARN) of the gateway.
+    ///   - maxResults: The maximum number of results that the operation returns in a single page. The maximum value is 20 and the default is 10.
+    ///   - nextToken: The nextToken value returned from a previous paginated request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeGatewayResources(
+        gateway: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeGatewayResourcesResponse {
+        let input = DescribeGatewayResourcesRequest(
+            gateway: gateway, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeGatewayResources(input, logger: logger)
+    }
+
+    /// Describes a gateway route, including its status, the service it routes traffic to, and the service-specific infrastructure, such as target groups and listener rules, that the gateway manages for it.
+    @Sendable
+    @inlinable
+    public func describeGatewayRoute(_ input: DescribeGatewayRouteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayRouteResponse {
+        try await self.client.execute(
+            operation: "DescribeGatewayRoute", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a gateway route, including its status, the service it routes traffic to, and the service-specific infrastructure, such as target groups and listener rules, that the gateway manages for it.
+    ///
+    /// Parameters:
+    ///   - gatewayRouteArn: The Amazon Resource Name (ARN) of the gateway route to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeGatewayRoute(
+        gatewayRouteArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeGatewayRouteResponse {
+        let input = DescribeGatewayRouteRequest(
+            gatewayRouteArn: gatewayRouteArn
+        )
+        return try await self.describeGatewayRoute(input, logger: logger)
+    }
+
     /// Describes one or more of your service deployments. A service deployment happens when you release a software update for the service. For more information, see View service history using Amazon ECS service deployments.
     @Sendable
     @inlinable
@@ -1345,6 +1549,38 @@ public struct ECS: AWSService {
             tasks: tasks
         )
         return try await self.describeTasks(input, logger: logger)
+    }
+
+    /// Removes the association between a gateway and an Amazon ECS cluster. The association remains in the DISASSOCIATING state until you remove all of the gateway routes for the cluster by updating the associated services. You can use ListGatewayRoutes with a cluster filter to determine which routes are preventing disassociation. No infrastructure changes are made until the affected services are updated.
+    @Sendable
+    @inlinable
+    public func disassociateGatewayFromCluster(_ input: DisassociateGatewayFromClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateGatewayFromClusterResponse {
+        try await self.client.execute(
+            operation: "DisassociateGatewayFromCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the association between a gateway and an Amazon ECS cluster. The association remains in the DISASSOCIATING state until you remove all of the gateway routes for the cluster by updating the associated services. You can use ListGatewayRoutes with a cluster filter to determine which routes are preventing disassociation. No infrastructure changes are made until the affected services are updated.
+    ///
+    /// Parameters:
+    ///   - cluster: The name or Amazon Resource Name (ARN) of the cluster to disassociate the gateway from.
+    ///   - gateway: The name or Amazon Resource Name (ARN) of the gateway to disassociate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateGatewayFromCluster(
+        cluster: String,
+        gateway: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateGatewayFromClusterResponse {
+        let input = DisassociateGatewayFromClusterRequest(
+            cluster: cluster, 
+            gateway: gateway
+        )
+        return try await self.disassociateGatewayFromCluster(input, logger: logger)
     }
 
     ///  This action is only used by the Amazon ECS agent, and it is not intended for use outside of the agent.  Returns an endpoint for the Amazon ECS agent to poll for updates.
@@ -1737,6 +1973,132 @@ public struct ECS: AWSService {
             nextToken: nextToken
         )
         return try await self.listDaemons(input, logger: logger)
+    }
+
+    /// Returns a list of the associations between gateways and clusters. You can filter the results by gateway, cluster, and status. The results are paginated. We recommend that you use pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func listGatewayClusterAssociations(_ input: ListGatewayClusterAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewayClusterAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListGatewayClusterAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of the associations between gateways and clusters. You can filter the results by gateway, cluster, and status. The results are paginated. We recommend that you use pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - cluster: The name or Amazon Resource Name (ARN) of a cluster to filter the results by.
+    ///   - gateway: The name or Amazon Resource Name (ARN) of a gateway to filter the results by.
+    ///   - maxResults: The maximum number of results that the operation returns in a single page. The default is 100.
+    ///   - nextToken: The nextToken value returned from a previous paginated request.
+    ///   - status: The association status to filter the results by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listGatewayClusterAssociations(
+        cluster: String? = nil,
+        gateway: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: [GatewayClusterAssociationStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListGatewayClusterAssociationsResponse {
+        let input = ListGatewayClusterAssociationsRequest(
+            cluster: cluster, 
+            gateway: gateway, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listGatewayClusterAssociations(input, logger: logger)
+    }
+
+    /// Returns a list of gateway routes. A gateway route represents the association between a service and a gateway and the service-specific infrastructure the gateway manages for it. You can filter the results by gateway, cluster, service, container port name, and status. The results are paginated. We recommend that you use pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func listGatewayRoutes(_ input: ListGatewayRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewayRoutesResponse {
+        try await self.client.execute(
+            operation: "ListGatewayRoutes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of gateway routes. A gateway route represents the association between a service and a gateway and the service-specific infrastructure the gateway manages for it. You can filter the results by gateway, cluster, service, container port name, and status. The results are paginated. We recommend that you use pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - cluster: The name or Amazon Resource Name (ARN) of a cluster to filter the results by.
+    ///   - gateway: The name or Amazon Resource Name (ARN) of a gateway to filter the results by.
+    ///   - maxResults: The maximum number of results that the operation returns in a single page. The default is 100.
+    ///   - nextToken: The nextToken value returned from a previous paginated request.
+    ///   - service: The name or Amazon Resource Name (ARN) of a service to filter the results by. Because services can span clusters, a service name isn't necessarily unique and can match multiple services.
+    ///   - serviceContainerPortName: The name of a task definition container port to filter the results by.
+    ///   - status: The gateway route status to filter the results by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listGatewayRoutes(
+        cluster: String? = nil,
+        gateway: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        service: String? = nil,
+        serviceContainerPortName: String? = nil,
+        status: [GatewayRouteStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListGatewayRoutesResponse {
+        let input = ListGatewayRoutesRequest(
+            cluster: cluster, 
+            gateway: gateway, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            service: service, 
+            serviceContainerPortName: serviceContainerPortName, 
+            status: status
+        )
+        return try await self.listGatewayRoutes(input, logger: logger)
+    }
+
+    /// Returns a list of gateways in your account. You can filter the results by gateway name and status. The results are paginated. We recommend that you use pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func listGateways(_ input: ListGatewaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewaysResponse {
+        try await self.client.execute(
+            operation: "ListGateways", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of gateways in your account. You can filter the results by gateway name and status. The results are paginated. We recommend that you use pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of gateway results that ListGateways returns in a single page. The default is 100.
+    ///   - names: The gateway names to filter the results by. You can specify up to 10 names.
+    ///   - nextToken: The nextToken value returned from a previous paginated ListGateways request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results.
+    ///   - status: The gateway statuses to filter the results by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listGateways(
+        maxResults: Int? = nil,
+        names: [String]? = nil,
+        nextToken: String? = nil,
+        status: [GatewayStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListGatewaysResponse {
+        let input = ListGatewaysRequest(
+            maxResults: maxResults, 
+            names: names, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listGateways(input, logger: logger)
     }
 
     /// This operation lists all the service deployments that meet the specified filter criteria. A service deployment happens when you release a software update for the service. You route traffic from the running service revisions to the new service revison and control the number of running tasks.  This API returns the values that you use for the request parameters in DescribeServiceRevisions.
@@ -3005,7 +3367,7 @@ public struct ECS: AWSService {
     ///
     /// Parameters:
     ///   - cpu: The number of CPU units used by the task.
-    ///   - cpuArchitecture: The CPU architecture that the tasks in the Express service run on. Amazon ECS applies this value to the task definition revision that it registers for the service. If you don't specify a value, the service keeps the architecture that it currently runs on. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Changing the architecture starts a new deployment that replaces the running tasks. Make sure that the container image that the service uses supports the architecture that you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture when you also specify taskDefinitionArn, because this value applies only to a task definition that Amazon ECS registers on your behalf.
+    ///   - cpuArchitecture: The CPU architecture that the task runs on. If you don't specify a value, the service keeps its current architecture. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.   Changing the architecture starts a new deployment that replaces the running tasks. Ensure that the container image you specify supports the architecture you choose. The operating system family for an Express service is always LINUX. You can't specify cpuArchitecture together with taskDefinitionArn.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the task execution role for the Express service.
     ///   - healthCheckPath: The path on the container for Application Load Balancer health checks.
     ///   - memory: The amount of memory (in MiB) used by the task.
@@ -3047,6 +3409,47 @@ public struct ECS: AWSService {
         return try await self.updateExpressGatewayService(input, logger: logger)
     }
 
+    /// Modifies the configuration of a gateway. You can change only the properties that can be applied without interrupting traffic, and the configuration variant that you provide must match the gateway's type. UpdateGateway is an asynchronous operation: the changes are applied to each load balancer the gateway manages, and the gateway reports a status of UPDATE_IN_PROGRESS until the update completes. If Amazon ECS can't update one or more resources, it makes a best effort to update the rest and the gateway status changes to UPDATE_FAILED. Use DescribeGateway to inspect the gateway's statusReason and failures list, which gives the ARN of each load balancer that was not updated and the operation, error code, and message for each failure. If you specify infrastructureRoleArn, you must have the iam:PassRole permission for that role.
+    @Sendable
+    @inlinable
+    public func updateGateway(_ input: UpdateGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayResponse {
+        try await self.client.execute(
+            operation: "UpdateGateway", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the configuration of a gateway. You can change only the properties that can be applied without interrupting traffic, and the configuration variant that you provide must match the gateway's type. UpdateGateway is an asynchronous operation: the changes are applied to each load balancer the gateway manages, and the gateway reports a status of UPDATE_IN_PROGRESS until the update completes. If Amazon ECS can't update one or more resources, it makes a best effort to update the rest and the gateway status changes to UPDATE_FAILED. Use DescribeGateway to inspect the gateway's statusReason and failures list, which gives the ARN of each load balancer that was not updated and the operation, error code, and message for each failure. If you specify infrastructureRoleArn, you must have the iam:PassRole permission for that role.
+    ///
+    /// Parameters:
+    ///   - configuration: The updated type-specific configuration for the gateway. The configuration variant must match the gateway's existing type, and only mutable fields can be changed.
+    ///   - deletionProtection: Specifies whether to enable deletion protection for the gateway. When enabled, the gateway can't be deleted.
+    ///   - gateway: The name or Amazon Resource Name (ARN) of the gateway to update.
+    ///   - infrastructureRoleArn: The Amazon Resource Name (ARN) of the IAM role that the gateway assumes to manage infrastructure on your behalf.
+    ///   - propagateTags: Specifies whether to propagate the tags from the gateway to the infrastructure that the gateway manages. If you don't specify a value, the gateway's existing setting is unchanged.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateGateway(
+        configuration: UpdateGatewayConfiguration? = nil,
+        deletionProtection: Bool? = nil,
+        gateway: String,
+        infrastructureRoleArn: String? = nil,
+        propagateTags: PropagateGatewayTags? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateGatewayResponse {
+        let input = UpdateGatewayRequest(
+            configuration: configuration, 
+            deletionProtection: deletionProtection, 
+            gateway: gateway, 
+            infrastructureRoleArn: infrastructureRoleArn, 
+            propagateTags: propagateTags
+        )
+        return try await self.updateGateway(input, logger: logger)
+    }
+
     /// Modifies the parameters of a service.  On March 21, 2024, a change was made to resolve the task definition revision before authorization. When a task definition revision is not specified, authorization will occur using the latest revision of a task definition.  For services using the rolling update (ECS) you can update the desired count, deployment configuration, network configuration, load balancers, service registries, enable ECS managed tags option, propagate tags option, task placement constraints and strategies, and task definition. When you update any of these parameters, Amazon ECS starts new tasks with the new configuration.  You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or running a task, or when creating or updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. You can update your volume configurations and trigger a new deployment. volumeConfigurations is only supported for REPLICA service and not DAEMON service. If you leave volumeConfigurations null, it doesn't trigger a new deployment. For more information on volumes, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. For services using the blue/green (CODE_DEPLOY) deployment controller, only the desired count, deployment configuration, health check grace period, task placement constraints and strategies, enable ECS managed tags option, and propagate tags can be updated using this API. If the network configuration, platform version, task definition, or load balancer need to be updated, create a new CodeDeploy deployment. For more information, see CreateDeployment in the CodeDeploy API Reference. For services using an external deployment controller, you can update only the desired count, task placement constraints and strategies, health check grace period, enable ECS managed tags option, and propagate tags option, using this API. If the launch type, load balancer, network configuration, platform version, or task definition need to be updated, create a new task set For more information, see CreateTaskSet. You can add to or subtract from the number of instantiations of a task definition in a service by specifying the cluster that the service is running in and a new desiredCount parameter. You can attach Amazon EBS volumes to Amazon ECS tasks by configuring the volume when starting or running a task, or when creating or updating a service. For more information, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide. If you have updated the container image of your application, you can create a new task definition with that image and deploy it to your service. The service scheduler uses the minimum healthy percent and maximum percent parameters (in the service's deployment configuration) to determine the deployment strategy.  If your updated Docker image uses the same tag as what is in the existing task definition for your service (for example, my_image:latest), you don't need to create a new revision of your task definition. You can update the service using the forceNewDeployment option. The new tasks launched by the deployment pull the current image/tag combination from your repository when they start.  You can also update the deployment configuration of a service. When a deployment is triggered by updating the task definition of a service, the service scheduler uses the deployment configuration parameters, minimumHealthyPercent and maximumPercent, to determine the deployment strategy.   If minimumHealthyPercent is below 100%, the scheduler can ignore desiredCount temporarily during a deployment. For example, if desiredCount is four tasks, a minimum of 50% allows the scheduler to stop two existing tasks before starting two new tasks. Tasks for services that don't use a load balancer are considered healthy if they're in the RUNNING state. Tasks for services that use a load balancer are considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer.   The maximumPercent parameter represents an upper limit on the number of running tasks during a deployment. You can use it to define the deployment batch size. For example, if desiredCount is four tasks, a maximum of 200% starts four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available).   When UpdateService stops a task during a deployment, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM and a 30-second timeout. After this, SIGKILL is sent and the containers are forcibly stopped. If the container handles the SIGTERM gracefully and exits within 30 seconds from receiving it, no SIGKILL is sent. When the service scheduler launches new tasks, it determines task placement in your cluster with the following logic.   Determine which of the container instances in your cluster can support your service's task definition. For example, they have the required CPU, memory, ports, and container instance attributes.   By default, the service scheduler attempts to balance tasks across Availability Zones in this manner even though you can choose a different placement strategy.   Sort the valid container instances by the fewest number of running tasks for this service in the same Availability Zone as the instance. For example, if zone A has one running service task and zones B and C each have zero, valid container instances in either zone B or C are considered optimal for placement.   Place the new service task on a valid container instance in an optimal Availability Zone (based on the previous steps), favoring container instances with the fewest number of running tasks for this service.     When the service scheduler stops running tasks, it attempts to maintain balance across the Availability Zones in your cluster using the following logic:    Sort the container instances by the largest number of running tasks for this service in the same Availability Zone as the instance. For example, if zone A has one running service task and zones B and C each have two, container instances in either zone B or C are considered optimal for termination.   Stop the task on a container instance in an optimal Availability Zone (based on the previous steps), favoring container instances with the largest number of running tasks for this service.
     @Sendable
     @inlinable
@@ -3072,6 +3475,7 @@ public struct ECS: AWSService {
     ///   - enableECSManagedTags: Determines whether to turn on Amazon ECS managed tags for the tasks in the service. For more information, see Tagging Your Amazon ECS Resources in the Amazon Elastic Container Service Developer Guide. Only tasks launched after the update will reflect the update. To update the tags on all tasks, set forceNewDeployment to true, so that Amazon ECS starts new tasks with the updated tags. This parameter doesn't trigger a new service deployment.
     ///   - enableExecuteCommand: If true, this enables execute command functionality on all task containers. If you do not want to override the value that was set when the service was created, you can set this to null when performing this action. This parameter doesn't trigger a new service deployment.
     ///   - forceNewDeployment: Determines whether to force a new deployment of the service. By default, deployments aren't forced. You can use this option to start a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
+    ///   - gatewayConnectors: The updated set of gateway connectors that connect the service to a gateway ingress path. A service supports no more than one gateway connector.
     ///   - healthCheckGracePeriodSeconds: The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count. This parameter doesn't trigger a new service deployment.
     ///   - loadBalancers:  You must have a service-linked role when you update this property  A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using  CreateDeployment  through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see Register multiple target groups with a service in the Amazon Elastic Container Service Developer Guide.  For services that use the external deployment controller, you can add, update, or remove load balancers by using CreateTaskSet. Note that multiple target groups are not supported for external deployments. For more information see Register multiple target groups with a service in the Amazon Elastic Container Service Developer Guide.  You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
     ///   - monitoring: The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
@@ -3098,6 +3502,7 @@ public struct ECS: AWSService {
         enableECSManagedTags: Bool? = nil,
         enableExecuteCommand: Bool? = nil,
         forceNewDeployment: Bool? = nil,
+        gatewayConnectors: [GatewayConnector]? = nil,
         healthCheckGracePeriodSeconds: Int? = nil,
         loadBalancers: [LoadBalancer]? = nil,
         monitoring: MonitoringConfiguration? = nil,
@@ -3124,6 +3529,7 @@ public struct ECS: AWSService {
             enableECSManagedTags: enableECSManagedTags, 
             enableExecuteCommand: enableExecuteCommand, 
             forceNewDeployment: forceNewDeployment, 
+            gatewayConnectors: gatewayConnectors, 
             healthCheckGracePeriodSeconds: healthCheckGracePeriodSeconds, 
             loadBalancers: loadBalancers, 
             monitoring: monitoring, 
@@ -3436,6 +3842,138 @@ extension ECS {
         return self.listContainerInstancesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listGatewayClusterAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGatewayClusterAssociationsPaginator(
+        _ input: ListGatewayClusterAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGatewayClusterAssociationsRequest, ListGatewayClusterAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listGatewayClusterAssociations,
+            inputKey: \ListGatewayClusterAssociationsRequest.nextToken,
+            outputKey: \ListGatewayClusterAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listGatewayClusterAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - cluster: The name or Amazon Resource Name (ARN) of a cluster to filter the results by.
+    ///   - gateway: The name or Amazon Resource Name (ARN) of a gateway to filter the results by.
+    ///   - maxResults: The maximum number of results that the operation returns in a single page. The default is 100.
+    ///   - status: The association status to filter the results by.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGatewayClusterAssociationsPaginator(
+        cluster: String? = nil,
+        gateway: String? = nil,
+        maxResults: Int? = nil,
+        status: [GatewayClusterAssociationStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListGatewayClusterAssociationsRequest, ListGatewayClusterAssociationsResponse> {
+        let input = ListGatewayClusterAssociationsRequest(
+            cluster: cluster, 
+            gateway: gateway, 
+            maxResults: maxResults, 
+            status: status
+        )
+        return self.listGatewayClusterAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listGatewayRoutes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGatewayRoutesPaginator(
+        _ input: ListGatewayRoutesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGatewayRoutesRequest, ListGatewayRoutesResponse> {
+        return .init(
+            input: input,
+            command: self.listGatewayRoutes,
+            inputKey: \ListGatewayRoutesRequest.nextToken,
+            outputKey: \ListGatewayRoutesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listGatewayRoutes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - cluster: The name or Amazon Resource Name (ARN) of a cluster to filter the results by.
+    ///   - gateway: The name or Amazon Resource Name (ARN) of a gateway to filter the results by.
+    ///   - maxResults: The maximum number of results that the operation returns in a single page. The default is 100.
+    ///   - service: The name or Amazon Resource Name (ARN) of a service to filter the results by. Because services can span clusters, a service name isn't necessarily unique and can match multiple services.
+    ///   - serviceContainerPortName: The name of a task definition container port to filter the results by.
+    ///   - status: The gateway route status to filter the results by.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGatewayRoutesPaginator(
+        cluster: String? = nil,
+        gateway: String? = nil,
+        maxResults: Int? = nil,
+        service: String? = nil,
+        serviceContainerPortName: String? = nil,
+        status: [GatewayRouteStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListGatewayRoutesRequest, ListGatewayRoutesResponse> {
+        let input = ListGatewayRoutesRequest(
+            cluster: cluster, 
+            gateway: gateway, 
+            maxResults: maxResults, 
+            service: service, 
+            serviceContainerPortName: serviceContainerPortName, 
+            status: status
+        )
+        return self.listGatewayRoutesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listGateways(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGatewaysPaginator(
+        _ input: ListGatewaysRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGatewaysRequest, ListGatewaysResponse> {
+        return .init(
+            input: input,
+            command: self.listGateways,
+            inputKey: \ListGatewaysRequest.nextToken,
+            outputKey: \ListGatewaysResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listGateways(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of gateway results that ListGateways returns in a single page. The default is 100.
+    ///   - names: The gateway names to filter the results by. You can specify up to 10 names.
+    ///   - status: The gateway statuses to filter the results by.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGatewaysPaginator(
+        maxResults: Int? = nil,
+        names: [String]? = nil,
+        status: [GatewayStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListGatewaysRequest, ListGatewaysResponse> {
+        let input = ListGatewaysRequest(
+            maxResults: maxResults, 
+            names: names, 
+            status: status
+        )
+        return self.listGatewaysPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listServices(_:logger:)``.
     ///
     /// - Parameters:
@@ -3706,6 +4244,46 @@ extension ECS.ListContainerInstancesRequest: AWSPaginateToken {
             cluster: self.cluster,
             filter: self.filter,
             maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension ECS.ListGatewayClusterAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ECS.ListGatewayClusterAssociationsRequest {
+        return .init(
+            cluster: self.cluster,
+            gateway: self.gateway,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension ECS.ListGatewayRoutesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ECS.ListGatewayRoutesRequest {
+        return .init(
+            cluster: self.cluster,
+            gateway: self.gateway,
+            maxResults: self.maxResults,
+            nextToken: token,
+            service: self.service,
+            serviceContainerPortName: self.serviceContainerPortName,
+            status: self.status
+        )
+    }
+}
+
+extension ECS.ListGatewaysRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ECS.ListGatewaysRequest {
+        return .init(
+            maxResults: self.maxResults,
+            names: self.names,
             nextToken: token,
             status: self.status
         )

@@ -102,6 +102,7 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - messages: The list of messages for the agentic retrieval conversation.
     ///   - nextToken: Opaque continuation token for paginated results.
     ///   - policyConfiguration: Policy configuration for guardrails and content filtering.
+    ///   - retrievalInstructionConfiguration: A retrieval instruction to apply to this request.
     ///   - retrievers: The list of retrievers to use for agentic retrieval.
     ///   - userContext: Contains information about the user making the request. This is used for access control filtering to ensure that retrieval results only include documents the user is authorized to access.
     ///   - logger: Logger use during operation
@@ -113,6 +114,7 @@ public struct BedrockAgentRuntime: AWSService {
         messages: [AgenticRetrieveMessage],
         nextToken: String? = nil,
         policyConfiguration: AgenticRetrievePolicyConfiguration? = nil,
+        retrievalInstructionConfiguration: AgenticRetrieveInstructionConfiguration? = nil,
         retrievers: [AgenticRetriever],
         userContext: UserContext? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -124,6 +126,7 @@ public struct BedrockAgentRuntime: AWSService {
             messages: messages, 
             nextToken: nextToken, 
             policyConfiguration: policyConfiguration, 
+            retrievalInstructionConfiguration: retrievalInstructionConfiguration, 
             retrievers: retrievers, 
             userContext: userContext
         )

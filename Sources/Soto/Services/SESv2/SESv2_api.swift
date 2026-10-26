@@ -584,7 +584,7 @@ public struct SESv2: AWSService {
         return try await self.createEmailTemplate(input, logger: logger)
     }
 
-    /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
+    /// Creates an export job for a data source and destination. Export jobs run asynchronously. This operation returns a JobId. Call GetExportJob with that ID until JobStatus is COMPLETED, FAILED, or CANCELLED. When the status is COMPLETED, download the export file from the pre-signed URL in ExportDestination.S3Url. When the status is FAILED, see FailureInfo. To store a copy in your own bucket, upload the downloaded file to your bucket. Do not include S3Url in the request. You can execute this operation no more than once per second.
     @Sendable
     @inlinable
     public func createExportJob(_ input: CreateExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateExportJobResponse {
@@ -597,11 +597,11 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
+    /// Creates an export job for a data source and destination. Export jobs run asynchronously. This operation returns a JobId. Call GetExportJob with that ID until JobStatus is COMPLETED, FAILED, or CANCELLED. When the status is COMPLETED, download the export file from the pre-signed URL in ExportDestination.S3Url. When the status is FAILED, see FailureInfo. To store a copy in your own bucket, upload the downloaded file to your bucket. Do not include S3Url in the request. You can execute this operation no more than once per second.
     ///
     /// Parameters:
     ///   - exportDataSource: The data source for the export job.
-    ///   - exportDestination: The destination for the export job.
+    ///   - exportDestination: The destination for the export job. Specify only DataFormat. Do not include S3Url in this request. SES writes the export file to a location that it manages and returns the download URL in GetExportJob.
     ///   - logger: Logger use during operation
     @inlinable
     public func createExportJob(
@@ -1705,7 +1705,7 @@ public struct SESv2: AWSService {
         return try await self.getEmailTemplate(input, logger: logger)
     }
 
-    /// Provides information about an export job.
+    /// Provides information about an export job. When the job status is COMPLETED, the response includes a pre-signed URL in ExportDestination.S3Url that you use to download the export file.
     @Sendable
     @inlinable
     public func getExportJob(_ input: GetExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExportJobResponse {
@@ -1718,7 +1718,7 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Provides information about an export job.
+    /// Provides information about an export job. When the job status is COMPLETED, the response includes a pre-signed URL in ExportDestination.S3Url that you use to download the export file.
     ///
     /// Parameters:
     ///   - jobId: The export job ID.
@@ -1920,8 +1920,8 @@ public struct SESv2: AWSService {
     public func listConfigurationSets(_ input: ListConfigurationSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationSetsResponse {
         try await self.client.execute(
             operation: "ListConfigurationSets", 
-            path: "/v2/email/configuration-sets", 
-            httpMethod: .GET, 
+            path: "/v2/email/list-configuration-sets", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -1930,16 +1930,19 @@ public struct SESv2: AWSService {
     /// List all of the configuration sets associated with your account in the current region.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// Parameters:
+    ///   - filter: An object that contains filters to apply when listing configuration sets. You can filter by a substring of the configuration set name.
     ///   - nextToken: A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
     ///   - pageSize: The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listConfigurationSets(
+        filter: [ConfigurationSetFilterKey: String]? = nil,
         nextToken: String? = nil,
         pageSize: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListConfigurationSetsResponse {
         let input = ListConfigurationSetsRequest(
+            filter: filter, 
             nextToken: nextToken, 
             pageSize: pageSize
         )
@@ -2159,8 +2162,8 @@ public struct SESv2: AWSService {
     public func listEmailIdentities(_ input: ListEmailIdentitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEmailIdentitiesResponse {
         try await self.client.execute(
             operation: "ListEmailIdentities", 
-            path: "/v2/email/identities", 
-            httpMethod: .GET, 
+            path: "/v2/email/list-identities", 
+            httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
@@ -2169,16 +2172,19 @@ public struct SESv2: AWSService {
     /// Returns a list of all of the email identities that are associated with your Amazon Web Services account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
     ///
     /// Parameters:
+    ///   - filter: An object that contains filters to apply when listing email identities. You can filter by a substring of the identity name, by identity type, or by verification status.
     ///   - nextToken: A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
     ///   - pageSize: The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEmailIdentities(
+        filter: [IdentityFilterKey: String]? = nil,
         nextToken: String? = nil,
         pageSize: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListEmailIdentitiesResponse {
         let input = ListEmailIdentitiesRequest(
+            filter: filter, 
             nextToken: nextToken, 
             pageSize: pageSize
         )
@@ -2589,16 +2595,19 @@ public struct SESv2: AWSService {
     /// List all tenants associated with your account in the current Amazon Web Services Region. This operation returns basic information about each tenant, such as tenant name, ID, ARN, and creation timestamp.
     ///
     /// Parameters:
+    ///   - filter: An object that contains filters to apply when listing tenants. You can filter by a substring of the tenant name or by sending status.
     ///   - nextToken: A token returned from a previous call to ListTenants to indicate the position in the list of tenants.
     ///   - pageSize: The number of results to show in a single call to ListTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTenants(
+        filter: [ListTenantsFilterKey: String]? = nil,
         nextToken: String? = nil,
         pageSize: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListTenantsResponse {
         let input = ListTenantsRequest(
+            filter: filter, 
             nextToken: nextToken, 
             pageSize: pageSize
         )
@@ -4052,14 +4061,17 @@ extension SESv2 {
     /// Return PaginatorSequence for operation ``listConfigurationSets(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - filter: An object that contains filters to apply when listing configuration sets. You can filter by a substring of the configuration set name.
     ///   - pageSize: The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listConfigurationSetsPaginator(
+        filter: [ConfigurationSetFilterKey: String]? = nil,
         pageSize: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListConfigurationSetsRequest, ListConfigurationSetsResponse> {
         let input = ListConfigurationSetsRequest(
+            filter: filter, 
             pageSize: pageSize
         )
         return self.listConfigurationSetsPaginator(input, logger: logger)
@@ -4305,14 +4317,17 @@ extension SESv2 {
     /// Return PaginatorSequence for operation ``listEmailIdentities(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - filter: An object that contains filters to apply when listing email identities. You can filter by a substring of the identity name, by identity type, or by verification status.
     ///   - pageSize: The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEmailIdentitiesPaginator(
+        filter: [IdentityFilterKey: String]? = nil,
         pageSize: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListEmailIdentitiesRequest, ListEmailIdentitiesResponse> {
         let input = ListEmailIdentitiesRequest(
+            filter: filter, 
             pageSize: pageSize
         )
         return self.listEmailIdentitiesPaginator(input, logger: logger)
@@ -4718,14 +4733,17 @@ extension SESv2 {
     /// Return PaginatorSequence for operation ``listTenants(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - filter: An object that contains filters to apply when listing tenants. You can filter by a substring of the tenant name or by sending status.
     ///   - pageSize: The number of results to show in a single call to ListTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTenantsPaginator(
+        filter: [ListTenantsFilterKey: String]? = nil,
         pageSize: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListTenantsRequest, ListTenantsResponse> {
         let input = ListTenantsRequest(
+            filter: filter, 
             pageSize: pageSize
         )
         return self.listTenantsPaginator(input, logger: logger)
@@ -4747,6 +4765,7 @@ extension SESv2.ListConfigurationSetsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SESv2.ListConfigurationSetsRequest {
         return .init(
+            filter: self.filter,
             nextToken: token,
             pageSize: self.pageSize
         )
@@ -4822,6 +4841,7 @@ extension SESv2.ListEmailIdentitiesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SESv2.ListEmailIdentitiesRequest {
         return .init(
+            filter: self.filter,
             nextToken: token,
             pageSize: self.pageSize
         )
@@ -4945,6 +4965,7 @@ extension SESv2.ListTenantsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SESv2.ListTenantsRequest {
         return .init(
+            filter: self.filter,
             nextToken: token,
             pageSize: self.pageSize
         )

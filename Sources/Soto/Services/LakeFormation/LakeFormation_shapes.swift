@@ -325,6 +325,49 @@ extension LakeFormation {
         }
     }
 
+    public struct AttachRLSPolicyRequest: AWSEncodableShape {
+        /// A Lake Formation condition, which applies to the row-level security policy attachment and contains an expression.
+        public let condition: Condition?
+        /// The name of the row-level security policy to attach.
+        public let name: String
+        /// The principal to which the row-level security policy applies.
+        public let principal: DataLakePrincipal?
+        /// The resource to which the row-level security policy is attached.
+        public let resource: Resource
+        /// Indicates whether this policy becomes the default row-level security policy for the resource. The default policy applies to all principals by default.
+        public let setDefault: Bool?
+
+        @inlinable
+        public init(condition: Condition? = nil, name: String, principal: DataLakePrincipal? = nil, resource: Resource, setDefault: Bool? = nil) {
+            self.condition = condition
+            self.name = name
+            self.principal = principal
+            self.resource = resource
+            self.setDefault = setDefault
+        }
+
+        public func validate(name: String) throws {
+            try self.condition?.validate(name: "\(name).condition")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.principal?.validate(name: "\(name).principal")
+            try self.resource.validate(name: "\(name).resource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
+            case name = "Name"
+            case principal = "Principal"
+            case resource = "Resource"
+            case setDefault = "SetDefault"
+        }
+    }
+
+    public struct AttachRLSPolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct AuditContext: AWSEncodableShape {
         /// The filter engine can populate the 'AdditionalAuditContext' information with the request ID for you to track. This information will be displayed in CloudTrail log in your account.
         public let additionalAuditContext: String?
@@ -526,6 +569,32 @@ extension LakeFormation {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
+        }
+    }
+
+    public struct Column: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column.
+        public let name: String
+        /// The data type of the column.
+        public let type: String?
+
+        @inlinable
+        public init(name: String, type: String? = nil) {
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.type, name: "type", parent: name, max: 131072)
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case type = "Type"
         }
     }
 
@@ -808,6 +877,43 @@ extension LakeFormation {
     }
 
     public struct CreateLakeFormationOptInResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CreateRLSPolicyRequest: AWSEncodableShape {
+        /// The list of columns that the filter expression references. These columns define the shape of the data that the policy can be attached to.
+        public let attachmentColumns: [Column]
+        /// A filter predicate, written in a SQL-like syntax, that Lake Formation evaluates against each row. Only the rows for which the expression evaluates to true are returned to the principal.
+        public let filterExpression: String
+        /// A unique name for the row-level security policy within the Data Catalog.
+        public let name: String
+
+        @inlinable
+        public init(attachmentColumns: [Column], filterExpression: String, name: String) {
+            self.attachmentColumns = attachmentColumns
+            self.filterExpression = filterExpression
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.attachmentColumns.forEach {
+                try $0.validate(name: "\(name).attachmentColumns[]")
+            }
+            try self.validate(self.filterExpression, name: "filterExpression", parent: name, max: 2048)
+            try self.validate(self.filterExpression, name: "filterExpression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentColumns = "AttachmentColumns"
+            case filterExpression = "FilterExpression"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateRLSPolicyResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1326,6 +1432,30 @@ extension LakeFormation {
         public init() {}
     }
 
+    public struct DeleteRLSPolicyRequest: AWSEncodableShape {
+        /// The name of the row-level security policy to delete.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteRLSPolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeregisterResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to deregister.
         public let resourceArn: String
@@ -1462,6 +1592,49 @@ extension LakeFormation {
         private enum CodingKeys: String, CodingKey {
             case transactionDescription = "TransactionDescription"
         }
+    }
+
+    public struct DetachRLSPolicyRequest: AWSEncodableShape {
+        /// A Lake Formation condition, which applies to the row-level security policy attachment and contains an expression.
+        public let condition: Condition?
+        /// The name of the row-level security policy to detach.
+        public let name: String
+        /// The principal for which the row-level security policy is detached.
+        public let principal: DataLakePrincipal?
+        /// Indicates whether to remove this policy as the default row-level security policy for the resource.
+        public let removeDefault: Bool?
+        /// The resource from which the row-level security policy is detached.
+        public let resource: Resource
+
+        @inlinable
+        public init(condition: Condition? = nil, name: String, principal: DataLakePrincipal? = nil, removeDefault: Bool? = nil, resource: Resource) {
+            self.condition = condition
+            self.name = name
+            self.principal = principal
+            self.removeDefault = removeDefault
+            self.resource = resource
+        }
+
+        public func validate(name: String) throws {
+            try self.condition?.validate(name: "\(name).condition")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.principal?.validate(name: "\(name).principal")
+            try self.resource.validate(name: "\(name).resource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
+            case name = "Name"
+            case principal = "Principal"
+            case removeDefault = "RemoveDefault"
+            case resource = "Resource"
+        }
+    }
+
+    public struct DetachRLSPolicyResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DetailsMap: AWSDecodableShape {
@@ -1919,6 +2092,40 @@ extension LakeFormation {
             case executionStatistics = "ExecutionStatistics"
             case planningStatistics = "PlanningStatistics"
             case querySubmissionTime = "QuerySubmissionTime"
+        }
+    }
+
+    public struct GetRLSPolicyRequest: AWSEncodableShape {
+        /// The name of the row-level security policy to retrieve.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetRLSPolicyResponse: AWSDecodableShape {
+        /// An RLSPolicy structure containing the definition of the requested row-level security policy.
+        public let rlsPolicy: RLSPolicy?
+
+        @inlinable
+        public init(rlsPolicy: RLSPolicy? = nil) {
+            self.rlsPolicy = rlsPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rlsPolicy = "RLSPolicy"
         }
     }
 
@@ -2899,6 +3106,105 @@ extension LakeFormation {
         }
     }
 
+    public struct ListRLSPoliciesRequest: AWSEncodableShape {
+        /// The maximum number of row-level security policies to return in a single response.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRLSPoliciesResponse: AWSDecodableShape {
+        /// A continuation token, if not all row-level security policies have been returned.
+        public let nextToken: String?
+        /// A list of RLSPolicy structures.
+        public let rlsPolicies: [RLSPolicy]?
+
+        @inlinable
+        public init(nextToken: String? = nil, rlsPolicies: [RLSPolicy]? = nil) {
+            self.nextToken = nextToken
+            self.rlsPolicies = rlsPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rlsPolicies = "RLSPolicies"
+        }
+    }
+
+    public struct ListRLSPolicyAttachmentsRequest: AWSEncodableShape {
+        /// The maximum number of attachments to return in a single response.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+        /// If specified, returns only the attachments for the row-level security policy with this name.
+        public let policyName: String?
+        /// If specified, returns only the attachments for the given principal.
+        public let principal: DataLakePrincipal?
+        /// If specified, returns only the attachments for the given resource.
+        public let resource: Resource?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, policyName: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyName = policyName
+            self.principal = principal
+            self.resource = resource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, max: 255)
+            try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
+            try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.principal?.validate(name: "\(name).principal")
+            try self.resource?.validate(name: "\(name).resource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case policyName = "PolicyName"
+            case principal = "Principal"
+            case resource = "Resource"
+        }
+    }
+
+    public struct ListRLSPolicyAttachmentsResponse: AWSDecodableShape {
+        /// A continuation token, if not all attachments have been returned.
+        public let nextToken: String?
+        /// A list of RLSPolicyAttachment structures.
+        public let rlsPolicyAttachments: [RLSPolicyAttachment]?
+
+        @inlinable
+        public init(nextToken: String? = nil, rlsPolicyAttachments: [RLSPolicyAttachment]? = nil) {
+            self.nextToken = nextToken
+            self.rlsPolicyAttachments = rlsPolicyAttachments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rlsPolicyAttachments = "RLSPolicyAttachments"
+        }
+    }
+
     public struct ListResourcesRequest: AWSEncodableShape {
         /// Any applicable row-level and/or column-level filtering conditions for the resources.
         public let filterConditionList: [FilterCondition]?
@@ -3305,6 +3611,93 @@ extension LakeFormation {
         }
     }
 
+    public struct RLSPolicy: AWSDecodableShape {
+        /// The list of columns that the filter expression references.
+        public let attachmentColumns: [Column]?
+        /// The identifier for the Data Catalog that contains the policy. By default, the account ID.
+        public let catalogId: String?
+        /// The filter predicate, written in a SQL-like syntax, that determines which rows are returned to the principal.
+        public let filterExpression: String?
+        /// The name of the row-level security policy.
+        public let name: String?
+
+        @inlinable
+        public init(attachmentColumns: [Column]? = nil, catalogId: String? = nil, filterExpression: String? = nil, name: String? = nil) {
+            self.attachmentColumns = attachmentColumns
+            self.catalogId = catalogId
+            self.filterExpression = filterExpression
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentColumns = "AttachmentColumns"
+            case catalogId = "CatalogId"
+            case filterExpression = "FilterExpression"
+            case name = "Name"
+        }
+    }
+
+    public struct RLSPolicyAttachment: AWSDecodableShape {
+        /// The identifier for the Data Catalog that contains the attachment. By default, the account ID.
+        public let catalogId: String?
+        /// A Lake Formation condition, which applies to the row-level security policy attachment and contains an expression.
+        public let condition: Condition?
+        /// Indicates whether this attachment is the default row-level security policy for the resource.
+        public let defaultRLSPolicy: Bool?
+        /// The name of the attached row-level security policy.
+        public let policyName: String?
+        /// The principal to which the attached policy applies.
+        public let principal: DataLakePrincipal?
+        /// The resource to which the policy is attached.
+        public let resource: Resource?
+
+        @inlinable
+        public init(catalogId: String? = nil, condition: Condition? = nil, defaultRLSPolicy: Bool? = nil, policyName: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+            self.catalogId = catalogId
+            self.condition = condition
+            self.defaultRLSPolicy = defaultRLSPolicy
+            self.policyName = policyName
+            self.principal = principal
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case condition = "Condition"
+            case defaultRLSPolicy = "DefaultRLSPolicy"
+            case policyName = "PolicyName"
+            case principal = "Principal"
+            case resource = "Resource"
+        }
+    }
+
+    public struct RLSPolicyResource: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier for the Data Catalog that contains the policy. By default, the account ID.
+        public let catalogId: String?
+        /// The name of the row-level security policy.
+        public let name: String
+
+        @inlinable
+        public init(catalogId: String? = nil, name: String) {
+            self.catalogId = catalogId
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case name = "Name"
+        }
+    }
+
     public struct RedshiftConnect: AWSEncodableShape & AWSDecodableShape {
         /// The authorization status for Redshift Connect. Valid values are ENABLED or DISABLED.
         public let authorization: ServiceAuthorization
@@ -3429,13 +3822,15 @@ extension LakeFormation {
         public let lfTagExpression: LFTagExpressionResource?
         /// A list of LF-tag conditions or saved LF-Tag expressions that define a resource's LF-tag policy.
         public let lfTagPolicy: LFTagPolicyResource?
+        /// A row-level security policy resource. Specify this when granting or revoking permissions on a row-level security policy.
+        public let rlsPolicy: RLSPolicyResource?
         /// The table for the resource. A table is a metadata definition that represents your data. You can Grant and Revoke table privileges to a principal.
         public let table: TableResource?
         /// The table with columns for the resource. A principal with permissions to this resource can select metadata from the columns of a table in the Data Catalog and the underlying data in Amazon S3.
         public let tableWithColumns: TableWithColumnsResource?
 
         @inlinable
-        public init(catalog: CatalogResource? = nil, database: DatabaseResource? = nil, dataCellsFilter: DataCellsFilterResource? = nil, dataLocation: DataLocationResource? = nil, lfTag: LFTagKeyResource? = nil, lfTagExpression: LFTagExpressionResource? = nil, lfTagPolicy: LFTagPolicyResource? = nil, table: TableResource? = nil, tableWithColumns: TableWithColumnsResource? = nil) {
+        public init(catalog: CatalogResource? = nil, database: DatabaseResource? = nil, dataCellsFilter: DataCellsFilterResource? = nil, dataLocation: DataLocationResource? = nil, lfTag: LFTagKeyResource? = nil, lfTagExpression: LFTagExpressionResource? = nil, lfTagPolicy: LFTagPolicyResource? = nil, rlsPolicy: RLSPolicyResource? = nil, table: TableResource? = nil, tableWithColumns: TableWithColumnsResource? = nil) {
             self.catalog = catalog
             self.database = database
             self.dataCellsFilter = dataCellsFilter
@@ -3443,6 +3838,7 @@ extension LakeFormation {
             self.lfTag = lfTag
             self.lfTagExpression = lfTagExpression
             self.lfTagPolicy = lfTagPolicy
+            self.rlsPolicy = rlsPolicy
             self.table = table
             self.tableWithColumns = tableWithColumns
         }
@@ -3455,6 +3851,7 @@ extension LakeFormation {
             try self.lfTag?.validate(name: "\(name).lfTag")
             try self.lfTagExpression?.validate(name: "\(name).lfTagExpression")
             try self.lfTagPolicy?.validate(name: "\(name).lfTagPolicy")
+            try self.rlsPolicy?.validate(name: "\(name).rlsPolicy")
             try self.table?.validate(name: "\(name).table")
             try self.tableWithColumns?.validate(name: "\(name).tableWithColumns")
         }
@@ -3467,6 +3864,7 @@ extension LakeFormation {
             case lfTag = "LFTag"
             case lfTagExpression = "LFTagExpression"
             case lfTagPolicy = "LFTagPolicy"
+            case rlsPolicy = "RLSPolicy"
             case table = "Table"
             case tableWithColumns = "TableWithColumns"
         }
@@ -4154,6 +4552,36 @@ extension LakeFormation {
     }
 
     public struct UpdateLakeFormationIdentityCenterConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateRLSPolicyRequest: AWSEncodableShape {
+        /// The new filter predicate, written in a SQL-like syntax, that replaces the policy's current filter expression.
+        public let filterExpression: String?
+        /// The name of the row-level security policy to update.
+        public let name: String
+
+        @inlinable
+        public init(filterExpression: String? = nil, name: String) {
+            self.filterExpression = filterExpression
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterExpression, name: "filterExpression", parent: name, max: 2048)
+            try self.validate(self.filterExpression, name: "filterExpression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterExpression = "FilterExpression"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateRLSPolicyResponse: AWSDecodableShape {
         public init() {}
     }
 

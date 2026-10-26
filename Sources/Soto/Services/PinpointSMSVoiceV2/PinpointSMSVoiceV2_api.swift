@@ -222,14 +222,17 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Returns information about a destination phone number, including whether the number type and whether it is valid, the carrier, and more.
     ///
     /// Parameters:
+    ///   - enableCleansing: Specifies whether the service cleanses the phone number that you provide. When set to true, the service normalizes the phone number according to the destination country's national numbering plan and dialing rules. The service returns the cleansed number in E.164 format in the E164PhoneNumber field and returns the number that you provided in the OriginalPhoneNumber field.
     ///   - phoneNumber: The phone number that you want to retrieve information about. You can provide the phone number in various formats including special characters such as parentheses, brackets, spaces, hyphens, periods, and commas. The service automatically converts the input to E164 format for processing.
     ///   - logger: Logger use during operation
     @inlinable
     public func carrierLookup(
+        enableCleansing: Bool? = nil,
         phoneNumber: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CarrierLookupResult {
         let input = CarrierLookupRequest(
+            enableCleansing: enableCleansing, 
             phoneNumber: phoneNumber
         )
         return try await self.carrierLookup(input, logger: logger)
@@ -2410,10 +2413,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.getResourcePolicy(input, logger: logger)
     }
 
-    /// Search available phone numbers from aggregator inventory, optionally filtered by pattern.
-    /// If NumberPreference is omitted, returns unfiltered available numbers.
-    /// Returns empty list (not an exception) when no numbers match.
-    /// ResourceNotFoundException is thrown only for invalid RegistrationId (campaign not found).
+    /// Retrieves a list of phone numbers that are available to request, based on the country, capabilities, and number type that you specify. You can optionally provide a number preference to return only numbers that match a specific digit pattern. If no numbers match your search, this operation returns an empty list rather than an error. This operation currently supports only TEN_DLC number types in the US.
     @Sendable
     @inlinable
     public func listAvailablePhoneNumbers(_ input: ListAvailablePhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAvailablePhoneNumbersResult {
@@ -2426,17 +2426,14 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Search available phone numbers from aggregator inventory, optionally filtered by pattern.
-    /// If NumberPreference is omitted, returns unfiltered available numbers.
-    /// Returns empty list (not an exception) when no numbers match.
-    /// ResourceNotFoundException is thrown only for invalid RegistrationId (campaign not found).
+    /// Retrieves a list of phone numbers that are available to request, based on the country, capabilities, and number type that you specify. You can optionally provide a number preference to return only numbers that match a specific digit pattern. If no numbers match your search, this operation returns an empty list rather than an error. This operation currently supports only TEN_DLC number types in the US.
     ///
     /// Parameters:
     ///   - isoCountryCode: The two-character code, in ISO 3166-1 alpha-2 format, for the country or region in which to search for available phone numbers. This operation currently supports only US.
     ///   - maxResults: The maximum number of results to return per page. If you don't specify a value, the default is 10.
     ///   - nextToken: The token returned from a previous request to retrieve the next page of results.
     ///   - numberCapabilities: The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned.
-    ///   - numberPreference: Optional. If omitted, returns unfiltered available numbers.
+    ///   - numberPreference: An optional selection preference used to return only phone numbers that match a specific digit pattern, such as numbers that start with, end with, or contain a particular sequence. You can specify at most one preference. Number preferences apply only to TEN_DLC numbers in the US.
     ///   - numberType: The type of phone number to search for.
     ///   - registrationId: The registration associated with the request. A registration is required for regulated number types. You can specify either:   The unique identifier of the registration.   The Amazon Resource Name (ARN) of the registration.
     ///   - logger: Logger use during operation

@@ -614,12 +614,14 @@ public struct Imagebuilder: AWSService {
     ///   - keyPair: The key pair of the infrastructure configuration. You can use this to log on to and
     ///   - logging: The logging configuration of the infrastructure configuration. When you
     ///   - name: The name of the infrastructure configuration. Infrastructure configuration
+    ///   - parentInstance: The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of
     ///   - placement: The instance placement settings that define where the build and test
     ///   - resourceTags: The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during
     ///   - securityGroupIds: The security group IDs to associate with the instance used to customize your Amazon EC2
     ///   - snsTopicArn: The Amazon Resource Name (ARN) of the SNS topic to which Image Builder sends image build event notifications.
     ///   - subnetId: The subnet ID in which to place the instance used to customize your Amazon EC2
     ///   - tags: The metadata tags to assign to the infrastructure configuration resource that Image Builder
+    ///   - terminateInstanceOnCompletion: Specifies whether Image Builder terminates build and test instances when image creation
     ///   - terminateInstanceOnFailure: Specifies whether to terminate the instance on failure. Set to
     ///   - logger: Logger use during operation
     @inlinable
@@ -633,12 +635,14 @@ public struct Imagebuilder: AWSService {
         keyPair: String? = nil,
         logging: Logging? = nil,
         name: String,
+        parentInstance: ParentInstanceConfiguration? = nil,
         placement: Placement? = nil,
         resourceTags: [String: String]? = nil,
         securityGroupIds: [String]? = nil,
         snsTopicArn: String? = nil,
         subnetId: String? = nil,
         tags: [String: String]? = nil,
+        terminateInstanceOnCompletion: Bool? = nil,
         terminateInstanceOnFailure: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateInfrastructureConfigurationResponse {
@@ -652,12 +656,14 @@ public struct Imagebuilder: AWSService {
             keyPair: keyPair, 
             logging: logging, 
             name: name, 
+            parentInstance: parentInstance, 
             placement: placement, 
             resourceTags: resourceTags, 
             securityGroupIds: securityGroupIds, 
             snsTopicArn: snsTopicArn, 
             subnetId: subnetId, 
             tags: tags, 
+            terminateInstanceOnCompletion: terminateInstanceOnCompletion, 
             terminateInstanceOnFailure: terminateInstanceOnFailure
         )
         return try await self.createInfrastructureConfiguration(input, logger: logger)
@@ -3283,11 +3289,13 @@ public struct Imagebuilder: AWSService {
     ///   - instanceTypes: The instance types of the infrastructure configuration. You can specify one or more
     ///   - keyPair: The key pair of the infrastructure configuration. You can use this to log on to and
     ///   - logging: The logging configuration of the infrastructure configuration. When you
+    ///   - parentInstance: The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of
     ///   - placement: The instance placement settings that define where the build and test
     ///   - resourceTags: The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during
     ///   - securityGroupIds: The security group IDs to associate with the instance used to customize your Amazon EC2
     ///   - snsTopicArn: The Amazon Resource Name (ARN) of the SNS topic to which Image Builder
     ///   - subnetId: The subnet ID in which to place the instance used to customize your Amazon EC2
+    ///   - terminateInstanceOnCompletion: Specifies whether Image Builder terminates build and test instances when image creation
     ///   - terminateInstanceOnFailure: Specifies whether to terminate the instance on failure. Set to
     ///   - logger: Logger use during operation
     @inlinable
@@ -3300,11 +3308,13 @@ public struct Imagebuilder: AWSService {
         instanceTypes: [String]? = nil,
         keyPair: String? = nil,
         logging: Logging? = nil,
+        parentInstance: ParentInstanceConfiguration? = nil,
         placement: Placement? = nil,
         resourceTags: [String: String]? = nil,
         securityGroupIds: [String]? = nil,
         snsTopicArn: String? = nil,
         subnetId: String? = nil,
+        terminateInstanceOnCompletion: Bool? = nil,
         terminateInstanceOnFailure: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateInfrastructureConfigurationResponse {
@@ -3317,11 +3327,13 @@ public struct Imagebuilder: AWSService {
             instanceTypes: instanceTypes, 
             keyPair: keyPair, 
             logging: logging, 
+            parentInstance: parentInstance, 
             placement: placement, 
             resourceTags: resourceTags, 
             securityGroupIds: securityGroupIds, 
             snsTopicArn: snsTopicArn, 
             subnetId: subnetId, 
+            terminateInstanceOnCompletion: terminateInstanceOnCompletion, 
             terminateInstanceOnFailure: terminateInstanceOnFailure
         )
         return try await self.updateInfrastructureConfiguration(input, logger: logger)
