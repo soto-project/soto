@@ -55,7 +55,7 @@ public struct Transcribe: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -2234,7 +2234,7 @@ extension Transcribe {
     @inlinable
     public func waitUntilCallAnalyticsJobCompleted(
         _ input: GetCallAnalyticsJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetCallAnalyticsJobRequest, _>(
@@ -2271,7 +2271,7 @@ extension Transcribe {
     @inlinable
     public func waitUntilLanguageModelCompleted(
         _ input: DescribeLanguageModelRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeLanguageModelRequest, _>(
@@ -2308,7 +2308,7 @@ extension Transcribe {
     @inlinable
     public func waitUntilMedicalScribeJobCompleted(
         _ input: GetMedicalScribeJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetMedicalScribeJobRequest, _>(
@@ -2345,7 +2345,7 @@ extension Transcribe {
     @inlinable
     public func waitUntilMedicalTranscriptionJobCompleted(
         _ input: GetMedicalTranscriptionJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetMedicalTranscriptionJobRequest, _>(
@@ -2382,7 +2382,7 @@ extension Transcribe {
     @inlinable
     public func waitUntilMedicalVocabularyReady(
         _ input: GetMedicalVocabularyRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetMedicalVocabularyRequest, _>(
@@ -2419,7 +2419,7 @@ extension Transcribe {
     @inlinable
     public func waitUntilTranscriptionJobCompleted(
         _ input: GetTranscriptionJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetTranscriptionJobRequest, _>(
@@ -2456,7 +2456,7 @@ extension Transcribe {
     @inlinable
     public func waitUntilVocabularyReady(
         _ input: GetVocabularyRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetVocabularyRequest, _>(

@@ -55,7 +55,7 @@ public struct SageMaker: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -22314,7 +22314,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilEndpointDeleted(
         _ input: DescribeEndpointInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeEndpointInput, _>(
@@ -22352,7 +22352,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilEndpointInService(
         _ input: DescribeEndpointInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeEndpointInput, _>(
@@ -22391,7 +22391,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilImageCreated(
         _ input: DescribeImageRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImageRequest, _>(
@@ -22430,7 +22430,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilImageDeleted(
         _ input: DescribeImageRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImageRequest, _>(
@@ -22469,7 +22469,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilImageUpdated(
         _ input: DescribeImageRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImageRequest, _>(
@@ -22508,7 +22508,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilImageVersionCreated(
         _ input: DescribeImageVersionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImageVersionRequest, _>(
@@ -22553,7 +22553,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilImageVersionDeleted(
         _ input: DescribeImageVersionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImageVersionRequest, _>(
@@ -22598,7 +22598,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilNotebookInstanceDeleted(
         _ input: DescribeNotebookInstanceInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeNotebookInstanceInput, _>(
@@ -22636,7 +22636,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilNotebookInstanceInService(
         _ input: DescribeNotebookInstanceInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeNotebookInstanceInput, _>(
@@ -22674,7 +22674,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilNotebookInstanceStopped(
         _ input: DescribeNotebookInstanceInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeNotebookInstanceInput, _>(
@@ -22712,7 +22712,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilProcessingJobCompletedOrStopped(
         _ input: DescribeProcessingJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeProcessingJobRequest, _>(
@@ -22752,7 +22752,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilTrainingJobCompletedOrStopped(
         _ input: DescribeTrainingJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTrainingJobRequest, _>(
@@ -22792,7 +22792,7 @@ extension SageMaker {
     @inlinable
     public func waitUntilTransformJobCompletedOrStopped(
         _ input: DescribeTransformJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTransformJobRequest, _>(

@@ -56,7 +56,7 @@ public struct MachineLearning: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1505,7 +1505,7 @@ extension MachineLearning {
     @inlinable
     public func waitUntilBatchPredictionAvailable(
         _ input: DescribeBatchPredictionsInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeBatchPredictionsInput, _>(
@@ -1572,7 +1572,7 @@ extension MachineLearning {
     @inlinable
     public func waitUntilDataSourceAvailable(
         _ input: DescribeDataSourcesInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDataSourcesInput, _>(
@@ -1639,7 +1639,7 @@ extension MachineLearning {
     @inlinable
     public func waitUntilEvaluationAvailable(
         _ input: DescribeEvaluationsInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeEvaluationsInput, _>(
@@ -1706,7 +1706,7 @@ extension MachineLearning {
     @inlinable
     public func waitUntilMLModelAvailable(
         _ input: DescribeMLModelsInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMLModelsInput, _>(

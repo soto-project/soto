@@ -53,7 +53,7 @@ public struct S3: AWSService {
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -94,7 +94,7 @@ public struct S3: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: some AWSMiddlewareProtocol,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -6112,7 +6112,7 @@ extension S3 {
     @inlinable
     public func waitUntilBucketExists(
         _ input: HeadBucketRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<HeadBucketRequest, _>(
@@ -6152,7 +6152,7 @@ extension S3 {
     @inlinable
     public func waitUntilBucketNotExists(
         _ input: HeadBucketRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<HeadBucketRequest, _>(
@@ -6191,7 +6191,7 @@ extension S3 {
     @inlinable
     public func waitUntilObjectExists(
         _ input: HeadObjectRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<HeadObjectRequest, _>(
@@ -6288,7 +6288,7 @@ extension S3 {
     @inlinable
     public func waitUntilObjectNotExists(
         _ input: HeadObjectRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<HeadObjectRequest, _>(

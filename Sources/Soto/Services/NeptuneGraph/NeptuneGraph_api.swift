@@ -55,7 +55,7 @@ public struct NeptuneGraph: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1565,7 +1565,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilExportTaskCancelled(
         _ input: GetExportTaskInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetExportTaskInput, _>(
@@ -1603,7 +1603,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilExportTaskSuccessful(
         _ input: GetExportTaskInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetExportTaskInput, _>(
@@ -1643,7 +1643,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilGraphAvailable(
         _ input: GetGraphInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetGraphInput, _>(
@@ -1682,7 +1682,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilGraphDeleted(
         _ input: GetGraphInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetGraphInput, _>(
@@ -1720,7 +1720,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilGraphSnapshotAvailable(
         _ input: GetGraphSnapshotInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetGraphSnapshotInput, _>(
@@ -1759,7 +1759,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilGraphSnapshotDeleted(
         _ input: GetGraphSnapshotInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetGraphSnapshotInput, _>(
@@ -1797,7 +1797,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilGraphStopped(
         _ input: GetGraphInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetGraphInput, _>(
@@ -1835,7 +1835,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilImportTaskCancelled(
         _ input: GetImportTaskInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetImportTaskInput, _>(
@@ -1873,7 +1873,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilImportTaskSuccessful(
         _ input: GetImportTaskInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetImportTaskInput, _>(
@@ -1914,7 +1914,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilPrivateGraphEndpointAvailable(
         _ input: GetPrivateGraphEndpointInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPrivateGraphEndpointInput, _>(
@@ -1956,7 +1956,7 @@ extension NeptuneGraph {
     @inlinable
     public func waitUntilPrivateGraphEndpointDeleted(
         _ input: GetPrivateGraphEndpointInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPrivateGraphEndpointInput, _>(

@@ -55,7 +55,7 @@ public struct EKS: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -3703,7 +3703,7 @@ extension EKS {
     @inlinable
     public func waitUntilAddonActive(
         _ input: DescribeAddonRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAddonRequest, _>(
@@ -3744,7 +3744,7 @@ extension EKS {
     @inlinable
     public func waitUntilAddonDeleted(
         _ input: DescribeAddonRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAddonRequest, _>(
@@ -3784,7 +3784,7 @@ extension EKS {
     @inlinable
     public func waitUntilCertificateAuthorityUpdateComplete(
         _ input: DescribeUpdateRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeUpdateRequest, _>(
@@ -3834,7 +3834,7 @@ extension EKS {
     @inlinable
     public func waitUntilClusterActive(
         _ input: DescribeClusterRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClusterRequest, _>(
@@ -3872,7 +3872,7 @@ extension EKS {
     @inlinable
     public func waitUntilClusterDeleted(
         _ input: DescribeClusterRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClusterRequest, _>(
@@ -3911,7 +3911,7 @@ extension EKS {
     @inlinable
     public func waitUntilFargateProfileActive(
         _ input: DescribeFargateProfileRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFargateProfileRequest, _>(
@@ -3951,7 +3951,7 @@ extension EKS {
     @inlinable
     public func waitUntilFargateProfileDeleted(
         _ input: DescribeFargateProfileRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFargateProfileRequest, _>(
@@ -3991,7 +3991,7 @@ extension EKS {
     @inlinable
     public func waitUntilNodegroupActive(
         _ input: DescribeNodegroupRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeNodegroupRequest, _>(
@@ -4031,7 +4031,7 @@ extension EKS {
     @inlinable
     public func waitUntilNodegroupDeleted(
         _ input: DescribeNodegroupRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeNodegroupRequest, _>(

@@ -58,7 +58,7 @@ public struct DynamoDB: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -2910,7 +2910,7 @@ extension DynamoDB {
     @inlinable
     public func waitUntilContributorInsightsEnabled(
         _ input: DescribeContributorInsightsInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeContributorInsightsInput, _>(
@@ -2950,7 +2950,7 @@ extension DynamoDB {
     @inlinable
     public func waitUntilExportCompleted(
         _ input: DescribeExportInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeExportInput, _>(
@@ -2987,7 +2987,7 @@ extension DynamoDB {
     @inlinable
     public func waitUntilImportCompleted(
         _ input: DescribeImportInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImportInput, _>(
@@ -3025,7 +3025,7 @@ extension DynamoDB {
     @inlinable
     public func waitUntilKinesisStreamingDestinationActive(
         _ input: DescribeKinesisStreamingDestinationInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeKinesisStreamingDestinationInput, _>(
@@ -3062,7 +3062,7 @@ extension DynamoDB {
     @inlinable
     public func waitUntilTableExists(
         _ input: DescribeTableInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTableInput, _>(
@@ -3099,7 +3099,7 @@ extension DynamoDB {
     @inlinable
     public func waitUntilTableNotExists(
         _ input: DescribeTableInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTableInput, _>(

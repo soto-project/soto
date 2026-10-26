@@ -55,7 +55,7 @@ public struct AgentRegistryControl: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -787,7 +787,7 @@ extension AgentRegistryControl {
     @inlinable
     public func waitUntilRegistryReady(
         _ input: GetRegistryRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRegistryRequest, _>(
@@ -826,7 +826,7 @@ extension AgentRegistryControl {
     @inlinable
     public func waitUntilRegistryRecordApproved(
         _ input: GetRegistryRecordRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRegistryRecordRequest, _>(

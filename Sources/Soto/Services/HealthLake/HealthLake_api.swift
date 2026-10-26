@@ -55,7 +55,7 @@ public struct HealthLake: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1472,7 +1472,7 @@ extension HealthLake {
     @inlinable
     public func waitUntilDataTransformationJobCompleted(
         _ input: DescribeDataTransformationJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDataTransformationJobRequest, _>(
@@ -1511,7 +1511,7 @@ extension HealthLake {
     @inlinable
     public func waitUntilFHIRDatastoreActive(
         _ input: DescribeFHIRDatastoreRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFHIRDatastoreRequest, _>(
@@ -1549,7 +1549,7 @@ extension HealthLake {
     @inlinable
     public func waitUntilFHIRDatastoreDeleted(
         _ input: DescribeFHIRDatastoreRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFHIRDatastoreRequest, _>(
@@ -1585,7 +1585,7 @@ extension HealthLake {
     @inlinable
     public func waitUntilFHIRExportJobCompleted(
         _ input: DescribeFHIRExportJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFHIRExportJobRequest, _>(
@@ -1628,7 +1628,7 @@ extension HealthLake {
     @inlinable
     public func waitUntilFHIRImportJobCompleted(
         _ input: DescribeFHIRImportJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFHIRImportJobRequest, _>(

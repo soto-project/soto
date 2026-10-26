@@ -55,7 +55,7 @@ public struct LexModelsV2: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -6178,7 +6178,7 @@ extension LexModelsV2 {
     @inlinable
     public func waitUntilBotAliasAvailable(
         _ input: DescribeBotAliasRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeBotAliasRequest, _>(
@@ -6219,7 +6219,7 @@ extension LexModelsV2 {
     @inlinable
     public func waitUntilBotAvailable(
         _ input: DescribeBotRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeBotRequest, _>(
@@ -6258,7 +6258,7 @@ extension LexModelsV2 {
     @inlinable
     public func waitUntilBotExportCompleted(
         _ input: DescribeExportRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeExportRequest, _>(
@@ -6296,7 +6296,7 @@ extension LexModelsV2 {
     @inlinable
     public func waitUntilBotImportCompleted(
         _ input: DescribeImportRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImportRequest, _>(
@@ -6334,7 +6334,7 @@ extension LexModelsV2 {
     @inlinable
     public func waitUntilBotLocaleBuilt(
         _ input: DescribeBotLocaleRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeBotLocaleRequest, _>(
@@ -6379,7 +6379,7 @@ extension LexModelsV2 {
     @inlinable
     public func waitUntilBotLocaleCreated(
         _ input: DescribeBotLocaleRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeBotLocaleRequest, _>(
@@ -6425,7 +6425,7 @@ extension LexModelsV2 {
     @inlinable
     public func waitUntilBotLocaleExpressTestingAvailable(
         _ input: DescribeBotLocaleRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeBotLocaleRequest, _>(
@@ -6471,7 +6471,7 @@ extension LexModelsV2 {
     @inlinable
     public func waitUntilBotVersionAvailable(
         _ input: DescribeBotVersionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeBotVersionRequest, _>(

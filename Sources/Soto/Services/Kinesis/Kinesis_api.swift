@@ -55,7 +55,7 @@ public struct Kinesis: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1989,7 +1989,7 @@ extension Kinesis {
     @inlinable
     public func waitUntilChannelActive(
         _ input: DescribeChannelInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeChannelInput, _>(
@@ -2029,7 +2029,7 @@ extension Kinesis {
     @inlinable
     public func waitUntilStreamExists(
         _ input: DescribeStreamInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStreamInput, _>(
@@ -2077,7 +2077,7 @@ extension Kinesis {
     @inlinable
     public func waitUntilStreamNotExists(
         _ input: DescribeStreamInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStreamInput, _>(

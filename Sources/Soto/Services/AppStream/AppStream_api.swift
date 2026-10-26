@@ -55,7 +55,7 @@ public struct AppStream: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -3703,7 +3703,7 @@ extension AppStream {
     @inlinable
     public func waitUntilFleetStarted(
         _ input: DescribeFleetsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFleetsRequest, _>(
@@ -3744,7 +3744,7 @@ extension AppStream {
     @inlinable
     public func waitUntilFleetStopped(
         _ input: DescribeFleetsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFleetsRequest, _>(

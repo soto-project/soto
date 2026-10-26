@@ -55,7 +55,7 @@ public struct ElasticBeanstalk: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -2095,7 +2095,7 @@ extension ElasticBeanstalk {
     @inlinable
     public func waitUntilEnvironmentExists(
         _ input: DescribeEnvironmentsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeEnvironmentsMessage, _>(
@@ -2153,7 +2153,7 @@ extension ElasticBeanstalk {
     @inlinable
     public func waitUntilEnvironmentTerminated(
         _ input: DescribeEnvironmentsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeEnvironmentsMessage, _>(
@@ -2211,7 +2211,7 @@ extension ElasticBeanstalk {
     @inlinable
     public func waitUntilEnvironmentUpdated(
         _ input: DescribeEnvironmentsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeEnvironmentsMessage, _>(

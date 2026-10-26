@@ -55,7 +55,7 @@ public struct ElastiCache: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -4314,7 +4314,7 @@ extension ElastiCache {
     @inlinable
     public func waitUntilCacheClusterAvailable(
         _ input: DescribeCacheClustersMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeCacheClustersMessage, _>(
@@ -4366,7 +4366,7 @@ extension ElastiCache {
     @inlinable
     public func waitUntilCacheClusterDeleted(
         _ input: DescribeCacheClustersMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeCacheClustersMessage, _>(
@@ -4421,7 +4421,7 @@ extension ElastiCache {
     @inlinable
     public func waitUntilReplicationGroupAvailable(
         _ input: DescribeReplicationGroupsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeReplicationGroupsMessage, _>(
@@ -4464,7 +4464,7 @@ extension ElastiCache {
     @inlinable
     public func waitUntilReplicationGroupDeleted(
         _ input: DescribeReplicationGroupsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeReplicationGroupsMessage, _>(

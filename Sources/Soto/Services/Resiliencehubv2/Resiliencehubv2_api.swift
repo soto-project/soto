@@ -55,7 +55,7 @@ public struct Resiliencehubv2: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -4213,7 +4213,7 @@ extension Resiliencehubv2 {
     @inlinable
     public func waitUntilFailureModeAssessmentSuccess(
         _ input: ListFailureModeAssessmentsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<ListFailureModeAssessmentsRequest, _>(
@@ -4272,7 +4272,7 @@ extension Resiliencehubv2 {
     @inlinable
     public func waitUntilReportSucceeded(
         _ input: ListReportsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<ListReportsRequest, _>(
@@ -4322,7 +4322,7 @@ extension Resiliencehubv2 {
     @inlinable
     public func waitUntilServiceAssessmentCompleted(
         _ input: GetServiceRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetServiceRequest, _>(
@@ -4359,7 +4359,7 @@ extension Resiliencehubv2 {
     @inlinable
     public func waitUntilServiceResourceDiscoveryCompleted(
         _ input: GetServiceRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetServiceRequest, _>(

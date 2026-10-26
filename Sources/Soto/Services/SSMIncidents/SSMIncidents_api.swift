@@ -55,7 +55,7 @@ public struct SSMIncidents: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1604,7 +1604,7 @@ extension SSMIncidents {
     @inlinable
     public func waitUntilWaitForReplicationSetActive(
         _ input: GetReplicationSetInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetReplicationSetInput, _>(
@@ -1644,7 +1644,7 @@ extension SSMIncidents {
     @inlinable
     public func waitUntilWaitForReplicationSetDeleted(
         _ input: GetReplicationSetInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetReplicationSetInput, _>(

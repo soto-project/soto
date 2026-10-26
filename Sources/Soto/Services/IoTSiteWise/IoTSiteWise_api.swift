@@ -55,7 +55,7 @@ public struct IoTSiteWise: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -8632,7 +8632,7 @@ extension IoTSiteWise {
     @inlinable
     public func waitUntilAssetActive(
         _ input: DescribeAssetRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAssetRequest, _>(
@@ -8672,7 +8672,7 @@ extension IoTSiteWise {
     @inlinable
     public func waitUntilAssetModelActive(
         _ input: DescribeAssetModelRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAssetModelRequest, _>(
@@ -8715,7 +8715,7 @@ extension IoTSiteWise {
     @inlinable
     public func waitUntilAssetModelNotExists(
         _ input: DescribeAssetModelRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAssetModelRequest, _>(
@@ -8757,7 +8757,7 @@ extension IoTSiteWise {
     @inlinable
     public func waitUntilAssetNotExists(
         _ input: DescribeAssetRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAssetRequest, _>(
@@ -8796,7 +8796,7 @@ extension IoTSiteWise {
     @inlinable
     public func waitUntilPortalActive(
         _ input: DescribePortalRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribePortalRequest, _>(
@@ -8832,7 +8832,7 @@ extension IoTSiteWise {
     @inlinable
     public func waitUntilPortalNotExists(
         _ input: DescribePortalRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribePortalRequest, _>(

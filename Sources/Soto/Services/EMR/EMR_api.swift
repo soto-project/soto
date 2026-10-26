@@ -55,7 +55,7 @@ public struct EMR: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -3133,7 +3133,7 @@ extension EMR {
     @inlinable
     public func waitUntilClusterRunning(
         _ input: DescribeClusterInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClusterInput, _>(
@@ -3173,7 +3173,7 @@ extension EMR {
     @inlinable
     public func waitUntilClusterTerminated(
         _ input: DescribeClusterInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClusterInput, _>(
@@ -3210,7 +3210,7 @@ extension EMR {
     @inlinable
     public func waitUntilStepComplete(
         _ input: DescribeStepInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStepInput, _>(

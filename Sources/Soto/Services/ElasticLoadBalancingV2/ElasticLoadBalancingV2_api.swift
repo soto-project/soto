@@ -55,7 +55,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -2418,7 +2418,7 @@ extension ElasticLoadBalancingV2 {
     @inlinable
     public func waitUntilLoadBalancerAvailable(
         _ input: DescribeLoadBalancersInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeLoadBalancersInput, _>(
@@ -2465,7 +2465,7 @@ extension ElasticLoadBalancingV2 {
     @inlinable
     public func waitUntilLoadBalancerExists(
         _ input: DescribeLoadBalancersInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeLoadBalancersInput, _>(
@@ -2511,7 +2511,7 @@ extension ElasticLoadBalancingV2 {
     @inlinable
     public func waitUntilLoadBalancersDeleted(
         _ input: DescribeLoadBalancersInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeLoadBalancersInput, _>(
@@ -2557,7 +2557,7 @@ extension ElasticLoadBalancingV2 {
     @inlinable
     public func waitUntilTargetDeregistered(
         _ input: DescribeTargetHealthInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTargetHealthInput, _>(
@@ -2600,7 +2600,7 @@ extension ElasticLoadBalancingV2 {
     @inlinable
     public func waitUntilTargetInService(
         _ input: DescribeTargetHealthInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTargetHealthInput, _>(

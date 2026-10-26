@@ -55,7 +55,7 @@ public struct Transfer: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -3355,7 +3355,7 @@ extension Transfer {
     @inlinable
     public func waitUntilServerOffline(
         _ input: DescribeServerRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeServerRequest, _>(
@@ -3393,7 +3393,7 @@ extension Transfer {
     @inlinable
     public func waitUntilServerOnline(
         _ input: DescribeServerRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeServerRequest, _>(

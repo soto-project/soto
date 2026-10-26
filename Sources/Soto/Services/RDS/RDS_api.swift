@@ -55,7 +55,7 @@ public struct RDS: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -10365,7 +10365,7 @@ extension RDS {
     @inlinable
     public func waitUntilDBClusterAvailable(
         _ input: DescribeDBClustersMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDBClustersMessage, _>(
@@ -10419,7 +10419,7 @@ extension RDS {
     @inlinable
     public func waitUntilDBClusterDeleted(
         _ input: DescribeDBClustersMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDBClustersMessage, _>(
@@ -10473,7 +10473,7 @@ extension RDS {
     @inlinable
     public func waitUntilDBClusterSnapshotAvailable(
         _ input: DescribeDBClusterSnapshotsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDBClusterSnapshotsMessage, _>(
@@ -10539,7 +10539,7 @@ extension RDS {
     @inlinable
     public func waitUntilDBClusterSnapshotDeleted(
         _ input: DescribeDBClusterSnapshotsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDBClusterSnapshotsMessage, _>(
@@ -10605,7 +10605,7 @@ extension RDS {
     @inlinable
     public func waitUntilDBInstanceAvailable(
         _ input: DescribeDBInstancesMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDBInstancesMessage, _>(
@@ -10656,7 +10656,7 @@ extension RDS {
     @inlinable
     public func waitUntilDBInstanceDeleted(
         _ input: DescribeDBInstancesMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDBInstancesMessage, _>(
@@ -10707,7 +10707,7 @@ extension RDS {
     @inlinable
     public func waitUntilDBSnapshotAvailable(
         _ input: DescribeDBSnapshotsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDBSnapshotsMessage, _>(
@@ -10773,7 +10773,7 @@ extension RDS {
     @inlinable
     public func waitUntilDBSnapshotDeleted(
         _ input: DescribeDBSnapshotsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDBSnapshotsMessage, _>(
@@ -10839,7 +10839,7 @@ extension RDS {
     @inlinable
     public func waitUntilTenantDatabaseAvailable(
         _ input: DescribeTenantDatabasesMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTenantDatabasesMessage, _>(
@@ -10891,7 +10891,7 @@ extension RDS {
     @inlinable
     public func waitUntilTenantDatabaseDeleted(
         _ input: DescribeTenantDatabasesMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTenantDatabasesMessage, _>(

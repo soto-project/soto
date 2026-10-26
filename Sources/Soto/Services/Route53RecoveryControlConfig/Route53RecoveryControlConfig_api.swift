@@ -55,7 +55,7 @@ public struct Route53RecoveryControlConfig: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1157,7 +1157,7 @@ extension Route53RecoveryControlConfig {
     @inlinable
     public func waitUntilClusterCreated(
         _ input: DescribeClusterRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClusterRequest, _>(
@@ -1195,7 +1195,7 @@ extension Route53RecoveryControlConfig {
     @inlinable
     public func waitUntilClusterDeleted(
         _ input: DescribeClusterRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClusterRequest, _>(
@@ -1233,7 +1233,7 @@ extension Route53RecoveryControlConfig {
     @inlinable
     public func waitUntilControlPanelCreated(
         _ input: DescribeControlPanelRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeControlPanelRequest, _>(
@@ -1271,7 +1271,7 @@ extension Route53RecoveryControlConfig {
     @inlinable
     public func waitUntilControlPanelDeleted(
         _ input: DescribeControlPanelRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeControlPanelRequest, _>(
@@ -1309,7 +1309,7 @@ extension Route53RecoveryControlConfig {
     @inlinable
     public func waitUntilRoutingControlCreated(
         _ input: DescribeRoutingControlRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeRoutingControlRequest, _>(
@@ -1347,7 +1347,7 @@ extension Route53RecoveryControlConfig {
     @inlinable
     public func waitUntilRoutingControlDeleted(
         _ input: DescribeRoutingControlRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeRoutingControlRequest, _>(

@@ -55,7 +55,7 @@ public struct Amp: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1871,7 +1871,7 @@ extension Amp {
     @inlinable
     public func waitUntilAnomalyDetectorActive(
         _ input: DescribeAnomalyDetectorRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAnomalyDetectorRequest, _>(
@@ -1911,7 +1911,7 @@ extension Amp {
     @inlinable
     public func waitUntilAnomalyDetectorDeleted(
         _ input: DescribeAnomalyDetectorRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAnomalyDetectorRequest, _>(
@@ -1950,7 +1950,7 @@ extension Amp {
     @inlinable
     public func waitUntilScraperActive(
         _ input: DescribeScraperRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeScraperRequest, _>(
@@ -1986,7 +1986,7 @@ extension Amp {
     @inlinable
     public func waitUntilScraperDeleted(
         _ input: DescribeScraperRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeScraperRequest, _>(
@@ -2022,7 +2022,7 @@ extension Amp {
     @inlinable
     public func waitUntilWorkspaceActive(
         _ input: DescribeWorkspaceRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeWorkspaceRequest, _>(
@@ -2059,7 +2059,7 @@ extension Amp {
     @inlinable
     public func waitUntilWorkspaceDeleted(
         _ input: DescribeWorkspaceRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeWorkspaceRequest, _>(

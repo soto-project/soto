@@ -55,7 +55,7 @@ public struct ACM: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1814,7 +1814,7 @@ extension ACM {
     @inlinable
     public func waitUntilAcmeDomainValidationDeleted(
         _ input: DescribeAcmeDomainValidationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAcmeDomainValidationRequest, _>(
@@ -1852,7 +1852,7 @@ extension ACM {
     @inlinable
     public func waitUntilAcmeDomainValidationValidated(
         _ input: DescribeAcmeDomainValidationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAcmeDomainValidationRequest, _>(
@@ -1891,7 +1891,7 @@ extension ACM {
     @inlinable
     public func waitUntilAcmeEndpointActive(
         _ input: DescribeAcmeEndpointRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAcmeEndpointRequest, _>(
@@ -1930,7 +1930,7 @@ extension ACM {
     @inlinable
     public func waitUntilAcmeEndpointDeleted(
         _ input: DescribeAcmeEndpointRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeAcmeEndpointRequest, _>(
@@ -1968,7 +1968,7 @@ extension ACM {
     @inlinable
     public func waitUntilCertificateValidated(
         _ input: DescribeCertificateRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeCertificateRequest, _>(

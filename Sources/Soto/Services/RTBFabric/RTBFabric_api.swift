@@ -55,7 +55,7 @@ public struct RTBFabric: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1657,7 +1657,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilCertificateAssociated(
         _ input: GetCertificateAssociationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetCertificateAssociationRequest, _>(
@@ -1700,7 +1700,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilCertificateDisassociated(
         _ input: GetCertificateAssociationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetCertificateAssociationRequest, _>(
@@ -1742,7 +1742,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilInboundExternalLinkActive(
         _ input: GetInboundExternalLinkRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetInboundExternalLinkRequest, _>(
@@ -1785,7 +1785,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilInboundExternalLinkDeleted(
         _ input: GetInboundExternalLinkRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetInboundExternalLinkRequest, _>(
@@ -1826,7 +1826,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilLinkAccepted(
         _ input: GetLinkRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetLinkRequest, _>(
@@ -1868,7 +1868,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilLinkActive(
         _ input: GetLinkRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetLinkRequest, _>(
@@ -1910,7 +1910,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilLinkDeleted(
         _ input: GetLinkRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetLinkRequest, _>(
@@ -1951,7 +1951,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilLinkRoutingRuleActive(
         _ input: GetLinkRoutingRuleRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetLinkRoutingRuleRequest, _>(
@@ -1995,7 +1995,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilLinkRoutingRuleDeleted(
         _ input: GetLinkRoutingRuleRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetLinkRoutingRuleRequest, _>(
@@ -2039,7 +2039,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilOutboundExternalLinkActive(
         _ input: GetOutboundExternalLinkRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetOutboundExternalLinkRequest, _>(
@@ -2082,7 +2082,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilOutboundExternalLinkDeleted(
         _ input: GetOutboundExternalLinkRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetOutboundExternalLinkRequest, _>(
@@ -2123,7 +2123,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilRequesterGatewayActive(
         _ input: GetRequesterGatewayRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRequesterGatewayRequest, _>(
@@ -2162,7 +2162,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilRequesterGatewayDeleted(
         _ input: GetRequesterGatewayRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRequesterGatewayRequest, _>(
@@ -2201,7 +2201,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilResponderGatewayActive(
         _ input: GetResponderGatewayRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetResponderGatewayRequest, _>(
@@ -2240,7 +2240,7 @@ extension RTBFabric {
     @inlinable
     public func waitUntilResponderGatewayDeleted(
         _ input: GetResponderGatewayRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetResponderGatewayRequest, _>(
