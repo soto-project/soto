@@ -50,7 +50,7 @@ class EC2Tests: XCTestCase {
                 EC2.Filter(name: "state", values: ["available"]),
             ])
         )
-        _ = try await self.ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
+        _ = try await self.ec2.with(timeout: .seconds(120)).describeImages(imageRequest)
     }
 
     func testDescribeInstanceTypes() async throws {
@@ -77,7 +77,7 @@ class EC2Tests: XCTestCase {
                 EC2.Filter(name: "state", values: ["available"]),
             ])
         )
-        _ = try await ec2.with(timeout: .minutes(2)).describeImages(imageRequest)
+        _ = try await ec2.with(timeout: .seconds(120)).describeImages(imageRequest)
     }
 
     func testError() async throws {
