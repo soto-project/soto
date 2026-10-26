@@ -2627,7 +2627,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency in Amazon EC2 API requests in the Amazon EC2 API Reference.
-    ///   - copyImageTags: Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts   Default: Your user-defined AMI tags are not copied.
+    ///   - copyImageTags: Specifies whether to copy your user-defined AMI tags to the new AMI. The following tags are not be copied:   System tags (prefixed with aws:)   For public and shared AMIs, user-defined tags that are attached by other Amazon Web Services accounts, except tags with the ec2:SharedTag/ prefix. For more information about tag sharing, see Sharing tags in the Amazon EC2 User Guide.   Default: Your user-defined AMI tags are not copied.
     ///   - description: A description for the new AMI.
     ///   - destinationAvailabilityZone: The Local Zone for the new AMI (for example, cn-north-1-pkx-1a). Only one of DestinationAvailabilityZone, DestinationAvailabilityZoneId, or DestinationOutpostArn can be specified.
     ///   - destinationAvailabilityZoneId: The ID of the Local Zone for the new AMI (for example, cnn1-pkx1-az1). Only one of DestinationAvailabilityZone, DestinationAvailabilityZoneId, or DestinationOutpostArn can be specified.
@@ -10791,7 +10791,7 @@ public struct EC2: AWSService {
         return try await self.deleteTransitGatewayRoute(input, logger: logger)
     }
 
-    /// Deletes the specified transit gateway route table. If there are any route tables associated with the transit gateway route table, you must first run DisassociateRouteTable before you can delete the transit gateway route table. This removes any route tables associated with the transit gateway route table.
+    /// Deletes the specified transit gateway route table. Before you can delete a transit gateway route table, you must disassociate all attachments from it by using DisassociateTransitGatewayRouteTable and wait for the disassociations to complete. You can't delete a transit gateway route table that is the default association route table or default propagation route table for the transit gateway. To change the default route tables, use ModifyTransitGateway.
     @Sendable
     @inlinable
     public func deleteTransitGatewayRouteTable(_ input: DeleteTransitGatewayRouteTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTransitGatewayRouteTableResult {
@@ -10804,7 +10804,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified transit gateway route table. If there are any route tables associated with the transit gateway route table, you must first run DisassociateRouteTable before you can delete the transit gateway route table. This removes any route tables associated with the transit gateway route table.
+    /// Deletes the specified transit gateway route table. Before you can delete a transit gateway route table, you must disassociate all attachments from it by using DisassociateTransitGatewayRouteTable and wait for the disassociations to complete. You can't delete a transit gateway route table that is the default association route table or default propagation route table for the transit gateway. To change the default route tables, use ModifyTransitGateway.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -24794,6 +24794,38 @@ public struct EC2: AWSService {
         return try await self.getSubnetCidrReservations(input, logger: logger)
     }
 
+    /// Describes the NAT configuration for the specified transit gateway attachment. Only the owner of the transit gateway can describe the NAT configuration.
+    @Sendable
+    @inlinable
+    public func getTransitGatewayAttachmentNatConfiguration(_ input: GetTransitGatewayAttachmentNatConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTransitGatewayAttachmentNatConfigurationResult {
+        try await self.client.execute(
+            operation: "GetTransitGatewayAttachmentNatConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the NAT configuration for the specified transit gateway attachment. Only the owner of the transit gateway can describe the NAT configuration.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - transitGatewayAttachmentId: The ID of the transit gateway attachment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTransitGatewayAttachmentNatConfiguration(
+        dryRun: Bool? = nil,
+        transitGatewayAttachmentId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTransitGatewayAttachmentNatConfigurationResult {
+        let input = GetTransitGatewayAttachmentNatConfigurationRequest(
+            dryRun: dryRun, 
+            transitGatewayAttachmentId: transitGatewayAttachmentId
+        )
+        return try await self.getTransitGatewayAttachmentNatConfiguration(input, logger: logger)
+    }
+
     /// Lists the route tables to which the specified resource attachment propagates routes.
     @Sendable
     @inlinable
@@ -26181,7 +26213,7 @@ public struct EC2: AWSService {
     ///   - clientVpnEndpointId: The ID of the Client VPN endpoint to modify.
     ///   - connectionLogOptions: Information about the client connection logging options. If you enable client connection logging, data about client connections is sent to a
     ///   - description: A brief description of the Client VPN endpoint.
-    ///   - devicePostureOptions: The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To remove all device trust providers, specify an empty list.
+    ///   - devicePostureOptions: The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To disable device posture and remove all device trust providers, specify false for Enabled.
     ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
     ///   - dnsServers: Information about the DNS servers to be used by Client VPN connections. A Client VPN endpoint can have
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -28405,6 +28437,50 @@ public struct EC2: AWSService {
             transitGatewayId: transitGatewayId
         )
         return try await self.modifyTransitGateway(input, logger: logger)
+    }
+
+    /// Modifies the NAT configuration for the specified transit gateway attachment. Use this operation to do the following:   Enable or disable NAT gateway support for the attachment.   Specify whether the transit gateway installs routes for the NAT CIDRs.   Replace the NAT gateway rules for the attachment.   Only the owner of the transit gateway can modify the NAT configuration. With NAT gateway support enabled, the transit gateway translates addresses in each rule's MatchSourceCidr range  to the corresponding addresses in its NatCidr range. The transit gateway applies changes asynchronously. To check the result, use GetTransitGatewayAttachmentNatConfiguration.
+    @Sendable
+    @inlinable
+    public func modifyTransitGatewayAttachmentNatConfiguration(_ input: ModifyTransitGatewayAttachmentNatConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyTransitGatewayAttachmentNatConfigurationResult {
+        try await self.client.execute(
+            operation: "ModifyTransitGatewayAttachmentNatConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the NAT configuration for the specified transit gateway attachment. Use this operation to do the following:   Enable or disable NAT gateway support for the attachment.   Specify whether the transit gateway installs routes for the NAT CIDRs.   Replace the NAT gateway rules for the attachment.   Only the owner of the transit gateway can modify the NAT configuration. With NAT gateway support enabled, the transit gateway translates addresses in each rule's MatchSourceCidr range  to the corresponding addresses in its NatCidr range. The transit gateway applies changes asynchronously. To check the result, use GetTransitGatewayAttachmentNatConfiguration.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - natGatewayRules: The NAT gateway rules for the attachment. The rules that you specify replace all existing NAT gateway rules for the attachment.  You can specify up to 50 rules for an attachment. If you omit this parameter, the existing rules don't change.  To remove all rules, use ResetNatGatewayRules.
+    ///   - natGatewaySupport: Specifies whether to enable or disable NAT gateway support for the attachment. To enable NAT gateway support, the attachment  must have at least one NAT gateway rule. You can't modify the NAT configuration while NAT gateway support is enabling  or disabling. If you omit this parameter, the current value doesn't change.
+    ///   - natSystemRouteSupport: Specifies whether the transit gateway installs routes for the NAT CIDRs in the route tables to which the attachment  propagates. For VPC attachments, the transit gateway always installs these routes. You can enable or disable this option only for  Amazon Web Services Direct Connect gateway attachments and Site-to-Site VPN attachments that use dynamic routing. For these  attachments, the default is enable. If you omit this parameter, the current value doesn't change.
+    ///   - resetNatGatewayRules: Specifies whether to remove all NAT gateway rules from the attachment. If you omit this parameter, the transit gateway doesn't  remove any rules. You can't specify this parameter together with NatGatewayRules. Because you can't enable  NAT gateway support without rules, also set NatGatewaySupport to disable in the same request  if NAT gateway support is currently enabled.
+    ///   - transitGatewayAttachmentId: The ID of the transit gateway attachment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyTransitGatewayAttachmentNatConfiguration(
+        dryRun: Bool? = nil,
+        natGatewayRules: [TransitGatewayNatRuleRequest]? = nil,
+        natGatewaySupport: TransitGatewayAttachmentNatGatewaySupportValue? = nil,
+        natSystemRouteSupport: TransitGatewayAttachmentNatSystemRouteSupportValue? = nil,
+        resetNatGatewayRules: Bool? = nil,
+        transitGatewayAttachmentId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyTransitGatewayAttachmentNatConfigurationResult {
+        let input = ModifyTransitGatewayAttachmentNatConfigurationRequest(
+            dryRun: dryRun, 
+            natGatewayRules: natGatewayRules, 
+            natGatewaySupport: natGatewaySupport, 
+            natSystemRouteSupport: natSystemRouteSupport, 
+            resetNatGatewayRules: resetNatGatewayRules, 
+            transitGatewayAttachmentId: transitGatewayAttachmentId
+        )
+        return try await self.modifyTransitGatewayAttachmentNatConfiguration(input, logger: logger)
     }
 
     /// Modifies a transit gateway metering policy.

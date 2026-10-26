@@ -360,18 +360,21 @@ public struct EMRServerless: AWSService {
     /// Returns a URL that you can use to access the application UIs for a specified resource, such as a session. For resources in a running state, the application UI is a live user interface such as the Spark web UI. For terminated resources, the application UI is a persistent application user interface such as the Spark History Server.  The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
     ///
     /// Parameters:
+    ///   - accessSystemProfileLogs: Allows access to system profile logs for Lake Formation-enabled sessions. Default is false.
     ///   - applicationId: The ID of the application that the resource belongs to.
     ///   - resourceId: The ID of the resource.
     ///   - resourceType: The type of resource to access the dashboard for. Currently, only Session is supported.
     ///   - logger: Logger use during operation
     @inlinable
     public func getResourceDashboard(
+        accessSystemProfileLogs: Bool? = nil,
         applicationId: String,
         resourceId: String,
         resourceType: ResourceType,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetResourceDashboardResponse {
         let input = GetResourceDashboardRequest(
+            accessSystemProfileLogs: accessSystemProfileLogs, 
             applicationId: applicationId, 
             resourceId: resourceId, 
             resourceType: resourceType
@@ -686,7 +689,7 @@ public struct EMRServerless: AWSService {
     ///   - configurationOverrides: The configuration overrides for the job run.
     ///   - executionIamPolicy: You can pass an optional IAM policy. The resulting job IAM role permissions will be an intersection of this policy and the policy associated with your job execution role.
     ///   - executionRoleArn: The execution role ARN for the job run.
-    ///   - executionTimeoutMinutes: The maximum duration for the job run to run. If the job run runs beyond this duration, it will be automatically cancelled.
+    ///   - executionTimeoutMinutes: The maximum duration, in minutes, for the job run. If the job run exceeds this duration, Amazon EMR Serverless cancels it automatically. For BATCH mode job runs, the maximum value is 10080 minutes (7 days) starting with Amazon EMR release 7.11. Setting a value of 0 to disable the timeout is no longer supported for BATCH mode job runs.
     ///   - jobDriver: The job driver for the job run.
     ///   - mode: The mode of the job run when it starts.
     ///   - name: The optional job run name. This doesn't have to be unique.

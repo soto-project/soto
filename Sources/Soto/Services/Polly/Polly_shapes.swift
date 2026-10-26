@@ -144,6 +144,7 @@ extension Polly {
         case amy = "Amy"
         case andres = "Andres"
         case aria = "Aria"
+        case arjun = "Arjun"
         case arlet = "Arlet"
         case arthur = "Arthur"
         case astrid = "Astrid"
@@ -154,11 +155,14 @@ extension Polly {
         case burcu = "Burcu"
         case camila = "Camila"
         case carla = "Carla"
+        case carlos = "Carlos"
         case carmen = "Carmen"
+        case carolina = "Carolina"
         case celine = "Celine"
         case chantal = "Chantal"
         case conchita = "Conchita"
         case cristiano = "Cristiano"
+        case curtis = "Curtis"
         case daniel = "Daniel"
         case danielle = "Danielle"
         case dora = "Dora"
@@ -177,6 +181,7 @@ extension Polly {
         case hannah = "Hannah"
         case hans = "Hans"
         case hiujin = "Hiujin"
+        case hyunduk = "Hyunduk"
         case ida = "Ida"
         case ines = "Ines"
         case isabelle = "Isabelle"
@@ -193,11 +198,14 @@ extension Polly {
         case karl = "Karl"
         case kazuha = "Kazuha"
         case kendra = "Kendra"
+        case kenneth = "Kenneth"
         case kevin = "Kevin"
+        case kiara = "Kiara"
         case kimberly = "Kimberly"
         case laura = "Laura"
         case lea = "Lea"
         case lennart = "Lennart"
+        case leo = "Leo"
         case liam = "Liam"
         case lisa = "Lisa"
         case liv = "Liv"
@@ -215,6 +223,7 @@ extension Polly {
         case miguel = "Miguel"
         case mizuki = "Mizuki"
         case naja = "Naja"
+        case nate = "Nate"
         case niamh = "Niamh"
         case nicole = "Nicole"
         case ola = "Ola"
@@ -238,6 +247,7 @@ extension Polly {
         case tatyana = "Tatyana"
         case thiago = "Thiago"
         case tiffany = "Tiffany"
+        case tina = "Tina"
         case tomoko = "Tomoko"
         case vicki = "Vicki"
         case vitoria = "Vitoria"
@@ -533,7 +543,7 @@ extension Polly {
     }
 
     public struct LexiconAttributes: AWSDecodableShape {
-        /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
+        /// Phonetic alphabet used in the lexicon. Valid values are ipa, x-sampa, x-amazon-pinyin, x-amazon-jyutping, x-amazon-pron-kana, and x-amazon-yomigana.
         public let alphabet: String?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
         public let languageCode: LanguageCode?
@@ -856,7 +866,7 @@ extension Polly {
             try self.validate(self.lexiconNames, name: "lexiconNames", parent: name, max: 5)
             try self.validate(self.outputS3BucketName, name: "outputS3BucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
             try self.validate(self.outputS3KeyPrefix, name: "outputS3KeyPrefix", parent: name, pattern: "^[0-9a-zA-Z\\/\\!\\-_\\.\\*\\'\\(\\):;\\$@=+\\,\\?&]{0,800}$")
-            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,251}([a-zA-Z0-9_-]{0,5}|\\.fifo)$")
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^arn:aws(-(cn|iso(-b)?|us-gov|eusc))?:sns:[a-z0-9_-]{1,50}:\\d{12}:[a-zA-Z0-9_-]{1,251}([a-zA-Z0-9_-]{0,5}|\\.fifo)$")
             try self.validate(self.speechMarkTypes, name: "speechMarkTypes", parent: name, max: 4)
         }
 
@@ -1281,7 +1291,7 @@ public struct PollyErrorType: AWSErrorType {
     public static var textLengthExceededException: Self { .init(.textLengthExceededException) }
     /// The request was denied because of request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The alphabet specified by the lexicon is not a supported alphabet. Valid values are x-sampa and ipa.
+    /// The alphabet specified by the lexicon is not a supported alphabet. Valid values are ipa, x-sampa, x-amazon-pinyin, x-amazon-jyutping, x-amazon-pron-kana, and x-amazon-yomigana. Replace the unsupported alphabet with one of the valid values and resubmit your request.
     public static var unsupportedPlsAlphabetException: Self { .init(.unsupportedPlsAlphabetException) }
     /// The language specified in the lexicon is unsupported. For a list of supported languages, see Lexicon Attributes.
     public static var unsupportedPlsLanguageException: Self { .init(.unsupportedPlsLanguageException) }

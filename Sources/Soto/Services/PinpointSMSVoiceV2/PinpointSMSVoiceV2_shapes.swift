@@ -364,6 +364,8 @@ extension PinpointSMSVoiceV2 {
         case landline = "LANDLINE"
         case mobile = "MOBILE"
         case other = "OTHER"
+        case prepaid = "PREPAID"
+        case voip = "VOIP"
         public var description: String { return self.rawValue }
     }
 
@@ -1064,11 +1066,14 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct CarrierLookupRequest: AWSEncodableShape {
+        /// Specifies whether the service cleanses the phone number that you provide. When set to true, the service normalizes the phone number according to the destination country's national numbering plan and dialing rules. The service returns the cleansed number in E.164 format in the E164PhoneNumber field and returns the number that you provided in the OriginalPhoneNumber field.
+        public let enableCleansing: Bool?
         /// The phone number that you want to retrieve information about. You can provide the phone number in various formats including special characters such as parentheses, brackets, spaces, hyphens, periods, and commas. The service automatically converts the input to E164 format for processing.
         public let phoneNumber: String
 
         @inlinable
-        public init(phoneNumber: String) {
+        public init(enableCleansing: Bool? = nil, phoneNumber: String) {
+            self.enableCleansing = enableCleansing
             self.phoneNumber = phoneNumber
         }
 
@@ -1079,6 +1084,7 @@ extension PinpointSMSVoiceV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableCleansing = "EnableCleansing"
             case phoneNumber = "PhoneNumber"
         }
     }
@@ -1098,11 +1104,13 @@ extension PinpointSMSVoiceV2 {
         public let mcc: String?
         /// The phone number's mobile network code, for mobile phone number types.
         public let mnc: String?
-        /// Describes the type of phone number. Valid values are: MOBILE, LANDLINE, OTHER, and INVALID. Avoid sending SMS or voice messages to INVALID phone numbers, as these numbers are unlikely to belong to actual recipients.
+        /// The phone number exactly as you supplied it in the request. This field is returned only when you set EnableCleansing to true, the phone number was cleansed, and a normalized E.164 phone number was returned in the E164PhoneNumber field.
+        public let originalPhoneNumber: String?
+        /// Describes the type of phone number. Valid values are: MOBILE, LANDLINE, VOIP, PREPAID, OTHER, and INVALID. Avoid sending SMS or voice messages to INVALID phone numbers, as these numbers are unlikely to belong to actual recipients.
         public let phoneNumberType: PhoneNumberType
 
         @inlinable
-        public init(carrier: String? = nil, country: String? = nil, dialingCountryCode: String? = nil, e164PhoneNumber: String, isoCountryCode: String? = nil, mcc: String? = nil, mnc: String? = nil, phoneNumberType: PhoneNumberType) {
+        public init(carrier: String? = nil, country: String? = nil, dialingCountryCode: String? = nil, e164PhoneNumber: String, isoCountryCode: String? = nil, mcc: String? = nil, mnc: String? = nil, originalPhoneNumber: String? = nil, phoneNumberType: PhoneNumberType) {
             self.carrier = carrier
             self.country = country
             self.dialingCountryCode = dialingCountryCode
@@ -1110,6 +1118,7 @@ extension PinpointSMSVoiceV2 {
             self.isoCountryCode = isoCountryCode
             self.mcc = mcc
             self.mnc = mnc
+            self.originalPhoneNumber = originalPhoneNumber
             self.phoneNumberType = phoneNumberType
         }
 
@@ -1121,6 +1130,7 @@ extension PinpointSMSVoiceV2 {
             case isoCountryCode = "IsoCountryCode"
             case mcc = "MCC"
             case mnc = "MNC"
+            case originalPhoneNumber = "OriginalPhoneNumber"
             case phoneNumberType = "PhoneNumberType"
         }
     }
@@ -5350,8 +5360,7 @@ extension PinpointSMSVoiceV2 {
         public let nextToken: String?
         /// The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned.
         public let numberCapabilities: [NumberCapability]
-        /// Optional. If omitted, returns unfiltered available numbers.
-        /// Max 1 element for List API.
+        /// An optional selection preference used to return only phone numbers that match a specific digit pattern, such as numbers that start with, end with, or contain a particular sequence. You can specify at most one preference. Number preferences apply only to TEN_DLC numbers in the US.
         public let numberPreference: [NumberPreferenceItem]?
         /// The type of phone number to search for.
         public let numberType: SearchableNumberType
@@ -6142,6 +6151,8 @@ extension PinpointSMSVoiceV2 {
         public let phoneNumberId: String?
         /// The unique identifier of the pool associated with the phone number.
         public let poolId: String?
+        /// The pricing model.
+        public let pricingTier: String?
         /// The unique identifier for the registration.
         public let registrationId: String?
         /// When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out request. For more information see Self-managed opt-outs
@@ -6156,7 +6167,7 @@ extension PinpointSMSVoiceV2 {
         public let twoWayEnabled: Bool
 
         @inlinable
-        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, internationalSendingEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, messagingLimits: MessagingLimits? = nil, monthlyLeasingPrice: String, numberCapabilities: [NumberCapability], numberType: NumberType, optOutListName: String, phoneNumber: String, phoneNumberArn: String, phoneNumberId: String? = nil, poolId: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool, status: NumberStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool) {
+        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, internationalSendingEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, messagingLimits: MessagingLimits? = nil, monthlyLeasingPrice: String, numberCapabilities: [NumberCapability], numberType: NumberType, optOutListName: String, phoneNumber: String, phoneNumberArn: String, phoneNumberId: String? = nil, poolId: String? = nil, pricingTier: String? = nil, registrationId: String? = nil, selfManagedOptOutsEnabled: Bool, status: NumberStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.internationalSendingEnabled = internationalSendingEnabled
@@ -6171,6 +6182,7 @@ extension PinpointSMSVoiceV2 {
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
             self.poolId = poolId
+            self.pricingTier = pricingTier
             self.registrationId = registrationId
             self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
             self.status = status
@@ -6194,6 +6206,7 @@ extension PinpointSMSVoiceV2 {
             case phoneNumberArn = "PhoneNumberArn"
             case phoneNumberId = "PhoneNumberId"
             case poolId = "PoolId"
+            case pricingTier = "PricingTier"
             case registrationId = "RegistrationId"
             case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
             case status = "Status"
@@ -9301,6 +9314,8 @@ extension PinpointSMSVoiceV2 {
         public let messagingLimits: MessagingLimits?
         /// The monthly leasing price, in US dollars.
         public let monthlyLeasingPrice: String
+        /// The pricing model.
+        public let pricingTier: String?
         /// True if the sender ID is registered.
         public let registered: Bool
         /// The unique identifier for the registration.
@@ -9311,12 +9326,13 @@ extension PinpointSMSVoiceV2 {
         public let senderIdArn: String
 
         @inlinable
-        public init(deletionProtectionEnabled: Bool, isoCountryCode: String, messageTypes: [MessageType], messagingLimits: MessagingLimits? = nil, monthlyLeasingPrice: String, registered: Bool, registrationId: String? = nil, senderId: String, senderIdArn: String) {
+        public init(deletionProtectionEnabled: Bool, isoCountryCode: String, messageTypes: [MessageType], messagingLimits: MessagingLimits? = nil, monthlyLeasingPrice: String, pricingTier: String? = nil, registered: Bool, registrationId: String? = nil, senderId: String, senderIdArn: String) {
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
             self.messageTypes = messageTypes
             self.messagingLimits = messagingLimits
             self.monthlyLeasingPrice = monthlyLeasingPrice
+            self.pricingTier = pricingTier
             self.registered = registered
             self.registrationId = registrationId
             self.senderId = senderId
@@ -9329,6 +9345,7 @@ extension PinpointSMSVoiceV2 {
             case messageTypes = "MessageTypes"
             case messagingLimits = "MessagingLimits"
             case monthlyLeasingPrice = "MonthlyLeasingPrice"
+            case pricingTier = "PricingTier"
             case registered = "Registered"
             case registrationId = "RegistrationId"
             case senderId = "SenderId"

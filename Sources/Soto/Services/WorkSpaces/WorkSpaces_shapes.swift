@@ -309,6 +309,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageValidationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customerManaged = "CUSTOMER_MANAGED"
+        case serviceManaged = "SERVICE_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InternetFallbackProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pcoip = "PCOIP"
         public var description: String { return self.rawValue }
@@ -4121,6 +4127,8 @@ extension WorkSpaces {
         public let imageName: String
         /// The options for image import source.
         public let imageSource: ImageSourceIdentifier
+        /// The image validation mode for the WorkSpace image import.
+        public let imageValidationMode: ImageValidationMode?
         /// The infrastructure configuration ARN that specifies how the WorkSpace image is built.
         public let infrastructureConfigurationArn: String
         /// The OS version for the WorkSpace image source.
@@ -4133,11 +4141,12 @@ extension WorkSpaces {
         public let tags: [Tag]?
 
         @inlinable
-        public init(computeType: ImageComputeType, imageDescription: String, imageName: String, imageSource: ImageSourceIdentifier, infrastructureConfigurationArn: String, osVersion: OSVersion, platform: Platform, protocol: CustomImageProtocol, tags: [Tag]? = nil) {
+        public init(computeType: ImageComputeType, imageDescription: String, imageName: String, imageSource: ImageSourceIdentifier, imageValidationMode: ImageValidationMode? = nil, infrastructureConfigurationArn: String, osVersion: OSVersion, platform: Platform, protocol: CustomImageProtocol, tags: [Tag]? = nil) {
             self.computeType = computeType
             self.imageDescription = imageDescription
             self.imageName = imageName
             self.imageSource = imageSource
+            self.imageValidationMode = imageValidationMode
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
             self.osVersion = osVersion
             self.platform = platform
@@ -4166,6 +4175,7 @@ extension WorkSpaces {
             case imageDescription = "ImageDescription"
             case imageName = "ImageName"
             case imageSource = "ImageSource"
+            case imageValidationMode = "ImageValidationMode"
             case infrastructureConfigurationArn = "InfrastructureConfigurationArn"
             case osVersion = "OsVersion"
             case platform = "Platform"

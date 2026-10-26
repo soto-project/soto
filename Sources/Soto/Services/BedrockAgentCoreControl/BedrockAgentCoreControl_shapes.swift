@@ -134,6 +134,12 @@ extension BedrockAgentCoreControl {
         public var description: String { return self.rawValue }
     }
 
+    public enum CircuitBreakerMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClaimMatchOperatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CONTAINS"
         case containsAny = "CONTAINS_ANY"
@@ -358,6 +364,20 @@ extension BedrockAgentCoreControl {
         public var description: String { return self.rawValue }
     }
 
+    public enum FallbackError: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The gateway could not establish a connection to the destination (connection refused/reset,
+        /// or connection timeout) — the attempt never reached the provider. Feeds the circuit breaker.
+        case connectionError = "CONNECTION_ERROR"
+        /// The destination accepted the connection but did not return the first response byte within
+        /// firstByteTimeoutMilliseconds; the attempt is abandoned before any byte reaches the client.
+        /// Feeds the circuit breaker.
+        case firstByteTimeout = "FIRST_BYTE_TIMEOUT"
+        /// Gateway-side: the target could not be routed to (target missing, or it does not support the
+        /// request's API path). Deterministic — advances the chain but does NOT feed the breaker.
+        case unroutable = "UNROUTABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "Contains"
         case equals = "Equals"
@@ -522,6 +542,12 @@ extension BedrockAgentCoreControl {
     public enum ListingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "DEFAULT"
         case dynamic = "DYNAMIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MatchOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case stringEquals = "StringEquals"
+        case stringLike = "StringLike"
         public var description: String { return self.rawValue }
     }
 
@@ -737,6 +763,11 @@ extension BedrockAgentCoreControl {
         case aws = "AWS"
         case custom = "Custom"
         case deepEval = "DeepEval"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordExpiryAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case remove = "REMOVE"
         public var description: String { return self.rawValue }
     }
 
@@ -1061,6 +1092,56 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public enum CertificateConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Amazon S3 location of the PEM-encoded private CA certificate.
+        case s3(S3CertificateConfiguration)
+        /// The Amazon Web Services Secrets Manager location of the PEM-encoded private CA certificate.
+        case secretsManager(SecretsManagerCertificateConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .s3:
+                let value = try container.decode(S3CertificateConfiguration.self, forKey: .s3)
+                self = .s3(value)
+            case .secretsManager:
+                let value = try container.decode(SecretsManagerCertificateConfiguration.self, forKey: .secretsManager)
+                self = .secretsManager(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .s3(let value):
+                try container.encode(value, forKey: .s3)
+            case .secretsManager(let value):
+                try container.encode(value, forKey: .secretsManager)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .s3(let value):
+                try value.validate(name: "\(name).s3")
+            case .secretsManager(let value):
+                try value.validate(name: "\(name).secretsManager")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+            case secretsManager = "secretsManager"
+        }
+    }
+
     public enum ClaimMatchValueType: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The string value to match for.
         case matchValueString(String)
@@ -1119,6 +1200,8 @@ extension BedrockAgentCoreControl {
     }
 
     public enum Condition: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A condition that matches on the model requested in an inference request.
+        case matchModels(MatchModels)
         /// A condition that matches on the request path.
         case matchPaths(MatchPaths)
         /// A condition that matches on the identity of the caller making the request.
@@ -1134,6 +1217,9 @@ extension BedrockAgentCoreControl {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .matchModels:
+                let value = try container.decode(MatchModels.self, forKey: .matchModels)
+                self = .matchModels(value)
             case .matchPaths:
                 let value = try container.decode(MatchPaths.self, forKey: .matchPaths)
                 self = .matchPaths(value)
@@ -1146,6 +1232,8 @@ extension BedrockAgentCoreControl {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .matchModels(let value):
+                try container.encode(value, forKey: .matchModels)
             case .matchPaths(let value):
                 try container.encode(value, forKey: .matchPaths)
             case .matchPrincipals(let value):
@@ -1155,6 +1243,8 @@ extension BedrockAgentCoreControl {
 
         public func validate(name: String) throws {
             switch self {
+            case .matchModels(let value):
+                try value.validate(name: "\(name).matchModels")
             case .matchPaths(let value):
                 try value.validate(name: "\(name).matchPaths")
             case .matchPrincipals(let value):
@@ -1163,6 +1253,7 @@ extension BedrockAgentCoreControl {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case matchModels = "matchModels"
             case matchPaths = "matchPaths"
             case matchPrincipals = "matchPrincipals"
         }
@@ -1574,6 +1665,47 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public enum DimensionRatingScale: AWSEncodableShape & AWSDecodableShape, Sendable {
+        ///  The categorical rating scale with named categories and definitions for qualitative evaluation of the dimension.
+        case categorical([CategoricalScaleDefinition])
+        ///  The numerical rating scale with defined score values and descriptions for quantitative evaluation of the dimension.
+        case numerical([NumericalScaleDefinition])
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .categorical:
+                let value = try container.decode([CategoricalScaleDefinition].self, forKey: .categorical)
+                self = .categorical(value)
+            case .numerical:
+                let value = try container.decode([NumericalScaleDefinition].self, forKey: .numerical)
+                self = .numerical(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .categorical(let value):
+                try container.encode(value, forKey: .categorical)
+            case .numerical(let value):
+                try container.encode(value, forKey: .numerical)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categorical = "categorical"
+            case numerical = "numerical"
+        }
+    }
+
     public enum EvaluatorConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
         ///  Configuration for a code-based evaluator that uses a customer-managed Lambda function to programmatically assess agent performance.
         case codeBased(CodeBasedEvaluatorConfig)
@@ -1808,7 +1940,7 @@ extension BedrockAgentCoreControl {
         case awsIam
         /// No authentication.
         case none
-        /// Use OAuth credentials for outbound authentication to the gateway.
+        /// Use OAuth credentials for outbound authentication to the gateway. The AUTHORIZATION_CODE grant type is not supported for outbound authentication from a harness to an AgentCore Gateway, even when defaultReturnUrl is specified.
         case oauth(OAuthCredentialProvider)
 
         public init(from decoder: Decoder) throws {
@@ -1932,7 +2064,7 @@ extension BedrockAgentCoreControl {
     public enum HarnessHookTarget: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// An Amazon EventBridge hook target that sends the hook event without waiting for a response.
         case eventBridge(HarnessHookEventBridgeTarget)
-        /// A Lambda hook target that invokes an AWS Lambda function synchronously and waits for its response.
+        /// A Lambda hook target that invokes an Amazon Web Services Lambda function synchronously and waits for its response.
         case lambda(HarnessHookLambdaTarget)
         /// An Amazon SNS hook target that publishes the hook event without waiting for a response.
         case sns(HarnessHookSnsTarget)
@@ -2120,7 +2252,7 @@ extension BedrockAgentCoreControl {
     }
 
     public enum HarnessSkill: AWSEncodableShape & AWSDecodableShape, Sendable {
-        /// AWS Skills baked into the harness's underlying Runtime.
+        /// Amazon Web Services Skills baked into the harness's underlying Runtime.
         case awsSkills(HarnessSkillAwsSkillsSource)
         /// A git repository containing the skill.
         case git(HarnessSkillGitSource)
@@ -3022,6 +3154,8 @@ extension BedrockAgentCoreControl {
     public enum RatingScale: AWSEncodableShape & AWSDecodableShape, Sendable {
         ///  The categorical rating scale with named categories and definitions for qualitative evaluation.
         case categorical([CategoricalScaleDefinition])
+        ///  A list of dimensions that lets an LLM-as-a-judge evaluator score several dimensions of the same target in a single evaluation. Each dimension has its own instruction and rating scale, and produces its own result.
+        case multiDimensional([EvaluationDimension])
         ///  The numerical rating scale with defined score values and descriptions for quantitative evaluation.
         case numerical([NumericalScaleDefinition])
 
@@ -3038,6 +3172,9 @@ extension BedrockAgentCoreControl {
             case .categorical:
                 let value = try container.decode([CategoricalScaleDefinition].self, forKey: .categorical)
                 self = .categorical(value)
+            case .multiDimensional:
+                let value = try container.decode([EvaluationDimension].self, forKey: .multiDimensional)
+                self = .multiDimensional(value)
             case .numerical:
                 let value = try container.decode([NumericalScaleDefinition].self, forKey: .numerical)
                 self = .numerical(value)
@@ -3049,14 +3186,61 @@ extension BedrockAgentCoreControl {
             switch self {
             case .categorical(let value):
                 try container.encode(value, forKey: .categorical)
+            case .multiDimensional(let value):
+                try container.encode(value, forKey: .multiDimensional)
             case .numerical(let value):
                 try container.encode(value, forKey: .numerical)
             }
         }
 
+        public func validate(name: String) throws {
+            switch self {
+            case .multiDimensional(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).multiDimensional[]")
+                }
+                try self.validate(value, name: "multiDimensional", parent: name, max: 50)
+                try self.validate(value, name: "multiDimensional", parent: name, min: 1)
+            default:
+                break
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case categorical = "categorical"
+            case multiDimensional = "multiDimensional"
             case numerical = "numerical"
+        }
+    }
+
+    public enum RecordExpirySpecification: AWSEncodableShape, Sendable {
+        /// The action to apply to the existing record expiry (long-term memory time-to-live) configuration. Set to REMOVE to remove a previously configured time-to-live so that newer records no longer expire. This value is not applicable on create paths.
+        case action(RecordExpiryAction)
+        /// The duration, in days, after which memory records generated by this strategy expire. The minimum is 31 days.
+        case recordExpiryDurationDays(Int)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .action(let value):
+                try container.encode(value, forKey: .action)
+            case .recordExpiryDurationDays(let value):
+                try container.encode(value, forKey: .recordExpiryDurationDays)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .recordExpiryDurationDays(let value):
+                try self.validate(value, name: "recordExpiryDurationDays", parent: name, min: 31)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case recordExpiryDurationDays = "recordExpiryDurationDays"
         }
     }
 
@@ -4029,9 +4213,9 @@ extension BedrockAgentCoreControl {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.dimensionKeys.forEach {
-                try validate($0, name: "dimensionKeys[]", parent: name, max: 80)
+                try validate($0, name: "dimensionKeys[]", parent: name, max: 128)
                 try validate($0, name: "dimensionKeys[]", parent: name, min: 1)
-                try validate($0, name: "dimensionKeys[]", parent: name, pattern: "^(targetName|toolName|qualifiedModelId|\\$\\.context\\.iam\\.principal|\\$\\.context\\.iam\\.sourceIdentity|\\$\\.context\\.jwt\\.[a-zA-Z_][a-zA-Z0-9_\\-\\.]{0,61}[a-zA-Z0-9_])$")
+                try validate($0, name: "dimensionKeys[]", parent: name, pattern: "^(targetName|toolName|qualifiedModelId|\\$\\.context\\.iam\\.principal|\\$\\.context\\.iam\\.sourceIdentity|\\$\\.context\\.jwt\\.[a-zA-Z_][a-zA-Z0-9_\\-\\.]{0,61}[a-zA-Z0-9_]|\\$\\.context\\.request\\.header\\.[a-zA-Z0-9!#$%&'+\\.\\^_`|~\\-]+|\\$\\.context\\.request\\.body\\.[a-zA-Z_][a-zA-Z0-9_\\-]*(\\.[a-zA-Z_][a-zA-Z0-9_\\-]*)*)$")
             }
             try self.validate(self.dimensionKeys, name: "dimensionKeys", parent: name, max: 10)
             try self.validate(self.dimensionKeys, name: "dimensionKeys", parent: name, min: 1)
@@ -4416,6 +4600,20 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case location = "location"
+        }
+    }
+
+    public struct CircuitBreakerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether you want the circuit breaker turned on. To turn it off, set this value to DISABLED. The default is ENABLED.
+        public let mode: CircuitBreakerMode?
+
+        @inlinable
+        public init(mode: CircuitBreakerMode? = nil) {
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
         }
     }
 
@@ -6206,9 +6404,9 @@ extension BedrockAgentCoreControl {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.dimensionKeys.forEach {
-                try validate($0, name: "dimensionKeys[]", parent: name, max: 80)
+                try validate($0, name: "dimensionKeys[]", parent: name, max: 128)
                 try validate($0, name: "dimensionKeys[]", parent: name, min: 1)
-                try validate($0, name: "dimensionKeys[]", parent: name, pattern: "^(targetName|toolName|qualifiedModelId|\\$\\.context\\.iam\\.principal|\\$\\.context\\.iam\\.sourceIdentity|\\$\\.context\\.jwt\\.[a-zA-Z_][a-zA-Z0-9_\\-\\.]{0,61}[a-zA-Z0-9_])$")
+                try validate($0, name: "dimensionKeys[]", parent: name, pattern: "^(targetName|toolName|qualifiedModelId|\\$\\.context\\.iam\\.principal|\\$\\.context\\.iam\\.sourceIdentity|\\$\\.context\\.jwt\\.[a-zA-Z_][a-zA-Z0-9_\\-\\.]{0,61}[a-zA-Z0-9_]|\\$\\.context\\.request\\.header\\.[a-zA-Z0-9!#$%&'+\\.\\^_`|~\\-]+|\\$\\.context\\.request\\.body\\.[a-zA-Z_][a-zA-Z0-9_\\-]*(\\.[a-zA-Z_][a-zA-Z0-9_\\-]*)*)$")
             }
             try self.validate(self.dimensionKeys, name: "dimensionKeys", parent: name, max: 10)
             try self.validate(self.dimensionKeys, name: "dimensionKeys", parent: name, min: 1)
@@ -6516,7 +6714,7 @@ extension BedrockAgentCoreControl {
             try self.conditions?.forEach {
                 try $0.validate(name: "\(name).conditions[]")
             }
-            try self.validate(self.conditions, name: "conditions", parent: name, max: 2)
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 3)
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.gatewayIdentifier, name: "gatewayIdentifier", parent: name, pattern: "^([0-9a-z][-]?){1,100}-[0-9a-z]{10}$")
@@ -6581,6 +6779,8 @@ extension BedrockAgentCoreControl {
     }
 
     public struct CreateGatewayTargetRequest: AWSEncodableShape {
+        /// The private certificate authority (CA) configurations for the gateway target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certificate authority configuration in this list.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
         /// The credential provider configurations for the target. These configurations specify how the gateway authenticates with the target endpoint.
@@ -6599,7 +6799,8 @@ extension BedrockAgentCoreControl {
         public let targetConfiguration: TargetConfiguration
 
         @inlinable
-        public init(clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(), credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String? = nil, privateEndpoint: PrivateEndpoint? = nil, targetConfiguration: TargetConfiguration) {
+        public init(certificateConfigurations: [CertificateConfiguration]? = nil, clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(), credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String? = nil, privateEndpoint: PrivateEndpoint? = nil, targetConfiguration: TargetConfiguration) {
+            self.certificateConfigurations = certificateConfigurations
             self.clientToken = clientToken
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -6613,6 +6814,7 @@ extension BedrockAgentCoreControl {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.certificateConfigurations, forKey: .certificateConfigurations)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.credentialProviderConfigurations, forKey: .credentialProviderConfigurations)
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -6624,6 +6826,11 @@ extension BedrockAgentCoreControl {
         }
 
         public func validate(name: String) throws {
+            try self.certificateConfigurations?.forEach {
+                try $0.validate(name: "\(name).certificateConfigurations[]")
+            }
+            try self.validate(self.certificateConfigurations, name: "certificateConfigurations", parent: name, max: 1)
+            try self.validate(self.certificateConfigurations, name: "certificateConfigurations", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
@@ -6642,6 +6849,7 @@ extension BedrockAgentCoreControl {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateConfigurations = "certificateConfigurations"
             case clientToken = "clientToken"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
@@ -6655,6 +6863,8 @@ extension BedrockAgentCoreControl {
     public struct CreateGatewayTargetResponse: AWSDecodableShape {
         /// OAuth2 authorization data for the created gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
         public let authorizationData: AuthorizationData?
+        /// The private certificate authority (CA) configurations for the gateway target.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// The timestamp when the target was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -6690,8 +6900,9 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(authorizationData: AuthorizationData? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(authorizationData: AuthorizationData? = nil, certificateConfigurations: [CertificateConfiguration]? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.authorizationData = authorizationData
+            self.certificateConfigurations = certificateConfigurations
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -6711,6 +6922,7 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case authorizationData = "authorizationData"
+            case certificateConfigurations = "certificateConfigurations"
             case createdAt = "createdAt"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
@@ -7012,7 +7224,6 @@ extension BedrockAgentCoreControl {
                 try $0.validate(name: "\(name).namespaceKeys[]")
             }
             try self.validate(self.namespaceKeys, name: "namespaceKeys", parent: name, max: 5)
-            try self.validate(self.namespaceKeys, name: "namespaceKeys", parent: name, min: 1)
             try self.streamDeliveryResources?.validate(name: "\(name).streamDeliveryResources")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -7663,7 +7874,7 @@ extension BedrockAgentCoreControl {
     }
 
     public struct CreatePolicyRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy.
+        /// A unique, case-sensitive identifier to ensure the idempotency of the request. The Amazon Web Services SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy.
         public let clientToken: String?
         /// The Cedar or Dogwood policy statement that defines the access control rules. This contains the actual policy logic written in Cedar or Dogwood, specifying effect (permit or forbid), principals, actions, resources, and conditions for agent behavior control.
         public let definition: PolicyDefinition
@@ -8161,26 +8372,30 @@ extension BedrockAgentCoreControl {
         public let namespaces: [String]?
         /// The namespaceTemplates associated with the custom memory strategy.
         public let namespaceTemplates: [String]?
+        /// The record expiry (long-term memory time-to-live) configuration for memory records generated by this strategy. Set recordExpiryDurationDays to the number of days after which records expire. If not specified, records generated by this strategy do not expire.
+        public let recordExpirySpecification: RecordExpirySpecification?
 
         @inlinable
-        public init(configuration: CustomConfigurationInput? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String]? = nil) {
+        public init(configuration: CustomConfigurationInput? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil) {
             self.configuration = configuration
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaces = nil
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
         }
 
         @available(*, deprecated, message: "Members namespaces have been deprecated")
         @inlinable
-        public init(configuration: CustomConfigurationInput? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil) {
+        public init(configuration: CustomConfigurationInput? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil) {
             self.configuration = configuration
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaces = namespaces
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
         }
 
         public func validate(name: String) throws {
@@ -8203,6 +8418,7 @@ extension BedrockAgentCoreControl {
             }
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, max: 1)
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, min: 1)
+            try self.recordExpirySpecification?.validate(name: "\(name).recordExpirySpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8212,6 +8428,7 @@ extension BedrockAgentCoreControl {
             case name = "name"
             case namespaces = "namespaces"
             case namespaceTemplates = "namespaceTemplates"
+            case recordExpirySpecification = "recordExpirySpecification"
         }
     }
 
@@ -8782,18 +8999,22 @@ extension BedrockAgentCoreControl {
     }
 
     public struct DeleteConfigurationBundleResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the deleted configuration bundle.
+        public let bundleArn: String?
         /// The unique identifier of the deleted configuration bundle.
         public let bundleId: String
         /// The status of the configuration bundle deletion operation.
         public let status: ConfigurationBundleStatus
 
         @inlinable
-        public init(bundleId: String, status: ConfigurationBundleStatus) {
+        public init(bundleArn: String? = nil, bundleId: String, status: ConfigurationBundleStatus) {
+            self.bundleArn = bundleArn
             self.bundleId = bundleId
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bundleArn = "bundleArn"
             case bundleId = "bundleId"
             case status = "status"
         }
@@ -9281,7 +9502,7 @@ extension BedrockAgentCoreControl {
     }
 
     public struct DeleteMemoryInput: AWSEncodableShape {
-        /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier.
+        /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique Amazon Web Services identifier.
         public let clientToken: String?
         /// The unique identifier of the memory to delete.
         public let memoryId: String
@@ -10177,27 +10398,31 @@ extension BedrockAgentCoreControl {
         public let namespaces: [String]?
         /// The namespaceTemplates for which to create episodes.
         public let namespaceTemplates: [String]?
+        /// The record expiry (long-term memory time-to-live) configuration for memory records generated by this strategy. Set recordExpiryDurationDays to the number of days after which records expire. If not specified, records generated by this strategy do not expire.
+        public let recordExpirySpecification: RecordExpirySpecification?
         /// The configuration for the reflections created with the episodic memory strategy.
         public let reflectionConfiguration: EpisodicReflectionConfigurationInput?
 
         @inlinable
-        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String]? = nil, reflectionConfiguration: EpisodicReflectionConfigurationInput? = nil) {
+        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil, reflectionConfiguration: EpisodicReflectionConfigurationInput? = nil) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaces = nil
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
             self.reflectionConfiguration = reflectionConfiguration
         }
 
         @available(*, deprecated, message: "Members namespaces have been deprecated")
         @inlinable
-        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil, reflectionConfiguration: EpisodicReflectionConfigurationInput? = nil) {
+        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil, reflectionConfiguration: EpisodicReflectionConfigurationInput? = nil) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaces = namespaces
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
             self.reflectionConfiguration = reflectionConfiguration
         }
 
@@ -10220,6 +10445,7 @@ extension BedrockAgentCoreControl {
             }
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, max: 1)
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, min: 1)
+            try self.recordExpirySpecification?.validate(name: "\(name).recordExpirySpecification")
             try self.reflectionConfiguration?.validate(name: "\(name).reflectionConfiguration")
         }
 
@@ -10229,6 +10455,7 @@ extension BedrockAgentCoreControl {
             case name = "name"
             case namespaces = "namespaces"
             case namespaceTemplates = "namespaceTemplates"
+            case recordExpirySpecification = "recordExpirySpecification"
             case reflectionConfiguration = "reflectionConfiguration"
         }
     }
@@ -10485,6 +10712,34 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public struct EvaluationDimension: AWSEncodableShape & AWSDecodableShape {
+        ///  The instruction to the evaluator model for this dimension, describing what the model should judge when scoring the dimension.
+        public let dimensionInstruction: String
+        ///  The name of the dimension. This name is unique within the evaluator and identifies the dimension's results.
+        public let dimensionName: String
+        ///  The rating scale for this dimension, which can be numerical or categorical. A dimension's rating scale cannot itself be multi-dimensional.
+        public let dimensionRatingScale: DimensionRatingScale
+
+        @inlinable
+        public init(dimensionInstruction: String, dimensionName: String, dimensionRatingScale: DimensionRatingScale) {
+            self.dimensionInstruction = dimensionInstruction
+            self.dimensionName = dimensionName
+            self.dimensionRatingScale = dimensionRatingScale
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensionInstruction, name: "dimensionInstruction", parent: name, max: 4000)
+            try self.validate(self.dimensionInstruction, name: "dimensionInstruction", parent: name, min: 1)
+            try self.validate(self.dimensionName, name: "dimensionName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]{0,47}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionInstruction = "dimensionInstruction"
+            case dimensionName = "dimensionName"
+            case dimensionRatingScale = "dimensionRatingScale"
+        }
+    }
+
     public struct EvaluatorSummary: AWSDecodableShape {
         ///  The timestamp when the evaluator was created.
         public let createdAt: Date
@@ -10540,6 +10795,97 @@ extension BedrockAgentCoreControl {
             case provider = "provider"
             case status = "status"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct Fallback: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the gateway temporarily stops sending your requests to a failing target. The circuit breaker tracks each combination of target and model separately. With the circuit breaker enabled, the gateway skips one or more targets and models that fail repeatedly, and your requests go to the next target in the chain. The gateway always tries the last remaining target in the chain. The gateway enables the circuit breaker by default.
+        public let circuitBreaker: CircuitBreakerConfiguration?
+        /// The maximum time, in milliseconds, from sending the request to the route's target until the first byte of the response body arrives. If the time expires, the gateway abandons the request and treats it as a FIRST_BYTE_TIMEOUT error. If you don't specify a value, no timeout is enforced.
+        public let firstByteTimeoutMilliseconds: Int?
+        /// The ordered list of fallback targets. The gateway tries each target in order until a response doesn't match that target's triggers, and returns that response to the caller. If every target fails, the gateway returns the last response. You can specify up to two fallback targets. Each combination of target and model, including the route's target, can appear only once.
+        public let targetFallback: [FallbackTarget]
+        /// The status codes and errors from the route's target that cause the gateway to send the request to the first fallback target. If you omit triggerOn, the gateway falls back on 5XX status codes and on the CONNECTION_ERROR, FIRST_BYTE_TIMEOUT, and UNROUTABLE errors. If you specify triggerOn, only the status codes and errors that you list trigger a fallback.
+        public let triggerOn: FallbackTriggers?
+
+        @inlinable
+        public init(circuitBreaker: CircuitBreakerConfiguration? = nil, firstByteTimeoutMilliseconds: Int? = nil, targetFallback: [FallbackTarget], triggerOn: FallbackTriggers? = nil) {
+            self.circuitBreaker = circuitBreaker
+            self.firstByteTimeoutMilliseconds = firstByteTimeoutMilliseconds
+            self.targetFallback = targetFallback
+            self.triggerOn = triggerOn
+        }
+
+        public func validate(name: String) throws {
+            try self.targetFallback.forEach {
+                try $0.validate(name: "\(name).targetFallback[]")
+            }
+            try self.triggerOn?.validate(name: "\(name).triggerOn")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case circuitBreaker = "circuitBreaker"
+            case firstByteTimeoutMilliseconds = "firstByteTimeoutMilliseconds"
+            case targetFallback = "targetFallback"
+            case triggerOn = "triggerOn"
+        }
+    }
+
+    public struct FallbackTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum time, in milliseconds, from sending the request to this target until the first byte of the response body arrives. This setting isn't inherited from the route. If you don't specify a value, no timeout is enforced.
+        public let firstByteTimeoutMilliseconds: Int?
+        /// The model ID to send to this fallback target. If you don't specify a model, the gateway sends the model from the original request.
+        public let model: String?
+        /// The name of the gateway target to fall back to. The target must be an inference target.
+        public let targetName: String
+        /// The status codes and errors from this target that cause the gateway to send the request to the next fallback target. This setting isn't inherited from the route. If you omit it, the gateway uses the default triggers: 5XX status codes and the CONNECTION_ERROR, FIRST_BYTE_TIMEOUT, and UNROUTABLE errors.
+        public let triggerOn: FallbackTriggers?
+
+        @inlinable
+        public init(firstByteTimeoutMilliseconds: Int? = nil, model: String? = nil, targetName: String, triggerOn: FallbackTriggers? = nil) {
+            self.firstByteTimeoutMilliseconds = firstByteTimeoutMilliseconds
+            self.model = model
+            self.targetName = targetName
+            self.triggerOn = triggerOn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.model, name: "model", parent: name, max: 2048)
+            try self.validate(self.model, name: "model", parent: name, min: 1)
+            try self.validate(self.model, name: "model", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-._/@:]*$")
+            try self.validate(self.targetName, name: "targetName", parent: name, pattern: "^([0-9a-zA-Z][-]?){1,100}$")
+            try self.triggerOn?.validate(name: "\(name).triggerOn")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firstByteTimeoutMilliseconds = "firstByteTimeoutMilliseconds"
+            case model = "model"
+            case targetName = "targetName"
+            case triggerOn = "triggerOn"
+        }
+    }
+
+    public struct FallbackTriggers: AWSEncodableShape & AWSDecodableShape {
+        /// The errors that trigger a fallback. You can specify the following:    CONNECTION_ERROR – The gateway couldn't connect to the target because the connection was refused, reset, or timed out. The request didn't reach the target.    FIRST_BYTE_TIMEOUT – The target accepted the connection but didn't return the first byte of the response within firstByteTimeoutMilliseconds. The gateway abandons the request before any of the response reaches you.    UNROUTABLE – The gateway couldn't route the request to the target, for example because the target doesn't exist or doesn't support the request path. These errors don't count toward the circuit breaker.
+        public let errors: [FallbackError]?
+        /// The HTTP status codes returned by the target that trigger a fallback. You can specify the following:   An exact status code – A three-digit code, such as 429.   A class of status codes – The first digit followed by XX, such as 5XX, which matches every code from 500 to 599.   Only 4XX and 5XX codes are supported. Throttling by the gateway itself doesn't trigger a fallback.
+        public let statusCodes: [String]?
+
+        @inlinable
+        public init(errors: [FallbackError]? = nil, statusCodes: [String]? = nil) {
+            self.errors = errors
+            self.statusCodes = statusCodes
+        }
+
+        public func validate(name: String) throws {
+            try self.statusCodes?.forEach {
+                try validate($0, name: "statusCodes[]", parent: name, pattern: "^[4-5]([0-9]{2}|XX)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case statusCodes = "statusCodes"
         }
     }
 
@@ -10689,7 +11035,7 @@ extension BedrockAgentCoreControl {
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 170)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:policy-engine\\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9_]{10}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:policy-engine\\/[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9_]{10}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10841,6 +11187,8 @@ extension BedrockAgentCoreControl {
     public struct GatewayTarget: AWSDecodableShape {
         /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
         public let authorizationData: AuthorizationData?
+        /// The private certificate authority (CA) configurations for the gateway target.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// The date and time at which the target was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -10874,8 +11222,9 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(authorizationData: AuthorizationData? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(authorizationData: AuthorizationData? = nil, certificateConfigurations: [CertificateConfiguration]? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.authorizationData = authorizationData
+            self.certificateConfigurations = certificateConfigurations
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -10895,6 +11244,7 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case authorizationData = "authorizationData"
+            case certificateConfigurations = "certificateConfigurations"
             case createdAt = "createdAt"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
@@ -12238,6 +12588,8 @@ extension BedrockAgentCoreControl {
     public struct GetGatewayTargetResponse: AWSDecodableShape {
         /// OAuth2 authorization data for the gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
         public let authorizationData: AuthorizationData?
+        /// The private certificate authority (CA) configurations for the gateway target.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// The timestamp when the gateway target was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -12272,8 +12624,9 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(authorizationData: AuthorizationData? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(authorizationData: AuthorizationData? = nil, certificateConfigurations: [CertificateConfiguration]? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.authorizationData = authorizationData
+            self.certificateConfigurations = certificateConfigurations
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -12293,6 +12646,7 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case authorizationData = "authorizationData"
+            case certificateConfigurations = "certificateConfigurations"
             case createdAt = "createdAt"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
@@ -14384,7 +14738,7 @@ extension BedrockAgentCoreControl {
     public struct HarnessManagedMemoryConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the managed AgentCore Memory resource. Read-only on Get, ignored on Create/Update input.
         public let arn: String?
-        /// Customer-managed KMS key. Defaults to AWS-owned key. Not updatable after creation.
+        /// Customer-managed KMS key. Defaults to Amazon Web Services-owned key. Not updatable after creation.
         public let encryptionKeyArn: String?
         /// Event retention in days. Defaults to 30.
         public let eventExpiryDuration: Int?
@@ -15062,10 +15416,10 @@ extension BedrockAgentCoreControl {
             try self.validate(self.models, name: "models", parent: name, min: 1)
             try self.validate(self.path, name: "path", parent: name, max: 256)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "^/[a-zA-Z0-9\\-\\._/]+$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^/[a-zA-Z0-9\\-\\._/{}]+$")
             try self.validate(self.providerPath, name: "providerPath", parent: name, max: 256)
             try self.validate(self.providerPath, name: "providerPath", parent: name, min: 1)
-            try self.validate(self.providerPath, name: "providerPath", parent: name, pattern: "^/[a-zA-Z0-9\\-\\._/]+$")
+            try self.validate(self.providerPath, name: "providerPath", parent: name, pattern: "^/[a-zA-Z0-9\\-\\._/{}]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15519,9 +15873,9 @@ extension BedrockAgentCoreControl {
             try self.validate(self.connections, name: "connections", parent: name, max: 1)
             try self.validate(self.connections, name: "connections", parent: name, min: 1)
             try self.dimensions.forEach {
-                try validate($0.key, name: "dimensions.key", parent: name, max: 80)
+                try validate($0.key, name: "dimensions.key", parent: name, max: 128)
                 try validate($0.key, name: "dimensions.key", parent: name, min: 1)
-                try validate($0.key, name: "dimensions.key", parent: name, pattern: "^(targetName|toolName|qualifiedModelId|\\$\\.context\\.iam\\.principal|\\$\\.context\\.iam\\.sourceIdentity|\\$\\.context\\.jwt\\.[a-zA-Z_][a-zA-Z0-9_\\-\\.]{0,61}[a-zA-Z0-9_])$")
+                try validate($0.key, name: "dimensions.key", parent: name, pattern: "^(targetName|toolName|qualifiedModelId|\\$\\.context\\.iam\\.principal|\\$\\.context\\.iam\\.sourceIdentity|\\$\\.context\\.jwt\\.[a-zA-Z_][a-zA-Z0-9_\\-\\.]{0,61}[a-zA-Z0-9_]|\\$\\.context\\.request\\.header\\.[a-zA-Z0-9!#$%&'+\\.\\^_`|~\\-]+|\\$\\.context\\.request\\.body\\.[a-zA-Z_][a-zA-Z0-9_\\-]*(\\.[a-zA-Z_][a-zA-Z0-9_\\-]*)*)$")
                 try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, min: 1)
             }
@@ -17591,6 +17945,7 @@ extension BedrockAgentCoreControl {
 
         public func validate(name: String) throws {
             try self.modelConfig.validate(name: "\(name).modelConfig")
+            try self.ratingScale.validate(name: "\(name).ratingScale")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17631,7 +17986,7 @@ extension BedrockAgentCoreControl {
     }
 
     public struct MCPGatewayConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether pagination is disabled for the Model Context Protocol (MCP) tools/list operation. When set to true, the gateway returns the complete list of tools in a single response without a pagination cursor. When set to false or omitted, the gateway returns tools in paginated responses.
+        /// Specifies whether the gateway disables pagination for the Model Context Protocol (MCP) tools/list operation. When set to true, the gateway returns the complete list of tools in a single response without a pagination cursor. When set to false or omitted, the gateway returns tools in paginated responses. For information about changing this value on an existing gateway, see UpdateGateway.
         public let disableMcpListToolsPagination: Bool?
         /// The instructions for using the Model Context Protocol gateway. These instructions provide guidance on how to interact with the gateway.
         public let instructions: String?
@@ -17743,6 +18098,50 @@ extension BedrockAgentCoreControl {
             case subnetIds = "subnetIds"
             case tags = "tags"
             case vpcIdentifier = "vpcIdentifier"
+        }
+    }
+
+    public struct MatchModelEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The operator to use when comparing the requested model to the value:    StringEquals – Requires an exact match.    StringLike – Supports wildcard patterns using * and ?. This is the default.
+        public let `operator`: MatchOperator?
+        /// The model ID or pattern to match. With the StringLike operator, you can use * and ? as wildcards, for example anthropic.claude-*.
+        public let value: String
+
+        @inlinable
+        public init(operator: MatchOperator? = nil, value: String) {
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 2048)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9\\-\\._\\*\\?@:]+(/[a-zA-Z0-9\\-\\._\\*\\?@:]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `operator` = "operator"
+            case value = "value"
+        }
+    }
+
+    public struct MatchModels: AWSEncodableShape & AWSDecodableShape {
+        /// A list of model entries. The condition is met if the requested model matches any of the entries.
+        public let anyOf: [MatchModelEntry]
+
+        @inlinable
+        public init(anyOf: [MatchModelEntry]) {
+            self.anyOf = anyOf
+        }
+
+        public func validate(name: String) throws {
+            try self.anyOf.forEach {
+                try $0.validate(name: "\(name).anyOf[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anyOf = "anyOf"
         }
     }
 
@@ -17978,6 +18377,8 @@ extension BedrockAgentCoreControl {
         public let namespaces: [String]?
         /// The namespaceTemplates associated with the memory strategy.
         public let namespaceTemplates: [String]
+        /// The effective record expiry (long-term memory time-to-live), in days, for memory records generated by this strategy. New records expire this many days after they are created. If not set, records generated by this strategy do not expire.
+        public let recordExpiryDurationDays: Int?
         /// The current status of the memory strategy.
         public let status: MemoryStrategyStatus?
         /// The unique identifier of the memory strategy.
@@ -17988,7 +18389,7 @@ extension BedrockAgentCoreControl {
         public let updatedAt: Date?
 
         @inlinable
-        public init(configuration: StrategyConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String], status: MemoryStrategyStatus? = nil, strategyId: String, type: MemoryStrategyType, updatedAt: Date? = nil) {
+        public init(configuration: StrategyConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String], recordExpiryDurationDays: Int? = nil, status: MemoryStrategyStatus? = nil, strategyId: String, type: MemoryStrategyType, updatedAt: Date? = nil) {
             self.configuration = configuration
             self.createdAt = createdAt
             self.description = description
@@ -17996,6 +18397,7 @@ extension BedrockAgentCoreControl {
             self.name = name
             self.namespaces = nil
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpiryDurationDays = recordExpiryDurationDays
             self.status = status
             self.strategyId = strategyId
             self.type = type
@@ -18004,7 +18406,7 @@ extension BedrockAgentCoreControl {
 
         @available(*, deprecated, message: "Members namespaces have been deprecated")
         @inlinable
-        public init(configuration: StrategyConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String], status: MemoryStrategyStatus? = nil, strategyId: String, type: MemoryStrategyType, updatedAt: Date? = nil) {
+        public init(configuration: StrategyConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String], recordExpiryDurationDays: Int? = nil, status: MemoryStrategyStatus? = nil, strategyId: String, type: MemoryStrategyType, updatedAt: Date? = nil) {
             self.configuration = configuration
             self.createdAt = createdAt
             self.description = description
@@ -18012,6 +18414,7 @@ extension BedrockAgentCoreControl {
             self.name = name
             self.namespaces = namespaces
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpiryDurationDays = recordExpiryDurationDays
             self.status = status
             self.strategyId = strategyId
             self.type = type
@@ -18026,6 +18429,7 @@ extension BedrockAgentCoreControl {
             case name = "name"
             case namespaces = "namespaces"
             case namespaceTemplates = "namespaceTemplates"
+            case recordExpiryDurationDays = "recordExpiryDurationDays"
             case status = "status"
             case strategyId = "strategyId"
             case type = "type"
@@ -18238,9 +18642,9 @@ extension BedrockAgentCoreControl {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.model, name: "model", parent: name, max: 256)
+            try self.validate(self.model, name: "model", parent: name, max: 2048)
             try self.validate(self.model, name: "model", parent: name, min: 1)
-            try self.validate(self.model, name: "model", parent: name, pattern: "^[a-zA-Z0-9\\-\\._\\*\\?@]+(/[a-zA-Z0-9\\-\\._\\*\\?@]+)*$")
+            try self.validate(self.model, name: "model", parent: name, pattern: "^[a-zA-Z0-9\\-\\._\\*\\?@:]+(/[a-zA-Z0-9\\-\\._\\*\\?@:]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18328,26 +18732,30 @@ extension BedrockAgentCoreControl {
         public let namespaces: [String]?
         /// The updated namespaceTemplates for the memory strategy.
         public let namespaceTemplates: [String]?
+        /// Updates or removes the record expiry (long-term memory time-to-live) for this strategy. Set recordExpiryDurationDays to configure or update the number of days after which records expire, or set action to REMOVE to remove a previously configured time-to-live so that newer records no longer expire. The change applies only to records created after the update.
+        public let recordExpirySpecification: RecordExpirySpecification?
 
         @inlinable
-        public init(configuration: ModifyStrategyConfiguration? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, memoryStrategyId: String, namespaceTemplates: [String]? = nil) {
+        public init(configuration: ModifyStrategyConfiguration? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, memoryStrategyId: String, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil) {
             self.configuration = configuration
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.memoryStrategyId = memoryStrategyId
             self.namespaces = nil
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
         }
 
         @available(*, deprecated, message: "Members namespaces have been deprecated")
         @inlinable
-        public init(configuration: ModifyStrategyConfiguration? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, memoryStrategyId: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil) {
+        public init(configuration: ModifyStrategyConfiguration? = nil, description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, memoryStrategyId: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil) {
             self.configuration = configuration
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.memoryStrategyId = memoryStrategyId
             self.namespaces = namespaces
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
         }
 
         public func validate(name: String) throws {
@@ -18369,6 +18777,7 @@ extension BedrockAgentCoreControl {
             }
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, max: 1)
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, min: 1)
+            try self.recordExpirySpecification?.validate(name: "\(name).recordExpirySpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18378,6 +18787,7 @@ extension BedrockAgentCoreControl {
             case memoryStrategyId = "memoryStrategyId"
             case namespaces = "namespaces"
             case namespaceTemplates = "namespaceTemplates"
+            case recordExpirySpecification = "recordExpirySpecification"
         }
     }
 
@@ -19957,6 +20367,29 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public struct S3CertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The account ID of the Amazon S3 bucket owner. This ID is used for cross-account access to the bucket.
+        public let bucketOwnerAccountId: String?
+        /// The URI of the Amazon S3 object that contains the PEM-encoded certificate.
+        public let uri: String
+
+        @inlinable
+        public init(bucketOwnerAccountId: String? = nil, uri: String) {
+            self.bucketOwnerAccountId = bucketOwnerAccountId
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketOwnerAccountId, name: "bucketOwnerAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^s3://.{1,2043}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketOwnerAccountId = "bucketOwnerAccountId"
+            case uri = "uri"
+        }
+    }
+
     public struct S3Configuration: AWSEncodableShape & AWSDecodableShape {
         /// The account ID of the Amazon S3 bucket owner. This ID is used for cross-account access to the bucket.
         public let bucketOwnerAccountId: String?
@@ -20217,6 +20650,24 @@ extension BedrockAgentCoreControl {
         }
     }
 
+    public struct SecretsManagerCertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the PEM-encoded certificate.
+        public let secretArn: String
+
+        @inlinable
+        public init(secretArn: String) {
+            self.secretArn = secretArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:aws(-[^:]+)?:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArn = "secretArn"
+        }
+    }
+
     public struct SecretsManagerLocation: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the Amazon Web Services Secrets Manager secret containing the certificate.
         public let secretArn: String
@@ -20330,24 +20781,28 @@ extension BedrockAgentCoreControl {
         public let namespaces: [String]?
         /// The namespaceTemplates associated with the semantic memory strategy.
         public let namespaceTemplates: [String]?
+        /// The record expiry (long-term memory time-to-live) configuration for memory records generated by this strategy. Set recordExpiryDurationDays to the number of days after which records expire. If not specified, records generated by this strategy do not expire.
+        public let recordExpirySpecification: RecordExpirySpecification?
 
         @inlinable
-        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String]? = nil) {
+        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaces = nil
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
         }
 
         @available(*, deprecated, message: "Members namespaces have been deprecated")
         @inlinable
-        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil) {
+        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaces = namespaces
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
         }
 
         public func validate(name: String) throws {
@@ -20369,6 +20824,7 @@ extension BedrockAgentCoreControl {
             }
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, max: 1)
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, min: 1)
+            try self.recordExpirySpecification?.validate(name: "\(name).recordExpirySpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -20377,6 +20833,7 @@ extension BedrockAgentCoreControl {
             case name = "name"
             case namespaces = "namespaces"
             case namespaceTemplates = "namespaceTemplates"
+            case recordExpirySpecification = "recordExpirySpecification"
         }
     }
 
@@ -20665,7 +21122,7 @@ extension BedrockAgentCoreControl {
     }
 
     public struct StartPolicyGenerationRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation.
+        /// A unique, case-sensitive identifier to ensure the idempotency of the request. The Amazon Web Services SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation.
         public let clientToken: String?
         /// The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Dogwood policy statements that match the described intent.
         public let content: Content
@@ -20792,19 +21249,31 @@ extension BedrockAgentCoreControl {
     }
 
     public struct StaticRoute: AWSEncodableShape & AWSDecodableShape {
+        /// The fallback configuration for this route. Supported only for inference targets.
+        public let fallback: Fallback?
+        /// The model ID to send to the target. Supported only for inference targets. If you don't specify a model, the gateway sends the model from the original request.
+        public let model: String?
         /// The name of the target to route requests to.
         public let targetName: String
 
         @inlinable
-        public init(targetName: String) {
+        public init(fallback: Fallback? = nil, model: String? = nil, targetName: String) {
+            self.fallback = fallback
+            self.model = model
             self.targetName = targetName
         }
 
         public func validate(name: String) throws {
+            try self.fallback?.validate(name: "\(name).fallback")
+            try self.validate(self.model, name: "model", parent: name, max: 2048)
+            try self.validate(self.model, name: "model", parent: name, min: 1)
+            try self.validate(self.model, name: "model", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-._/@:]*$")
             try self.validate(self.targetName, name: "targetName", parent: name, pattern: "^([0-9a-zA-Z][-]?){1,100}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case fallback = "fallback"
+            case model = "model"
             case targetName = "targetName"
         }
     }
@@ -21168,24 +21637,28 @@ extension BedrockAgentCoreControl {
         public let namespaces: [String]?
         /// The namespaceTemplates associated with the summary memory strategy.
         public let namespaceTemplates: [String]?
+        /// The record expiry (long-term memory time-to-live) configuration for memory records generated by this strategy. Set recordExpiryDurationDays to the number of days after which records expire. If not specified, records generated by this strategy do not expire.
+        public let recordExpirySpecification: RecordExpirySpecification?
 
         @inlinable
-        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String]? = nil) {
+        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaces = nil
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
         }
 
         @available(*, deprecated, message: "Members namespaces have been deprecated")
         @inlinable
-        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil) {
+        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaces = namespaces
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
         }
 
         public func validate(name: String) throws {
@@ -21207,6 +21680,7 @@ extension BedrockAgentCoreControl {
             }
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, max: 1)
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, min: 1)
+            try self.recordExpirySpecification?.validate(name: "\(name).recordExpirySpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -21215,6 +21689,7 @@ extension BedrockAgentCoreControl {
             case name = "name"
             case namespaces = "namespaces"
             case namespaceTemplates = "namespaceTemplates"
+            case recordExpirySpecification = "recordExpirySpecification"
         }
     }
 
@@ -21439,8 +21914,12 @@ extension BedrockAgentCoreControl {
     public struct TargetTrafficSplitEntry: AWSEncodableShape & AWSDecodableShape {
         /// The description of this traffic split variant.
         public let description: String?
+        /// The fallback configuration for this variant. Supported only for inference targets.
+        public let fallback: Fallback?
         /// Key-value metadata associated with this traffic split variant.
         public let metadata: [String: String]?
+        /// The model ID to send to the target for this variant. Supported only for inference targets. If you don't specify a model, the gateway sends the model from the original request.
+        public let model: String?
         /// The name of this traffic split variant.
         public let name: String
         /// The name of the target to route traffic to.
@@ -21449,15 +21928,18 @@ extension BedrockAgentCoreControl {
         public let weight: Int
 
         @inlinable
-        public init(description: String? = nil, metadata: [String: String]? = nil, name: String, targetName: String, weight: Int) {
+        public init(description: String? = nil, fallback: Fallback? = nil, metadata: [String: String]? = nil, model: String? = nil, name: String, targetName: String, weight: Int) {
             self.description = description
+            self.fallback = fallback
             self.metadata = metadata
+            self.model = model
             self.name = name
             self.targetName = targetName
             self.weight = weight
         }
 
         public func validate(name: String) throws {
+            try self.fallback?.validate(name: "\(name).fallback")
             try self.metadata?.forEach {
                 try validate($0.key, name: "metadata.key", parent: name, max: 128)
                 try validate($0.key, name: "metadata.key", parent: name, min: 1)
@@ -21465,12 +21947,17 @@ extension BedrockAgentCoreControl {
                 try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, min: 1)
             }
             try self.validate(self.metadata, name: "metadata", parent: name, max: 25)
+            try self.validate(self.model, name: "model", parent: name, max: 2048)
+            try self.validate(self.model, name: "model", parent: name, min: 1)
+            try self.validate(self.model, name: "model", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-._/@:]*$")
             try self.validate(self.targetName, name: "targetName", parent: name, pattern: "^([0-9a-zA-Z][-]?){1,100}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case fallback = "fallback"
             case metadata = "metadata"
+            case model = "model"
             case name = "name"
             case targetName = "targetName"
             case weight = "weight"
@@ -22094,7 +22581,7 @@ extension BedrockAgentCoreControl {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
         public let clientToken: String?
         /// A commit message describing the changes in this version.
-        public let commitMessage: String?
+        public let commitMessage: String
         /// The updated component configurations. Creates a new version of the bundle.
         public let components: [String: ComponentConfiguration]?
         /// The source that created this version, including the source name and optional ARN.
@@ -22107,7 +22594,7 @@ extension BedrockAgentCoreControl {
         public let parentVersionIds: [String]
 
         @inlinable
-        public init(branchName: String? = nil, bundleId: String, bundleName: String? = nil, clientToken: String? = UpdateConfigurationBundleRequest.idempotencyToken(), commitMessage: String? = nil, components: [String: ComponentConfiguration]? = nil, createdBy: VersionCreatedBySource? = nil, description: String? = nil, kmsKeyArn: String? = nil, parentVersionIds: [String]) {
+        public init(branchName: String? = nil, bundleId: String, bundleName: String? = nil, clientToken: String? = UpdateConfigurationBundleRequest.idempotencyToken(), commitMessage: String, components: [String: ComponentConfiguration]? = nil, createdBy: VersionCreatedBySource? = nil, description: String? = nil, kmsKeyArn: String? = nil, parentVersionIds: [String]) {
             self.branchName = branchName
             self.bundleId = bundleId
             self.bundleName = bundleName
@@ -22127,7 +22614,7 @@ extension BedrockAgentCoreControl {
             request.encodePath(self.bundleId, key: "bundleId")
             try container.encodeIfPresent(self.bundleName, forKey: .bundleName)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
-            try container.encodeIfPresent(self.commitMessage, forKey: .commitMessage)
+            try container.encode(self.commitMessage, forKey: .commitMessage)
             try container.encodeIfPresent(self.components, forKey: .components)
             try container.encodeIfPresent(self.createdBy, forKey: .createdBy)
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -22837,7 +23324,7 @@ extension BedrockAgentCoreControl {
             try self.conditions?.forEach {
                 try $0.validate(name: "\(name).conditions[]")
             }
-            try self.validate(self.conditions, name: "conditions", parent: name, max: 2)
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 3)
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.gatewayIdentifier, name: "gatewayIdentifier", parent: name, pattern: "^([0-9a-z][-]?){1,100}-[0-9a-z]{10}$")
@@ -22909,6 +23396,8 @@ extension BedrockAgentCoreControl {
     }
 
     public struct UpdateGatewayTargetRequest: AWSEncodableShape {
+        /// The private certificate authority (CA) configurations for the gateway target. Use this to have the gateway trust a private CA when it establishes TLS connections to the target endpoint. Provide each certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can specify only one certificate authority configuration in this list. To remove a previously configured certificate authority, omit this field on update.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// The updated credential provider configurations for the gateway target.
         public let credentialProviderConfigurations: [CredentialProviderConfiguration]?
         /// The updated description for the gateway target.
@@ -22926,7 +23415,8 @@ extension BedrockAgentCoreControl {
         public let targetId: String
 
         @inlinable
-        public init(credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String? = nil, privateEndpoint: PrivateEndpoint? = nil, targetConfiguration: TargetConfiguration, targetId: String) {
+        public init(certificateConfigurations: [CertificateConfiguration]? = nil, credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String? = nil, privateEndpoint: PrivateEndpoint? = nil, targetConfiguration: TargetConfiguration, targetId: String) {
+            self.certificateConfigurations = certificateConfigurations
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayIdentifier = gatewayIdentifier
@@ -22940,6 +23430,7 @@ extension BedrockAgentCoreControl {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.certificateConfigurations, forKey: .certificateConfigurations)
             try container.encodeIfPresent(self.credentialProviderConfigurations, forKey: .credentialProviderConfigurations)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.gatewayIdentifier, key: "gatewayIdentifier")
@@ -22951,6 +23442,11 @@ extension BedrockAgentCoreControl {
         }
 
         public func validate(name: String) throws {
+            try self.certificateConfigurations?.forEach {
+                try $0.validate(name: "\(name).certificateConfigurations[]")
+            }
+            try self.validate(self.certificateConfigurations, name: "certificateConfigurations", parent: name, max: 1)
+            try self.validate(self.certificateConfigurations, name: "certificateConfigurations", parent: name, min: 1)
             try self.credentialProviderConfigurations?.forEach {
                 try $0.validate(name: "\(name).credentialProviderConfigurations[]")
             }
@@ -22967,6 +23463,7 @@ extension BedrockAgentCoreControl {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateConfigurations = "certificateConfigurations"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
             case metadataConfiguration = "metadataConfiguration"
@@ -22979,6 +23476,8 @@ extension BedrockAgentCoreControl {
     public struct UpdateGatewayTargetResponse: AWSDecodableShape {
         /// OAuth2 authorization data for the updated gateway target. This data is returned when a target is configured with a credential provider with authorization code grant type and requires user federation.
         public let authorizationData: AuthorizationData?
+        /// The private certificate authority (CA) configurations for the gateway target.
+        public let certificateConfigurations: [CertificateConfiguration]?
         /// The timestamp when the gateway target was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -23013,8 +23512,9 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(authorizationData: AuthorizationData? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(authorizationData: AuthorizationData? = nil, certificateConfigurations: [CertificateConfiguration]? = nil, createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, privateEndpoint: PrivateEndpoint? = nil, privateEndpointManagedResources: [ManagedResourceDetails]? = nil, protocolType: TargetProtocolType? = nil, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.authorizationData = authorizationData
+            self.certificateConfigurations = certificateConfigurations
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
@@ -23034,6 +23534,7 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case authorizationData = "authorizationData"
+            case certificateConfigurations = "certificateConfigurations"
             case createdAt = "createdAt"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
@@ -23276,7 +23777,7 @@ extension BedrockAgentCoreControl {
     public struct UpdateMemoryInput: AWSEncodableShape {
         /// Additional metadata keys to index. Previously indexed keys cannot be removed.
         public let addIndexedKeys: [IndexedKey]?
-        /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier.
+        /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique Amazon Web Services identifier.
         public let clientToken: String?
         /// The updated description of the AgentCore Memory resource.
         public let description: String?
@@ -23337,7 +23838,6 @@ extension BedrockAgentCoreControl {
                 try $0.validate(name: "\(name).namespaceKeys[]")
             }
             try self.validate(self.namespaceKeys, name: "namespaceKeys", parent: name, max: 5)
-            try self.validate(self.namespaceKeys, name: "namespaceKeys", parent: name, min: 1)
             try self.streamDeliveryResources?.validate(name: "\(name).streamDeliveryResources")
         }
 
@@ -24846,24 +25346,28 @@ extension BedrockAgentCoreControl {
         public let namespaces: [String]?
         /// The namespaceTemplates associated with the user preference memory strategy.
         public let namespaceTemplates: [String]?
+        /// The record expiry (long-term memory time-to-live) configuration for memory records generated by this strategy. Set recordExpiryDurationDays to the number of days after which records expire. If not specified, records generated by this strategy do not expire.
+        public let recordExpirySpecification: RecordExpirySpecification?
 
         @inlinable
-        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String]? = nil) {
+        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaces = nil
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
         }
 
         @available(*, deprecated, message: "Members namespaces have been deprecated")
         @inlinable
-        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil) {
+        public init(description: String? = nil, memoryRecordSchema: MemoryRecordSchema? = nil, name: String, namespaces: [String]? = nil, namespaceTemplates: [String]? = nil, recordExpirySpecification: RecordExpirySpecification? = nil) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaces = namespaces
             self.namespaceTemplates = namespaceTemplates
+            self.recordExpirySpecification = recordExpirySpecification
         }
 
         public func validate(name: String) throws {
@@ -24885,6 +25389,7 @@ extension BedrockAgentCoreControl {
             }
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, max: 1)
             try self.validate(self.namespaceTemplates, name: "namespaceTemplates", parent: name, min: 1)
+            try self.recordExpirySpecification?.validate(name: "\(name).recordExpirySpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -24893,6 +25398,7 @@ extension BedrockAgentCoreControl {
             case name = "name"
             case namespaces = "namespaces"
             case namespaceTemplates = "namespaceTemplates"
+            case recordExpirySpecification = "recordExpirySpecification"
         }
     }
 

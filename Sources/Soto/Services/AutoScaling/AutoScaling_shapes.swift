@@ -353,6 +353,40 @@ extension AutoScaling {
         }
     }
 
+    public struct AccountSetting: AWSDecodableShape {
+        ///  The default value of the account setting before the enforcement date. Valid values are enabled and disabled. This parameter is only returned for settings with hard or flexible enforcement types.
+        public let defaultValue: String?
+        ///  The value that will be enforced after the enforcement date. Valid values are enabled and disabled. This parameter is only returned for settings with hard or flexible enforcement types.
+        public let enforcedValue: String?
+        ///  The date when the account setting will be enforced. After this date, for settings with hard enforcement type, you can no longer modify the setting value. This parameter is only returned for settings with hard or flexible enforcement types.
+        public let enforcementDate: Date?
+        ///  The type of enforcement for the account setting. Valid values include: hard (the setting has a hard enforcement date after which the setting will be enforced and cannot be modified), flexible (the setting has a flexible enforcement where you can always modify the setting value), and none (the setting has no enforcement and can always be modified).
+        public let enforcementType: String?
+        ///  The name of the account setting. Each account setting has a unique name that identifies the specific feature it controls.
+        public let name: String?
+        ///  The current value of the account setting.
+        public let value: String?
+
+        @inlinable
+        public init(defaultValue: String? = nil, enforcedValue: String? = nil, enforcementDate: Date? = nil, enforcementType: String? = nil, name: String? = nil, value: String? = nil) {
+            self.defaultValue = defaultValue
+            self.enforcedValue = enforcedValue
+            self.enforcementDate = enforcementDate
+            self.enforcementType = enforcementType
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "DefaultValue"
+            case enforcedValue = "EnforcedValue"
+            case enforcementDate = "EnforcementDate"
+            case enforcementType = "EnforcementType"
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
     public struct ActivitiesType: AWSDecodableShape {
         /// The scaling activities. Activities are sorted by start time. Activities still in progress are described first.
         @OptionalCustomCoding<StandardArrayCoder<Activity>>
@@ -1979,6 +2013,54 @@ extension AutoScaling {
             case maxNumberOfLaunchConfigurations = "MaxNumberOfLaunchConfigurations"
             case numberOfAutoScalingGroups = "NumberOfAutoScalingGroups"
             case numberOfLaunchConfigurations = "NumberOfLaunchConfigurations"
+        }
+    }
+
+    public struct DescribeAccountSettingsAnswer: AWSDecodableShape {
+        ///  A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+        ///  Information about the account settings.
+        @OptionalCustomCoding<StandardArrayCoder<AccountSetting>>
+        public var settings: [AccountSetting]?
+
+        @inlinable
+        public init(nextToken: String? = nil, settings: [AccountSetting]? = nil) {
+            self.nextToken = nextToken
+            self.settings = settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case settings = "Settings"
+        }
+    }
+
+    public struct DescribeAccountSettingsType: AWSEncodableShape {
+        ///  The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+        public let maxRecords: Int?
+        ///  The name of the account setting to describe. If you omit this parameter, all account settings are described.
+        public let name: String?
+        ///  The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxRecords: Int? = nil, name: String? = nil, nextToken: String? = nil) {
+            self.maxRecords = maxRecords
+            self.name = name
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9\\-_\\/]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case name = "Name"
+            case nextToken = "NextToken"
         }
     }
 
@@ -4859,6 +4941,37 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case processes = "Processes"
+        }
+    }
+
+    public struct PutAccountSettingAnswer: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutAccountSettingType: AWSEncodableShape {
+        ///  The name of the account setting to modify. Each account setting has a unique name that identifies the specific feature it controls.
+        public let name: String?
+        ///  The value for the account setting.
+        public let value: String?
+
+        @inlinable
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9\\-_\\/]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 255)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[A-Za-z0-9\\-_\\/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
         }
     }
 

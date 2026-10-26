@@ -98,6 +98,20 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExpressPrivateOfferConfigurationSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case productId = "ProductId"
+        case state = "State"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExpressPrivateOfferConfigurationStateString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clientError = "CLIENT_ERROR"
         case serverFault = "SERVER_FAULT"
@@ -262,6 +276,8 @@ extension MarketplaceCatalog {
         case containerProductFilters(ContainerProductFilters)
         /// A filter for data products.
         case dataProductFilters(DataProductFilters)
+        /// A filter for express private offer configurations.
+        case expressPrivateOfferConfigurationFilters(ExpressPrivateOfferConfigurationFilters)
         case machineLearningProductFilters(MachineLearningProductFilters)
         /// A filter for offers.
         case offerFilters(OfferFilters)
@@ -281,6 +297,8 @@ extension MarketplaceCatalog {
                 try container.encode(value, forKey: .containerProductFilters)
             case .dataProductFilters(let value):
                 try container.encode(value, forKey: .dataProductFilters)
+            case .expressPrivateOfferConfigurationFilters(let value):
+                try container.encode(value, forKey: .expressPrivateOfferConfigurationFilters)
             case .machineLearningProductFilters(let value):
                 try container.encode(value, forKey: .machineLearningProductFilters)
             case .offerFilters(let value):
@@ -302,6 +320,8 @@ extension MarketplaceCatalog {
                 try value.validate(name: "\(name).containerProductFilters")
             case .dataProductFilters(let value):
                 try value.validate(name: "\(name).dataProductFilters")
+            case .expressPrivateOfferConfigurationFilters(let value):
+                try value.validate(name: "\(name).expressPrivateOfferConfigurationFilters")
             case .machineLearningProductFilters(let value):
                 try value.validate(name: "\(name).machineLearningProductFilters")
             case .offerFilters(let value):
@@ -319,6 +339,7 @@ extension MarketplaceCatalog {
             case amiProductFilters = "AmiProductFilters"
             case containerProductFilters = "ContainerProductFilters"
             case dataProductFilters = "DataProductFilters"
+            case expressPrivateOfferConfigurationFilters = "ExpressPrivateOfferConfigurationFilters"
             case machineLearningProductFilters = "MachineLearningProductFilters"
             case offerFilters = "OfferFilters"
             case offerSetFilters = "OfferSetFilters"
@@ -334,6 +355,8 @@ extension MarketplaceCatalog {
         case containerProductSort(ContainerProductSort)
         /// A sort for data products.
         case dataProductSort(DataProductSort)
+        /// A sort for express private offer configurations.
+        case expressPrivateOfferConfigurationSort(ExpressPrivateOfferConfigurationSort)
         case machineLearningProductSort(MachineLearningProductSort)
         /// A sort for offer sets.
         case offerSetSort(OfferSetSort)
@@ -353,6 +376,8 @@ extension MarketplaceCatalog {
                 try container.encode(value, forKey: .containerProductSort)
             case .dataProductSort(let value):
                 try container.encode(value, forKey: .dataProductSort)
+            case .expressPrivateOfferConfigurationSort(let value):
+                try container.encode(value, forKey: .expressPrivateOfferConfigurationSort)
             case .machineLearningProductSort(let value):
                 try container.encode(value, forKey: .machineLearningProductSort)
             case .offerSetSort(let value):
@@ -370,6 +395,7 @@ extension MarketplaceCatalog {
             case amiProductSort = "AmiProductSort"
             case containerProductSort = "ContainerProductSort"
             case dataProductSort = "DataProductSort"
+            case expressPrivateOfferConfigurationSort = "ExpressPrivateOfferConfigurationSort"
             case machineLearningProductSort = "MachineLearningProductSort"
             case offerSetSort = "OfferSetSort"
             case offerSort = "OfferSort"
@@ -1801,6 +1827,8 @@ extension MarketplaceCatalog {
         public let entityId: String?
         /// The type of the entity.
         public let entityType: String?
+        /// An object that contains summary information about the express private offer configuration.
+        public let expressPrivateOfferConfigurationSummary: ExpressPrivateOfferConfigurationSummary?
         /// The last time the entity was published, using ISO 8601 format (2018-02-27T13:45:22Z).
         public let lastModifiedDate: String?
         public let machineLearningProductSummary: MachineLearningProductSummary?
@@ -1818,13 +1846,14 @@ extension MarketplaceCatalog {
         public let visibility: String?
 
         @inlinable
-        public init(amiProductSummary: AmiProductSummary? = nil, containerProductSummary: ContainerProductSummary? = nil, dataProductSummary: DataProductSummary? = nil, entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil, machineLearningProductSummary: MachineLearningProductSummary? = nil, name: String? = nil, offerSetSummary: OfferSetSummary? = nil, offerSummary: OfferSummary? = nil, resaleAuthorizationSummary: ResaleAuthorizationSummary? = nil, saaSProductSummary: SaaSProductSummary? = nil, visibility: String? = nil) {
+        public init(amiProductSummary: AmiProductSummary? = nil, containerProductSummary: ContainerProductSummary? = nil, dataProductSummary: DataProductSummary? = nil, entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, expressPrivateOfferConfigurationSummary: ExpressPrivateOfferConfigurationSummary? = nil, lastModifiedDate: String? = nil, machineLearningProductSummary: MachineLearningProductSummary? = nil, name: String? = nil, offerSetSummary: OfferSetSummary? = nil, offerSummary: OfferSummary? = nil, resaleAuthorizationSummary: ResaleAuthorizationSummary? = nil, saaSProductSummary: SaaSProductSummary? = nil, visibility: String? = nil) {
             self.amiProductSummary = amiProductSummary
             self.containerProductSummary = containerProductSummary
             self.dataProductSummary = dataProductSummary
             self.entityArn = entityArn
             self.entityId = entityId
             self.entityType = entityType
+            self.expressPrivateOfferConfigurationSummary = expressPrivateOfferConfigurationSummary
             self.lastModifiedDate = lastModifiedDate
             self.machineLearningProductSummary = machineLearningProductSummary
             self.name = name
@@ -1842,6 +1871,7 @@ extension MarketplaceCatalog {
             case entityArn = "EntityArn"
             case entityId = "EntityId"
             case entityType = "EntityType"
+            case expressPrivateOfferConfigurationSummary = "ExpressPrivateOfferConfigurationSummary"
             case lastModifiedDate = "LastModifiedDate"
             case machineLearningProductSummary = "MachineLearningProductSummary"
             case name = "Name"
@@ -1886,6 +1916,137 @@ extension MarketplaceCatalog {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationEntityIdFilter: AWSEncodableShape {
+        /// A list of EntityId values to filter on.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationFilters: AWSEncodableShape {
+        /// You can filter on the EntityId of an express private offer configuration.
+        public let entityId: ExpressPrivateOfferConfigurationEntityIdFilter?
+        /// You can filter on the ProductId of an express private offer configuration.
+        public let productId: ExpressPrivateOfferConfigurationProductIdFilter?
+        /// The state of the express private offer configuration to filter on. Valid values are the following:    ACTIVE – The configuration is active and you can use it to generate offers.    INACTIVE – The configuration is deprecated or deleted.
+        public let state: ExpressPrivateOfferConfigurationStateFilter?
+
+        @inlinable
+        public init(entityId: ExpressPrivateOfferConfigurationEntityIdFilter? = nil, productId: ExpressPrivateOfferConfigurationProductIdFilter? = nil, state: ExpressPrivateOfferConfigurationStateFilter? = nil) {
+            self.entityId = entityId
+            self.productId = productId
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.productId?.validate(name: "\(name).productId")
+            try self.state?.validate(name: "\(name).state")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case productId = "ProductId"
+            case state = "State"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationProductIdFilter: AWSEncodableShape {
+        /// A list of ProductId values to filter on.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationSort: AWSEncodableShape {
+        /// The field to sort by. Valid values are EntityId, LastModifiedDate, ProductId, and State.
+        public let sortBy: ExpressPrivateOfferConfigurationSortBy?
+        /// The sorting order. Valid values are ASCENDING and DESCENDING.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(sortBy: ExpressPrivateOfferConfigurationSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationStateFilter: AWSEncodableShape {
+        /// A list of State values to filter on. Valid values are ACTIVE and INACTIVE.
+        public let valueList: [ExpressPrivateOfferConfigurationStateString]?
+
+        @inlinable
+        public init(valueList: [ExpressPrivateOfferConfigurationStateString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct ExpressPrivateOfferConfigurationSummary: AWSDecodableShape {
+        /// The product ID associated with the express private offer configuration.
+        public let productId: String?
+        /// The state of the express private offer configuration. Valid values are the following:    ACTIVE – The configuration is active and you can use it to generate offers.    INACTIVE – The configuration is deprecated or deleted.
+        public let state: ExpressPrivateOfferConfigurationStateString?
+
+        @inlinable
+        public init(productId: String? = nil, state: ExpressPrivateOfferConfigurationStateString? = nil) {
+            self.productId = productId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productId = "ProductId"
+            case state = "State"
         }
     }
 

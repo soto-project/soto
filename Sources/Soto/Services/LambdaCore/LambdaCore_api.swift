@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS LambdaCore service.
 ///
-/// AWS Lambda Core is a set of APIs for managing shared infrastructure resources used by AWS Lambda. The Lambda Core API provides operations for creating and managing network connectors that enable Lambda MicroVMs to access resources in your Amazon Virtual Private Cloud (Amazon VPC). Network connectors provision elastic network interfaces (ENIs) in your VPC subnets, providing a managed network path from Lambda compute environments to private resources such as Amazon RDS databases, Amazon ElastiCache clusters, and internal APIs. You create a network connector once and attach it to one or more Lambda MicroVMs at run time.
+/// Lambda  Overview  AWS Lambda Core is a set of APIs for managing shared infrastructure resources used by Lambda. The Lambda Core API provides operations for creating and managing network connectors that enable Lambda compute resources to access resources in your Amazon Virtual Private Cloud (Amazon VPC). Network connectors provision elastic network interfaces (ENIs) in your VPC subnets, providing a managed network path from Lambda compute environments to private resources such as Amazon RDS databases, Amazon ElastiCache clusters, and internal APIs. You create a network connector once and attach it to one or more Lambda compute resources at run time. The Lambda Core API Reference provides information about each of the API methods, including details about the parameters in each API request and response.  You can use Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools to access the API. For installation instructions, see Tools for Amazon Web Services. For a list of Region-specific endpoints that Lambda supports, see Lambda endpoints and quotas in the Amazon Web Services General Reference.  When making the API calls, you will need to authenticate your request by providing a signature. Lambda supports signature version 4. For more information, see Signature Version 4 signing process in the Amazon Web Services General Reference.
 public struct LambdaCore: AWSService {
     // MARK: Member variables
 
@@ -129,7 +129,7 @@ public struct LambdaCore: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnector to poll the connector state until it reaches ACTIVE. Once active, you can attach the connector to Lambda MicroVMs at run time using the egressNetworkConnectors parameter on RunMicroVm. This operation is idempotent when you provide a ClientToken — if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
+    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnector to poll the connector state until it reaches ACTIVE. Once active, you can attach the connector to supported Lambda compute resources — such as MicroVMs and WebFunctions — at run time. For how to attach a connector, see the documentation for the specific compute type. This operation is idempotent when you provide a ClientToken — if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
     @Sendable
     @inlinable
     public func createNetworkConnector(_ input: CreateNetworkConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNetworkConnectorResponse {
@@ -142,7 +142,7 @@ public struct LambdaCore: AWSService {
             logger: logger
         )
     }
-    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnector to poll the connector state until it reaches ACTIVE. Once active, you can attach the connector to Lambda MicroVMs at run time using the egressNetworkConnectors parameter on RunMicroVm. This operation is idempotent when you provide a ClientToken — if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
+    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnector to poll the connector state until it reaches ACTIVE. Once active, you can attach the connector to supported Lambda compute resources — such as MicroVMs and WebFunctions — at run time. For how to attach a connector, see the documentation for the specific compute type. This operation is idempotent when you provide a ClientToken — if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request with the same client token, the API returns the existing connector without creating a duplicate.
@@ -170,7 +170,7 @@ public struct LambdaCore: AWSService {
         return try await self.createNetworkConnector(input, logger: logger)
     }
 
-    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda MicroVMs are using it, as they will lose VPC egress connectivity immediately.
+    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda compute resources are using it, as they will lose VPC egress connectivity immediately. Deleting with an unqualified identifier removes the connector and all of its versions. To remove a single historical version, supply its version-qualified ARN; the connector and its remaining versions are unaffected. You can't delete the latest version on its own — delete the connector to remove it.
     @Sendable
     @inlinable
     public func deleteNetworkConnector(_ input: DeleteNetworkConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNetworkConnectorResponse {
@@ -183,10 +183,10 @@ public struct LambdaCore: AWSService {
             logger: logger
         )
     }
-    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda MicroVMs are using it, as they will lose VPC egress connectivity immediately.
+    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda compute resources are using it, as they will lose VPC egress connectivity immediately. Deleting with an unqualified identifier removes the connector and all of its versions. To remove a single historical version, supply its version-qualified ARN; the connector and its remaining versions are unaffected. You can't delete the latest version on its own — delete the connector to remove it.
     ///
     /// Parameters:
-    ///   - identifier: 
+    ///   - identifier: The identifier of the network connector to delete. Provide an unqualified ARN (or an ID or name) to delete the entire connector and all of its versions, or a version-qualified ARN — one that includes the immutable version suffix — to delete a specific historical version. You can't delete the latest version with a version-qualified identifier; delete the connector instead.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteNetworkConnector(
@@ -215,7 +215,7 @@ public struct LambdaCore: AWSService {
     /// Retrieves the current configuration, state, and metadata of a network connector. The Identifier parameter accepts the connector ID, name, or full ARN. Use this operation to poll connector state after creation or update, or to inspect the current VPC configuration and any failure reasons. The response includes the full connector configuration, current state, and — if the connector has been updated — the LastUpdateStatus and LastUpdateStatusReasonCode fields that indicate whether the most recent update succeeded or failed.
     ///
     /// Parameters:
-    ///   - identifier: 
+    ///   - identifier: The identifier of the network connector to retrieve. You can specify the connector ID, name, or ARN. Provide an unqualified ARN (or an ID or name) to retrieve the connector's latest version, or a version-qualified ARN — one that includes the immutable version suffix — to retrieve a specific historical version.
     ///   - logger: Logger use during operation
     @inlinable
     public func getNetworkConnector(
@@ -226,6 +226,44 @@ public struct LambdaCore: AWSService {
             identifier: identifier
         )
         return try await self.getNetworkConnector(input, logger: logger)
+    }
+
+    /// Returns a paginated list of the versions of a network connector. Each configuration update creates a new immutable version; this operation lists those versions for the connector you specify. You can optionally filter results by version state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the version-qualified ARN, version number, current state, and last modified timestamp for that version. To retrieve the current (latest) configuration of the connector, use GetNetworkConnector; to inspect a specific version, call GetNetworkConnector with a version-qualified identifier.
+    @Sendable
+    @inlinable
+    public func listNetworkConnectorVersions(_ input: ListNetworkConnectorVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNetworkConnectorVersionsResponse {
+        try await self.client.execute(
+            operation: "ListNetworkConnectorVersions", 
+            path: "/2026-04-04/network-connectors/{Identifier}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of the versions of a network connector. Each configuration update creates a new immutable version; this operation lists those versions for the connector you specify. You can optionally filter results by version state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the version-qualified ARN, version number, current state, and last modified timestamp for that version. To retrieve the current (latest) configuration of the connector, use GetNetworkConnector; to inspect a specific version, call GetNetworkConnector with a version-qualified identifier.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the network connector whose versions you want to list. You can specify the connector ID, name, or full ARN. Specify an unqualified identifier — this operation lists all versions of the connector, not a specific version.
+    ///   - marker: The pagination token from a previous ListNetworkConnectorVersions response. Use this value to retrieve the next page of results.
+    ///   - maxItems: The maximum number of versions to return per page. Valid range: 1 to 100.
+    ///   - state: Optional filter to return only versions in the specified state (for example, ACTIVE or FAILED).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNetworkConnectorVersions(
+        identifier: String,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        state: NetworkConnectorState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNetworkConnectorVersionsResponse {
+        let input = ListNetworkConnectorVersionsRequest(
+            identifier: identifier, 
+            marker: marker, 
+            maxItems: maxItems, 
+            state: state
+        )
+        return try await self.listNetworkConnectorVersions(input, logger: logger)
     }
 
     /// Returns a paginated list of network connectors in your account for the current Region. You can optionally filter results by connector state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the connector ARN, name, ID, type, current state, and last modified timestamp. To retrieve full configuration details for a specific connector, use GetNetworkConnector.
@@ -263,7 +301,7 @@ public struct LambdaCore: AWSService {
         return try await self.listNetworkConnectors(input, logger: logger)
     }
 
-    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken.
+    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken. Each successful configuration change creates a new immutable version. A connector can have a limited number of versions; once that limit is reached, further updates fail with NetworkConnectorLimitExceededException until you delete older versions.
     @Sendable
     @inlinable
     public func updateNetworkConnector(_ input: UpdateNetworkConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNetworkConnectorResponse {
@@ -276,12 +314,12 @@ public struct LambdaCore: AWSService {
             logger: logger
         )
     }
-    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken.
+    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken. Each successful configuration change creates a new immutable version. A connector can have a limited number of versions; once that limit is reached, further updates fail with NetworkConnectorLimitExceededException until you delete older versions.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the update request.
     ///   - configuration: The updated network configuration for the connector. Provide the full VpcEgressConfiguration including all subnet IDs and security group IDs — this replaces the existing configuration.
-    ///   - identifier: 
+    ///   - identifier: The identifier of the network connector to update. You can specify the connector ID, name, or full ARN.
     ///   - operatorRole: The updated ARN of the IAM role that Lambda assumes to manage ENIs. Use this to change the operator role without recreating the connector.
     ///   - logger: Logger use during operation
     @inlinable
@@ -315,6 +353,46 @@ extension LambdaCore {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LambdaCore {
+    /// Return PaginatorSequence for operation ``listNetworkConnectorVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkConnectorVersionsPaginator(
+        _ input: ListNetworkConnectorVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNetworkConnectorVersionsRequest, ListNetworkConnectorVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listNetworkConnectorVersions,
+            inputKey: \ListNetworkConnectorVersionsRequest.marker,
+            outputKey: \ListNetworkConnectorVersionsResponse.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNetworkConnectorVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - identifier: The identifier of the network connector whose versions you want to list. You can specify the connector ID, name, or full ARN. Specify an unqualified identifier — this operation lists all versions of the connector, not a specific version.
+    ///   - maxItems: The maximum number of versions to return per page. Valid range: 1 to 100.
+    ///   - state: Optional filter to return only versions in the specified state (for example, ACTIVE or FAILED).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNetworkConnectorVersionsPaginator(
+        identifier: String,
+        maxItems: Int? = nil,
+        state: NetworkConnectorState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNetworkConnectorVersionsRequest, ListNetworkConnectorVersionsResponse> {
+        let input = ListNetworkConnectorVersionsRequest(
+            identifier: identifier, 
+            maxItems: maxItems, 
+            state: state
+        )
+        return self.listNetworkConnectorVersionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listNetworkConnectors(_:logger:)``.
     ///
     /// - Parameters:
@@ -350,6 +428,18 @@ extension LambdaCore {
             state: state
         )
         return self.listNetworkConnectorsPaginator(input, logger: logger)
+    }
+}
+
+extension LambdaCore.ListNetworkConnectorVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LambdaCore.ListNetworkConnectorVersionsRequest {
+        return .init(
+            identifier: self.identifier,
+            marker: token,
+            maxItems: self.maxItems,
+            state: self.state
+        )
     }
 }
 

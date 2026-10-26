@@ -817,6 +817,7 @@ extension Inspector2 {
         case dotnet10 = "DOTNET_10"
         case dotnet6 = "DOTNET_6"
         case dotnet7 = "DOTNET_7"
+        case dotnet8 = "DOTNET_8"
         case go1X = "GO_1_X"
         case java11 = "JAVA_11"
         case java17 = "JAVA_17"
@@ -829,15 +830,20 @@ extension Inspector2 {
         case nodejs14X = "NODEJS_14_X"
         case nodejs16X = "NODEJS_16_X"
         case nodejs18X = "NODEJS_18_X"
+        case nodejs20X = "NODEJS_20_X"
         case nodejs22X = "NODEJS_22_X"
         case nodejs24X = "NODEJS_24_X"
         case python310 = "PYTHON_3_10"
         case python311 = "PYTHON_3_11"
+        case python312 = "PYTHON_3_12"
+        case python313 = "PYTHON_3_13"
+        case python314 = "PYTHON_3_14"
         case python37 = "PYTHON_3_7"
         case python38 = "PYTHON_3_8"
         case python39 = "PYTHON_3_9"
         case ruby27 = "RUBY_2_7"
         case ruby32 = "RUBY_3_2"
+        case ruby33 = "RUBY_3_3"
         case unsupported = "UNSUPPORTED"
         public var description: String { return self.rawValue }
     }
@@ -10796,22 +10802,34 @@ extension Inspector2 {
         public let critical: Int64?
         /// The total count of high severity findings.
         public let high: Int64?
+        /// The total count of informational severity findings.
+        public let informational: Int64?
+        /// The total count of low severity findings.
+        public let low: Int64?
         /// The total count of medium severity findings.
         public let medium: Int64?
+        /// The total count of untriaged findings.
+        public let untriaged: Int64?
 
         @inlinable
-        public init(all: Int64? = nil, critical: Int64? = nil, high: Int64? = nil, medium: Int64? = nil) {
+        public init(all: Int64? = nil, critical: Int64? = nil, high: Int64? = nil, informational: Int64? = nil, low: Int64? = nil, medium: Int64? = nil, untriaged: Int64? = nil) {
             self.all = all
             self.critical = critical
             self.high = high
+            self.informational = informational
+            self.low = low
             self.medium = medium
+            self.untriaged = untriaged
         }
 
         private enum CodingKeys: String, CodingKey {
             case all = "all"
             case critical = "critical"
             case high = "high"
+            case informational = "informational"
+            case low = "low"
             case medium = "medium"
+            case untriaged = "untriaged"
         }
     }
 

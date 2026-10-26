@@ -8057,6 +8057,8 @@ extension Omics {
     }
 
     public struct RegistryMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that holds the credentials for the upstream registry. You must specify this value when Amazon Elastic Container Registry (Amazon ECR) doesn't support pull through cache for the upstream registry. HealthOmics supports only some of these registries. The workflow role must have permission to call the secretsmanager:GetSecretValue operation on the secret. For more information about the supported registries, see Container images in the Amazon Web Services HealthOmics User Guide.
+        public let credentialArn: String?
         /// Account ID of the account that owns the upstream container image.
         public let ecrAccountId: String?
         /// The repository prefix to use in the ECR private repository.
@@ -8067,7 +8069,8 @@ extension Omics {
         public let upstreamRepositoryPrefix: String?
 
         @inlinable
-        public init(ecrAccountId: String? = nil, ecrRepositoryPrefix: String? = nil, upstreamRegistryUrl: String? = nil, upstreamRepositoryPrefix: String? = nil) {
+        public init(credentialArn: String? = nil, ecrAccountId: String? = nil, ecrRepositoryPrefix: String? = nil, upstreamRegistryUrl: String? = nil, upstreamRepositoryPrefix: String? = nil) {
+            self.credentialArn = credentialArn
             self.ecrAccountId = ecrAccountId
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.upstreamRegistryUrl = upstreamRegistryUrl
@@ -8075,6 +8078,9 @@ extension Omics {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, max: 2048)
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, min: 20)
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, pattern: "^arn:aws(-\\w+)*:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9\\/_+=.@-]+$")
             try self.validate(self.ecrAccountId, name: "ecrAccountId", parent: name, max: 12)
             try self.validate(self.ecrAccountId, name: "ecrAccountId", parent: name, min: 12)
             try self.validate(self.ecrAccountId, name: "ecrAccountId", parent: name, pattern: "^[0-9]+$")
@@ -8090,6 +8096,7 @@ extension Omics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case credentialArn = "credentialArn"
             case ecrAccountId = "ecrAccountId"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
@@ -10545,11 +10552,14 @@ extension Omics {
         public let securityGroupIds: [String]?
         /// List of subnet IDs. Maximum of 16 subnets allowed.
         public let subnetIds: [String]?
+        /// The Amazon Web Services account ID of the cross-account VPC owner for RAM-shared VPC configurations.
+        public let vpcOwnerAccountId: String?
 
         @inlinable
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcOwnerAccountId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+            self.vpcOwnerAccountId = vpcOwnerAccountId
         }
 
         public func validate(name: String) throws {
@@ -10563,11 +10573,15 @@ extension Omics {
                 try validate($0, name: "subnetIds[]", parent: name, min: 8)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-f]+$")
             }
+            try self.validate(self.vpcOwnerAccountId, name: "vpcOwnerAccountId", parent: name, max: 12)
+            try self.validate(self.vpcOwnerAccountId, name: "vpcOwnerAccountId", parent: name, min: 12)
+            try self.validate(self.vpcOwnerAccountId, name: "vpcOwnerAccountId", parent: name, pattern: "^[0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
+            case vpcOwnerAccountId = "vpcOwnerAccountId"
         }
     }
 
@@ -10578,18 +10592,22 @@ extension Omics {
         public let subnetIds: [String]?
         /// VPC ID computed from the provided subnet IDs.
         public let vpcId: String?
+        /// The Amazon Web Services account ID of the cross-account VPC owner for RAM-shared VPC configurations.
+        public let vpcOwnerAccountId: String?
 
         @inlinable
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil, vpcOwnerAccountId: String? = nil) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
+            self.vpcOwnerAccountId = vpcOwnerAccountId
         }
 
         private enum CodingKeys: String, CodingKey {
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
             case vpcId = "vpcId"
+            case vpcOwnerAccountId = "vpcOwnerAccountId"
         }
     }
 

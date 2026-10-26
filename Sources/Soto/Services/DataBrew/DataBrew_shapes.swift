@@ -300,7 +300,7 @@ extension DataBrew {
     }
 
     public struct ConditionExpression: AWSEncodableShape & AWSDecodableShape {
-        /// A specific condition to apply to a recipe action. For more information, see Recipe structure in the Glue DataBrew Developer Guide.
+        /// A specific condition to apply to a recipe action. For more information, see Recipe structure in the  Glue DataBrew Developer Guide.
         public let condition: String
         /// A column to apply this condition to.
         public let targetColumn: String
@@ -800,7 +800,7 @@ extension DataBrew {
     }
 
     public struct CreateScheduleRequest: AWSEncodableShape {
-        /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
+        /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the  Glue DataBrew Developer Guide.
         public let cronExpression: String
         /// The name or names of one or more jobs to be run.
         public let jobNames: [String]?
@@ -2033,7 +2033,7 @@ extension DataBrew {
         public let createDate: Date?
         /// The identifier (user name) of the user who created the schedule.
         public let createdBy: String?
-        /// The date or dates and time or times when the jobs are to be run for the schedule. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
+        /// The date or dates and time or times when the jobs are to be run for the schedule. For more information, see Cron expressions in the  Glue DataBrew Developer Guide.
         public let cronExpression: String?
         /// The name or names of one or more jobs to be run by using the schedule.
         public let jobNames: [String]?
@@ -3555,7 +3555,7 @@ extension DataBrew {
         public let createDate: Date?
         /// The Amazon Resource Name (ARN) of the user who created the schedule.
         public let createdBy: String?
-        /// The dates and times when the job is to run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
+        /// The dates and times when the job is to run. For more information, see Cron expressions in the  Glue DataBrew Developer Guide.
         public let cronExpression: String?
         /// A list of jobs to be run, according to the schedule.
         public let jobNames: [String]?
@@ -4394,7 +4394,7 @@ extension DataBrew {
     }
 
     public struct UpdateScheduleRequest: AWSEncodableShape {
-        /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the Glue DataBrew Developer Guide.
+        /// The date or dates and time or times when the jobs are to be run. For more information, see Cron expressions in the  Glue DataBrew Developer Guide.
         public let cronExpression: String
         /// The name or names of one or more jobs to be run for this schedule.
         public let jobNames: [String]?

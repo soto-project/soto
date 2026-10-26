@@ -830,6 +830,61 @@ extension Health {
         }
     }
 
+    public struct DescribeServiceLifecycleRequest: AWSEncodableShape {
+        /// Values to narrow the results returned.
+        public let filter: ServiceLifecycleFilter?
+        /// The maximum number of items to return in one batch, between 1 and 20, inclusive.
+        public let maxResults: Int?
+        /// If the results of a search are large, only a portion of the
+        /// results are returned, and a nextToken pagination token is returned in the response. To
+        /// retrieve the next batch of results, reissue the search request and include the returned token.
+        /// When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filter: ServiceLifecycleFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=/+_.-]{4,10000}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeServiceLifecycleResponse: AWSDecodableShape {
+        /// If the results of a search are large, only a portion of the
+        /// results are returned, and a nextToken pagination token is returned in the response. To
+        /// retrieve the next batch of results, reissue the search request and include the returned token.
+        /// When all results have been returned, the response does not contain a pagination token value.
+        public let nextToken: String?
+        /// The list of service lifecycle entries matching the filter criteria.
+        public let serviceLifecycles: [ServiceLifecycle]?
+
+        @inlinable
+        public init(nextToken: String? = nil, serviceLifecycles: [ServiceLifecycle]? = nil) {
+            self.nextToken = nextToken
+            self.serviceLifecycles = serviceLifecycles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case serviceLifecycles = "serviceLifecycles"
+        }
+    }
+
     public struct EntityAccountFilter: AWSEncodableShape {
         /// The 12-digit Amazon Web Services account numbers that contains the affected entities.
         public let awsAccountId: String?
@@ -1347,6 +1402,36 @@ extension Health {
         }
     }
 
+    public struct LifecycleEvent: AWSDecodableShape {
+        /// The date of the lifecycle event.
+        public let date: Date?
+        /// A description of the lifecycle event.
+        public let description: String?
+        /// The potential impact risks associated with this lifecycle event.
+        public let impactRisks: [String]?
+        /// The type of lifecycle event (for example, end-of-support, end-of-life).
+        public let lifecycleEventType: String?
+        /// The Amazon Web Services Regions affected by this lifecycle event.
+        public let regions: [String]?
+
+        @inlinable
+        public init(date: Date? = nil, description: String? = nil, impactRisks: [String]? = nil, lifecycleEventType: String? = nil, regions: [String]? = nil) {
+            self.date = date
+            self.description = description
+            self.impactRisks = impactRisks
+            self.lifecycleEventType = lifecycleEventType
+            self.regions = regions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case date = "date"
+            case description = "description"
+            case impactRisks = "impactRisks"
+            case lifecycleEventType = "lifecycleEventType"
+            case regions = "regions"
+        }
+    }
+
     public struct OrganizationAffectedEntitiesErrorItem: AWSDecodableShape {
         /// The 12-digit Amazon Web Services account numbers that contains the affected entities.
         public let awsAccountId: String?
@@ -1625,6 +1710,56 @@ extension Health {
             case regions = "regions"
             case services = "services"
             case startTime = "startTime"
+        }
+    }
+
+    public struct ServiceLifecycle: AWSDecodableShape {
+        /// The list of lifecycle events for this service version.
+        public let lifecycleEvents: [LifecycleEvent]?
+        /// The recommended version to upgrade to.
+        public let recommendedVersion: String?
+        /// The name of the Amazon Web Services service.
+        public let service: String?
+        /// A human-readable title for the lifecycle entry.
+        public let title: String?
+        /// The version of the service.
+        public let version: String?
+
+        @inlinable
+        public init(lifecycleEvents: [LifecycleEvent]? = nil, recommendedVersion: String? = nil, service: String? = nil, title: String? = nil, version: String? = nil) {
+            self.lifecycleEvents = lifecycleEvents
+            self.recommendedVersion = recommendedVersion
+            self.service = service
+            self.title = title
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lifecycleEvents = "lifecycleEvents"
+            case recommendedVersion = "recommendedVersion"
+            case service = "service"
+            case title = "title"
+            case version = "version"
+        }
+    }
+
+    public struct ServiceLifecycleFilter: AWSEncodableShape {
+        /// The Amazon Web Services service name to filter by.
+        public let service: String?
+
+        @inlinable
+        public init(service: String? = nil) {
+            self.service = service
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.service, name: "service", parent: name, max: 30)
+            try self.validate(self.service, name: "service", parent: name, min: 2)
+            try self.validate(self.service, name: "service", parent: name, pattern: "^[^:/]{2,30}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case service = "service"
         }
     }
 }

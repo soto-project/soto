@@ -537,7 +537,7 @@ public struct MediaConnect: AWSService {
     ///   - regionName: The Amazon Web Services Region for the router input. Defaults to the current region if not specified.
     ///   - routingScope: Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - connects only to outputs in same Region. GLOBAL - connects to outputs in any Region.
     ///   - tags: Key-value pairs that can be used to tag and organize this router input.
-    ///   - tier: The tier level for the router input.
+    ///   - tier: The tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:    INPUT_20 – 20 Mbps    INPUT_50 – 50 Mbps    INPUT_100 – 100 Mbps    INPUT_250 – 250 Mbps    INPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     ///   - transitEncryption: The transit encryption settings for the router input.
     ///   - logger: Logger use during operation
     @inlinable
@@ -640,7 +640,7 @@ public struct MediaConnect: AWSService {
     ///   - regionName: The Amazon Web Services Region for the router output. Defaults to the current region if not specified.
     ///   - routingScope: Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
     ///   - tags: Key-value pairs that can be used to tag this router output.
-    ///   - tier: The tier level for the router output.
+    ///   - tier: The tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:    OUTPUT_20 – 20 Mbps    OUTPUT_50 – 50 Mbps    OUTPUT_100 – 100 Mbps    OUTPUT_250 – 250 Mbps    OUTPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     ///   - logger: Logger use during operation
     @inlinable
     public func createRouterOutput(
@@ -2637,6 +2637,7 @@ public struct MediaConnect: AWSService {
     ///   - maxLatency:  The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
     ///   - mediaStreamOutputConfigurations:  The media streams that are associated with the output, and the parameters for those associations.
     ///   - minLatency:  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+    ///   - ndiAudioReferenceLevel: The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect leaves the value unchanged.
     ///   - ndiOutputTimecodeSource: Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect leaves the value unchanged.    EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
     ///   - ndiProgramName:  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
     ///   - ndiSpeedHqQuality: A quality setting for the NDI Speed HQ encoder.
@@ -2663,6 +2664,7 @@ public struct MediaConnect: AWSService {
         maxLatency: Int? = nil,
         mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil,
         minLatency: Int? = nil,
+        ndiAudioReferenceLevel: Int? = nil,
         ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil,
         ndiProgramName: String? = nil,
         ndiSpeedHqQuality: Int? = nil,
@@ -2689,6 +2691,7 @@ public struct MediaConnect: AWSService {
             maxLatency: maxLatency, 
             mediaStreamOutputConfigurations: mediaStreamOutputConfigurations, 
             minLatency: minLatency, 
+            ndiAudioReferenceLevel: ndiAudioReferenceLevel, 
             ndiOutputTimecodeSource: ndiOutputTimecodeSource, 
             ndiProgramName: ndiProgramName, 
             ndiSpeedHqQuality: ndiSpeedHqQuality, 
@@ -2858,7 +2861,7 @@ public struct MediaConnect: AWSService {
     ///   - maximumBitrate: The updated maximum bitrate for the router input.
     ///   - name: The updated name for the router input.
     ///   - routingScope: Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - can be assigned only to outputs in the same Region. GLOBAL - can be assigned to outputs in any Region.
-    ///   - tier: The updated tier level for the router input.
+    ///   - tier: The updated tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:    INPUT_20 – 20 Mbps    INPUT_50 – 50 Mbps    INPUT_100 – 100 Mbps    INPUT_250 – 250 Mbps    INPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     ///   - transitEncryption: The updated transit encryption settings for the router input.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2946,7 +2949,7 @@ public struct MediaConnect: AWSService {
     ///   - maximumBitrate: The updated maximum bitrate for the router output.
     ///   - name: The updated name for the router output.
     ///   - routingScope: Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
-    ///   - tier: The updated tier level for the router output.
+    ///   - tier: The updated tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:    OUTPUT_20 – 20 Mbps    OUTPUT_50 – 50 Mbps    OUTPUT_100 – 100 Mbps    OUTPUT_250 – 250 Mbps    OUTPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateRouterOutput(

@@ -316,7 +316,9 @@ extension MediaConnect {
     public enum RouterInputTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case input100 = "INPUT_100"
         case input20 = "INPUT_20"
+        case input250 = "INPUT_250"
         case input50 = "INPUT_50"
+        case input500 = "INPUT_500"
         public var description: String { return self.rawValue }
     }
 
@@ -384,7 +386,9 @@ extension MediaConnect {
     public enum RouterOutputTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case output100 = "OUTPUT_100"
         case output20 = "OUTPUT_20"
+        case output250 = "OUTPUT_250"
         case output50 = "OUTPUT_50"
+        case output500 = "OUTPUT_500"
         public var description: String { return self.rawValue }
     }
 
@@ -452,6 +456,58 @@ extension MediaConnect {
 
     public enum TlsEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `public` = "PUBLIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoColorimetry: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bt2020 = "BT2020"
+        case bt470bg = "BT470BG"
+        case bt470m = "BT470M"
+        case bt601 = "BT601"
+        case bt709 = "BT709"
+        case genericFilm = "GENERIC_FILM"
+        case smpte240m = "SMPTE240M"
+        case smpte428 = "SMPTE428"
+        case smpte431 = "SMPTE431"
+        case smpte432 = "SMPTE432"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoMatrixCoefficients: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bt2020Cl = "BT2020_CL"
+        case bt2020Ncl = "BT2020_NCL"
+        case bt2100Ictcp = "BT2100_ICTCP"
+        case bt470bg = "BT470BG"
+        case bt601 = "BT601"
+        case bt709 = "BT709"
+        case chromaticityDerivedCl = "CHROMATICITY_DERIVED_CL"
+        case chromaticityDerivedNcl = "CHROMATICITY_DERIVED_NCL"
+        case fcc = "FCC"
+        case identity = "IDENTITY"
+        case iptC2 = "IPT_C2"
+        case smpte2085 = "SMPTE2085"
+        case smpte240m = "SMPTE240M"
+        case ycgco = "YCGCO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoTransferCharacteristics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bt1361Ecg = "BT1361_ECG"
+        case bt202010 = "BT2020_10"
+        case bt202012 = "BT2020_12"
+        case bt2100Hlg = "BT2100_HLG"
+        case bt2100Pq = "BT2100_PQ"
+        case bt470bg = "BT470BG"
+        case bt470m = "BT470M"
+        case bt601 = "BT601"
+        case bt709 = "BT709"
+        case iec6196621 = "IEC61966_2_1"
+        case iec6196624 = "IEC61966_2_4"
+        case linear = "LINEAR"
+        case log100 = "LOG100"
+        case log316 = "LOG316"
+        case smpte240m = "SMPTE240M"
+        case smpte428 = "SMPTE428"
         public var description: String { return self.rawValue }
     }
 
@@ -1782,6 +1838,8 @@ extension MediaConnect {
         public let minLatency: Int?
         ///  The name of the output. This value must be unique within the current flow.
         public let name: String?
+        /// The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect uses -20.
+        public let ndiAudioReferenceLevel: Int?
         /// Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect uses EMBEDDED_TIMECODE.    EMBEDDED_TIMECODE (default) - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
         public let ndiOutputTimecodeSource: NdiOutputTimecodeSource?
         ///  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
@@ -1811,7 +1869,7 @@ extension MediaConnect {
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputStatus: OutputStatus? = nil, outputTags: [String: String]? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiAudioReferenceLevel: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputStatus: OutputStatus? = nil, outputTags: [String: String]? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -1820,6 +1878,7 @@ extension MediaConnect {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.ndiAudioReferenceLevel = ndiAudioReferenceLevel
             self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
@@ -1837,6 +1896,8 @@ extension MediaConnect {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.ndiAudioReferenceLevel, name: "ndiAudioReferenceLevel", parent: name, max: 0)
+            try self.validate(self.ndiAudioReferenceLevel, name: "ndiAudioReferenceLevel", parent: name, min: -40)
             try self.routerIntegrationTransitEncryption?.validate(name: "\(name).routerIntegrationTransitEncryption")
         }
 
@@ -1849,6 +1910,7 @@ extension MediaConnect {
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case minLatency = "minLatency"
             case name = "name"
+            case ndiAudioReferenceLevel = "ndiAudioReferenceLevel"
             case ndiOutputTimecodeSource = "ndiOutputTimecodeSource"
             case ndiProgramName = "ndiProgramName"
             case ndiSpeedHqQuality = "ndiSpeedHqQuality"
@@ -2319,6 +2381,28 @@ extension MediaConnect {
         }
     }
 
+    public struct ColorInformation: AWSDecodableShape {
+        /// The color primaries that the video stream uses (for example, BT709 or BT2020).
+        public let colorimetry: VideoColorimetry?
+        /// The YCbCr matrix coefficients that the video stream uses (for example, BT709 or BT2020_NCL).
+        public let matrixCoefficients: VideoMatrixCoefficients?
+        /// The transfer characteristics that the video stream uses (for example, BT601, BT709, BT2100_PQ, or BT2100_HLG).
+        public let transferCharacteristics: VideoTransferCharacteristics?
+
+        @inlinable
+        public init(colorimetry: VideoColorimetry? = nil, matrixCoefficients: VideoMatrixCoefficients? = nil, transferCharacteristics: VideoTransferCharacteristics? = nil) {
+            self.colorimetry = colorimetry
+            self.matrixCoefficients = matrixCoefficients
+            self.transferCharacteristics = transferCharacteristics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorimetry = "colorimetry"
+            case matrixCoefficients = "matrixCoefficients"
+            case transferCharacteristics = "transferCharacteristics"
+        }
+    }
+
     public struct ContentQualityAnalysisFeatureConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Settings for black frames detection.
         public let blackFrames: BlackFramesConfiguration?
@@ -2549,7 +2633,7 @@ extension MediaConnect {
         public let routingScope: RoutingScope
         /// Key-value pairs that can be used to tag and organize this router input.
         public let tags: [String: String]?
-        /// The tier level for the router input.
+        /// The tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:    INPUT_20 – 20 Mbps    INPUT_50 – 50 Mbps    INPUT_100 – 100 Mbps    INPUT_250 – 250 Mbps    INPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterInputTier
         /// The transit encryption settings for the router input.
         public let transitEncryption: RouterInputTransitEncryption?
@@ -2678,7 +2762,7 @@ extension MediaConnect {
         public let routingScope: RoutingScope
         /// Key-value pairs that can be used to tag this router output.
         public let tags: [String: String]?
-        /// The tier level for the router output.
+        /// The tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:    OUTPUT_20 – 20 Mbps    OUTPUT_50 – 50 Mbps    OUTPUT_100 – 100 Mbps    OUTPUT_250 – 250 Mbps    OUTPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterOutputTier
 
         @inlinable
@@ -5762,6 +5846,8 @@ extension MediaConnect {
         public let channels: Int?
         ///  The codec used for the media stream. For NDI sources, use speed-hq.
         public let codec: String?
+        ///  The color signaling of the video stream. Used when the streamType is Video.
+        public let color: ColorInformation?
         ///  The number of video frames displayed per second. Used when the streamType is Video.
         public let frameRate: String?
         ///  The width and height dimensions of the video frame in pixels. Used when the streamType is Video.
@@ -5776,9 +5862,10 @@ extension MediaConnect {
         public let streamType: String?
 
         @inlinable
-        public init(channels: Int? = nil, codec: String? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, sampleRate: Int? = nil, scanMode: ScanMode? = nil, streamId: Int? = nil, streamType: String? = nil) {
+        public init(channels: Int? = nil, codec: String? = nil, color: ColorInformation? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, sampleRate: Int? = nil, scanMode: ScanMode? = nil, streamId: Int? = nil, streamType: String? = nil) {
             self.channels = channels
             self.codec = codec
+            self.color = color
             self.frameRate = frameRate
             self.frameResolution = frameResolution
             self.sampleRate = sampleRate
@@ -5790,6 +5877,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case channels = "channels"
             case codec = "codec"
+            case color = "color"
             case frameRate = "frameRate"
             case frameResolution = "frameResolution"
             case sampleRate = "sampleRate"
@@ -5840,15 +5928,24 @@ extension MediaConnect {
     }
 
     public struct NdiSourceSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The audio reference level of the NDI sender, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect uses -20.
+        public let audioReferenceLevel: Int?
         ///  The exact name of an existing NDI sender that's registered with your discovery server. If included, the format of this name must be MACHINENAME (ProgramName).
         public let sourceName: String?
 
         @inlinable
-        public init(sourceName: String? = nil) {
+        public init(audioReferenceLevel: Int? = nil, sourceName: String? = nil) {
+            self.audioReferenceLevel = audioReferenceLevel
             self.sourceName = sourceName
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.audioReferenceLevel, name: "audioReferenceLevel", parent: name, max: 0)
+            try self.validate(self.audioReferenceLevel, name: "audioReferenceLevel", parent: name, min: -40)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case audioReferenceLevel = "audioReferenceLevel"
             case sourceName = "sourceName"
         }
     }
@@ -6631,7 +6728,7 @@ extension MediaConnect {
         public let streamDetails: RouterInputStreamDetails
         /// Key-value pairs that can be used to tag and organize this router input.
         public let tags: [String: String]
-        /// The tier level of the router input.
+        /// The tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:    INPUT_20 – 20 Mbps    INPUT_50 – 50 Mbps    INPUT_100 – 100 Mbps    INPUT_250 – 250 Mbps    INPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterInputTier
         public let transitEncryption: RouterInputTransitEncryption
         /// The timestamp when the router input was last updated.
@@ -6885,7 +6982,7 @@ extension MediaConnect {
         public let streamDetails: RouterOutputStreamDetails
         /// Key-value pairs that can be used to tag and organize this router output.
         public let tags: [String: String]
-        /// The tier level of the router output.
+        /// The tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:    OUTPUT_20 – 20 Mbps    OUTPUT_50 – 50 Mbps    OUTPUT_100 – 100 Mbps    OUTPUT_250 – 250 Mbps    OUTPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterOutputTier
         /// The timestamp when the router output was last updated.
         public let updatedAt: Date
@@ -7151,6 +7248,7 @@ extension MediaConnect {
         }
 
         public func validate(name: String) throws {
+            try self.ndiSourceSettings?.validate(name: "\(name).ndiSourceSettings")
             try self.routerIntegrationTransitDecryption?.validate(name: "\(name).routerIntegrationTransitDecryption")
         }
 
@@ -7998,6 +8096,8 @@ extension MediaConnect {
         public let maxSyncBuffer: Int?
         ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
+        /// The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). For NDI outputs, this field is always present and defaults to -20.
+        public let ndiAudioReferenceLevel: Int?
         /// The timecode source for NDI output frames. For NDI outputs, this field is always present and defaults to EMBEDDED_TIMECODE.    EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
         public let ndiOutputTimecodeSource: NdiOutputTimecodeSource?
         /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
@@ -8024,12 +8124,13 @@ extension MediaConnect {
         public let streamId: String?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSourceSettings: NdiSourceSettings? = nil, ndiSpeedHqQuality: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, ndiAudioReferenceLevel: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSourceSettings: NdiSourceSettings? = nil, ndiSpeedHqQuality: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
             self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
+            self.ndiAudioReferenceLevel = ndiAudioReferenceLevel
             self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSourceSettings = ndiSourceSettings
@@ -8050,6 +8151,7 @@ extension MediaConnect {
             case maxLatency = "maxLatency"
             case maxSyncBuffer = "maxSyncBuffer"
             case minLatency = "minLatency"
+            case ndiAudioReferenceLevel = "ndiAudioReferenceLevel"
             case ndiOutputTimecodeSource = "ndiOutputTimecodeSource"
             case ndiProgramName = "ndiProgramName"
             case ndiSourceSettings = "ndiSourceSettings"
@@ -8068,14 +8170,18 @@ extension MediaConnect {
     public struct TransportMediaInfo: AWSDecodableShape {
         ///  The list of transport stream programs in the current flow's source.
         public let programs: [TransportStreamProgram]?
+        /// The transport stream ID (TSID) of the source, from the Program Association Table (PAT).
+        public let tsId: Int?
 
         @inlinable
-        public init(programs: [TransportStreamProgram]? = nil) {
+        public init(programs: [TransportStreamProgram]? = nil, tsId: Int? = nil) {
             self.programs = programs
+            self.tsId = tsId
         }
 
         private enum CodingKeys: String, CodingKey {
             case programs = "programs"
+            case tsId = "tsId"
         }
     }
 
@@ -8084,6 +8190,8 @@ extension MediaConnect {
         public let channels: Int?
         ///  The codec used by the stream.
         public let codec: String?
+        /// The color signaling of the video stream.
+        public let color: ColorInformation?
         ///  The frame rate used by the video stream.
         public let frameRate: String?
         /// The frame resolution used by the video stream.
@@ -8098,9 +8206,10 @@ extension MediaConnect {
         public let streamType: String?
 
         @inlinable
-        public init(channels: Int? = nil, codec: String? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, pid: Int? = nil, sampleRate: Int? = nil, sampleSize: Int? = nil, streamType: String? = nil) {
+        public init(channels: Int? = nil, codec: String? = nil, color: ColorInformation? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, pid: Int? = nil, sampleRate: Int? = nil, sampleSize: Int? = nil, streamType: String? = nil) {
             self.channels = channels
             self.codec = codec
+            self.color = color
             self.frameRate = frameRate
             self.frameResolution = frameResolution
             self.pid = pid
@@ -8112,6 +8221,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case channels = "channels"
             case codec = "codec"
+            case color = "color"
             case frameRate = "frameRate"
             case frameResolution = "frameResolution"
             case pid = "pid"
@@ -8698,6 +8808,8 @@ extension MediaConnect {
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
         ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
+        /// The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect leaves the value unchanged.
+        public let ndiAudioReferenceLevel: Int?
         /// Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect leaves the value unchanged.    EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.    UTC_SYSTEM_TIME - Generates timecodes based on the system clock time when each frame is sent.
         public let ndiOutputTimecodeSource: NdiOutputTimecodeSource?
         ///  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
@@ -8729,7 +8841,7 @@ extension MediaConnect {
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputArn: String, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, ndiAudioReferenceLevel: Int? = nil, ndiOutputTimecodeSource: NdiOutputTimecodeSource? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputArn: String, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitEncryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -8738,6 +8850,7 @@ extension MediaConnect {
             self.maxLatency = maxLatency
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
+            self.ndiAudioReferenceLevel = ndiAudioReferenceLevel
             self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
@@ -8766,6 +8879,7 @@ extension MediaConnect {
             try container.encodeIfPresent(self.maxLatency, forKey: .maxLatency)
             try container.encodeIfPresent(self.mediaStreamOutputConfigurations, forKey: .mediaStreamOutputConfigurations)
             try container.encodeIfPresent(self.minLatency, forKey: .minLatency)
+            try container.encodeIfPresent(self.ndiAudioReferenceLevel, forKey: .ndiAudioReferenceLevel)
             try container.encodeIfPresent(self.ndiOutputTimecodeSource, forKey: .ndiOutputTimecodeSource)
             try container.encodeIfPresent(self.ndiProgramName, forKey: .ndiProgramName)
             try container.encodeIfPresent(self.ndiSpeedHqQuality, forKey: .ndiSpeedHqQuality)
@@ -8785,6 +8899,8 @@ extension MediaConnect {
 
         public func validate(name: String) throws {
             try self.validate(self.flowArn, name: "flowArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:flow:[a-zA-Z0-9-]+:[a-zA-Z0-9_-]+$")
+            try self.validate(self.ndiAudioReferenceLevel, name: "ndiAudioReferenceLevel", parent: name, max: 0)
+            try self.validate(self.ndiAudioReferenceLevel, name: "ndiAudioReferenceLevel", parent: name, min: -40)
             try self.routerIntegrationTransitEncryption?.validate(name: "\(name).routerIntegrationTransitEncryption")
         }
 
@@ -8796,6 +8912,7 @@ extension MediaConnect {
             case maxLatency = "maxLatency"
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case minLatency = "minLatency"
+            case ndiAudioReferenceLevel = "ndiAudioReferenceLevel"
             case ndiOutputTimecodeSource = "ndiOutputTimecodeSource"
             case ndiProgramName = "ndiProgramName"
             case ndiSpeedHqQuality = "ndiSpeedHqQuality"
@@ -9002,6 +9119,7 @@ extension MediaConnect {
 
         public func validate(name: String) throws {
             try self.validate(self.flowArn, name: "flowArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):mediaconnect:[a-z0-9-]+:[0-9]{12}:flow:[a-zA-Z0-9-]+:[a-zA-Z0-9_-]+$")
+            try self.ndiSourceSettings?.validate(name: "\(name).ndiSourceSettings")
             try self.routerIntegrationTransitDecryption?.validate(name: "\(name).routerIntegrationTransitDecryption")
         }
 
@@ -9163,7 +9281,7 @@ extension MediaConnect {
         public let name: String?
         /// Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - can be assigned only to outputs in the same Region. GLOBAL - can be assigned to outputs in any Region.
         public let routingScope: RoutingScope?
-        /// The updated tier level for the router input.
+        /// The updated tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:    INPUT_20 – 20 Mbps    INPUT_50 – 50 Mbps    INPUT_100 – 100 Mbps    INPUT_250 – 250 Mbps    INPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterInputTier?
         /// The updated transit encryption settings for the router input.
         public let transitEncryption: RouterInputTransitEncryption?
@@ -9290,7 +9408,7 @@ extension MediaConnect {
         public let name: String?
         /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
         public let routingScope: RoutingScope?
-        /// The updated tier level for the router output.
+        /// The updated tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:    OUTPUT_20 – 20 Mbps    OUTPUT_50 – 50 Mbps    OUTPUT_100 – 100 Mbps    OUTPUT_250 – 250 Mbps    OUTPUT_500 – 500 Mbps   The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         public let tier: RouterOutputTier?
 
         @inlinable

@@ -72,6 +72,12 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "public"
+        case vpc = "vpc"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataStorageUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gb = "GB"
         public var description: String { return self.rawValue }
@@ -223,6 +229,12 @@ extension ElastiCache {
         case none = "none"
         case sseElasticache = "sse-elasticache"
         case sseKms = "sse-kms"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TlsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "none"
+        case verifyCa = "verify-ca"
         public var description: String { return self.rawValue }
     }
 
@@ -1120,29 +1132,37 @@ extension ElastiCache {
         public let force: Bool?
         /// The ID of the replication group to which data is being migrated.
         public let replicationGroupId: String?
+        /// The name of the serverless cache to which data is being migrated.
+        public let serverlessCacheName: String?
 
         @inlinable
-        public init(force: Bool? = nil, replicationGroupId: String? = nil) {
+        public init(force: Bool? = nil, replicationGroupId: String? = nil, serverlessCacheName: String? = nil) {
             self.force = force
             self.replicationGroupId = replicationGroupId
+            self.serverlessCacheName = serverlessCacheName
         }
 
         private enum CodingKeys: String, CodingKey {
             case force = "Force"
             case replicationGroupId = "ReplicationGroupId"
+            case serverlessCacheName = "ServerlessCacheName"
         }
     }
 
     public struct CompleteMigrationResponse: AWSDecodableShape {
         public let replicationGroup: ReplicationGroup?
+        /// Provides the details of the serverless cache for which the migration completed.
+        public let serverlessCache: ServerlessCache?
 
         @inlinable
-        public init(replicationGroup: ReplicationGroup? = nil) {
+        public init(replicationGroup: ReplicationGroup? = nil, serverlessCache: ServerlessCache? = nil) {
             self.replicationGroup = replicationGroup
+            self.serverlessCache = serverlessCache
         }
 
         private enum CodingKeys: String, CodingKey {
             case replicationGroup = "ReplicationGroup"
+            case serverlessCache = "ServerlessCache"
         }
     }
 
@@ -1871,6 +1891,8 @@ extension ElastiCache {
 
         /// Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
         public let cacheUsageLimits: CacheUsageLimits?
+        /// The connection type for the serverless cache. Must be either vpc | public. Use vpc to access the cache through a VPC endpoint, or public to access the cache over the internet. If not specified, defaults to vpc. This value cannot be changed after the serverless cache is created. Setting this to public requires Valkey 9 or above.
+        public let connectionType: ConnectionType?
         /// The daily time that snapshots will be created from the new serverless cache. By default this number is populated with  0, i.e. no snapshots will be created on an automatic daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
         public let dailySnapshotTime: String?
         /// User-provided description for the serverless cache.   The default is NULL, i.e. if no description is provided then an empty string will be returned.  The maximum length is 255 characters.
@@ -1903,8 +1925,9 @@ extension ElastiCache {
         public let userGroupId: String?
 
         @inlinable
-        public init(cacheUsageLimits: CacheUsageLimits? = nil, dailySnapshotTime: String? = nil, description: String? = nil, engine: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, networkType: NetworkType? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotArnsToRestore: [String]? = nil, snapshotRetentionLimit: Int? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, userGroupId: String? = nil) {
+        public init(cacheUsageLimits: CacheUsageLimits? = nil, connectionType: ConnectionType? = nil, dailySnapshotTime: String? = nil, description: String? = nil, engine: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, networkType: NetworkType? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotArnsToRestore: [String]? = nil, snapshotRetentionLimit: Int? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, userGroupId: String? = nil) {
             self.cacheUsageLimits = cacheUsageLimits
+            self.connectionType = connectionType
             self.dailySnapshotTime = dailySnapshotTime
             self.description = description
             self.engine = engine
@@ -1922,6 +1945,7 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case cacheUsageLimits = "CacheUsageLimits"
+            case connectionType = "ConnectionType"
             case dailySnapshotTime = "DailySnapshotTime"
             case description = "Description"
             case engine = "Engine"
@@ -3935,6 +3959,28 @@ extension ElastiCache {
         }
     }
 
+    public struct MigrationSummary: AWSDecodableShape {
+        /// The cutover configuration for the migration.
+        public let cutoverMode: String?
+        /// The migration endpoint, which is the standard endpoint of the serverless cache. Point your application at this endpoint during the migration. Until cutover, ElastiCache routes requests on this endpoint to your source.
+        public let migrationEndpoint: Endpoint?
+        /// The current status of the migration.
+        public let status: String?
+
+        @inlinable
+        public init(cutoverMode: String? = nil, migrationEndpoint: Endpoint? = nil, status: String? = nil) {
+            self.cutoverMode = cutoverMode
+            self.migrationEndpoint = migrationEndpoint
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cutoverMode = "CutoverMode"
+            case migrationEndpoint = "MigrationEndpoint"
+            case status = "Status"
+        }
+    }
+
     public struct ModifyCacheClusterMessage: AWSEncodableShape {
         public struct _CacheNodeIdsToRemoveEncoding: ArrayCoderProperties { public static let member = "CacheNodeId" }
         public struct _CacheSecurityGroupNamesEncoding: ArrayCoderProperties { public static let member = "CacheSecurityGroupName" }
@@ -4989,6 +5035,47 @@ extension ElastiCache {
         }
     }
 
+    public struct PrepareMigrationRequest: AWSEncodableShape {
+        /// The list of endpoints from which to migrate data. For serverless cache migrations, the list should have only one element.
+        @OptionalCustomCoding<StandardArrayCoder<CustomerNodeEndpoint>>
+        public var customerNodeEndpointList: [CustomerNodeEndpoint]?
+        /// The name of the serverless cache to prepare for migration.
+        public let serverlessCacheName: String?
+        /// The authentication configuration for connecting to the source during migration.
+        public let sourceAuthenticationConfiguration: SourceAuthenticationConfiguration?
+        /// The TLS configuration for connecting to the source during migration.
+        public let sourceTlsConfiguration: SourceTlsConfiguration?
+
+        @inlinable
+        public init(customerNodeEndpointList: [CustomerNodeEndpoint]? = nil, serverlessCacheName: String? = nil, sourceAuthenticationConfiguration: SourceAuthenticationConfiguration? = nil, sourceTlsConfiguration: SourceTlsConfiguration? = nil) {
+            self.customerNodeEndpointList = customerNodeEndpointList
+            self.serverlessCacheName = serverlessCacheName
+            self.sourceAuthenticationConfiguration = sourceAuthenticationConfiguration
+            self.sourceTlsConfiguration = sourceTlsConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerNodeEndpointList = "CustomerNodeEndpointList"
+            case serverlessCacheName = "ServerlessCacheName"
+            case sourceAuthenticationConfiguration = "SourceAuthenticationConfiguration"
+            case sourceTlsConfiguration = "SourceTlsConfiguration"
+        }
+    }
+
+    public struct PrepareMigrationResponse: AWSDecodableShape {
+        /// Provides the details of the serverless cache prepared for migration.
+        public let serverlessCache: ServerlessCache?
+
+        @inlinable
+        public init(serverlessCache: ServerlessCache? = nil) {
+            self.serverlessCache = serverlessCache
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCache = "ServerlessCache"
+        }
+    }
+
     public struct ProcessedUpdateAction: AWSDecodableShape {
         /// The ID of the cache cluster
         public let cacheClusterId: String?
@@ -5745,6 +5832,20 @@ extension ElastiCache {
         }
     }
 
+    public struct SecretManagerAuthConfig: AWSEncodableShape {
+        /// The ARN of the secret in AWS Secrets Manager that contains the credentials for authenticating with the source.
+        public let secretArn: String?
+
+        @inlinable
+        public init(secretArn: String? = nil) {
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArn = "SecretArn"
+        }
+    }
+
     public struct SecurityGroupMembership: AWSDecodableShape {
         /// The identifier of the cache security group.
         public let securityGroupId: String?
@@ -5771,6 +5872,8 @@ extension ElastiCache {
         public let arn: String?
         /// The cache usage limit for the serverless cache.
         public let cacheUsageLimits: CacheUsageLimits?
+        /// The connection type for the serverless cache. Must be either vpc | public. If not specified, defaults to vpc.
+        public let connectionType: ConnectionType?
         /// When the serverless cache was created.
         public let createTime: Date?
         /// The daily time that a cache snapshot will be created. Default is NULL, i.e. snapshots will not be created at a specific time on a daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
@@ -5786,6 +5889,8 @@ extension ElastiCache {
         public let kmsKeyId: String?
         /// The version number of the engine the serverless cache is compatible with.
         public let majorEngineVersion: String?
+        /// Provides a summary of the migration status for the serverless cache.
+        public let migration: MigrationSummary?
         /// The type of IP address protocol used by the serverless cache.  Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with IPv6-only subnets.  If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
         public let networkType: NetworkType?
         public let readerEndpoint: Endpoint?
@@ -5807,9 +5912,10 @@ extension ElastiCache {
         public let userGroupId: String?
 
         @inlinable
-        public init(arn: String? = nil, cacheUsageLimits: CacheUsageLimits? = nil, createTime: Date? = nil, dailySnapshotTime: String? = nil, description: String? = nil, endpoint: Endpoint? = nil, engine: String? = nil, fullEngineVersion: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, networkType: NetworkType? = nil, readerEndpoint: Endpoint? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotRetentionLimit: Int? = nil, status: String? = nil, storageEncryptionType: StorageEncryptionType? = nil, subnetIds: [String]? = nil, userGroupId: String? = nil) {
+        public init(arn: String? = nil, cacheUsageLimits: CacheUsageLimits? = nil, connectionType: ConnectionType? = nil, createTime: Date? = nil, dailySnapshotTime: String? = nil, description: String? = nil, endpoint: Endpoint? = nil, engine: String? = nil, fullEngineVersion: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, migration: MigrationSummary? = nil, networkType: NetworkType? = nil, readerEndpoint: Endpoint? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotRetentionLimit: Int? = nil, status: String? = nil, storageEncryptionType: StorageEncryptionType? = nil, subnetIds: [String]? = nil, userGroupId: String? = nil) {
             self.arn = arn
             self.cacheUsageLimits = cacheUsageLimits
+            self.connectionType = connectionType
             self.createTime = createTime
             self.dailySnapshotTime = dailySnapshotTime
             self.description = description
@@ -5818,6 +5924,7 @@ extension ElastiCache {
             self.fullEngineVersion = fullEngineVersion
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
+            self.migration = migration
             self.networkType = networkType
             self.readerEndpoint = readerEndpoint
             self.securityGroupIds = securityGroupIds
@@ -5832,6 +5939,7 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case cacheUsageLimits = "CacheUsageLimits"
+            case connectionType = "ConnectionType"
             case createTime = "CreateTime"
             case dailySnapshotTime = "DailySnapshotTime"
             case description = "Description"
@@ -5840,6 +5948,7 @@ extension ElastiCache {
             case fullEngineVersion = "FullEngineVersion"
             case kmsKeyId = "KmsKeyId"
             case majorEngineVersion = "MajorEngineVersion"
+            case migration = "Migration"
             case networkType = "NetworkType"
             case readerEndpoint = "ReaderEndpoint"
             case securityGroupIds = "SecurityGroupIds"
@@ -6170,35 +6279,111 @@ extension ElastiCache {
         }
     }
 
+    public struct SourceAuthenticationConfiguration: AWSEncodableShape {
+        /// The Secrets Manager configuration used for authenticating with the source during migration.
+        public let secretManagerConfig: SecretManagerAuthConfig?
+
+        @inlinable
+        public init(secretManagerConfig: SecretManagerAuthConfig? = nil) {
+            self.secretManagerConfig = secretManagerConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretManagerConfig = "SecretManagerConfig"
+        }
+    }
+
+    public struct SourceTlsConfiguration: AWSEncodableShape {
+        /// The TLS certificate used to verify the identity of the source during migration.
+        public let sourceTlsCertificate: String?
+        /// The TLS mode to use when connecting to the source. Valid values are none and verify-ca.
+        public let sourceTlsMode: TlsMode?
+
+        @inlinable
+        public init(sourceTlsCertificate: String? = nil, sourceTlsMode: TlsMode? = nil) {
+            self.sourceTlsCertificate = sourceTlsCertificate
+            self.sourceTlsMode = sourceTlsMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceTlsCertificate = "SourceTlsCertificate"
+            case sourceTlsMode = "SourceTlsMode"
+        }
+    }
+
     public struct StartMigrationMessage: AWSEncodableShape {
-        /// List of endpoints from which data should be migrated. For Valkey or Redis OSS (cluster mode disabled), the list should have only one element.
+        /// Specifies whether ElastiCache automatically attempts to complete the migration after data sync is established.
+        public let autoCutover: Bool?
+        /// Specifies whether ElastiCache deletes existing data in the serverless cache before migration begins. After StopMigration, StartMigration requires this option to restart the data sync.
+        public let clearTargetCacheData: Bool?
+        /// The list of endpoints from which to migrate data. For Valkey or Redis OSS (cluster mode disabled), the list should have only one element. For serverless cache migrations, ElastiCache uses the endpoint that you provided in PrepareMigration.
         @OptionalCustomCoding<StandardArrayCoder<CustomerNodeEndpoint>>
         public var customerNodeEndpointList: [CustomerNodeEndpoint]?
         /// The ID of the replication group to which data should be migrated.
         public let replicationGroupId: String?
+        /// The name of the serverless cache to which data is being migrated.
+        public let serverlessCacheName: String?
 
         @inlinable
-        public init(customerNodeEndpointList: [CustomerNodeEndpoint]? = nil, replicationGroupId: String? = nil) {
+        public init(autoCutover: Bool? = nil, clearTargetCacheData: Bool? = nil, customerNodeEndpointList: [CustomerNodeEndpoint]? = nil, replicationGroupId: String? = nil, serverlessCacheName: String? = nil) {
+            self.autoCutover = autoCutover
+            self.clearTargetCacheData = clearTargetCacheData
             self.customerNodeEndpointList = customerNodeEndpointList
             self.replicationGroupId = replicationGroupId
+            self.serverlessCacheName = serverlessCacheName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoCutover = "AutoCutover"
+            case clearTargetCacheData = "ClearTargetCacheData"
             case customerNodeEndpointList = "CustomerNodeEndpointList"
             case replicationGroupId = "ReplicationGroupId"
+            case serverlessCacheName = "ServerlessCacheName"
         }
     }
 
     public struct StartMigrationResponse: AWSDecodableShape {
         public let replicationGroup: ReplicationGroup?
+        /// Provides the details of the serverless cache to which ElastiCache is migrating data.
+        public let serverlessCache: ServerlessCache?
 
         @inlinable
-        public init(replicationGroup: ReplicationGroup? = nil) {
+        public init(replicationGroup: ReplicationGroup? = nil, serverlessCache: ServerlessCache? = nil) {
             self.replicationGroup = replicationGroup
+            self.serverlessCache = serverlessCache
         }
 
         private enum CodingKeys: String, CodingKey {
             case replicationGroup = "ReplicationGroup"
+            case serverlessCache = "ServerlessCache"
+        }
+    }
+
+    public struct StopMigrationRequest: AWSEncodableShape {
+        /// The name of the serverless cache for which to stop the data sync.
+        public let serverlessCacheName: String?
+
+        @inlinable
+        public init(serverlessCacheName: String? = nil) {
+            self.serverlessCacheName = serverlessCacheName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCacheName = "ServerlessCacheName"
+        }
+    }
+
+    public struct StopMigrationResponse: AWSDecodableShape {
+        /// Provides the details of the serverless cache for which the data sync stopped.
+        public let serverlessCache: ServerlessCache?
+
+        @inlinable
+        public init(serverlessCache: ServerlessCache? = nil) {
+            self.serverlessCache = serverlessCache
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessCache = "ServerlessCache"
         }
     }
 
@@ -6704,6 +6889,7 @@ public struct ElastiCacheErrorType: AWSErrorType {
         case invalidUserGroupStateFault = "InvalidUserGroupState"
         case invalidUserStateFault = "InvalidUserState"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
+        case migrationHealthFault = "MigrationHealthFault"
         case noOperationFault = "NoOperationFault"
         case nodeGroupNotFoundFault = "NodeGroupNotFoundFault"
         case nodeGroupsPerReplicationGroupQuotaExceededFault = "NodeGroupsPerReplicationGroupQuotaExceeded"
@@ -6718,7 +6904,9 @@ public struct ElastiCacheErrorType: AWSErrorType {
         case reservedCacheNodeQuotaExceededFault = "ReservedCacheNodeQuotaExceeded"
         case reservedCacheNodesOfferingNotFoundFault = "ReservedCacheNodesOfferingNotFound"
         case serverlessCacheAlreadyExistsFault = "ServerlessCacheAlreadyExistsFault"
+        case serverlessCacheAlreadyUnderMigrationFault = "ServerlessCacheAlreadyUnderMigrationFault"
         case serverlessCacheNotFoundFault = "ServerlessCacheNotFoundFault"
+        case serverlessCacheNotUnderMigrationFault = "ServerlessCacheNotUnderMigrationFault"
         case serverlessCacheQuotaForCustomerExceededFault = "ServerlessCacheQuotaForCustomerExceededFault"
         case serverlessCacheSnapshotAlreadyExistsFault = "ServerlessCacheSnapshotAlreadyExistsFault"
         case serverlessCacheSnapshotNotFoundFault = "ServerlessCacheSnapshotNotFoundFault"
@@ -6840,6 +7028,8 @@ public struct ElastiCacheErrorType: AWSErrorType {
     public static var invalidUserStateFault: Self { .init(.invalidUserStateFault) }
     /// The VPC network is in an invalid state.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
+    /// The migration is not healthy. Check the events for this serverless cache for more details. For CompleteMigration, set Force to true to bypass this check.
+    public static var migrationHealthFault: Self { .init(.migrationHealthFault) }
     /// The operation was not performed because no changes were required.
     public static var noOperationFault: Self { .init(.noOperationFault) }
     /// The node group specified by the NodeGroupId parameter could not be found. Please verify that the node group exists and that you spelled the NodeGroupId value correctly.
@@ -6868,8 +7058,12 @@ public struct ElastiCacheErrorType: AWSErrorType {
     public static var reservedCacheNodesOfferingNotFoundFault: Self { .init(.reservedCacheNodesOfferingNotFoundFault) }
     /// A serverless cache with this name already exists.
     public static var serverlessCacheAlreadyExistsFault: Self { .init(.serverlessCacheAlreadyExistsFault) }
+    /// A migration is already in progress for this serverless cache. You cannot start another migration until the current one completes.
+    public static var serverlessCacheAlreadyUnderMigrationFault: Self { .init(.serverlessCacheAlreadyUnderMigrationFault) }
     /// The serverless cache was not found or does not exist.
     public static var serverlessCacheNotFoundFault: Self { .init(.serverlessCacheNotFoundFault) }
+    /// The serverless cache is not currently under migration.
+    public static var serverlessCacheNotUnderMigrationFault: Self { .init(.serverlessCacheNotUnderMigrationFault) }
     /// The number of serverless caches exceeds the customer quota.
     public static var serverlessCacheQuotaForCustomerExceededFault: Self { .init(.serverlessCacheQuotaForCustomerExceededFault) }
     /// A serverless cache snapshot with this name already exists. Available for Valkey, Redis OSS and Serverless Memcached only.

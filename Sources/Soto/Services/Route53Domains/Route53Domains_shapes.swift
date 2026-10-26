@@ -393,6 +393,12 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
+    public enum PriceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case registryPremium = "REGISTRY_PREMIUM"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReachabilityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case done = "DONE"
         case expired = "EXPIRED"
@@ -419,6 +425,7 @@ extension Route53Domains {
         case domainInAnotherAccount = "DOMAIN_IN_ANOTHER_ACCOUNT"
         case domainInOwnAccount = "DOMAIN_IN_OWN_ACCOUNT"
         case dontKnow = "DONT_KNOW"
+        case pending = "PENDING"
         case premiumDomain = "PREMIUM_DOMAIN"
         case transferable = "TRANSFERABLE"
         case untransferable = "UNTRANSFERABLE"
@@ -596,7 +603,7 @@ extension Route53Domains {
 
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
-            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, pattern: "^|[A-Za-z]{2,3}$")
+            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, pattern: "^(|[A-Za-z]{2,3})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -614,14 +621,22 @@ extension Route53Domains {
         /// 						can resubmit the request immediately.  RESERVED  The domain name has been reserved for another person or
         /// 						organization.  UNAVAILABLE  The domain name is not available.  UNAVAILABLE_PREMIUM  The domain name is not available.  UNAVAILABLE_RESTRICTED  The domain name is forbidden.
         public let availability: DomainAvailability?
+        /// The price to register the domain name, in the currency that Currency
+        /// 			specifies. If the domain has registry premium pricing, this price is different from the
+        /// 			standard rate for the TLD that ListPrices returns. Use
+        /// 				PriceType to determine which rate applies. This element is returned only when Availability is
+        /// 				AVAILABLE.
+        public let price: PriceWithCurrency?
 
         @inlinable
-        public init(availability: DomainAvailability? = nil) {
+        public init(availability: DomainAvailability? = nil, price: PriceWithCurrency? = nil) {
             self.availability = availability
+            self.price = price
         }
 
         private enum CodingKeys: String, CodingKey {
             case availability = "Availability"
+            case price = "Price"
         }
     }
 
@@ -659,26 +674,34 @@ extension Route53Domains {
     public struct CheckDomainTransferabilityResponse: AWSDecodableShape {
         /// Provides an explanation for when a domain can't be transferred.
         public let message: String?
+        /// The price to transfer the domain name to Route 53, in the currency that
+        /// 				Currency specifies. If the domain has registry premium pricing, this
+        /// 			price is different from the standard rate for the TLD that ListPrices
+        /// 			returns. Use PriceType to determine which rate applies. This element is returned only when Route 53 can determine whether the domain is
+        /// 			transferable.
+        public let price: PriceWithCurrency?
         /// A complex type that contains information about whether the specified domain can be
         /// 			transferred to Route 53.
         public let transferability: DomainTransferability?
 
         @inlinable
-        public init(message: String? = nil, transferability: DomainTransferability? = nil) {
+        public init(message: String? = nil, price: PriceWithCurrency? = nil, transferability: DomainTransferability? = nil) {
             self.message = message
+            self.price = price
             self.transferability = transferability
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
+            case price = "Price"
             case transferability = "Transferability"
         }
     }
 
     public struct Consent: AWSEncodableShape {
-        ///  Currency for the MaxPrice.
+        ///  The currency for the MaxPrice.
         public let currency: String
-        ///  Maximum amount the customer agreed to accept.
+        ///  The maximum amount that you agree to accept.
         public let maxPrice: Double
 
         @inlinable
@@ -690,6 +713,7 @@ extension Route53Domains {
         public func validate(name: String) throws {
             try self.validate(self.currency, name: "currency", parent: name, max: 3)
             try self.validate(self.currency, name: "currency", parent: name, min: 3)
+            try self.validate(self.maxPrice, name: "maxPrice", parent: name, max: 2000000000.0)
             try self.validate(self.maxPrice, name: "maxPrice", parent: name, min: 0.0)
         }
 
@@ -960,19 +984,29 @@ extension Route53Domains {
         ///  The number of the DS digest algorithm according to an IANA assignment. For more information, see IANA
         /// 			for DNSSEC Delegation Signer (DS) Resource Record (RR) Type Digest Algorithms.
         public let digestType: Int?
-        /// Defines the type of key. It can be either a KSK (key-signing-key, value 257) or ZSK
-        /// 			(zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS
-        /// 			provider isn't Route 53 and you don’t have KSK available. If you have KSK and ZSK keys, always use KSK to create a delegations signer (DS)
-        /// 			record. If you have ZSK keys only – use ZSK to create a DS record.
+        /// The DNSKEY flags that indicate the key type. This field is deprecated; the
+        /// 			DnssecKey response no longer returns the flags.
         public let flags: Int?
         ///  An ID assigned to each DS record created by AssociateDelegationSignerToDomain.
         public let id: String?
         ///  A numeric identification of the DNSKEY record referred to by this DS record.
         public let keyTag: Int?
-        /// The base64-encoded public key part of the key pair that is passed to the registry
-        /// 			.
+        /// The base64-encoded public key of the key pair. This field is deprecated; the
+        /// 			DnssecKey response no longer returns the public key.
         public let publicKey: String?
 
+        @inlinable
+        public init(algorithm: Int? = nil, digest: String? = nil, digestType: Int? = nil, id: String? = nil, keyTag: Int? = nil) {
+            self.algorithm = algorithm
+            self.digest = digest
+            self.digestType = digestType
+            self.flags = nil
+            self.id = id
+            self.keyTag = keyTag
+            self.publicKey = nil
+        }
+
+        @available(*, deprecated, message: "Members flags, publicKey have been deprecated")
         @inlinable
         public init(algorithm: Int? = nil, digest: String? = nil, digestType: Int? = nil, flags: Int? = nil, id: String? = nil, keyTag: Int? = nil, publicKey: String? = nil) {
             self.algorithm = algorithm
@@ -1028,7 +1062,7 @@ extension Route53Domains {
     public struct DomainPrice: AWSDecodableShape {
         /// The price for changing domain ownership.
         public let changeOwnershipPrice: PriceWithCurrency?
-        /// The name of the TLD for which the prices apply.
+        /// The TLD or domain name that the prices apply to.
         public let name: String?
         /// The price for domain registration with Route 53.
         public let registrationPrice: PriceWithCurrency?
@@ -1060,7 +1094,9 @@ extension Route53Domains {
     }
 
     public struct DomainSuggestion: AWSDecodableShape {
-        /// Whether the domain name is available for registering.  You can register only the domains that are designated as
+        /// Specifies whether the domain name is available for registering. This element is
+        /// 			populated only if you specified true for OnlyAvailable in the
+        /// 			request.  You can register only the domains that are designated as
         /// 				AVAILABLE.  Valid values:  AVAILABLE  The domain name is available.  AVAILABLE_RESERVED  The domain name is reserved under specific conditions.  AVAILABLE_PREORDER  The domain name is available and can be preordered.  DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the
         /// 						domain name is available. Route 53 can return this response for a variety of
         /// 						reasons, for example, the registry is performing maintenance. Try again
@@ -1071,16 +1107,22 @@ extension Route53Domains {
         public let availability: String?
         /// A suggested domain name.
         public let domainName: String?
+        /// The price to register the suggested domain name, in the currency that
+        /// 			Currency specifies. This element is populated only if you specified
+        /// 			true for OnlyAvailable in the request.
+        public let price: PriceWithCurrency?
 
         @inlinable
-        public init(availability: String? = nil, domainName: String? = nil) {
+        public init(availability: String? = nil, domainName: String? = nil, price: PriceWithCurrency? = nil) {
             self.availability = availability
             self.domainName = domainName
+            self.price = price
         }
 
         private enum CodingKeys: String, CodingKey {
             case availability = "Availability"
             case domainName = "DomainName"
+            case price = "Price"
         }
     }
 
@@ -1480,6 +1522,39 @@ extension Route53Domains {
         }
     }
 
+    public struct GetDomainPricesRequest: AWSEncodableShape {
+        /// The name of the domain that you want to get the prices for.
+        public let domainName: String
+
+        @inlinable
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct GetDomainPricesResponse: AWSDecodableShape {
+        /// The registration, transfer, owner change, renewal, and restoration prices for
+        /// 			the specified domain.
+        public let domainPrice: DomainPrice?
+
+        @inlinable
+        public init(domainPrice: DomainPrice? = nil) {
+            self.domainPrice = domainPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainPrice = "DomainPrice"
+        }
+    }
+
     public struct GetDomainSuggestionsRequest: AWSEncodableShape {
         /// A domain name that you want to use as the basis for a list of possible domain names.
         /// 			The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a
@@ -1495,17 +1570,24 @@ extension Route53Domains {
         /// If OnlyAvailable is true, Route 53 returns only domain names
         /// 			that are available. If OnlyAvailable is false, Route 53
         /// 			returns domain names without checking whether they're available to be registered. To
-        /// 			determine whether the domain is available, you can call
-        /// 				checkDomainAvailability for each suggestion.
+        /// 			determine whether the domain is available, call checkDomainAvailability for
+        /// 			each suggestion. If OnlyAvailable is false, Route 53 does not return pricing
+        /// 			information for the suggested domain names.
         public let onlyAvailable: Bool
+        /// If true, Route 53 returns only domain names that are priced at the
+        /// 			standard registration rate for their TLD. If false, Route 53 includes
+        /// 			domain names with premium pricing in the suggestions list. The default is
+        /// 			true.
+        public let onlyStandardPrices: Bool?
         /// The number of suggested domain names that you want Route 53 to return. Specify a value
         /// 			between 1 and 50. Note that fewer than the requested number might be returned.
         public let suggestionCount: Int
 
         @inlinable
-        public init(domainName: String, onlyAvailable: Bool, suggestionCount: Int = 0) {
+        public init(domainName: String, onlyAvailable: Bool, onlyStandardPrices: Bool? = nil, suggestionCount: Int = 0) {
             self.domainName = domainName
             self.onlyAvailable = onlyAvailable
+            self.onlyStandardPrices = onlyStandardPrices
             self.suggestionCount = suggestionCount
         }
 
@@ -1516,6 +1598,7 @@ extension Route53Domains {
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
             case onlyAvailable = "OnlyAvailable"
+            case onlyStandardPrices = "OnlyStandardPrices"
             case suggestionCount = "SuggestionCount"
         }
     }
@@ -1912,16 +1995,23 @@ extension Route53Domains {
         public let currency: String
         /// The price of a domain, in a specific currency.
         public let price: Double
+        /// Indicates whether the domain has standard or premium pricing. A value of
+        /// 			STANDARD means the domain is priced at the regular rate for its TLD. A
+        /// 			value of REGISTRY_PREMIUM means the domain has registry premium pricing,
+        /// 			which may be different than the standard rate.
+        public let priceType: PriceType?
 
         @inlinable
-        public init(currency: String, price: Double) {
+        public init(currency: String, price: Double, priceType: PriceType? = nil) {
             self.currency = currency
             self.price = price
+            self.priceType = priceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case currency = "Currency"
             case price = "Price"
+            case priceType = "PriceType"
         }
     }
 
@@ -1960,6 +2050,11 @@ extension Route53Domains {
         /// Provides detailed contact information. For information about the values that you
         /// 			specify for each element, see ContactDetail.
         public let billingContact: ContactDetail?
+        /// Specifies the maximum price that you agree to pay to register the domain name. This element is
+        /// 			required if the domain has registry premium pricing, and optional if the domain
+        /// 			is priced at the standard rate for its TLD. If you include it and the registration
+        /// 			price is more than MaxPrice, the request fails.
+        public let consent: Consent?
         /// The domain name that you want to register. The top-level domain (TLD), such as .com,
         /// 			must be a TLD that Route 53 supports. For a list of supported TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon
         /// 				Route 53 Developer Guide. The domain name can contain only the following characters:   Letters a through z. Domain names are not case sensitive.   Numbers 0 through 9.   Hyphen (-). You can't specify a hyphen at the beginning or end of a label.
@@ -2013,10 +2108,11 @@ extension Route53Domains {
         public let techContact: ContactDetail
 
         @inlinable
-        public init(adminContact: ContactDetail, autoRenew: Bool? = nil, billingContact: ContactDetail? = nil, domainName: String, durationInYears: Int, idnLangCode: String? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectBillingContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
+        public init(adminContact: ContactDetail, autoRenew: Bool? = nil, billingContact: ContactDetail? = nil, consent: Consent? = nil, domainName: String, durationInYears: Int, idnLangCode: String? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectBillingContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
             self.adminContact = adminContact
             self.autoRenew = autoRenew
             self.billingContact = billingContact
+            self.consent = consent
             self.domainName = domainName
             self.durationInYears = durationInYears
             self.idnLangCode = idnLangCode
@@ -2031,10 +2127,11 @@ extension Route53Domains {
         public func validate(name: String) throws {
             try self.adminContact.validate(name: "\(name).adminContact")
             try self.billingContact?.validate(name: "\(name).billingContact")
+            try self.consent?.validate(name: "\(name).consent")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, max: 10)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, min: 1)
-            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, pattern: "^|[A-Za-z]{2,3}$")
+            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, pattern: "^(|[A-Za-z]{2,3})$")
             try self.registrantContact.validate(name: "\(name).registrantContact")
             try self.techContact.validate(name: "\(name).techContact")
         }
@@ -2043,6 +2140,7 @@ extension Route53Domains {
             case adminContact = "AdminContact"
             case autoRenew = "AutoRenew"
             case billingContact = "BillingContact"
+            case consent = "Consent"
             case domainName = "DomainName"
             case durationInYears = "DurationInYears"
             case idnLangCode = "IdnLangCode"
@@ -2107,6 +2205,11 @@ extension Route53Domains {
     }
 
     public struct RenewDomainRequest: AWSEncodableShape {
+        /// Specifies the maximum price that you agree to pay to renew the domain name. This element is
+        /// 			required if the domain has registry premium pricing, and optional if the domain
+        /// 			is priced at the standard rate for its TLD. If you include it and the renewal
+        /// 			price is more than MaxPrice, the request fails.
+        public let consent: Consent?
         /// The year when the registration for the domain is set to expire. This value must match
         /// 			the current expiration date for the domain.
         public let currentExpiryYear: Int
@@ -2120,19 +2223,22 @@ extension Route53Domains {
         public let durationInYears: Int?
 
         @inlinable
-        public init(currentExpiryYear: Int = 0, domainName: String, durationInYears: Int? = nil) {
+        public init(consent: Consent? = nil, currentExpiryYear: Int = 0, domainName: String, durationInYears: Int? = nil) {
+            self.consent = consent
             self.currentExpiryYear = currentExpiryYear
             self.domainName = domainName
             self.durationInYears = durationInYears
         }
 
         public func validate(name: String) throws {
+            try self.consent?.validate(name: "\(name).consent")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, max: 10)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consent = "Consent"
             case currentExpiryYear = "CurrentExpiryYear"
             case domainName = "DomainName"
             case durationInYears = "DurationInYears"
@@ -2324,6 +2430,11 @@ extension Route53Domains {
         public let autoRenew: Bool?
         /// Provides detailed contact information.
         public let billingContact: ContactDetail?
+        /// Specifies the maximum price that you agree to pay to transfer the domain name to Route 53. This element is
+        /// 			required if the domain has registry premium pricing, and optional if the domain
+        /// 			is priced at the standard rate for its TLD. If you include it and the transfer
+        /// 			price is more than MaxPrice, the request fails.
+        public let consent: Consent?
         /// The name of the domain that you want to transfer to Route 53. The top-level domain
         /// 			(TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs,
         /// 			see Domains that You Can
@@ -2372,11 +2483,12 @@ extension Route53Domains {
         public let techContact: ContactDetail
 
         @inlinable
-        public init(adminContact: ContactDetail, authCode: String? = nil, autoRenew: Bool? = nil, billingContact: ContactDetail? = nil, domainName: String, durationInYears: Int? = nil, idnLangCode: String? = nil, nameservers: [Nameserver]? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectBillingContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
+        public init(adminContact: ContactDetail, authCode: String? = nil, autoRenew: Bool? = nil, billingContact: ContactDetail? = nil, consent: Consent? = nil, domainName: String, durationInYears: Int? = nil, idnLangCode: String? = nil, nameservers: [Nameserver]? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectBillingContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
             self.adminContact = adminContact
             self.authCode = authCode
             self.autoRenew = autoRenew
             self.billingContact = billingContact
+            self.consent = consent
             self.domainName = domainName
             self.durationInYears = durationInYears
             self.idnLangCode = idnLangCode
@@ -2393,10 +2505,11 @@ extension Route53Domains {
             try self.adminContact.validate(name: "\(name).adminContact")
             try self.validate(self.authCode, name: "authCode", parent: name, max: 1024)
             try self.billingContact?.validate(name: "\(name).billingContact")
+            try self.consent?.validate(name: "\(name).consent")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, max: 10)
             try self.validate(self.durationInYears, name: "durationInYears", parent: name, min: 1)
-            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, pattern: "^|[A-Za-z]{2,3}$")
+            try self.validate(self.idnLangCode, name: "idnLangCode", parent: name, pattern: "^(|[A-Za-z]{2,3})$")
             try self.nameservers?.forEach {
                 try $0.validate(name: "\(name).nameservers[]")
             }
@@ -2409,6 +2522,7 @@ extension Route53Domains {
             case authCode = "AuthCode"
             case autoRenew = "AutoRenew"
             case billingContact = "BillingContact"
+            case consent = "Consent"
             case domainName = "DomainName"
             case durationInYears = "DurationInYears"
             case idnLangCode = "IdnLangCode"
@@ -2560,7 +2674,7 @@ extension Route53Domains {
         public let adminContact: ContactDetail?
         /// Provides detailed contact information.
         public let billingContact: ContactDetail?
-        ///  Customer's consent for the owner change request. Required if the domain is not free (consent price is more than $0.00).
+        ///  The maximum amount that you agree to pay for the owner change. Required if the domain is not free (consent price is more than USD $0.00).
         public let consent: Consent?
         /// The name of the domain that you want to update contact information for.
         public let domainName: String

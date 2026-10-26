@@ -44,6 +44,7 @@ extension S3Files {
         case deleted = "deleted"
         case deleting = "deleting"
         case error = "error"
+        case misconfigured = "misconfigured"
         case updating = "updating"
         public var description: String { return self.rawValue }
     }
@@ -245,7 +246,7 @@ extension S3Files {
         public let prefix: String?
         /// The ARN of the IAM role used for S3 access.
         public let roleArn: String?
-        /// The lifecycle state of the file system. Valid values are: AVAILABLE (the file system is available for use), CREATING (the file system is being created), DELETING (the file system is being deleted), DELETED (the file system has been deleted), ERROR (the file system is in an error state), or UPDATING (the file system is being updated).
+        /// The lifecycle state of the file system. Valid values are: AVAILABLE (the file system is available for use), CREATING (the file system is being created), DELETING (the file system is being deleted), DELETED (the file system has been deleted), ERROR (the file system is in an error state), MISCONFIGURED (the file system has a misconfiguration), or UPDATING (the file system is being updated).
         public let status: LifeCycleState?
         /// Additional information about the file system status. This field provides more details when the status is ERROR, or during state transitions.
         public let statusMessage: String?
