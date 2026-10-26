@@ -53,7 +53,7 @@ public struct IAM: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -7737,7 +7737,7 @@ extension IAM {
     @inlinable
     public func waitUntilInstanceProfileExists(
         _ input: GetInstanceProfileRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetInstanceProfileRequest, _>(
@@ -7774,7 +7774,7 @@ extension IAM {
     @inlinable
     public func waitUntilPolicyExists(
         _ input: GetPolicyRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPolicyRequest, _>(
@@ -7811,7 +7811,7 @@ extension IAM {
     @inlinable
     public func waitUntilRoleExists(
         _ input: GetRoleRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRoleRequest, _>(
@@ -7848,7 +7848,7 @@ extension IAM {
     @inlinable
     public func waitUntilUserExists(
         _ input: GetUserRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetUserRequest, _>(

@@ -53,7 +53,7 @@ public struct APIGateway: AWSService {
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -92,7 +92,7 @@ public struct APIGateway: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: some AWSMiddlewareProtocol,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {

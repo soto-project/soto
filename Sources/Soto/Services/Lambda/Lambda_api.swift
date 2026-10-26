@@ -55,7 +55,7 @@ public struct Lambda: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -3873,7 +3873,7 @@ extension Lambda {
     @inlinable
     public func waitUntilFunctionActive(
         _ input: GetFunctionConfigurationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetFunctionConfigurationRequest, _>(
@@ -3915,7 +3915,7 @@ extension Lambda {
     @inlinable
     public func waitUntilFunctionActiveV2(
         _ input: GetFunctionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetFunctionRequest, _>(
@@ -3957,7 +3957,7 @@ extension Lambda {
     @inlinable
     public func waitUntilFunctionExists(
         _ input: GetFunctionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetFunctionRequest, _>(
@@ -3998,7 +3998,7 @@ extension Lambda {
     @inlinable
     public func waitUntilFunctionUpdated(
         _ input: GetFunctionConfigurationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetFunctionConfigurationRequest, _>(
@@ -4040,7 +4040,7 @@ extension Lambda {
     @inlinable
     public func waitUntilFunctionUpdatedV2(
         _ input: GetFunctionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetFunctionRequest, _>(
@@ -4082,7 +4082,7 @@ extension Lambda {
     @inlinable
     public func waitUntilPublishedVersionActive(
         _ input: GetFunctionConfigurationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetFunctionConfigurationRequest, _>(

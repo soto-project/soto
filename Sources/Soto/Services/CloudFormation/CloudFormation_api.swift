@@ -55,7 +55,7 @@ public struct CloudFormation: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -4887,7 +4887,7 @@ extension CloudFormation {
     @inlinable
     public func waitUntilChangeSetCreateComplete(
         _ input: DescribeChangeSetInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeChangeSetInput, _>(
@@ -4934,7 +4934,7 @@ extension CloudFormation {
     @inlinable
     public func waitUntilStackCreateComplete(
         _ input: DescribeStacksInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStacksInput, _>(
@@ -4987,7 +4987,7 @@ extension CloudFormation {
     @inlinable
     public func waitUntilStackDeleteComplete(
         _ input: DescribeStacksInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStacksInput, _>(
@@ -5034,7 +5034,7 @@ extension CloudFormation {
     @inlinable
     public func waitUntilStackExists(
         _ input: DescribeStacksInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStacksInput, _>(
@@ -5074,7 +5074,7 @@ extension CloudFormation {
     @inlinable
     public func waitUntilStackImportComplete(
         _ input: DescribeStacksInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStacksInput, _>(
@@ -5119,7 +5119,7 @@ extension CloudFormation {
     @inlinable
     public func waitUntilStackRefactorCreateComplete(
         _ input: DescribeStackRefactorInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStackRefactorInput, _>(
@@ -5157,7 +5157,7 @@ extension CloudFormation {
     @inlinable
     public func waitUntilStackRefactorExecuteComplete(
         _ input: DescribeStackRefactorInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStackRefactorInput, _>(
@@ -5196,7 +5196,7 @@ extension CloudFormation {
     @inlinable
     public func waitUntilStackRollbackComplete(
         _ input: DescribeStacksInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStacksInput, _>(
@@ -5239,7 +5239,7 @@ extension CloudFormation {
     @inlinable
     public func waitUntilStackUpdateComplete(
         _ input: DescribeStacksInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStacksInput, _>(
@@ -5282,7 +5282,7 @@ extension CloudFormation {
     @inlinable
     public func waitUntilTypeRegistrationComplete(
         _ input: DescribeTypeRegistrationInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTypeRegistrationInput, _>(

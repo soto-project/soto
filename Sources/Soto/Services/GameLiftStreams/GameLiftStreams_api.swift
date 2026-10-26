@@ -55,7 +55,7 @@ public struct GameLiftStreams: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1531,7 +1531,7 @@ extension GameLiftStreams {
     @inlinable
     public func waitUntilApplicationDeleted(
         _ input: GetApplicationInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetApplicationInput, _>(
@@ -1566,7 +1566,7 @@ extension GameLiftStreams {
     @inlinable
     public func waitUntilApplicationReady(
         _ input: GetApplicationInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetApplicationInput, _>(
@@ -1602,7 +1602,7 @@ extension GameLiftStreams {
     @inlinable
     public func waitUntilStreamGroupActive(
         _ input: GetStreamGroupInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetStreamGroupInput, _>(
@@ -1642,7 +1642,7 @@ extension GameLiftStreams {
     @inlinable
     public func waitUntilStreamGroupDeleted(
         _ input: GetStreamGroupInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetStreamGroupInput, _>(
@@ -1679,7 +1679,7 @@ extension GameLiftStreams {
     @inlinable
     public func waitUntilStreamSessionActive(
         _ input: GetStreamSessionInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetStreamSessionInput, _>(

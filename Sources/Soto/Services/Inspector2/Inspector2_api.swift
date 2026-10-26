@@ -55,7 +55,7 @@ public struct Inspector2: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -3764,7 +3764,7 @@ extension Inspector2 {
     @inlinable
     public func waitUntilConnectorConnected(
         _ input: ListConnectorsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<ListConnectorsRequest, _>(
@@ -3809,7 +3809,7 @@ extension Inspector2 {
     @inlinable
     public func waitUntilConnectorDeleted(
         _ input: ListConnectorsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<ListConnectorsRequest, _>(
@@ -3853,7 +3853,7 @@ extension Inspector2 {
     @inlinable
     public func waitUntilConnectorEnabled(
         _ input: ListConnectorsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<ListConnectorsRequest, _>(

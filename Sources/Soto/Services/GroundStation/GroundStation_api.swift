@@ -55,7 +55,7 @@ public struct GroundStation: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -2081,7 +2081,7 @@ extension GroundStation {
     @inlinable
     public func waitUntilContactScheduled(
         _ input: DescribeContactRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeContactRequest, _>(
@@ -2119,7 +2119,7 @@ extension GroundStation {
     @inlinable
     public func waitUntilContactUpdated(
         _ input: DescribeContactVersionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeContactVersionRequest, _>(

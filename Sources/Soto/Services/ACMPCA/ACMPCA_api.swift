@@ -55,7 +55,7 @@ public struct ACMPCA: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1050,7 +1050,7 @@ extension ACMPCA {
     @inlinable
     public func waitUntilAuditReportCreated(
         _ input: DescribeCertificateAuthorityAuditReportRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeCertificateAuthorityAuditReportRequest, _>(
@@ -1092,7 +1092,7 @@ extension ACMPCA {
     @inlinable
     public func waitUntilCertificateAuthorityCSRCreated(
         _ input: GetCertificateAuthorityCsrRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetCertificateAuthorityCsrRequest, _>(
@@ -1131,7 +1131,7 @@ extension ACMPCA {
     @inlinable
     public func waitUntilCertificateIssued(
         _ input: GetCertificateRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetCertificateRequest, _>(

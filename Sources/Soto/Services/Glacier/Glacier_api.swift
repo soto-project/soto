@@ -57,7 +57,7 @@ public struct Glacier: AWSService {
         region: SotoCore.Region? = nil,
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -100,7 +100,7 @@ public struct Glacier: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: some AWSMiddlewareProtocol,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1658,7 +1658,7 @@ extension Glacier {
     @inlinable
     public func waitUntilVaultExists(
         _ input: DescribeVaultInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVaultInput, _>(
@@ -1698,7 +1698,7 @@ extension Glacier {
     @inlinable
     public func waitUntilVaultNotExists(
         _ input: DescribeVaultInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVaultInput, _>(

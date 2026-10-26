@@ -55,7 +55,7 @@ public struct Redshift: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -7983,7 +7983,7 @@ extension Redshift {
     @inlinable
     public func waitUntilClusterAvailable(
         _ input: DescribeClustersMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClustersMessage, _>(
@@ -8033,7 +8033,7 @@ extension Redshift {
     @inlinable
     public func waitUntilClusterDeleted(
         _ input: DescribeClustersMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClustersMessage, _>(
@@ -8083,7 +8083,7 @@ extension Redshift {
     @inlinable
     public func waitUntilClusterRestored(
         _ input: DescribeClustersMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClustersMessage, _>(
@@ -8132,7 +8132,7 @@ extension Redshift {
     @inlinable
     public func waitUntilSnapshotAvailable(
         _ input: DescribeClusterSnapshotsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClusterSnapshotsMessage, _>(

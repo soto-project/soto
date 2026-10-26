@@ -55,7 +55,7 @@ public struct ARCRegionSwitch: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1403,7 +1403,7 @@ extension ARCRegionSwitch {
     @inlinable
     public func waitUntilPlanEvaluationStatusPassed(
         _ input: GetPlanEvaluationStatusRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPlanEvaluationStatusRequest, _>(
@@ -1447,7 +1447,7 @@ extension ARCRegionSwitch {
     @inlinable
     public func waitUntilPlanExecutionCompleted(
         _ input: GetPlanExecutionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPlanExecutionRequest, _>(

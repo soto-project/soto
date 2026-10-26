@@ -55,7 +55,7 @@ public struct BedrockAgentCoreControl: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -8317,7 +8317,7 @@ extension BedrockAgentCoreControl {
     @inlinable
     public func waitUntilMemoryCreated(
         _ input: GetMemoryInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetMemoryInput, _>(
@@ -8357,7 +8357,7 @@ extension BedrockAgentCoreControl {
     @inlinable
     public func waitUntilPolicyActive(
         _ input: GetPolicyRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPolicyRequest, _>(
@@ -8400,7 +8400,7 @@ extension BedrockAgentCoreControl {
     @inlinable
     public func waitUntilPolicyDeleted(
         _ input: GetPolicyRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPolicyRequest, _>(
@@ -8442,7 +8442,7 @@ extension BedrockAgentCoreControl {
     @inlinable
     public func waitUntilPolicyEngineActive(
         _ input: GetPolicyEngineRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPolicyEngineRequest, _>(
@@ -8482,7 +8482,7 @@ extension BedrockAgentCoreControl {
     @inlinable
     public func waitUntilPolicyEngineDeleted(
         _ input: GetPolicyEngineRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPolicyEngineRequest, _>(
@@ -8521,7 +8521,7 @@ extension BedrockAgentCoreControl {
     @inlinable
     public func waitUntilPolicyGenerationCompleted(
         _ input: GetPolicyGenerationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPolicyGenerationRequest, _>(

@@ -55,7 +55,7 @@ public struct Repostspace: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -864,7 +864,7 @@ extension Repostspace {
     @inlinable
     public func waitUntilChannelCreated(
         _ input: GetChannelInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetChannelInput, _>(
@@ -904,7 +904,7 @@ extension Repostspace {
     @inlinable
     public func waitUntilChannelDeleted(
         _ input: GetChannelInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetChannelInput, _>(
@@ -945,7 +945,7 @@ extension Repostspace {
     @inlinable
     public func waitUntilSpaceCreated(
         _ input: GetSpaceInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetSpaceInput, _>(
@@ -984,7 +984,7 @@ extension Repostspace {
     @inlinable
     public func waitUntilSpaceDeleted(
         _ input: GetSpaceInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetSpaceInput, _>(

@@ -55,7 +55,7 @@ public struct MediaLive: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -5684,7 +5684,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilChannelCreated(
         _ input: DescribeChannelRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeChannelRequest, _>(
@@ -5723,7 +5723,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilChannelDeleted(
         _ input: DescribeChannelRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeChannelRequest, _>(
@@ -5761,7 +5761,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilChannelPlacementGroupAssigned(
         _ input: DescribeChannelPlacementGroupRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeChannelPlacementGroupRequest, _>(
@@ -5802,7 +5802,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilChannelPlacementGroupDeleted(
         _ input: DescribeChannelPlacementGroupRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeChannelPlacementGroupRequest, _>(
@@ -5843,7 +5843,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilChannelPlacementGroupUnassigned(
         _ input: DescribeChannelPlacementGroupRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeChannelPlacementGroupRequest, _>(
@@ -5884,7 +5884,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilChannelRunning(
         _ input: DescribeChannelRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeChannelRequest, _>(
@@ -5922,7 +5922,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilChannelStopped(
         _ input: DescribeChannelRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeChannelRequest, _>(
@@ -5963,7 +5963,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilClusterCreated(
         _ input: DescribeClusterRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClusterRequest, _>(
@@ -6002,7 +6002,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilClusterDeleted(
         _ input: DescribeClusterRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeClusterRequest, _>(
@@ -6040,7 +6040,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilInputAttached(
         _ input: DescribeInputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeInputRequest, _>(
@@ -6078,7 +6078,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilInputDeleted(
         _ input: DescribeInputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeInputRequest, _>(
@@ -6116,7 +6116,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilInputDetached(
         _ input: DescribeInputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeInputRequest, _>(
@@ -6155,7 +6155,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilMultiplexCreated(
         _ input: DescribeMultiplexRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMultiplexRequest, _>(
@@ -6194,7 +6194,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilMultiplexDeleted(
         _ input: DescribeMultiplexRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMultiplexRequest, _>(
@@ -6232,7 +6232,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilMultiplexRunning(
         _ input: DescribeMultiplexRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMultiplexRequest, _>(
@@ -6270,7 +6270,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilMultiplexStopped(
         _ input: DescribeMultiplexRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMultiplexRequest, _>(
@@ -6308,7 +6308,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilNodeDeregistered(
         _ input: DescribeNodeRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeNodeRequest, _>(
@@ -6350,7 +6350,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilNodeRegistered(
         _ input: DescribeNodeRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeNodeRequest, _>(
@@ -6393,7 +6393,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilSignalMapCreated(
         _ input: GetSignalMapRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetSignalMapRequest, _>(
@@ -6431,7 +6431,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilSignalMapMonitorDeleted(
         _ input: GetSignalMapRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetSignalMapRequest, _>(
@@ -6469,7 +6469,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilSignalMapMonitorDeployed(
         _ input: GetSignalMapRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetSignalMapRequest, _>(
@@ -6510,7 +6510,7 @@ extension MediaLive {
     @inlinable
     public func waitUntilSignalMapUpdated(
         _ input: GetSignalMapRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetSignalMapRequest, _>(

@@ -353,7 +353,7 @@ class S3Tests: XCTestCase {
 
     func testMultipleUpload() async throws {
         let name = TestEnvironment.generateResourceName()
-        try await self.testBucket(name, s3: self.s3.with(timeout: .minutes(2))) { name in
+        try await self.testBucket(name, s3: self.s3.with(timeout: .seconds(120))) { name in
             let s3 = self.s3!
             _ = try await (0..<32).concurrentMap(maxConcurrentTasks: 8) {
                 let body = "testMultipleUpload - " + $0.description
@@ -423,7 +423,7 @@ class S3Tests: XCTestCase {
     }
 
     func testStreamPutObject() async throws {
-        let s3 = self.s3.with(timeout: .minutes(2))
+        let s3 = self.s3.with(timeout: .seconds(120))
         let name = TestEnvironment.generateResourceName()
         let chunkSize = 64 * 1024
         let byteBuffer = self.createRandomBuffer(size: 240 * 1024)

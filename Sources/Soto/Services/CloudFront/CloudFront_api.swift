@@ -53,7 +53,7 @@ public struct CloudFront: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -6403,7 +6403,7 @@ extension CloudFront {
     @inlinable
     public func waitUntilDistributionDeployed(
         _ input: GetDistributionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetDistributionRequest, _>(
@@ -6440,7 +6440,7 @@ extension CloudFront {
     @inlinable
     public func waitUntilInvalidationCompleted(
         _ input: GetInvalidationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetInvalidationRequest, _>(
@@ -6480,7 +6480,7 @@ extension CloudFront {
     @inlinable
     public func waitUntilInvalidationForDistributionTenantCompleted(
         _ input: GetInvalidationForDistributionTenantRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetInvalidationForDistributionTenantRequest, _>(
@@ -6520,7 +6520,7 @@ extension CloudFront {
     @inlinable
     public func waitUntilStreamingDistributionDeployed(
         _ input: GetStreamingDistributionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetStreamingDistributionRequest, _>(

@@ -55,7 +55,7 @@ public struct Deadline: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -6698,7 +6698,7 @@ extension Deadline {
     @inlinable
     public func waitUntilFleetActive(
         _ input: GetFleetRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetFleetRequest, _>(
@@ -6740,7 +6740,7 @@ extension Deadline {
     @inlinable
     public func waitUntilJobComplete(
         _ input: GetJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetJobRequest, _>(
@@ -6788,7 +6788,7 @@ extension Deadline {
     @inlinable
     public func waitUntilJobCreateComplete(
         _ input: GetJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetJobRequest, _>(
@@ -6836,7 +6836,7 @@ extension Deadline {
     @inlinable
     public func waitUntilJobSucceeded(
         _ input: GetJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetJobRequest, _>(
@@ -6884,7 +6884,7 @@ extension Deadline {
     @inlinable
     public func waitUntilLicenseEndpointDeleted(
         _ input: GetLicenseEndpointRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetLicenseEndpointRequest, _>(
@@ -6922,7 +6922,7 @@ extension Deadline {
     @inlinable
     public func waitUntilLicenseEndpointValid(
         _ input: GetLicenseEndpointRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetLicenseEndpointRequest, _>(
@@ -6960,7 +6960,7 @@ extension Deadline {
     @inlinable
     public func waitUntilQueueFleetAssociationStopped(
         _ input: GetQueueFleetAssociationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetQueueFleetAssociationRequest, _>(
@@ -7003,7 +7003,7 @@ extension Deadline {
     @inlinable
     public func waitUntilQueueLimitAssociationStopped(
         _ input: GetQueueLimitAssociationRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetQueueLimitAssociationRequest, _>(
@@ -7046,7 +7046,7 @@ extension Deadline {
     @inlinable
     public func waitUntilQueueScheduling(
         _ input: GetQueueRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetQueueRequest, _>(
@@ -7086,7 +7086,7 @@ extension Deadline {
     @inlinable
     public func waitUntilQueueSchedulingBlocked(
         _ input: GetQueueRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetQueueRequest, _>(

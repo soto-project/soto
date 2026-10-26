@@ -55,7 +55,7 @@ public struct Omics: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -5494,7 +5494,7 @@ extension Omics {
     @inlinable
     public func waitUntilAnnotationImportJobCreated(
         _ input: GetAnnotationImportRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetAnnotationImportRequest, _>(
@@ -5535,7 +5535,7 @@ extension Omics {
     @inlinable
     public func waitUntilAnnotationStoreCreated(
         _ input: GetAnnotationStoreRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetAnnotationStoreRequest, _>(
@@ -5575,7 +5575,7 @@ extension Omics {
     @inlinable
     public func waitUntilAnnotationStoreDeleted(
         _ input: GetAnnotationStoreRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetAnnotationStoreRequest, _>(
@@ -5614,7 +5614,7 @@ extension Omics {
     @inlinable
     public func waitUntilAnnotationStoreVersionCreated(
         _ input: GetAnnotationStoreVersionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetAnnotationStoreVersionRequest, _>(
@@ -5657,7 +5657,7 @@ extension Omics {
     @inlinable
     public func waitUntilAnnotationStoreVersionDeleted(
         _ input: GetAnnotationStoreVersionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetAnnotationStoreVersionRequest, _>(
@@ -5699,7 +5699,7 @@ extension Omics {
     @inlinable
     public func waitUntilReadSetActivationJobCompleted(
         _ input: GetReadSetActivationJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetReadSetActivationJobRequest, _>(
@@ -5745,7 +5745,7 @@ extension Omics {
     @inlinable
     public func waitUntilReadSetExportJobCompleted(
         _ input: GetReadSetExportJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetReadSetExportJobRequest, _>(
@@ -5791,7 +5791,7 @@ extension Omics {
     @inlinable
     public func waitUntilReadSetImportJobCompleted(
         _ input: GetReadSetImportJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetReadSetImportJobRequest, _>(
@@ -5837,7 +5837,7 @@ extension Omics {
     @inlinable
     public func waitUntilReferenceImportJobCompleted(
         _ input: GetReferenceImportJobRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetReferenceImportJobRequest, _>(
@@ -5883,7 +5883,7 @@ extension Omics {
     @inlinable
     public func waitUntilRunCompleted(
         _ input: GetRunRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRunRequest, _>(
@@ -5928,7 +5928,7 @@ extension Omics {
     @inlinable
     public func waitUntilRunRunning(
         _ input: GetRunRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRunRequest, _>(
@@ -5972,7 +5972,7 @@ extension Omics {
     @inlinable
     public func waitUntilTaskCompleted(
         _ input: GetRunTaskRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRunTaskRequest, _>(
@@ -6017,7 +6017,7 @@ extension Omics {
     @inlinable
     public func waitUntilTaskRunning(
         _ input: GetRunTaskRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRunTaskRequest, _>(
@@ -6061,7 +6061,7 @@ extension Omics {
     @inlinable
     public func waitUntilVariantImportJobCreated(
         _ input: GetVariantImportRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetVariantImportRequest, _>(
@@ -6102,7 +6102,7 @@ extension Omics {
     @inlinable
     public func waitUntilVariantStoreCreated(
         _ input: GetVariantStoreRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetVariantStoreRequest, _>(
@@ -6142,7 +6142,7 @@ extension Omics {
     @inlinable
     public func waitUntilVariantStoreDeleted(
         _ input: GetVariantStoreRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetVariantStoreRequest, _>(
@@ -6181,7 +6181,7 @@ extension Omics {
     @inlinable
     public func waitUntilWorkflowActive(
         _ input: GetWorkflowRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetWorkflowRequest, _>(
@@ -6230,7 +6230,7 @@ extension Omics {
     @inlinable
     public func waitUntilWorkflowVersionActive(
         _ input: GetWorkflowVersionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetWorkflowVersionRequest, _>(

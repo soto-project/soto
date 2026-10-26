@@ -55,7 +55,7 @@ public struct EC2: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -42847,7 +42847,7 @@ extension EC2 {
     @inlinable
     public func waitUntilBundleTaskComplete(
         _ input: DescribeBundleTasksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeBundleTasksRequest, _>(
@@ -42890,7 +42890,7 @@ extension EC2 {
     @inlinable
     public func waitUntilConversionTaskCancelled(
         _ input: DescribeConversionTasksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeConversionTasksRequest, _>(
@@ -42929,7 +42929,7 @@ extension EC2 {
     @inlinable
     public func waitUntilConversionTaskCompleted(
         _ input: DescribeConversionTasksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeConversionTasksRequest, _>(
@@ -42970,7 +42970,7 @@ extension EC2 {
     @inlinable
     public func waitUntilConversionTaskDeleted(
         _ input: DescribeConversionTasksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeConversionTasksRequest, _>(
@@ -43009,7 +43009,7 @@ extension EC2 {
     @inlinable
     public func waitUntilCustomerGatewayAvailable(
         _ input: DescribeCustomerGatewaysRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeCustomerGatewaysRequest, _>(
@@ -43053,7 +43053,7 @@ extension EC2 {
     @inlinable
     public func waitUntilExportTaskCancelled(
         _ input: DescribeExportTasksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeExportTasksRequest, _>(
@@ -43092,7 +43092,7 @@ extension EC2 {
     @inlinable
     public func waitUntilExportTaskCompleted(
         _ input: DescribeExportTasksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeExportTasksRequest, _>(
@@ -43131,7 +43131,7 @@ extension EC2 {
     @inlinable
     public func waitUntilImageAvailable(
         _ input: DescribeImagesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImagesRequest, _>(
@@ -43192,7 +43192,7 @@ extension EC2 {
     @inlinable
     public func waitUntilImageExists(
         _ input: DescribeImagesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImagesRequest, _>(
@@ -43253,7 +43253,7 @@ extension EC2 {
     @inlinable
     public func waitUntilImageUsageReportAvailable(
         _ input: DescribeImageUsageReportsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImageUsageReportsRequest, _>(
@@ -43305,7 +43305,7 @@ extension EC2 {
     @inlinable
     public func waitUntilInstanceExists(
         _ input: DescribeInstancesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeInstancesRequest, _>(
@@ -43357,7 +43357,7 @@ extension EC2 {
     @inlinable
     public func waitUntilInstanceRunning(
         _ input: DescribeInstancesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeInstancesRequest, _>(
@@ -43412,7 +43412,7 @@ extension EC2 {
     @inlinable
     public func waitUntilInstanceStatusOk(
         _ input: DescribeInstanceStatusRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeInstanceStatusRequest, _>(
@@ -43467,7 +43467,7 @@ extension EC2 {
     @inlinable
     public func waitUntilInstanceStopped(
         _ input: DescribeInstancesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeInstancesRequest, _>(
@@ -43520,7 +43520,7 @@ extension EC2 {
     @inlinable
     public func waitUntilInstanceTerminated(
         _ input: DescribeInstancesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeInstancesRequest, _>(
@@ -43573,7 +43573,7 @@ extension EC2 {
     @inlinable
     public func waitUntilInternetGatewayExists(
         _ input: DescribeInternetGatewaysRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeInternetGatewaysRequest, _>(
@@ -43622,7 +43622,7 @@ extension EC2 {
     @inlinable
     public func waitUntilKeyPairExists(
         _ input: DescribeKeyPairsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeKeyPairsRequest, _>(
@@ -43671,7 +43671,7 @@ extension EC2 {
     @inlinable
     public func waitUntilNatGatewayAvailable(
         _ input: DescribeNatGatewaysRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeNatGatewaysRequest, _>(
@@ -43723,7 +43723,7 @@ extension EC2 {
     @inlinable
     public func waitUntilNatGatewayDeleted(
         _ input: DescribeNatGatewaysRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeNatGatewaysRequest, _>(
@@ -43772,7 +43772,7 @@ extension EC2 {
     @inlinable
     public func waitUntilNetworkInterfaceAvailable(
         _ input: DescribeNetworkInterfacesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeNetworkInterfacesRequest, _>(
@@ -43824,7 +43824,7 @@ extension EC2 {
     @inlinable
     public func waitUntilPasswordDataAvailable(
         _ input: GetPasswordDataRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetPasswordDataRequest, _>(
@@ -43863,7 +43863,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSecondaryNetworkCreateComplete(
         _ input: DescribeSecondaryNetworksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeSecondaryNetworksRequest, _>(
@@ -43913,7 +43913,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSecondaryNetworkDeleteComplete(
         _ input: DescribeSecondaryNetworksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeSecondaryNetworksRequest, _>(
@@ -43962,7 +43962,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSecondarySubnetCreateComplete(
         _ input: DescribeSecondarySubnetsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeSecondarySubnetsRequest, _>(
@@ -44012,7 +44012,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSecondarySubnetDeleteComplete(
         _ input: DescribeSecondarySubnetsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeSecondarySubnetsRequest, _>(
@@ -44061,7 +44061,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSecurityGroupExists(
         _ input: DescribeSecurityGroupsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeSecurityGroupsRequest, _>(
@@ -44113,7 +44113,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSecurityGroupVpcAssociationAssociated(
         _ input: DescribeSecurityGroupVpcAssociationsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeSecurityGroupVpcAssociationsRequest, _>(
@@ -44160,7 +44160,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSecurityGroupVpcAssociationDisassociated(
         _ input: DescribeSecurityGroupVpcAssociationsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeSecurityGroupVpcAssociationsRequest, _>(
@@ -44208,7 +44208,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSnapshotCompleted(
         _ input: DescribeSnapshotsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeSnapshotsRequest, _>(
@@ -44263,7 +44263,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSnapshotImported(
         _ input: DescribeImportSnapshotTasksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeImportSnapshotTasksRequest, _>(
@@ -44312,7 +44312,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSpotInstanceRequestFulfilled(
         _ input: DescribeSpotInstanceRequestsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeSpotInstanceRequestsRequest, _>(
@@ -44366,7 +44366,7 @@ extension EC2 {
     @inlinable
     public func waitUntilStoreImageTaskComplete(
         _ input: DescribeStoreImageTasksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeStoreImageTasksRequest, _>(
@@ -44416,7 +44416,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSubnetAvailable(
         _ input: DescribeSubnetsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeSubnetsRequest, _>(
@@ -44464,7 +44464,7 @@ extension EC2 {
     @inlinable
     public func waitUntilSystemStatusOk(
         _ input: DescribeInstanceStatusRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeInstanceStatusRequest, _>(
@@ -44518,7 +44518,7 @@ extension EC2 {
     @inlinable
     public func waitUntilVolumeAvailable(
         _ input: DescribeVolumesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVolumesRequest, _>(
@@ -44570,7 +44570,7 @@ extension EC2 {
     @inlinable
     public func waitUntilVolumeDeleted(
         _ input: DescribeVolumesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVolumesRequest, _>(
@@ -44622,7 +44622,7 @@ extension EC2 {
     @inlinable
     public func waitUntilVolumeInUse(
         _ input: DescribeVolumesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVolumesRequest, _>(
@@ -44674,7 +44674,7 @@ extension EC2 {
     @inlinable
     public func waitUntilVpcAvailable(
         _ input: DescribeVpcsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVpcsRequest, _>(
@@ -44722,7 +44722,7 @@ extension EC2 {
     @inlinable
     public func waitUntilVpcExists(
         _ input: DescribeVpcsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVpcsRequest, _>(
@@ -44771,7 +44771,7 @@ extension EC2 {
     @inlinable
     public func waitUntilVpcPeeringConnectionDeleted(
         _ input: DescribeVpcPeeringConnectionsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVpcPeeringConnectionsRequest, _>(
@@ -44820,7 +44820,7 @@ extension EC2 {
     @inlinable
     public func waitUntilVpcPeeringConnectionExists(
         _ input: DescribeVpcPeeringConnectionsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVpcPeeringConnectionsRequest, _>(
@@ -44869,7 +44869,7 @@ extension EC2 {
     @inlinable
     public func waitUntilVpnConnectionAvailable(
         _ input: DescribeVpnConnectionsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVpnConnectionsRequest, _>(
@@ -44913,7 +44913,7 @@ extension EC2 {
     @inlinable
     public func waitUntilVpnConnectionDeleted(
         _ input: DescribeVpnConnectionsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeVpnConnectionsRequest, _>(

@@ -56,7 +56,7 @@ public struct ElasticLoadBalancing: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -1139,7 +1139,7 @@ extension ElasticLoadBalancing {
     @inlinable
     public func waitUntilAnyInstanceInService(
         _ input: DescribeEndPointStateInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeEndPointStateInput, _>(
@@ -1178,7 +1178,7 @@ extension ElasticLoadBalancing {
     @inlinable
     public func waitUntilInstanceDeregistered(
         _ input: DescribeEndPointStateInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeEndPointStateInput, _>(
@@ -1218,7 +1218,7 @@ extension ElasticLoadBalancing {
     @inlinable
     public func waitUntilInstanceInService(
         _ input: DescribeEndPointStateInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeEndPointStateInput, _>(

@@ -55,7 +55,7 @@ public struct ECS: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -3796,7 +3796,7 @@ extension ECS {
     @inlinable
     public func waitUntilDaemonActive(
         _ input: DescribeDaemonRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDaemonRequest, _>(
@@ -3833,7 +3833,7 @@ extension ECS {
     @inlinable
     public func waitUntilDaemonDeploymentStopped(
         _ input: DescribeDaemonDeploymentsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDaemonDeploymentsRequest, _>(
@@ -3870,7 +3870,7 @@ extension ECS {
     @inlinable
     public func waitUntilDaemonDeploymentSuccessful(
         _ input: DescribeDaemonDeploymentsRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDaemonDeploymentsRequest, _>(
@@ -3910,7 +3910,7 @@ extension ECS {
     @inlinable
     public func waitUntilDaemonTaskDefinitionActive(
         _ input: DescribeDaemonTaskDefinitionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDaemonTaskDefinitionRequest, _>(
@@ -3948,7 +3948,7 @@ extension ECS {
     @inlinable
     public func waitUntilDaemonTaskDefinitionDeleted(
         _ input: DescribeDaemonTaskDefinitionRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeDaemonTaskDefinitionRequest, _>(
@@ -3984,7 +3984,7 @@ extension ECS {
     @inlinable
     public func waitUntilServicesInactive(
         _ input: DescribeServicesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeServicesRequest, _>(
@@ -4028,7 +4028,7 @@ extension ECS {
     @inlinable
     public func waitUntilServicesStable(
         _ input: DescribeServicesRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeServicesRequest, _>(
@@ -4074,7 +4074,7 @@ extension ECS {
     @inlinable
     public func waitUntilTasksRunning(
         _ input: DescribeTasksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTasksRequest, _>(
@@ -4119,7 +4119,7 @@ extension ECS {
     @inlinable
     public func waitUntilTasksStopped(
         _ input: DescribeTasksRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeTasksRequest, _>(

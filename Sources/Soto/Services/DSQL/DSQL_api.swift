@@ -55,7 +55,7 @@ public struct DSQL: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -756,7 +756,7 @@ extension DSQL {
     @inlinable
     public func waitUntilClusterActive(
         _ input: GetClusterInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetClusterInput, _>(
@@ -791,7 +791,7 @@ extension DSQL {
     @inlinable
     public func waitUntilClusterNotExists(
         _ input: GetClusterInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetClusterInput, _>(
@@ -826,7 +826,7 @@ extension DSQL {
     @inlinable
     public func waitUntilStreamActive(
         _ input: GetStreamInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetStreamInput, _>(
@@ -864,7 +864,7 @@ extension DSQL {
     @inlinable
     public func waitUntilStreamNotExists(
         _ input: GetStreamInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetStreamInput, _>(

@@ -53,7 +53,7 @@ extension S3Tests {
     }
 
     func testMultipartUploadDownloadToFile() async throws {
-        let s3 = self.s3.with(timeout: .minutes(2))
+        let s3 = self.s3.with(timeout: .seconds(120))
         let buffer = self.randomBytes
         let name = TestEnvironment.generateResourceName()
         let filename = #function
@@ -91,7 +91,7 @@ extension S3Tests {
     }
 
     func testMultipartUploadFile() async throws {
-        let s3 = self.s3.with(timeout: .minutes(2))
+        let s3 = self.s3.with(timeout: .seconds(120))
         let buffer = self.randomBytes
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartUploadTest"
@@ -123,7 +123,7 @@ extension S3Tests {
     }
 
     func testMultipartUploadBuffer() async throws {
-        let s3 = self.s3.with(timeout: .minutes(2))
+        let s3 = self.s3.with(timeout: .seconds(120))
         let buffer = self.randomBytes
         let name = TestEnvironment.generateResourceName()
         let filename = "testMultipartUploadBuffer"
@@ -147,7 +147,7 @@ extension S3Tests {
 
     func testResumeMultipartUpload() async throws {
         struct CancelError: Error {}
-        let s3 = self.s3.with(timeout: .minutes(2))
+        let s3 = self.s3.with(timeout: .seconds(120))
         let buffer = self.randomBytes
         let name = TestEnvironment.generateResourceName()
         let filename = "testResumeMultiPartUpload"
@@ -207,7 +207,7 @@ extension S3Tests {
     }
 
     func testMultipartUploadEmpty() async throws {
-        let s3 = self.s3.with(timeout: .minutes(2))
+        let s3 = self.s3.with(timeout: .seconds(120))
         let name = TestEnvironment.generateResourceName()
 
         try await testBucket(name) { name in
@@ -232,7 +232,7 @@ extension S3Tests {
     }
 
     func testMultipartCopy() async throws {
-        let s3 = self.s3.with(timeout: .minutes(5))
+        let s3 = self.s3.with(timeout: .seconds(300))
         let buffer = self.createRandomBuffer(size: 6 * 1024 * 1000)
         let name = TestEnvironment.generateResourceName()
         let name2 = name + "2"
@@ -243,7 +243,7 @@ extension S3Tests {
             client: self.client,
             region: .useast1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT"),
-            timeout: .minutes(5)
+            timeout: .seconds(300)
         )
         try await testBucket(name) { name in
             let request = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
@@ -280,7 +280,7 @@ extension S3Tests {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
-        let s3 = self.s3.with(timeout: .minutes(2))
+        let s3 = self.s3.with(timeout: .seconds(120))
         let strings =
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
             .split(separator: " ")

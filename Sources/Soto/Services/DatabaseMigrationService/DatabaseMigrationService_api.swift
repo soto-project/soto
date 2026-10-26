@@ -55,7 +55,7 @@ public struct DatabaseMigrationService: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -6858,7 +6858,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilEndpointDeleted(
         _ input: DescribeEndpointsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeEndpointsMessage, _>(
@@ -6902,7 +6902,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilExtensionPackAssociated(
         _ input: DescribeExtensionPackAssociationsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeExtensionPackAssociationsMessage, _>(
@@ -6948,7 +6948,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilMetadataModelAssessed(
         _ input: DescribeMetadataModelAssessmentsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMetadataModelAssessmentsMessage, _>(
@@ -6994,7 +6994,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilMetadataModelConversionCancelled(
         _ input: DescribeMetadataModelConversionsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMetadataModelConversionsMessage, _>(
@@ -7040,7 +7040,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilMetadataModelConverted(
         _ input: DescribeMetadataModelConversionsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMetadataModelConversionsMessage, _>(
@@ -7086,7 +7086,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilMetadataModelCreated(
         _ input: DescribeMetadataModelCreationsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMetadataModelCreationsMessage, _>(
@@ -7132,7 +7132,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilMetadataModelCreationCancelled(
         _ input: DescribeMetadataModelCreationsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMetadataModelCreationsMessage, _>(
@@ -7178,7 +7178,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilMetadataModelExportedAsScript(
         _ input: DescribeMetadataModelExportsAsScriptMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMetadataModelExportsAsScriptMessage, _>(
@@ -7224,7 +7224,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilMetadataModelExportedToTarget(
         _ input: DescribeMetadataModelExportsToTargetMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMetadataModelExportsToTargetMessage, _>(
@@ -7270,7 +7270,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilMetadataModelImported(
         _ input: DescribeMetadataModelImportsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeMetadataModelImportsMessage, _>(
@@ -7316,7 +7316,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilReplicationInstanceAvailable(
         _ input: DescribeReplicationInstancesMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeReplicationInstancesMessage, _>(
@@ -7362,7 +7362,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilReplicationInstanceDeleted(
         _ input: DescribeReplicationInstancesMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeReplicationInstancesMessage, _>(
@@ -7405,7 +7405,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilReplicationTaskDeleted(
         _ input: DescribeReplicationTasksMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeReplicationTasksMessage, _>(
@@ -7455,7 +7455,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilReplicationTaskReady(
         _ input: DescribeReplicationTasksMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeReplicationTasksMessage, _>(
@@ -7508,7 +7508,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilReplicationTaskRunning(
         _ input: DescribeReplicationTasksMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeReplicationTasksMessage, _>(
@@ -7561,7 +7561,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilReplicationTaskStopped(
         _ input: DescribeReplicationTasksMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeReplicationTasksMessage, _>(
@@ -7613,7 +7613,7 @@ extension DatabaseMigrationService {
     @inlinable
     public func waitUntilTestConnectionSucceeds(
         _ input: DescribeConnectionsMessage,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeConnectionsMessage, _>(

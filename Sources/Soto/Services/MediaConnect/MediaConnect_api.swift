@@ -55,7 +55,7 @@ public struct MediaConnect: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -3464,7 +3464,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilFlowActive(
         _ input: DescribeFlowRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFlowRequest, _>(
@@ -3506,7 +3506,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilFlowDeleted(
         _ input: DescribeFlowRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFlowRequest, _>(
@@ -3546,7 +3546,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilFlowStandby(
         _ input: DescribeFlowRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<DescribeFlowRequest, _>(
@@ -3586,7 +3586,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilInputActive(
         _ input: GetRouterInputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRouterInputRequest, _>(
@@ -3628,7 +3628,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilInputDeleted(
         _ input: GetRouterInputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRouterInputRequest, _>(
@@ -3668,7 +3668,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilInputStandby(
         _ input: GetRouterInputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRouterInputRequest, _>(
@@ -3708,7 +3708,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilOutputActive(
         _ input: GetRouterOutputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRouterOutputRequest, _>(
@@ -3750,7 +3750,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilOutputDeleted(
         _ input: GetRouterOutputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRouterOutputRequest, _>(
@@ -3790,7 +3790,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilOutputRouted(
         _ input: GetRouterOutputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRouterOutputRequest, _>(
@@ -3829,7 +3829,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilOutputStandby(
         _ input: GetRouterOutputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRouterOutputRequest, _>(
@@ -3869,7 +3869,7 @@ extension MediaConnect {
     @inlinable
     public func waitUntilOutputUnrouted(
         _ input: GetRouterOutputRequest,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetRouterOutputRequest, _>(

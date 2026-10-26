@@ -55,7 +55,7 @@ public struct Proton: AWSService {
         partition: AWSPartition = .aws,
         endpoint: String? = nil,
         middleware: AWSMiddlewareProtocol? = nil,
-        timeout: TimeAmount? = nil,
+        timeout: Swift.Duration? = nil,
         byteBufferAllocator: ByteBufferAllocator = ByteBufferAllocator(),
         options: AWSServiceConfig.Options = []
     ) {
@@ -4526,7 +4526,7 @@ extension Proton {
     @inlinable
     public func waitUntilComponentDeleted(
         _ input: GetComponentInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetComponentInput, _>(
@@ -4566,7 +4566,7 @@ extension Proton {
     @inlinable
     public func waitUntilComponentDeployed(
         _ input: GetComponentInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetComponentInput, _>(
@@ -4606,7 +4606,7 @@ extension Proton {
     @inlinable
     public func waitUntilEnvironmentDeployed(
         _ input: GetEnvironmentInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetEnvironmentInput, _>(
@@ -4646,7 +4646,7 @@ extension Proton {
     @inlinable
     public func waitUntilEnvironmentTemplateVersionRegistered(
         _ input: GetEnvironmentTemplateVersionInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetEnvironmentTemplateVersionInput, _>(
@@ -4693,7 +4693,7 @@ extension Proton {
     @inlinable
     public func waitUntilServiceCreated(
         _ input: GetServiceInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetServiceInput, _>(
@@ -4735,7 +4735,7 @@ extension Proton {
     @inlinable
     public func waitUntilServiceDeleted(
         _ input: GetServiceInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetServiceInput, _>(
@@ -4775,7 +4775,7 @@ extension Proton {
     @inlinable
     public func waitUntilServiceInstanceDeployed(
         _ input: GetServiceInstanceInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetServiceInstanceInput, _>(
@@ -4818,7 +4818,7 @@ extension Proton {
     @inlinable
     public func waitUntilServicePipelineDeployed(
         _ input: GetServiceInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetServiceInput, _>(
@@ -4858,7 +4858,7 @@ extension Proton {
     @inlinable
     public func waitUntilServiceTemplateVersionRegistered(
         _ input: GetServiceTemplateVersionInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetServiceTemplateVersionInput, _>(
@@ -4905,7 +4905,7 @@ extension Proton {
     @inlinable
     public func waitUntilServiceUpdated(
         _ input: GetServiceInput,
-        maxWaitTime: TimeAmount? = nil,
+        maxWaitTime: Swift.Duration? = nil,
         logger: Logger = AWSClient.loggingDisabled
     ) async throws {
         let waiter = AWSClient.Waiter<GetServiceInput, _>(
