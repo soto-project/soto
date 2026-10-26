@@ -25,292 +25,372 @@ import Foundation
 extension Route53 {
     // MARK: Enums
 
-    public enum AcceleratedRecoveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disableFailed = "DISABLE_FAILED"
-        case disabled = "DISABLED"
-        case disabling = "DISABLING"
-        case disablingHostedZoneLocked = "DISABLING_HOSTED_ZONE_LOCKED"
-        case enableFailed = "ENABLE_FAILED"
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
-        case enablingHostedZoneLocked = "ENABLING_HOSTED_ZONE_LOCKED"
-        public var description: String { return self.rawValue }
+    public struct AcceleratedRecoveryStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disableFailed: Self { .init(rawValue: "DISABLE_FAILED") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var disabling: Self { .init(rawValue: "DISABLING") }
+        @inlinable public static var disablingHostedZoneLocked: Self { .init(rawValue: "DISABLING_HOSTED_ZONE_LOCKED") }
+        @inlinable public static var enableFailed: Self { .init(rawValue: "ENABLE_FAILED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var enabling: Self { .init(rawValue: "ENABLING") }
+        @inlinable public static var enablingHostedZoneLocked: Self { .init(rawValue: "ENABLING_HOSTED_ZONE_LOCKED") }
     }
 
-    public enum AccountLimitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case maxHealthChecksByOwner = "MAX_HEALTH_CHECKS_BY_OWNER"
-        case maxHostedZonesByOwner = "MAX_HOSTED_ZONES_BY_OWNER"
-        case maxReusableDelegationSetsByOwner = "MAX_REUSABLE_DELEGATION_SETS_BY_OWNER"
-        case maxTrafficPoliciesByOwner = "MAX_TRAFFIC_POLICIES_BY_OWNER"
-        case maxTrafficPolicyInstancesByOwner = "MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER"
-        public var description: String { return self.rawValue }
+    public struct AccountLimitType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var maxHealthChecksByOwner: Self { .init(rawValue: "MAX_HEALTH_CHECKS_BY_OWNER") }
+        @inlinable public static var maxHostedZonesByOwner: Self { .init(rawValue: "MAX_HOSTED_ZONES_BY_OWNER") }
+        @inlinable public static var maxReusableDelegationSetsByOwner: Self { .init(rawValue: "MAX_REUSABLE_DELEGATION_SETS_BY_OWNER") }
+        @inlinable public static var maxTrafficPoliciesByOwner: Self { .init(rawValue: "MAX_TRAFFIC_POLICIES_BY_OWNER") }
+        @inlinable public static var maxTrafficPolicyInstancesByOwner: Self { .init(rawValue: "MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER") }
     }
 
-    public enum ChangeAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case create = "CREATE"
-        case delete = "DELETE"
-        case upsert = "UPSERT"
-        public var description: String { return self.rawValue }
+    public struct ChangeAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var create: Self { .init(rawValue: "CREATE") }
+        @inlinable public static var delete: Self { .init(rawValue: "DELETE") }
+        @inlinable public static var upsert: Self { .init(rawValue: "UPSERT") }
     }
 
-    public enum ChangeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case insync = "INSYNC"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct ChangeStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var insync: Self { .init(rawValue: "INSYNC") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum CidrCollectionChangeAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleteIfExists = "DELETE_IF_EXISTS"
-        case put = "PUT"
-        public var description: String { return self.rawValue }
+    public struct CidrCollectionChangeAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleteIfExists: Self { .init(rawValue: "DELETE_IF_EXISTS") }
+        @inlinable public static var put: Self { .init(rawValue: "PUT") }
     }
 
-    public enum CloudWatchRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afSouth1 = "af-south-1"
-        case apEast1 = "ap-east-1"
-        case apEast2 = "ap-east-2"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case apSouth1 = "ap-south-1"
-        case apSouth2 = "ap-south-2"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apSoutheast3 = "ap-southeast-3"
-        case apSoutheast4 = "ap-southeast-4"
-        case apSoutheast5 = "ap-southeast-5"
-        case apSoutheast6 = "ap-southeast-6"
-        case apSoutheast7 = "ap-southeast-7"
-        case caCentral1 = "ca-central-1"
-        case caWest1 = "ca-west-1"
-        case cnNorth1 = "cn-north-1"
-        case cnNorthwest1 = "cn-northwest-1"
-        case euCentral1 = "eu-central-1"
-        case euCentral2 = "eu-central-2"
-        case euIsoeWest1 = "eu-isoe-west-1"
-        case euNorth1 = "eu-north-1"
-        case euSouth1 = "eu-south-1"
-        case euSouth2 = "eu-south-2"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euscDeEast1 = "eusc-de-east-1"
-        case ilCentral1 = "il-central-1"
-        case meCentral1 = "me-central-1"
-        case meSouth1 = "me-south-1"
-        case mxCentral1 = "mx-central-1"
-        case saEast1 = "sa-east-1"
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usGovEast1 = "us-gov-east-1"
-        case usGovWest1 = "us-gov-west-1"
-        case usIsoEast1 = "us-iso-east-1"
-        case usIsoWest1 = "us-iso-west-1"
-        case usIsobEast1 = "us-isob-east-1"
-        case usIsobWest1 = "us-isob-west-1"
-        case usIsofEast1 = "us-isof-east-1"
-        case usIsofSouth1 = "us-isof-south-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        public var description: String { return self.rawValue }
+    public struct CloudWatchRegion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afSouth1: Self { .init(rawValue: "af-south-1") }
+        @inlinable public static var apEast1: Self { .init(rawValue: "ap-east-1") }
+        @inlinable public static var apEast2: Self { .init(rawValue: "ap-east-2") }
+        @inlinable public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
+        @inlinable public static var apNortheast2: Self { .init(rawValue: "ap-northeast-2") }
+        @inlinable public static var apNortheast3: Self { .init(rawValue: "ap-northeast-3") }
+        @inlinable public static var apSouth1: Self { .init(rawValue: "ap-south-1") }
+        @inlinable public static var apSouth2: Self { .init(rawValue: "ap-south-2") }
+        @inlinable public static var apSoutheast1: Self { .init(rawValue: "ap-southeast-1") }
+        @inlinable public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
+        @inlinable public static var apSoutheast3: Self { .init(rawValue: "ap-southeast-3") }
+        @inlinable public static var apSoutheast4: Self { .init(rawValue: "ap-southeast-4") }
+        @inlinable public static var apSoutheast5: Self { .init(rawValue: "ap-southeast-5") }
+        @inlinable public static var apSoutheast6: Self { .init(rawValue: "ap-southeast-6") }
+        @inlinable public static var apSoutheast7: Self { .init(rawValue: "ap-southeast-7") }
+        @inlinable public static var caCentral1: Self { .init(rawValue: "ca-central-1") }
+        @inlinable public static var caWest1: Self { .init(rawValue: "ca-west-1") }
+        @inlinable public static var cnNorth1: Self { .init(rawValue: "cn-north-1") }
+        @inlinable public static var cnNorthwest1: Self { .init(rawValue: "cn-northwest-1") }
+        @inlinable public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
+        @inlinable public static var euCentral2: Self { .init(rawValue: "eu-central-2") }
+        @inlinable public static var euIsoeWest1: Self { .init(rawValue: "eu-isoe-west-1") }
+        @inlinable public static var euNorth1: Self { .init(rawValue: "eu-north-1") }
+        @inlinable public static var euSouth1: Self { .init(rawValue: "eu-south-1") }
+        @inlinable public static var euSouth2: Self { .init(rawValue: "eu-south-2") }
+        @inlinable public static var euWest1: Self { .init(rawValue: "eu-west-1") }
+        @inlinable public static var euWest2: Self { .init(rawValue: "eu-west-2") }
+        @inlinable public static var euWest3: Self { .init(rawValue: "eu-west-3") }
+        @inlinable public static var euscDeEast1: Self { .init(rawValue: "eusc-de-east-1") }
+        @inlinable public static var ilCentral1: Self { .init(rawValue: "il-central-1") }
+        @inlinable public static var meCentral1: Self { .init(rawValue: "me-central-1") }
+        @inlinable public static var meSouth1: Self { .init(rawValue: "me-south-1") }
+        @inlinable public static var mxCentral1: Self { .init(rawValue: "mx-central-1") }
+        @inlinable public static var saEast1: Self { .init(rawValue: "sa-east-1") }
+        @inlinable public static var usEast1: Self { .init(rawValue: "us-east-1") }
+        @inlinable public static var usEast2: Self { .init(rawValue: "us-east-2") }
+        @inlinable public static var usGovEast1: Self { .init(rawValue: "us-gov-east-1") }
+        @inlinable public static var usGovWest1: Self { .init(rawValue: "us-gov-west-1") }
+        @inlinable public static var usIsoEast1: Self { .init(rawValue: "us-iso-east-1") }
+        @inlinable public static var usIsoWest1: Self { .init(rawValue: "us-iso-west-1") }
+        @inlinable public static var usIsobEast1: Self { .init(rawValue: "us-isob-east-1") }
+        @inlinable public static var usIsobWest1: Self { .init(rawValue: "us-isob-west-1") }
+        @inlinable public static var usIsofEast1: Self { .init(rawValue: "us-isof-east-1") }
+        @inlinable public static var usIsofSouth1: Self { .init(rawValue: "us-isof-south-1") }
+        @inlinable public static var usWest1: Self { .init(rawValue: "us-west-1") }
+        @inlinable public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
-        case greaterThanThreshold = "GreaterThanThreshold"
-        case lessThanOrEqualToThreshold = "LessThanOrEqualToThreshold"
-        case lessThanThreshold = "LessThanThreshold"
-        public var description: String { return self.rawValue }
+    public struct ComparisonOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var greaterThanOrEqualToThreshold: Self { .init(rawValue: "GreaterThanOrEqualToThreshold") }
+        @inlinable public static var greaterThanThreshold: Self { .init(rawValue: "GreaterThanThreshold") }
+        @inlinable public static var lessThanOrEqualToThreshold: Self { .init(rawValue: "LessThanOrEqualToThreshold") }
+        @inlinable public static var lessThanThreshold: Self { .init(rawValue: "LessThanThreshold") }
     }
 
-    public enum HealthCheckRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case apNortheast1 = "ap-northeast-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case euWest1 = "eu-west-1"
-        case saEast1 = "sa-east-1"
-        case usEast1 = "us-east-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        public var description: String { return self.rawValue }
+    public struct HealthCheckRegion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
+        @inlinable public static var apSoutheast1: Self { .init(rawValue: "ap-southeast-1") }
+        @inlinable public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
+        @inlinable public static var euWest1: Self { .init(rawValue: "eu-west-1") }
+        @inlinable public static var saEast1: Self { .init(rawValue: "sa-east-1") }
+        @inlinable public static var usEast1: Self { .init(rawValue: "us-east-1") }
+        @inlinable public static var usWest1: Self { .init(rawValue: "us-west-1") }
+        @inlinable public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
-    public enum HealthCheckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case calculated = "CALCULATED"
-        case cloudwatchMetric = "CLOUDWATCH_METRIC"
-        case http = "HTTP"
-        case httpStrMatch = "HTTP_STR_MATCH"
-        case https = "HTTPS"
-        case httpsStrMatch = "HTTPS_STR_MATCH"
-        case recoveryControl = "RECOVERY_CONTROL"
-        case tcp = "TCP"
-        public var description: String { return self.rawValue }
+    public struct HealthCheckType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var calculated: Self { .init(rawValue: "CALCULATED") }
+        @inlinable public static var cloudwatchMetric: Self { .init(rawValue: "CLOUDWATCH_METRIC") }
+        @inlinable public static var http: Self { .init(rawValue: "HTTP") }
+        @inlinable public static var httpStrMatch: Self { .init(rawValue: "HTTP_STR_MATCH") }
+        @inlinable public static var https: Self { .init(rawValue: "HTTPS") }
+        @inlinable public static var httpsStrMatch: Self { .init(rawValue: "HTTPS_STR_MATCH") }
+        @inlinable public static var recoveryControl: Self { .init(rawValue: "RECOVERY_CONTROL") }
+        @inlinable public static var tcp: Self { .init(rawValue: "TCP") }
     }
 
-    public enum HostedZoneLimitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case maxRrsetsByZone = "MAX_RRSETS_BY_ZONE"
-        case maxVpcsAssociatedByZone = "MAX_VPCS_ASSOCIATED_BY_ZONE"
-        public var description: String { return self.rawValue }
+    public struct HostedZoneLimitType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var maxRrsetsByZone: Self { .init(rawValue: "MAX_RRSETS_BY_ZONE") }
+        @inlinable public static var maxVpcsAssociatedByZone: Self { .init(rawValue: "MAX_VPCS_ASSOCIATED_BY_ZONE") }
     }
 
-    public enum HostedZoneType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case privateHostedZone = "PrivateHostedZone"
-        public var description: String { return self.rawValue }
+    public struct HostedZoneType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var privateHostedZone: Self { .init(rawValue: "PrivateHostedZone") }
     }
 
-    public enum InsufficientDataHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case healthy = "Healthy"
-        case lastKnownStatus = "LastKnownStatus"
-        case unhealthy = "Unhealthy"
-        public var description: String { return self.rawValue }
+    public struct InsufficientDataHealthStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var healthy: Self { .init(rawValue: "Healthy") }
+        @inlinable public static var lastKnownStatus: Self { .init(rawValue: "LastKnownStatus") }
+        @inlinable public static var unhealthy: Self { .init(rawValue: "Unhealthy") }
     }
 
-    public enum RRType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case a = "A"
-        case aaaa = "AAAA"
-        case caa = "CAA"
-        case cname = "CNAME"
-        case ds = "DS"
-        case https = "HTTPS"
-        case mx = "MX"
-        case naptr = "NAPTR"
-        case ns = "NS"
-        case ptr = "PTR"
-        case soa = "SOA"
-        case spf = "SPF"
-        case srv = "SRV"
-        case sshfp = "SSHFP"
-        case svcb = "SVCB"
-        case tlsa = "TLSA"
-        case txt = "TXT"
-        public var description: String { return self.rawValue }
+    public struct RRType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var a: Self { .init(rawValue: "A") }
+        @inlinable public static var aaaa: Self { .init(rawValue: "AAAA") }
+        @inlinable public static var caa: Self { .init(rawValue: "CAA") }
+        @inlinable public static var cname: Self { .init(rawValue: "CNAME") }
+        @inlinable public static var ds: Self { .init(rawValue: "DS") }
+        @inlinable public static var https: Self { .init(rawValue: "HTTPS") }
+        @inlinable public static var mx: Self { .init(rawValue: "MX") }
+        @inlinable public static var naptr: Self { .init(rawValue: "NAPTR") }
+        @inlinable public static var ns: Self { .init(rawValue: "NS") }
+        @inlinable public static var ptr: Self { .init(rawValue: "PTR") }
+        @inlinable public static var soa: Self { .init(rawValue: "SOA") }
+        @inlinable public static var spf: Self { .init(rawValue: "SPF") }
+        @inlinable public static var srv: Self { .init(rawValue: "SRV") }
+        @inlinable public static var sshfp: Self { .init(rawValue: "SSHFP") }
+        @inlinable public static var svcb: Self { .init(rawValue: "SVCB") }
+        @inlinable public static var tlsa: Self { .init(rawValue: "TLSA") }
+        @inlinable public static var txt: Self { .init(rawValue: "TXT") }
     }
 
-    public enum ResettableElementName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case childHealthChecks = "ChildHealthChecks"
-        case fullyQualifiedDomainName = "FullyQualifiedDomainName"
-        case regions = "Regions"
-        case resourcePath = "ResourcePath"
-        public var description: String { return self.rawValue }
+    public struct ResettableElementName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var childHealthChecks: Self { .init(rawValue: "ChildHealthChecks") }
+        @inlinable public static var fullyQualifiedDomainName: Self { .init(rawValue: "FullyQualifiedDomainName") }
+        @inlinable public static var regions: Self { .init(rawValue: "Regions") }
+        @inlinable public static var resourcePath: Self { .init(rawValue: "ResourcePath") }
     }
 
-    public enum ResourceRecordSetFailover: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case primary = "PRIMARY"
-        case secondary = "SECONDARY"
-        public var description: String { return self.rawValue }
+    public struct ResourceRecordSetFailover: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var primary: Self { .init(rawValue: "PRIMARY") }
+        @inlinable public static var secondary: Self { .init(rawValue: "SECONDARY") }
     }
 
-    public enum ResourceRecordSetRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afSouth1 = "af-south-1"
-        case apEast1 = "ap-east-1"
-        case apEast2 = "ap-east-2"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case apSouth1 = "ap-south-1"
-        case apSouth2 = "ap-south-2"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apSoutheast3 = "ap-southeast-3"
-        case apSoutheast4 = "ap-southeast-4"
-        case apSoutheast5 = "ap-southeast-5"
-        case apSoutheast6 = "ap-southeast-6"
-        case apSoutheast7 = "ap-southeast-7"
-        case caCentral1 = "ca-central-1"
-        case caWest1 = "ca-west-1"
-        case cnNorth1 = "cn-north-1"
-        case cnNorthwest1 = "cn-northwest-1"
-        case euCentral1 = "eu-central-1"
-        case euCentral2 = "eu-central-2"
-        case euNorth1 = "eu-north-1"
-        case euSouth1 = "eu-south-1"
-        case euSouth2 = "eu-south-2"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euscDeEast1 = "eusc-de-east-1"
-        case ilCentral1 = "il-central-1"
-        case meCentral1 = "me-central-1"
-        case meSouth1 = "me-south-1"
-        case mxCentral1 = "mx-central-1"
-        case saEast1 = "sa-east-1"
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usGovEast1 = "us-gov-east-1"
-        case usGovWest1 = "us-gov-west-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        public var description: String { return self.rawValue }
+    public struct ResourceRecordSetRegion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afSouth1: Self { .init(rawValue: "af-south-1") }
+        @inlinable public static var apEast1: Self { .init(rawValue: "ap-east-1") }
+        @inlinable public static var apEast2: Self { .init(rawValue: "ap-east-2") }
+        @inlinable public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
+        @inlinable public static var apNortheast2: Self { .init(rawValue: "ap-northeast-2") }
+        @inlinable public static var apNortheast3: Self { .init(rawValue: "ap-northeast-3") }
+        @inlinable public static var apSouth1: Self { .init(rawValue: "ap-south-1") }
+        @inlinable public static var apSouth2: Self { .init(rawValue: "ap-south-2") }
+        @inlinable public static var apSoutheast1: Self { .init(rawValue: "ap-southeast-1") }
+        @inlinable public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
+        @inlinable public static var apSoutheast3: Self { .init(rawValue: "ap-southeast-3") }
+        @inlinable public static var apSoutheast4: Self { .init(rawValue: "ap-southeast-4") }
+        @inlinable public static var apSoutheast5: Self { .init(rawValue: "ap-southeast-5") }
+        @inlinable public static var apSoutheast6: Self { .init(rawValue: "ap-southeast-6") }
+        @inlinable public static var apSoutheast7: Self { .init(rawValue: "ap-southeast-7") }
+        @inlinable public static var caCentral1: Self { .init(rawValue: "ca-central-1") }
+        @inlinable public static var caWest1: Self { .init(rawValue: "ca-west-1") }
+        @inlinable public static var cnNorth1: Self { .init(rawValue: "cn-north-1") }
+        @inlinable public static var cnNorthwest1: Self { .init(rawValue: "cn-northwest-1") }
+        @inlinable public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
+        @inlinable public static var euCentral2: Self { .init(rawValue: "eu-central-2") }
+        @inlinable public static var euNorth1: Self { .init(rawValue: "eu-north-1") }
+        @inlinable public static var euSouth1: Self { .init(rawValue: "eu-south-1") }
+        @inlinable public static var euSouth2: Self { .init(rawValue: "eu-south-2") }
+        @inlinable public static var euWest1: Self { .init(rawValue: "eu-west-1") }
+        @inlinable public static var euWest2: Self { .init(rawValue: "eu-west-2") }
+        @inlinable public static var euWest3: Self { .init(rawValue: "eu-west-3") }
+        @inlinable public static var euscDeEast1: Self { .init(rawValue: "eusc-de-east-1") }
+        @inlinable public static var ilCentral1: Self { .init(rawValue: "il-central-1") }
+        @inlinable public static var meCentral1: Self { .init(rawValue: "me-central-1") }
+        @inlinable public static var meSouth1: Self { .init(rawValue: "me-south-1") }
+        @inlinable public static var mxCentral1: Self { .init(rawValue: "mx-central-1") }
+        @inlinable public static var saEast1: Self { .init(rawValue: "sa-east-1") }
+        @inlinable public static var usEast1: Self { .init(rawValue: "us-east-1") }
+        @inlinable public static var usEast2: Self { .init(rawValue: "us-east-2") }
+        @inlinable public static var usGovEast1: Self { .init(rawValue: "us-gov-east-1") }
+        @inlinable public static var usGovWest1: Self { .init(rawValue: "us-gov-west-1") }
+        @inlinable public static var usWest1: Self { .init(rawValue: "us-west-1") }
+        @inlinable public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
-    public enum ReusableDelegationSetLimitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case maxZonesByReusableDelegationSet = "MAX_ZONES_BY_REUSABLE_DELEGATION_SET"
-        public var description: String { return self.rawValue }
+    public struct ReusableDelegationSetLimitType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var maxZonesByReusableDelegationSet: Self { .init(rawValue: "MAX_ZONES_BY_REUSABLE_DELEGATION_SET") }
     }
 
-    public enum Statistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "Average"
-        case maximum = "Maximum"
-        case minimum = "Minimum"
-        case sampleCount = "SampleCount"
-        case sum = "Sum"
-        public var description: String { return self.rawValue }
+    public struct Statistic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "Average") }
+        @inlinable public static var maximum: Self { .init(rawValue: "Maximum") }
+        @inlinable public static var minimum: Self { .init(rawValue: "Minimum") }
+        @inlinable public static var sampleCount: Self { .init(rawValue: "SampleCount") }
+        @inlinable public static var sum: Self { .init(rawValue: "Sum") }
     }
 
-    public enum TagResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case healthcheck = "healthcheck"
-        case hostedzone = "hostedzone"
-        public var description: String { return self.rawValue }
+    public struct TagResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var healthcheck: Self { .init(rawValue: "healthcheck") }
+        @inlinable public static var hostedzone: Self { .init(rawValue: "hostedzone") }
     }
 
-    public enum VPCRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afSouth1 = "af-south-1"
-        case apEast1 = "ap-east-1"
-        case apEast2 = "ap-east-2"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case apSouth1 = "ap-south-1"
-        case apSouth2 = "ap-south-2"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apSoutheast3 = "ap-southeast-3"
-        case apSoutheast4 = "ap-southeast-4"
-        case apSoutheast5 = "ap-southeast-5"
-        case apSoutheast6 = "ap-southeast-6"
-        case apSoutheast7 = "ap-southeast-7"
-        case caCentral1 = "ca-central-1"
-        case caWest1 = "ca-west-1"
-        case cnNorth1 = "cn-north-1"
-        case cnNorthwest1 = "cn-northwest-1"
-        case euCentral1 = "eu-central-1"
-        case euCentral2 = "eu-central-2"
-        case euIsoeWest1 = "eu-isoe-west-1"
-        case euNorth1 = "eu-north-1"
-        case euSouth1 = "eu-south-1"
-        case euSouth2 = "eu-south-2"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euscDeEast1 = "eusc-de-east-1"
-        case ilCentral1 = "il-central-1"
-        case meCentral1 = "me-central-1"
-        case meSouth1 = "me-south-1"
-        case mxCentral1 = "mx-central-1"
-        case saEast1 = "sa-east-1"
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usGovEast1 = "us-gov-east-1"
-        case usGovWest1 = "us-gov-west-1"
-        case usIsoEast1 = "us-iso-east-1"
-        case usIsoWest1 = "us-iso-west-1"
-        case usIsobEast1 = "us-isob-east-1"
-        case usIsobWest1 = "us-isob-west-1"
-        case usIsofEast1 = "us-isof-east-1"
-        case usIsofSouth1 = "us-isof-south-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        public var description: String { return self.rawValue }
+    public struct VPCRegion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afSouth1: Self { .init(rawValue: "af-south-1") }
+        @inlinable public static var apEast1: Self { .init(rawValue: "ap-east-1") }
+        @inlinable public static var apEast2: Self { .init(rawValue: "ap-east-2") }
+        @inlinable public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
+        @inlinable public static var apNortheast2: Self { .init(rawValue: "ap-northeast-2") }
+        @inlinable public static var apNortheast3: Self { .init(rawValue: "ap-northeast-3") }
+        @inlinable public static var apSouth1: Self { .init(rawValue: "ap-south-1") }
+        @inlinable public static var apSouth2: Self { .init(rawValue: "ap-south-2") }
+        @inlinable public static var apSoutheast1: Self { .init(rawValue: "ap-southeast-1") }
+        @inlinable public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
+        @inlinable public static var apSoutheast3: Self { .init(rawValue: "ap-southeast-3") }
+        @inlinable public static var apSoutheast4: Self { .init(rawValue: "ap-southeast-4") }
+        @inlinable public static var apSoutheast5: Self { .init(rawValue: "ap-southeast-5") }
+        @inlinable public static var apSoutheast6: Self { .init(rawValue: "ap-southeast-6") }
+        @inlinable public static var apSoutheast7: Self { .init(rawValue: "ap-southeast-7") }
+        @inlinable public static var caCentral1: Self { .init(rawValue: "ca-central-1") }
+        @inlinable public static var caWest1: Self { .init(rawValue: "ca-west-1") }
+        @inlinable public static var cnNorth1: Self { .init(rawValue: "cn-north-1") }
+        @inlinable public static var cnNorthwest1: Self { .init(rawValue: "cn-northwest-1") }
+        @inlinable public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
+        @inlinable public static var euCentral2: Self { .init(rawValue: "eu-central-2") }
+        @inlinable public static var euIsoeWest1: Self { .init(rawValue: "eu-isoe-west-1") }
+        @inlinable public static var euNorth1: Self { .init(rawValue: "eu-north-1") }
+        @inlinable public static var euSouth1: Self { .init(rawValue: "eu-south-1") }
+        @inlinable public static var euSouth2: Self { .init(rawValue: "eu-south-2") }
+        @inlinable public static var euWest1: Self { .init(rawValue: "eu-west-1") }
+        @inlinable public static var euWest2: Self { .init(rawValue: "eu-west-2") }
+        @inlinable public static var euWest3: Self { .init(rawValue: "eu-west-3") }
+        @inlinable public static var euscDeEast1: Self { .init(rawValue: "eusc-de-east-1") }
+        @inlinable public static var ilCentral1: Self { .init(rawValue: "il-central-1") }
+        @inlinable public static var meCentral1: Self { .init(rawValue: "me-central-1") }
+        @inlinable public static var meSouth1: Self { .init(rawValue: "me-south-1") }
+        @inlinable public static var mxCentral1: Self { .init(rawValue: "mx-central-1") }
+        @inlinable public static var saEast1: Self { .init(rawValue: "sa-east-1") }
+        @inlinable public static var usEast1: Self { .init(rawValue: "us-east-1") }
+        @inlinable public static var usEast2: Self { .init(rawValue: "us-east-2") }
+        @inlinable public static var usGovEast1: Self { .init(rawValue: "us-gov-east-1") }
+        @inlinable public static var usGovWest1: Self { .init(rawValue: "us-gov-west-1") }
+        @inlinable public static var usIsoEast1: Self { .init(rawValue: "us-iso-east-1") }
+        @inlinable public static var usIsoWest1: Self { .init(rawValue: "us-iso-west-1") }
+        @inlinable public static var usIsobEast1: Self { .init(rawValue: "us-isob-east-1") }
+        @inlinable public static var usIsobWest1: Self { .init(rawValue: "us-isob-west-1") }
+        @inlinable public static var usIsofEast1: Self { .init(rawValue: "us-isof-east-1") }
+        @inlinable public static var usIsofSouth1: Self { .init(rawValue: "us-isof-south-1") }
+        @inlinable public static var usWest1: Self { .init(rawValue: "us-west-1") }
+        @inlinable public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
     // MARK: Shapes

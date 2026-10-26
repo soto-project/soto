@@ -25,32 +25,52 @@ import Foundation
 extension SagemakerEdge {
     // MARK: Enums
 
-    public enum ChecksumType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sha1 = "SHA1"
-        public var description: String { return self.rawValue }
+    public struct ChecksumType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sha1: Self { .init(rawValue: "SHA1") }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fail = "FAIL"
-        case success = "SUCCESS"
-        public var description: String { return self.rawValue }
+    public struct DeploymentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fail: Self { .init(rawValue: "FAIL") }
+        @inlinable public static var success: Self { .init(rawValue: "SUCCESS") }
     }
 
-    public enum DeploymentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case model = "Model"
-        public var description: String { return self.rawValue }
+    public struct DeploymentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var model: Self { .init(rawValue: "Model") }
     }
 
-    public enum FailureHandlingPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case doNothing = "DO_NOTHING"
-        case rollbackOnFailure = "ROLLBACK_ON_FAILURE"
-        public var description: String { return self.rawValue }
+    public struct FailureHandlingPolicy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var doNothing: Self { .init(rawValue: "DO_NOTHING") }
+        @inlinable public static var rollbackOnFailure: Self { .init(rawValue: "ROLLBACK_ON_FAILURE") }
     }
 
-    public enum ModelState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deploy = "DEPLOY"
-        case undeploy = "UNDEPLOY"
-        public var description: String { return self.rawValue }
+    public struct ModelState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deploy: Self { .init(rawValue: "DEPLOY") }
+        @inlinable public static var undeploy: Self { .init(rawValue: "UNDEPLOY") }
     }
 
     // MARK: Shapes

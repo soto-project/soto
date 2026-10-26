@@ -25,21 +25,33 @@ import Foundation
 extension MediaStoreData {
     // MARK: Enums
 
-    public enum ItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case folder = "FOLDER"
-        case object = "OBJECT"
-        public var description: String { return self.rawValue }
+    public struct ItemType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var folder: Self { .init(rawValue: "FOLDER") }
+        @inlinable public static var object: Self { .init(rawValue: "OBJECT") }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case temporal = "TEMPORAL"
-        public var description: String { return self.rawValue }
+    public struct StorageClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var temporal: Self { .init(rawValue: "TEMPORAL") }
     }
 
-    public enum UploadAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case standard = "STANDARD"
-        case streaming = "STREAMING"
-        public var description: String { return self.rawValue }
+    public struct UploadAvailability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
+        @inlinable public static var streaming: Self { .init(rawValue: "STREAMING") }
     }
 
     // MARK: Shapes

@@ -25,23 +25,35 @@ import Foundation
 extension Schemas {
     // MARK: Enums
 
-    public enum CodeGenerationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createComplete = "CREATE_COMPLETE"
-        case createFailed = "CREATE_FAILED"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct CodeGenerationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createComplete: Self { .init(rawValue: "CREATE_COMPLETE") }
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
     }
 
-    public enum DiscovererState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case started = "STARTED"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
+    public struct DiscovererState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var started: Self { .init(rawValue: "STARTED") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jsonSchemaDraft4 = "JSONSchemaDraft4"
-        case openApi3 = "OpenApi3"
-        public var description: String { return self.rawValue }
+    public struct `Type`: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jsonSchemaDraft4: Self { .init(rawValue: "JSONSchemaDraft4") }
+        @inlinable public static var openApi3: Self { .init(rawValue: "OpenApi3") }
     }
 
     // MARK: Shapes

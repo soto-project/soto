@@ -25,27 +25,39 @@ import Foundation
 extension Neptune {
     // MARK: Enums
 
-    public enum ApplyMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case immediate = "immediate"
-        case pendingReboot = "pending-reboot"
-        public var description: String { return self.rawValue }
+    public struct ApplyMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var immediate: Self { .init(rawValue: "immediate") }
+        @inlinable public static var pendingReboot: Self { .init(rawValue: "pending-reboot") }
     }
 
-    public enum FailoverStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelling = "cancelling"
-        case failingOver = "failing-over"
-        case pending = "pending"
-        public var description: String { return self.rawValue }
+    public struct FailoverStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelling: Self { .init(rawValue: "cancelling") }
+        @inlinable public static var failingOver: Self { .init(rawValue: "failing-over") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
     }
 
-    public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dbCluster = "db-cluster"
-        case dbClusterSnapshot = "db-cluster-snapshot"
-        case dbInstance = "db-instance"
-        case dbParameterGroup = "db-parameter-group"
-        case dbSecurityGroup = "db-security-group"
-        case dbSnapshot = "db-snapshot"
-        public var description: String { return self.rawValue }
+    public struct SourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dbCluster: Self { .init(rawValue: "db-cluster") }
+        @inlinable public static var dbClusterSnapshot: Self { .init(rawValue: "db-cluster-snapshot") }
+        @inlinable public static var dbInstance: Self { .init(rawValue: "db-instance") }
+        @inlinable public static var dbParameterGroup: Self { .init(rawValue: "db-parameter-group") }
+        @inlinable public static var dbSecurityGroup: Self { .init(rawValue: "db-security-group") }
+        @inlinable public static var dbSnapshot: Self { .init(rawValue: "db-snapshot") }
     }
 
     // MARK: Shapes

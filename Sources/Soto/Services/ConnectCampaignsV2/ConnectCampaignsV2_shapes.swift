@@ -25,174 +25,258 @@ import Foundation
 extension ConnectCampaignsV2 {
     // MARK: Enums
 
-    public enum AgentAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case discard = "DISCARD"
-        public var description: String { return self.rawValue }
+    public struct AgentAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var discard: Self { .init(rawValue: "DISCARD") }
     }
 
-    public enum CampaignDeletionPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleteAll = "DELETE_ALL"
-        case retainAll = "RETAIN_ALL"
-        public var description: String { return self.rawValue }
+    public struct CampaignDeletionPolicy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleteAll: Self { .init(rawValue: "DELETE_ALL") }
+        @inlinable public static var retainAll: Self { .init(rawValue: "RETAIN_ALL") }
     }
 
-    public enum CampaignState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct CampaignState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Campaign is in completed state
-        case completed = "Completed"
+        @inlinable public static var completed: Self { .init(rawValue: "Completed") }
         /// Campaign is in failed state
-        case failed = "Failed"
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
         /// Campaign is in initialized state
-        case initialized = "Initialized"
+        @inlinable public static var initialized: Self { .init(rawValue: "Initialized") }
         /// Campaign is in paused state
-        case paused = "Paused"
+        @inlinable public static var paused: Self { .init(rawValue: "Paused") }
         /// Campaign is in running state
-        case running = "Running"
+        @inlinable public static var running: Self { .init(rawValue: "Running") }
         /// Campaign is in stopped state
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
+        @inlinable public static var stopped: Self { .init(rawValue: "Stopped") }
     }
 
-    public enum ChannelSubtype: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case email = "EMAIL"
-        case sms = "SMS"
-        case telephony = "TELEPHONY"
-        case whatsapp = "WHATSAPP"
-        public var description: String { return self.rawValue }
+    public struct ChannelSubtype: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
+        @inlinable public static var sms: Self { .init(rawValue: "SMS") }
+        @inlinable public static var telephony: Self { .init(rawValue: "TELEPHONY") }
+        @inlinable public static var whatsapp: Self { .init(rawValue: "WHATSAPP") }
     }
 
-    public enum CommunicationLimitTimeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case day = "DAY"
-        public var description: String { return self.rawValue }
+    public struct CommunicationLimitTimeUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var day: Self { .init(rawValue: "DAY") }
     }
 
-    public enum CommunicationLimitsConfigType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allChannelSubtypes = "ALL_CHANNEL_SUBTYPES"
-        public var description: String { return self.rawValue }
+    public struct CommunicationLimitsConfigType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allChannelSubtypes: Self { .init(rawValue: "ALL_CHANNEL_SUBTYPES") }
     }
 
-    public enum CommunicationTimeConfigType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case email = "EMAIL"
-        case sms = "SMS"
-        case telephony = "TELEPHONY"
-        case whatsapp = "WHATSAPP"
-        public var description: String { return self.rawValue }
+    public struct CommunicationTimeConfigType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
+        @inlinable public static var sms: Self { .init(rawValue: "SMS") }
+        @inlinable public static var telephony: Self { .init(rawValue: "TELEPHONY") }
+        @inlinable public static var whatsapp: Self { .init(rawValue: "WHATSAPP") }
     }
 
-    public enum ConnectionStartPoint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ConnectionStartPoint: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Threshold measured from when the contact connects to the telephony system.
-        case connectedToSystem = "CONNECTED_TO_SYSTEM"
+        @inlinable public static var connectedToSystem: Self { .init(rawValue: "CONNECTED_TO_SYSTEM") }
         /// Threshold measured from when the customer-side greeting ends.
-        case greetingEnd = "GREETING_END"
+        @inlinable public static var greetingEnd: Self { .init(rawValue: "GREETING_END") }
         /// Threshold measured from when the customer-side greeting begins.
-        case greetingStart = "GREETING_START"
-        public var description: String { return self.rawValue }
+        @inlinable public static var greetingStart: Self { .init(rawValue: "GREETING_START") }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case friday = "FRIDAY"
-        case monday = "MONDAY"
-        case saturday = "SATURDAY"
-        case sunday = "SUNDAY"
-        case thursday = "THURSDAY"
-        case tuesday = "TUESDAY"
-        case wednesday = "WEDNESDAY"
-        public var description: String { return self.rawValue }
+    public struct DayOfWeek: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var friday: Self { .init(rawValue: "FRIDAY") }
+        @inlinable public static var monday: Self { .init(rawValue: "MONDAY") }
+        @inlinable public static var saturday: Self { .init(rawValue: "SATURDAY") }
+        @inlinable public static var sunday: Self { .init(rawValue: "SUNDAY") }
+        @inlinable public static var thursday: Self { .init(rawValue: "THURSDAY") }
+        @inlinable public static var tuesday: Self { .init(rawValue: "TUESDAY") }
+        @inlinable public static var wednesday: Self { .init(rawValue: "WEDNESDAY") }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
+    public struct EncryptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kms: Self { .init(rawValue: "KMS") }
     }
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case campaignEmail = "Campaign-Email"
-        case campaignOrchestration = "Campaign-Orchestration"
-        case campaignSMS = "Campaign-SMS"
-        case campaignTelephony = "Campaign-Telephony"
-        case campaignWebnotification = "Campaign-WebNotification"
-        case campaignWhatsapp = "Campaign-WhatsApp"
-        public var description: String { return self.rawValue }
+    public struct EventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var campaignEmail: Self { .init(rawValue: "Campaign-Email") }
+        @inlinable public static var campaignOrchestration: Self { .init(rawValue: "Campaign-Orchestration") }
+        @inlinable public static var campaignSMS: Self { .init(rawValue: "Campaign-SMS") }
+        @inlinable public static var campaignTelephony: Self { .init(rawValue: "Campaign-Telephony") }
+        @inlinable public static var campaignWebnotification: Self { .init(rawValue: "Campaign-WebNotification") }
+        @inlinable public static var campaignWhatsapp: Self { .init(rawValue: "Campaign-WhatsApp") }
     }
 
-    public enum ExternalCampaignType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case journey = "JOURNEY"
-        case managed = "MANAGED"
-        public var description: String { return self.rawValue }
+    public struct ExternalCampaignType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var journey: Self { .init(rawValue: "JOURNEY") }
+        @inlinable public static var managed: Self { .init(rawValue: "MANAGED") }
     }
 
-    public enum FailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct FailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Request throttled due to large number of pending dial requests
-        case bufferLimitExceeded = "BufferLimitExceeded"
+        @inlinable public static var bufferLimitExceeded: Self { .init(rawValue: "BufferLimitExceeded") }
         /// The request failed to satisfy the constraints specified by the service
-        case invalidInput = "InvalidInput"
+        @inlinable public static var invalidInput: Self { .init(rawValue: "InvalidInput") }
         /// The request was throttled due to excessive usage
-        case requestThrottled = "RequestThrottled"
+        @inlinable public static var requestThrottled: Self { .init(rawValue: "RequestThrottled") }
         /// Unexpected error during processing of request
-        case unknownError = "UnknownError"
-        public var description: String { return self.rawValue }
+        @inlinable public static var unknownError: Self { .init(rawValue: "UnknownError") }
     }
 
-    public enum GetCampaignStateBatchFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct GetCampaignStateBatchFailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The specified resource was not found
-        case resourceNotFound = "ResourceNotFound"
+        @inlinable public static var resourceNotFound: Self { .init(rawValue: "ResourceNotFound") }
         /// Unexpected error during processing of request
-        case unknownError = "UnknownError"
-        public var description: String { return self.rawValue }
+        @inlinable public static var unknownError: Self { .init(rawValue: "UnknownError") }
     }
 
-    public enum InstanceIdFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct InstanceIdFilterOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Equals operator
-        case eq = "Eq"
-        public var description: String { return self.rawValue }
+        @inlinable public static var eq: Self { .init(rawValue: "Eq") }
     }
 
-    public enum InstanceLimitsHandling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case optIn = "OPT_IN"
-        case optOut = "OPT_OUT"
-        public var description: String { return self.rawValue }
+    public struct InstanceLimitsHandling: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var optIn: Self { .init(rawValue: "OPT_IN") }
+        @inlinable public static var optOut: Self { .init(rawValue: "OPT_OUT") }
     }
 
-    public enum InstanceOnboardingJobFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case eventBridgeAccessDenied = "EVENT_BRIDGE_ACCESS_DENIED"
-        case eventBridgeManagedRuleLimitExceeded = "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED"
-        case iamAccessDenied = "IAM_ACCESS_DENIED"
-        case internalFailure = "INTERNAL_FAILURE"
-        case kmsAccessDenied = "KMS_ACCESS_DENIED"
-        case kmsKeyNotFound = "KMS_KEY_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct InstanceOnboardingJobFailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var eventBridgeAccessDenied: Self { .init(rawValue: "EVENT_BRIDGE_ACCESS_DENIED") }
+        @inlinable public static var eventBridgeManagedRuleLimitExceeded: Self { .init(rawValue: "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED") }
+        @inlinable public static var iamAccessDenied: Self { .init(rawValue: "IAM_ACCESS_DENIED") }
+        @inlinable public static var internalFailure: Self { .init(rawValue: "INTERNAL_FAILURE") }
+        @inlinable public static var kmsAccessDenied: Self { .init(rawValue: "KMS_ACCESS_DENIED") }
+        @inlinable public static var kmsKeyNotFound: Self { .init(rawValue: "KMS_KEY_NOT_FOUND") }
     }
 
-    public enum InstanceOnboardingJobStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct InstanceOnboardingJobStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum LocalTimeZoneDetectionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allAvailable = "ALL_AVAILABLE"
-        case primaryOnly = "PRIMARY_ONLY"
-        public var description: String { return self.rawValue }
+    public struct LocalTimeZoneDetectionScope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allAvailable: Self { .init(rawValue: "ALL_AVAILABLE") }
+        @inlinable public static var primaryOnly: Self { .init(rawValue: "PRIMARY_ONLY") }
     }
 
-    public enum LocalTimeZoneDetectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case areaCode = "AREA_CODE"
-        case zipCode = "ZIP_CODE"
-        public var description: String { return self.rawValue }
+    public struct LocalTimeZoneDetectionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var areaCode: Self { .init(rawValue: "AREA_CODE") }
+        @inlinable public static var zipCode: Self { .init(rawValue: "ZIP_CODE") }
     }
 
-    public enum ProfileOutboundRequestFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ProfileOutboundRequestFailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The specified resource conflicts with another resource
-        case conflict = "Conflict"
+        @inlinable public static var conflict: Self { .init(rawValue: "Conflict") }
         /// The request failed to satisfy the constraints specified by the service
-        case invalidInput = "InvalidInput"
+        @inlinable public static var invalidInput: Self { .init(rawValue: "InvalidInput") }
         /// Request throttled due to large number of requests
-        case requestThrottled = "RequestThrottled"
+        @inlinable public static var requestThrottled: Self { .init(rawValue: "RequestThrottled") }
         /// The specified resource was not found
-        case resourceNotFound = "ResourceNotFound"
+        @inlinable public static var resourceNotFound: Self { .init(rawValue: "ResourceNotFound") }
         /// Unexpected error during processing of request
-        case unknownError = "UnknownError"
-        public var description: String { return self.rawValue }
+        @inlinable public static var unknownError: Self { .init(rawValue: "UnknownError") }
     }
 
     public enum ChannelSubtypeParameters: AWSEncodableShape, Sendable {

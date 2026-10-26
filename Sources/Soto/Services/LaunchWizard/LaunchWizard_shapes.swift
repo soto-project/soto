@@ -25,61 +25,85 @@ import Foundation
 extension LaunchWizard {
     // MARK: Enums
 
-    public enum DeploymentFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deploymentStatus = "DEPLOYMENT_STATUS"
-        case workloadName = "WORKLOAD_NAME"
-        public var description: String { return self.rawValue }
+    public struct DeploymentFilterKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deploymentStatus: Self { .init(rawValue: "DEPLOYMENT_STATUS") }
+        @inlinable public static var workloadName: Self { .init(rawValue: "WORKLOAD_NAME") }
     }
 
-    public enum DeploymentPatternVersionFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deploymentPatternVersionName = "updateFromVersion"
-        public var description: String { return self.rawValue }
+    public struct DeploymentPatternVersionFilterKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deploymentPatternVersionName: Self { .init(rawValue: "updateFromVersion") }
     }
 
-    public enum DeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case creating = "CREATING"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleteInitiating = "DELETE_INITIATING"
-        case deleted = "DELETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case updateCompleted = "UPDATE_COMPLETED"
-        case updateFailed = "UPDATE_FAILED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateRollbackCompleted = "UPDATE_ROLLBACK_COMPLETED"
-        case updateRollbackFailed = "UPDATE_ROLLBACK_FAILED"
-        case validating = "VALIDATING"
-        public var description: String { return self.rawValue }
+    public struct DeploymentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
+        @inlinable public static var deleteInitiating: Self { .init(rawValue: "DELETE_INITIATING") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var updateCompleted: Self { .init(rawValue: "UPDATE_COMPLETED") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updateInProgress: Self { .init(rawValue: "UPDATE_IN_PROGRESS") }
+        @inlinable public static var updateRollbackCompleted: Self { .init(rawValue: "UPDATE_ROLLBACK_COMPLETED") }
+        @inlinable public static var updateRollbackFailed: Self { .init(rawValue: "UPDATE_ROLLBACK_FAILED") }
+        @inlinable public static var validating: Self { .init(rawValue: "VALIDATING") }
     }
 
-    public enum EventStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "CANCELED"
-        case canceling = "CANCELING"
-        case completed = "COMPLETED"
-        case created = "CREATED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case pending = "PENDING"
-        case timedOut = "TIMED_OUT"
-        public var description: String { return self.rawValue }
+    public struct EventStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var canceling: Self { .init(rawValue: "CANCELING") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var timedOut: Self { .init(rawValue: "TIMED_OUT") }
     }
 
-    public enum WorkloadDeploymentPatternStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case disabled = "DISABLED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
+    public struct WorkloadDeploymentPatternStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
     }
 
-    public enum WorkloadStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case disabled = "DISABLED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
+    public struct WorkloadStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
     }
 
     public enum AccountConstraint: AWSDecodableShape, Sendable {

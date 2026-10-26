@@ -25,27 +25,39 @@ import Foundation
 extension S3Files {
     // MARK: Enums
 
-    public enum ImportTrigger: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case onDirectoryFirstAccess = "ON_DIRECTORY_FIRST_ACCESS"
-        case onFileAccess = "ON_FILE_ACCESS"
-        public var description: String { return self.rawValue }
+    public struct ImportTrigger: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var onDirectoryFirstAccess: Self { .init(rawValue: "ON_DIRECTORY_FIRST_ACCESS") }
+        @inlinable public static var onFileAccess: Self { .init(rawValue: "ON_FILE_ACCESS") }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dualStack = "DUAL_STACK"
-        case ipv4Only = "IPV4_ONLY"
-        case ipv6Only = "IPV6_ONLY"
-        public var description: String { return self.rawValue }
+    public struct IpAddressType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dualStack: Self { .init(rawValue: "DUAL_STACK") }
+        @inlinable public static var ipv4Only: Self { .init(rawValue: "IPV4_ONLY") }
+        @inlinable public static var ipv6Only: Self { .init(rawValue: "IPV6_ONLY") }
     }
 
-    public enum LifeCycleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case creating = "creating"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case error = "error"
-        case updating = "updating"
-        public var description: String { return self.rawValue }
+    public struct LifeCycleState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var creating: Self { .init(rawValue: "creating") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var error: Self { .init(rawValue: "error") }
+        @inlinable public static var updating: Self { .init(rawValue: "updating") }
     }
 
     // MARK: Shapes

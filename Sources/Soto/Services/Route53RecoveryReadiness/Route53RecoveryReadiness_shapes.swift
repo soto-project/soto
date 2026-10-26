@@ -25,12 +25,16 @@ import Foundation
 extension Route53RecoveryReadiness {
     // MARK: Enums
 
-    public enum Readiness: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notAuthorized = "NOT_AUTHORIZED"
-        case notReady = "NOT_READY"
-        case ready = "READY"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
+    public struct Readiness: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notAuthorized: Self { .init(rawValue: "NOT_AUTHORIZED") }
+        @inlinable public static var notReady: Self { .init(rawValue: "NOT_READY") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
     }
 
     // MARK: Shapes

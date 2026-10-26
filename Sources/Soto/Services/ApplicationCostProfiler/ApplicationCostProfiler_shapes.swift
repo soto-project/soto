@@ -25,25 +25,37 @@ import Foundation
 extension ApplicationCostProfiler {
     // MARK: Enums
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "CSV"
-        case parquet = "PARQUET"
-        public var description: String { return self.rawValue }
+    public struct Format: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "CSV") }
+        @inlinable public static var parquet: Self { .init(rawValue: "PARQUET") }
     }
 
-    public enum ReportFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case daily = "DAILY"
-        case monthly = "MONTHLY"
-        public var description: String { return self.rawValue }
+    public struct ReportFrequency: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var daily: Self { .init(rawValue: "DAILY") }
+        @inlinable public static var monthly: Self { .init(rawValue: "MONTHLY") }
     }
 
-    public enum S3BucketRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afSouth1 = "af-south-1"
-        case apEast1 = "ap-east-1"
-        case euSouth1 = "eu-south-1"
-        case meSouth1 = "me-south-1"
-        public var description: String { return self.rawValue }
+    public struct S3BucketRegion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afSouth1: Self { .init(rawValue: "af-south-1") }
+        @inlinable public static var apEast1: Self { .init(rawValue: "ap-east-1") }
+        @inlinable public static var euSouth1: Self { .init(rawValue: "eu-south-1") }
+        @inlinable public static var meSouth1: Self { .init(rawValue: "me-south-1") }
     }
 
     // MARK: Shapes

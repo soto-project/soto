@@ -25,176 +25,264 @@ import Foundation
 extension PaymentCryptographyData {
     // MARK: Enums
 
-    public enum DukptDerivationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes128 = "AES_128"
-        case aes192 = "AES_192"
-        case aes256 = "AES_256"
-        case tdes2Key = "TDES_2KEY"
-        case tdes3Key = "TDES_3KEY"
-        public var description: String { return self.rawValue }
+    public struct DukptDerivationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes128: Self { .init(rawValue: "AES_128") }
+        @inlinable public static var aes192: Self { .init(rawValue: "AES_192") }
+        @inlinable public static var aes256: Self { .init(rawValue: "AES_256") }
+        @inlinable public static var tdes2Key: Self { .init(rawValue: "TDES_2KEY") }
+        @inlinable public static var tdes3Key: Self { .init(rawValue: "TDES_3KEY") }
     }
 
-    public enum DukptEncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbc = "CBC"
-        case ecb = "ECB"
-        public var description: String { return self.rawValue }
+    public struct DukptEncryptionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cbc: Self { .init(rawValue: "CBC") }
+        @inlinable public static var ecb: Self { .init(rawValue: "ECB") }
     }
 
-    public enum DukptKeyVariant: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bidirectional = "BIDIRECTIONAL"
-        case request = "REQUEST"
-        case response = "RESPONSE"
-        public var description: String { return self.rawValue }
+    public struct DukptKeyVariant: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bidirectional: Self { .init(rawValue: "BIDIRECTIONAL") }
+        @inlinable public static var request: Self { .init(rawValue: "REQUEST") }
+        @inlinable public static var response: Self { .init(rawValue: "RESPONSE") }
     }
 
-    public enum EmvEncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbc = "CBC"
-        case ecb = "ECB"
-        public var description: String { return self.rawValue }
+    public struct EmvEncryptionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cbc: Self { .init(rawValue: "CBC") }
+        @inlinable public static var ecb: Self { .init(rawValue: "ECB") }
     }
 
-    public enum EmvMajorKeyDerivationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case emvOptionA = "EMV_OPTION_A"
-        case emvOptionB = "EMV_OPTION_B"
-        public var description: String { return self.rawValue }
+    public struct EmvMajorKeyDerivationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var emvOptionA: Self { .init(rawValue: "EMV_OPTION_A") }
+        @inlinable public static var emvOptionB: Self { .init(rawValue: "EMV_OPTION_B") }
     }
 
-    public enum EncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cbc = "CBC"
-        case cfb = "CFB"
-        case cfb1 = "CFB1"
-        case cfb128 = "CFB128"
-        case cfb64 = "CFB64"
-        case cfb8 = "CFB8"
-        case ecb = "ECB"
-        case ofb = "OFB"
-        public var description: String { return self.rawValue }
+    public struct EncryptionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cbc: Self { .init(rawValue: "CBC") }
+        @inlinable public static var cfb: Self { .init(rawValue: "CFB") }
+        @inlinable public static var cfb1: Self { .init(rawValue: "CFB1") }
+        @inlinable public static var cfb128: Self { .init(rawValue: "CFB128") }
+        @inlinable public static var cfb64: Self { .init(rawValue: "CFB64") }
+        @inlinable public static var cfb8: Self { .init(rawValue: "CFB8") }
+        @inlinable public static var ecb: Self { .init(rawValue: "ECB") }
+        @inlinable public static var ofb: Self { .init(rawValue: "OFB") }
     }
 
-    public enum KeyCheckValueAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ansiX924 = "ANSI_X9_24"
-        case cmac = "CMAC"
-        case hmac = "HMAC"
-        case sha1 = "SHA_1"
-        public var description: String { return self.rawValue }
+    public struct KeyCheckValueAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ansiX924: Self { .init(rawValue: "ANSI_X9_24") }
+        @inlinable public static var cmac: Self { .init(rawValue: "CMAC") }
+        @inlinable public static var hmac: Self { .init(rawValue: "HMAC") }
+        @inlinable public static var sha1: Self { .init(rawValue: "SHA_1") }
     }
 
-    public enum KeyDerivationFunction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ansiX963 = "ANSI_X963"
-        case nistSp800 = "NIST_SP800"
-        public var description: String { return self.rawValue }
+    public struct KeyDerivationFunction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ansiX963: Self { .init(rawValue: "ANSI_X963") }
+        @inlinable public static var nistSp800: Self { .init(rawValue: "NIST_SP800") }
     }
 
-    public enum KeyDerivationHashAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sha256 = "SHA_256"
-        case sha384 = "SHA_384"
-        case sha512 = "SHA_512"
-        public var description: String { return self.rawValue }
+    public struct KeyDerivationHashAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sha256: Self { .init(rawValue: "SHA_256") }
+        @inlinable public static var sha384: Self { .init(rawValue: "SHA_384") }
+        @inlinable public static var sha512: Self { .init(rawValue: "SHA_512") }
     }
 
-    public enum MacAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case as280541 = "AS2805_4_1"
-        case cmac = "CMAC"
-        case hmac = "HMAC"
-        case hmacSha224 = "HMAC_SHA224"
-        case hmacSha256 = "HMAC_SHA256"
-        case hmacSha384 = "HMAC_SHA384"
-        case hmacSha512 = "HMAC_SHA512"
-        case iso9797Algorithm1 = "ISO9797_ALGORITHM1"
-        case iso9797Algorithm3 = "ISO9797_ALGORITHM3"
-        public var description: String { return self.rawValue }
+    public struct MacAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var as280541: Self { .init(rawValue: "AS2805_4_1") }
+        @inlinable public static var cmac: Self { .init(rawValue: "CMAC") }
+        @inlinable public static var hmac: Self { .init(rawValue: "HMAC") }
+        @inlinable public static var hmacSha224: Self { .init(rawValue: "HMAC_SHA224") }
+        @inlinable public static var hmacSha256: Self { .init(rawValue: "HMAC_SHA256") }
+        @inlinable public static var hmacSha384: Self { .init(rawValue: "HMAC_SHA384") }
+        @inlinable public static var hmacSha512: Self { .init(rawValue: "HMAC_SHA512") }
+        @inlinable public static var iso9797Algorithm1: Self { .init(rawValue: "ISO9797_ALGORITHM1") }
+        @inlinable public static var iso9797Algorithm3: Self { .init(rawValue: "ISO9797_ALGORITHM3") }
     }
 
-    public enum MajorKeyDerivationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case emvOptionA = "EMV_OPTION_A"
-        case emvOptionB = "EMV_OPTION_B"
-        public var description: String { return self.rawValue }
+    public struct MajorKeyDerivationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var emvOptionA: Self { .init(rawValue: "EMV_OPTION_A") }
+        @inlinable public static var emvOptionB: Self { .init(rawValue: "EMV_OPTION_B") }
     }
 
-    public enum PaddingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case oaepSha1 = "OAEP_SHA1"
-        case oaepSha256 = "OAEP_SHA256"
-        case oaepSha512 = "OAEP_SHA512"
-        case pkcs1 = "PKCS1"
-        public var description: String { return self.rawValue }
+    public struct PaddingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var oaepSha1: Self { .init(rawValue: "OAEP_SHA1") }
+        @inlinable public static var oaepSha256: Self { .init(rawValue: "OAEP_SHA256") }
+        @inlinable public static var oaepSha512: Self { .init(rawValue: "OAEP_SHA512") }
+        @inlinable public static var pkcs1: Self { .init(rawValue: "PKCS1") }
     }
 
-    public enum PinBlockFormatForEmvPinChange: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case isoFormat0 = "ISO_FORMAT_0"
-        case isoFormat1 = "ISO_FORMAT_1"
-        case isoFormat3 = "ISO_FORMAT_3"
-        public var description: String { return self.rawValue }
+    public struct PinBlockFormatForEmvPinChange: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var isoFormat0: Self { .init(rawValue: "ISO_FORMAT_0") }
+        @inlinable public static var isoFormat1: Self { .init(rawValue: "ISO_FORMAT_1") }
+        @inlinable public static var isoFormat3: Self { .init(rawValue: "ISO_FORMAT_3") }
     }
 
-    public enum PinBlockFormatForPinData: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case isoFormat0 = "ISO_FORMAT_0"
-        case isoFormat1 = "ISO_FORMAT_1"
-        case isoFormat3 = "ISO_FORMAT_3"
-        case isoFormat4 = "ISO_FORMAT_4"
-        public var description: String { return self.rawValue }
+    public struct PinBlockFormatForPinData: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var isoFormat0: Self { .init(rawValue: "ISO_FORMAT_0") }
+        @inlinable public static var isoFormat1: Self { .init(rawValue: "ISO_FORMAT_1") }
+        @inlinable public static var isoFormat3: Self { .init(rawValue: "ISO_FORMAT_3") }
+        @inlinable public static var isoFormat4: Self { .init(rawValue: "ISO_FORMAT_4") }
     }
 
-    public enum PinBlockLengthPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case frontOfPinBlock = "FRONT_OF_PIN_BLOCK"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct PinBlockLengthPosition: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var frontOfPinBlock: Self { .init(rawValue: "FRONT_OF_PIN_BLOCK") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum PinBlockPaddingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case isoIec78164 = "ISO_IEC_7816_4"
-        case noPadding = "NO_PADDING"
-        public var description: String { return self.rawValue }
+    public struct PinBlockPaddingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var isoIec78164: Self { .init(rawValue: "ISO_IEC_7816_4") }
+        @inlinable public static var noPadding: Self { .init(rawValue: "NO_PADDING") }
     }
 
-    public enum RandomKeyMaxLength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bytes16 = "BYTES_16"
-        case bytes24 = "BYTES_24"
-        case bytes8 = "BYTES_8"
-        public var description: String { return self.rawValue }
+    public struct RandomKeyMaxLength: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bytes16: Self { .init(rawValue: "BYTES_16") }
+        @inlinable public static var bytes24: Self { .init(rawValue: "BYTES_24") }
+        @inlinable public static var bytes8: Self { .init(rawValue: "BYTES_8") }
     }
 
-    public enum RandomKeySendVariantMask: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case variantMask82 = "VARIANT_MASK_82"
-        case variantMask82C0 = "VARIANT_MASK_82C0"
-        public var description: String { return self.rawValue }
+    public struct RandomKeySendVariantMask: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var variantMask82: Self { .init(rawValue: "VARIANT_MASK_82") }
+        @inlinable public static var variantMask82C0: Self { .init(rawValue: "VARIANT_MASK_82C0") }
     }
 
-    public enum SessionKeyDerivationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case amex = "AMEX"
-        case emv2000 = "EMV2000"
-        case emvCommonSessionKey = "EMV_COMMON_SESSION_KEY"
-        case mastercardSessionKey = "MASTERCARD_SESSION_KEY"
-        case unionPay = "UNION_PAY"
-        case visa = "VISA"
-        public var description: String { return self.rawValue }
+    public struct SessionKeyDerivationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var amex: Self { .init(rawValue: "AMEX") }
+        @inlinable public static var emv2000: Self { .init(rawValue: "EMV2000") }
+        @inlinable public static var emvCommonSessionKey: Self { .init(rawValue: "EMV_COMMON_SESSION_KEY") }
+        @inlinable public static var mastercardSessionKey: Self { .init(rawValue: "MASTERCARD_SESSION_KEY") }
+        @inlinable public static var unionPay: Self { .init(rawValue: "UNION_PAY") }
+        @inlinable public static var visa: Self { .init(rawValue: "VISA") }
     }
 
-    public enum SymmetricKeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes128 = "AES_128"
-        case aes192 = "AES_192"
-        case aes256 = "AES_256"
-        case hmacSha224 = "HMAC_SHA224"
-        case hmacSha256 = "HMAC_SHA256"
-        case hmacSha384 = "HMAC_SHA384"
-        case hmacSha512 = "HMAC_SHA512"
-        case tdes2Key = "TDES_2KEY"
-        case tdes3Key = "TDES_3KEY"
-        public var description: String { return self.rawValue }
+    public struct SymmetricKeyAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes128: Self { .init(rawValue: "AES_128") }
+        @inlinable public static var aes192: Self { .init(rawValue: "AES_192") }
+        @inlinable public static var aes256: Self { .init(rawValue: "AES_256") }
+        @inlinable public static var hmacSha224: Self { .init(rawValue: "HMAC_SHA224") }
+        @inlinable public static var hmacSha256: Self { .init(rawValue: "HMAC_SHA256") }
+        @inlinable public static var hmacSha384: Self { .init(rawValue: "HMAC_SHA384") }
+        @inlinable public static var hmacSha512: Self { .init(rawValue: "HMAC_SHA512") }
+        @inlinable public static var tdes2Key: Self { .init(rawValue: "TDES_2KEY") }
+        @inlinable public static var tdes3Key: Self { .init(rawValue: "TDES_3KEY") }
     }
 
-    public enum VerificationFailedReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case invalidAuthRequestCryptogram = "INVALID_AUTH_REQUEST_CRYPTOGRAM"
-        case invalidMac = "INVALID_MAC"
-        case invalidPin = "INVALID_PIN"
-        case invalidValidationData = "INVALID_VALIDATION_DATA"
-        public var description: String { return self.rawValue }
+    public struct VerificationFailedReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var invalidAuthRequestCryptogram: Self { .init(rawValue: "INVALID_AUTH_REQUEST_CRYPTOGRAM") }
+        @inlinable public static var invalidMac: Self { .init(rawValue: "INVALID_MAC") }
+        @inlinable public static var invalidPin: Self { .init(rawValue: "INVALID_PIN") }
+        @inlinable public static var invalidValidationData: Self { .init(rawValue: "INVALID_VALIDATION_DATA") }
     }
 
-    public enum WrappedKeyMaterialFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case keyCryptogram = "KEY_CRYPTOGRAM"
-        case tr31KeyBlock = "TR31_KEY_BLOCK"
-        case tr34KeyBlock = "TR34_KEY_BLOCK"
-        public var description: String { return self.rawValue }
+    public struct WrappedKeyMaterialFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var keyCryptogram: Self { .init(rawValue: "KEY_CRYPTOGRAM") }
+        @inlinable public static var tr31KeyBlock: Self { .init(rawValue: "TR31_KEY_BLOCK") }
+        @inlinable public static var tr34KeyBlock: Self { .init(rawValue: "TR34_KEY_BLOCK") }
     }
 
     public enum As2805KekValidationType: AWSEncodableShape, Sendable {

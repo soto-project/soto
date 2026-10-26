@@ -25,20 +25,28 @@ import Foundation
 extension DataPipeline {
     // MARK: Enums
 
-    public enum OperatorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case between = "BETWEEN"
-        case equal = "EQ"
-        case greaterThanOrEqual = "GE"
-        case lessThanOrEqual = "LE"
-        case referenceEqual = "REF_EQ"
-        public var description: String { return self.rawValue }
+    public struct OperatorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var equal: Self { .init(rawValue: "EQ") }
+        @inlinable public static var greaterThanOrEqual: Self { .init(rawValue: "GE") }
+        @inlinable public static var lessThanOrEqual: Self { .init(rawValue: "LE") }
+        @inlinable public static var referenceEqual: Self { .init(rawValue: "REF_EQ") }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `false` = "FALSE"
-        case failed = "FAILED"
-        case finished = "FINISHED"
-        public var description: String { return self.rawValue }
+    public struct TaskStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `false`: Self { .init(rawValue: "FALSE") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var finished: Self { .init(rawValue: "FINISHED") }
     }
 
     // MARK: Shapes

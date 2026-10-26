@@ -25,191 +25,279 @@ import Foundation
 extension DataExchange {
     // MARK: Enums
 
-    public enum AcceptanceStateFilterValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accepted = "ACCEPTED"
-        case pendingReceiverAcceptance = "PENDING_RECEIVER_ACCEPTANCE"
-        public var description: String { return self.rawValue }
+    public struct AcceptanceStateFilterValue: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accepted: Self { .init(rawValue: "ACCEPTED") }
+        @inlinable public static var pendingReceiverAcceptance: Self { .init(rawValue: "PENDING_RECEIVER_ACCEPTANCE") }
     }
 
-    public enum AssetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case apiGatewayApi = "API_GATEWAY_API"
-        case lakeFormationDataPermission = "LAKE_FORMATION_DATA_PERMISSION"
-        case redshiftDataShare = "REDSHIFT_DATA_SHARE"
-        case s3DataAccess = "S3_DATA_ACCESS"
-        case s3Snapshot = "S3_SNAPSHOT"
-        public var description: String { return self.rawValue }
+    public struct AssetType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var apiGatewayApi: Self { .init(rawValue: "API_GATEWAY_API") }
+        @inlinable public static var lakeFormationDataPermission: Self { .init(rawValue: "LAKE_FORMATION_DATA_PERMISSION") }
+        @inlinable public static var redshiftDataShare: Self { .init(rawValue: "REDSHIFT_DATA_SHARE") }
+        @inlinable public static var s3DataAccess: Self { .init(rawValue: "S3_DATA_ACCESS") }
+        @inlinable public static var s3Snapshot: Self { .init(rawValue: "S3_SNAPSHOT") }
     }
 
-    public enum Code: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDeniedException = "ACCESS_DENIED_EXCEPTION"
-        case internalServerException = "INTERNAL_SERVER_EXCEPTION"
-        case malwareDetected = "MALWARE_DETECTED"
-        case malwareScanEncryptedFile = "MALWARE_SCAN_ENCRYPTED_FILE"
-        case resourceNotFoundException = "RESOURCE_NOT_FOUND_EXCEPTION"
-        case serviceQuotaExceededException = "SERVICE_QUOTA_EXCEEDED_EXCEPTION"
-        case validationException = "VALIDATION_EXCEPTION"
-        public var description: String { return self.rawValue }
+    public struct Code: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDeniedException: Self { .init(rawValue: "ACCESS_DENIED_EXCEPTION") }
+        @inlinable public static var internalServerException: Self { .init(rawValue: "INTERNAL_SERVER_EXCEPTION") }
+        @inlinable public static var malwareDetected: Self { .init(rawValue: "MALWARE_DETECTED") }
+        @inlinable public static var malwareScanEncryptedFile: Self { .init(rawValue: "MALWARE_SCAN_ENCRYPTED_FILE") }
+        @inlinable public static var resourceNotFoundException: Self { .init(rawValue: "RESOURCE_NOT_FOUND_EXCEPTION") }
+        @inlinable public static var serviceQuotaExceededException: Self { .init(rawValue: "SERVICE_QUOTA_EXCEEDED_EXCEPTION") }
+        @inlinable public static var validationException: Self { .init(rawValue: "VALIDATION_EXCEPTION") }
     }
 
-    public enum DataGrantAcceptanceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accepted = "ACCEPTED"
-        case pendingReceiverAcceptance = "PENDING_RECEIVER_ACCEPTANCE"
-        public var description: String { return self.rawValue }
+    public struct DataGrantAcceptanceState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accepted: Self { .init(rawValue: "ACCEPTED") }
+        @inlinable public static var pendingReceiverAcceptance: Self { .init(rawValue: "PENDING_RECEIVER_ACCEPTANCE") }
     }
 
-    public enum DatabaseLFTagPolicyPermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case describe = "DESCRIBE"
-        public var description: String { return self.rawValue }
+    public struct DatabaseLFTagPolicyPermission: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var describe: Self { .init(rawValue: "DESCRIBE") }
     }
 
-    public enum ExceptionCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case insufficientS3BucketPolicy = "InsufficientS3BucketPolicy"
-        case s3AccessDenied = "S3AccessDenied"
-        public var description: String { return self.rawValue }
+    public struct ExceptionCause: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var insufficientS3BucketPolicy: Self { .init(rawValue: "InsufficientS3BucketPolicy") }
+        @inlinable public static var s3AccessDenied: Self { .init(rawValue: "S3AccessDenied") }
     }
 
-    public enum GrantDistributionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsOrganization = "AWS_ORGANIZATION"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct GrantDistributionScope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsOrganization: Self { .init(rawValue: "AWS_ORGANIZATION") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum JobErrorLimitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsLakeFormationDataPermissionAssetsPerRevision = "AWS Lake Formation data permission assets per revision"
-        case amazonRedshiftDatashareAssetsPerRevision = "Amazon Redshift datashare assets per revision"
-        case amazonS3DataAccessAssetsPerRevision = "Amazon S3 data access assets per revision"
-        case assetSizeInGB = "Asset size in GB"
-        case assetsPerRevision = "Assets per revision"
-        public var description: String { return self.rawValue }
+    public struct JobErrorLimitName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsLakeFormationDataPermissionAssetsPerRevision: Self { .init(rawValue: "AWS Lake Formation data permission assets per revision") }
+        @inlinable public static var amazonRedshiftDatashareAssetsPerRevision: Self { .init(rawValue: "Amazon Redshift datashare assets per revision") }
+        @inlinable public static var amazonS3DataAccessAssetsPerRevision: Self { .init(rawValue: "Amazon S3 data access assets per revision") }
+        @inlinable public static var assetSizeInGB: Self { .init(rawValue: "Asset size in GB") }
+        @inlinable public static var assetsPerRevision: Self { .init(rawValue: "Assets per revision") }
     }
 
-    public enum JobErrorResourceTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asset = "ASSET"
-        case dataSet = "DATA_SET"
-        case revision = "REVISION"
-        public var description: String { return self.rawValue }
+    public struct JobErrorResourceTypes: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asset: Self { .init(rawValue: "ASSET") }
+        @inlinable public static var dataSet: Self { .init(rawValue: "DATA_SET") }
+        @inlinable public static var revision: Self { .init(rawValue: "REVISION") }
     }
 
-    public enum LFPermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case describe = "DESCRIBE"
-        case select = "SELECT"
-        public var description: String { return self.rawValue }
+    public struct LFPermission: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var describe: Self { .init(rawValue: "DESCRIBE") }
+        @inlinable public static var select: Self { .init(rawValue: "SELECT") }
     }
 
-    public enum LFResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case database = "DATABASE"
-        case table = "TABLE"
-        public var description: String { return self.rawValue }
+    public struct LFResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var database: Self { .init(rawValue: "DATABASE") }
+        @inlinable public static var table: Self { .init(rawValue: "TABLE") }
     }
 
-    public enum LakeFormationDataPermissionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lfTagPolicy = "LFTagPolicy"
-        public var description: String { return self.rawValue }
+    public struct LakeFormationDataPermissionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lfTagPolicy: Self { .init(rawValue: "LFTagPolicy") }
     }
 
-    public enum LimitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsLakeFormationDataPermissionAssetsPerRevision = "AWS Lake Formation data permission assets per revision"
-        case activeAndPendingDataGrants = "Active and pending data grants"
-        case amazonAPIGatewayAPIAssetsPerRevision = "Amazon API Gateway API assets per revision"
-        case amazonRedshiftDatashareAssetsPerImportJobFromRedshift = "Amazon Redshift datashare assets per import job from Redshift"
-        case amazonRedshiftDatashareAssetsPerRevision = "Amazon Redshift datashare assets per revision"
-        case amazonS3DataAccessAssetsPerRevision = "Amazon S3 data access assets per revision"
-        case assetPerExportJobFromAmazonS3 = "Asset per export job from Amazon S3"
-        case assetSizeInGB = "Asset size in GB"
-        case assetsPerImportJobFromAmazonS3 = "Assets per import job from Amazon S3"
-        case assetsPerRevision = "Assets per revision"
-        case autoExportEventActionsPerDataSet = "Auto export event actions per data set"
-        case concurrentInProgressJobsToCreateAmazonS3DataAccessAssetsFromS3Buckets = "Concurrent in progress jobs to create Amazon S3 data access assets from S3 buckets"
-        case concurrentInProgressJobsToExportAssetsToAmazonS3 = "Concurrent in progress jobs to export assets to Amazon S3"
-        case concurrentInProgressJobsToExportAssetsToASignedURL = "Concurrent in progress jobs to export assets to a signed URL"
-        case concurrentInProgressJobsToExportRevisionsToAmazonS3 = "Concurrent in progress jobs to export revisions to Amazon S3"
-        case concurrentInProgressJobsToImportAssetsFromAmazonRedshiftDatashares = "Concurrent in progress jobs to import assets from Amazon Redshift datashares"
-        case concurrentInProgressJobsToImportAssetsFromAmazonS3 = "Concurrent in progress jobs to import assets from Amazon S3"
-        case concurrentInProgressJobsToImportAssetsFromASignedURL = "Concurrent in progress jobs to import assets from a signed URL"
-        case concurrentInProgressJobsToImportAssetsFromAnAPIGatewayAPI = "Concurrent in progress jobs to import assets from an API Gateway API"
-        case concurrentInProgressJobsToImportAssetsFromAnAWSLakeFormationTagPolicy = "Concurrent in progress jobs to import assets from an AWS Lake Formation tag policy"
-        case dataSetsPerAccount = "Data sets per account"
-        case dataSetsPerProduct = "Data sets per product"
-        case eventActionsPerAccount = "Event actions per account"
-        case pendingDataGrantsPerConsumer = "Pending data grants per consumer"
-        case productsPerAccount = "Products per account"
-        case revisionsPerAWSLakeFormationDataPermissionDataSet = "Revisions per AWS Lake Formation data permission data set"
-        case revisionsPerAmazonAPIGatewayAPIDataSet = "Revisions per Amazon API Gateway API data set"
-        case revisionsPerAmazonRedshiftDatashareDataSet = "Revisions per Amazon Redshift datashare data set"
-        case revisionsPerAmazonS3DataAccessDataSet = "Revisions per Amazon S3 data access data set"
-        case revisionsPerDataSet = "Revisions per data set"
-        public var description: String { return self.rawValue }
+    public struct LimitName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsLakeFormationDataPermissionAssetsPerRevision: Self { .init(rawValue: "AWS Lake Formation data permission assets per revision") }
+        @inlinable public static var activeAndPendingDataGrants: Self { .init(rawValue: "Active and pending data grants") }
+        @inlinable public static var amazonAPIGatewayAPIAssetsPerRevision: Self { .init(rawValue: "Amazon API Gateway API assets per revision") }
+        @inlinable public static var amazonRedshiftDatashareAssetsPerImportJobFromRedshift: Self { .init(rawValue: "Amazon Redshift datashare assets per import job from Redshift") }
+        @inlinable public static var amazonRedshiftDatashareAssetsPerRevision: Self { .init(rawValue: "Amazon Redshift datashare assets per revision") }
+        @inlinable public static var amazonS3DataAccessAssetsPerRevision: Self { .init(rawValue: "Amazon S3 data access assets per revision") }
+        @inlinable public static var assetPerExportJobFromAmazonS3: Self { .init(rawValue: "Asset per export job from Amazon S3") }
+        @inlinable public static var assetSizeInGB: Self { .init(rawValue: "Asset size in GB") }
+        @inlinable public static var assetsPerImportJobFromAmazonS3: Self { .init(rawValue: "Assets per import job from Amazon S3") }
+        @inlinable public static var assetsPerRevision: Self { .init(rawValue: "Assets per revision") }
+        @inlinable public static var autoExportEventActionsPerDataSet: Self { .init(rawValue: "Auto export event actions per data set") }
+        @inlinable public static var concurrentInProgressJobsToCreateAmazonS3DataAccessAssetsFromS3Buckets: Self { .init(rawValue: "Concurrent in progress jobs to create Amazon S3 data access assets from S3 buckets") }
+        @inlinable public static var concurrentInProgressJobsToExportAssetsToAmazonS3: Self { .init(rawValue: "Concurrent in progress jobs to export assets to Amazon S3") }
+        @inlinable public static var concurrentInProgressJobsToExportAssetsToASignedURL: Self { .init(rawValue: "Concurrent in progress jobs to export assets to a signed URL") }
+        @inlinable public static var concurrentInProgressJobsToExportRevisionsToAmazonS3: Self { .init(rawValue: "Concurrent in progress jobs to export revisions to Amazon S3") }
+        @inlinable public static var concurrentInProgressJobsToImportAssetsFromAmazonRedshiftDatashares: Self { .init(rawValue: "Concurrent in progress jobs to import assets from Amazon Redshift datashares") }
+        @inlinable public static var concurrentInProgressJobsToImportAssetsFromAmazonS3: Self { .init(rawValue: "Concurrent in progress jobs to import assets from Amazon S3") }
+        @inlinable public static var concurrentInProgressJobsToImportAssetsFromASignedURL: Self { .init(rawValue: "Concurrent in progress jobs to import assets from a signed URL") }
+        @inlinable public static var concurrentInProgressJobsToImportAssetsFromAnAPIGatewayAPI: Self { .init(rawValue: "Concurrent in progress jobs to import assets from an API Gateway API") }
+        @inlinable public static var concurrentInProgressJobsToImportAssetsFromAnAWSLakeFormationTagPolicy: Self { .init(rawValue: "Concurrent in progress jobs to import assets from an AWS Lake Formation tag policy") }
+        @inlinable public static var dataSetsPerAccount: Self { .init(rawValue: "Data sets per account") }
+        @inlinable public static var dataSetsPerProduct: Self { .init(rawValue: "Data sets per product") }
+        @inlinable public static var eventActionsPerAccount: Self { .init(rawValue: "Event actions per account") }
+        @inlinable public static var pendingDataGrantsPerConsumer: Self { .init(rawValue: "Pending data grants per consumer") }
+        @inlinable public static var productsPerAccount: Self { .init(rawValue: "Products per account") }
+        @inlinable public static var revisionsPerAWSLakeFormationDataPermissionDataSet: Self { .init(rawValue: "Revisions per AWS Lake Formation data permission data set") }
+        @inlinable public static var revisionsPerAmazonAPIGatewayAPIDataSet: Self { .init(rawValue: "Revisions per Amazon API Gateway API data set") }
+        @inlinable public static var revisionsPerAmazonRedshiftDatashareDataSet: Self { .init(rawValue: "Revisions per Amazon Redshift datashare data set") }
+        @inlinable public static var revisionsPerAmazonS3DataAccessDataSet: Self { .init(rawValue: "Revisions per Amazon S3 data access data set") }
+        @inlinable public static var revisionsPerDataSet: Self { .init(rawValue: "Revisions per data set") }
     }
 
-    public enum NotificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dataDelay = "DATA_DELAY"
-        case dataUpdate = "DATA_UPDATE"
-        case deprecation = "DEPRECATION"
-        case schemaChange = "SCHEMA_CHANGE"
-        public var description: String { return self.rawValue }
+    public struct NotificationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dataDelay: Self { .init(rawValue: "DATA_DELAY") }
+        @inlinable public static var dataUpdate: Self { .init(rawValue: "DATA_UPDATE") }
+        @inlinable public static var deprecation: Self { .init(rawValue: "DEPRECATION") }
+        @inlinable public static var schemaChange: Self { .init(rawValue: "SCHEMA_CHANGE") }
     }
 
-    public enum Origin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case entitled = "ENTITLED"
-        case owned = "OWNED"
-        public var description: String { return self.rawValue }
+    public struct Origin: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var entitled: Self { .init(rawValue: "ENTITLED") }
+        @inlinable public static var owned: Self { .init(rawValue: "OWNED") }
     }
 
-    public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rest = "REST"
-        public var description: String { return self.rawValue }
+    public struct ProtocolType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rest: Self { .init(rawValue: "REST") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asset = "ASSET"
-        case dataGrant = "DATA_GRANT"
-        case dataSet = "DATA_SET"
-        case eventAction = "EVENT_ACTION"
-        case job = "JOB"
-        case revision = "REVISION"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asset: Self { .init(rawValue: "ASSET") }
+        @inlinable public static var dataGrant: Self { .init(rawValue: "DATA_GRANT") }
+        @inlinable public static var dataSet: Self { .init(rawValue: "DATA_SET") }
+        @inlinable public static var eventAction: Self { .init(rawValue: "EVENT_ACTION") }
+        @inlinable public static var job: Self { .init(rawValue: "JOB") }
+        @inlinable public static var revision: Self { .init(rawValue: "REVISION") }
     }
 
-    public enum SchemaChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case add = "ADD"
-        case modify = "MODIFY"
-        case remove = "REMOVE"
-        public var description: String { return self.rawValue }
+    public struct SchemaChangeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var add: Self { .init(rawValue: "ADD") }
+        @inlinable public static var modify: Self { .init(rawValue: "MODIFY") }
+        @inlinable public static var remove: Self { .init(rawValue: "REMOVE") }
     }
 
-    public enum ServerSideEncryptionTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes256 = "AES256"
-        case awsKms = "aws:kms"
-        public var description: String { return self.rawValue }
+    public struct ServerSideEncryptionTypes: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes256: Self { .init(rawValue: "AES256") }
+        @inlinable public static var awsKms: Self { .init(rawValue: "aws:kms") }
     }
 
-    public enum State: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case completed = "COMPLETED"
-        case error = "ERROR"
-        case inProgress = "IN_PROGRESS"
-        case timedOut = "TIMED_OUT"
-        case waiting = "WAITING"
-        public var description: String { return self.rawValue }
+    public struct State: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var timedOut: Self { .init(rawValue: "TIMED_OUT") }
+        @inlinable public static var waiting: Self { .init(rawValue: "WAITING") }
     }
 
-    public enum TableTagPolicyLFPermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case describe = "DESCRIBE"
-        case select = "SELECT"
-        public var description: String { return self.rawValue }
+    public struct TableTagPolicyLFPermission: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var describe: Self { .init(rawValue: "DESCRIBE") }
+        @inlinable public static var select: Self { .init(rawValue: "SELECT") }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createS3DataAccessFromS3Bucket = "CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET"
-        case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
-        case exportAssetToSignedUrl = "EXPORT_ASSET_TO_SIGNED_URL"
-        case exportRevisionsToS3 = "EXPORT_REVISIONS_TO_S3"
-        case importAssetsFromLakeFormationTagPolicy = "IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY"
-        case importAssetsFromRedshiftDataShares = "IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES"
-        case importAssetsFromS3 = "IMPORT_ASSETS_FROM_S3"
-        case importAssetFromApiGatewayApi = "IMPORT_ASSET_FROM_API_GATEWAY_API"
-        case importAssetFromSignedUrl = "IMPORT_ASSET_FROM_SIGNED_URL"
-        public var description: String { return self.rawValue }
+    public struct `Type`: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createS3DataAccessFromS3Bucket: Self { .init(rawValue: "CREATE_S3_DATA_ACCESS_FROM_S3_BUCKET") }
+        @inlinable public static var exportAssetsToS3: Self { .init(rawValue: "EXPORT_ASSETS_TO_S3") }
+        @inlinable public static var exportAssetToSignedUrl: Self { .init(rawValue: "EXPORT_ASSET_TO_SIGNED_URL") }
+        @inlinable public static var exportRevisionsToS3: Self { .init(rawValue: "EXPORT_REVISIONS_TO_S3") }
+        @inlinable public static var importAssetsFromLakeFormationTagPolicy: Self { .init(rawValue: "IMPORT_ASSETS_FROM_LAKE_FORMATION_TAG_POLICY") }
+        @inlinable public static var importAssetsFromRedshiftDataShares: Self { .init(rawValue: "IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES") }
+        @inlinable public static var importAssetsFromS3: Self { .init(rawValue: "IMPORT_ASSETS_FROM_S3") }
+        @inlinable public static var importAssetFromApiGatewayApi: Self { .init(rawValue: "IMPORT_ASSET_FROM_API_GATEWAY_API") }
+        @inlinable public static var importAssetFromSignedUrl: Self { .init(rawValue: "IMPORT_ASSET_FROM_SIGNED_URL") }
     }
 
     // MARK: Shapes

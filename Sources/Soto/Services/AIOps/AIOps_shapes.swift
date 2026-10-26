@@ -25,10 +25,14 @@ import Foundation
 extension AIOps {
     // MARK: Enums
 
-    public enum EncryptionConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsOwnedKey = "AWS_OWNED_KEY"
-        case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
-        public var description: String { return self.rawValue }
+    public struct EncryptionConfigurationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsOwnedKey: Self { .init(rawValue: "AWS_OWNED_KEY") }
+        @inlinable public static var customerManagedKmsKey: Self { .init(rawValue: "CUSTOMER_MANAGED_KMS_KEY") }
     }
 
     // MARK: Shapes

@@ -25,49 +25,77 @@ import Foundation
 extension Signer {
     // MARK: Enums
 
-    public enum Category: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsIoT = "AWSIoT"
-        public var description: String { return self.rawValue }
+    public struct Category: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsIoT: Self { .init(rawValue: "AWSIoT") }
     }
 
-    public enum EncryptionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ecdsa = "ECDSA"
-        case rsa = "RSA"
-        public var description: String { return self.rawValue }
+    public struct EncryptionAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ecdsa: Self { .init(rawValue: "ECDSA") }
+        @inlinable public static var rsa: Self { .init(rawValue: "RSA") }
     }
 
-    public enum HashAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sha1 = "SHA1"
-        case sha256 = "SHA256"
-        public var description: String { return self.rawValue }
+    public struct HashAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sha1: Self { .init(rawValue: "SHA1") }
+        @inlinable public static var sha256: Self { .init(rawValue: "SHA256") }
     }
 
-    public enum ImageFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case json = "JSON"
-        case jsonDetached = "JSONDetached"
-        case jsonEmbedded = "JSONEmbedded"
-        public var description: String { return self.rawValue }
+    public struct ImageFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
+        @inlinable public static var jsonDetached: Self { .init(rawValue: "JSONDetached") }
+        @inlinable public static var jsonEmbedded: Self { .init(rawValue: "JSONEmbedded") }
     }
 
-    public enum SigningProfileStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case canceled = "Canceled"
-        case revoked = "Revoked"
-        public var description: String { return self.rawValue }
+    public struct SigningProfileStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var canceled: Self { .init(rawValue: "Canceled") }
+        @inlinable public static var revoked: Self { .init(rawValue: "Revoked") }
     }
 
-    public enum SigningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "Failed"
-        case inProgress = "InProgress"
-        case succeeded = "Succeeded"
-        public var description: String { return self.rawValue }
+    public struct SigningStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "InProgress") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "Succeeded") }
     }
 
-    public enum ValidityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days = "DAYS"
-        case months = "MONTHS"
-        case years = "YEARS"
-        public var description: String { return self.rawValue }
+    public struct ValidityType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days: Self { .init(rawValue: "DAYS") }
+        @inlinable public static var months: Self { .init(rawValue: "MONTHS") }
+        @inlinable public static var years: Self { .init(rawValue: "YEARS") }
     }
 
     // MARK: Shapes

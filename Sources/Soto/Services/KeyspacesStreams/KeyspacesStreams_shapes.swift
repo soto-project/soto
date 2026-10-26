@@ -25,54 +25,82 @@ import Foundation
 extension KeyspacesStreams {
     // MARK: Enums
 
-    public enum IteratorPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case atTip = "AT_TIP"
-        case behindTip = "BEHIND_TIP"
-        public var description: String { return self.rawValue }
+    public struct IteratorPosition: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var atTip: Self { .init(rawValue: "AT_TIP") }
+        @inlinable public static var behindTip: Self { .init(rawValue: "BEHIND_TIP") }
     }
 
-    public enum OriginType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case replication = "REPLICATION"
-        case ttl = "TTL"
-        case user = "USER"
-        public var description: String { return self.rawValue }
+    public struct OriginType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var replication: Self { .init(rawValue: "REPLICATION") }
+        @inlinable public static var ttl: Self { .init(rawValue: "TTL") }
+        @inlinable public static var user: Self { .init(rawValue: "USER") }
     }
 
-    public enum ShardFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case childShards = "CHILD_SHARDS"
-        public var description: String { return self.rawValue }
+    public struct ShardFilterType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var childShards: Self { .init(rawValue: "CHILD_SHARDS") }
     }
 
-    public enum ShardIteratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
-        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
-        case latest = "LATEST"
-        case trimHorizon = "TRIM_HORIZON"
-        public var description: String { return self.rawValue }
+    public struct ShardIteratorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afterSequenceNumber: Self { .init(rawValue: "AFTER_SEQUENCE_NUMBER") }
+        @inlinable public static var atSequenceNumber: Self { .init(rawValue: "AT_SEQUENCE_NUMBER") }
+        @inlinable public static var latest: Self { .init(rawValue: "LATEST") }
+        @inlinable public static var trimHorizon: Self { .init(rawValue: "TRIM_HORIZON") }
     }
 
-    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case disabling = "DISABLING"
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
-        public var description: String { return self.rawValue }
+    public struct StreamStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var disabling: Self { .init(rawValue: "DISABLING") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var enabling: Self { .init(rawValue: "ENABLING") }
     }
 
-    public enum StreamViewType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case keysOnly = "KEYS_ONLY"
-        case newAndOldImages = "NEW_AND_OLD_IMAGES"
-        case newImage = "NEW_IMAGE"
-        case oldImage = "OLD_IMAGE"
-        public var description: String { return self.rawValue }
+    public struct StreamViewType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var keysOnly: Self { .init(rawValue: "KEYS_ONLY") }
+        @inlinable public static var newAndOldImages: Self { .init(rawValue: "NEW_AND_OLD_IMAGES") }
+        @inlinable public static var newImage: Self { .init(rawValue: "NEW_IMAGE") }
+        @inlinable public static var oldImage: Self { .init(rawValue: "OLD_IMAGE") }
     }
 
-    public enum ValidationExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case expiredIterator = "ExpiredIterator"
-        case expiredNextToken = "ExpiredNextToken"
-        case invalidFormat = "InvalidFormat"
-        case trimmedDataAccess = "TrimmedDataAccess"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var expiredIterator: Self { .init(rawValue: "ExpiredIterator") }
+        @inlinable public static var expiredNextToken: Self { .init(rawValue: "ExpiredNextToken") }
+        @inlinable public static var invalidFormat: Self { .init(rawValue: "InvalidFormat") }
+        @inlinable public static var trimmedDataAccess: Self { .init(rawValue: "TrimmedDataAccess") }
     }
 
     public enum KeyspacesCellValue: AWSDecodableShape, Sendable {

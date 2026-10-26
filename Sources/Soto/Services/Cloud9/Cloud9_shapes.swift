@@ -25,70 +25,102 @@ import Foundation
 extension Cloud9 {
     // MARK: Enums
 
-    public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case connectSsh = "CONNECT_SSH"
-        case connectSsm = "CONNECT_SSM"
-        public var description: String { return self.rawValue }
+    public struct ConnectionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var connectSsh: Self { .init(rawValue: "CONNECT_SSH") }
+        @inlinable public static var connectSsm: Self { .init(rawValue: "CONNECT_SSM") }
     }
 
-    public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createFailed = "CREATE_FAILED"
-        case created = "CREATED"
-        case creating = "CREATING"
-        case deleteFailed = "DELETE_FAILED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
+    public struct EnvironmentLifecycleStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
     }
 
-    public enum EnvironmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case connecting = "connecting"
-        case creating = "creating"
-        case deleting = "deleting"
-        case error = "error"
-        case ready = "ready"
-        case stopped = "stopped"
-        case stopping = "stopping"
-        public var description: String { return self.rawValue }
+    public struct EnvironmentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var connecting: Self { .init(rawValue: "connecting") }
+        @inlinable public static var creating: Self { .init(rawValue: "creating") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var error: Self { .init(rawValue: "error") }
+        @inlinable public static var ready: Self { .init(rawValue: "ready") }
+        @inlinable public static var stopped: Self { .init(rawValue: "stopped") }
+        @inlinable public static var stopping: Self { .init(rawValue: "stopping") }
     }
 
-    public enum EnvironmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ec2 = "ec2"
-        case ssh = "ssh"
-        public var description: String { return self.rawValue }
+    public struct EnvironmentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ec2: Self { .init(rawValue: "ec2") }
+        @inlinable public static var ssh: Self { .init(rawValue: "ssh") }
     }
 
-    public enum ManagedCredentialsAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disable = "DISABLE"
-        case enable = "ENABLE"
-        public var description: String { return self.rawValue }
+    public struct ManagedCredentialsAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disable: Self { .init(rawValue: "DISABLE") }
+        @inlinable public static var enable: Self { .init(rawValue: "ENABLE") }
     }
 
-    public enum ManagedCredentialsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabledByCollaborator = "DISABLED_BY_COLLABORATOR"
-        case disabledByDefault = "DISABLED_BY_DEFAULT"
-        case disabledByOwner = "DISABLED_BY_OWNER"
-        case enabledByOwner = "ENABLED_BY_OWNER"
-        case enabledOnCreate = "ENABLED_ON_CREATE"
-        case failedRemovalByCollaborator = "FAILED_REMOVAL_BY_COLLABORATOR"
-        case failedRemovalByOwner = "FAILED_REMOVAL_BY_OWNER"
-        case pendingRemovalByCollaborator = "PENDING_REMOVAL_BY_COLLABORATOR"
-        case pendingRemovalByOwner = "PENDING_REMOVAL_BY_OWNER"
-        case pendingStartRemovalByCollaborator = "PENDING_START_REMOVAL_BY_COLLABORATOR"
-        case pendingStartRemovalByOwner = "PENDING_START_REMOVAL_BY_OWNER"
-        public var description: String { return self.rawValue }
+    public struct ManagedCredentialsStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabledByCollaborator: Self { .init(rawValue: "DISABLED_BY_COLLABORATOR") }
+        @inlinable public static var disabledByDefault: Self { .init(rawValue: "DISABLED_BY_DEFAULT") }
+        @inlinable public static var disabledByOwner: Self { .init(rawValue: "DISABLED_BY_OWNER") }
+        @inlinable public static var enabledByOwner: Self { .init(rawValue: "ENABLED_BY_OWNER") }
+        @inlinable public static var enabledOnCreate: Self { .init(rawValue: "ENABLED_ON_CREATE") }
+        @inlinable public static var failedRemovalByCollaborator: Self { .init(rawValue: "FAILED_REMOVAL_BY_COLLABORATOR") }
+        @inlinable public static var failedRemovalByOwner: Self { .init(rawValue: "FAILED_REMOVAL_BY_OWNER") }
+        @inlinable public static var pendingRemovalByCollaborator: Self { .init(rawValue: "PENDING_REMOVAL_BY_COLLABORATOR") }
+        @inlinable public static var pendingRemovalByOwner: Self { .init(rawValue: "PENDING_REMOVAL_BY_OWNER") }
+        @inlinable public static var pendingStartRemovalByCollaborator: Self { .init(rawValue: "PENDING_START_REMOVAL_BY_COLLABORATOR") }
+        @inlinable public static var pendingStartRemovalByOwner: Self { .init(rawValue: "PENDING_START_REMOVAL_BY_OWNER") }
     }
 
-    public enum MemberPermissions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case readOnly = "read-only"
-        case readWrite = "read-write"
-        public var description: String { return self.rawValue }
+    public struct MemberPermissions: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var readOnly: Self { .init(rawValue: "read-only") }
+        @inlinable public static var readWrite: Self { .init(rawValue: "read-write") }
     }
 
-    public enum Permissions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case owner = "owner"
-        case readOnly = "read-only"
-        case readWrite = "read-write"
-        public var description: String { return self.rawValue }
+    public struct Permissions: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var owner: Self { .init(rawValue: "owner") }
+        @inlinable public static var readOnly: Self { .init(rawValue: "read-only") }
+        @inlinable public static var readWrite: Self { .init(rawValue: "read-write") }
     }
 
     // MARK: Shapes

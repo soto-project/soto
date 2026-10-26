@@ -25,303 +25,395 @@ import Foundation
 extension Organizations {
     // MARK: Enums
 
-    public enum AccessDeniedForDependencyExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDeniedDuringCreateServiceLinkedRole = "ACCESS_DENIED_DURING_CREATE_SERVICE_LINKED_ROLE"
-        public var description: String { return self.rawValue }
+    public struct AccessDeniedForDependencyExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDeniedDuringCreateServiceLinkedRole: Self { .init(rawValue: "ACCESS_DENIED_DURING_CREATE_SERVICE_LINKED_ROLE") }
     }
 
-    public enum AccountJoinedMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case created = "CREATED"
-        case invited = "INVITED"
-        public var description: String { return self.rawValue }
+    public struct AccountJoinedMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var invited: Self { .init(rawValue: "INVITED") }
     }
 
-    public enum AccountState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case closed = "CLOSED"
-        case pendingActivation = "PENDING_ACTIVATION"
-        case pendingClosure = "PENDING_CLOSURE"
-        case suspended = "SUSPENDED"
-        public var description: String { return self.rawValue }
+    public struct AccountState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var closed: Self { .init(rawValue: "CLOSED") }
+        @inlinable public static var pendingActivation: Self { .init(rawValue: "PENDING_ACTIVATION") }
+        @inlinable public static var pendingClosure: Self { .init(rawValue: "PENDING_CLOSURE") }
+        @inlinable public static var suspended: Self { .init(rawValue: "SUSPENDED") }
     }
 
-    public enum AccountStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case pendingClosure = "PENDING_CLOSURE"
-        case suspended = "SUSPENDED"
-        public var description: String { return self.rawValue }
+    public struct AccountStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var pendingClosure: Self { .init(rawValue: "PENDING_CLOSURE") }
+        @inlinable public static var suspended: Self { .init(rawValue: "SUSPENDED") }
     }
 
-    public enum ActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addOrganizationsServiceLinkedRole = "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE"
-        case approveAllFeatures = "APPROVE_ALL_FEATURES"
-        case enableAllFeatures = "ENABLE_ALL_FEATURES"
-        case inviteAccountToOrganization = "INVITE"
-        case transferResponsibility = "TRANSFER_RESPONSIBILITY"
-        public var description: String { return self.rawValue }
+    public struct ActionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addOrganizationsServiceLinkedRole: Self { .init(rawValue: "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE") }
+        @inlinable public static var approveAllFeatures: Self { .init(rawValue: "APPROVE_ALL_FEATURES") }
+        @inlinable public static var enableAllFeatures: Self { .init(rawValue: "ENABLE_ALL_FEATURES") }
+        @inlinable public static var inviteAccountToOrganization: Self { .init(rawValue: "INVITE") }
+        @inlinable public static var transferResponsibility: Self { .init(rawValue: "TRANSFER_RESPONSIBILITY") }
     }
 
-    public enum ChildType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "ACCOUNT"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        public var description: String { return self.rawValue }
+    public struct ChildType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
+        @inlinable public static var organizationalUnit: Self { .init(rawValue: "ORGANIZATIONAL_UNIT") }
     }
 
-    public enum ConstraintViolationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountCannotLeaveOrganization = "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
-        case accountCannotLeaveWithoutEula = "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA"
-        case accountCannotLeaveWithoutPhoneVerification = "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION"
-        case accountCreationNotComplete = "ACCOUNT_CREATION_NOT_COMPLETE"
-        case accountCreationRateLimitExceeded = "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
-        case accountNotActiveForTransferResponsibility = "ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY"
-        case accountNumberLimitExceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
-        case activeResponsibilityTransferProcess = "ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS"
-        case allFeaturesMigrationOrganizationSizeLimitExceeded = "ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED"
-        case cannotCloseManagementAccount = "CANNOT_CLOSE_MANAGEMENT_ACCOUNT"
-        case cannotRegisterMasterAsDelegatedAdministrator = "CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR"
-        case cannotRegisterSuspendedAccountAsDelegatedAdministrator = "CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR"
-        case cannotRemoveDelegatedAdministratorFromOrg = "CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG"
-        case closeAccountQuotaExceeded = "CLOSE_ACCOUNT_QUOTA_EXCEEDED"
-        case closeAccountRequestsLimitExceeded = "CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED"
-        case createOrganizationInBillingModeUnsupportedRegion = "CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION"
-        case delegatedAdministratorExistsForThisService = "DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE"
-        case emailVerificationCodeExpired = "EMAIL_VERIFICATION_CODE_EXPIRED"
-        case handshakeRateLimitExceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
-        case invalidPaymentInstrument = "INVALID_PAYMENT_INSTRUMENT"
-        case masterAccountAddressDoesNotMatchMarketplace = "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
-        case masterAccountMissingBusinessLicense = "MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE"
-        case masterAccountMissingContactInfo = "MASTER_ACCOUNT_MISSING_CONTACT_INFO"
-        case masterAccountNotGovcloudEnabled = "MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED"
-        case masterAccountPaymentInstrumentRequired = "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
-        case maxDelegatedAdministratorsForServiceLimitExceeded = "MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED"
-        case maxPolicyTypeAttachmentLimitExceeded = "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
-        case maxTagLimitExceeded = "MAX_TAG_LIMIT_EXCEEDED"
-        case memberAccountPaymentInstrumentRequired = "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
-        case minPolicyTypeAttachmentLimitExceeded = "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
-        case organizationNotInAllFeaturesMode = "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE"
-        case ouDepthLimitExceeded = "OU_DEPTH_LIMIT_EXCEEDED"
-        case ouNumberLimitExceeded = "OU_NUMBER_LIMIT_EXCEEDED"
-        case policyContentLimitExceeded = "POLICY_CONTENT_LIMIT_EXCEEDED"
-        case policyNumberLimitExceeded = "POLICY_NUMBER_LIMIT_EXCEEDED"
-        case policyTypeEnabledForThisService = "POLICY_TYPE_ENABLED_FOR_THIS_SERVICE"
-        case responsibilityTransferMaxInboundQuotaViolation = "RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION"
-        case responsibilityTransferMaxLevelViolation = "RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION"
-        case responsibilityTransferMaxOutboundQuotaViolation = "RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION"
-        case responsibilityTransferMaxTransfersQuotaViolation = "RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION"
-        case serviceAccessNotEnabled = "SERVICE_ACCESS_NOT_ENABLED"
-        case tagPolicyViolation = "TAG_POLICY_VIOLATION"
-        case transferResponsibilitySourceDeletionInProgress = "TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS"
-        case transferResponsibilityTargetDeletionInProgress = "TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS"
-        case transferResponsibilityUpdateNotAllowed = "TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED"
-        case unmetBillingPrerequisite = "UNMET_BILLING_PREREQUISITE"
-        case unsupportedPricing = "UNSUPPORTED_PRICING"
-        case waitPeriodActive = "WAIT_PERIOD_ACTIVE"
-        public var description: String { return self.rawValue }
+    public struct ConstraintViolationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountCannotLeaveOrganization: Self { .init(rawValue: "ACCOUNT_CANNOT_LEAVE_ORGANIZATION") }
+        @inlinable public static var accountCannotLeaveWithoutEula: Self { .init(rawValue: "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA") }
+        @inlinable public static var accountCannotLeaveWithoutPhoneVerification: Self { .init(rawValue: "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION") }
+        @inlinable public static var accountCreationNotComplete: Self { .init(rawValue: "ACCOUNT_CREATION_NOT_COMPLETE") }
+        @inlinable public static var accountCreationRateLimitExceeded: Self { .init(rawValue: "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED") }
+        @inlinable public static var accountNotActiveForTransferResponsibility: Self { .init(rawValue: "ACCOUNT_NOT_ACTIVE_FOR_TRANSFER_RESPONSIBILITY") }
+        @inlinable public static var accountNumberLimitExceeded: Self { .init(rawValue: "ACCOUNT_NUMBER_LIMIT_EXCEEDED") }
+        @inlinable public static var activeResponsibilityTransferProcess: Self { .init(rawValue: "ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS") }
+        @inlinable public static var allFeaturesMigrationOrganizationSizeLimitExceeded: Self { .init(rawValue: "ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED") }
+        @inlinable public static var cannotCloseManagementAccount: Self { .init(rawValue: "CANNOT_CLOSE_MANAGEMENT_ACCOUNT") }
+        @inlinable public static var cannotRegisterMasterAsDelegatedAdministrator: Self { .init(rawValue: "CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR") }
+        @inlinable public static var cannotRegisterSuspendedAccountAsDelegatedAdministrator: Self { .init(rawValue: "CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR") }
+        @inlinable public static var cannotRemoveDelegatedAdministratorFromOrg: Self { .init(rawValue: "CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG") }
+        @inlinable public static var closeAccountQuotaExceeded: Self { .init(rawValue: "CLOSE_ACCOUNT_QUOTA_EXCEEDED") }
+        @inlinable public static var closeAccountRequestsLimitExceeded: Self { .init(rawValue: "CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED") }
+        @inlinable public static var createOrganizationInBillingModeUnsupportedRegion: Self { .init(rawValue: "CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION") }
+        @inlinable public static var delegatedAdministratorExistsForThisService: Self { .init(rawValue: "DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE") }
+        @inlinable public static var emailVerificationCodeExpired: Self { .init(rawValue: "EMAIL_VERIFICATION_CODE_EXPIRED") }
+        @inlinable public static var handshakeRateLimitExceeded: Self { .init(rawValue: "HANDSHAKE_RATE_LIMIT_EXCEEDED") }
+        @inlinable public static var invalidPaymentInstrument: Self { .init(rawValue: "INVALID_PAYMENT_INSTRUMENT") }
+        @inlinable public static var masterAccountAddressDoesNotMatchMarketplace: Self { .init(rawValue: "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE") }
+        @inlinable public static var masterAccountMissingBusinessLicense: Self { .init(rawValue: "MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE") }
+        @inlinable public static var masterAccountMissingContactInfo: Self { .init(rawValue: "MASTER_ACCOUNT_MISSING_CONTACT_INFO") }
+        @inlinable public static var masterAccountNotGovcloudEnabled: Self { .init(rawValue: "MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED") }
+        @inlinable public static var masterAccountPaymentInstrumentRequired: Self { .init(rawValue: "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED") }
+        @inlinable public static var maxDelegatedAdministratorsForServiceLimitExceeded: Self { .init(rawValue: "MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED") }
+        @inlinable public static var maxPolicyTypeAttachmentLimitExceeded: Self { .init(rawValue: "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED") }
+        @inlinable public static var maxTagLimitExceeded: Self { .init(rawValue: "MAX_TAG_LIMIT_EXCEEDED") }
+        @inlinable public static var memberAccountPaymentInstrumentRequired: Self { .init(rawValue: "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED") }
+        @inlinable public static var minPolicyTypeAttachmentLimitExceeded: Self { .init(rawValue: "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED") }
+        @inlinable public static var organizationNotInAllFeaturesMode: Self { .init(rawValue: "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE") }
+        @inlinable public static var ouDepthLimitExceeded: Self { .init(rawValue: "OU_DEPTH_LIMIT_EXCEEDED") }
+        @inlinable public static var ouNumberLimitExceeded: Self { .init(rawValue: "OU_NUMBER_LIMIT_EXCEEDED") }
+        @inlinable public static var policyContentLimitExceeded: Self { .init(rawValue: "POLICY_CONTENT_LIMIT_EXCEEDED") }
+        @inlinable public static var policyNumberLimitExceeded: Self { .init(rawValue: "POLICY_NUMBER_LIMIT_EXCEEDED") }
+        @inlinable public static var policyTypeEnabledForThisService: Self { .init(rawValue: "POLICY_TYPE_ENABLED_FOR_THIS_SERVICE") }
+        @inlinable public static var responsibilityTransferMaxInboundQuotaViolation: Self { .init(rawValue: "RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION") }
+        @inlinable public static var responsibilityTransferMaxLevelViolation: Self { .init(rawValue: "RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION") }
+        @inlinable public static var responsibilityTransferMaxOutboundQuotaViolation: Self { .init(rawValue: "RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION") }
+        @inlinable public static var responsibilityTransferMaxTransfersQuotaViolation: Self { .init(rawValue: "RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION") }
+        @inlinable public static var serviceAccessNotEnabled: Self { .init(rawValue: "SERVICE_ACCESS_NOT_ENABLED") }
+        @inlinable public static var tagPolicyViolation: Self { .init(rawValue: "TAG_POLICY_VIOLATION") }
+        @inlinable public static var transferResponsibilitySourceDeletionInProgress: Self { .init(rawValue: "TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS") }
+        @inlinable public static var transferResponsibilityTargetDeletionInProgress: Self { .init(rawValue: "TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS") }
+        @inlinable public static var transferResponsibilityUpdateNotAllowed: Self { .init(rawValue: "TRANSFER_RESPONSIBILITY_UPDATE_NOT_ALLOWED") }
+        @inlinable public static var unmetBillingPrerequisite: Self { .init(rawValue: "UNMET_BILLING_PREREQUISITE") }
+        @inlinable public static var unsupportedPricing: Self { .init(rawValue: "UNSUPPORTED_PRICING") }
+        @inlinable public static var waitPeriodActive: Self { .init(rawValue: "WAIT_PERIOD_ACTIVE") }
     }
 
-    public enum CreateAccountFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountLimitExceeded = "ACCOUNT_LIMIT_EXCEEDED"
-        case concurrentAccountModification = "CONCURRENT_ACCOUNT_MODIFICATION"
-        case emailAlreadyExists = "EMAIL_ALREADY_EXISTS"
-        case failedBusinessValidation = "FAILED_BUSINESS_VALIDATION"
-        case govcloudAccountAlreadyExists = "GOVCLOUD_ACCOUNT_ALREADY_EXISTS"
-        case internalFailure = "INTERNAL_FAILURE"
-        case invalidAddress = "INVALID_ADDRESS"
-        case invalidEmail = "INVALID_EMAIL"
-        case invalidIdentityForBusinessValidation = "INVALID_IDENTITY_FOR_BUSINESS_VALIDATION"
-        case invalidPaymentInstrument = "INVALID_PAYMENT_INSTRUMENT"
-        case missingBusinessValidation = "MISSING_BUSINESS_VALIDATION"
-        case missingPaymentInstrument = "MISSING_PAYMENT_INSTRUMENT"
-        case pendingBUSINESSValidationv = "PENDING_BUSINESS_VALIDATION"
-        case unknownBusinessValidation = "UNKNOWN_BUSINESS_VALIDATION"
-        case updateExistingResourcePolicyWithTagsNotSupported = "UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED"
-        public var description: String { return self.rawValue }
+    public struct CreateAccountFailureReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountLimitExceeded: Self { .init(rawValue: "ACCOUNT_LIMIT_EXCEEDED") }
+        @inlinable public static var concurrentAccountModification: Self { .init(rawValue: "CONCURRENT_ACCOUNT_MODIFICATION") }
+        @inlinable public static var emailAlreadyExists: Self { .init(rawValue: "EMAIL_ALREADY_EXISTS") }
+        @inlinable public static var failedBusinessValidation: Self { .init(rawValue: "FAILED_BUSINESS_VALIDATION") }
+        @inlinable public static var govcloudAccountAlreadyExists: Self { .init(rawValue: "GOVCLOUD_ACCOUNT_ALREADY_EXISTS") }
+        @inlinable public static var internalFailure: Self { .init(rawValue: "INTERNAL_FAILURE") }
+        @inlinable public static var invalidAddress: Self { .init(rawValue: "INVALID_ADDRESS") }
+        @inlinable public static var invalidEmail: Self { .init(rawValue: "INVALID_EMAIL") }
+        @inlinable public static var invalidIdentityForBusinessValidation: Self { .init(rawValue: "INVALID_IDENTITY_FOR_BUSINESS_VALIDATION") }
+        @inlinable public static var invalidPaymentInstrument: Self { .init(rawValue: "INVALID_PAYMENT_INSTRUMENT") }
+        @inlinable public static var missingBusinessValidation: Self { .init(rawValue: "MISSING_BUSINESS_VALIDATION") }
+        @inlinable public static var missingPaymentInstrument: Self { .init(rawValue: "MISSING_PAYMENT_INSTRUMENT") }
+        @inlinable public static var pendingBUSINESSValidationv: Self { .init(rawValue: "PENDING_BUSINESS_VALIDATION") }
+        @inlinable public static var unknownBusinessValidation: Self { .init(rawValue: "UNKNOWN_BUSINESS_VALIDATION") }
+        @inlinable public static var updateExistingResourcePolicyWithTagsNotSupported: Self { .init(rawValue: "UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED") }
     }
 
-    public enum CreateAccountState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct CreateAccountState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum EffectivePolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aiservicesOptOutPolicy = "AISERVICES_OPT_OUT_POLICY"
-        case backupPolicy = "BACKUP_POLICY"
-        case bedrockPolicy = "BEDROCK_POLICY"
-        case chatbotPolicy = "CHATBOT_POLICY"
-        case declarativePolicyEc2 = "DECLARATIVE_POLICY_EC2"
-        case inspectorPolicy = "INSPECTOR_POLICY"
-        case networkSecurityDirectorPolicy = "NETWORK_SECURITY_DIRECTOR_POLICY"
-        case s3Policy = "S3_POLICY"
-        case securityhubPolicy = "SECURITYHUB_POLICY"
-        case tagPolicy = "TAG_POLICY"
-        case upgradeRolloutPolicy = "UPGRADE_ROLLOUT_POLICY"
-        public var description: String { return self.rawValue }
+    public struct EffectivePolicyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aiservicesOptOutPolicy: Self { .init(rawValue: "AISERVICES_OPT_OUT_POLICY") }
+        @inlinable public static var backupPolicy: Self { .init(rawValue: "BACKUP_POLICY") }
+        @inlinable public static var bedrockPolicy: Self { .init(rawValue: "BEDROCK_POLICY") }
+        @inlinable public static var chatbotPolicy: Self { .init(rawValue: "CHATBOT_POLICY") }
+        @inlinable public static var declarativePolicyEc2: Self { .init(rawValue: "DECLARATIVE_POLICY_EC2") }
+        @inlinable public static var inspectorPolicy: Self { .init(rawValue: "INSPECTOR_POLICY") }
+        @inlinable public static var networkSecurityDirectorPolicy: Self { .init(rawValue: "NETWORK_SECURITY_DIRECTOR_POLICY") }
+        @inlinable public static var s3Policy: Self { .init(rawValue: "S3_POLICY") }
+        @inlinable public static var securityhubPolicy: Self { .init(rawValue: "SECURITYHUB_POLICY") }
+        @inlinable public static var tagPolicy: Self { .init(rawValue: "TAG_POLICY") }
+        @inlinable public static var upgradeRolloutPolicy: Self { .init(rawValue: "UPGRADE_ROLLOUT_POLICY") }
     }
 
-    public enum HandshakeConstraintViolationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountNumberLimitExceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
-        case alreadyInAnOrganization = "ALREADY_IN_AN_ORGANIZATION"
-        case handshakeRateLimitExceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
-        case inviteDisabledDuringEnableAllFeatures = "INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES"
-        case legacyPermissionsStillInUse = "LEGACY_PERMISSIONS_STILL_IN_USE"
-        case managementAccountEmailNotVerified = "MANAGEMENT_ACCOUNT_EMAIL_NOT_VERIFIED"
-        case organizationAlreadyHasAllFeatures = "ORGANIZATION_ALREADY_HAS_ALL_FEATURES"
-        case organizationFromDifferentSellerOfRecord = "ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD"
-        case organizationIsAlreadyPendingAllFeaturesMigration = "ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION"
-        case organizationMembershipChangeRateLimitExceeded = "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED"
-        case pastDueInvoice = "PAST_DUE_INVOICE"
-        case paymentInstrumentRequired = "PAYMENT_INSTRUMENT_REQUIRED"
-        case responsibilityTransferAlreadyExists = "RESPONSIBILITY_TRANSFER_ALREADY_EXISTS"
-        case sourceAndTargetCannotMatch = "SOURCE_AND_TARGET_CANNOT_MATCH"
-        case targetAccountValidationFailure = "TARGET_ACCOUNT_VALIDATION_FAILURE"
-        case unusedPrepaymentBalance = "UNUSED_PREPAYMENT_BALANCE"
-        public var description: String { return self.rawValue }
+    public struct HandshakeConstraintViolationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountNumberLimitExceeded: Self { .init(rawValue: "ACCOUNT_NUMBER_LIMIT_EXCEEDED") }
+        @inlinable public static var alreadyInAnOrganization: Self { .init(rawValue: "ALREADY_IN_AN_ORGANIZATION") }
+        @inlinable public static var handshakeRateLimitExceeded: Self { .init(rawValue: "HANDSHAKE_RATE_LIMIT_EXCEEDED") }
+        @inlinable public static var inviteDisabledDuringEnableAllFeatures: Self { .init(rawValue: "INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES") }
+        @inlinable public static var legacyPermissionsStillInUse: Self { .init(rawValue: "LEGACY_PERMISSIONS_STILL_IN_USE") }
+        @inlinable public static var managementAccountEmailNotVerified: Self { .init(rawValue: "MANAGEMENT_ACCOUNT_EMAIL_NOT_VERIFIED") }
+        @inlinable public static var organizationAlreadyHasAllFeatures: Self { .init(rawValue: "ORGANIZATION_ALREADY_HAS_ALL_FEATURES") }
+        @inlinable public static var organizationFromDifferentSellerOfRecord: Self { .init(rawValue: "ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD") }
+        @inlinable public static var organizationIsAlreadyPendingAllFeaturesMigration: Self { .init(rawValue: "ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION") }
+        @inlinable public static var organizationMembershipChangeRateLimitExceeded: Self { .init(rawValue: "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED") }
+        @inlinable public static var pastDueInvoice: Self { .init(rawValue: "PAST_DUE_INVOICE") }
+        @inlinable public static var paymentInstrumentRequired: Self { .init(rawValue: "PAYMENT_INSTRUMENT_REQUIRED") }
+        @inlinable public static var responsibilityTransferAlreadyExists: Self { .init(rawValue: "RESPONSIBILITY_TRANSFER_ALREADY_EXISTS") }
+        @inlinable public static var sourceAndTargetCannotMatch: Self { .init(rawValue: "SOURCE_AND_TARGET_CANNOT_MATCH") }
+        @inlinable public static var targetAccountValidationFailure: Self { .init(rawValue: "TARGET_ACCOUNT_VALIDATION_FAILURE") }
+        @inlinable public static var unusedPrepaymentBalance: Self { .init(rawValue: "UNUSED_PREPAYMENT_BALANCE") }
     }
 
-    public enum HandshakePartyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "ACCOUNT"
-        case email = "EMAIL"
-        case organization = "ORGANIZATION"
-        public var description: String { return self.rawValue }
+    public struct HandshakePartyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
+        @inlinable public static var organization: Self { .init(rawValue: "ORGANIZATION") }
     }
 
-    public enum HandshakeResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "ACCOUNT"
-        case email = "EMAIL"
-        case managementAccount = "MANAGEMENT_ACCOUNT"
-        case managementEmail = "MANAGEMENT_EMAIL"
-        case managementName = "MANAGEMENT_NAME"
-        case masterEmail = "MASTER_EMAIL"
-        case masterName = "MASTER_NAME"
-        case notes = "NOTES"
-        case organization = "ORGANIZATION"
-        case organizationFeatureSet = "ORGANIZATION_FEATURE_SET"
-        case parentHandshake = "PARENT_HANDSHAKE"
-        case responsibilityTransfer = "RESPONSIBILITY_TRANSFER"
-        case transferStartTimestamp = "TRANSFER_START_TIMESTAMP"
-        case transferType = "TRANSFER_TYPE"
-        public var description: String { return self.rawValue }
+    public struct HandshakeResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
+        @inlinable public static var managementAccount: Self { .init(rawValue: "MANAGEMENT_ACCOUNT") }
+        @inlinable public static var managementEmail: Self { .init(rawValue: "MANAGEMENT_EMAIL") }
+        @inlinable public static var managementName: Self { .init(rawValue: "MANAGEMENT_NAME") }
+        @inlinable public static var masterEmail: Self { .init(rawValue: "MASTER_EMAIL") }
+        @inlinable public static var masterName: Self { .init(rawValue: "MASTER_NAME") }
+        @inlinable public static var notes: Self { .init(rawValue: "NOTES") }
+        @inlinable public static var organization: Self { .init(rawValue: "ORGANIZATION") }
+        @inlinable public static var organizationFeatureSet: Self { .init(rawValue: "ORGANIZATION_FEATURE_SET") }
+        @inlinable public static var parentHandshake: Self { .init(rawValue: "PARENT_HANDSHAKE") }
+        @inlinable public static var responsibilityTransfer: Self { .init(rawValue: "RESPONSIBILITY_TRANSFER") }
+        @inlinable public static var transferStartTimestamp: Self { .init(rawValue: "TRANSFER_START_TIMESTAMP") }
+        @inlinable public static var transferType: Self { .init(rawValue: "TRANSFER_TYPE") }
     }
 
-    public enum HandshakeState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accepted = "ACCEPTED"
-        case canceled = "CANCELED"
-        case declined = "DECLINED"
-        case expired = "EXPIRED"
-        case open = "OPEN"
-        case requested = "REQUESTED"
-        public var description: String { return self.rawValue }
+    public struct HandshakeState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accepted: Self { .init(rawValue: "ACCEPTED") }
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var declined: Self { .init(rawValue: "DECLINED") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var open: Self { .init(rawValue: "OPEN") }
+        @inlinable public static var requested: Self { .init(rawValue: "REQUESTED") }
     }
 
-    public enum IAMUserAccessToBilling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
+    public struct IAMUserAccessToBilling: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allow: Self { .init(rawValue: "ALLOW") }
+        @inlinable public static var deny: Self { .init(rawValue: "DENY") }
     }
 
-    public enum InvalidInputExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case callerRequiredFieldMissing = "CALLER_REQUIRED_FIELD_MISSING"
-        case duplicateTagKey = "DUPLICATE_TAG_KEY"
-        case endDateNotEndOfMonth = "END_DATE_NOT_END_OF_MONTH"
-        case endDateTooEarly = "END_DATE_TOO_EARLY"
-        case endDateTooLate = "END_DATE_TOO_LATE"
-        case immutablePolicy = "IMMUTABLE_POLICY"
-        case inputRequired = "INPUT_REQUIRED"
-        case invalidEmailAddressTarget = "INVALID_EMAIL_ADDRESS_TARGET"
-        case invalidEndDate = "INVALID_END_DATE"
-        case invalidEnum = "INVALID_ENUM"
-        case invalidEnumPolicyType = "INVALID_ENUM_POLICY_TYPE"
-        case invalidFullNameTarget = "INVALID_FULL_NAME_TARGET"
-        case invalidListMember = "INVALID_LIST_MEMBER"
-        case invalidPaginationToken = "INVALID_NEXT_TOKEN"
-        case invalidPartyTypeTarget = "INVALID_PARTY_TYPE_TARGET"
-        case invalidPattern = "INVALID_PATTERN"
-        case invalidPatternTargetId = "INVALID_PATTERN_TARGET_ID"
-        case invalidPrincipal = "INVALID_PRINCIPAL"
-        case invalidResourcePolicyJson = "INVALID_RESOURCE_POLICY_JSON"
-        case invalidRoleName = "INVALID_ROLE_NAME"
-        case invalidStartDate = "INVALID_START_DATE"
-        case invalidSyntaxOrganization = "INVALID_SYNTAX_ORGANIZATION_ARN"
-        case invalidSyntaxPolicy = "INVALID_SYNTAX_POLICY_ID"
-        case invalidSystemTagsParameter = "INVALID_SYSTEM_TAGS_PARAMETER"
-        case maxFilterLimitExceeded = "MAX_LIMIT_EXCEEDED_FILTER"
-        case maxLengthExceeded = "MAX_LENGTH_EXCEEDED"
-        case maxValueExceeded = "MAX_VALUE_EXCEEDED"
-        case minLengthExceeded = "MIN_LENGTH_EXCEEDED"
-        case minValueExceeded = "MIN_VALUE_EXCEEDED"
-        case movingAccountBetweenDifferentRoots = "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
-        case nonDetachablePolicy = "NON_DETACHABLE_POLICY"
-        case startDateNotBeginningOfDay = "START_DATE_NOT_BEGINNING_OF_DAY"
-        case startDateNotBeginningOfMonth = "START_DATE_NOT_BEGINNING_OF_MONTH"
-        case startDateTooEarly = "START_DATE_TOO_EARLY"
-        case startDateTooLate = "START_DATE_TOO_LATE"
-        case targetNotSupported = "TARGET_NOT_SUPPORTED"
-        case unrecognizedServicePrincipal = "UNRECOGNIZED_SERVICE_PRINCIPAL"
-        case unsupportedActionInResourcePolicy = "UNSUPPORTED_ACTION_IN_RESOURCE_POLICY"
-        case unsupportedActionInResponsibilityTransfer = "UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER"
-        case unsupportedPolicyTypeInResourcePolicy = "UNSUPPORTED_POLICY_TYPE_IN_RESOURCE_POLICY"
-        case unsupportedResourceInResourcePolicy = "UNSUPPORTED_RESOURCE_IN_RESOURCE_POLICY"
-        public var description: String { return self.rawValue }
+    public struct InvalidInputExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var callerRequiredFieldMissing: Self { .init(rawValue: "CALLER_REQUIRED_FIELD_MISSING") }
+        @inlinable public static var duplicateTagKey: Self { .init(rawValue: "DUPLICATE_TAG_KEY") }
+        @inlinable public static var endDateNotEndOfMonth: Self { .init(rawValue: "END_DATE_NOT_END_OF_MONTH") }
+        @inlinable public static var endDateTooEarly: Self { .init(rawValue: "END_DATE_TOO_EARLY") }
+        @inlinable public static var endDateTooLate: Self { .init(rawValue: "END_DATE_TOO_LATE") }
+        @inlinable public static var immutablePolicy: Self { .init(rawValue: "IMMUTABLE_POLICY") }
+        @inlinable public static var inputRequired: Self { .init(rawValue: "INPUT_REQUIRED") }
+        @inlinable public static var invalidEmailAddressTarget: Self { .init(rawValue: "INVALID_EMAIL_ADDRESS_TARGET") }
+        @inlinable public static var invalidEndDate: Self { .init(rawValue: "INVALID_END_DATE") }
+        @inlinable public static var invalidEnum: Self { .init(rawValue: "INVALID_ENUM") }
+        @inlinable public static var invalidEnumPolicyType: Self { .init(rawValue: "INVALID_ENUM_POLICY_TYPE") }
+        @inlinable public static var invalidFullNameTarget: Self { .init(rawValue: "INVALID_FULL_NAME_TARGET") }
+        @inlinable public static var invalidListMember: Self { .init(rawValue: "INVALID_LIST_MEMBER") }
+        @inlinable public static var invalidPaginationToken: Self { .init(rawValue: "INVALID_NEXT_TOKEN") }
+        @inlinable public static var invalidPartyTypeTarget: Self { .init(rawValue: "INVALID_PARTY_TYPE_TARGET") }
+        @inlinable public static var invalidPattern: Self { .init(rawValue: "INVALID_PATTERN") }
+        @inlinable public static var invalidPatternTargetId: Self { .init(rawValue: "INVALID_PATTERN_TARGET_ID") }
+        @inlinable public static var invalidPrincipal: Self { .init(rawValue: "INVALID_PRINCIPAL") }
+        @inlinable public static var invalidResourcePolicyJson: Self { .init(rawValue: "INVALID_RESOURCE_POLICY_JSON") }
+        @inlinable public static var invalidRoleName: Self { .init(rawValue: "INVALID_ROLE_NAME") }
+        @inlinable public static var invalidStartDate: Self { .init(rawValue: "INVALID_START_DATE") }
+        @inlinable public static var invalidSyntaxOrganization: Self { .init(rawValue: "INVALID_SYNTAX_ORGANIZATION_ARN") }
+        @inlinable public static var invalidSyntaxPolicy: Self { .init(rawValue: "INVALID_SYNTAX_POLICY_ID") }
+        @inlinable public static var invalidSystemTagsParameter: Self { .init(rawValue: "INVALID_SYSTEM_TAGS_PARAMETER") }
+        @inlinable public static var maxFilterLimitExceeded: Self { .init(rawValue: "MAX_LIMIT_EXCEEDED_FILTER") }
+        @inlinable public static var maxLengthExceeded: Self { .init(rawValue: "MAX_LENGTH_EXCEEDED") }
+        @inlinable public static var maxValueExceeded: Self { .init(rawValue: "MAX_VALUE_EXCEEDED") }
+        @inlinable public static var minLengthExceeded: Self { .init(rawValue: "MIN_LENGTH_EXCEEDED") }
+        @inlinable public static var minValueExceeded: Self { .init(rawValue: "MIN_VALUE_EXCEEDED") }
+        @inlinable public static var movingAccountBetweenDifferentRoots: Self { .init(rawValue: "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS") }
+        @inlinable public static var nonDetachablePolicy: Self { .init(rawValue: "NON_DETACHABLE_POLICY") }
+        @inlinable public static var startDateNotBeginningOfDay: Self { .init(rawValue: "START_DATE_NOT_BEGINNING_OF_DAY") }
+        @inlinable public static var startDateNotBeginningOfMonth: Self { .init(rawValue: "START_DATE_NOT_BEGINNING_OF_MONTH") }
+        @inlinable public static var startDateTooEarly: Self { .init(rawValue: "START_DATE_TOO_EARLY") }
+        @inlinable public static var startDateTooLate: Self { .init(rawValue: "START_DATE_TOO_LATE") }
+        @inlinable public static var targetNotSupported: Self { .init(rawValue: "TARGET_NOT_SUPPORTED") }
+        @inlinable public static var unrecognizedServicePrincipal: Self { .init(rawValue: "UNRECOGNIZED_SERVICE_PRINCIPAL") }
+        @inlinable public static var unsupportedActionInResourcePolicy: Self { .init(rawValue: "UNSUPPORTED_ACTION_IN_RESOURCE_POLICY") }
+        @inlinable public static var unsupportedActionInResponsibilityTransfer: Self { .init(rawValue: "UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER") }
+        @inlinable public static var unsupportedPolicyTypeInResourcePolicy: Self { .init(rawValue: "UNSUPPORTED_POLICY_TYPE_IN_RESOURCE_POLICY") }
+        @inlinable public static var unsupportedResourceInResourcePolicy: Self { .init(rawValue: "UNSUPPORTED_RESOURCE_IN_RESOURCE_POLICY") }
     }
 
-    public enum OrganizationFeatureSet: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case consolidatedBilling = "CONSOLIDATED_BILLING"
-        public var description: String { return self.rawValue }
+    public struct OrganizationFeatureSet: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var consolidatedBilling: Self { .init(rawValue: "CONSOLIDATED_BILLING") }
     }
 
-    public enum ParentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        case root = "ROOT"
-        public var description: String { return self.rawValue }
+    public struct ParentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var organizationalUnit: Self { .init(rawValue: "ORGANIZATIONAL_UNIT") }
+        @inlinable public static var root: Self { .init(rawValue: "ROOT") }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aiservicesOptOutPolicy = "AISERVICES_OPT_OUT_POLICY"
-        case backupPolicy = "BACKUP_POLICY"
-        case bedrockPolicy = "BEDROCK_POLICY"
-        case chatbotPolicy = "CHATBOT_POLICY"
-        case declarativePolicyEc2 = "DECLARATIVE_POLICY_EC2"
-        case inspectorPolicy = "INSPECTOR_POLICY"
-        case networkSecurityDirectorPolicy = "NETWORK_SECURITY_DIRECTOR_POLICY"
-        case resourceControlPolicy = "RESOURCE_CONTROL_POLICY"
-        case s3Policy = "S3_POLICY"
-        case securityhubPolicy = "SECURITYHUB_POLICY"
-        case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
-        case tagPolicy = "TAG_POLICY"
-        case upgradeRolloutPolicy = "UPGRADE_ROLLOUT_POLICY"
-        public var description: String { return self.rawValue }
+    public struct PolicyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aiservicesOptOutPolicy: Self { .init(rawValue: "AISERVICES_OPT_OUT_POLICY") }
+        @inlinable public static var backupPolicy: Self { .init(rawValue: "BACKUP_POLICY") }
+        @inlinable public static var bedrockPolicy: Self { .init(rawValue: "BEDROCK_POLICY") }
+        @inlinable public static var chatbotPolicy: Self { .init(rawValue: "CHATBOT_POLICY") }
+        @inlinable public static var declarativePolicyEc2: Self { .init(rawValue: "DECLARATIVE_POLICY_EC2") }
+        @inlinable public static var inspectorPolicy: Self { .init(rawValue: "INSPECTOR_POLICY") }
+        @inlinable public static var networkSecurityDirectorPolicy: Self { .init(rawValue: "NETWORK_SECURITY_DIRECTOR_POLICY") }
+        @inlinable public static var resourceControlPolicy: Self { .init(rawValue: "RESOURCE_CONTROL_POLICY") }
+        @inlinable public static var s3Policy: Self { .init(rawValue: "S3_POLICY") }
+        @inlinable public static var securityhubPolicy: Self { .init(rawValue: "SECURITYHUB_POLICY") }
+        @inlinable public static var serviceControlPolicy: Self { .init(rawValue: "SERVICE_CONTROL_POLICY") }
+        @inlinable public static var tagPolicy: Self { .init(rawValue: "TAG_POLICY") }
+        @inlinable public static var upgradeRolloutPolicy: Self { .init(rawValue: "UPGRADE_ROLLOUT_POLICY") }
     }
 
-    public enum PolicyTypeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enabled = "ENABLED"
-        case pendingDisable = "PENDING_DISABLE"
-        case pendingEnable = "PENDING_ENABLE"
-        public var description: String { return self.rawValue }
+    public struct PolicyTypeStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var pendingDisable: Self { .init(rawValue: "PENDING_DISABLE") }
+        @inlinable public static var pendingEnable: Self { .init(rawValue: "PENDING_ENABLE") }
     }
 
-    public enum ResponsibilityTransferStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accepted = "ACCEPTED"
-        case canceled = "CANCELED"
-        case declined = "DECLINED"
-        case expired = "EXPIRED"
-        case requested = "REQUESTED"
-        case withdrawn = "WITHDRAWN"
-        public var description: String { return self.rawValue }
+    public struct ResponsibilityTransferStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accepted: Self { .init(rawValue: "ACCEPTED") }
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var declined: Self { .init(rawValue: "DECLINED") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var requested: Self { .init(rawValue: "REQUESTED") }
+        @inlinable public static var withdrawn: Self { .init(rawValue: "WITHDRAWN") }
     }
 
-    public enum ResponsibilityTransferType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billing = "BILLING"
-        public var description: String { return self.rawValue }
+    public struct ResponsibilityTransferType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billing: Self { .init(rawValue: "BILLING") }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "ACCOUNT"
-        case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        case root = "ROOT"
-        public var description: String { return self.rawValue }
+    public struct TargetType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
+        @inlinable public static var organizationalUnit: Self { .init(rawValue: "ORGANIZATIONAL_UNIT") }
+        @inlinable public static var root: Self { .init(rawValue: "ROOT") }
     }
 
     // MARK: Shapes

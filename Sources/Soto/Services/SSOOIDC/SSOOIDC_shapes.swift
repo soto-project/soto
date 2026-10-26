@@ -25,17 +25,25 @@ import Foundation
 extension SSOOIDC {
     // MARK: Enums
 
-    public enum AccessDeniedExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kmsAccessDenied = "KMS_AccessDeniedException"
-        public var description: String { return self.rawValue }
+    public struct AccessDeniedExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kmsAccessDenied: Self { .init(rawValue: "KMS_AccessDeniedException") }
     }
 
-    public enum InvalidRequestExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kmsDisabledKey = "KMS_DisabledException"
-        case kmsInvalidKeyUsage = "KMS_InvalidKeyUsageException"
-        case kmsInvalidState = "KMS_InvalidStateException"
-        case kmsKeyNotFound = "KMS_NotFoundException"
-        public var description: String { return self.rawValue }
+    public struct InvalidRequestExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kmsDisabledKey: Self { .init(rawValue: "KMS_DisabledException") }
+        @inlinable public static var kmsInvalidKeyUsage: Self { .init(rawValue: "KMS_InvalidKeyUsageException") }
+        @inlinable public static var kmsInvalidState: Self { .init(rawValue: "KMS_InvalidStateException") }
+        @inlinable public static var kmsKeyNotFound: Self { .init(rawValue: "KMS_NotFoundException") }
     }
 
     // MARK: Shapes

@@ -25,111 +25,151 @@ import Foundation
 extension NetworkFlowMonitor {
     // MARK: Enums
 
-    public enum DestinationCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case amazonDynamodb = "AMAZON_DYNAMODB"
-        case amazonS3 = "AMAZON_S3"
-        case interAz = "INTER_AZ"
-        case interRegion = "INTER_REGION"
-        case interVpc = "INTER_VPC"
-        case intraAz = "INTRA_AZ"
-        case unclassified = "UNCLASSIFIED"
-        public var description: String { return self.rawValue }
+    public struct DestinationCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var amazonDynamodb: Self { .init(rawValue: "AMAZON_DYNAMODB") }
+        @inlinable public static var amazonS3: Self { .init(rawValue: "AMAZON_S3") }
+        @inlinable public static var interAz: Self { .init(rawValue: "INTER_AZ") }
+        @inlinable public static var interRegion: Self { .init(rawValue: "INTER_REGION") }
+        @inlinable public static var interVpc: Self { .init(rawValue: "INTER_VPC") }
+        @inlinable public static var intraAz: Self { .init(rawValue: "INTRA_AZ") }
+        @inlinable public static var unclassified: Self { .init(rawValue: "UNCLASSIFIED") }
     }
 
-    public enum MetricUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bits = "Bits"
-        case bitsPerSecond = "Bits/Second"
-        case bytes = "Bytes"
-        case bytesPerSecond = "Bytes/Second"
-        case count = "Count"
-        case countPerSecond = "Count/Second"
-        case gigabits = "Gigabits"
-        case gigabitsPerSecond = "Gigabits/Second"
-        case gigabytes = "Gigabytes"
-        case gigabytesPerSecond = "Gigabytes/Second"
-        case kilobits = "Kilobits"
-        case kilobitsPerSecond = "Kilobits/Second"
-        case kilobytes = "Kilobytes"
-        case kilobytesPerSecond = "Kilobytes/Second"
-        case megabits = "Megabits"
-        case megabitsPerSecond = "Megabits/Second"
-        case megabytes = "Megabytes"
-        case megabytesPerSecond = "Megabytes/Second"
-        case microseconds = "Microseconds"
-        case milliseconds = "Milliseconds"
-        case none = "None"
-        case percent = "Percent"
-        case seconds = "Seconds"
-        case terabits = "Terabits"
-        case terabitsPerSecond = "Terabits/Second"
-        case terabytes = "Terabytes"
-        case terabytesPerSecond = "Terabytes/Second"
-        public var description: String { return self.rawValue }
+    public struct MetricUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bits: Self { .init(rawValue: "Bits") }
+        @inlinable public static var bitsPerSecond: Self { .init(rawValue: "Bits/Second") }
+        @inlinable public static var bytes: Self { .init(rawValue: "Bytes") }
+        @inlinable public static var bytesPerSecond: Self { .init(rawValue: "Bytes/Second") }
+        @inlinable public static var count: Self { .init(rawValue: "Count") }
+        @inlinable public static var countPerSecond: Self { .init(rawValue: "Count/Second") }
+        @inlinable public static var gigabits: Self { .init(rawValue: "Gigabits") }
+        @inlinable public static var gigabitsPerSecond: Self { .init(rawValue: "Gigabits/Second") }
+        @inlinable public static var gigabytes: Self { .init(rawValue: "Gigabytes") }
+        @inlinable public static var gigabytesPerSecond: Self { .init(rawValue: "Gigabytes/Second") }
+        @inlinable public static var kilobits: Self { .init(rawValue: "Kilobits") }
+        @inlinable public static var kilobitsPerSecond: Self { .init(rawValue: "Kilobits/Second") }
+        @inlinable public static var kilobytes: Self { .init(rawValue: "Kilobytes") }
+        @inlinable public static var kilobytesPerSecond: Self { .init(rawValue: "Kilobytes/Second") }
+        @inlinable public static var megabits: Self { .init(rawValue: "Megabits") }
+        @inlinable public static var megabitsPerSecond: Self { .init(rawValue: "Megabits/Second") }
+        @inlinable public static var megabytes: Self { .init(rawValue: "Megabytes") }
+        @inlinable public static var megabytesPerSecond: Self { .init(rawValue: "Megabytes/Second") }
+        @inlinable public static var microseconds: Self { .init(rawValue: "Microseconds") }
+        @inlinable public static var milliseconds: Self { .init(rawValue: "Milliseconds") }
+        @inlinable public static var none: Self { .init(rawValue: "None") }
+        @inlinable public static var percent: Self { .init(rawValue: "Percent") }
+        @inlinable public static var seconds: Self { .init(rawValue: "Seconds") }
+        @inlinable public static var terabits: Self { .init(rawValue: "Terabits") }
+        @inlinable public static var terabitsPerSecond: Self { .init(rawValue: "Terabits/Second") }
+        @inlinable public static var terabytes: Self { .init(rawValue: "Terabytes") }
+        @inlinable public static var terabytesPerSecond: Self { .init(rawValue: "Terabytes/Second") }
     }
 
-    public enum MonitorLocalResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsAz = "AWS::AvailabilityZone"
-        case awsRegion = "AWS::Region"
-        case awsSubnet = "AWS::EC2::Subnet"
-        case awsVpc = "AWS::EC2::VPC"
-        case eksCluster = "AWS::EKS::Cluster"
-        public var description: String { return self.rawValue }
+    public struct MonitorLocalResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsAz: Self { .init(rawValue: "AWS::AvailabilityZone") }
+        @inlinable public static var awsRegion: Self { .init(rawValue: "AWS::Region") }
+        @inlinable public static var awsSubnet: Self { .init(rawValue: "AWS::EC2::Subnet") }
+        @inlinable public static var awsVpc: Self { .init(rawValue: "AWS::EC2::VPC") }
+        @inlinable public static var eksCluster: Self { .init(rawValue: "AWS::EKS::Cluster") }
     }
 
-    public enum MonitorMetric: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dataTransferred = "DATA_TRANSFERRED"
-        case retransmissions = "RETRANSMISSIONS"
-        case roundTripTime = "ROUND_TRIP_TIME"
-        case timeouts = "TIMEOUTS"
-        public var description: String { return self.rawValue }
+    public struct MonitorMetric: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dataTransferred: Self { .init(rawValue: "DATA_TRANSFERRED") }
+        @inlinable public static var retransmissions: Self { .init(rawValue: "RETRANSMISSIONS") }
+        @inlinable public static var roundTripTime: Self { .init(rawValue: "ROUND_TRIP_TIME") }
+        @inlinable public static var timeouts: Self { .init(rawValue: "TIMEOUTS") }
     }
 
-    public enum MonitorRemoteResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsAz = "AWS::AvailabilityZone"
-        case awsRegion = "AWS::Region"
-        case awsService = "AWS::AWSService"
-        case awsSubnet = "AWS::EC2::Subnet"
-        case awsVpc = "AWS::EC2::VPC"
-        public var description: String { return self.rawValue }
+    public struct MonitorRemoteResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsAz: Self { .init(rawValue: "AWS::AvailabilityZone") }
+        @inlinable public static var awsRegion: Self { .init(rawValue: "AWS::Region") }
+        @inlinable public static var awsService: Self { .init(rawValue: "AWS::AWSService") }
+        @inlinable public static var awsSubnet: Self { .init(rawValue: "AWS::EC2::Subnet") }
+        @inlinable public static var awsVpc: Self { .init(rawValue: "AWS::EC2::VPC") }
     }
 
-    public enum MonitorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case error = "ERROR"
-        case inactive = "INACTIVE"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct MonitorStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum QueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "CANCELED"
-        case failed = "FAILED"
-        case queued = "QUEUED"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct QueryStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var queued: Self { .init(rawValue: "QUEUED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ScopeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deactivated = "DEACTIVATED"
-        case deactivating = "DEACTIVATING"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ScopeStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deactivated: Self { .init(rawValue: "DEACTIVATED") }
+        @inlinable public static var deactivating: Self { .init(rawValue: "DEACTIVATING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "ACCOUNT"
-        public var description: String { return self.rawValue }
+    public struct TargetType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
     }
 
-    public enum WorkloadInsightsMetric: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dataTransferred = "DATA_TRANSFERRED"
-        case retransmissions = "RETRANSMISSIONS"
-        case timeouts = "TIMEOUTS"
-        public var description: String { return self.rawValue }
+    public struct WorkloadInsightsMetric: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dataTransferred: Self { .init(rawValue: "DATA_TRANSFERRED") }
+        @inlinable public static var retransmissions: Self { .init(rawValue: "RETRANSMISSIONS") }
+        @inlinable public static var timeouts: Self { .init(rawValue: "TIMEOUTS") }
     }
 
     // MARK: Shapes

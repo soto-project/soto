@@ -25,109 +25,153 @@ import Foundation
 extension CloudDirectory {
     // MARK: Enums
 
-    public enum BatchReadExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDeniedException = "AccessDeniedException"
-        case cannotListParentOfRootException = "CannotListParentOfRootException"
-        case directoryNotEnabledException = "DirectoryNotEnabledException"
-        case facetValidationException = "FacetValidationException"
-        case internalServiceException = "InternalServiceException"
-        case invalidArnException = "InvalidArnException"
-        case invalidNextTokenException = "InvalidNextTokenException"
-        case limitExceededException = "LimitExceededException"
-        case notIndexException = "NotIndexException"
-        case notNodeException = "NotNodeException"
-        case notPolicyException = "NotPolicyException"
-        case resourceNotFoundException = "ResourceNotFoundException"
-        case validationException = "ValidationException"
-        public var description: String { return self.rawValue }
+    public struct BatchReadExceptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDeniedException: Self { .init(rawValue: "AccessDeniedException") }
+        @inlinable public static var cannotListParentOfRootException: Self { .init(rawValue: "CannotListParentOfRootException") }
+        @inlinable public static var directoryNotEnabledException: Self { .init(rawValue: "DirectoryNotEnabledException") }
+        @inlinable public static var facetValidationException: Self { .init(rawValue: "FacetValidationException") }
+        @inlinable public static var internalServiceException: Self { .init(rawValue: "InternalServiceException") }
+        @inlinable public static var invalidArnException: Self { .init(rawValue: "InvalidArnException") }
+        @inlinable public static var invalidNextTokenException: Self { .init(rawValue: "InvalidNextTokenException") }
+        @inlinable public static var limitExceededException: Self { .init(rawValue: "LimitExceededException") }
+        @inlinable public static var notIndexException: Self { .init(rawValue: "NotIndexException") }
+        @inlinable public static var notNodeException: Self { .init(rawValue: "NotNodeException") }
+        @inlinable public static var notPolicyException: Self { .init(rawValue: "NotPolicyException") }
+        @inlinable public static var resourceNotFoundException: Self { .init(rawValue: "ResourceNotFoundException") }
+        @inlinable public static var validationException: Self { .init(rawValue: "ValidationException") }
     }
 
-    public enum BatchWriteExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDeniedException = "AccessDeniedException"
-        case directoryNotEnabledException = "DirectoryNotEnabledException"
-        case facetValidationException = "FacetValidationException"
-        case indexedAttributeMissingException = "IndexedAttributeMissingException"
-        case internalServiceException = "InternalServiceException"
-        case invalidArnException = "InvalidArnException"
-        case invalidAttachmentException = "InvalidAttachmentException"
-        case limitExceededException = "LimitExceededException"
-        case linkNameAlreadyInUseException = "LinkNameAlreadyInUseException"
-        case notIndexException = "NotIndexException"
-        case notNodeException = "NotNodeException"
-        case notPolicyException = "NotPolicyException"
-        case objectAlreadyDetachedException = "ObjectAlreadyDetachedException"
-        case objectNotDetachedException = "ObjectNotDetachedException"
-        case resourceNotFoundException = "ResourceNotFoundException"
-        case stillContainsLinksException = "StillContainsLinksException"
-        case unsupportedIndexTypeException = "UnsupportedIndexTypeException"
-        case validationException = "ValidationException"
-        public var description: String { return self.rawValue }
+    public struct BatchWriteExceptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDeniedException: Self { .init(rawValue: "AccessDeniedException") }
+        @inlinable public static var directoryNotEnabledException: Self { .init(rawValue: "DirectoryNotEnabledException") }
+        @inlinable public static var facetValidationException: Self { .init(rawValue: "FacetValidationException") }
+        @inlinable public static var indexedAttributeMissingException: Self { .init(rawValue: "IndexedAttributeMissingException") }
+        @inlinable public static var internalServiceException: Self { .init(rawValue: "InternalServiceException") }
+        @inlinable public static var invalidArnException: Self { .init(rawValue: "InvalidArnException") }
+        @inlinable public static var invalidAttachmentException: Self { .init(rawValue: "InvalidAttachmentException") }
+        @inlinable public static var limitExceededException: Self { .init(rawValue: "LimitExceededException") }
+        @inlinable public static var linkNameAlreadyInUseException: Self { .init(rawValue: "LinkNameAlreadyInUseException") }
+        @inlinable public static var notIndexException: Self { .init(rawValue: "NotIndexException") }
+        @inlinable public static var notNodeException: Self { .init(rawValue: "NotNodeException") }
+        @inlinable public static var notPolicyException: Self { .init(rawValue: "NotPolicyException") }
+        @inlinable public static var objectAlreadyDetachedException: Self { .init(rawValue: "ObjectAlreadyDetachedException") }
+        @inlinable public static var objectNotDetachedException: Self { .init(rawValue: "ObjectNotDetachedException") }
+        @inlinable public static var resourceNotFoundException: Self { .init(rawValue: "ResourceNotFoundException") }
+        @inlinable public static var stillContainsLinksException: Self { .init(rawValue: "StillContainsLinksException") }
+        @inlinable public static var unsupportedIndexTypeException: Self { .init(rawValue: "UnsupportedIndexTypeException") }
+        @inlinable public static var validationException: Self { .init(rawValue: "ValidationException") }
     }
 
-    public enum ConsistencyLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case eventual = "EVENTUAL"
-        case serializable = "SERIALIZABLE"
-        public var description: String { return self.rawValue }
+    public struct ConsistencyLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var eventual: Self { .init(rawValue: "EVENTUAL") }
+        @inlinable public static var serializable: Self { .init(rawValue: "SERIALIZABLE") }
     }
 
-    public enum DirectoryState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleted = "DELETED"
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct DirectoryState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum FacetAttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case binary = "BINARY"
-        case boolean = "BOOLEAN"
-        case datetime = "DATETIME"
-        case number = "NUMBER"
-        case string = "STRING"
-        case variant = "VARIANT"
-        public var description: String { return self.rawValue }
+    public struct FacetAttributeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var binary: Self { .init(rawValue: "BINARY") }
+        @inlinable public static var boolean: Self { .init(rawValue: "BOOLEAN") }
+        @inlinable public static var datetime: Self { .init(rawValue: "DATETIME") }
+        @inlinable public static var number: Self { .init(rawValue: "NUMBER") }
+        @inlinable public static var string: Self { .init(rawValue: "STRING") }
+        @inlinable public static var variant: Self { .init(rawValue: "VARIANT") }
     }
 
-    public enum FacetStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `static` = "STATIC"
-        case dynamic = "DYNAMIC"
-        public var description: String { return self.rawValue }
+    public struct FacetStyle: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `static`: Self { .init(rawValue: "STATIC") }
+        @inlinable public static var dynamic: Self { .init(rawValue: "DYNAMIC") }
     }
 
-    public enum ObjectType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case index = "INDEX"
-        case leafNode = "LEAF_NODE"
-        case node = "NODE"
-        case policy = "POLICY"
-        public var description: String { return self.rawValue }
+    public struct ObjectType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var index: Self { .init(rawValue: "INDEX") }
+        @inlinable public static var leafNode: Self { .init(rawValue: "LEAF_NODE") }
+        @inlinable public static var node: Self { .init(rawValue: "NODE") }
+        @inlinable public static var policy: Self { .init(rawValue: "POLICY") }
     }
 
-    public enum RangeMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclusive = "EXCLUSIVE"
-        case first = "FIRST"
-        case inclusive = "INCLUSIVE"
-        case last = "LAST"
-        case lastBeforeMissingValues = "LAST_BEFORE_MISSING_VALUES"
-        public var description: String { return self.rawValue }
+    public struct RangeMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exclusive: Self { .init(rawValue: "EXCLUSIVE") }
+        @inlinable public static var first: Self { .init(rawValue: "FIRST") }
+        @inlinable public static var inclusive: Self { .init(rawValue: "INCLUSIVE") }
+        @inlinable public static var last: Self { .init(rawValue: "LAST") }
+        @inlinable public static var lastBeforeMissingValues: Self { .init(rawValue: "LAST_BEFORE_MISSING_VALUES") }
     }
 
-    public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notRequired = "NOT_REQUIRED"
-        case requiredAlways = "REQUIRED_ALWAYS"
-        public var description: String { return self.rawValue }
+    public struct RequiredAttributeBehavior: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notRequired: Self { .init(rawValue: "NOT_REQUIRED") }
+        @inlinable public static var requiredAlways: Self { .init(rawValue: "REQUIRED_ALWAYS") }
     }
 
-    public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case binaryLength = "BINARY_LENGTH"
-        case numberComparison = "NUMBER_COMPARISON"
-        case stringFromSet = "STRING_FROM_SET"
-        case stringLength = "STRING_LENGTH"
-        public var description: String { return self.rawValue }
+    public struct RuleType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var binaryLength: Self { .init(rawValue: "BINARY_LENGTH") }
+        @inlinable public static var numberComparison: Self { .init(rawValue: "NUMBER_COMPARISON") }
+        @inlinable public static var stringFromSet: Self { .init(rawValue: "STRING_FROM_SET") }
+        @inlinable public static var stringLength: Self { .init(rawValue: "STRING_LENGTH") }
     }
 
-    public enum UpdateActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createOrUpdate = "CREATE_OR_UPDATE"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
+    public struct UpdateActionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createOrUpdate: Self { .init(rawValue: "CREATE_OR_UPDATE") }
+        @inlinable public static var delete: Self { .init(rawValue: "DELETE") }
     }
 
     public enum TypedAttributeValue: AWSEncodableShape & AWSDecodableShape, Sendable {

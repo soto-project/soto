@@ -25,55 +25,91 @@ import Foundation
 extension Rbin {
     // MARK: Enums
 
-    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case invalidRuleState = "INVALID_RULE_STATE"
-        public var description: String { return self.rawValue }
+    public struct ConflictExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var invalidRuleState: Self { .init(rawValue: "INVALID_RULE_STATE") }
     }
 
-    public enum LockState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case locked = "locked"
-        case pendingUnlock = "pending_unlock"
-        case unlocked = "unlocked"
-        public var description: String { return self.rawValue }
+    public struct LockState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var locked: Self { .init(rawValue: "locked") }
+        @inlinable public static var pendingUnlock: Self { .init(rawValue: "pending_unlock") }
+        @inlinable public static var unlocked: Self { .init(rawValue: "unlocked") }
     }
 
-    public enum ResourceNotFoundExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ruleNotFound = "RULE_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct ResourceNotFoundExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ruleNotFound: Self { .init(rawValue: "RULE_NOT_FOUND") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ebsSnapshot = "EBS_SNAPSHOT"
-        case ebsVolume = "EBS_VOLUME"
-        case ec2Image = "EC2_IMAGE"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ebsSnapshot: Self { .init(rawValue: "EBS_SNAPSHOT") }
+        @inlinable public static var ebsVolume: Self { .init(rawValue: "EBS_VOLUME") }
+        @inlinable public static var ec2Image: Self { .init(rawValue: "EC2_IMAGE") }
     }
 
-    public enum RetentionPeriodUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days = "DAYS"
-        public var description: String { return self.rawValue }
+    public struct RetentionPeriodUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days: Self { .init(rawValue: "DAYS") }
     }
 
-    public enum RuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case pending = "pending"
-        public var description: String { return self.rawValue }
+    public struct RuleStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
     }
 
-    public enum ServiceQuotaExceededExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case serviceQuotaExceeded = "SERVICE_QUOTA_EXCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ServiceQuotaExceededExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var serviceQuotaExceeded: Self { .init(rawValue: "SERVICE_QUOTA_EXCEEDED") }
     }
 
-    public enum UnlockDelayUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days = "DAYS"
-        public var description: String { return self.rawValue }
+    public struct UnlockDelayUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days: Self { .init(rawValue: "DAYS") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case invalidPageToken = "INVALID_PAGE_TOKEN"
-        case invalidParameterValue = "INVALID_PARAMETER_VALUE"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var invalidPageToken: Self { .init(rawValue: "INVALID_PAGE_TOKEN") }
+        @inlinable public static var invalidParameterValue: Self { .init(rawValue: "INVALID_PARAMETER_VALUE") }
     }
 
     // MARK: Shapes

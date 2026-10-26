@@ -25,153 +25,205 @@ import Foundation
 extension SavingsPlans {
     // MARK: Enums
 
-    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cny = "CNY"
-        case eur = "EUR"
-        case usd = "USD"
-        public var description: String { return self.rawValue }
+    public struct CurrencyCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cny: Self { .init(rawValue: "CNY") }
+        @inlinable public static var eur: Self { .init(rawValue: "EUR") }
+        @inlinable public static var usd: Self { .init(rawValue: "USD") }
     }
 
-    public enum SavingsPlanOfferingFilterAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case instanceFamily = "instanceFamily"
-        case region = "region"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanOfferingFilterAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var instanceFamily: Self { .init(rawValue: "instanceFamily") }
+        @inlinable public static var region: Self { .init(rawValue: "region") }
     }
 
-    public enum SavingsPlanOfferingPropertyKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case instanceFamily = "instanceFamily"
-        case region = "region"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanOfferingPropertyKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var instanceFamily: Self { .init(rawValue: "instanceFamily") }
+        @inlinable public static var region: Self { .init(rawValue: "region") }
     }
 
-    public enum SavingsPlanPaymentOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allUpfront = "All Upfront"
-        case noUpfront = "No Upfront"
-        case partialUpfront = "Partial Upfront"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanPaymentOption: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allUpfront: Self { .init(rawValue: "All Upfront") }
+        @inlinable public static var noUpfront: Self { .init(rawValue: "No Upfront") }
+        @inlinable public static var partialUpfront: Self { .init(rawValue: "Partial Upfront") }
     }
 
-    public enum SavingsPlanProductType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dms = "DMS"
-        case docdb = "DocDB"
-        case dsql = "DSQL"
-        case dynamodb = "DynamoDB"
-        case ec2 = "EC2"
-        case elasticache = "ElastiCache"
-        case fargate = "Fargate"
-        case keyspaces = "Keyspaces"
-        case lambda = "Lambda"
-        case neptune = "Neptune"
-        case opensearch = "OpenSearch"
-        case rds = "RDS"
-        case sagemaker = "SageMaker"
-        case timestream = "Timestream"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanProductType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dms: Self { .init(rawValue: "DMS") }
+        @inlinable public static var docdb: Self { .init(rawValue: "DocDB") }
+        @inlinable public static var dsql: Self { .init(rawValue: "DSQL") }
+        @inlinable public static var dynamodb: Self { .init(rawValue: "DynamoDB") }
+        @inlinable public static var ec2: Self { .init(rawValue: "EC2") }
+        @inlinable public static var elasticache: Self { .init(rawValue: "ElastiCache") }
+        @inlinable public static var fargate: Self { .init(rawValue: "Fargate") }
+        @inlinable public static var keyspaces: Self { .init(rawValue: "Keyspaces") }
+        @inlinable public static var lambda: Self { .init(rawValue: "Lambda") }
+        @inlinable public static var neptune: Self { .init(rawValue: "Neptune") }
+        @inlinable public static var opensearch: Self { .init(rawValue: "OpenSearch") }
+        @inlinable public static var rds: Self { .init(rawValue: "RDS") }
+        @inlinable public static var sagemaker: Self { .init(rawValue: "SageMaker") }
+        @inlinable public static var timestream: Self { .init(rawValue: "Timestream") }
     }
 
-    public enum SavingsPlanRateFilterAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case instanceFamily = "instanceFamily"
-        case instanceType = "instanceType"
-        case productDescription = "productDescription"
-        case productId = "productId"
-        case region = "region"
-        case tenancy = "tenancy"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanRateFilterAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var instanceFamily: Self { .init(rawValue: "instanceFamily") }
+        @inlinable public static var instanceType: Self { .init(rawValue: "instanceType") }
+        @inlinable public static var productDescription: Self { .init(rawValue: "productDescription") }
+        @inlinable public static var productId: Self { .init(rawValue: "productId") }
+        @inlinable public static var region: Self { .init(rawValue: "region") }
+        @inlinable public static var tenancy: Self { .init(rawValue: "tenancy") }
     }
 
-    public enum SavingsPlanRateFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case instanceType = "instanceType"
-        case operation = "operation"
-        case productDescription = "productDescription"
-        case productType = "productType"
-        case region = "region"
-        case serviceCode = "serviceCode"
-        case tenancy = "tenancy"
-        case usageType = "usageType"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanRateFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var instanceType: Self { .init(rawValue: "instanceType") }
+        @inlinable public static var operation: Self { .init(rawValue: "operation") }
+        @inlinable public static var productDescription: Self { .init(rawValue: "productDescription") }
+        @inlinable public static var productType: Self { .init(rawValue: "productType") }
+        @inlinable public static var region: Self { .init(rawValue: "region") }
+        @inlinable public static var serviceCode: Self { .init(rawValue: "serviceCode") }
+        @inlinable public static var tenancy: Self { .init(rawValue: "tenancy") }
+        @inlinable public static var usageType: Self { .init(rawValue: "usageType") }
     }
 
-    public enum SavingsPlanRatePropertyKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case instanceFamily = "instanceFamily"
-        case instanceType = "instanceType"
-        case productDescription = "productDescription"
-        case region = "region"
-        case tenancy = "tenancy"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanRatePropertyKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var instanceFamily: Self { .init(rawValue: "instanceFamily") }
+        @inlinable public static var instanceType: Self { .init(rawValue: "instanceType") }
+        @inlinable public static var productDescription: Self { .init(rawValue: "productDescription") }
+        @inlinable public static var region: Self { .init(rawValue: "region") }
+        @inlinable public static var tenancy: Self { .init(rawValue: "tenancy") }
     }
 
-    public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aurora = "AuroraDSQL"
-        case dms = "AWSDatabaseMigrationSvc"
-        case docdb = "AmazonDocDB"
-        case dynamodb = "AmazonDynamoDB"
-        case ec2 = "AmazonEC2"
-        case elasticache = "AmazonElastiCache"
-        case es = "AmazonES"
-        case fargate = "AmazonECS"
-        case fargateEks = "AmazonEKS"
-        case lambda = "AWSLambda"
-        case mcs = "AmazonMCS"
-        case neptune = "AmazonNeptune"
-        case rds = "AmazonRDS"
-        case sagemaker = "AmazonSageMaker"
-        case timestream = "AmazonTimestream"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanRateServiceCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aurora: Self { .init(rawValue: "AuroraDSQL") }
+        @inlinable public static var dms: Self { .init(rawValue: "AWSDatabaseMigrationSvc") }
+        @inlinable public static var docdb: Self { .init(rawValue: "AmazonDocDB") }
+        @inlinable public static var dynamodb: Self { .init(rawValue: "AmazonDynamoDB") }
+        @inlinable public static var ec2: Self { .init(rawValue: "AmazonEC2") }
+        @inlinable public static var elasticache: Self { .init(rawValue: "AmazonElastiCache") }
+        @inlinable public static var es: Self { .init(rawValue: "AmazonES") }
+        @inlinable public static var fargate: Self { .init(rawValue: "AmazonECS") }
+        @inlinable public static var fargateEks: Self { .init(rawValue: "AmazonEKS") }
+        @inlinable public static var lambda: Self { .init(rawValue: "AWSLambda") }
+        @inlinable public static var mcs: Self { .init(rawValue: "AmazonMCS") }
+        @inlinable public static var neptune: Self { .init(rawValue: "AmazonNeptune") }
+        @inlinable public static var rds: Self { .init(rawValue: "AmazonRDS") }
+        @inlinable public static var sagemaker: Self { .init(rawValue: "AmazonSageMaker") }
+        @inlinable public static var timestream: Self { .init(rawValue: "AmazonTimestream") }
     }
 
-    public enum SavingsPlanRateUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case acuHr = "ACU-Hr"
-        case dcuHr = "DCU-Hr"
-        case dpu = "DPU"
-        case elastiCacheProcessingUnit = "ElastiCacheProcessingUnit"
-        case gbHours = "GB-Hours"
-        case hours = "Hrs"
-        case jobs = "Jobs"
-        case lambdaGbSecond = "Lambda-GB-Second"
-        case ncuHr = "NCU-hr"
-        case ocuHrs = "OCU-hours"
-        case readCapacityUnitHrs = "ReadCapacityUnit-Hrs"
-        case readRequestUnits = "ReadRequestUnits"
-        case replicatedWriteCapacityUnitHrs = "ReplicatedWriteCapacityUnit-Hrs"
-        case replicatedWriteRequestUnits = "ReplicatedWriteRequestUnits"
-        case request = "Request"
-        case writeCapacityUnitHrs = "WriteCapacityUnit-Hrs"
-        case writeRequestUnits = "WriteRequestUnits"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanRateUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var acuHr: Self { .init(rawValue: "ACU-Hr") }
+        @inlinable public static var dcuHr: Self { .init(rawValue: "DCU-Hr") }
+        @inlinable public static var dpu: Self { .init(rawValue: "DPU") }
+        @inlinable public static var elastiCacheProcessingUnit: Self { .init(rawValue: "ElastiCacheProcessingUnit") }
+        @inlinable public static var gbHours: Self { .init(rawValue: "GB-Hours") }
+        @inlinable public static var hours: Self { .init(rawValue: "Hrs") }
+        @inlinable public static var jobs: Self { .init(rawValue: "Jobs") }
+        @inlinable public static var lambdaGbSecond: Self { .init(rawValue: "Lambda-GB-Second") }
+        @inlinable public static var ncuHr: Self { .init(rawValue: "NCU-hr") }
+        @inlinable public static var ocuHrs: Self { .init(rawValue: "OCU-hours") }
+        @inlinable public static var readCapacityUnitHrs: Self { .init(rawValue: "ReadCapacityUnit-Hrs") }
+        @inlinable public static var readRequestUnits: Self { .init(rawValue: "ReadRequestUnits") }
+        @inlinable public static var replicatedWriteCapacityUnitHrs: Self { .init(rawValue: "ReplicatedWriteCapacityUnit-Hrs") }
+        @inlinable public static var replicatedWriteRequestUnits: Self { .init(rawValue: "ReplicatedWriteRequestUnits") }
+        @inlinable public static var request: Self { .init(rawValue: "Request") }
+        @inlinable public static var writeCapacityUnitHrs: Self { .init(rawValue: "WriteCapacityUnit-Hrs") }
+        @inlinable public static var writeRequestUnits: Self { .init(rawValue: "WriteRequestUnits") }
     }
 
-    public enum SavingsPlanState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "active"
-        case paymentFailed = "payment-failed"
-        case paymentPending = "payment-pending"
-        case pendingReturn = "pending-return"
-        case queued = "queued"
-        case queuedDeleted = "queued-deleted"
-        case retired = "retired"
-        case returned = "returned"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "active") }
+        @inlinable public static var paymentFailed: Self { .init(rawValue: "payment-failed") }
+        @inlinable public static var paymentPending: Self { .init(rawValue: "payment-pending") }
+        @inlinable public static var pendingReturn: Self { .init(rawValue: "pending-return") }
+        @inlinable public static var queued: Self { .init(rawValue: "queued") }
+        @inlinable public static var queuedDeleted: Self { .init(rawValue: "queued-deleted") }
+        @inlinable public static var retired: Self { .init(rawValue: "retired") }
+        @inlinable public static var returned: Self { .init(rawValue: "returned") }
     }
 
-    public enum SavingsPlanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case compute = "Compute"
-        case database = "Database"
-        case ec2Instance = "EC2Instance"
-        case sagemaker = "SageMaker"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlanType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var compute: Self { .init(rawValue: "Compute") }
+        @inlinable public static var database: Self { .init(rawValue: "Database") }
+        @inlinable public static var ec2Instance: Self { .init(rawValue: "EC2Instance") }
+        @inlinable public static var sagemaker: Self { .init(rawValue: "SageMaker") }
     }
 
-    public enum SavingsPlansFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case commitment = "commitment"
-        case ec2InstanceFamily = "ec2-instance-family"
-        case end = "end"
-        case instanceFamily = "instance-family"
-        case paymentOption = "payment-option"
-        case region = "region"
-        case savingsPlanType = "savings-plan-type"
-        case start = "start"
-        case term = "term"
-        case upfront = "upfront"
-        public var description: String { return self.rawValue }
+    public struct SavingsPlansFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var commitment: Self { .init(rawValue: "commitment") }
+        @inlinable public static var ec2InstanceFamily: Self { .init(rawValue: "ec2-instance-family") }
+        @inlinable public static var end: Self { .init(rawValue: "end") }
+        @inlinable public static var instanceFamily: Self { .init(rawValue: "instance-family") }
+        @inlinable public static var paymentOption: Self { .init(rawValue: "payment-option") }
+        @inlinable public static var region: Self { .init(rawValue: "region") }
+        @inlinable public static var savingsPlanType: Self { .init(rawValue: "savings-plan-type") }
+        @inlinable public static var start: Self { .init(rawValue: "start") }
+        @inlinable public static var term: Self { .init(rawValue: "term") }
+        @inlinable public static var upfront: Self { .init(rawValue: "upfront") }
     }
 
     // MARK: Shapes

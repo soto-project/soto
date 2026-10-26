@@ -25,21 +25,33 @@ import Foundation
 extension S3Vectors {
     // MARK: Enums
 
-    public enum DataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case float32 = "float32"
-        public var description: String { return self.rawValue }
+    public struct DataType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var float32: Self { .init(rawValue: "float32") }
     }
 
-    public enum DistanceMetric: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cosine = "cosine"
-        case euclidean = "euclidean"
-        public var description: String { return self.rawValue }
+    public struct DistanceMetric: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cosine: Self { .init(rawValue: "cosine") }
+        @inlinable public static var euclidean: Self { .init(rawValue: "euclidean") }
     }
 
-    public enum SseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes256 = "AES256"
-        case awsKms = "aws:kms"
-        public var description: String { return self.rawValue }
+    public struct SseType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes256: Self { .init(rawValue: "AES256") }
+        @inlinable public static var awsKms: Self { .init(rawValue: "aws:kms") }
     }
 
     // MARK: Shapes

@@ -25,26 +25,38 @@ import Foundation
 extension InspectorScan {
     // MARK: Enums
 
-    public enum InternalServerExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failedToGenerateSbom = "FAILED_TO_GENERATE_SBOM"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
+    public struct InternalServerExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failedToGenerateSbom: Self { .init(rawValue: "FAILED_TO_GENERATE_SBOM") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
     }
 
-    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cycloneDx15 = "CYCLONE_DX_1_5"
-        case inspector = "INSPECTOR"
-        case inspectorAlt = "INSPECTOR_ALT"
-        public var description: String { return self.rawValue }
+    public struct OutputFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cycloneDx15: Self { .init(rawValue: "CYCLONE_DX_1_5") }
+        @inlinable public static var inspector: Self { .init(rawValue: "INSPECTOR") }
+        @inlinable public static var inspectorAlt: Self { .init(rawValue: "INSPECTOR_ALT") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "CANNOT_PARSE"
-        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
-        case other = "OTHER"
-        case unknownOperation = "UNKNOWN_OPERATION"
-        case unsupportedSbomType = "UNSUPPORTED_SBOM_TYPE"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CANNOT_PARSE") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FIELD_VALIDATION_FAILED") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UNKNOWN_OPERATION") }
+        @inlinable public static var unsupportedSbomType: Self { .init(rawValue: "UNSUPPORTED_SBOM_TYPE") }
     }
 
     // MARK: Shapes

@@ -25,73 +25,105 @@ import Foundation
 extension DSQL {
     // MARK: Enums
 
-    public enum ClusterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleted = "DELETED"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case idle = "IDLE"
-        case inactive = "INACTIVE"
-        case pendingDelete = "PENDING_DELETE"
-        case pendingSetup = "PENDING_SETUP"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct ClusterStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var idle: Self { .init(rawValue: "IDLE") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
+        @inlinable public static var pendingDelete: Self { .init(rawValue: "PENDING_DELETE") }
+        @inlinable public static var pendingSetup: Self { .init(rawValue: "PENDING_SETUP") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum EncryptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
-        case kmsKeyInaccessible = "KMS_KEY_INACCESSIBLE"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct EncryptionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var enabling: Self { .init(rawValue: "ENABLING") }
+        @inlinable public static var kmsKeyInaccessible: Self { .init(rawValue: "KMS_KEY_INACCESSIBLE") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
-        case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
-        public var description: String { return self.rawValue }
+    public struct EncryptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsOwnedKmsKey: Self { .init(rawValue: "AWS_OWNED_KMS_KEY") }
+        @inlinable public static var customerManagedKmsKey: Self { .init(rawValue: "CUSTOMER_MANAGED_KMS_KEY") }
     }
 
-    public enum StreamFailureErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case clusterCmkInaccessible = "CLUSTER_CMK_INACCESSIBLE"
-        case internalError = "INTERNAL_ERROR"
-        case kinesisAccessDenied = "KINESIS_ACCESS_DENIED"
-        case kinesisKmsAccessDenied = "KINESIS_KMS_ACCESS_DENIED"
-        case kinesisOversizeRecord = "KINESIS_OVERSIZE_RECORD"
-        case kinesisStreamNotFound = "KINESIS_STREAM_NOT_FOUND"
-        case kinesisThroughputExceeded = "KINESIS_THROUGHPUT_EXCEEDED"
-        case roleAccessDenied = "ROLE_ACCESS_DENIED"
-        public var description: String { return self.rawValue }
+    public struct StreamFailureErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var clusterCmkInaccessible: Self { .init(rawValue: "CLUSTER_CMK_INACCESSIBLE") }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+        @inlinable public static var kinesisAccessDenied: Self { .init(rawValue: "KINESIS_ACCESS_DENIED") }
+        @inlinable public static var kinesisKmsAccessDenied: Self { .init(rawValue: "KINESIS_KMS_ACCESS_DENIED") }
+        @inlinable public static var kinesisOversizeRecord: Self { .init(rawValue: "KINESIS_OVERSIZE_RECORD") }
+        @inlinable public static var kinesisStreamNotFound: Self { .init(rawValue: "KINESIS_STREAM_NOT_FOUND") }
+        @inlinable public static var kinesisThroughputExceeded: Self { .init(rawValue: "KINESIS_THROUGHPUT_EXCEEDED") }
+        @inlinable public static var roleAccessDenied: Self { .init(rawValue: "ROLE_ACCESS_DENIED") }
     }
 
-    public enum StreamFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case json = "JSON"
-        public var description: String { return self.rawValue }
+    public struct StreamFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var json: Self { .init(rawValue: "JSON") }
     }
 
-    public enum StreamOrdering: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case unordered = "UNORDERED"
-        public var description: String { return self.rawValue }
+    public struct StreamOrdering: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var unordered: Self { .init(rawValue: "UNORDERED") }
     }
 
-    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleted = "DELETED"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case impaired = "IMPAIRED"
-        public var description: String { return self.rawValue }
+    public struct StreamStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var impaired: Self { .init(rawValue: "IMPAIRED") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "cannotParse"
-        case deletionProtectionEnabled = "deletionProtectionEnabled"
-        case fieldValidationFailed = "fieldValidationFailed"
-        case other = "other"
-        case unknownOperation = "unknownOperation"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "cannotParse") }
+        @inlinable public static var deletionProtectionEnabled: Self { .init(rawValue: "deletionProtectionEnabled") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "unknownOperation") }
     }
 
     // MARK: Shapes

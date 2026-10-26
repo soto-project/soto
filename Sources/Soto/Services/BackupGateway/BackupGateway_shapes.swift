@@ -25,26 +25,38 @@ import Foundation
 extension BackupGateway {
     // MARK: Enums
 
-    public enum GatewayType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case backupVm = "BACKUP_VM"
-        public var description: String { return self.rawValue }
+    public struct GatewayType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var backupVm: Self { .init(rawValue: "BACKUP_VM") }
     }
 
-    public enum HypervisorState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case error = "ERROR"
-        case offline = "OFFLINE"
-        case online = "ONLINE"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct HypervisorState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var offline: Self { .init(rawValue: "OFFLINE") }
+        @inlinable public static var online: Self { .init(rawValue: "ONLINE") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum SyncMetadataStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case created = "CREATED"
-        case failed = "FAILED"
-        case partiallyFailed = "PARTIALLY_FAILED"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct SyncMetadataStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var partiallyFailed: Self { .init(rawValue: "PARTIALLY_FAILED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
     // MARK: Shapes

@@ -25,900 +25,1292 @@ import Foundation
 extension GeoRoutes {
     // MARK: Enums
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case friday = "Friday"
-        case monday = "Monday"
-        case saturday = "Saturday"
-        case sunday = "Sunday"
-        case thursday = "Thursday"
-        case tuesday = "Tuesday"
-        case wednesday = "Wednesday"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum GeometryFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case flexiblePolyline = "FlexiblePolyline"
-        case simple = "Simple"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IsolineEngineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case electric = "Electric"
-        case internalCombustion = "InternalCombustion"
-        case pluginHybrid = "PluginHybrid"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IsolineHazardousCargoType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case combustible = "Combustible"
-        case corrosive = "Corrosive"
-        case explosive = "Explosive"
-        case flammable = "Flammable"
-        case gas = "Gas"
-        case harmfulToWater = "HarmfulToWater"
-        case organic = "Organic"
-        case other = "Other"
-        case poison = "Poison"
-        case poisonousInhalation = "PoisonousInhalation"
-        case radioactive = "Radioactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IsolineOptimizationObjective: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accurateCalculation = "AccurateCalculation"
-        case balancedCalculation = "BalancedCalculation"
-        case fastCalculation = "FastCalculation"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IsolineTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case car = "Car"
-        case pedestrian = "Pedestrian"
-        case scooter = "Scooter"
-        case truck = "Truck"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IsolineTruckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lightTruck = "LightTruck"
-        case straightTruck = "StraightTruck"
-        case tractor = "Tractor"
-        public var description: String { return self.rawValue }
+    public struct DayOfWeek: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var friday: Self { .init(rawValue: "Friday") }
+        @inlinable public static var monday: Self { .init(rawValue: "Monday") }
+        @inlinable public static var saturday: Self { .init(rawValue: "Saturday") }
+        @inlinable public static var sunday: Self { .init(rawValue: "Sunday") }
+        @inlinable public static var thursday: Self { .init(rawValue: "Thursday") }
+        @inlinable public static var tuesday: Self { .init(rawValue: "Tuesday") }
+        @inlinable public static var wednesday: Self { .init(rawValue: "Wednesday") }
+    }
+
+    public struct GeometryFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var flexiblePolyline: Self { .init(rawValue: "FlexiblePolyline") }
+        @inlinable public static var simple: Self { .init(rawValue: "Simple") }
+    }
+
+    public struct IsolineEngineType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var electric: Self { .init(rawValue: "Electric") }
+        @inlinable public static var internalCombustion: Self { .init(rawValue: "InternalCombustion") }
+        @inlinable public static var pluginHybrid: Self { .init(rawValue: "PluginHybrid") }
+    }
+
+    public struct IsolineHazardousCargoType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var combustible: Self { .init(rawValue: "Combustible") }
+        @inlinable public static var corrosive: Self { .init(rawValue: "Corrosive") }
+        @inlinable public static var explosive: Self { .init(rawValue: "Explosive") }
+        @inlinable public static var flammable: Self { .init(rawValue: "Flammable") }
+        @inlinable public static var gas: Self { .init(rawValue: "Gas") }
+        @inlinable public static var harmfulToWater: Self { .init(rawValue: "HarmfulToWater") }
+        @inlinable public static var organic: Self { .init(rawValue: "Organic") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var poison: Self { .init(rawValue: "Poison") }
+        @inlinable public static var poisonousInhalation: Self { .init(rawValue: "PoisonousInhalation") }
+        @inlinable public static var radioactive: Self { .init(rawValue: "Radioactive") }
+    }
+
+    public struct IsolineOptimizationObjective: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accurateCalculation: Self { .init(rawValue: "AccurateCalculation") }
+        @inlinable public static var balancedCalculation: Self { .init(rawValue: "BalancedCalculation") }
+        @inlinable public static var fastCalculation: Self { .init(rawValue: "FastCalculation") }
+    }
+
+    public struct IsolineTravelMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+        @inlinable public static var pedestrian: Self { .init(rawValue: "Pedestrian") }
+        @inlinable public static var scooter: Self { .init(rawValue: "Scooter") }
+        @inlinable public static var truck: Self { .init(rawValue: "Truck") }
+    }
+
+    public struct IsolineTruckType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lightTruck: Self { .init(rawValue: "LightTruck") }
+        @inlinable public static var straightTruck: Self { .init(rawValue: "StraightTruck") }
+        @inlinable public static var tractor: Self { .init(rawValue: "Tractor") }
+    }
+
+    public struct IsolineZoneCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var congestionPricing: Self { .init(rawValue: "CongestionPricing") }
+        @inlinable public static var environmental: Self { .init(rawValue: "Environmental") }
+        @inlinable public static var vignette: Self { .init(rawValue: "Vignette") }
+    }
+
+    public struct MatchingStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var matchAny: Self { .init(rawValue: "MatchAny") }
+        @inlinable public static var matchMostSignificantRoad: Self { .init(rawValue: "MatchMostSignificantRoad") }
+    }
+
+    public struct MeasurementSystem: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var imperial: Self { .init(rawValue: "Imperial") }
+        @inlinable public static var metric: Self { .init(rawValue: "Metric") }
+    }
+
+    public struct RoadSnapHazardousCargoType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var combustible: Self { .init(rawValue: "Combustible") }
+        @inlinable public static var corrosive: Self { .init(rawValue: "Corrosive") }
+        @inlinable public static var explosive: Self { .init(rawValue: "Explosive") }
+        @inlinable public static var flammable: Self { .init(rawValue: "Flammable") }
+        @inlinable public static var gas: Self { .init(rawValue: "Gas") }
+        @inlinable public static var harmfulToWater: Self { .init(rawValue: "HarmfulToWater") }
+        @inlinable public static var organic: Self { .init(rawValue: "Organic") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var poison: Self { .init(rawValue: "Poison") }
+        @inlinable public static var poisonousInhalation: Self { .init(rawValue: "PoisonousInhalation") }
+        @inlinable public static var radioactive: Self { .init(rawValue: "Radioactive") }
+    }
+
+    public struct RoadSnapNoticeCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var tracePointsHeadingIgnored: Self { .init(rawValue: "TracePointsHeadingIgnored") }
+        @inlinable public static var tracePointsIgnored: Self { .init(rawValue: "TracePointsIgnored") }
+        @inlinable public static var tracePointsMovedByLargeDistance: Self { .init(rawValue: "TracePointsMovedByLargeDistance") }
+        @inlinable public static var tracePointsNotMatched: Self { .init(rawValue: "TracePointsNotMatched") }
+        @inlinable public static var tracePointsOutOfSequence: Self { .init(rawValue: "TracePointsOutOfSequence") }
+        @inlinable public static var tracePointsSpeedEstimated: Self { .init(rawValue: "TracePointsSpeedEstimated") }
+        @inlinable public static var tracePointsSpeedIgnored: Self { .init(rawValue: "TracePointsSpeedIgnored") }
+    }
+
+    public struct RoadSnapTravelMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+        @inlinable public static var pedestrian: Self { .init(rawValue: "Pedestrian") }
+        @inlinable public static var scooter: Self { .init(rawValue: "Scooter") }
+        @inlinable public static var truck: Self { .init(rawValue: "Truck") }
+    }
+
+    public struct RouteAccessibilityAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var wheelchair: Self { .init(rawValue: "Wheelchair") }
+    }
+
+    public struct RouteAccessibilityAvailability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "Available") }
+        @inlinable public static var limited: Self { .init(rawValue: "Limited") }
+        @inlinable public static var unavailable: Self { .init(rawValue: "Unavailable") }
+        @inlinable public static var unknown: Self { .init(rawValue: "Unknown") }
+    }
+
+    public struct RouteAttributionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disclaimer: Self { .init(rawValue: "Disclaimer") }
+        @inlinable public static var tariff: Self { .init(rawValue: "Tariff") }
+    }
+
+    public struct RouteDirection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var east: Self { .init(rawValue: "East") }
+        @inlinable public static var north: Self { .init(rawValue: "North") }
+        @inlinable public static var south: Self { .init(rawValue: "South") }
+        @inlinable public static var west: Self { .init(rawValue: "West") }
+    }
+
+    public struct RouteEngineType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var electric: Self { .init(rawValue: "Electric") }
+        @inlinable public static var internalCombustion: Self { .init(rawValue: "InternalCombustion") }
+        @inlinable public static var pluginHybrid: Self { .init(rawValue: "PluginHybrid") }
+    }
+
+    public struct RouteFerryAfterTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deboard: Self { .init(rawValue: "Deboard") }
+    }
+
+    public struct RouteFerryBeforeTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var board: Self { .init(rawValue: "Board") }
+    }
+
+    public struct RouteFerryNoticeCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accuratePolylineUnavailable: Self { .init(rawValue: "AccuratePolylineUnavailable") }
+        @inlinable public static var noSchedule: Self { .init(rawValue: "NoSchedule") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var potentialViolatedVehicleRestrictionUsage: Self { .init(rawValue: "PotentialViolatedVehicleRestrictionUsage") }
+        @inlinable public static var seasonalClosure: Self { .init(rawValue: "SeasonalClosure") }
+        @inlinable public static var violatedAvoidAreas: Self { .init(rawValue: "ViolatedAvoidAreas") }
+        @inlinable public static var violatedAvoidFerry: Self { .init(rawValue: "ViolatedAvoidFerry") }
+        @inlinable public static var violatedAvoidRailFerry: Self { .init(rawValue: "ViolatedAvoidRailFerry") }
+        @inlinable public static var violatedVehicleRestriction: Self { .init(rawValue: "ViolatedVehicleRestriction") }
+    }
+
+    public struct RouteFerryTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `continue`: Self { .init(rawValue: "Continue") }
+        @inlinable public static var arrive: Self { .init(rawValue: "Arrive") }
+        @inlinable public static var depart: Self { .init(rawValue: "Depart") }
+    }
+
+    public struct RouteHazardousCargoType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var combustible: Self { .init(rawValue: "Combustible") }
+        @inlinable public static var corrosive: Self { .init(rawValue: "Corrosive") }
+        @inlinable public static var explosive: Self { .init(rawValue: "Explosive") }
+        @inlinable public static var flammable: Self { .init(rawValue: "Flammable") }
+        @inlinable public static var gas: Self { .init(rawValue: "Gas") }
+        @inlinable public static var harmfulToWater: Self { .init(rawValue: "HarmfulToWater") }
+        @inlinable public static var organic: Self { .init(rawValue: "Organic") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var poison: Self { .init(rawValue: "Poison") }
+        @inlinable public static var poisonousInhalation: Self { .init(rawValue: "PoisonousInhalation") }
+        @inlinable public static var radioactive: Self { .init(rawValue: "Radioactive") }
+    }
+
+    public struct RouteIntermodalEnabledLegs: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var entireRoute: Self { .init(rawValue: "EntireRoute") }
+        @inlinable public static var firstLeg: Self { .init(rawValue: "FirstLeg") }
+        @inlinable public static var lastLeg: Self { .init(rawValue: "LastLeg") }
+        @inlinable public static var none: Self { .init(rawValue: "None") }
+    }
+
+    public struct RouteLegAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bookings: Self { .init(rawValue: "Bookings") }
+        @inlinable public static var elevation: Self { .init(rawValue: "Elevation") }
+        @inlinable public static var incidents: Self { .init(rawValue: "Incidents") }
+        @inlinable public static var intermediateStops: Self { .init(rawValue: "IntermediateStops") }
+        @inlinable public static var nextDepartures: Self { .init(rawValue: "NextDepartures") }
+        @inlinable public static var passThroughWaypoints: Self { .init(rawValue: "PassThroughWaypoints") }
+        @inlinable public static var summary: Self { .init(rawValue: "Summary") }
+        @inlinable public static var tolls: Self { .init(rawValue: "Tolls") }
+        @inlinable public static var travelStepInstructions: Self { .init(rawValue: "TravelStepInstructions") }
+        @inlinable public static var truckRoadTypes: Self { .init(rawValue: "TruckRoadTypes") }
+        @inlinable public static var typicalDuration: Self { .init(rawValue: "TypicalDuration") }
+        @inlinable public static var zones: Self { .init(rawValue: "Zones") }
+    }
+
+    public struct RouteLegTravelMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aerialTramway: Self { .init(rawValue: "AerialTramway") }
+        @inlinable public static var airplane: Self { .init(rawValue: "Airplane") }
+        @inlinable public static var bus: Self { .init(rawValue: "Bus") }
+        @inlinable public static var busRapidTransit: Self { .init(rawValue: "BusRapidTransit") }
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+        @inlinable public static var carShuttleTrain: Self { .init(rawValue: "CarShuttleTrain") }
+        @inlinable public static var cityTrain: Self { .init(rawValue: "CityTrain") }
+        @inlinable public static var ferry: Self { .init(rawValue: "Ferry") }
+        @inlinable public static var funicularRailway: Self { .init(rawValue: "FunicularRailway") }
+        @inlinable public static var highSpeedTrain: Self { .init(rawValue: "HighSpeedTrain") }
+        @inlinable public static var intercityTrain: Self { .init(rawValue: "IntercityTrain") }
+        @inlinable public static var interregionalTrain: Self { .init(rawValue: "InterregionalTrain") }
+        @inlinable public static var lightRail: Self { .init(rawValue: "LightRail") }
+        @inlinable public static var monorail: Self { .init(rawValue: "Monorail") }
+        @inlinable public static var pedestrian: Self { .init(rawValue: "Pedestrian") }
+        @inlinable public static var privateBus: Self { .init(rawValue: "PrivateBus") }
+        @inlinable public static var regionalTrain: Self { .init(rawValue: "RegionalTrain") }
+        @inlinable public static var scooter: Self { .init(rawValue: "Scooter") }
+        @inlinable public static var subway: Self { .init(rawValue: "Subway") }
+        @inlinable public static var truck: Self { .init(rawValue: "Truck") }
+    }
+
+    public struct RouteLegType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ferry: Self { .init(rawValue: "Ferry") }
+        @inlinable public static var pedestrian: Self { .init(rawValue: "Pedestrian") }
+        @inlinable public static var rental: Self { .init(rawValue: "Rental") }
+        @inlinable public static var taxi: Self { .init(rawValue: "Taxi") }
+        @inlinable public static var transit: Self { .init(rawValue: "Transit") }
+        @inlinable public static var vehicle: Self { .init(rawValue: "Vehicle") }
+    }
+
+    public struct RouteMatrixErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var noMatch: Self { .init(rawValue: "NoMatch") }
+        @inlinable public static var noMatchDestination: Self { .init(rawValue: "NoMatchDestination") }
+        @inlinable public static var noMatchOrigin: Self { .init(rawValue: "NoMatchOrigin") }
+        @inlinable public static var noRoute: Self { .init(rawValue: "NoRoute") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var outOfBounds: Self { .init(rawValue: "OutOfBounds") }
+        @inlinable public static var outOfBoundsDestination: Self { .init(rawValue: "OutOfBoundsDestination") }
+        @inlinable public static var outOfBoundsOrigin: Self { .init(rawValue: "OutOfBoundsOrigin") }
+        @inlinable public static var violation: Self { .init(rawValue: "Violation") }
+    }
+
+    public struct RouteMatrixHazardousCargoType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var combustible: Self { .init(rawValue: "Combustible") }
+        @inlinable public static var corrosive: Self { .init(rawValue: "Corrosive") }
+        @inlinable public static var explosive: Self { .init(rawValue: "Explosive") }
+        @inlinable public static var flammable: Self { .init(rawValue: "Flammable") }
+        @inlinable public static var gas: Self { .init(rawValue: "Gas") }
+        @inlinable public static var harmfulToWater: Self { .init(rawValue: "HarmfulToWater") }
+        @inlinable public static var organic: Self { .init(rawValue: "Organic") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var poison: Self { .init(rawValue: "Poison") }
+        @inlinable public static var poisonousInhalation: Self { .init(rawValue: "PoisonousInhalation") }
+        @inlinable public static var radioactive: Self { .init(rawValue: "Radioactive") }
+    }
+
+    public struct RouteMatrixTravelMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+        @inlinable public static var pedestrian: Self { .init(rawValue: "Pedestrian") }
+        @inlinable public static var scooter: Self { .init(rawValue: "Scooter") }
+        @inlinable public static var truck: Self { .init(rawValue: "Truck") }
+    }
+
+    public struct RouteMatrixTruckType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lightTruck: Self { .init(rawValue: "LightTruck") }
+        @inlinable public static var straightTruck: Self { .init(rawValue: "StraightTruck") }
+        @inlinable public static var tractor: Self { .init(rawValue: "Tractor") }
+    }
+
+    public struct RouteMatrixZoneCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var congestionPricing: Self { .init(rawValue: "CongestionPricing") }
+        @inlinable public static var environmental: Self { .init(rawValue: "Environmental") }
+        @inlinable public static var vignette: Self { .init(rawValue: "Vignette") }
+    }
+
+    public struct RouteNoticeImpact: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "High") }
+        @inlinable public static var low: Self { .init(rawValue: "Low") }
+    }
+
+    public struct RoutePedestrianAfterTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var wait: Self { .init(rawValue: "Wait") }
+    }
+
+    public struct RoutePedestrianNoticeCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accuratePolylineUnavailable: Self { .init(rawValue: "AccuratePolylineUnavailable") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var violatedAvoidAreas: Self { .init(rawValue: "ViolatedAvoidAreas") }
+        @inlinable public static var violatedAvoidDirtRoad: Self { .init(rawValue: "ViolatedAvoidDirtRoad") }
+        @inlinable public static var violatedAvoidTunnel: Self { .init(rawValue: "ViolatedAvoidTunnel") }
+        @inlinable public static var violatedPedestrianOption: Self { .init(rawValue: "ViolatedPedestrianOption") }
+    }
+
+    public struct RoutePedestrianPlaceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessPoint: Self { .init(rawValue: "AccessPoint") }
+        @inlinable public static var dockingStation: Self { .init(rawValue: "DockingStation") }
+        @inlinable public static var parkingLot: Self { .init(rawValue: "ParkingLot") }
+        @inlinable public static var station: Self { .init(rawValue: "Station") }
+    }
+
+    public struct RoutePedestrianTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `continue`: Self { .init(rawValue: "Continue") }
+        @inlinable public static var arrive: Self { .init(rawValue: "Arrive") }
+        @inlinable public static var depart: Self { .init(rawValue: "Depart") }
+        @inlinable public static var keep: Self { .init(rawValue: "Keep") }
+        @inlinable public static var roundaboutEnter: Self { .init(rawValue: "RoundaboutEnter") }
+        @inlinable public static var roundaboutExit: Self { .init(rawValue: "RoundaboutExit") }
+        @inlinable public static var roundaboutPass: Self { .init(rawValue: "RoundaboutPass") }
+        @inlinable public static var turn: Self { .init(rawValue: "Turn") }
+    }
+
+    public struct RouteRentalAfterTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var park: Self { .init(rawValue: "Park") }
+    }
+
+    public struct RouteRentalBeforeTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var setup: Self { .init(rawValue: "Setup") }
+    }
+
+    public struct RouteRentalMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "All") }
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+    }
+
+    public struct RouteRentalPlaceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessPoint: Self { .init(rawValue: "AccessPoint") }
+        @inlinable public static var dockingStation: Self { .init(rawValue: "DockingStation") }
+        @inlinable public static var parkingLot: Self { .init(rawValue: "ParkingLot") }
+        @inlinable public static var station: Self { .init(rawValue: "Station") }
+    }
+
+    public struct RouteRentalTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `continue`: Self { .init(rawValue: "Continue") }
+        @inlinable public static var arrive: Self { .init(rawValue: "Arrive") }
+        @inlinable public static var depart: Self { .init(rawValue: "Depart") }
+        @inlinable public static var exit: Self { .init(rawValue: "Exit") }
+        @inlinable public static var keep: Self { .init(rawValue: "Keep") }
+        @inlinable public static var ramp: Self { .init(rawValue: "Ramp") }
+        @inlinable public static var roundaboutEnter: Self { .init(rawValue: "RoundaboutEnter") }
+        @inlinable public static var roundaboutExit: Self { .init(rawValue: "RoundaboutExit") }
+        @inlinable public static var roundaboutPass: Self { .init(rawValue: "RoundaboutPass") }
+        @inlinable public static var turn: Self { .init(rawValue: "Turn") }
+        @inlinable public static var uTurn: Self { .init(rawValue: "UTurn") }
+    }
+
+    public struct RouteResponseNoticeCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mainLanguageNotFound: Self { .init(rawValue: "MainLanguageNotFound") }
+        @inlinable public static var noTransitStationsFound: Self { .init(rawValue: "NoTransitStationsFound") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var transitDataUnavailable: Self { .init(rawValue: "TransitDataUnavailable") }
+        @inlinable public static var transitRouteUnavailable: Self { .init(rawValue: "TransitRouteUnavailable") }
+        @inlinable public static var travelTimeExceedsDriverWorkHours: Self { .init(rawValue: "TravelTimeExceedsDriverWorkHours") }
+    }
+
+    public struct RouteRoadType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var highway: Self { .init(rawValue: "Highway") }
+        @inlinable public static var rural: Self { .init(rawValue: "Rural") }
+        @inlinable public static var urban: Self { .init(rawValue: "Urban") }
+    }
+
+    public struct RouteSideOfStreet: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var left: Self { .init(rawValue: "Left") }
+        @inlinable public static var right: Self { .init(rawValue: "Right") }
+    }
+
+    public struct RouteSpanAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bestCaseDuration: Self { .init(rawValue: "BestCaseDuration") }
+        @inlinable public static var carAccess: Self { .init(rawValue: "CarAccess") }
+        @inlinable public static var consumption: Self { .init(rawValue: "Consumption") }
+        @inlinable public static var country: Self { .init(rawValue: "Country") }
+        @inlinable public static var distance: Self { .init(rawValue: "Distance") }
+        @inlinable public static var duration: Self { .init(rawValue: "Duration") }
+        @inlinable public static var dynamicSpeed: Self { .init(rawValue: "DynamicSpeed") }
+        @inlinable public static var functionalClassification: Self { .init(rawValue: "FunctionalClassification") }
+        @inlinable public static var gates: Self { .init(rawValue: "Gates") }
+        @inlinable public static var incidents: Self { .init(rawValue: "Incidents") }
+        @inlinable public static var names: Self { .init(rawValue: "Names") }
+        @inlinable public static var notices: Self { .init(rawValue: "Notices") }
+        @inlinable public static var pedestrianAccess: Self { .init(rawValue: "PedestrianAccess") }
+        @inlinable public static var railwayCrossings: Self { .init(rawValue: "RailwayCrossings") }
+        @inlinable public static var region: Self { .init(rawValue: "Region") }
+        @inlinable public static var roadAttributes: Self { .init(rawValue: "RoadAttributes") }
+        @inlinable public static var routeNumbers: Self { .init(rawValue: "RouteNumbers") }
+        @inlinable public static var scooterAccess: Self { .init(rawValue: "ScooterAccess") }
+        @inlinable public static var speedLimit: Self { .init(rawValue: "SpeedLimit") }
+        @inlinable public static var tollSystems: Self { .init(rawValue: "TollSystems") }
+        @inlinable public static var truckAccess: Self { .init(rawValue: "TruckAccess") }
+        @inlinable public static var truckRoadTypes: Self { .init(rawValue: "TruckRoadTypes") }
+        @inlinable public static var typicalDuration: Self { .init(rawValue: "TypicalDuration") }
+        @inlinable public static var zones: Self { .init(rawValue: "Zones") }
+    }
+
+    public struct RouteSpanCarAccessAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allowed: Self { .init(rawValue: "Allowed") }
+        @inlinable public static var noThroughTraffic: Self { .init(rawValue: "NoThroughTraffic") }
+        @inlinable public static var tollRoad: Self { .init(rawValue: "TollRoad") }
+    }
+
+    public struct RouteSpanGateAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var emergency: Self { .init(rawValue: "Emergency") }
+        @inlinable public static var keyAccess: Self { .init(rawValue: "KeyAccess") }
+        @inlinable public static var permissionRequired: Self { .init(rawValue: "PermissionRequired") }
+    }
+
+    public struct RouteSpanPedestrianAccessAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allowed: Self { .init(rawValue: "Allowed") }
+        @inlinable public static var indoors: Self { .init(rawValue: "Indoors") }
+        @inlinable public static var noThroughTraffic: Self { .init(rawValue: "NoThroughTraffic") }
+        @inlinable public static var park: Self { .init(rawValue: "Park") }
+        @inlinable public static var stairs: Self { .init(rawValue: "Stairs") }
+        @inlinable public static var tollRoad: Self { .init(rawValue: "TollRoad") }
+    }
+
+    public struct RouteSpanRailwayCrossingAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var protected: Self { .init(rawValue: "Protected") }
+        @inlinable public static var unprotected: Self { .init(rawValue: "Unprotected") }
+    }
+
+    public struct RouteSpanRoadAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bridge: Self { .init(rawValue: "Bridge") }
+        @inlinable public static var builtUpArea: Self { .init(rawValue: "BuiltUpArea") }
+        @inlinable public static var controlledAccessHighway: Self { .init(rawValue: "ControlledAccessHighway") }
+        @inlinable public static var dirtRoad: Self { .init(rawValue: "DirtRoad") }
+        @inlinable public static var dividedRoad: Self { .init(rawValue: "DividedRoad") }
+        @inlinable public static var motorway: Self { .init(rawValue: "Motorway") }
+        @inlinable public static var privateRoad: Self { .init(rawValue: "PrivateRoad") }
+        @inlinable public static var ramp: Self { .init(rawValue: "Ramp") }
+        @inlinable public static var rightHandTraffic: Self { .init(rawValue: "RightHandTraffic") }
+        @inlinable public static var roundabout: Self { .init(rawValue: "Roundabout") }
+        @inlinable public static var tunnel: Self { .init(rawValue: "Tunnel") }
+        @inlinable public static var underConstruction: Self { .init(rawValue: "UnderConstruction") }
+    }
+
+    public struct RouteSpanScooterAccessAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allowed: Self { .init(rawValue: "Allowed") }
+        @inlinable public static var noThroughTraffic: Self { .init(rawValue: "NoThroughTraffic") }
+        @inlinable public static var tollRoad: Self { .init(rawValue: "TollRoad") }
+    }
+
+    public struct RouteSpanTruckAccessAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allowed: Self { .init(rawValue: "Allowed") }
+        @inlinable public static var noThroughTraffic: Self { .init(rawValue: "NoThroughTraffic") }
+        @inlinable public static var tollRoad: Self { .init(rawValue: "TollRoad") }
+    }
+
+    public struct RouteSteeringDirection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var left: Self { .init(rawValue: "Left") }
+        @inlinable public static var right: Self { .init(rawValue: "Right") }
+        @inlinable public static var straight: Self { .init(rawValue: "Straight") }
+    }
+
+    public struct RouteTaxiAfterTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var park: Self { .init(rawValue: "Park") }
+    }
+
+    public struct RouteTaxiBeforeTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var wait: Self { .init(rawValue: "Wait") }
+    }
+
+    public struct RouteTaxiMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "All") }
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+    }
+
+    public struct RouteTaxiNoticeCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accuratePolylineUnavailable: Self { .init(rawValue: "AccuratePolylineUnavailable") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+    }
+
+    public struct RouteTaxiPlaceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessPoint: Self { .init(rawValue: "AccessPoint") }
+        @inlinable public static var station: Self { .init(rawValue: "Station") }
+    }
+
+    public struct RouteTaxiTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `continue`: Self { .init(rawValue: "Continue") }
+        @inlinable public static var arrive: Self { .init(rawValue: "Arrive") }
+        @inlinable public static var depart: Self { .init(rawValue: "Depart") }
+        @inlinable public static var exit: Self { .init(rawValue: "Exit") }
+        @inlinable public static var keep: Self { .init(rawValue: "Keep") }
+        @inlinable public static var ramp: Self { .init(rawValue: "Ramp") }
+        @inlinable public static var roundaboutEnter: Self { .init(rawValue: "RoundaboutEnter") }
+        @inlinable public static var roundaboutExit: Self { .init(rawValue: "RoundaboutExit") }
+        @inlinable public static var roundaboutPass: Self { .init(rawValue: "RoundaboutPass") }
+        @inlinable public static var turn: Self { .init(rawValue: "Turn") }
+        @inlinable public static var uTurn: Self { .init(rawValue: "UTurn") }
+    }
+
+    public struct RouteTollPassValidityPeriodType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var annual: Self { .init(rawValue: "Annual") }
+        @inlinable public static var days: Self { .init(rawValue: "Days") }
+        @inlinable public static var extendedAnnual: Self { .init(rawValue: "ExtendedAnnual") }
+        @inlinable public static var minutes: Self { .init(rawValue: "Minutes") }
+        @inlinable public static var months: Self { .init(rawValue: "Months") }
+    }
+
+    public struct RouteTollPaymentMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bankCard: Self { .init(rawValue: "BankCard") }
+        @inlinable public static var cash: Self { .init(rawValue: "Cash") }
+        @inlinable public static var cashExact: Self { .init(rawValue: "CashExact") }
+        @inlinable public static var creditCard: Self { .init(rawValue: "CreditCard") }
+        @inlinable public static var passSubscription: Self { .init(rawValue: "PassSubscription") }
+        @inlinable public static var transponder: Self { .init(rawValue: "Transponder") }
+        @inlinable public static var travelCard: Self { .init(rawValue: "TravelCard") }
+        @inlinable public static var videoToll: Self { .init(rawValue: "VideoToll") }
+    }
+
+    public struct RouteTollVehicleCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var minibus: Self { .init(rawValue: "Minibus") }
+    }
+
+    public struct RouteTransitAfterTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deboard: Self { .init(rawValue: "Deboard") }
+    }
+
+    public struct RouteTransitBeforeTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var board: Self { .init(rawValue: "Board") }
+    }
+
+    public struct RouteTransitIncidentEffect: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var delayed: Self { .init(rawValue: "Delayed") }
+        @inlinable public static var detoured: Self { .init(rawValue: "Detoured") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var serviceAdded: Self { .init(rawValue: "ServiceAdded") }
+        @inlinable public static var serviceCancelled: Self { .init(rawValue: "ServiceCancelled") }
+        @inlinable public static var serviceModified: Self { .init(rawValue: "ServiceModified") }
+        @inlinable public static var serviceReduced: Self { .init(rawValue: "ServiceReduced") }
+        @inlinable public static var stopMoved: Self { .init(rawValue: "StopMoved") }
+    }
+
+    public struct RouteTransitIncidentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accident: Self { .init(rawValue: "Accident") }
+        @inlinable public static var construction: Self { .init(rawValue: "Construction") }
+        @inlinable public static var demonstration: Self { .init(rawValue: "Demonstration") }
+        @inlinable public static var holiday: Self { .init(rawValue: "Holiday") }
+        @inlinable public static var maintenance: Self { .init(rawValue: "Maintenance") }
+        @inlinable public static var medicalEmergency: Self { .init(rawValue: "MedicalEmergency") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var policeActivity: Self { .init(rawValue: "PoliceActivity") }
+        @inlinable public static var strike: Self { .init(rawValue: "Strike") }
+        @inlinable public static var technicalProblem: Self { .init(rawValue: "TechnicalProblem") }
+        @inlinable public static var weather: Self { .init(rawValue: "Weather") }
+    }
+
+    public struct RouteTransitIntermediateStopAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var noEntry: Self { .init(rawValue: "NoEntry") }
+        @inlinable public static var noExit: Self { .init(rawValue: "NoExit") }
+    }
+
+    public struct RouteTransitMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aerialTramway: Self { .init(rawValue: "AerialTramway") }
+        @inlinable public static var airplane: Self { .init(rawValue: "Airplane") }
+        @inlinable public static var all: Self { .init(rawValue: "All") }
+        @inlinable public static var bus: Self { .init(rawValue: "Bus") }
+        @inlinable public static var busRapidTransit: Self { .init(rawValue: "BusRapidTransit") }
+        @inlinable public static var cityTrain: Self { .init(rawValue: "CityTrain") }
+        @inlinable public static var ferry: Self { .init(rawValue: "Ferry") }
+        @inlinable public static var funicularRailway: Self { .init(rawValue: "FunicularRailway") }
+        @inlinable public static var highSpeedTrain: Self { .init(rawValue: "HighSpeedTrain") }
+        @inlinable public static var intercityTrain: Self { .init(rawValue: "IntercityTrain") }
+        @inlinable public static var interregionalTrain: Self { .init(rawValue: "InterregionalTrain") }
+        @inlinable public static var lightRail: Self { .init(rawValue: "LightRail") }
+        @inlinable public static var monorail: Self { .init(rawValue: "Monorail") }
+        @inlinable public static var privateBus: Self { .init(rawValue: "PrivateBus") }
+        @inlinable public static var regionalTrain: Self { .init(rawValue: "RegionalTrain") }
+        @inlinable public static var subway: Self { .init(rawValue: "Subway") }
+    }
+
+    public struct RouteTransitNoticeCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accuratePolylineUnavailable: Self { .init(rawValue: "AccuratePolylineUnavailable") }
+        @inlinable public static var intermediateStopsUnavailable: Self { .init(rawValue: "IntermediateStopsUnavailable") }
+        @inlinable public static var noSchedule: Self { .init(rawValue: "NoSchedule") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var potentialViolatedVehicleRestrictionUsage: Self { .init(rawValue: "PotentialViolatedVehicleRestrictionUsage") }
+        @inlinable public static var scheduledTimes: Self { .init(rawValue: "ScheduledTimes") }
+        @inlinable public static var seasonalClosure: Self { .init(rawValue: "SeasonalClosure") }
+        @inlinable public static var violatedAvoidAreas: Self { .init(rawValue: "ViolatedAvoidAreas") }
+        @inlinable public static var violatedAvoidFerry: Self { .init(rawValue: "ViolatedAvoidFerry") }
+        @inlinable public static var violatedAvoidRailFerry: Self { .init(rawValue: "ViolatedAvoidRailFerry") }
+        @inlinable public static var violatedExcludedTransitMode: Self { .init(rawValue: "ViolatedExcludedTransitMode") }
+        @inlinable public static var violatedVehicleRestriction: Self { .init(rawValue: "ViolatedVehicleRestriction") }
+    }
+
+    public struct RouteTransitPlaceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var station: Self { .init(rawValue: "Station") }
+    }
+
+    public struct RouteTransitTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var depart: Self { .init(rawValue: "Depart") }
+    }
+
+    public struct RouteTransitTripStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var added: Self { .init(rawValue: "Added") }
+        @inlinable public static var cancelled: Self { .init(rawValue: "Cancelled") }
+        @inlinable public static var replaced: Self { .init(rawValue: "Replaced") }
+        @inlinable public static var scheduled: Self { .init(rawValue: "Scheduled") }
+    }
+
+    public struct RouteTravelMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+        @inlinable public static var intermodal: Self { .init(rawValue: "Intermodal") }
+        @inlinable public static var pedestrian: Self { .init(rawValue: "Pedestrian") }
+        @inlinable public static var scooter: Self { .init(rawValue: "Scooter") }
+        @inlinable public static var transit: Self { .init(rawValue: "Transit") }
+        @inlinable public static var truck: Self { .init(rawValue: "Truck") }
+    }
+
+    public struct RouteTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "Default") }
+        @inlinable public static var turnByTurn: Self { .init(rawValue: "TurnByTurn") }
+    }
+
+    public struct RouteTruckType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lightTruck: Self { .init(rawValue: "LightTruck") }
+        @inlinable public static var straightTruck: Self { .init(rawValue: "StraightTruck") }
+        @inlinable public static var tractor: Self { .init(rawValue: "Tractor") }
+    }
+
+    public struct RouteTurnIntensity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sharp: Self { .init(rawValue: "Sharp") }
+        @inlinable public static var slight: Self { .init(rawValue: "Slight") }
+        @inlinable public static var typical: Self { .init(rawValue: "Typical") }
+    }
+
+    public struct RouteVehicleAfterTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var park: Self { .init(rawValue: "Park") }
+    }
+
+    public struct RouteVehicleIncidentSeverity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var critical: Self { .init(rawValue: "Critical") }
+        @inlinable public static var high: Self { .init(rawValue: "High") }
+        @inlinable public static var low: Self { .init(rawValue: "Low") }
+        @inlinable public static var medium: Self { .init(rawValue: "Medium") }
     }
 
-    public enum IsolineZoneCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case congestionPricing = "CongestionPricing"
-        case environmental = "Environmental"
-        case vignette = "Vignette"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MatchingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case matchAny = "MatchAny"
-        case matchMostSignificantRoad = "MatchMostSignificantRoad"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MeasurementSystem: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case imperial = "Imperial"
-        case metric = "Metric"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RoadSnapHazardousCargoType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case combustible = "Combustible"
-        case corrosive = "Corrosive"
-        case explosive = "Explosive"
-        case flammable = "Flammable"
-        case gas = "Gas"
-        case harmfulToWater = "HarmfulToWater"
-        case organic = "Organic"
-        case other = "Other"
-        case poison = "Poison"
-        case poisonousInhalation = "PoisonousInhalation"
-        case radioactive = "Radioactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RoadSnapNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case tracePointsHeadingIgnored = "TracePointsHeadingIgnored"
-        case tracePointsIgnored = "TracePointsIgnored"
-        case tracePointsMovedByLargeDistance = "TracePointsMovedByLargeDistance"
-        case tracePointsNotMatched = "TracePointsNotMatched"
-        case tracePointsOutOfSequence = "TracePointsOutOfSequence"
-        case tracePointsSpeedEstimated = "TracePointsSpeedEstimated"
-        case tracePointsSpeedIgnored = "TracePointsSpeedIgnored"
-        public var description: String { return self.rawValue }
+    public struct RouteVehicleIncidentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accident: Self { .init(rawValue: "Accident") }
+        @inlinable public static var congestion: Self { .init(rawValue: "Congestion") }
+        @inlinable public static var construction: Self { .init(rawValue: "Construction") }
+        @inlinable public static var disabledVehicle: Self { .init(rawValue: "DisabledVehicle") }
+        @inlinable public static var laneRestriction: Self { .init(rawValue: "LaneRestriction") }
+        @inlinable public static var massTransit: Self { .init(rawValue: "MassTransit") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var plannedEvent: Self { .init(rawValue: "PlannedEvent") }
+        @inlinable public static var roadClosure: Self { .init(rawValue: "RoadClosure") }
+        @inlinable public static var roadHazard: Self { .init(rawValue: "RoadHazard") }
+        @inlinable public static var weather: Self { .init(rawValue: "Weather") }
+    }
+
+    public struct RouteVehicleMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "All") }
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+    }
+
+    public struct RouteVehicleNoticeCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accuratePolylineUnavailable: Self { .init(rawValue: "AccuratePolylineUnavailable") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var potentialViolatedAvoidTollRoadUsage: Self { .init(rawValue: "PotentialViolatedAvoidTollRoadUsage") }
+        @inlinable public static var potentialViolatedCarpoolUsage: Self { .init(rawValue: "PotentialViolatedCarpoolUsage") }
+        @inlinable public static var potentialViolatedTurnRestrictionUsage: Self { .init(rawValue: "PotentialViolatedTurnRestrictionUsage") }
+        @inlinable public static var potentialViolatedVehicleRestrictionUsage: Self { .init(rawValue: "PotentialViolatedVehicleRestrictionUsage") }
+        @inlinable public static var potentialViolatedZoneRestrictionUsage: Self { .init(rawValue: "PotentialViolatedZoneRestrictionUsage") }
+        @inlinable public static var seasonalClosure: Self { .init(rawValue: "SeasonalClosure") }
+        @inlinable public static var tollTransponder: Self { .init(rawValue: "TollTransponder") }
+        @inlinable public static var tollsDataTemporarilyUnavailable: Self { .init(rawValue: "TollsDataTemporarilyUnavailable") }
+        @inlinable public static var tollsDataUnavailable: Self { .init(rawValue: "TollsDataUnavailable") }
+        @inlinable public static var travelTimeExceedsDriverWorkHours: Self { .init(rawValue: "TravelTimeExceedsDriverWorkHours") }
+        @inlinable public static var violatedAvoidControlledAccessHighway: Self { .init(rawValue: "ViolatedAvoidControlledAccessHighway") }
+        @inlinable public static var violatedAvoidDifficultTurns: Self { .init(rawValue: "ViolatedAvoidDifficultTurns") }
+        @inlinable public static var violatedAvoidDirtRoad: Self { .init(rawValue: "ViolatedAvoidDirtRoad") }
+        @inlinable public static var violatedAvoidSeasonalClosure: Self { .init(rawValue: "ViolatedAvoidSeasonalClosure") }
+        @inlinable public static var violatedAvoidTollRoad: Self { .init(rawValue: "ViolatedAvoidTollRoad") }
+        @inlinable public static var violatedAvoidTollTransponder: Self { .init(rawValue: "ViolatedAvoidTollTransponder") }
+        @inlinable public static var violatedAvoidTruckRoadType: Self { .init(rawValue: "ViolatedAvoidTruckRoadType") }
+        @inlinable public static var violatedAvoidTunnel: Self { .init(rawValue: "ViolatedAvoidTunnel") }
+        @inlinable public static var violatedAvoidUTurns: Self { .init(rawValue: "ViolatedAvoidUTurns") }
+        @inlinable public static var violatedBlockedRoad: Self { .init(rawValue: "ViolatedBlockedRoad") }
+        @inlinable public static var violatedCarpool: Self { .init(rawValue: "ViolatedCarpool") }
+        @inlinable public static var violatedEmergencyGate: Self { .init(rawValue: "ViolatedEmergencyGate") }
+        @inlinable public static var violatedStartDirection: Self { .init(rawValue: "ViolatedStartDirection") }
+        @inlinable public static var violatedTurnRestriction: Self { .init(rawValue: "ViolatedTurnRestriction") }
+        @inlinable public static var violatedVehicleRestriction: Self { .init(rawValue: "ViolatedVehicleRestriction") }
+        @inlinable public static var violatedZoneRestriction: Self { .init(rawValue: "ViolatedZoneRestriction") }
+    }
+
+    public struct RouteVehiclePlaceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessPoint: Self { .init(rawValue: "AccessPoint") }
+        @inlinable public static var dockingStation: Self { .init(rawValue: "DockingStation") }
+        @inlinable public static var parkingLot: Self { .init(rawValue: "ParkingLot") }
+        @inlinable public static var station: Self { .init(rawValue: "Station") }
+    }
+
+    public struct RouteVehicleTravelStepType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `continue`: Self { .init(rawValue: "Continue") }
+        @inlinable public static var arrive: Self { .init(rawValue: "Arrive") }
+        @inlinable public static var continueHighway: Self { .init(rawValue: "ContinueHighway") }
+        @inlinable public static var depart: Self { .init(rawValue: "Depart") }
+        @inlinable public static var enterHighway: Self { .init(rawValue: "EnterHighway") }
+        @inlinable public static var exit: Self { .init(rawValue: "Exit") }
+        @inlinable public static var keep: Self { .init(rawValue: "Keep") }
+        @inlinable public static var ramp: Self { .init(rawValue: "Ramp") }
+        @inlinable public static var roundaboutEnter: Self { .init(rawValue: "RoundaboutEnter") }
+        @inlinable public static var roundaboutExit: Self { .init(rawValue: "RoundaboutExit") }
+        @inlinable public static var roundaboutPass: Self { .init(rawValue: "RoundaboutPass") }
+        @inlinable public static var turn: Self { .init(rawValue: "Turn") }
+        @inlinable public static var uTurn: Self { .init(rawValue: "UTurn") }
+    }
+
+    public struct RouteWebLinkDeviceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var android: Self { .init(rawValue: "Android") }
+        @inlinable public static var ios: Self { .init(rawValue: "Ios") }
+        @inlinable public static var web: Self { .init(rawValue: "Web") }
     }
-
-    public enum RoadSnapTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case car = "Car"
-        case pedestrian = "Pedestrian"
-        case scooter = "Scooter"
-        case truck = "Truck"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteAccessibilityAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case wheelchair = "Wheelchair"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteAccessibilityAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "Available"
-        case limited = "Limited"
-        case unavailable = "Unavailable"
-        case unknown = "Unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteAttributionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disclaimer = "Disclaimer"
-        case tariff = "Tariff"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case east = "East"
-        case north = "North"
-        case south = "South"
-        case west = "West"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteEngineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case electric = "Electric"
-        case internalCombustion = "InternalCombustion"
-        case pluginHybrid = "PluginHybrid"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteFerryAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deboard = "Deboard"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteFerryBeforeTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case board = "Board"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteFerryNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
-        case noSchedule = "NoSchedule"
-        case other = "Other"
-        case potentialViolatedVehicleRestrictionUsage = "PotentialViolatedVehicleRestrictionUsage"
-        case seasonalClosure = "SeasonalClosure"
-        case violatedAvoidAreas = "ViolatedAvoidAreas"
-        case violatedAvoidFerry = "ViolatedAvoidFerry"
-        case violatedAvoidRailFerry = "ViolatedAvoidRailFerry"
-        case violatedVehicleRestriction = "ViolatedVehicleRestriction"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteFerryTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `continue` = "Continue"
-        case arrive = "Arrive"
-        case depart = "Depart"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteHazardousCargoType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case combustible = "Combustible"
-        case corrosive = "Corrosive"
-        case explosive = "Explosive"
-        case flammable = "Flammable"
-        case gas = "Gas"
-        case harmfulToWater = "HarmfulToWater"
-        case organic = "Organic"
-        case other = "Other"
-        case poison = "Poison"
-        case poisonousInhalation = "PoisonousInhalation"
-        case radioactive = "Radioactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteIntermodalEnabledLegs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case entireRoute = "EntireRoute"
-        case firstLeg = "FirstLeg"
-        case lastLeg = "LastLeg"
-        case none = "None"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteLegAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bookings = "Bookings"
-        case elevation = "Elevation"
-        case incidents = "Incidents"
-        case intermediateStops = "IntermediateStops"
-        case nextDepartures = "NextDepartures"
-        case passThroughWaypoints = "PassThroughWaypoints"
-        case summary = "Summary"
-        case tolls = "Tolls"
-        case travelStepInstructions = "TravelStepInstructions"
-        case truckRoadTypes = "TruckRoadTypes"
-        case typicalDuration = "TypicalDuration"
-        case zones = "Zones"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteLegTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aerialTramway = "AerialTramway"
-        case airplane = "Airplane"
-        case bus = "Bus"
-        case busRapidTransit = "BusRapidTransit"
-        case car = "Car"
-        case carShuttleTrain = "CarShuttleTrain"
-        case cityTrain = "CityTrain"
-        case ferry = "Ferry"
-        case funicularRailway = "FunicularRailway"
-        case highSpeedTrain = "HighSpeedTrain"
-        case intercityTrain = "IntercityTrain"
-        case interregionalTrain = "InterregionalTrain"
-        case lightRail = "LightRail"
-        case monorail = "Monorail"
-        case pedestrian = "Pedestrian"
-        case privateBus = "PrivateBus"
-        case regionalTrain = "RegionalTrain"
-        case scooter = "Scooter"
-        case subway = "Subway"
-        case truck = "Truck"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteLegType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ferry = "Ferry"
-        case pedestrian = "Pedestrian"
-        case rental = "Rental"
-        case taxi = "Taxi"
-        case transit = "Transit"
-        case vehicle = "Vehicle"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteMatrixErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case noMatch = "NoMatch"
-        case noMatchDestination = "NoMatchDestination"
-        case noMatchOrigin = "NoMatchOrigin"
-        case noRoute = "NoRoute"
-        case other = "Other"
-        case outOfBounds = "OutOfBounds"
-        case outOfBoundsDestination = "OutOfBoundsDestination"
-        case outOfBoundsOrigin = "OutOfBoundsOrigin"
-        case violation = "Violation"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteMatrixHazardousCargoType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case combustible = "Combustible"
-        case corrosive = "Corrosive"
-        case explosive = "Explosive"
-        case flammable = "Flammable"
-        case gas = "Gas"
-        case harmfulToWater = "HarmfulToWater"
-        case organic = "Organic"
-        case other = "Other"
-        case poison = "Poison"
-        case poisonousInhalation = "PoisonousInhalation"
-        case radioactive = "Radioactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteMatrixTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case car = "Car"
-        case pedestrian = "Pedestrian"
-        case scooter = "Scooter"
-        case truck = "Truck"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteMatrixTruckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lightTruck = "LightTruck"
-        case straightTruck = "StraightTruck"
-        case tractor = "Tractor"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteMatrixZoneCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case congestionPricing = "CongestionPricing"
-        case environmental = "Environmental"
-        case vignette = "Vignette"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteNoticeImpact: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "High"
-        case low = "Low"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RoutePedestrianAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case wait = "Wait"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RoutePedestrianNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
-        case other = "Other"
-        case violatedAvoidAreas = "ViolatedAvoidAreas"
-        case violatedAvoidDirtRoad = "ViolatedAvoidDirtRoad"
-        case violatedAvoidTunnel = "ViolatedAvoidTunnel"
-        case violatedPedestrianOption = "ViolatedPedestrianOption"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RoutePedestrianPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessPoint = "AccessPoint"
-        case dockingStation = "DockingStation"
-        case parkingLot = "ParkingLot"
-        case station = "Station"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RoutePedestrianTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `continue` = "Continue"
-        case arrive = "Arrive"
-        case depart = "Depart"
-        case keep = "Keep"
-        case roundaboutEnter = "RoundaboutEnter"
-        case roundaboutExit = "RoundaboutExit"
-        case roundaboutPass = "RoundaboutPass"
-        case turn = "Turn"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteRentalAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case park = "Park"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteRentalBeforeTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case setup = "Setup"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteRentalMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "All"
-        case car = "Car"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteRentalPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessPoint = "AccessPoint"
-        case dockingStation = "DockingStation"
-        case parkingLot = "ParkingLot"
-        case station = "Station"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteRentalTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `continue` = "Continue"
-        case arrive = "Arrive"
-        case depart = "Depart"
-        case exit = "Exit"
-        case keep = "Keep"
-        case ramp = "Ramp"
-        case roundaboutEnter = "RoundaboutEnter"
-        case roundaboutExit = "RoundaboutExit"
-        case roundaboutPass = "RoundaboutPass"
-        case turn = "Turn"
-        case uTurn = "UTurn"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteResponseNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mainLanguageNotFound = "MainLanguageNotFound"
-        case noTransitStationsFound = "NoTransitStationsFound"
-        case other = "Other"
-        case transitDataUnavailable = "TransitDataUnavailable"
-        case transitRouteUnavailable = "TransitRouteUnavailable"
-        case travelTimeExceedsDriverWorkHours = "TravelTimeExceedsDriverWorkHours"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteRoadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case highway = "Highway"
-        case rural = "Rural"
-        case urban = "Urban"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteSideOfStreet: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case left = "Left"
-        case right = "Right"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteSpanAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bestCaseDuration = "BestCaseDuration"
-        case carAccess = "CarAccess"
-        case consumption = "Consumption"
-        case country = "Country"
-        case distance = "Distance"
-        case duration = "Duration"
-        case dynamicSpeed = "DynamicSpeed"
-        case functionalClassification = "FunctionalClassification"
-        case gates = "Gates"
-        case incidents = "Incidents"
-        case names = "Names"
-        case notices = "Notices"
-        case pedestrianAccess = "PedestrianAccess"
-        case railwayCrossings = "RailwayCrossings"
-        case region = "Region"
-        case roadAttributes = "RoadAttributes"
-        case routeNumbers = "RouteNumbers"
-        case scooterAccess = "ScooterAccess"
-        case speedLimit = "SpeedLimit"
-        case tollSystems = "TollSystems"
-        case truckAccess = "TruckAccess"
-        case truckRoadTypes = "TruckRoadTypes"
-        case typicalDuration = "TypicalDuration"
-        case zones = "Zones"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteSpanCarAccessAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allowed = "Allowed"
-        case noThroughTraffic = "NoThroughTraffic"
-        case tollRoad = "TollRoad"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteSpanGateAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case emergency = "Emergency"
-        case keyAccess = "KeyAccess"
-        case permissionRequired = "PermissionRequired"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteSpanPedestrianAccessAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allowed = "Allowed"
-        case indoors = "Indoors"
-        case noThroughTraffic = "NoThroughTraffic"
-        case park = "Park"
-        case stairs = "Stairs"
-        case tollRoad = "TollRoad"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteSpanRailwayCrossingAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case protected = "Protected"
-        case unprotected = "Unprotected"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteSpanRoadAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bridge = "Bridge"
-        case builtUpArea = "BuiltUpArea"
-        case controlledAccessHighway = "ControlledAccessHighway"
-        case dirtRoad = "DirtRoad"
-        case dividedRoad = "DividedRoad"
-        case motorway = "Motorway"
-        case privateRoad = "PrivateRoad"
-        case ramp = "Ramp"
-        case rightHandTraffic = "RightHandTraffic"
-        case roundabout = "Roundabout"
-        case tunnel = "Tunnel"
-        case underConstruction = "UnderConstruction"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteSpanScooterAccessAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allowed = "Allowed"
-        case noThroughTraffic = "NoThroughTraffic"
-        case tollRoad = "TollRoad"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteSpanTruckAccessAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allowed = "Allowed"
-        case noThroughTraffic = "NoThroughTraffic"
-        case tollRoad = "TollRoad"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteSteeringDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case left = "Left"
-        case right = "Right"
-        case straight = "Straight"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTaxiAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case park = "Park"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTaxiBeforeTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case wait = "Wait"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTaxiMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "All"
-        case car = "Car"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTaxiNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
-        case other = "Other"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTaxiPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessPoint = "AccessPoint"
-        case station = "Station"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTaxiTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `continue` = "Continue"
-        case arrive = "Arrive"
-        case depart = "Depart"
-        case exit = "Exit"
-        case keep = "Keep"
-        case ramp = "Ramp"
-        case roundaboutEnter = "RoundaboutEnter"
-        case roundaboutExit = "RoundaboutExit"
-        case roundaboutPass = "RoundaboutPass"
-        case turn = "Turn"
-        case uTurn = "UTurn"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTollPassValidityPeriodType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case annual = "Annual"
-        case days = "Days"
-        case extendedAnnual = "ExtendedAnnual"
-        case minutes = "Minutes"
-        case months = "Months"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTollPaymentMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bankCard = "BankCard"
-        case cash = "Cash"
-        case cashExact = "CashExact"
-        case creditCard = "CreditCard"
-        case passSubscription = "PassSubscription"
-        case transponder = "Transponder"
-        case travelCard = "TravelCard"
-        case videoToll = "VideoToll"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTollVehicleCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case minibus = "Minibus"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTransitAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deboard = "Deboard"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTransitBeforeTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case board = "Board"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTransitIncidentEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case delayed = "Delayed"
-        case detoured = "Detoured"
-        case other = "Other"
-        case serviceAdded = "ServiceAdded"
-        case serviceCancelled = "ServiceCancelled"
-        case serviceModified = "ServiceModified"
-        case serviceReduced = "ServiceReduced"
-        case stopMoved = "StopMoved"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTransitIncidentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accident = "Accident"
-        case construction = "Construction"
-        case demonstration = "Demonstration"
-        case holiday = "Holiday"
-        case maintenance = "Maintenance"
-        case medicalEmergency = "MedicalEmergency"
-        case other = "Other"
-        case policeActivity = "PoliceActivity"
-        case strike = "Strike"
-        case technicalProblem = "TechnicalProblem"
-        case weather = "Weather"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTransitIntermediateStopAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case noEntry = "NoEntry"
-        case noExit = "NoExit"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTransitMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aerialTramway = "AerialTramway"
-        case airplane = "Airplane"
-        case all = "All"
-        case bus = "Bus"
-        case busRapidTransit = "BusRapidTransit"
-        case cityTrain = "CityTrain"
-        case ferry = "Ferry"
-        case funicularRailway = "FunicularRailway"
-        case highSpeedTrain = "HighSpeedTrain"
-        case intercityTrain = "IntercityTrain"
-        case interregionalTrain = "InterregionalTrain"
-        case lightRail = "LightRail"
-        case monorail = "Monorail"
-        case privateBus = "PrivateBus"
-        case regionalTrain = "RegionalTrain"
-        case subway = "Subway"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTransitNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
-        case intermediateStopsUnavailable = "IntermediateStopsUnavailable"
-        case noSchedule = "NoSchedule"
-        case other = "Other"
-        case potentialViolatedVehicleRestrictionUsage = "PotentialViolatedVehicleRestrictionUsage"
-        case scheduledTimes = "ScheduledTimes"
-        case seasonalClosure = "SeasonalClosure"
-        case violatedAvoidAreas = "ViolatedAvoidAreas"
-        case violatedAvoidFerry = "ViolatedAvoidFerry"
-        case violatedAvoidRailFerry = "ViolatedAvoidRailFerry"
-        case violatedExcludedTransitMode = "ViolatedExcludedTransitMode"
-        case violatedVehicleRestriction = "ViolatedVehicleRestriction"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTransitPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case station = "Station"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTransitTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case depart = "Depart"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTransitTripStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case added = "Added"
-        case cancelled = "Cancelled"
-        case replaced = "Replaced"
-        case scheduled = "Scheduled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case car = "Car"
-        case intermodal = "Intermodal"
-        case pedestrian = "Pedestrian"
-        case scooter = "Scooter"
-        case transit = "Transit"
-        case truck = "Truck"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "Default"
-        case turnByTurn = "TurnByTurn"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTruckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lightTruck = "LightTruck"
-        case straightTruck = "StraightTruck"
-        case tractor = "Tractor"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteTurnIntensity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sharp = "Sharp"
-        case slight = "Slight"
-        case typical = "Typical"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteVehicleAfterTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case park = "Park"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteVehicleIncidentSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case critical = "Critical"
-        case high = "High"
-        case low = "Low"
-        case medium = "Medium"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteVehicleIncidentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accident = "Accident"
-        case congestion = "Congestion"
-        case construction = "Construction"
-        case disabledVehicle = "DisabledVehicle"
-        case laneRestriction = "LaneRestriction"
-        case massTransit = "MassTransit"
-        case other = "Other"
-        case plannedEvent = "PlannedEvent"
-        case roadClosure = "RoadClosure"
-        case roadHazard = "RoadHazard"
-        case weather = "Weather"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteVehicleMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "All"
-        case car = "Car"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteVehicleNoticeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
-        case other = "Other"
-        case potentialViolatedAvoidTollRoadUsage = "PotentialViolatedAvoidTollRoadUsage"
-        case potentialViolatedCarpoolUsage = "PotentialViolatedCarpoolUsage"
-        case potentialViolatedTurnRestrictionUsage = "PotentialViolatedTurnRestrictionUsage"
-        case potentialViolatedVehicleRestrictionUsage = "PotentialViolatedVehicleRestrictionUsage"
-        case potentialViolatedZoneRestrictionUsage = "PotentialViolatedZoneRestrictionUsage"
-        case seasonalClosure = "SeasonalClosure"
-        case tollTransponder = "TollTransponder"
-        case tollsDataTemporarilyUnavailable = "TollsDataTemporarilyUnavailable"
-        case tollsDataUnavailable = "TollsDataUnavailable"
-        case travelTimeExceedsDriverWorkHours = "TravelTimeExceedsDriverWorkHours"
-        case violatedAvoidControlledAccessHighway = "ViolatedAvoidControlledAccessHighway"
-        case violatedAvoidDifficultTurns = "ViolatedAvoidDifficultTurns"
-        case violatedAvoidDirtRoad = "ViolatedAvoidDirtRoad"
-        case violatedAvoidSeasonalClosure = "ViolatedAvoidSeasonalClosure"
-        case violatedAvoidTollRoad = "ViolatedAvoidTollRoad"
-        case violatedAvoidTollTransponder = "ViolatedAvoidTollTransponder"
-        case violatedAvoidTruckRoadType = "ViolatedAvoidTruckRoadType"
-        case violatedAvoidTunnel = "ViolatedAvoidTunnel"
-        case violatedAvoidUTurns = "ViolatedAvoidUTurns"
-        case violatedBlockedRoad = "ViolatedBlockedRoad"
-        case violatedCarpool = "ViolatedCarpool"
-        case violatedEmergencyGate = "ViolatedEmergencyGate"
-        case violatedStartDirection = "ViolatedStartDirection"
-        case violatedTurnRestriction = "ViolatedTurnRestriction"
-        case violatedVehicleRestriction = "ViolatedVehicleRestriction"
-        case violatedZoneRestriction = "ViolatedZoneRestriction"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteVehiclePlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessPoint = "AccessPoint"
-        case dockingStation = "DockingStation"
-        case parkingLot = "ParkingLot"
-        case station = "Station"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteVehicleTravelStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `continue` = "Continue"
-        case arrive = "Arrive"
-        case continueHighway = "ContinueHighway"
-        case depart = "Depart"
-        case enterHighway = "EnterHighway"
-        case exit = "Exit"
-        case keep = "Keep"
-        case ramp = "Ramp"
-        case roundaboutEnter = "RoundaboutEnter"
-        case roundaboutExit = "RoundaboutExit"
-        case roundaboutPass = "RoundaboutPass"
-        case turn = "Turn"
-        case uTurn = "UTurn"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteWebLinkDeviceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case android = "Android"
-        case ios = "Ios"
-        case web = "Web"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteWeightConstraintType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case current = "Current"
-        case gross = "Gross"
-        case unknown = "Unknown"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RouteZoneCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case congestionPricing = "CongestionPricing"
-        case environmental = "Environmental"
-        case vignette = "Vignette"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RoutingObjective: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fastestRoute = "FastestRoute"
-        case shortestRoute = "ShortestRoute"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SideOfStreetMatchingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case anyStreet = "AnyStreet"
-        case dividedStreetOnly = "DividedStreetOnly"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrafficUsage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ignoreTrafficData = "IgnoreTrafficData"
-        case useTrafficData = "UseTrafficData"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "CannotParse"
-        case fieldValidationFailed = "FieldValidationFailed"
+
+    public struct RouteWeightConstraintType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var current: Self { .init(rawValue: "Current") }
+        @inlinable public static var gross: Self { .init(rawValue: "Gross") }
+        @inlinable public static var unknown: Self { .init(rawValue: "Unknown") }
+    }
+
+    public struct RouteZoneCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var congestionPricing: Self { .init(rawValue: "CongestionPricing") }
+        @inlinable public static var environmental: Self { .init(rawValue: "Environmental") }
+        @inlinable public static var vignette: Self { .init(rawValue: "Vignette") }
+    }
+
+    public struct RoutingObjective: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fastestRoute: Self { .init(rawValue: "FastestRoute") }
+        @inlinable public static var shortestRoute: Self { .init(rawValue: "ShortestRoute") }
+    }
+
+    public struct SideOfStreetMatchingStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var anyStreet: Self { .init(rawValue: "AnyStreet") }
+        @inlinable public static var dividedStreetOnly: Self { .init(rawValue: "DividedStreetOnly") }
+    }
+
+    public struct TrafficUsage: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ignoreTrafficData: Self { .init(rawValue: "IgnoreTrafficData") }
+        @inlinable public static var useTrafficData: Self { .init(rawValue: "UseTrafficData") }
+    }
+
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FieldValidationFailed") }
         /// The required input is missing.
-        case missing = "Missing"
+        @inlinable public static var missing: Self { .init(rawValue: "Missing") }
         /// The input is invalid but no more specific reason is applicable.
-        case other = "Other"
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
         /// No such field is supported.
-        case unknownField = "UnknownField"
+        @inlinable public static var unknownField: Self { .init(rawValue: "UnknownField") }
         /// No such operation is supported.
-        case unknownOperation = "UnknownOperation"
-        public var description: String { return self.rawValue }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UnknownOperation") }
     }
 
-    public enum WaypointOptimizationClusteringAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case drivingDistance = "DrivingDistance"
-        case topologySegment = "TopologySegment"
-        public var description: String { return self.rawValue }
+    public struct WaypointOptimizationClusteringAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var drivingDistance: Self { .init(rawValue: "DrivingDistance") }
+        @inlinable public static var topologySegment: Self { .init(rawValue: "TopologySegment") }
     }
 
-    public enum WaypointOptimizationConstraint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessHours = "AccessHours"
-        case appointmentTime = "AppointmentTime"
-        case before = "Before"
-        case heading = "Heading"
-        case serviceDuration = "ServiceDuration"
-        case sideOfStreet = "SideOfStreet"
-        public var description: String { return self.rawValue }
+    public struct WaypointOptimizationConstraint: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessHours: Self { .init(rawValue: "AccessHours") }
+        @inlinable public static var appointmentTime: Self { .init(rawValue: "AppointmentTime") }
+        @inlinable public static var before: Self { .init(rawValue: "Before") }
+        @inlinable public static var heading: Self { .init(rawValue: "Heading") }
+        @inlinable public static var serviceDuration: Self { .init(rawValue: "ServiceDuration") }
+        @inlinable public static var sideOfStreet: Self { .init(rawValue: "SideOfStreet") }
     }
 
-    public enum WaypointOptimizationHazardousCargoType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case combustible = "Combustible"
-        case corrosive = "Corrosive"
-        case explosive = "Explosive"
-        case flammable = "Flammable"
-        case gas = "Gas"
-        case harmfulToWater = "HarmfulToWater"
-        case organic = "Organic"
-        case other = "Other"
-        case poison = "Poison"
-        case poisonousInhalation = "PoisonousInhalation"
-        case radioactive = "Radioactive"
-        public var description: String { return self.rawValue }
+    public struct WaypointOptimizationHazardousCargoType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var combustible: Self { .init(rawValue: "Combustible") }
+        @inlinable public static var corrosive: Self { .init(rawValue: "Corrosive") }
+        @inlinable public static var explosive: Self { .init(rawValue: "Explosive") }
+        @inlinable public static var flammable: Self { .init(rawValue: "Flammable") }
+        @inlinable public static var gas: Self { .init(rawValue: "Gas") }
+        @inlinable public static var harmfulToWater: Self { .init(rawValue: "HarmfulToWater") }
+        @inlinable public static var organic: Self { .init(rawValue: "Organic") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var poison: Self { .init(rawValue: "Poison") }
+        @inlinable public static var poisonousInhalation: Self { .init(rawValue: "PoisonousInhalation") }
+        @inlinable public static var radioactive: Self { .init(rawValue: "Radioactive") }
     }
 
-    public enum WaypointOptimizationSequencingObjective: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fastestRoute = "FastestRoute"
-        case shortestRoute = "ShortestRoute"
-        public var description: String { return self.rawValue }
+    public struct WaypointOptimizationSequencingObjective: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fastestRoute: Self { .init(rawValue: "FastestRoute") }
+        @inlinable public static var shortestRoute: Self { .init(rawValue: "ShortestRoute") }
     }
 
-    public enum WaypointOptimizationServiceTimeTreatment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rest = "Rest"
-        case work = "Work"
-        public var description: String { return self.rawValue }
+    public struct WaypointOptimizationServiceTimeTreatment: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rest: Self { .init(rawValue: "Rest") }
+        @inlinable public static var work: Self { .init(rawValue: "Work") }
     }
 
-    public enum WaypointOptimizationTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case car = "Car"
-        case pedestrian = "Pedestrian"
-        case scooter = "Scooter"
-        case truck = "Truck"
-        public var description: String { return self.rawValue }
+    public struct WaypointOptimizationTravelMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+        @inlinable public static var pedestrian: Self { .init(rawValue: "Pedestrian") }
+        @inlinable public static var scooter: Self { .init(rawValue: "Scooter") }
+        @inlinable public static var truck: Self { .init(rawValue: "Truck") }
     }
 
-    public enum WaypointOptimizationTruckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case straightTruck = "StraightTruck"
-        case tractor = "Tractor"
-        public var description: String { return self.rawValue }
+    public struct WaypointOptimizationTruckType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var straightTruck: Self { .init(rawValue: "StraightTruck") }
+        @inlinable public static var tractor: Self { .init(rawValue: "Tractor") }
     }
 
     // MARK: Shapes

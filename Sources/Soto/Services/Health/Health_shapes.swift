@@ -25,68 +25,104 @@ import Foundation
 extension Health {
     // MARK: Enums
 
-    public enum EntityStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case impaired = "IMPAIRED"
-        case pending = "PENDING"
-        case resolved = "RESOLVED"
-        case unimpaired = "UNIMPAIRED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
+    public struct EntityStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var impaired: Self { .init(rawValue: "IMPAIRED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var resolved: Self { .init(rawValue: "RESOLVED") }
+        @inlinable public static var unimpaired: Self { .init(rawValue: "UNIMPAIRED") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
     }
 
-    public enum EventActionability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case actionMayBeRequired = "ACTION_MAY_BE_REQUIRED"
-        case actionRequired = "ACTION_REQUIRED"
-        case informational = "INFORMATIONAL"
-        public var description: String { return self.rawValue }
+    public struct EventActionability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var actionMayBeRequired: Self { .init(rawValue: "ACTION_MAY_BE_REQUIRED") }
+        @inlinable public static var actionRequired: Self { .init(rawValue: "ACTION_REQUIRED") }
+        @inlinable public static var informational: Self { .init(rawValue: "INFORMATIONAL") }
     }
 
-    public enum EventAggregateField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case eventTypeCategory = "eventTypeCategory"
-        public var description: String { return self.rawValue }
+    public struct EventAggregateField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var eventTypeCategory: Self { .init(rawValue: "eventTypeCategory") }
     }
 
-    public enum EventPersona: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billing = "BILLING"
-        case operations = "OPERATIONS"
-        case security = "SECURITY"
-        public var description: String { return self.rawValue }
+    public struct EventPersona: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billing: Self { .init(rawValue: "BILLING") }
+        @inlinable public static var operations: Self { .init(rawValue: "OPERATIONS") }
+        @inlinable public static var security: Self { .init(rawValue: "SECURITY") }
     }
 
-    public enum EventScopeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `public` = "PUBLIC"
-        case accountSpecific = "ACCOUNT_SPECIFIC"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct EventScopeCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `public`: Self { .init(rawValue: "PUBLIC") }
+        @inlinable public static var accountSpecific: Self { .init(rawValue: "ACCOUNT_SPECIFIC") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum EventStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case closed = "closed"
-        case open = "open"
-        case upcoming = "upcoming"
-        public var description: String { return self.rawValue }
+    public struct EventStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var closed: Self { .init(rawValue: "closed") }
+        @inlinable public static var open: Self { .init(rawValue: "open") }
+        @inlinable public static var upcoming: Self { .init(rawValue: "upcoming") }
     }
 
-    public enum EventTypeActionability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case actionMayBeRequired = "ACTION_MAY_BE_REQUIRED"
-        case actionRequired = "ACTION_REQUIRED"
-        case informational = "INFORMATIONAL"
-        public var description: String { return self.rawValue }
+    public struct EventTypeActionability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var actionMayBeRequired: Self { .init(rawValue: "ACTION_MAY_BE_REQUIRED") }
+        @inlinable public static var actionRequired: Self { .init(rawValue: "ACTION_REQUIRED") }
+        @inlinable public static var informational: Self { .init(rawValue: "INFORMATIONAL") }
     }
 
-    public enum EventTypeCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountNotification = "accountNotification"
-        case investigation = "investigation"
-        case issue = "issue"
-        case scheduledChange = "scheduledChange"
-        public var description: String { return self.rawValue }
+    public struct EventTypeCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountNotification: Self { .init(rawValue: "accountNotification") }
+        @inlinable public static var investigation: Self { .init(rawValue: "investigation") }
+        @inlinable public static var issue: Self { .init(rawValue: "issue") }
+        @inlinable public static var scheduledChange: Self { .init(rawValue: "scheduledChange") }
     }
 
-    public enum EventTypePersona: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billing = "BILLING"
-        case operations = "OPERATIONS"
-        case security = "SECURITY"
-        public var description: String { return self.rawValue }
+    public struct EventTypePersona: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billing: Self { .init(rawValue: "BILLING") }
+        @inlinable public static var operations: Self { .init(rawValue: "OPERATIONS") }
+        @inlinable public static var security: Self { .init(rawValue: "SECURITY") }
     }
 
     // MARK: Shapes

@@ -25,31 +25,47 @@ import Foundation
 extension SageMakerFeatureStoreRuntime {
     // MARK: Enums
 
-    public enum DeletionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hardDelete = "HardDelete"
-        case softDelete = "SoftDelete"
-        public var description: String { return self.rawValue }
+    public struct DeletionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hardDelete: Self { .init(rawValue: "HardDelete") }
+        @inlinable public static var softDelete: Self { .init(rawValue: "SoftDelete") }
     }
 
-    public enum ExpirationTimeResponse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "Disabled"
-        case enabled = "Enabled"
-        public var description: String { return self.rawValue }
+    public struct ExpirationTimeResponse: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "Disabled") }
+        @inlinable public static var enabled: Self { .init(rawValue: "Enabled") }
     }
 
-    public enum TargetStore: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case offlineStore = "OfflineStore"
-        case onlineStore = "OnlineStore"
-        public var description: String { return self.rawValue }
+    public struct TargetStore: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var offlineStore: Self { .init(rawValue: "OfflineStore") }
+        @inlinable public static var onlineStore: Self { .init(rawValue: "OnlineStore") }
     }
 
-    public enum TtlDurationUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days = "Days"
-        case hours = "Hours"
-        case minutes = "Minutes"
-        case seconds = "Seconds"
-        case weeks = "Weeks"
-        public var description: String { return self.rawValue }
+    public struct TtlDurationUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days: Self { .init(rawValue: "Days") }
+        @inlinable public static var hours: Self { .init(rawValue: "Hours") }
+        @inlinable public static var minutes: Self { .init(rawValue: "Minutes") }
+        @inlinable public static var seconds: Self { .init(rawValue: "Seconds") }
+        @inlinable public static var weeks: Self { .init(rawValue: "Weeks") }
     }
 
     // MARK: Shapes

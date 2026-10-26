@@ -25,46 +25,70 @@ import Foundation
 extension RUM {
     // MARK: Enums
 
-    public enum AppMonitorPlatform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case android = "Android"
-        case web = "Web"
-        case iOS = "iOS"
-        public var description: String { return self.rawValue }
+    public struct AppMonitorPlatform: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var android: Self { .init(rawValue: "Android") }
+        @inlinable public static var web: Self { .init(rawValue: "Web") }
+        @inlinable public static var iOS: Self { .init(rawValue: "iOS") }
     }
 
-    public enum CustomEventsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct CustomEventsStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum DeobfuscationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct DeobfuscationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum MetricDestination: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cloudWatch = "CloudWatch"
-        case evidently = "Evidently"
-        public var description: String { return self.rawValue }
+    public struct MetricDestination: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cloudWatch: Self { .init(rawValue: "CloudWatch") }
+        @inlinable public static var evidently: Self { .init(rawValue: "Evidently") }
     }
 
-    public enum StateEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case created = "CREATED"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
+    public struct StateEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
     }
 
-    public enum Telemetry: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct Telemetry: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Includes JS error event plugin
-        case errors = "errors"
+        @inlinable public static var errors: Self { .init(rawValue: "errors") }
         /// Includes X-Ray Xhr and X-Ray Fetch plugin
-        case http = "http"
+        @inlinable public static var http: Self { .init(rawValue: "http") }
         /// Includes navigation, paint, resource and web vital event plugins
-        case performance = "performance"
-        public var description: String { return self.rawValue }
+        @inlinable public static var performance: Self { .init(rawValue: "performance") }
     }
 
     // MARK: Shapes

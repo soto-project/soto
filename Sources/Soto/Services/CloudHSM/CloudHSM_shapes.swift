@@ -25,33 +25,49 @@ import Foundation
 extension CloudHSM {
     // MARK: Enums
 
-    public enum ClientVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fiveOne = "5.1"
-        case fiveThree = "5.3"
-        public var description: String { return self.rawValue }
+    public struct ClientVersion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fiveOne: Self { .init(rawValue: "5.1") }
+        @inlinable public static var fiveThree: Self { .init(rawValue: "5.3") }
     }
 
-    public enum CloudHsmObjectState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case degraded = "DEGRADED"
-        case ready = "READY"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct CloudHsmObjectState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var degraded: Self { .init(rawValue: "DEGRADED") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum HsmStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case degraded = "DEGRADED"
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case suspended = "SUSPENDED"
-        case terminated = "TERMINATED"
-        case terminating = "TERMINATING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct HsmStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var degraded: Self { .init(rawValue: "DEGRADED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var suspended: Self { .init(rawValue: "SUSPENDED") }
+        @inlinable public static var terminated: Self { .init(rawValue: "TERMINATED") }
+        @inlinable public static var terminating: Self { .init(rawValue: "TERMINATING") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum SubscriptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case production = "PRODUCTION"
-        public var description: String { return self.rawValue }
+    public struct SubscriptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var production: Self { .init(rawValue: "PRODUCTION") }
     }
 
     // MARK: Shapes

@@ -25,46 +25,66 @@ import Foundation
 extension ResourceExplorer2 {
     // MARK: Enums
 
-    public enum AWSServiceAccessStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct AWSServiceAccessStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum IndexState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct IndexState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Index is active.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Resource Explorer is creating the index.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Resource Explorer successfully deleted the index.
-        case deleted = "DELETED"
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
         /// Resource Explorer is deleting the index.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Resource Explorer is switching the index type between local and aggregator.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum IndexType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct IndexType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// aggregator index
-        case aggregator = "AGGREGATOR"
+        @inlinable public static var aggregator: Self { .init(rawValue: "AGGREGATOR") }
         /// local index
-        case local = "LOCAL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var local: Self { .init(rawValue: "LOCAL") }
     }
 
-    public enum OperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case skipped = "SKIPPED"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct OperationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var skipped: Self { .init(rawValue: "SKIPPED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum RecorderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aws = "AWS"
-        case thirdParty = "THIRD_PARTY"
-        public var description: String { return self.rawValue }
+    public struct RecorderType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aws: Self { .init(rawValue: "AWS") }
+        @inlinable public static var thirdParty: Self { .init(rawValue: "THIRD_PARTY") }
     }
 
     // MARK: Shapes

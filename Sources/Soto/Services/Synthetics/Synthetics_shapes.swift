@@ -25,100 +25,152 @@ import Foundation
 extension Synthetics {
     // MARK: Enums
 
-    public enum BrowserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case chrome = "CHROME"
-        case firefox = "FIREFOX"
-        public var description: String { return self.rawValue }
+    public struct BrowserType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var chrome: Self { .init(rawValue: "CHROME") }
+        @inlinable public static var firefox: Self { .init(rawValue: "FIREFOX") }
     }
 
-    public enum CanaryRunState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case passed = "PASSED"
-        case running = "RUNNING"
-        public var description: String { return self.rawValue }
+    public struct CanaryRunState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var passed: Self { .init(rawValue: "PASSED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
     }
 
-    public enum CanaryRunStateReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canaryFailure = "CANARY_FAILURE"
-        case executionFailure = "EXECUTION_FAILURE"
-        public var description: String { return self.rawValue }
+    public struct CanaryRunStateReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canaryFailure: Self { .init(rawValue: "CANARY_FAILURE") }
+        @inlinable public static var executionFailure: Self { .init(rawValue: "EXECUTION_FAILURE") }
     }
 
-    public enum CanaryRunTestResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case passed = "PASSED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
+    public struct CanaryRunTestResult: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var passed: Self { .init(rawValue: "PASSED") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
     }
 
-    public enum CanaryState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case error = "ERROR"
-        case ready = "READY"
-        case running = "RUNNING"
-        case starting = "STARTING"
-        case stopped = "STOPPED"
-        case stopping = "STOPPING"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct CanaryState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var starting: Self { .init(rawValue: "STARTING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum CanaryStateReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createFailed = "CREATE_FAILED"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createPending = "CREATE_PENDING"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case invalidPermissions = "INVALID_PERMISSIONS"
-        case rollbackComplete = "ROLLBACK_COMPLETE"
-        case rollbackFailed = "ROLLBACK_FAILED"
-        case syncDeleteInProgress = "SYNC_DELETE_IN_PROGRESS"
-        case updateComplete = "UPDATE_COMPLETE"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updatePending = "UPDATE_PENDING"
-        public var description: String { return self.rawValue }
+    public struct CanaryStateReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var createPending: Self { .init(rawValue: "CREATE_PENDING") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
+        @inlinable public static var invalidPermissions: Self { .init(rawValue: "INVALID_PERMISSIONS") }
+        @inlinable public static var rollbackComplete: Self { .init(rawValue: "ROLLBACK_COMPLETE") }
+        @inlinable public static var rollbackFailed: Self { .init(rawValue: "ROLLBACK_FAILED") }
+        @inlinable public static var syncDeleteInProgress: Self { .init(rawValue: "SYNC_DELETE_IN_PROGRESS") }
+        @inlinable public static var updateComplete: Self { .init(rawValue: "UPDATE_COMPLETE") }
+        @inlinable public static var updateInProgress: Self { .init(rawValue: "UPDATE_IN_PROGRESS") }
+        @inlinable public static var updatePending: Self { .init(rawValue: "UPDATE_PENDING") }
     }
 
-    public enum DependencyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lambdaLayer = "LambdaLayer"
-        public var description: String { return self.rawValue }
+    public struct DependencyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lambdaLayer: Self { .init(rawValue: "LambdaLayer") }
     }
 
-    public enum EncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sseKms = "SSE_KMS"
-        case sseS3 = "SSE_S3"
-        public var description: String { return self.rawValue }
+    public struct EncryptionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sseKms: Self { .init(rawValue: "SSE_KMS") }
+        @inlinable public static var sseS3: Self { .init(rawValue: "SSE_S3") }
     }
 
-    public enum LocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case primary = "Primary"
-        case replica = "Replica"
-        public var description: String { return self.rawValue }
+    public struct LocationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var primary: Self { .init(rawValue: "Primary") }
+        @inlinable public static var replica: Self { .init(rawValue: "Replica") }
     }
 
-    public enum ProvisionedResourceCleanupSetting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case automatic = "AUTOMATIC"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+    public struct ProvisionedResourceCleanupSetting: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var automatic: Self { .init(rawValue: "AUTOMATIC") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
     }
 
-    public enum ReplicationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inProgress = "InProgress"
-        case inSync = "InSync"
-        case inconsistent = "Inconsistent"
-        public var description: String { return self.rawValue }
+    public struct ReplicationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inProgress: Self { .init(rawValue: "InProgress") }
+        @inlinable public static var inSync: Self { .init(rawValue: "InSync") }
+        @inlinable public static var inconsistent: Self { .init(rawValue: "Inconsistent") }
     }
 
-    public enum ResourceToTag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lambdaFunction = "lambda-function"
-        public var description: String { return self.rawValue }
+    public struct ResourceToTag: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lambdaFunction: Self { .init(rawValue: "lambda-function") }
     }
 
-    public enum RunType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canaryRun = "CANARY_RUN"
-        case dryRun = "DRY_RUN"
-        public var description: String { return self.rawValue }
+    public struct RunType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canaryRun: Self { .init(rawValue: "CANARY_RUN") }
+        @inlinable public static var dryRun: Self { .init(rawValue: "DRY_RUN") }
     }
 
     // MARK: Shapes

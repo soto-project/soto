@@ -25,50 +25,74 @@ import Foundation
 extension LexRuntimeService {
     // MARK: Enums
 
-    public enum ConfirmationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case confirmed = "Confirmed"
-        case denied = "Denied"
-        case none = "None"
-        public var description: String { return self.rawValue }
+    public struct ConfirmationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var confirmed: Self { .init(rawValue: "Confirmed") }
+        @inlinable public static var denied: Self { .init(rawValue: "Denied") }
+        @inlinable public static var none: Self { .init(rawValue: "None") }
     }
 
-    public enum ContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case generic = "application/vnd.amazonaws.card.generic"
-        public var description: String { return self.rawValue }
+    public struct ContentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var generic: Self { .init(rawValue: "application/vnd.amazonaws.card.generic") }
     }
 
-    public enum DialogActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case close = "Close"
-        case confirmIntent = "ConfirmIntent"
-        case delegate = "Delegate"
-        case elicitIntent = "ElicitIntent"
-        case elicitSlot = "ElicitSlot"
-        public var description: String { return self.rawValue }
+    public struct DialogActionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var close: Self { .init(rawValue: "Close") }
+        @inlinable public static var confirmIntent: Self { .init(rawValue: "ConfirmIntent") }
+        @inlinable public static var delegate: Self { .init(rawValue: "Delegate") }
+        @inlinable public static var elicitIntent: Self { .init(rawValue: "ElicitIntent") }
+        @inlinable public static var elicitSlot: Self { .init(rawValue: "ElicitSlot") }
     }
 
-    public enum DialogState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case confirmIntent = "ConfirmIntent"
-        case elicitIntent = "ElicitIntent"
-        case elicitSlot = "ElicitSlot"
-        case failed = "Failed"
-        case fulfilled = "Fulfilled"
-        case readyForFulfillment = "ReadyForFulfillment"
-        public var description: String { return self.rawValue }
+    public struct DialogState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var confirmIntent: Self { .init(rawValue: "ConfirmIntent") }
+        @inlinable public static var elicitIntent: Self { .init(rawValue: "ElicitIntent") }
+        @inlinable public static var elicitSlot: Self { .init(rawValue: "ElicitSlot") }
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var fulfilled: Self { .init(rawValue: "Fulfilled") }
+        @inlinable public static var readyForFulfillment: Self { .init(rawValue: "ReadyForFulfillment") }
     }
 
-    public enum FulfillmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "Failed"
-        case fulfilled = "Fulfilled"
-        case readyForFulfillment = "ReadyForFulfillment"
-        public var description: String { return self.rawValue }
+    public struct FulfillmentState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var fulfilled: Self { .init(rawValue: "Fulfilled") }
+        @inlinable public static var readyForFulfillment: Self { .init(rawValue: "ReadyForFulfillment") }
     }
 
-    public enum MessageFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case composite = "Composite"
-        case customPayload = "CustomPayload"
-        case plainText = "PlainText"
-        case ssml = "SSML"
-        public var description: String { return self.rawValue }
+    public struct MessageFormatType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var composite: Self { .init(rawValue: "Composite") }
+        @inlinable public static var customPayload: Self { .init(rawValue: "CustomPayload") }
+        @inlinable public static var plainText: Self { .init(rawValue: "PlainText") }
+        @inlinable public static var ssml: Self { .init(rawValue: "SSML") }
     }
 
     // MARK: Shapes

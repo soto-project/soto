@@ -25,49 +25,61 @@ import Foundation
 extension SQS {
     // MARK: Enums
 
-    public enum MessageSystemAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "All"
-        case approximateFirstReceiveTimestamp = "ApproximateFirstReceiveTimestamp"
-        case approximateReceiveCount = "ApproximateReceiveCount"
-        case awsTraceHeader = "AWSTraceHeader"
-        case deadLetterQueueSourceArn = "DeadLetterQueueSourceArn"
-        case messageDeduplicationId = "MessageDeduplicationId"
-        case messageGroupId = "MessageGroupId"
-        case senderId = "SenderId"
-        case sentTimestamp = "SentTimestamp"
-        case sequenceNumber = "SequenceNumber"
-        public var description: String { return self.rawValue }
+    public struct MessageSystemAttributeName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "All") }
+        @inlinable public static var approximateFirstReceiveTimestamp: Self { .init(rawValue: "ApproximateFirstReceiveTimestamp") }
+        @inlinable public static var approximateReceiveCount: Self { .init(rawValue: "ApproximateReceiveCount") }
+        @inlinable public static var awsTraceHeader: Self { .init(rawValue: "AWSTraceHeader") }
+        @inlinable public static var deadLetterQueueSourceArn: Self { .init(rawValue: "DeadLetterQueueSourceArn") }
+        @inlinable public static var messageDeduplicationId: Self { .init(rawValue: "MessageDeduplicationId") }
+        @inlinable public static var messageGroupId: Self { .init(rawValue: "MessageGroupId") }
+        @inlinable public static var senderId: Self { .init(rawValue: "SenderId") }
+        @inlinable public static var sentTimestamp: Self { .init(rawValue: "SentTimestamp") }
+        @inlinable public static var sequenceNumber: Self { .init(rawValue: "SequenceNumber") }
     }
 
-    public enum MessageSystemAttributeNameForSends: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsTraceHeader = "AWSTraceHeader"
-        public var description: String { return self.rawValue }
+    public struct MessageSystemAttributeNameForSends: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsTraceHeader: Self { .init(rawValue: "AWSTraceHeader") }
     }
 
-    public enum QueueAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "All"
-        case approximateNumberOfMessages = "ApproximateNumberOfMessages"
-        case approximateNumberOfMessagesDelayed = "ApproximateNumberOfMessagesDelayed"
-        case approximateNumberOfMessagesNotVisible = "ApproximateNumberOfMessagesNotVisible"
-        case contentBasedDeduplication = "ContentBasedDeduplication"
-        case createdTimestamp = "CreatedTimestamp"
-        case deduplicationScope = "DeduplicationScope"
-        case delaySeconds = "DelaySeconds"
-        case fifoQueue = "FifoQueue"
-        case fifoThroughputLimit = "FifoThroughputLimit"
-        case kmsDataKeyReusePeriodSeconds = "KmsDataKeyReusePeriodSeconds"
-        case kmsMasterKeyId = "KmsMasterKeyId"
-        case lastModifiedTimestamp = "LastModifiedTimestamp"
-        case maximumMessageSize = "MaximumMessageSize"
-        case messageRetentionPeriod = "MessageRetentionPeriod"
-        case policy = "Policy"
-        case queueArn = "QueueArn"
-        case receiveMessageWaitTimeSeconds = "ReceiveMessageWaitTimeSeconds"
-        case redriveAllowPolicy = "RedriveAllowPolicy"
-        case redrivePolicy = "RedrivePolicy"
-        case sqsManagedSseEnabled = "SqsManagedSseEnabled"
-        case visibilityTimeout = "VisibilityTimeout"
-        public var description: String { return self.rawValue }
+    public struct QueueAttributeName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "All") }
+        @inlinable public static var approximateNumberOfMessages: Self { .init(rawValue: "ApproximateNumberOfMessages") }
+        @inlinable public static var approximateNumberOfMessagesDelayed: Self { .init(rawValue: "ApproximateNumberOfMessagesDelayed") }
+        @inlinable public static var approximateNumberOfMessagesNotVisible: Self { .init(rawValue: "ApproximateNumberOfMessagesNotVisible") }
+        @inlinable public static var contentBasedDeduplication: Self { .init(rawValue: "ContentBasedDeduplication") }
+        @inlinable public static var createdTimestamp: Self { .init(rawValue: "CreatedTimestamp") }
+        @inlinable public static var deduplicationScope: Self { .init(rawValue: "DeduplicationScope") }
+        @inlinable public static var delaySeconds: Self { .init(rawValue: "DelaySeconds") }
+        @inlinable public static var fifoQueue: Self { .init(rawValue: "FifoQueue") }
+        @inlinable public static var fifoThroughputLimit: Self { .init(rawValue: "FifoThroughputLimit") }
+        @inlinable public static var kmsDataKeyReusePeriodSeconds: Self { .init(rawValue: "KmsDataKeyReusePeriodSeconds") }
+        @inlinable public static var kmsMasterKeyId: Self { .init(rawValue: "KmsMasterKeyId") }
+        @inlinable public static var lastModifiedTimestamp: Self { .init(rawValue: "LastModifiedTimestamp") }
+        @inlinable public static var maximumMessageSize: Self { .init(rawValue: "MaximumMessageSize") }
+        @inlinable public static var messageRetentionPeriod: Self { .init(rawValue: "MessageRetentionPeriod") }
+        @inlinable public static var policy: Self { .init(rawValue: "Policy") }
+        @inlinable public static var queueArn: Self { .init(rawValue: "QueueArn") }
+        @inlinable public static var receiveMessageWaitTimeSeconds: Self { .init(rawValue: "ReceiveMessageWaitTimeSeconds") }
+        @inlinable public static var redriveAllowPolicy: Self { .init(rawValue: "RedriveAllowPolicy") }
+        @inlinable public static var redrivePolicy: Self { .init(rawValue: "RedrivePolicy") }
+        @inlinable public static var sqsManagedSseEnabled: Self { .init(rawValue: "SqsManagedSseEnabled") }
+        @inlinable public static var visibilityTimeout: Self { .init(rawValue: "VisibilityTimeout") }
     }
 
     // MARK: Shapes

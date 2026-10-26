@@ -25,34 +25,50 @@ import Foundation
 extension LicenseManagerUserSubscriptions {
     // MARK: Enums
 
-    public enum ActiveDirectoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ActiveDirectoryType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// AWS_MANAGED type of Active Directory
-        case awsManaged = "AWS_MANAGED"
+        @inlinable public static var awsManaged: Self { .init(rawValue: "AWS_MANAGED") }
         /// SELF_MANAGED type of Active Directory
-        case selfManaged = "SELF_MANAGED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var selfManaged: Self { .init(rawValue: "SELF_MANAGED") }
     }
 
-    public enum LicenseServerEndpointProvisioningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleted = "DELETED"
-        case deleting = "DELETING"
-        case deletionFailed = "DELETION_FAILED"
-        case provisioned = "PROVISIONED"
-        case provisioning = "PROVISIONING"
-        case provisioningFailed = "PROVISIONING_FAILED"
-        public var description: String { return self.rawValue }
+    public struct LicenseServerEndpointProvisioningStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var deletionFailed: Self { .init(rawValue: "DELETION_FAILED") }
+        @inlinable public static var provisioned: Self { .init(rawValue: "PROVISIONED") }
+        @inlinable public static var provisioning: Self { .init(rawValue: "PROVISIONING") }
+        @inlinable public static var provisioningFailed: Self { .init(rawValue: "PROVISIONING_FAILED") }
     }
 
-    public enum LicenseServerHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case healthy = "HEALTHY"
-        case notApplicable = "NOT_APPLICABLE"
-        case unhealthy = "UNHEALTHY"
-        public var description: String { return self.rawValue }
+    public struct LicenseServerHealthStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var healthy: Self { .init(rawValue: "HEALTHY") }
+        @inlinable public static var notApplicable: Self { .init(rawValue: "NOT_APPLICABLE") }
+        @inlinable public static var unhealthy: Self { .init(rawValue: "UNHEALTHY") }
     }
 
-    public enum ServerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case rdsSal = "RDS_SAL"
-        public var description: String { return self.rawValue }
+    public struct ServerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var rdsSal: Self { .init(rawValue: "RDS_SAL") }
     }
 
     // MARK: Shapes

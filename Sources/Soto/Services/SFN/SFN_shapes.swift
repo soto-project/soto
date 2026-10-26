@@ -25,191 +25,263 @@ import Foundation
 extension SFN {
     // MARK: Enums
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsOwnedKey = "AWS_OWNED_KEY"
-        case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
-        public var description: String { return self.rawValue }
+    public struct EncryptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsOwnedKey: Self { .init(rawValue: "AWS_OWNED_KEY") }
+        @inlinable public static var customerManagedKmsKey: Self { .init(rawValue: "CUSTOMER_MANAGED_KMS_KEY") }
     }
 
-    public enum ExecutionRedriveFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notRedriven = "NOT_REDRIVEN"
-        case redriven = "REDRIVEN"
-        public var description: String { return self.rawValue }
+    public struct ExecutionRedriveFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notRedriven: Self { .init(rawValue: "NOT_REDRIVEN") }
+        @inlinable public static var redriven: Self { .init(rawValue: "REDRIVEN") }
     }
 
-    public enum ExecutionRedriveStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notRedrivable = "NOT_REDRIVABLE"
-        case redrivable = "REDRIVABLE"
-        case redrivableByMapRun = "REDRIVABLE_BY_MAP_RUN"
-        public var description: String { return self.rawValue }
+    public struct ExecutionRedriveStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notRedrivable: Self { .init(rawValue: "NOT_REDRIVABLE") }
+        @inlinable public static var redrivable: Self { .init(rawValue: "REDRIVABLE") }
+        @inlinable public static var redrivableByMapRun: Self { .init(rawValue: "REDRIVABLE_BY_MAP_RUN") }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aborted = "ABORTED"
-        case failed = "FAILED"
-        case pendingRedrive = "PENDING_REDRIVE"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        case timedOut = "TIMED_OUT"
-        public var description: String { return self.rawValue }
+    public struct ExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aborted: Self { .init(rawValue: "ABORTED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pendingRedrive: Self { .init(rawValue: "PENDING_REDRIVE") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
+        @inlinable public static var timedOut: Self { .init(rawValue: "TIMED_OUT") }
     }
 
-    public enum HistoryEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case activityFailed = "ActivityFailed"
-        case activityScheduleFailed = "ActivityScheduleFailed"
-        case activityScheduled = "ActivityScheduled"
-        case activityStarted = "ActivityStarted"
-        case activitySucceeded = "ActivitySucceeded"
-        case activityTimedOut = "ActivityTimedOut"
-        case choiceStateEntered = "ChoiceStateEntered"
-        case choiceStateExited = "ChoiceStateExited"
-        case evaluationFailed = "EvaluationFailed"
-        case executionAborted = "ExecutionAborted"
-        case executionFailed = "ExecutionFailed"
-        case executionRedriven = "ExecutionRedriven"
-        case executionStarted = "ExecutionStarted"
-        case executionSucceeded = "ExecutionSucceeded"
-        case executionTimedOut = "ExecutionTimedOut"
-        case failStateEntered = "FailStateEntered"
-        case lambdaFunctionFailed = "LambdaFunctionFailed"
-        case lambdaFunctionScheduleFailed = "LambdaFunctionScheduleFailed"
-        case lambdaFunctionScheduled = "LambdaFunctionScheduled"
-        case lambdaFunctionStartFailed = "LambdaFunctionStartFailed"
-        case lambdaFunctionStarted = "LambdaFunctionStarted"
-        case lambdaFunctionSucceeded = "LambdaFunctionSucceeded"
-        case lambdaFunctionTimedOut = "LambdaFunctionTimedOut"
-        case mapIterationAborted = "MapIterationAborted"
-        case mapIterationFailed = "MapIterationFailed"
-        case mapIterationStarted = "MapIterationStarted"
-        case mapIterationSucceeded = "MapIterationSucceeded"
-        case mapRunAborted = "MapRunAborted"
-        case mapRunFailed = "MapRunFailed"
-        case mapRunRedriven = "MapRunRedriven"
-        case mapRunStarted = "MapRunStarted"
-        case mapRunSucceeded = "MapRunSucceeded"
-        case mapStateAborted = "MapStateAborted"
-        case mapStateEntered = "MapStateEntered"
-        case mapStateExited = "MapStateExited"
-        case mapStateFailed = "MapStateFailed"
-        case mapStateStarted = "MapStateStarted"
-        case mapStateSucceeded = "MapStateSucceeded"
-        case parallelStateAborted = "ParallelStateAborted"
-        case parallelStateEntered = "ParallelStateEntered"
-        case parallelStateExited = "ParallelStateExited"
-        case parallelStateFailed = "ParallelStateFailed"
-        case parallelStateStarted = "ParallelStateStarted"
-        case parallelStateSucceeded = "ParallelStateSucceeded"
-        case passStateEntered = "PassStateEntered"
-        case passStateExited = "PassStateExited"
-        case succeedStateEntered = "SucceedStateEntered"
-        case succeedStateExited = "SucceedStateExited"
-        case taskFailed = "TaskFailed"
-        case taskScheduled = "TaskScheduled"
-        case taskStartFailed = "TaskStartFailed"
-        case taskStarted = "TaskStarted"
-        case taskStateAborted = "TaskStateAborted"
-        case taskStateEntered = "TaskStateEntered"
-        case taskStateExited = "TaskStateExited"
-        case taskSubmitFailed = "TaskSubmitFailed"
-        case taskSubmitted = "TaskSubmitted"
-        case taskSucceeded = "TaskSucceeded"
-        case taskTimedOut = "TaskTimedOut"
-        case waitStateAborted = "WaitStateAborted"
-        case waitStateEntered = "WaitStateEntered"
-        case waitStateExited = "WaitStateExited"
-        public var description: String { return self.rawValue }
+    public struct HistoryEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var activityFailed: Self { .init(rawValue: "ActivityFailed") }
+        @inlinable public static var activityScheduleFailed: Self { .init(rawValue: "ActivityScheduleFailed") }
+        @inlinable public static var activityScheduled: Self { .init(rawValue: "ActivityScheduled") }
+        @inlinable public static var activityStarted: Self { .init(rawValue: "ActivityStarted") }
+        @inlinable public static var activitySucceeded: Self { .init(rawValue: "ActivitySucceeded") }
+        @inlinable public static var activityTimedOut: Self { .init(rawValue: "ActivityTimedOut") }
+        @inlinable public static var choiceStateEntered: Self { .init(rawValue: "ChoiceStateEntered") }
+        @inlinable public static var choiceStateExited: Self { .init(rawValue: "ChoiceStateExited") }
+        @inlinable public static var evaluationFailed: Self { .init(rawValue: "EvaluationFailed") }
+        @inlinable public static var executionAborted: Self { .init(rawValue: "ExecutionAborted") }
+        @inlinable public static var executionFailed: Self { .init(rawValue: "ExecutionFailed") }
+        @inlinable public static var executionRedriven: Self { .init(rawValue: "ExecutionRedriven") }
+        @inlinable public static var executionStarted: Self { .init(rawValue: "ExecutionStarted") }
+        @inlinable public static var executionSucceeded: Self { .init(rawValue: "ExecutionSucceeded") }
+        @inlinable public static var executionTimedOut: Self { .init(rawValue: "ExecutionTimedOut") }
+        @inlinable public static var failStateEntered: Self { .init(rawValue: "FailStateEntered") }
+        @inlinable public static var lambdaFunctionFailed: Self { .init(rawValue: "LambdaFunctionFailed") }
+        @inlinable public static var lambdaFunctionScheduleFailed: Self { .init(rawValue: "LambdaFunctionScheduleFailed") }
+        @inlinable public static var lambdaFunctionScheduled: Self { .init(rawValue: "LambdaFunctionScheduled") }
+        @inlinable public static var lambdaFunctionStartFailed: Self { .init(rawValue: "LambdaFunctionStartFailed") }
+        @inlinable public static var lambdaFunctionStarted: Self { .init(rawValue: "LambdaFunctionStarted") }
+        @inlinable public static var lambdaFunctionSucceeded: Self { .init(rawValue: "LambdaFunctionSucceeded") }
+        @inlinable public static var lambdaFunctionTimedOut: Self { .init(rawValue: "LambdaFunctionTimedOut") }
+        @inlinable public static var mapIterationAborted: Self { .init(rawValue: "MapIterationAborted") }
+        @inlinable public static var mapIterationFailed: Self { .init(rawValue: "MapIterationFailed") }
+        @inlinable public static var mapIterationStarted: Self { .init(rawValue: "MapIterationStarted") }
+        @inlinable public static var mapIterationSucceeded: Self { .init(rawValue: "MapIterationSucceeded") }
+        @inlinable public static var mapRunAborted: Self { .init(rawValue: "MapRunAborted") }
+        @inlinable public static var mapRunFailed: Self { .init(rawValue: "MapRunFailed") }
+        @inlinable public static var mapRunRedriven: Self { .init(rawValue: "MapRunRedriven") }
+        @inlinable public static var mapRunStarted: Self { .init(rawValue: "MapRunStarted") }
+        @inlinable public static var mapRunSucceeded: Self { .init(rawValue: "MapRunSucceeded") }
+        @inlinable public static var mapStateAborted: Self { .init(rawValue: "MapStateAborted") }
+        @inlinable public static var mapStateEntered: Self { .init(rawValue: "MapStateEntered") }
+        @inlinable public static var mapStateExited: Self { .init(rawValue: "MapStateExited") }
+        @inlinable public static var mapStateFailed: Self { .init(rawValue: "MapStateFailed") }
+        @inlinable public static var mapStateStarted: Self { .init(rawValue: "MapStateStarted") }
+        @inlinable public static var mapStateSucceeded: Self { .init(rawValue: "MapStateSucceeded") }
+        @inlinable public static var parallelStateAborted: Self { .init(rawValue: "ParallelStateAborted") }
+        @inlinable public static var parallelStateEntered: Self { .init(rawValue: "ParallelStateEntered") }
+        @inlinable public static var parallelStateExited: Self { .init(rawValue: "ParallelStateExited") }
+        @inlinable public static var parallelStateFailed: Self { .init(rawValue: "ParallelStateFailed") }
+        @inlinable public static var parallelStateStarted: Self { .init(rawValue: "ParallelStateStarted") }
+        @inlinable public static var parallelStateSucceeded: Self { .init(rawValue: "ParallelStateSucceeded") }
+        @inlinable public static var passStateEntered: Self { .init(rawValue: "PassStateEntered") }
+        @inlinable public static var passStateExited: Self { .init(rawValue: "PassStateExited") }
+        @inlinable public static var succeedStateEntered: Self { .init(rawValue: "SucceedStateEntered") }
+        @inlinable public static var succeedStateExited: Self { .init(rawValue: "SucceedStateExited") }
+        @inlinable public static var taskFailed: Self { .init(rawValue: "TaskFailed") }
+        @inlinable public static var taskScheduled: Self { .init(rawValue: "TaskScheduled") }
+        @inlinable public static var taskStartFailed: Self { .init(rawValue: "TaskStartFailed") }
+        @inlinable public static var taskStarted: Self { .init(rawValue: "TaskStarted") }
+        @inlinable public static var taskStateAborted: Self { .init(rawValue: "TaskStateAborted") }
+        @inlinable public static var taskStateEntered: Self { .init(rawValue: "TaskStateEntered") }
+        @inlinable public static var taskStateExited: Self { .init(rawValue: "TaskStateExited") }
+        @inlinable public static var taskSubmitFailed: Self { .init(rawValue: "TaskSubmitFailed") }
+        @inlinable public static var taskSubmitted: Self { .init(rawValue: "TaskSubmitted") }
+        @inlinable public static var taskSucceeded: Self { .init(rawValue: "TaskSucceeded") }
+        @inlinable public static var taskTimedOut: Self { .init(rawValue: "TaskTimedOut") }
+        @inlinable public static var waitStateAborted: Self { .init(rawValue: "WaitStateAborted") }
+        @inlinable public static var waitStateEntered: Self { .init(rawValue: "WaitStateEntered") }
+        @inlinable public static var waitStateExited: Self { .init(rawValue: "WaitStateExited") }
     }
 
-    public enum IncludedData: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allData = "ALL_DATA"
-        case metadataOnly = "METADATA_ONLY"
-        public var description: String { return self.rawValue }
+    public struct IncludedData: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allData: Self { .init(rawValue: "ALL_DATA") }
+        @inlinable public static var metadataOnly: Self { .init(rawValue: "METADATA_ONLY") }
     }
 
-    public enum InspectionLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case debug = "DEBUG"
-        case info = "INFO"
-        case trace = "TRACE"
-        public var description: String { return self.rawValue }
+    public struct InspectionLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var debug: Self { .init(rawValue: "DEBUG") }
+        @inlinable public static var info: Self { .init(rawValue: "INFO") }
+        @inlinable public static var trace: Self { .init(rawValue: "TRACE") }
     }
 
-    public enum KmsKeyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creating = "CREATING"
-        case disabled = "DISABLED"
-        case pendingDeletion = "PENDING_DELETION"
-        case pendingImport = "PENDING_IMPORT"
-        case unavailable = "UNAVAILABLE"
-        public var description: String { return self.rawValue }
+    public struct KmsKeyState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var pendingDeletion: Self { .init(rawValue: "PENDING_DELETION") }
+        @inlinable public static var pendingImport: Self { .init(rawValue: "PENDING_IMPORT") }
+        @inlinable public static var unavailable: Self { .init(rawValue: "UNAVAILABLE") }
     }
 
-    public enum LogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case error = "ERROR"
-        case fatal = "FATAL"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+    public struct LogLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var fatal: Self { .init(rawValue: "FATAL") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
     }
 
-    public enum MapRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aborted = "ABORTED"
-        case failed = "FAILED"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct MapRunStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aborted: Self { .init(rawValue: "ABORTED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum MockResponseValidationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case present = "PRESENT"
-        case strict = "STRICT"
-        public var description: String { return self.rawValue }
+    public struct MockResponseValidationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var present: Self { .init(rawValue: "PRESENT") }
+        @inlinable public static var strict: Self { .init(rawValue: "STRICT") }
     }
 
-    public enum StateMachineStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
+    public struct StateMachineStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
     }
 
-    public enum StateMachineType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case express = "EXPRESS"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+    public struct StateMachineType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var express: Self { .init(rawValue: "EXPRESS") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
     }
 
-    public enum SyncExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        case timedOut = "TIMED_OUT"
-        public var description: String { return self.rawValue }
+    public struct SyncExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
+        @inlinable public static var timedOut: Self { .init(rawValue: "TIMED_OUT") }
     }
 
-    public enum TestExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case caughtError = "CAUGHT_ERROR"
-        case failed = "FAILED"
-        case retriable = "RETRIABLE"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct TestExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var caughtError: Self { .init(rawValue: "CAUGHT_ERROR") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var retriable: Self { .init(rawValue: "RETRIABLE") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ValidateStateMachineDefinitionResultCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fail = "FAIL"
-        case ok = "OK"
-        public var description: String { return self.rawValue }
+    public struct ValidateStateMachineDefinitionResultCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fail: Self { .init(rawValue: "FAIL") }
+        @inlinable public static var ok: Self { .init(rawValue: "OK") }
     }
 
-    public enum ValidateStateMachineDefinitionSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case error = "ERROR"
-        case warning = "WARNING"
-        public var description: String { return self.rawValue }
+    public struct ValidateStateMachineDefinitionSeverity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var warning: Self { .init(rawValue: "WARNING") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case apiDoesNotSupportLabeledArns = "API_DOES_NOT_SUPPORT_LABELED_ARNS"
-        case cannotUpdateCompletedMapRun = "CANNOT_UPDATE_COMPLETED_MAP_RUN"
-        case invalidRoutingConfiguration = "INVALID_ROUTING_CONFIGURATION"
-        case missingRequiredParameter = "MISSING_REQUIRED_PARAMETER"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var apiDoesNotSupportLabeledArns: Self { .init(rawValue: "API_DOES_NOT_SUPPORT_LABELED_ARNS") }
+        @inlinable public static var cannotUpdateCompletedMapRun: Self { .init(rawValue: "CANNOT_UPDATE_COMPLETED_MAP_RUN") }
+        @inlinable public static var invalidRoutingConfiguration: Self { .init(rawValue: "INVALID_ROUTING_CONFIGURATION") }
+        @inlinable public static var missingRequiredParameter: Self { .init(rawValue: "MISSING_REQUIRED_PARAMETER") }
     }
 
     // MARK: Shapes

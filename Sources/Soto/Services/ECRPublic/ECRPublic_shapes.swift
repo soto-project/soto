@@ -25,34 +25,50 @@ import Foundation
 extension ECRPublic {
     // MARK: Enums
 
-    public enum ImageFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case imageNotFound = "ImageNotFound"
-        case imageReferencedByManifestList = "ImageReferencedByManifestList"
-        case imageTagDoesNotMatchDigest = "ImageTagDoesNotMatchDigest"
-        case invalidImageDigest = "InvalidImageDigest"
-        case invalidImageTag = "InvalidImageTag"
-        case kmsError = "KmsError"
-        case missingDigestAndTag = "MissingDigestAndTag"
-        public var description: String { return self.rawValue }
+    public struct ImageFailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var imageNotFound: Self { .init(rawValue: "ImageNotFound") }
+        @inlinable public static var imageReferencedByManifestList: Self { .init(rawValue: "ImageReferencedByManifestList") }
+        @inlinable public static var imageTagDoesNotMatchDigest: Self { .init(rawValue: "ImageTagDoesNotMatchDigest") }
+        @inlinable public static var invalidImageDigest: Self { .init(rawValue: "InvalidImageDigest") }
+        @inlinable public static var invalidImageTag: Self { .init(rawValue: "InvalidImageTag") }
+        @inlinable public static var kmsError: Self { .init(rawValue: "KmsError") }
+        @inlinable public static var missingDigestAndTag: Self { .init(rawValue: "MissingDigestAndTag") }
     }
 
-    public enum LayerAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case unavailable = "UNAVAILABLE"
-        public var description: String { return self.rawValue }
+    public struct LayerAvailability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var unavailable: Self { .init(rawValue: "UNAVAILABLE") }
     }
 
-    public enum LayerFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case invalidLayerDigest = "InvalidLayerDigest"
-        case missingLayerDigest = "MissingLayerDigest"
-        public var description: String { return self.rawValue }
+    public struct LayerFailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var invalidLayerDigest: Self { .init(rawValue: "InvalidLayerDigest") }
+        @inlinable public static var missingLayerDigest: Self { .init(rawValue: "MissingLayerDigest") }
     }
 
-    public enum RegistryAliasStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case pending = "PENDING"
-        case rejected = "REJECTED"
-        public var description: String { return self.rawValue }
+    public struct RegistryAliasStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
     }
 
     // MARK: Shapes

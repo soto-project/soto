@@ -25,175 +25,211 @@ import Foundation
 extension PartnerCentralBenefits {
     // MARK: Enums
 
-    public enum BenefitAllocationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case fulfilled = "FULFILLED"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
+    public struct BenefitAllocationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var fulfilled: Self { .init(rawValue: "FULFILLED") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
     }
 
-    public enum BenefitApplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case actionRequired = "ACTION_REQUIRED"
-        case approved = "APPROVED"
-        case canceled = "CANCELED"
-        case inReview = "IN_REVIEW"
-        case pendingSubmission = "PENDING_SUBMISSION"
-        case rejected = "REJECTED"
-        public var description: String { return self.rawValue }
+    public struct BenefitApplicationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var actionRequired: Self { .init(rawValue: "ACTION_REQUIRED") }
+        @inlinable public static var approved: Self { .init(rawValue: "APPROVED") }
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var inReview: Self { .init(rawValue: "IN_REVIEW") }
+        @inlinable public static var pendingSubmission: Self { .init(rawValue: "PENDING_SUBMISSION") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
     }
 
-    public enum BenefitStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        public var description: String { return self.rawValue }
+    public struct BenefitStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
     }
 
-    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `try` = "TRY"
-        case aed = "AED"
-        case amd = "AMD"
-        case ars = "ARS"
-        case aud = "AUD"
-        case awg = "AWG"
-        case azn = "AZN"
-        case bbd = "BBD"
-        case bdt = "BDT"
-        case bgn = "BGN"
-        case bmd = "BMD"
-        case bnd = "BND"
-        case bob = "BOB"
-        case brl = "BRL"
-        case bsd = "BSD"
-        case byr = "BYR"
-        case bzd = "BZD"
-        case cad = "CAD"
-        case chf = "CHF"
-        case clp = "CLP"
-        case cny = "CNY"
-        case cop = "COP"
-        case crc = "CRC"
-        case czk = "CZK"
-        case dkk = "DKK"
-        case dop = "DOP"
-        case eek = "EEK"
-        case egp = "EGP"
-        case eur = "EUR"
-        case gbp = "GBP"
-        case gel = "GEL"
-        case ghs = "GHS"
-        case gtq = "GTQ"
-        case gyd = "GYD"
-        case hkd = "HKD"
-        case hnl = "HNL"
-        case hrk = "HRK"
-        case htg = "HTG"
-        case huf = "HUF"
-        case idr = "IDR"
-        case ils = "ILS"
-        case inr = "INR"
-        case isk = "ISK"
-        case jmd = "JMD"
-        case jpy = "JPY"
-        case kes = "KES"
-        case khr = "KHR"
-        case krw = "KRW"
-        case kyd = "KYD"
-        case kzt = "KZT"
-        case lbp = "LBP"
-        case lkr = "LKR"
-        case ltl = "LTL"
-        case lvl = "LVL"
-        case mad = "MAD"
-        case mnt = "MNT"
-        case mop = "MOP"
-        case mur = "MUR"
-        case mvr = "MVR"
-        case mxn = "MXN"
-        case myr = "MYR"
-        case nad = "NAD"
-        case ngn = "NGN"
-        case nio = "NIO"
-        case nok = "NOK"
-        case nzd = "NZD"
-        case pab = "PAB"
-        case pen = "PEN"
-        case php = "PHP"
-        case pkr = "PKR"
-        case pln = "PLN"
-        case pyg = "PYG"
-        case qar = "QAR"
-        case ron = "RON"
-        case rub = "RUB"
-        case sar = "SAR"
-        case sek = "SEK"
-        case sgd = "SGD"
-        case sit = "SIT"
-        case skk = "SKK"
-        case thb = "THB"
-        case tnd = "TND"
-        case ttd = "TTD"
-        case twd = "TWD"
-        case tzs = "TZS"
-        case uah = "UAH"
-        case usd = "USD"
-        case uyu = "UYU"
-        case uzs = "UZS"
-        case vnd = "VND"
-        case xaf = "XAF"
-        case xcd = "XCD"
-        case xof = "XOF"
-        case xpf = "XPF"
-        case zar = "ZAR"
-        public var description: String { return self.rawValue }
+    public struct CurrencyCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `try`: Self { .init(rawValue: "TRY") }
+        @inlinable public static var aed: Self { .init(rawValue: "AED") }
+        @inlinable public static var amd: Self { .init(rawValue: "AMD") }
+        @inlinable public static var ars: Self { .init(rawValue: "ARS") }
+        @inlinable public static var aud: Self { .init(rawValue: "AUD") }
+        @inlinable public static var awg: Self { .init(rawValue: "AWG") }
+        @inlinable public static var azn: Self { .init(rawValue: "AZN") }
+        @inlinable public static var bbd: Self { .init(rawValue: "BBD") }
+        @inlinable public static var bdt: Self { .init(rawValue: "BDT") }
+        @inlinable public static var bgn: Self { .init(rawValue: "BGN") }
+        @inlinable public static var bmd: Self { .init(rawValue: "BMD") }
+        @inlinable public static var bnd: Self { .init(rawValue: "BND") }
+        @inlinable public static var bob: Self { .init(rawValue: "BOB") }
+        @inlinable public static var brl: Self { .init(rawValue: "BRL") }
+        @inlinable public static var bsd: Self { .init(rawValue: "BSD") }
+        @inlinable public static var byr: Self { .init(rawValue: "BYR") }
+        @inlinable public static var bzd: Self { .init(rawValue: "BZD") }
+        @inlinable public static var cad: Self { .init(rawValue: "CAD") }
+        @inlinable public static var chf: Self { .init(rawValue: "CHF") }
+        @inlinable public static var clp: Self { .init(rawValue: "CLP") }
+        @inlinable public static var cny: Self { .init(rawValue: "CNY") }
+        @inlinable public static var cop: Self { .init(rawValue: "COP") }
+        @inlinable public static var crc: Self { .init(rawValue: "CRC") }
+        @inlinable public static var czk: Self { .init(rawValue: "CZK") }
+        @inlinable public static var dkk: Self { .init(rawValue: "DKK") }
+        @inlinable public static var dop: Self { .init(rawValue: "DOP") }
+        @inlinable public static var eek: Self { .init(rawValue: "EEK") }
+        @inlinable public static var egp: Self { .init(rawValue: "EGP") }
+        @inlinable public static var eur: Self { .init(rawValue: "EUR") }
+        @inlinable public static var gbp: Self { .init(rawValue: "GBP") }
+        @inlinable public static var gel: Self { .init(rawValue: "GEL") }
+        @inlinable public static var ghs: Self { .init(rawValue: "GHS") }
+        @inlinable public static var gtq: Self { .init(rawValue: "GTQ") }
+        @inlinable public static var gyd: Self { .init(rawValue: "GYD") }
+        @inlinable public static var hkd: Self { .init(rawValue: "HKD") }
+        @inlinable public static var hnl: Self { .init(rawValue: "HNL") }
+        @inlinable public static var hrk: Self { .init(rawValue: "HRK") }
+        @inlinable public static var htg: Self { .init(rawValue: "HTG") }
+        @inlinable public static var huf: Self { .init(rawValue: "HUF") }
+        @inlinable public static var idr: Self { .init(rawValue: "IDR") }
+        @inlinable public static var ils: Self { .init(rawValue: "ILS") }
+        @inlinable public static var inr: Self { .init(rawValue: "INR") }
+        @inlinable public static var isk: Self { .init(rawValue: "ISK") }
+        @inlinable public static var jmd: Self { .init(rawValue: "JMD") }
+        @inlinable public static var jpy: Self { .init(rawValue: "JPY") }
+        @inlinable public static var kes: Self { .init(rawValue: "KES") }
+        @inlinable public static var khr: Self { .init(rawValue: "KHR") }
+        @inlinable public static var krw: Self { .init(rawValue: "KRW") }
+        @inlinable public static var kyd: Self { .init(rawValue: "KYD") }
+        @inlinable public static var kzt: Self { .init(rawValue: "KZT") }
+        @inlinable public static var lbp: Self { .init(rawValue: "LBP") }
+        @inlinable public static var lkr: Self { .init(rawValue: "LKR") }
+        @inlinable public static var ltl: Self { .init(rawValue: "LTL") }
+        @inlinable public static var lvl: Self { .init(rawValue: "LVL") }
+        @inlinable public static var mad: Self { .init(rawValue: "MAD") }
+        @inlinable public static var mnt: Self { .init(rawValue: "MNT") }
+        @inlinable public static var mop: Self { .init(rawValue: "MOP") }
+        @inlinable public static var mur: Self { .init(rawValue: "MUR") }
+        @inlinable public static var mvr: Self { .init(rawValue: "MVR") }
+        @inlinable public static var mxn: Self { .init(rawValue: "MXN") }
+        @inlinable public static var myr: Self { .init(rawValue: "MYR") }
+        @inlinable public static var nad: Self { .init(rawValue: "NAD") }
+        @inlinable public static var ngn: Self { .init(rawValue: "NGN") }
+        @inlinable public static var nio: Self { .init(rawValue: "NIO") }
+        @inlinable public static var nok: Self { .init(rawValue: "NOK") }
+        @inlinable public static var nzd: Self { .init(rawValue: "NZD") }
+        @inlinable public static var pab: Self { .init(rawValue: "PAB") }
+        @inlinable public static var pen: Self { .init(rawValue: "PEN") }
+        @inlinable public static var php: Self { .init(rawValue: "PHP") }
+        @inlinable public static var pkr: Self { .init(rawValue: "PKR") }
+        @inlinable public static var pln: Self { .init(rawValue: "PLN") }
+        @inlinable public static var pyg: Self { .init(rawValue: "PYG") }
+        @inlinable public static var qar: Self { .init(rawValue: "QAR") }
+        @inlinable public static var ron: Self { .init(rawValue: "RON") }
+        @inlinable public static var rub: Self { .init(rawValue: "RUB") }
+        @inlinable public static var sar: Self { .init(rawValue: "SAR") }
+        @inlinable public static var sek: Self { .init(rawValue: "SEK") }
+        @inlinable public static var sgd: Self { .init(rawValue: "SGD") }
+        @inlinable public static var sit: Self { .init(rawValue: "SIT") }
+        @inlinable public static var skk: Self { .init(rawValue: "SKK") }
+        @inlinable public static var thb: Self { .init(rawValue: "THB") }
+        @inlinable public static var tnd: Self { .init(rawValue: "TND") }
+        @inlinable public static var ttd: Self { .init(rawValue: "TTD") }
+        @inlinable public static var twd: Self { .init(rawValue: "TWD") }
+        @inlinable public static var tzs: Self { .init(rawValue: "TZS") }
+        @inlinable public static var uah: Self { .init(rawValue: "UAH") }
+        @inlinable public static var usd: Self { .init(rawValue: "USD") }
+        @inlinable public static var uyu: Self { .init(rawValue: "UYU") }
+        @inlinable public static var uzs: Self { .init(rawValue: "UZS") }
+        @inlinable public static var vnd: Self { .init(rawValue: "VND") }
+        @inlinable public static var xaf: Self { .init(rawValue: "XAF") }
+        @inlinable public static var xcd: Self { .init(rawValue: "XCD") }
+        @inlinable public static var xof: Self { .init(rawValue: "XOF") }
+        @inlinable public static var xpf: Self { .init(rawValue: "XPF") }
+        @inlinable public static var zar: Self { .init(rawValue: "ZAR") }
     }
 
-    public enum FileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "text/csv"
-        case doc = "application/msword"
-        case docx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        case jpg = "image/jpeg"
-        case pdf = "application/pdf"
-        case png = "image/png"
-        case pptx = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-        case svg = "image/svg+xml"
-        case xlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        public var description: String { return self.rawValue }
+    public struct FileType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "text/csv") }
+        @inlinable public static var doc: Self { .init(rawValue: "application/msword") }
+        @inlinable public static var docx: Self { .init(rawValue: "application/vnd.openxmlformats-officedocument.wordprocessingml.document") }
+        @inlinable public static var jpg: Self { .init(rawValue: "image/jpeg") }
+        @inlinable public static var pdf: Self { .init(rawValue: "application/pdf") }
+        @inlinable public static var png: Self { .init(rawValue: "image/png") }
+        @inlinable public static var pptx: Self { .init(rawValue: "application/vnd.openxmlformats-officedocument.presentationml.presentation") }
+        @inlinable public static var svg: Self { .init(rawValue: "image/svg+xml") }
+        @inlinable public static var xlsx: Self { .init(rawValue: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
     }
 
-    public enum FulfillmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case access = "ACCESS"
-        case cash = "CASH"
-        case credits = "CREDITS"
-        public var description: String { return self.rawValue }
+    public struct FulfillmentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var access: Self { .init(rawValue: "ACCESS") }
+        @inlinable public static var cash: Self { .init(rawValue: "CASH") }
+        @inlinable public static var credits: Self { .init(rawValue: "CREDITS") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case benefitAllocation = "BENEFIT_ALLOCATION"
-        case opportunity = "OPPORTUNITY"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var benefitAllocation: Self { .init(rawValue: "BENEFIT_ALLOCATION") }
+        @inlinable public static var opportunity: Self { .init(rawValue: "OPPORTUNITY") }
     }
 
-    public enum ValidationExceptionErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case actionNotPermitted = "ACTION_NOT_PERMITTED"
-        case duplicateKeyValue = "DUPLICATE_KEY_VALUE"
-        case invalidEnumValue = "INVALID_ENUM_VALUE"
-        case invalidResourceState = "INVALID_RESOURCE_STATE"
-        case invalidStringFormat = "INVALID_STRING_FORMAT"
-        case invalidValue = "INVALID_VALUE"
-        case notEnoughValues = "NOT_ENOUGH_VALUES"
-        case requiredFieldMissing = "REQUIRED_FIELD_MISSING"
-        case tooManyValues = "TOO_MANY_VALUES"
-        case valueOutOfRange = "VALUE_OUT_OF_RANGE"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var actionNotPermitted: Self { .init(rawValue: "ACTION_NOT_PERMITTED") }
+        @inlinable public static var duplicateKeyValue: Self { .init(rawValue: "DUPLICATE_KEY_VALUE") }
+        @inlinable public static var invalidEnumValue: Self { .init(rawValue: "INVALID_ENUM_VALUE") }
+        @inlinable public static var invalidResourceState: Self { .init(rawValue: "INVALID_RESOURCE_STATE") }
+        @inlinable public static var invalidStringFormat: Self { .init(rawValue: "INVALID_STRING_FORMAT") }
+        @inlinable public static var invalidValue: Self { .init(rawValue: "INVALID_VALUE") }
+        @inlinable public static var notEnoughValues: Self { .init(rawValue: "NOT_ENOUGH_VALUES") }
+        @inlinable public static var requiredFieldMissing: Self { .init(rawValue: "REQUIRED_FIELD_MISSING") }
+        @inlinable public static var tooManyValues: Self { .init(rawValue: "TOO_MANY_VALUES") }
+        @inlinable public static var valueOutOfRange: Self { .init(rawValue: "VALUE_OUT_OF_RANGE") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case businessValidationFailed = "BUSINESS_VALIDATION_FAILED"
-        case cannotParse = "cannotParse"
-        case fieldValidationFailed = "fieldValidationFailed"
-        case other = "other"
-        case unknownOperation = "unknownOperation"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var businessValidationFailed: Self { .init(rawValue: "BUSINESS_VALIDATION_FAILED") }
+        @inlinable public static var cannotParse: Self { .init(rawValue: "cannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "unknownOperation") }
     }
 
     public enum FulfillmentDetails: AWSDecodableShape, Sendable {

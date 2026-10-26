@@ -25,111 +25,179 @@ import Foundation
 extension S3Tables {
     // MARK: Enums
 
-    public enum IcebergCompactionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "auto"
-        case binpack = "binpack"
-        case sort = "sort"
-        case zorder = "z-order"
-        public var description: String { return self.rawValue }
+    public struct IcebergCompactionStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "auto") }
+        @inlinable public static var binpack: Self { .init(rawValue: "binpack") }
+        @inlinable public static var sort: Self { .init(rawValue: "sort") }
+        @inlinable public static var zorder: Self { .init(rawValue: "z-order") }
     }
 
-    public enum IcebergNullOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case nullsFirst = "nulls-first"
-        case nullsLast = "nulls-last"
-        public var description: String { return self.rawValue }
+    public struct IcebergNullOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var nullsFirst: Self { .init(rawValue: "nulls-first") }
+        @inlinable public static var nullsLast: Self { .init(rawValue: "nulls-last") }
     }
 
-    public enum IcebergSortDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asc = "asc"
-        case desc = "desc"
-        public var description: String { return self.rawValue }
+    public struct IcebergSortDirection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asc: Self { .init(rawValue: "asc") }
+        @inlinable public static var desc: Self { .init(rawValue: "desc") }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "Disabled"
-        case failed = "Failed"
-        case notYetRun = "Not_Yet_Run"
-        case successful = "Successful"
-        public var description: String { return self.rawValue }
+    public struct JobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "Disabled") }
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var notYetRun: Self { .init(rawValue: "Not_Yet_Run") }
+        @inlinable public static var successful: Self { .init(rawValue: "Successful") }
     }
 
-    public enum MaintenanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "disabled"
-        case enabled = "enabled"
-        public var description: String { return self.rawValue }
+    public struct MaintenanceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "disabled") }
+        @inlinable public static var enabled: Self { .init(rawValue: "enabled") }
     }
 
-    public enum OpenTableFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case iceberg = "ICEBERG"
-        public var description: String { return self.rawValue }
+    public struct OpenTableFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var iceberg: Self { .init(rawValue: "ICEBERG") }
     }
 
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "completed"
-        case failed = "failed"
-        case pending = "pending"
-        public var description: String { return self.rawValue }
+    public struct ReplicationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "completed") }
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
     }
 
-    public enum SSEAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aes256 = "AES256"
-        case awsKms = "aws:kms"
-        public var description: String { return self.rawValue }
+    public struct SSEAlgorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aes256: Self { .init(rawValue: "AES256") }
+        @inlinable public static var awsKms: Self { .init(rawValue: "aws:kms") }
     }
 
-    public enum SchemaV2FieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `struct` = "struct"
-        public var description: String { return self.rawValue }
+    public struct SchemaV2FieldType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `struct`: Self { .init(rawValue: "struct") }
     }
 
-    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+    public struct StorageClass: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var intelligentTiering: Self { .init(rawValue: "INTELLIGENT_TIERING") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
     }
 
-    public enum TableBucketMaintenanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case icebergUnreferencedFileRemoval = "icebergUnreferencedFileRemoval"
-        public var description: String { return self.rawValue }
+    public struct TableBucketMaintenanceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var icebergUnreferencedFileRemoval: Self { .init(rawValue: "icebergUnreferencedFileRemoval") }
     }
 
-    public enum TableBucketType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aws = "aws"
-        case customer = "customer"
-        public var description: String { return self.rawValue }
+    public struct TableBucketType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aws: Self { .init(rawValue: "aws") }
+        @inlinable public static var customer: Self { .init(rawValue: "customer") }
     }
 
-    public enum TableMaintenanceJobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case icebergCompaction = "icebergCompaction"
-        case icebergSnapshotManagement = "icebergSnapshotManagement"
-        case icebergUnreferencedFileRemoval = "icebergUnreferencedFileRemoval"
-        public var description: String { return self.rawValue }
+    public struct TableMaintenanceJobType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var icebergCompaction: Self { .init(rawValue: "icebergCompaction") }
+        @inlinable public static var icebergSnapshotManagement: Self { .init(rawValue: "icebergSnapshotManagement") }
+        @inlinable public static var icebergUnreferencedFileRemoval: Self { .init(rawValue: "icebergUnreferencedFileRemoval") }
     }
 
-    public enum TableMaintenanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case icebergCompaction = "icebergCompaction"
-        case icebergSnapshotManagement = "icebergSnapshotManagement"
-        public var description: String { return self.rawValue }
+    public struct TableMaintenanceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var icebergCompaction: Self { .init(rawValue: "icebergCompaction") }
+        @inlinable public static var icebergSnapshotManagement: Self { .init(rawValue: "icebergSnapshotManagement") }
     }
 
-    public enum TableRecordExpirationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "Disabled"
-        case failed = "Failed"
-        case notYetRun = "NotYetRun"
-        case successful = "Successful"
-        public var description: String { return self.rawValue }
+    public struct TableRecordExpirationJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "Disabled") }
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var notYetRun: Self { .init(rawValue: "NotYetRun") }
+        @inlinable public static var successful: Self { .init(rawValue: "Successful") }
     }
 
-    public enum TableRecordExpirationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "disabled"
-        case enabled = "enabled"
-        public var description: String { return self.rawValue }
+    public struct TableRecordExpirationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "disabled") }
+        @inlinable public static var enabled: Self { .init(rawValue: "enabled") }
     }
 
-    public enum TableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aws = "aws"
-        case customer = "customer"
-        public var description: String { return self.rawValue }
+    public struct TableType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aws: Self { .init(rawValue: "aws") }
+        @inlinable public static var customer: Self { .init(rawValue: "customer") }
     }
 
     public enum TableMaintenanceSettings: AWSEncodableShape & AWSDecodableShape, Sendable {

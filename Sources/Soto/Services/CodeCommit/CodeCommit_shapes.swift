@@ -25,129 +25,197 @@ import Foundation
 extension CodeCommit {
     // MARK: Enums
 
-    public enum ApprovalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case approve = "APPROVE"
-        case revoke = "REVOKE"
-        public var description: String { return self.rawValue }
+    public struct ApprovalState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var approve: Self { .init(rawValue: "APPROVE") }
+        @inlinable public static var revoke: Self { .init(rawValue: "REVOKE") }
     }
 
-    public enum BatchGetRepositoriesErrorCodeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case encryptionIntegrityChecksFailedException = "EncryptionIntegrityChecksFailedException"
-        case encryptionKeyAccessDeniedException = "EncryptionKeyAccessDeniedException"
-        case encryptionKeyDisabledException = "EncryptionKeyDisabledException"
-        case encryptionKeyNotFoundException = "EncryptionKeyNotFoundException"
-        case encryptionKeyUnavailableException = "EncryptionKeyUnavailableException"
-        case repositoryDoesNotExistException = "RepositoryDoesNotExistException"
-        public var description: String { return self.rawValue }
+    public struct BatchGetRepositoriesErrorCodeEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var encryptionIntegrityChecksFailedException: Self { .init(rawValue: "EncryptionIntegrityChecksFailedException") }
+        @inlinable public static var encryptionKeyAccessDeniedException: Self { .init(rawValue: "EncryptionKeyAccessDeniedException") }
+        @inlinable public static var encryptionKeyDisabledException: Self { .init(rawValue: "EncryptionKeyDisabledException") }
+        @inlinable public static var encryptionKeyNotFoundException: Self { .init(rawValue: "EncryptionKeyNotFoundException") }
+        @inlinable public static var encryptionKeyUnavailableException: Self { .init(rawValue: "EncryptionKeyUnavailableException") }
+        @inlinable public static var repositoryDoesNotExistException: Self { .init(rawValue: "RepositoryDoesNotExistException") }
     }
 
-    public enum ChangeTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case added = "A"
-        case deleted = "D"
-        case modified = "M"
-        public var description: String { return self.rawValue }
+    public struct ChangeTypeEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var added: Self { .init(rawValue: "A") }
+        @inlinable public static var deleted: Self { .init(rawValue: "D") }
+        @inlinable public static var modified: Self { .init(rawValue: "M") }
     }
 
-    public enum ConflictDetailLevelTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fileLevel = "FILE_LEVEL"
-        case lineLevel = "LINE_LEVEL"
-        public var description: String { return self.rawValue }
+    public struct ConflictDetailLevelTypeEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fileLevel: Self { .init(rawValue: "FILE_LEVEL") }
+        @inlinable public static var lineLevel: Self { .init(rawValue: "LINE_LEVEL") }
     }
 
-    public enum ConflictResolutionStrategyTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case acceptDestination = "ACCEPT_DESTINATION"
-        case acceptSource = "ACCEPT_SOURCE"
-        case automerge = "AUTOMERGE"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct ConflictResolutionStrategyTypeEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var acceptDestination: Self { .init(rawValue: "ACCEPT_DESTINATION") }
+        @inlinable public static var acceptSource: Self { .init(rawValue: "ACCEPT_SOURCE") }
+        @inlinable public static var automerge: Self { .init(rawValue: "AUTOMERGE") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum DiffChangeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case add = "ADD"
-        case context = "CONTEXT"
-        case delete = "DELETE"
-        public var description: String { return self.rawValue }
+    public struct DiffChangeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var add: Self { .init(rawValue: "ADD") }
+        @inlinable public static var context: Self { .init(rawValue: "CONTEXT") }
+        @inlinable public static var delete: Self { .init(rawValue: "DELETE") }
     }
 
-    public enum FileModeTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case executable = "EXECUTABLE"
-        case normal = "NORMAL"
-        case symlink = "SYMLINK"
-        public var description: String { return self.rawValue }
+    public struct FileModeTypeEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var executable: Self { .init(rawValue: "EXECUTABLE") }
+        @inlinable public static var normal: Self { .init(rawValue: "NORMAL") }
+        @inlinable public static var symlink: Self { .init(rawValue: "SYMLINK") }
     }
 
-    public enum MergeOptionTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fastForwardMerge = "FAST_FORWARD_MERGE"
-        case squashMerge = "SQUASH_MERGE"
-        case threeWayMerge = "THREE_WAY_MERGE"
-        public var description: String { return self.rawValue }
+    public struct MergeOptionTypeEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fastForwardMerge: Self { .init(rawValue: "FAST_FORWARD_MERGE") }
+        @inlinable public static var squashMerge: Self { .init(rawValue: "SQUASH_MERGE") }
+        @inlinable public static var threeWayMerge: Self { .init(rawValue: "THREE_WAY_MERGE") }
     }
 
-    public enum ObjectTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case directory = "DIRECTORY"
-        case file = "FILE"
-        case gitLink = "GIT_LINK"
-        case symbolicLink = "SYMBOLIC_LINK"
-        public var description: String { return self.rawValue }
+    public struct ObjectTypeEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var directory: Self { .init(rawValue: "DIRECTORY") }
+        @inlinable public static var file: Self { .init(rawValue: "FILE") }
+        @inlinable public static var gitLink: Self { .init(rawValue: "GIT_LINK") }
+        @inlinable public static var symbolicLink: Self { .init(rawValue: "SYMBOLIC_LINK") }
     }
 
-    public enum OrderEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ascending = "ascending"
-        case descending = "descending"
-        public var description: String { return self.rawValue }
+    public struct OrderEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ascending: Self { .init(rawValue: "ascending") }
+        @inlinable public static var descending: Self { .init(rawValue: "descending") }
     }
 
-    public enum OverrideStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case override = "OVERRIDE"
-        case revoke = "REVOKE"
-        public var description: String { return self.rawValue }
+    public struct OverrideStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var override: Self { .init(rawValue: "OVERRIDE") }
+        @inlinable public static var revoke: Self { .init(rawValue: "REVOKE") }
     }
 
-    public enum PullRequestEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pullRequestApprovalRuleCreated = "PULL_REQUEST_APPROVAL_RULE_CREATED"
-        case pullRequestApprovalRuleDeleted = "PULL_REQUEST_APPROVAL_RULE_DELETED"
-        case pullRequestApprovalRuleOverridden = "PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN"
-        case pullRequestApprovalRuleUpdated = "PULL_REQUEST_APPROVAL_RULE_UPDATED"
-        case pullRequestApprovalStateChanged = "PULL_REQUEST_APPROVAL_STATE_CHANGED"
-        case pullRequestCreated = "PULL_REQUEST_CREATED"
-        case pullRequestMergeStateChanged = "PULL_REQUEST_MERGE_STATE_CHANGED"
-        case pullRequestSourceReferenceUpdated = "PULL_REQUEST_SOURCE_REFERENCE_UPDATED"
-        case pullRequestStatusChanged = "PULL_REQUEST_STATUS_CHANGED"
-        public var description: String { return self.rawValue }
+    public struct PullRequestEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pullRequestApprovalRuleCreated: Self { .init(rawValue: "PULL_REQUEST_APPROVAL_RULE_CREATED") }
+        @inlinable public static var pullRequestApprovalRuleDeleted: Self { .init(rawValue: "PULL_REQUEST_APPROVAL_RULE_DELETED") }
+        @inlinable public static var pullRequestApprovalRuleOverridden: Self { .init(rawValue: "PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN") }
+        @inlinable public static var pullRequestApprovalRuleUpdated: Self { .init(rawValue: "PULL_REQUEST_APPROVAL_RULE_UPDATED") }
+        @inlinable public static var pullRequestApprovalStateChanged: Self { .init(rawValue: "PULL_REQUEST_APPROVAL_STATE_CHANGED") }
+        @inlinable public static var pullRequestCreated: Self { .init(rawValue: "PULL_REQUEST_CREATED") }
+        @inlinable public static var pullRequestMergeStateChanged: Self { .init(rawValue: "PULL_REQUEST_MERGE_STATE_CHANGED") }
+        @inlinable public static var pullRequestSourceReferenceUpdated: Self { .init(rawValue: "PULL_REQUEST_SOURCE_REFERENCE_UPDATED") }
+        @inlinable public static var pullRequestStatusChanged: Self { .init(rawValue: "PULL_REQUEST_STATUS_CHANGED") }
     }
 
-    public enum PullRequestStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case closed = "CLOSED"
-        case open = "OPEN"
-        public var description: String { return self.rawValue }
+    public struct PullRequestStatusEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var closed: Self { .init(rawValue: "CLOSED") }
+        @inlinable public static var open: Self { .init(rawValue: "OPEN") }
     }
 
-    public enum RelativeFileVersionEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case after = "AFTER"
-        case before = "BEFORE"
-        public var description: String { return self.rawValue }
+    public struct RelativeFileVersionEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var after: Self { .init(rawValue: "AFTER") }
+        @inlinable public static var before: Self { .init(rawValue: "BEFORE") }
     }
 
-    public enum ReplacementTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case keepBase = "KEEP_BASE"
-        case keepDestination = "KEEP_DESTINATION"
-        case keepSource = "KEEP_SOURCE"
-        case useNewContent = "USE_NEW_CONTENT"
-        public var description: String { return self.rawValue }
+    public struct ReplacementTypeEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var keepBase: Self { .init(rawValue: "KEEP_BASE") }
+        @inlinable public static var keepDestination: Self { .init(rawValue: "KEEP_DESTINATION") }
+        @inlinable public static var keepSource: Self { .init(rawValue: "KEEP_SOURCE") }
+        @inlinable public static var useNewContent: Self { .init(rawValue: "USE_NEW_CONTENT") }
     }
 
-    public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "all"
-        case createReference = "createReference"
-        case deleteReference = "deleteReference"
-        case updateReference = "updateReference"
-        public var description: String { return self.rawValue }
+    public struct RepositoryTriggerEventEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "all") }
+        @inlinable public static var createReference: Self { .init(rawValue: "createReference") }
+        @inlinable public static var deleteReference: Self { .init(rawValue: "deleteReference") }
+        @inlinable public static var updateReference: Self { .init(rawValue: "updateReference") }
     }
 
-    public enum SortByEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case modifiedDate = "lastModifiedDate"
-        case repositoryName = "repositoryName"
-        public var description: String { return self.rawValue }
+    public struct SortByEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var modifiedDate: Self { .init(rawValue: "lastModifiedDate") }
+        @inlinable public static var repositoryName: Self { .init(rawValue: "repositoryName") }
     }
 
     // MARK: Shapes

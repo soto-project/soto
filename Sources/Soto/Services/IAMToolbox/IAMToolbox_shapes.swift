@@ -25,28 +25,40 @@ import Foundation
 extension IAMToolbox {
     // MARK: Enums
 
-    public enum EvaluatedEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allow = "ALLOW"
-        case explicitDeny = "EXPLICIT_DENY"
-        case implicitDeny = "IMPLICIT_DENY"
-        public var description: String { return self.rawValue }
+    public struct EvaluatedEffect: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allow: Self { .init(rawValue: "ALLOW") }
+        @inlinable public static var explicitDeny: Self { .init(rawValue: "EXPLICIT_DENY") }
+        @inlinable public static var implicitDeny: Self { .init(rawValue: "IMPLICIT_DENY") }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case identityBasedPolicy = "IDENTITY_BASED_POLICY"
-        case permissionsBoundary = "PERMISSIONS_BOUNDARY"
-        case resourceBasedPolicy = "RESOURCE_BASED_POLICY"
-        case resourceControlPolicy = "RESOURCE_CONTROL_POLICY"
-        case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
-        case sessionPolicy = "SESSION_POLICY"
-        case vpcEndpointPolicy = "VPC_ENDPOINT_POLICY"
-        public var description: String { return self.rawValue }
+    public struct PolicyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var identityBasedPolicy: Self { .init(rawValue: "IDENTITY_BASED_POLICY") }
+        @inlinable public static var permissionsBoundary: Self { .init(rawValue: "PERMISSIONS_BOUNDARY") }
+        @inlinable public static var resourceBasedPolicy: Self { .init(rawValue: "RESOURCE_BASED_POLICY") }
+        @inlinable public static var resourceControlPolicy: Self { .init(rawValue: "RESOURCE_CONTROL_POLICY") }
+        @inlinable public static var serviceControlPolicy: Self { .init(rawValue: "SERVICE_CONTROL_POLICY") }
+        @inlinable public static var sessionPolicy: Self { .init(rawValue: "SESSION_POLICY") }
+        @inlinable public static var vpcEndpointPolicy: Self { .init(rawValue: "VPC_ENDPOINT_POLICY") }
     }
 
-    public enum StatementEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
+    public struct StatementEffect: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allow: Self { .init(rawValue: "ALLOW") }
+        @inlinable public static var deny: Self { .init(rawValue: "DENY") }
     }
 
     // MARK: Shapes

@@ -25,58 +25,82 @@ import Foundation
 extension LicenseManagerLinuxSubscriptions {
     // MARK: Enums
 
-    public enum LinuxSubscriptionsDiscovery: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct LinuxSubscriptionsDiscovery: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Disabled LinuxSubscriptionsDiscovery
-        case disabled = "Disabled"
+        @inlinable public static var disabled: Self { .init(rawValue: "Disabled") }
         /// Enabled LinuxSubscriptionsDiscovery
-        case enabled = "Enabled"
-        public var description: String { return self.rawValue }
+        @inlinable public static var enabled: Self { .init(rawValue: "Enabled") }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct Operator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Contains operator
-        case contains = "Contains"
+        @inlinable public static var contains: Self { .init(rawValue: "Contains") }
         /// Equal operator
-        case equal = "Equal"
+        @inlinable public static var equal: Self { .init(rawValue: "Equal") }
         /// Not equal operator
-        case notEqual = "NotEqual"
-        public var description: String { return self.rawValue }
+        @inlinable public static var notEqual: Self { .init(rawValue: "NotEqual") }
     }
 
-    public enum OrganizationIntegration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct OrganizationIntegration: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Disabled OrganizationIntegration
-        case disabled = "Disabled"
+        @inlinable public static var disabled: Self { .init(rawValue: "Disabled") }
         /// Enabled OrganizationIntegration
-        case enabled = "Enabled"
-        public var description: String { return self.rawValue }
+        @inlinable public static var enabled: Self { .init(rawValue: "Enabled") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Completed status
-        case completed = "Completed"
+        @inlinable public static var completed: Self { .init(rawValue: "Completed") }
         /// Failed status
-        case failed = "Failed"
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
         /// InProgress status
-        case inProgress = "InProgress"
+        @inlinable public static var inProgress: Self { .init(rawValue: "InProgress") }
         /// Successful status
-        case successful = "Successful"
-        public var description: String { return self.rawValue }
+        @inlinable public static var successful: Self { .init(rawValue: "Successful") }
     }
 
-    public enum SubscriptionProviderSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct SubscriptionProviderSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// RedHat subscription provider namespace
-        case redHat = "RedHat"
-        public var description: String { return self.rawValue }
+        @inlinable public static var redHat: Self { .init(rawValue: "RedHat") }
     }
 
-    public enum SubscriptionProviderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct SubscriptionProviderStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// ACTIVE status
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// INVALID status
-        case invalid = "INVALID"
+        @inlinable public static var invalid: Self { .init(rawValue: "INVALID") }
         /// PENDING status
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
     // MARK: Shapes

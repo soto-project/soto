@@ -25,105 +25,157 @@ import Foundation
 extension QApps {
     // MARK: Enums
 
-    public enum Action: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case read = "read"
-        case write = "write"
-        public var description: String { return self.rawValue }
+    public struct Action: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var read: Self { .init(rawValue: "read") }
+        @inlinable public static var write: Self { .init(rawValue: "write") }
     }
 
-    public enum AppRequiredCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case creatorMode = "CreatorMode"
-        case fileUpload = "FileUpload"
-        case pluginMode = "PluginMode"
-        case retrievalMode = "RetrievalMode"
-        public var description: String { return self.rawValue }
+    public struct AppRequiredCapability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var creatorMode: Self { .init(rawValue: "CreatorMode") }
+        @inlinable public static var fileUpload: Self { .init(rawValue: "FileUpload") }
+        @inlinable public static var pluginMode: Self { .init(rawValue: "PluginMode") }
+        @inlinable public static var retrievalMode: Self { .init(rawValue: "RetrievalMode") }
     }
 
-    public enum AppStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleted = "DELETED"
-        case draft = "DRAFT"
-        case published = "PUBLISHED"
-        public var description: String { return self.rawValue }
+    public struct AppStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var draft: Self { .init(rawValue: "DRAFT") }
+        @inlinable public static var published: Self { .init(rawValue: "PUBLISHED") }
     }
 
-    public enum CardOutputSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case approvedSources = "approved-sources"
-        case llm = "llm"
-        public var description: String { return self.rawValue }
+    public struct CardOutputSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var approvedSources: Self { .init(rawValue: "approved-sources") }
+        @inlinable public static var llm: Self { .init(rawValue: "llm") }
     }
 
-    public enum CardType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fileUpload = "file-upload"
-        case formInput = "form-input"
-        case qPlugin = "q-plugin"
-        case qQuery = "q-query"
-        case textInput = "text-input"
-        public var description: String { return self.rawValue }
+    public struct CardType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fileUpload: Self { .init(rawValue: "file-upload") }
+        @inlinable public static var formInput: Self { .init(rawValue: "form-input") }
+        @inlinable public static var qPlugin: Self { .init(rawValue: "q-plugin") }
+        @inlinable public static var qQuery: Self { .init(rawValue: "q-query") }
+        @inlinable public static var textInput: Self { .init(rawValue: "text-input") }
     }
 
-    public enum DocumentScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case application = "APPLICATION"
-        case session = "SESSION"
-        public var description: String { return self.rawValue }
+    public struct DocumentScope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var application: Self { .init(rawValue: "APPLICATION") }
+        @inlinable public static var session: Self { .init(rawValue: "SESSION") }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case error = "ERROR"
-        case inProgress = "IN_PROGRESS"
-        case waiting = "WAITING"
-        public var description: String { return self.rawValue }
+    public struct ExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var waiting: Self { .init(rawValue: "WAITING") }
     }
 
-    public enum InputCardComputeMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case append = "append"
-        case replace = "replace"
-        public var description: String { return self.rawValue }
+    public struct InputCardComputeMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var append: Self { .init(rawValue: "append") }
+        @inlinable public static var replace: Self { .init(rawValue: "replace") }
     }
 
-    public enum LibraryItemStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case published = "PUBLISHED"
-        public var description: String { return self.rawValue }
+    public struct LibraryItemStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var published: Self { .init(rawValue: "PUBLISHED") }
     }
 
-    public enum PluginType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asana = "ASANA"
-        case atlassianConfluence = "ATLASSIAN_CONFLUENCE"
-        case custom = "CUSTOM"
-        case googleCalendar = "GOOGLE_CALENDAR"
-        case jira = "JIRA"
-        case jiraCloud = "JIRA_CLOUD"
-        case microsoftExchange = "MICROSOFT_EXCHANGE"
-        case microsoftTeams = "MICROSOFT_TEAMS"
-        case pagerdutyAdvance = "PAGERDUTY_ADVANCE"
-        case salesforce = "SALESFORCE"
-        case salesforceCrm = "SALESFORCE_CRM"
-        case serviceNow = "SERVICE_NOW"
-        case servicenowNowPlatform = "SERVICENOW_NOW_PLATFORM"
-        case smartsheet = "SMARTSHEET"
-        case zendesk = "ZENDESK"
-        case zendeskSuite = "ZENDESK_SUITE"
-        public var description: String { return self.rawValue }
+    public struct PluginType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asana: Self { .init(rawValue: "ASANA") }
+        @inlinable public static var atlassianConfluence: Self { .init(rawValue: "ATLASSIAN_CONFLUENCE") }
+        @inlinable public static var custom: Self { .init(rawValue: "CUSTOM") }
+        @inlinable public static var googleCalendar: Self { .init(rawValue: "GOOGLE_CALENDAR") }
+        @inlinable public static var jira: Self { .init(rawValue: "JIRA") }
+        @inlinable public static var jiraCloud: Self { .init(rawValue: "JIRA_CLOUD") }
+        @inlinable public static var microsoftExchange: Self { .init(rawValue: "MICROSOFT_EXCHANGE") }
+        @inlinable public static var microsoftTeams: Self { .init(rawValue: "MICROSOFT_TEAMS") }
+        @inlinable public static var pagerdutyAdvance: Self { .init(rawValue: "PAGERDUTY_ADVANCE") }
+        @inlinable public static var salesforce: Self { .init(rawValue: "SALESFORCE") }
+        @inlinable public static var salesforceCrm: Self { .init(rawValue: "SALESFORCE_CRM") }
+        @inlinable public static var serviceNow: Self { .init(rawValue: "SERVICE_NOW") }
+        @inlinable public static var servicenowNowPlatform: Self { .init(rawValue: "SERVICENOW_NOW_PLATFORM") }
+        @inlinable public static var smartsheet: Self { .init(rawValue: "SMARTSHEET") }
+        @inlinable public static var zendesk: Self { .init(rawValue: "ZENDESK") }
+        @inlinable public static var zendeskSuite: Self { .init(rawValue: "ZENDESK_SUITE") }
     }
 
-    public enum Sender: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case system = "SYSTEM"
-        case user = "USER"
-        public var description: String { return self.rawValue }
+    public struct Sender: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var system: Self { .init(rawValue: "SYSTEM") }
+        @inlinable public static var user: Self { .init(rawValue: "USER") }
     }
 
-    public enum SubmissionMutationKind: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case add = "add"
-        case delete = "delete"
-        case edit = "edit"
-        public var description: String { return self.rawValue }
+    public struct SubmissionMutationKind: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var add: Self { .init(rawValue: "add") }
+        @inlinable public static var delete: Self { .init(rawValue: "delete") }
+        @inlinable public static var edit: Self { .init(rawValue: "edit") }
     }
 
-    public enum UserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case owner = "owner"
-        case user = "user"
-        public var description: String { return self.rawValue }
+    public struct UserType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var owner: Self { .init(rawValue: "owner") }
+        @inlinable public static var user: Self { .init(rawValue: "user") }
     }
 
     public enum Card: AWSDecodableShape, Sendable {

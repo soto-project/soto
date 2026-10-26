@@ -25,92 +25,128 @@ import Foundation
 extension CodeGuruProfiler {
     // MARK: Enums
 
-    public enum ActionGroup: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ActionGroup: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Permission group type for Agent APIs - ConfigureAgent, PostAgentProfile
-        case agentPermissions = "agentPermissions"
-        public var description: String { return self.rawValue }
+        @inlinable public static var agentPermissions: Self { .init(rawValue: "agentPermissions") }
     }
 
-    public enum AgentParameterField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct AgentParameterField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Maximum stack depth to be captured by the CodeGuru Profiler.
-        case maxStackDepth = "MaxStackDepth"
+        @inlinable public static var maxStackDepth: Self { .init(rawValue: "MaxStackDepth") }
         /// Percentage of memory to be used by CodeGuru profiler. Minimum of 30MB is required for the agent.
-        case memoryUsageLimitPercent = "MemoryUsageLimitPercent"
+        @inlinable public static var memoryUsageLimitPercent: Self { .init(rawValue: "MemoryUsageLimitPercent") }
         /// Minimum time in milliseconds between sending reports.
-        case minimumTimeForReportingInMilliseconds = "MinimumTimeForReportingInMilliseconds"
+        @inlinable public static var minimumTimeForReportingInMilliseconds: Self { .init(rawValue: "MinimumTimeForReportingInMilliseconds") }
         /// Reporting interval in milliseconds used to report profiles.
-        case reportingIntervalInMilliseconds = "ReportingIntervalInMilliseconds"
+        @inlinable public static var reportingIntervalInMilliseconds: Self { .init(rawValue: "ReportingIntervalInMilliseconds") }
         /// Sampling interval in milliseconds used to sample profiles.
-        case samplingIntervalInMilliseconds = "SamplingIntervalInMilliseconds"
-        public var description: String { return self.rawValue }
+        @inlinable public static var samplingIntervalInMilliseconds: Self { .init(rawValue: "SamplingIntervalInMilliseconds") }
     }
 
-    public enum AggregationPeriod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct AggregationPeriod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Period of one day.
-        case p1d = "P1D"
+        @inlinable public static var p1d: Self { .init(rawValue: "P1D") }
         /// Period of one hour.
-        case pt1h = "PT1H"
+        @inlinable public static var pt1h: Self { .init(rawValue: "PT1H") }
         /// Period of five minutes.
-        case pt5m = "PT5M"
-        public var description: String { return self.rawValue }
+        @inlinable public static var pt5m: Self { .init(rawValue: "PT5M") }
     }
 
-    public enum ComputePlatform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ComputePlatform: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Compute platform meant to used for AWS Lambda.
-        case awsLambda = "AWSLambda"
+        @inlinable public static var awsLambda: Self { .init(rawValue: "AWSLambda") }
         /// Compute platform meant to used for all usecases (like EC2, Fargate, physical servers etc.) but AWS Lambda.
-        case `default` = "Default"
-        public var description: String { return self.rawValue }
+        @inlinable public static var `default`: Self { .init(rawValue: "Default") }
     }
 
-    public enum EventPublisher: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct EventPublisher: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Notifications for Anomaly Detection
-        case anomalyDetection = "AnomalyDetection"
-        public var description: String { return self.rawValue }
+        @inlinable public static var anomalyDetection: Self { .init(rawValue: "AnomalyDetection") }
     }
 
-    public enum FeedbackType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct FeedbackType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Profiler recommendation flagged as not useful.
-        case negative = "Negative"
+        @inlinable public static var negative: Self { .init(rawValue: "Negative") }
         /// Profiler recommendation flagged as useful.
-        case positive = "Positive"
-        public var description: String { return self.rawValue }
+        @inlinable public static var positive: Self { .init(rawValue: "Positive") }
     }
 
-    public enum MetadataField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct MetadataField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Unique identifier for the agent instance.
-        case agentId = "AgentId"
+        @inlinable public static var agentId: Self { .init(rawValue: "AgentId") }
         /// AWS requestId of the Lambda invocation.
-        case awsRequestId = "AwsRequestId"
+        @inlinable public static var awsRequestId: Self { .init(rawValue: "AwsRequestId") }
         /// Compute platform on which agent is running.
-        case computePlatform = "ComputePlatform"
+        @inlinable public static var computePlatform: Self { .init(rawValue: "ComputePlatform") }
         /// Execution environment on which Lambda function is running.
-        case executionEnvironment = "ExecutionEnvironment"
+        @inlinable public static var executionEnvironment: Self { .init(rawValue: "ExecutionEnvironment") }
         /// Function ARN that's used to invoke the Lambda function.
-        case lambdaFunctionArn = "LambdaFunctionArn"
+        @inlinable public static var lambdaFunctionArn: Self { .init(rawValue: "LambdaFunctionArn") }
         /// Memory allocated for the Lambda function.
-        case lambdaMemoryLimitInMB = "LambdaMemoryLimitInMB"
+        @inlinable public static var lambdaMemoryLimitInMB: Self { .init(rawValue: "LambdaMemoryLimitInMB") }
         /// Time in milliseconds for the previous Lambda invocation.
-        case lambdaPreviousExecutionTimeInMilliseconds = "LambdaPreviousExecutionTimeInMilliseconds"
+        @inlinable public static var lambdaPreviousExecutionTimeInMilliseconds: Self { .init(rawValue: "LambdaPreviousExecutionTimeInMilliseconds") }
         /// Time in milliseconds left before the execution times out.
-        case lambdaRemainingTimeInMilliseconds = "LambdaRemainingTimeInMilliseconds"
+        @inlinable public static var lambdaRemainingTimeInMilliseconds: Self { .init(rawValue: "LambdaRemainingTimeInMilliseconds") }
         /// Time in milliseconds between two invocations of the Lambda function.
-        case lambdaTimeGapBetweenInvokesInMilliseconds = "LambdaTimeGapBetweenInvokesInMilliseconds"
-        public var description: String { return self.rawValue }
+        @inlinable public static var lambdaTimeGapBetweenInvokesInMilliseconds: Self { .init(rawValue: "LambdaTimeGapBetweenInvokesInMilliseconds") }
     }
 
-    public enum MetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct MetricType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Metric value aggregated for all instances of a frame name in a profile relative to the root frame.
-        case aggregatedRelativeTotalTime = "AggregatedRelativeTotalTime"
-        public var description: String { return self.rawValue }
+        @inlinable public static var aggregatedRelativeTotalTime: Self { .init(rawValue: "AggregatedRelativeTotalTime") }
     }
 
-    public enum OrderBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct OrderBy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Order by timestamp in ascending order.
-        case timestampAscending = "TimestampAscending"
+        @inlinable public static var timestampAscending: Self { .init(rawValue: "TimestampAscending") }
         /// Order by timestamp in descending order.
-        case timestampDescending = "TimestampDescending"
-        public var description: String { return self.rawValue }
+        @inlinable public static var timestampDescending: Self { .init(rawValue: "TimestampDescending") }
     }
 
     // MARK: Shapes

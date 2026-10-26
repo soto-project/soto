@@ -25,110 +25,166 @@ import Foundation
 extension RAM {
     // MARK: Enums
 
-    public enum PermissionFeatureSet: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createdFromPolicy = "CREATED_FROM_POLICY"
-        case promotingToStandard = "PROMOTING_TO_STANDARD"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+    public struct PermissionFeatureSet: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createdFromPolicy: Self { .init(rawValue: "CREATED_FROM_POLICY") }
+        @inlinable public static var promotingToStandard: Self { .init(rawValue: "PROMOTING_TO_STANDARD") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
     }
 
-    public enum PermissionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case attachable = "ATTACHABLE"
-        case deleted = "DELETED"
-        case deleting = "DELETING"
-        case unattachable = "UNATTACHABLE"
-        public var description: String { return self.rawValue }
+    public struct PermissionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var attachable: Self { .init(rawValue: "ATTACHABLE") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var unattachable: Self { .init(rawValue: "UNATTACHABLE") }
     }
 
-    public enum PermissionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsManaged = "AWS_MANAGED"
-        case customerManaged = "CUSTOMER_MANAGED"
-        public var description: String { return self.rawValue }
+    public struct PermissionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsManaged: Self { .init(rawValue: "AWS_MANAGED") }
+        @inlinable public static var customerManaged: Self { .init(rawValue: "CUSTOMER_MANAGED") }
     }
 
-    public enum PermissionTypeFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case awsManaged = "AWS_MANAGED"
-        case customerManaged = "CUSTOMER_MANAGED"
-        public var description: String { return self.rawValue }
+    public struct PermissionTypeFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var awsManaged: Self { .init(rawValue: "AWS_MANAGED") }
+        @inlinable public static var customerManaged: Self { .init(rawValue: "CUSTOMER_MANAGED") }
     }
 
-    public enum ReplacePermissionAssociationsWorkStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct ReplacePermissionAssociationsWorkStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
     }
 
-    public enum ResourceOwner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case _self = "SELF"
-        case otherAccounts = "OTHER-ACCOUNTS"
-        public var description: String { return self.rawValue }
+    public struct ResourceOwner: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var _self: Self { .init(rawValue: "SELF") }
+        @inlinable public static var otherAccounts: Self { .init(rawValue: "OTHER-ACCOUNTS") }
     }
 
-    public enum ResourceRegionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case global = "GLOBAL"
-        case regional = "REGIONAL"
-        public var description: String { return self.rawValue }
+    public struct ResourceRegionScope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var global: Self { .init(rawValue: "GLOBAL") }
+        @inlinable public static var regional: Self { .init(rawValue: "REGIONAL") }
     }
 
-    public enum ResourceRegionScopeFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case global = "GLOBAL"
-        case regional = "REGIONAL"
-        public var description: String { return self.rawValue }
+    public struct ResourceRegionScopeFilter: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var global: Self { .init(rawValue: "GLOBAL") }
+        @inlinable public static var regional: Self { .init(rawValue: "REGIONAL") }
     }
 
-    public enum ResourceShareAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case associated = "ASSOCIATED"
-        case associating = "ASSOCIATING"
-        case disassociated = "DISASSOCIATED"
-        case disassociating = "DISASSOCIATING"
-        case failed = "FAILED"
-        case restoring = "RESTORING"
-        case suspended = "SUSPENDED"
-        case suspending = "SUSPENDING"
-        public var description: String { return self.rawValue }
+    public struct ResourceShareAssociationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var associated: Self { .init(rawValue: "ASSOCIATED") }
+        @inlinable public static var associating: Self { .init(rawValue: "ASSOCIATING") }
+        @inlinable public static var disassociated: Self { .init(rawValue: "DISASSOCIATED") }
+        @inlinable public static var disassociating: Self { .init(rawValue: "DISASSOCIATING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var restoring: Self { .init(rawValue: "RESTORING") }
+        @inlinable public static var suspended: Self { .init(rawValue: "SUSPENDED") }
+        @inlinable public static var suspending: Self { .init(rawValue: "SUSPENDING") }
     }
 
-    public enum ResourceShareAssociationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case principal = "PRINCIPAL"
-        case resource = "RESOURCE"
-        case source = "SOURCE"
-        public var description: String { return self.rawValue }
+    public struct ResourceShareAssociationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var principal: Self { .init(rawValue: "PRINCIPAL") }
+        @inlinable public static var resource: Self { .init(rawValue: "RESOURCE") }
+        @inlinable public static var source: Self { .init(rawValue: "SOURCE") }
     }
 
-    public enum ResourceShareFeatureSet: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createdFromPolicy = "CREATED_FROM_POLICY"
-        case promotingToStandard = "PROMOTING_TO_STANDARD"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+    public struct ResourceShareFeatureSet: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createdFromPolicy: Self { .init(rawValue: "CREATED_FROM_POLICY") }
+        @inlinable public static var promotingToStandard: Self { .init(rawValue: "PROMOTING_TO_STANDARD") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
     }
 
-    public enum ResourceShareInvitationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accepted = "ACCEPTED"
-        case expired = "EXPIRED"
-        case pending = "PENDING"
-        case rejected = "REJECTED"
-        public var description: String { return self.rawValue }
+    public struct ResourceShareInvitationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accepted: Self { .init(rawValue: "ACCEPTED") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
     }
 
-    public enum ResourceShareStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleted = "DELETED"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct ResourceShareStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum ResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case limitExceeded = "LIMIT_EXCEEDED"
-        case pending = "PENDING"
-        case unavailable = "UNAVAILABLE"
-        case zonalResourceInaccessible = "ZONAL_RESOURCE_INACCESSIBLE"
-        public var description: String { return self.rawValue }
+    public struct ResourceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var limitExceeded: Self { .init(rawValue: "LIMIT_EXCEEDED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var unavailable: Self { .init(rawValue: "UNAVAILABLE") }
+        @inlinable public static var zonalResourceInaccessible: Self { .init(rawValue: "ZONAL_RESOURCE_INACCESSIBLE") }
     }
 
     // MARK: Shapes

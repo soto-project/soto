@@ -25,95 +25,147 @@ import Foundation
 extension WorkSpacesThinClient {
     // MARK: Enums
 
-    public enum ApplyTimeOf: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case device = "DEVICE"
-        case utc = "UTC"
-        public var description: String { return self.rawValue }
+    public struct ApplyTimeOf: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var device: Self { .init(rawValue: "DEVICE") }
+        @inlinable public static var utc: Self { .init(rawValue: "UTC") }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case friday = "FRIDAY"
-        case monday = "MONDAY"
-        case saturday = "SATURDAY"
-        case sunday = "SUNDAY"
-        case thursday = "THURSDAY"
-        case tuesday = "TUESDAY"
-        case wednesday = "WEDNESDAY"
-        public var description: String { return self.rawValue }
+    public struct DayOfWeek: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var friday: Self { .init(rawValue: "FRIDAY") }
+        @inlinable public static var monday: Self { .init(rawValue: "MONDAY") }
+        @inlinable public static var saturday: Self { .init(rawValue: "SATURDAY") }
+        @inlinable public static var sunday: Self { .init(rawValue: "SUNDAY") }
+        @inlinable public static var thursday: Self { .init(rawValue: "THURSDAY") }
+        @inlinable public static var tuesday: Self { .init(rawValue: "TUESDAY") }
+        @inlinable public static var wednesday: Self { .init(rawValue: "WEDNESDAY") }
     }
 
-    public enum DesktopType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case appstream = "appstream"
-        case workspaces = "workspaces"
-        case workspacesWeb = "workspaces-web"
-        public var description: String { return self.rawValue }
+    public struct DesktopType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var appstream: Self { .init(rawValue: "appstream") }
+        @inlinable public static var workspaces: Self { .init(rawValue: "workspaces") }
+        @inlinable public static var workspacesWeb: Self { .init(rawValue: "workspaces-web") }
     }
 
-    public enum DeviceSoftwareSetComplianceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case compliant = "COMPLIANT"
-        case none = "NONE"
-        case notCompliant = "NOT_COMPLIANT"
-        public var description: String { return self.rawValue }
+    public struct DeviceSoftwareSetComplianceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var compliant: Self { .init(rawValue: "COMPLIANT") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var notCompliant: Self { .init(rawValue: "NOT_COMPLIANT") }
     }
 
-    public enum DeviceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case archived = "ARCHIVED"
-        case deregistered = "DEREGISTERED"
-        case deregistering = "DEREGISTERING"
-        case registered = "REGISTERED"
-        public var description: String { return self.rawValue }
+    public struct DeviceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var archived: Self { .init(rawValue: "ARCHIVED") }
+        @inlinable public static var deregistered: Self { .init(rawValue: "DEREGISTERED") }
+        @inlinable public static var deregistering: Self { .init(rawValue: "DEREGISTERING") }
+        @inlinable public static var registered: Self { .init(rawValue: "REGISTERED") }
     }
 
-    public enum EnvironmentSoftwareSetComplianceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case compliant = "COMPLIANT"
-        case noRegisteredDevices = "NO_REGISTERED_DEVICES"
-        case notCompliant = "NOT_COMPLIANT"
-        public var description: String { return self.rawValue }
+    public struct EnvironmentSoftwareSetComplianceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var compliant: Self { .init(rawValue: "COMPLIANT") }
+        @inlinable public static var noRegisteredDevices: Self { .init(rawValue: "NO_REGISTERED_DEVICES") }
+        @inlinable public static var notCompliant: Self { .init(rawValue: "NOT_COMPLIANT") }
     }
 
-    public enum MaintenanceWindowType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case custom = "CUSTOM"
-        case system = "SYSTEM"
-        public var description: String { return self.rawValue }
+    public struct MaintenanceWindowType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var custom: Self { .init(rawValue: "CUSTOM") }
+        @inlinable public static var system: Self { .init(rawValue: "SYSTEM") }
     }
 
-    public enum SoftwareSetUpdateMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case useDesired = "USE_DESIRED"
-        case useLatest = "USE_LATEST"
-        public var description: String { return self.rawValue }
+    public struct SoftwareSetUpdateMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var useDesired: Self { .init(rawValue: "USE_DESIRED") }
+        @inlinable public static var useLatest: Self { .init(rawValue: "USE_LATEST") }
     }
 
-    public enum SoftwareSetUpdateSchedule: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case applyImmediately = "APPLY_IMMEDIATELY"
-        case useMaintenanceWindow = "USE_MAINTENANCE_WINDOW"
-        public var description: String { return self.rawValue }
+    public struct SoftwareSetUpdateSchedule: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var applyImmediately: Self { .init(rawValue: "APPLY_IMMEDIATELY") }
+        @inlinable public static var useMaintenanceWindow: Self { .init(rawValue: "USE_MAINTENANCE_WINDOW") }
     }
 
-    public enum SoftwareSetUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case inProgress = "IN_PROGRESS"
-        case upToDate = "UP_TO_DATE"
-        public var description: String { return self.rawValue }
+    public struct SoftwareSetUpdateStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var upToDate: Self { .init(rawValue: "UP_TO_DATE") }
     }
 
-    public enum SoftwareSetValidationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notValidated = "NOT_VALIDATED"
-        case validated = "VALIDATED"
-        public var description: String { return self.rawValue }
+    public struct SoftwareSetValidationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notValidated: Self { .init(rawValue: "NOT_VALIDATED") }
+        @inlinable public static var validated: Self { .init(rawValue: "VALIDATED") }
     }
 
-    public enum TargetDeviceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case archived = "ARCHIVED"
-        case deregistered = "DEREGISTERED"
-        public var description: String { return self.rawValue }
+    public struct TargetDeviceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var archived: Self { .init(rawValue: "ARCHIVED") }
+        @inlinable public static var deregistered: Self { .init(rawValue: "DEREGISTERED") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "cannotParse"
-        case fieldValidationFailed = "fieldValidationFailed"
-        case other = "other"
-        case unknownOperation = "unknownOperation"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "cannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "unknownOperation") }
     }
 
     // MARK: Shapes

@@ -25,39 +25,59 @@ import Foundation
 extension BedrockDataAutomationRuntime {
     // MARK: Enums
 
-    public enum AutomationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case clientError = "ClientError"
-        case created = "Created"
-        case inProgress = "InProgress"
-        case serviceError = "ServiceError"
-        case success = "Success"
-        public var description: String { return self.rawValue }
+    public struct AutomationJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var clientError: Self { .init(rawValue: "ClientError") }
+        @inlinable public static var created: Self { .init(rawValue: "Created") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "InProgress") }
+        @inlinable public static var serviceError: Self { .init(rawValue: "ServiceError") }
+        @inlinable public static var success: Self { .init(rawValue: "Success") }
     }
 
-    public enum BlueprintStage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case development = "DEVELOPMENT"
-        case live = "LIVE"
-        public var description: String { return self.rawValue }
+    public struct BlueprintStage: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var development: Self { .init(rawValue: "DEVELOPMENT") }
+        @inlinable public static var live: Self { .init(rawValue: "LIVE") }
     }
 
-    public enum CustomOutputStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case match = "MATCH"
-        case noMatch = "NO_MATCH"
-        public var description: String { return self.rawValue }
+    public struct CustomOutputStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var match: Self { .init(rawValue: "MATCH") }
+        @inlinable public static var noMatch: Self { .init(rawValue: "NO_MATCH") }
     }
 
-    public enum DataAutomationStage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case development = "DEVELOPMENT"
-        case live = "LIVE"
-        public var description: String { return self.rawValue }
+    public struct DataAutomationStage: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var development: Self { .init(rawValue: "DEVELOPMENT") }
+        @inlinable public static var live: Self { .init(rawValue: "LIVE") }
     }
 
-    public enum SemanticModality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case audio = "AUDIO"
-        case document = "DOCUMENT"
-        case image = "IMAGE"
-        case video = "VIDEO"
-        public var description: String { return self.rawValue }
+    public struct SemanticModality: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var audio: Self { .init(rawValue: "AUDIO") }
+        @inlinable public static var document: Self { .init(rawValue: "DOCUMENT") }
+        @inlinable public static var image: Self { .init(rawValue: "IMAGE") }
+        @inlinable public static var video: Self { .init(rawValue: "VIDEO") }
     }
 
     // MARK: Shapes

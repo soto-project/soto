@@ -25,138 +25,178 @@ import Foundation
 extension ApplicationAutoScaling {
     // MARK: Enums
 
-    public enum AdjustmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case changeInCapacity = "ChangeInCapacity"
-        case exactCapacity = "ExactCapacity"
-        case percentChangeInCapacity = "PercentChangeInCapacity"
-        public var description: String { return self.rawValue }
+    public struct AdjustmentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var changeInCapacity: Self { .init(rawValue: "ChangeInCapacity") }
+        @inlinable public static var exactCapacity: Self { .init(rawValue: "ExactCapacity") }
+        @inlinable public static var percentChangeInCapacity: Self { .init(rawValue: "PercentChangeInCapacity") }
     }
 
-    public enum MetricAggregationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "Average"
-        case maximum = "Maximum"
-        case minimum = "Minimum"
-        public var description: String { return self.rawValue }
+    public struct MetricAggregationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "Average") }
+        @inlinable public static var maximum: Self { .init(rawValue: "Maximum") }
+        @inlinable public static var minimum: Self { .init(rawValue: "Minimum") }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "Average"
-        case maximum = "Maximum"
-        case minimum = "Minimum"
-        case sampleCount = "SampleCount"
-        case sum = "Sum"
-        public var description: String { return self.rawValue }
+    public struct MetricStatistic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "Average") }
+        @inlinable public static var maximum: Self { .init(rawValue: "Maximum") }
+        @inlinable public static var minimum: Self { .init(rawValue: "Minimum") }
+        @inlinable public static var sampleCount: Self { .init(rawValue: "SampleCount") }
+        @inlinable public static var sum: Self { .init(rawValue: "Sum") }
     }
 
-    public enum MetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case albRequestCountPerTarget = "ALBRequestCountPerTarget"
-        case appStreamAverageCapacityUtilization = "AppStreamAverageCapacityUtilization"
-        case cassandraReadCapacityUtilization = "CassandraReadCapacityUtilization"
-        case cassandraWriteCapacityUtilization = "CassandraWriteCapacityUtilization"
-        case comprehendInferenceUtilization = "ComprehendInferenceUtilization"
-        case dynamoDBReadCapacityUtilization = "DynamoDBReadCapacityUtilization"
-        case dynamoDBWriteCapacityUtilization = "DynamoDBWriteCapacityUtilization"
-        case ec2SpotFleetRequestAverageCPUUtilization = "EC2SpotFleetRequestAverageCPUUtilization"
-        case ec2SpotFleetRequestAverageNetworkIn = "EC2SpotFleetRequestAverageNetworkIn"
-        case ec2SpotFleetRequestAverageNetworkOut = "EC2SpotFleetRequestAverageNetworkOut"
-        case ecsServiceAverageCPUUtilization = "ECSServiceAverageCPUUtilization"
-        case ecsServiceAverageCPUUtilizationHighResolution = "ECSServiceAverageCPUUtilizationHighResolution"
-        case ecsServiceAverageMemoryUtilization = "ECSServiceAverageMemoryUtilization"
-        case ecsServiceAverageMemoryUtilizationHighResolution = "ECSServiceAverageMemoryUtilizationHighResolution"
-        case elastiCacheDatabaseCapacityUsageCountedForEvictPercentage = "ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage"
-        case elastiCacheDatabaseMemoryUsageCountedForEvictPercentage = "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage"
-        case elastiCacheDatabaseMemoryUsagePercentage = "ElastiCacheDatabaseMemoryUsagePercentage"
-        case elastiCacheEngineCPUUtilization = "ElastiCacheEngineCPUUtilization"
-        case elastiCachePrimaryEngineCPUUtilization = "ElastiCachePrimaryEngineCPUUtilization"
-        case elastiCacheReplicaEngineCPUUtilization = "ElastiCacheReplicaEngineCPUUtilization"
-        case kafkaBrokerStorageUtilization = "KafkaBrokerStorageUtilization"
-        case lambdaProvisionedConcurrencyUtilization = "LambdaProvisionedConcurrencyUtilization"
-        case neptuneReaderAverageCPUUtilization = "NeptuneReaderAverageCPUUtilization"
-        case rdsReaderAverageCPUUtilization = "RDSReaderAverageCPUUtilization"
-        case rdsReaderAverageDatabaseConnections = "RDSReaderAverageDatabaseConnections"
-        case sageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution = "SageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution"
-        case sageMakerInferenceComponentInvocationsPerCopy = "SageMakerInferenceComponentInvocationsPerCopy"
-        case sageMakerVariantConcurrentRequestsPerModelHighResolution = "SageMakerVariantConcurrentRequestsPerModelHighResolution"
-        case sageMakerVariantInvocationsPerInstance = "SageMakerVariantInvocationsPerInstance"
-        case sageMakerVariantProvisionedConcurrencyUtilization = "SageMakerVariantProvisionedConcurrencyUtilization"
-        case workSpacesAverageUserSessionsCapacityUtilization = "WorkSpacesAverageUserSessionsCapacityUtilization"
-        public var description: String { return self.rawValue }
+    public struct MetricType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var albRequestCountPerTarget: Self { .init(rawValue: "ALBRequestCountPerTarget") }
+        @inlinable public static var appStreamAverageCapacityUtilization: Self { .init(rawValue: "AppStreamAverageCapacityUtilization") }
+        @inlinable public static var cassandraReadCapacityUtilization: Self { .init(rawValue: "CassandraReadCapacityUtilization") }
+        @inlinable public static var cassandraWriteCapacityUtilization: Self { .init(rawValue: "CassandraWriteCapacityUtilization") }
+        @inlinable public static var comprehendInferenceUtilization: Self { .init(rawValue: "ComprehendInferenceUtilization") }
+        @inlinable public static var dynamoDBReadCapacityUtilization: Self { .init(rawValue: "DynamoDBReadCapacityUtilization") }
+        @inlinable public static var dynamoDBWriteCapacityUtilization: Self { .init(rawValue: "DynamoDBWriteCapacityUtilization") }
+        @inlinable public static var ec2SpotFleetRequestAverageCPUUtilization: Self { .init(rawValue: "EC2SpotFleetRequestAverageCPUUtilization") }
+        @inlinable public static var ec2SpotFleetRequestAverageNetworkIn: Self { .init(rawValue: "EC2SpotFleetRequestAverageNetworkIn") }
+        @inlinable public static var ec2SpotFleetRequestAverageNetworkOut: Self { .init(rawValue: "EC2SpotFleetRequestAverageNetworkOut") }
+        @inlinable public static var ecsServiceAverageCPUUtilization: Self { .init(rawValue: "ECSServiceAverageCPUUtilization") }
+        @inlinable public static var ecsServiceAverageCPUUtilizationHighResolution: Self { .init(rawValue: "ECSServiceAverageCPUUtilizationHighResolution") }
+        @inlinable public static var ecsServiceAverageMemoryUtilization: Self { .init(rawValue: "ECSServiceAverageMemoryUtilization") }
+        @inlinable public static var ecsServiceAverageMemoryUtilizationHighResolution: Self { .init(rawValue: "ECSServiceAverageMemoryUtilizationHighResolution") }
+        @inlinable public static var elastiCacheDatabaseCapacityUsageCountedForEvictPercentage: Self { .init(rawValue: "ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage") }
+        @inlinable public static var elastiCacheDatabaseMemoryUsageCountedForEvictPercentage: Self { .init(rawValue: "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage") }
+        @inlinable public static var elastiCacheDatabaseMemoryUsagePercentage: Self { .init(rawValue: "ElastiCacheDatabaseMemoryUsagePercentage") }
+        @inlinable public static var elastiCacheEngineCPUUtilization: Self { .init(rawValue: "ElastiCacheEngineCPUUtilization") }
+        @inlinable public static var elastiCachePrimaryEngineCPUUtilization: Self { .init(rawValue: "ElastiCachePrimaryEngineCPUUtilization") }
+        @inlinable public static var elastiCacheReplicaEngineCPUUtilization: Self { .init(rawValue: "ElastiCacheReplicaEngineCPUUtilization") }
+        @inlinable public static var kafkaBrokerStorageUtilization: Self { .init(rawValue: "KafkaBrokerStorageUtilization") }
+        @inlinable public static var lambdaProvisionedConcurrencyUtilization: Self { .init(rawValue: "LambdaProvisionedConcurrencyUtilization") }
+        @inlinable public static var neptuneReaderAverageCPUUtilization: Self { .init(rawValue: "NeptuneReaderAverageCPUUtilization") }
+        @inlinable public static var rdsReaderAverageCPUUtilization: Self { .init(rawValue: "RDSReaderAverageCPUUtilization") }
+        @inlinable public static var rdsReaderAverageDatabaseConnections: Self { .init(rawValue: "RDSReaderAverageDatabaseConnections") }
+        @inlinable public static var sageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution: Self { .init(rawValue: "SageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution") }
+        @inlinable public static var sageMakerInferenceComponentInvocationsPerCopy: Self { .init(rawValue: "SageMakerInferenceComponentInvocationsPerCopy") }
+        @inlinable public static var sageMakerVariantConcurrentRequestsPerModelHighResolution: Self { .init(rawValue: "SageMakerVariantConcurrentRequestsPerModelHighResolution") }
+        @inlinable public static var sageMakerVariantInvocationsPerInstance: Self { .init(rawValue: "SageMakerVariantInvocationsPerInstance") }
+        @inlinable public static var sageMakerVariantProvisionedConcurrencyUtilization: Self { .init(rawValue: "SageMakerVariantProvisionedConcurrencyUtilization") }
+        @inlinable public static var workSpacesAverageUserSessionsCapacityUtilization: Self { .init(rawValue: "WorkSpacesAverageUserSessionsCapacityUtilization") }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case predictiveScaling = "PredictiveScaling"
-        case stepScaling = "StepScaling"
-        case targetTrackingScaling = "TargetTrackingScaling"
-        public var description: String { return self.rawValue }
+    public struct PolicyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var predictiveScaling: Self { .init(rawValue: "PredictiveScaling") }
+        @inlinable public static var stepScaling: Self { .init(rawValue: "StepScaling") }
+        @inlinable public static var targetTrackingScaling: Self { .init(rawValue: "TargetTrackingScaling") }
     }
 
-    public enum PredictiveScalingMaxCapacityBreachBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case honorMaxCapacity = "HonorMaxCapacity"
-        case increaseMaxCapacity = "IncreaseMaxCapacity"
-        public var description: String { return self.rawValue }
+    public struct PredictiveScalingMaxCapacityBreachBehavior: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var honorMaxCapacity: Self { .init(rawValue: "HonorMaxCapacity") }
+        @inlinable public static var increaseMaxCapacity: Self { .init(rawValue: "IncreaseMaxCapacity") }
     }
 
-    public enum PredictiveScalingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case forecastAndScale = "ForecastAndScale"
-        case forecastOnly = "ForecastOnly"
-        public var description: String { return self.rawValue }
+    public struct PredictiveScalingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var forecastAndScale: Self { .init(rawValue: "ForecastAndScale") }
+        @inlinable public static var forecastOnly: Self { .init(rawValue: "ForecastOnly") }
     }
 
-    public enum ScalableDimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case appstreamFleetDesiredCapacity = "appstream:fleet:DesiredCapacity"
-        case cassandraTableReadCapacityUnits = "cassandra:table:ReadCapacityUnits"
-        case cassandraTableWriteCapacityUnits = "cassandra:table:WriteCapacityUnits"
-        case comprehendDocClassifierEndpointInferenceUnits = "comprehend:document-classifier-endpoint:DesiredInferenceUnits"
-        case comprehendEntityRecognizerEndpointInferenceUnits = "comprehend:entity-recognizer-endpoint:DesiredInferenceUnits"
-        case customResourceScalableDimension = "custom-resource:ResourceType:Property"
-        case dynamoDBIndexReadCapacityUnits = "dynamodb:index:ReadCapacityUnits"
-        case dynamoDBIndexWriteCapacityUnits = "dynamodb:index:WriteCapacityUnits"
-        case dynamoDBTableReadCapacityUnits = "dynamodb:table:ReadCapacityUnits"
-        case dynamoDBTableWriteCapacityUnits = "dynamodb:table:WriteCapacityUnits"
-        case ec2SpotFleetRequestTargetCapacity = "ec2:spot-fleet-request:TargetCapacity"
-        case ecsServiceDesiredCount = "ecs:service:DesiredCount"
-        case elastiCacheCacheClusterNodes = "elasticache:cache-cluster:Nodes"
-        case elastiCacheReplicationGroupNodeGroups = "elasticache:replication-group:NodeGroups"
-        case elastiCacheReplicationGroupReplicas = "elasticache:replication-group:Replicas"
-        case emrInstanceGroupInstanceCount = "elasticmapreduce:instancegroup:InstanceCount"
-        case kafkaBrokerStorageVolumeSize = "kafka:broker-storage:VolumeSize"
-        case lambdaFunctionProvisionedConcurrency = "lambda:function:ProvisionedConcurrency"
-        case neptuneClusterReadReplicaCount = "neptune:cluster:ReadReplicaCount"
-        case rdsClusterReadReplicaCount = "rds:cluster:ReadReplicaCount"
-        case sageMakerInferenceComponentDesiredCopyCount = "sagemaker:inference-component:DesiredCopyCount"
-        case sageMakerVariantDesiredInstanceCount = "sagemaker:variant:DesiredInstanceCount"
-        case sageMakerVariantDesiredProvisionedConcurrency = "sagemaker:variant:DesiredProvisionedConcurrency"
-        case workSpacesWorkSpacesPoolDesiredUserSessions = "workspaces:workspacespool:DesiredUserSessions"
-        public var description: String { return self.rawValue }
+    public struct ScalableDimension: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var appstreamFleetDesiredCapacity: Self { .init(rawValue: "appstream:fleet:DesiredCapacity") }
+        @inlinable public static var cassandraTableReadCapacityUnits: Self { .init(rawValue: "cassandra:table:ReadCapacityUnits") }
+        @inlinable public static var cassandraTableWriteCapacityUnits: Self { .init(rawValue: "cassandra:table:WriteCapacityUnits") }
+        @inlinable public static var comprehendDocClassifierEndpointInferenceUnits: Self { .init(rawValue: "comprehend:document-classifier-endpoint:DesiredInferenceUnits") }
+        @inlinable public static var comprehendEntityRecognizerEndpointInferenceUnits: Self { .init(rawValue: "comprehend:entity-recognizer-endpoint:DesiredInferenceUnits") }
+        @inlinable public static var customResourceScalableDimension: Self { .init(rawValue: "custom-resource:ResourceType:Property") }
+        @inlinable public static var dynamoDBIndexReadCapacityUnits: Self { .init(rawValue: "dynamodb:index:ReadCapacityUnits") }
+        @inlinable public static var dynamoDBIndexWriteCapacityUnits: Self { .init(rawValue: "dynamodb:index:WriteCapacityUnits") }
+        @inlinable public static var dynamoDBTableReadCapacityUnits: Self { .init(rawValue: "dynamodb:table:ReadCapacityUnits") }
+        @inlinable public static var dynamoDBTableWriteCapacityUnits: Self { .init(rawValue: "dynamodb:table:WriteCapacityUnits") }
+        @inlinable public static var ec2SpotFleetRequestTargetCapacity: Self { .init(rawValue: "ec2:spot-fleet-request:TargetCapacity") }
+        @inlinable public static var ecsServiceDesiredCount: Self { .init(rawValue: "ecs:service:DesiredCount") }
+        @inlinable public static var elastiCacheCacheClusterNodes: Self { .init(rawValue: "elasticache:cache-cluster:Nodes") }
+        @inlinable public static var elastiCacheReplicationGroupNodeGroups: Self { .init(rawValue: "elasticache:replication-group:NodeGroups") }
+        @inlinable public static var elastiCacheReplicationGroupReplicas: Self { .init(rawValue: "elasticache:replication-group:Replicas") }
+        @inlinable public static var emrInstanceGroupInstanceCount: Self { .init(rawValue: "elasticmapreduce:instancegroup:InstanceCount") }
+        @inlinable public static var kafkaBrokerStorageVolumeSize: Self { .init(rawValue: "kafka:broker-storage:VolumeSize") }
+        @inlinable public static var lambdaFunctionProvisionedConcurrency: Self { .init(rawValue: "lambda:function:ProvisionedConcurrency") }
+        @inlinable public static var neptuneClusterReadReplicaCount: Self { .init(rawValue: "neptune:cluster:ReadReplicaCount") }
+        @inlinable public static var rdsClusterReadReplicaCount: Self { .init(rawValue: "rds:cluster:ReadReplicaCount") }
+        @inlinable public static var sageMakerInferenceComponentDesiredCopyCount: Self { .init(rawValue: "sagemaker:inference-component:DesiredCopyCount") }
+        @inlinable public static var sageMakerVariantDesiredInstanceCount: Self { .init(rawValue: "sagemaker:variant:DesiredInstanceCount") }
+        @inlinable public static var sageMakerVariantDesiredProvisionedConcurrency: Self { .init(rawValue: "sagemaker:variant:DesiredProvisionedConcurrency") }
+        @inlinable public static var workSpacesWorkSpacesPoolDesiredUserSessions: Self { .init(rawValue: "workspaces:workspacespool:DesiredUserSessions") }
     }
 
-    public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "Failed"
-        case inProgress = "InProgress"
-        case overridden = "Overridden"
-        case pending = "Pending"
-        case successful = "Successful"
-        case unfulfilled = "Unfulfilled"
-        public var description: String { return self.rawValue }
+    public struct ScalingActivityStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "InProgress") }
+        @inlinable public static var overridden: Self { .init(rawValue: "Overridden") }
+        @inlinable public static var pending: Self { .init(rawValue: "Pending") }
+        @inlinable public static var successful: Self { .init(rawValue: "Successful") }
+        @inlinable public static var unfulfilled: Self { .init(rawValue: "Unfulfilled") }
     }
 
-    public enum ServiceNamespace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case appstream = "appstream"
-        case cassandra = "cassandra"
-        case comprehend = "comprehend"
-        case customResource = "custom-resource"
-        case dynamodb = "dynamodb"
-        case ec2 = "ec2"
-        case ecs = "ecs"
-        case elasticache = "elasticache"
-        case emr = "elasticmapreduce"
-        case kafka = "kafka"
-        case lambda = "lambda"
-        case neptune = "neptune"
-        case rds = "rds"
-        case sagemaker = "sagemaker"
-        case workspaces = "workspaces"
-        public var description: String { return self.rawValue }
+    public struct ServiceNamespace: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var appstream: Self { .init(rawValue: "appstream") }
+        @inlinable public static var cassandra: Self { .init(rawValue: "cassandra") }
+        @inlinable public static var comprehend: Self { .init(rawValue: "comprehend") }
+        @inlinable public static var customResource: Self { .init(rawValue: "custom-resource") }
+        @inlinable public static var dynamodb: Self { .init(rawValue: "dynamodb") }
+        @inlinable public static var ec2: Self { .init(rawValue: "ec2") }
+        @inlinable public static var ecs: Self { .init(rawValue: "ecs") }
+        @inlinable public static var elasticache: Self { .init(rawValue: "elasticache") }
+        @inlinable public static var emr: Self { .init(rawValue: "elasticmapreduce") }
+        @inlinable public static var kafka: Self { .init(rawValue: "kafka") }
+        @inlinable public static var lambda: Self { .init(rawValue: "lambda") }
+        @inlinable public static var neptune: Self { .init(rawValue: "neptune") }
+        @inlinable public static var rds: Self { .init(rawValue: "rds") }
+        @inlinable public static var sagemaker: Self { .init(rawValue: "sagemaker") }
+        @inlinable public static var workspaces: Self { .init(rawValue: "workspaces") }
     }
 
     // MARK: Shapes

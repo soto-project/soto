@@ -25,304 +25,440 @@ import Foundation
 extension MediaTailor {
     // MARK: Enums
 
-    public enum AccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case autodetectSigv4 = "AUTODETECT_SIGV4"
-        case s3Sigv4 = "S3_SIGV4"
-        case secretsManagerAccessToken = "SECRETS_MANAGER_ACCESS_TOKEN"
-        public var description: String { return self.rawValue }
+    public struct AccessType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var autodetectSigv4: Self { .init(rawValue: "AUTODETECT_SIGV4") }
+        @inlinable public static var s3Sigv4: Self { .init(rawValue: "S3_SIGV4") }
+        @inlinable public static var secretsManagerAccessToken: Self { .init(rawValue: "SECRETS_MANAGER_ACCESS_TOKEN") }
     }
 
-    public enum AdMarkupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case daterange = "DATERANGE"
-        case scte35Enhanced = "SCTE35_ENHANCED"
-        public var description: String { return self.rawValue }
+    public struct AdMarkupType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var daterange: Self { .init(rawValue: "DATERANGE") }
+        @inlinable public static var scte35Enhanced: Self { .init(rawValue: "SCTE35_ENHANCED") }
     }
 
-    public enum AdSequencingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case followAdSequence = "FOLLOW_AD_SEQUENCE"
-        case followAdSequenceOnlyLive = "FOLLOW_AD_SEQUENCE_ONLY_LIVE"
-        case followAdSequenceOnlyVod = "FOLLOW_AD_SEQUENCE_ONLY_VOD"
-        case ignoreAdSequence = "IGNORE_AD_SEQUENCE"
-        public var description: String { return self.rawValue }
+    public struct AdSequencingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var followAdSequence: Self { .init(rawValue: "FOLLOW_AD_SEQUENCE") }
+        @inlinable public static var followAdSequenceOnlyLive: Self { .init(rawValue: "FOLLOW_AD_SEQUENCE_ONLY_LIVE") }
+        @inlinable public static var followAdSequenceOnlyVod: Self { .init(rawValue: "FOLLOW_AD_SEQUENCE_ONLY_VOD") }
+        @inlinable public static var ignoreAdSequence: Self { .init(rawValue: "IGNORE_AD_SEQUENCE") }
     }
 
-    public enum AdsInteractionExcludeEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case adMarkerFound = "AD_MARKER_FOUND"
-        case beaconFired = "BEACON_FIRED"
-        case emptyVastResponse = "EMPTY_VAST_RESPONSE"
-        case emptyVmapResponse = "EMPTY_VMAP_RESPONSE"
-        case errorAdsInvalidResponse = "ERROR_ADS_INVALID_RESPONSE"
-        case errorAdsIo = "ERROR_ADS_IO"
-        case errorAdsResponseParse = "ERROR_ADS_RESPONSE_PARSE"
-        case errorAdsResponseUnknownRootElement = "ERROR_ADS_RESPONSE_UNKNOWN_ROOT_ELEMENT"
-        case errorAdsTimeout = "ERROR_ADS_TIMEOUT"
-        case errorDisallowedHost = "ERROR_DISALLOWED_HOST"
-        case errorFiringBeaconFailed = "ERROR_FIRING_BEACON_FAILED"
-        case errorPersonalizationDisabled = "ERROR_PERSONALIZATION_DISABLED"
-        case errorUnknown = "ERROR_UNKNOWN"
-        case errorUnknownHost = "ERROR_UNKNOWN_HOST"
-        case errorVastInvalidMediaFile = "ERROR_VAST_INVALID_MEDIA_FILE"
-        case errorVastInvalidVastAdTagUri = "ERROR_VAST_INVALID_VAST_AD_TAG_URI"
-        case errorVastMissingCreatives = "ERROR_VAST_MISSING_CREATIVES"
-        case errorVastMissingImpression = "ERROR_VAST_MISSING_IMPRESSION"
-        case errorVastMissingMediafiles = "ERROR_VAST_MISSING_MEDIAFILES"
-        case errorVastMissingOverlays = "ERROR_VAST_MISSING_OVERLAYS"
-        case errorVastMultipleLinear = "ERROR_VAST_MULTIPLE_LINEAR"
-        case errorVastMultipleTrackingEvents = "ERROR_VAST_MULTIPLE_TRACKING_EVENTS"
-        case errorVastRedirectEmptyResponse = "ERROR_VAST_REDIRECT_EMPTY_RESPONSE"
-        case errorVastRedirectFailed = "ERROR_VAST_REDIRECT_FAILED"
-        case errorVastRedirectMultipleVast = "ERROR_VAST_REDIRECT_MULTIPLE_VAST"
-        case filledAvail = "FILLED_AVAIL"
-        case filledOverlayAvail = "FILLED_OVERLAY_AVAIL"
-        case interstitialVodFailure = "INTERSTITIAL_VOD_FAILURE"
-        case interstitialVodSuccess = "INTERSTITIAL_VOD_SUCCESS"
-        case makingAdsRequest = "MAKING_ADS_REQUEST"
-        case modifiedTargetUrl = "MODIFIED_TARGET_URL"
-        case nonAdMarkerFound = "NON_AD_MARKER_FOUND"
-        case postAdsResponseFunctionError = "POST_ADS_RESPONSE_FUNCTION_ERROR"
-        case postAdsResponseHookError = "POST_ADS_RESPONSE_HOOK_ERROR"
-        case preAdsRequestFunctionError = "PRE_ADS_REQUEST_FUNCTION_ERROR"
-        case preAdsRequestHookError = "PRE_ADS_REQUEST_HOOK_ERROR"
-        case preManifestInsertionFunctionError = "PRE_MANIFEST_INSERTION_FUNCTION_ERROR"
-        case preManifestInsertionHookError = "PRE_MANIFEST_INSERTION_HOOK_ERROR"
-        case redirectedVastResponse = "REDIRECTED_VAST_RESPONSE"
-        case vastRedirect = "VAST_REDIRECT"
-        case vastResponse = "VAST_RESPONSE"
-        case vodTimeBasedAvailPlanSuccess = "VOD_TIME_BASED_AVAIL_PLAN_SUCCESS"
-        case vodTimeBasedAvailPlanVastResponseForOffset = "VOD_TIME_BASED_AVAIL_PLAN_VAST_RESPONSE_FOR_OFFSET"
-        case vodTimeBasedAvailPlanWarningNoAdvertisements = "VOD_TIME_BASED_AVAIL_PLAN_WARNING_NO_ADVERTISEMENTS"
-        case warningNoAdvertisements = "WARNING_NO_ADVERTISEMENTS"
-        case warningUrlVariableSubstitutionFailed = "WARNING_URL_VARIABLE_SUBSTITUTION_FAILED"
-        case warningVpaidAdDropped = "WARNING_VPAID_AD_DROPPED"
-        public var description: String { return self.rawValue }
+    public struct AdsInteractionExcludeEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var adMarkerFound: Self { .init(rawValue: "AD_MARKER_FOUND") }
+        @inlinable public static var beaconFired: Self { .init(rawValue: "BEACON_FIRED") }
+        @inlinable public static var emptyVastResponse: Self { .init(rawValue: "EMPTY_VAST_RESPONSE") }
+        @inlinable public static var emptyVmapResponse: Self { .init(rawValue: "EMPTY_VMAP_RESPONSE") }
+        @inlinable public static var errorAdsInvalidResponse: Self { .init(rawValue: "ERROR_ADS_INVALID_RESPONSE") }
+        @inlinable public static var errorAdsIo: Self { .init(rawValue: "ERROR_ADS_IO") }
+        @inlinable public static var errorAdsResponseParse: Self { .init(rawValue: "ERROR_ADS_RESPONSE_PARSE") }
+        @inlinable public static var errorAdsResponseUnknownRootElement: Self { .init(rawValue: "ERROR_ADS_RESPONSE_UNKNOWN_ROOT_ELEMENT") }
+        @inlinable public static var errorAdsTimeout: Self { .init(rawValue: "ERROR_ADS_TIMEOUT") }
+        @inlinable public static var errorDisallowedHost: Self { .init(rawValue: "ERROR_DISALLOWED_HOST") }
+        @inlinable public static var errorFiringBeaconFailed: Self { .init(rawValue: "ERROR_FIRING_BEACON_FAILED") }
+        @inlinable public static var errorPersonalizationDisabled: Self { .init(rawValue: "ERROR_PERSONALIZATION_DISABLED") }
+        @inlinable public static var errorUnknown: Self { .init(rawValue: "ERROR_UNKNOWN") }
+        @inlinable public static var errorUnknownHost: Self { .init(rawValue: "ERROR_UNKNOWN_HOST") }
+        @inlinable public static var errorVastInvalidMediaFile: Self { .init(rawValue: "ERROR_VAST_INVALID_MEDIA_FILE") }
+        @inlinable public static var errorVastInvalidVastAdTagUri: Self { .init(rawValue: "ERROR_VAST_INVALID_VAST_AD_TAG_URI") }
+        @inlinable public static var errorVastMissingCreatives: Self { .init(rawValue: "ERROR_VAST_MISSING_CREATIVES") }
+        @inlinable public static var errorVastMissingImpression: Self { .init(rawValue: "ERROR_VAST_MISSING_IMPRESSION") }
+        @inlinable public static var errorVastMissingMediafiles: Self { .init(rawValue: "ERROR_VAST_MISSING_MEDIAFILES") }
+        @inlinable public static var errorVastMissingOverlays: Self { .init(rawValue: "ERROR_VAST_MISSING_OVERLAYS") }
+        @inlinable public static var errorVastMultipleLinear: Self { .init(rawValue: "ERROR_VAST_MULTIPLE_LINEAR") }
+        @inlinable public static var errorVastMultipleTrackingEvents: Self { .init(rawValue: "ERROR_VAST_MULTIPLE_TRACKING_EVENTS") }
+        @inlinable public static var errorVastRedirectEmptyResponse: Self { .init(rawValue: "ERROR_VAST_REDIRECT_EMPTY_RESPONSE") }
+        @inlinable public static var errorVastRedirectFailed: Self { .init(rawValue: "ERROR_VAST_REDIRECT_FAILED") }
+        @inlinable public static var errorVastRedirectMultipleVast: Self { .init(rawValue: "ERROR_VAST_REDIRECT_MULTIPLE_VAST") }
+        @inlinable public static var filledAvail: Self { .init(rawValue: "FILLED_AVAIL") }
+        @inlinable public static var filledOverlayAvail: Self { .init(rawValue: "FILLED_OVERLAY_AVAIL") }
+        @inlinable public static var interstitialVodFailure: Self { .init(rawValue: "INTERSTITIAL_VOD_FAILURE") }
+        @inlinable public static var interstitialVodSuccess: Self { .init(rawValue: "INTERSTITIAL_VOD_SUCCESS") }
+        @inlinable public static var makingAdsRequest: Self { .init(rawValue: "MAKING_ADS_REQUEST") }
+        @inlinable public static var modifiedTargetUrl: Self { .init(rawValue: "MODIFIED_TARGET_URL") }
+        @inlinable public static var nonAdMarkerFound: Self { .init(rawValue: "NON_AD_MARKER_FOUND") }
+        @inlinable public static var postAdsResponseFunctionError: Self { .init(rawValue: "POST_ADS_RESPONSE_FUNCTION_ERROR") }
+        @inlinable public static var postAdsResponseHookError: Self { .init(rawValue: "POST_ADS_RESPONSE_HOOK_ERROR") }
+        @inlinable public static var preAdsRequestFunctionError: Self { .init(rawValue: "PRE_ADS_REQUEST_FUNCTION_ERROR") }
+        @inlinable public static var preAdsRequestHookError: Self { .init(rawValue: "PRE_ADS_REQUEST_HOOK_ERROR") }
+        @inlinable public static var preManifestInsertionFunctionError: Self { .init(rawValue: "PRE_MANIFEST_INSERTION_FUNCTION_ERROR") }
+        @inlinable public static var preManifestInsertionHookError: Self { .init(rawValue: "PRE_MANIFEST_INSERTION_HOOK_ERROR") }
+        @inlinable public static var redirectedVastResponse: Self { .init(rawValue: "REDIRECTED_VAST_RESPONSE") }
+        @inlinable public static var vastRedirect: Self { .init(rawValue: "VAST_REDIRECT") }
+        @inlinable public static var vastResponse: Self { .init(rawValue: "VAST_RESPONSE") }
+        @inlinable public static var vodTimeBasedAvailPlanSuccess: Self { .init(rawValue: "VOD_TIME_BASED_AVAIL_PLAN_SUCCESS") }
+        @inlinable public static var vodTimeBasedAvailPlanVastResponseForOffset: Self { .init(rawValue: "VOD_TIME_BASED_AVAIL_PLAN_VAST_RESPONSE_FOR_OFFSET") }
+        @inlinable public static var vodTimeBasedAvailPlanWarningNoAdvertisements: Self { .init(rawValue: "VOD_TIME_BASED_AVAIL_PLAN_WARNING_NO_ADVERTISEMENTS") }
+        @inlinable public static var warningNoAdvertisements: Self { .init(rawValue: "WARNING_NO_ADVERTISEMENTS") }
+        @inlinable public static var warningUrlVariableSubstitutionFailed: Self { .init(rawValue: "WARNING_URL_VARIABLE_SUBSTITUTION_FAILED") }
+        @inlinable public static var warningVpaidAdDropped: Self { .init(rawValue: "WARNING_VPAID_AD_DROPPED") }
     }
 
-    public enum AdsInteractionPublishOptInEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case postAdsResponseFunctionCompleted = "POST_ADS_RESPONSE_FUNCTION_COMPLETED"
-        case postAdsResponseHookSummary = "POST_ADS_RESPONSE_HOOK_SUMMARY"
-        case preAdsRequestFunctionCompleted = "PRE_ADS_REQUEST_FUNCTION_COMPLETED"
-        case preAdsRequestHookSummary = "PRE_ADS_REQUEST_HOOK_SUMMARY"
-        case preManifestInsertionFunctionCompleted = "PRE_MANIFEST_INSERTION_FUNCTION_COMPLETED"
-        case preManifestInsertionHookSummary = "PRE_MANIFEST_INSERTION_HOOK_SUMMARY"
-        case rawAdsRequest = "RAW_ADS_REQUEST"
-        case rawAdsResponse = "RAW_ADS_RESPONSE"
-        case rawBidRequest = "RAW_BID_REQUEST"
-        case rawBidResponse = "RAW_BID_RESPONSE"
-        public var description: String { return self.rawValue }
+    public struct AdsInteractionPublishOptInEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var postAdsResponseFunctionCompleted: Self { .init(rawValue: "POST_ADS_RESPONSE_FUNCTION_COMPLETED") }
+        @inlinable public static var postAdsResponseHookSummary: Self { .init(rawValue: "POST_ADS_RESPONSE_HOOK_SUMMARY") }
+        @inlinable public static var preAdsRequestFunctionCompleted: Self { .init(rawValue: "PRE_ADS_REQUEST_FUNCTION_COMPLETED") }
+        @inlinable public static var preAdsRequestHookSummary: Self { .init(rawValue: "PRE_ADS_REQUEST_HOOK_SUMMARY") }
+        @inlinable public static var preManifestInsertionFunctionCompleted: Self { .init(rawValue: "PRE_MANIFEST_INSERTION_FUNCTION_COMPLETED") }
+        @inlinable public static var preManifestInsertionHookSummary: Self { .init(rawValue: "PRE_MANIFEST_INSERTION_HOOK_SUMMARY") }
+        @inlinable public static var rawAdsRequest: Self { .init(rawValue: "RAW_ADS_REQUEST") }
+        @inlinable public static var rawAdsResponse: Self { .init(rawValue: "RAW_ADS_RESPONSE") }
+        @inlinable public static var rawBidRequest: Self { .init(rawValue: "RAW_BID_REQUEST") }
+        @inlinable public static var rawBidResponse: Self { .init(rawValue: "RAW_BID_RESPONSE") }
     }
 
-    public enum AlertCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case info = "INFO"
-        case playbackWarning = "PLAYBACK_WARNING"
-        case schedulingError = "SCHEDULING_ERROR"
-        public var description: String { return self.rawValue }
+    public struct AlertCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var info: Self { .init(rawValue: "INFO") }
+        @inlinable public static var playbackWarning: Self { .init(rawValue: "PLAYBACK_WARNING") }
+        @inlinable public static var schedulingError: Self { .init(rawValue: "SCHEDULING_ERROR") }
     }
 
-    public enum ApsRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case americas = "AMERICAS"
-        case asiaPacific = "ASIA_PACIFIC"
-        case europe = "EUROPE"
-        public var description: String { return self.rawValue }
+    public struct ApsRegion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var americas: Self { .init(rawValue: "AMERICAS") }
+        @inlinable public static var asiaPacific: Self { .init(rawValue: "ASIA_PACIFIC") }
+        @inlinable public static var europe: Self { .init(rawValue: "EUROPE") }
     }
 
-    public enum ChannelState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case running = "RUNNING"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
+    public struct ChannelState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
     }
 
-    public enum CompressionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case gzip = "GZIP"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+    public struct CompressionMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var gzip: Self { .init(rawValue: "GZIP") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
-    public enum EventName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case postAdsResponse = "POST_ADS_RESPONSE"
-        case preAdsRequest = "PRE_ADS_REQUEST"
-        case preManifestInsertion = "PRE_MANIFEST_INSERTION"
-        case preSessionInitialization = "PRE_SESSION_INITIALIZATION"
-        public var description: String { return self.rawValue }
+    public struct EventName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var postAdsResponse: Self { .init(rawValue: "POST_ADS_RESPONSE") }
+        @inlinable public static var preAdsRequest: Self { .init(rawValue: "PRE_ADS_REQUEST") }
+        @inlinable public static var preManifestInsertion: Self { .init(rawValue: "PRE_MANIFEST_INSERTION") }
+        @inlinable public static var preSessionInitialization: Self { .init(rawValue: "PRE_SESSION_INITIALIZATION") }
     }
 
-    public enum FillPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fullAvailOnly = "FULL_AVAIL_ONLY"
-        case partialAvail = "PARTIAL_AVAIL"
-        public var description: String { return self.rawValue }
+    public struct FillPolicy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fullAvailOnly: Self { .init(rawValue: "FULL_AVAIL_ONLY") }
+        @inlinable public static var partialAvail: Self { .init(rawValue: "PARTIAL_AVAIL") }
     }
 
-    public enum FunctionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsServiceRequest = "AWS_SERVICE_REQUEST"
-        case concurrentExecutor = "CONCURRENT_EXECUTOR"
-        case customOutput = "CUSTOM_OUTPUT"
-        case httpRequest = "HTTP_REQUEST"
-        case sequentialExecutor = "SEQUENTIAL_EXECUTOR"
-        case vastRequest = "VAST_REQUEST"
-        public var description: String { return self.rawValue }
+    public struct FunctionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsServiceRequest: Self { .init(rawValue: "AWS_SERVICE_REQUEST") }
+        @inlinable public static var concurrentExecutor: Self { .init(rawValue: "CONCURRENT_EXECUTOR") }
+        @inlinable public static var customOutput: Self { .init(rawValue: "CUSTOM_OUTPUT") }
+        @inlinable public static var httpRequest: Self { .init(rawValue: "HTTP_REQUEST") }
+        @inlinable public static var sequentialExecutor: Self { .init(rawValue: "SEQUENTIAL_EXECUTOR") }
+        @inlinable public static var vastRequest: Self { .init(rawValue: "VAST_REQUEST") }
     }
 
-    public enum InsertionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case playerSelect = "PLAYER_SELECT"
-        case stitchedOnly = "STITCHED_ONLY"
-        public var description: String { return self.rawValue }
+    public struct InsertionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var playerSelect: Self { .init(rawValue: "PLAYER_SELECT") }
+        @inlinable public static var stitchedOnly: Self { .init(rawValue: "STITCHED_ONLY") }
     }
 
-    public enum ListPrefetchScheduleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case recurring = "RECURRING"
-        case single = "SINGLE"
-        public var description: String { return self.rawValue }
+    public struct ListPrefetchScheduleType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var recurring: Self { .init(rawValue: "RECURRING") }
+        @inlinable public static var single: Self { .init(rawValue: "SINGLE") }
     }
 
-    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asRun = "AS_RUN"
-        public var description: String { return self.rawValue }
+    public struct LogType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asRun: Self { .init(rawValue: "AS_RUN") }
     }
 
-    public enum LoggingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case legacyCloudwatch = "LEGACY_CLOUDWATCH"
-        case vendedLogs = "VENDED_LOGS"
-        public var description: String { return self.rawValue }
+    public struct LoggingStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var legacyCloudwatch: Self { .init(rawValue: "LEGACY_CLOUDWATCH") }
+        @inlinable public static var vendedLogs: Self { .init(rawValue: "VENDED_LOGS") }
     }
 
-    public enum ManifestServiceExcludeEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case configSecurityError = "CONFIG_SECURITY_ERROR"
-        case configSyntaxError = "CONFIG_SYNTAX_ERROR"
-        case connectionError = "CONNECTION_ERROR"
-        case errorAdsInterpolation = "ERROR_ADS_INTERPOLATION"
-        case errorBumperEndInterpolation = "ERROR_BUMPER_END_INTERPOLATION"
-        case errorBumperStartInterpolation = "ERROR_BUMPER_START_INTERPOLATION"
-        case errorCdnAdSegmentInterpolation = "ERROR_CDN_AD_SEGMENT_INTERPOLATION"
-        case errorCdnContentSegmentInterpolation = "ERROR_CDN_CONTENT_SEGMENT_INTERPOLATION"
-        case errorLivePreRollAdsInterpolation = "ERROR_LIVE_PRE_ROLL_ADS_INTERPOLATION"
-        case errorOriginPrefixInterpolation = "ERROR_ORIGIN_PREFIX_INTERPOLATION"
-        case errorProfileNameInterpolation = "ERROR_PROFILE_NAME_INTERPOLATION"
-        case errorSlateAdUrlInterpolation = "ERROR_SLATE_AD_URL_INTERPOLATION"
-        case generatedManifest = "GENERATED_MANIFEST"
-        case hostDisallowed = "HOST_DISALLOWED"
-        case incompatibleHlsVersion = "INCOMPATIBLE_HLS_VERSION"
-        case invalidSinglePeriodDashManifest = "INVALID_SINGLE_PERIOD_DASH_MANIFEST"
-        case ioError = "IO_ERROR"
-        case lastPeriodMissingAudio = "LAST_PERIOD_MISSING_AUDIO"
-        case lastPeriodMissingAudioWarning = "LAST_PERIOD_MISSING_AUDIO_WARNING"
-        case manifestError = "MANIFEST_ERROR"
-        case noMasterOrMediaPlaylist = "NO_MASTER_OR_MEDIA_PLAYLIST"
-        case noMasterPlaylist = "NO_MASTER_PLAYLIST"
-        case noMediaPlaylist = "NO_MEDIA_PLAYLIST"
-        case originManifest = "ORIGIN_MANIFEST"
-        case parsingError = "PARSING_ERROR"
-        case preSessionInitFunctionError = "PRE_SESSION_INIT_FUNCTION_ERROR"
-        case preSessionInitHookError = "PRE_SESSION_INIT_HOOK_ERROR"
-        case scte35ParsingError = "SCTE35_PARSING_ERROR"
-        case sessionInitialized = "SESSION_INITIALIZED"
-        case timeoutError = "TIMEOUT_ERROR"
-        case trackingResponse = "TRACKING_RESPONSE"
-        case unknownError = "UNKNOWN_ERROR"
-        case unknownHost = "UNKNOWN_HOST"
-        case unsupportedSinglePeriodDashManifest = "UNSUPPORTED_SINGLE_PERIOD_DASH_MANIFEST"
-        public var description: String { return self.rawValue }
+    public struct ManifestServiceExcludeEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var configSecurityError: Self { .init(rawValue: "CONFIG_SECURITY_ERROR") }
+        @inlinable public static var configSyntaxError: Self { .init(rawValue: "CONFIG_SYNTAX_ERROR") }
+        @inlinable public static var connectionError: Self { .init(rawValue: "CONNECTION_ERROR") }
+        @inlinable public static var errorAdsInterpolation: Self { .init(rawValue: "ERROR_ADS_INTERPOLATION") }
+        @inlinable public static var errorBumperEndInterpolation: Self { .init(rawValue: "ERROR_BUMPER_END_INTERPOLATION") }
+        @inlinable public static var errorBumperStartInterpolation: Self { .init(rawValue: "ERROR_BUMPER_START_INTERPOLATION") }
+        @inlinable public static var errorCdnAdSegmentInterpolation: Self { .init(rawValue: "ERROR_CDN_AD_SEGMENT_INTERPOLATION") }
+        @inlinable public static var errorCdnContentSegmentInterpolation: Self { .init(rawValue: "ERROR_CDN_CONTENT_SEGMENT_INTERPOLATION") }
+        @inlinable public static var errorLivePreRollAdsInterpolation: Self { .init(rawValue: "ERROR_LIVE_PRE_ROLL_ADS_INTERPOLATION") }
+        @inlinable public static var errorOriginPrefixInterpolation: Self { .init(rawValue: "ERROR_ORIGIN_PREFIX_INTERPOLATION") }
+        @inlinable public static var errorProfileNameInterpolation: Self { .init(rawValue: "ERROR_PROFILE_NAME_INTERPOLATION") }
+        @inlinable public static var errorSlateAdUrlInterpolation: Self { .init(rawValue: "ERROR_SLATE_AD_URL_INTERPOLATION") }
+        @inlinable public static var generatedManifest: Self { .init(rawValue: "GENERATED_MANIFEST") }
+        @inlinable public static var hostDisallowed: Self { .init(rawValue: "HOST_DISALLOWED") }
+        @inlinable public static var incompatibleHlsVersion: Self { .init(rawValue: "INCOMPATIBLE_HLS_VERSION") }
+        @inlinable public static var invalidSinglePeriodDashManifest: Self { .init(rawValue: "INVALID_SINGLE_PERIOD_DASH_MANIFEST") }
+        @inlinable public static var ioError: Self { .init(rawValue: "IO_ERROR") }
+        @inlinable public static var lastPeriodMissingAudio: Self { .init(rawValue: "LAST_PERIOD_MISSING_AUDIO") }
+        @inlinable public static var lastPeriodMissingAudioWarning: Self { .init(rawValue: "LAST_PERIOD_MISSING_AUDIO_WARNING") }
+        @inlinable public static var manifestError: Self { .init(rawValue: "MANIFEST_ERROR") }
+        @inlinable public static var noMasterOrMediaPlaylist: Self { .init(rawValue: "NO_MASTER_OR_MEDIA_PLAYLIST") }
+        @inlinable public static var noMasterPlaylist: Self { .init(rawValue: "NO_MASTER_PLAYLIST") }
+        @inlinable public static var noMediaPlaylist: Self { .init(rawValue: "NO_MEDIA_PLAYLIST") }
+        @inlinable public static var originManifest: Self { .init(rawValue: "ORIGIN_MANIFEST") }
+        @inlinable public static var parsingError: Self { .init(rawValue: "PARSING_ERROR") }
+        @inlinable public static var preSessionInitFunctionError: Self { .init(rawValue: "PRE_SESSION_INIT_FUNCTION_ERROR") }
+        @inlinable public static var preSessionInitHookError: Self { .init(rawValue: "PRE_SESSION_INIT_HOOK_ERROR") }
+        @inlinable public static var scte35ParsingError: Self { .init(rawValue: "SCTE35_PARSING_ERROR") }
+        @inlinable public static var sessionInitialized: Self { .init(rawValue: "SESSION_INITIALIZED") }
+        @inlinable public static var timeoutError: Self { .init(rawValue: "TIMEOUT_ERROR") }
+        @inlinable public static var trackingResponse: Self { .init(rawValue: "TRACKING_RESPONSE") }
+        @inlinable public static var unknownError: Self { .init(rawValue: "UNKNOWN_ERROR") }
+        @inlinable public static var unknownHost: Self { .init(rawValue: "UNKNOWN_HOST") }
+        @inlinable public static var unsupportedSinglePeriodDashManifest: Self { .init(rawValue: "UNSUPPORTED_SINGLE_PERIOD_DASH_MANIFEST") }
     }
 
-    public enum ManifestServicePublishOptInEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case preSessionInitFunctionCompleted = "PRE_SESSION_INIT_FUNCTION_COMPLETED"
-        case preSessionInitHookSummary = "PRE_SESSION_INIT_HOOK_SUMMARY"
-        public var description: String { return self.rawValue }
+    public struct ManifestServicePublishOptInEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var preSessionInitFunctionCompleted: Self { .init(rawValue: "PRE_SESSION_INIT_FUNCTION_COMPLETED") }
+        @inlinable public static var preSessionInitHookSummary: Self { .init(rawValue: "PRE_SESSION_INIT_HOOK_SUMMARY") }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case spliceInsert = "SPLICE_INSERT"
-        case timeSignal = "TIME_SIGNAL"
-        public var description: String { return self.rawValue }
+    public struct MessageType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var spliceInsert: Self { .init(rawValue: "SPLICE_INSERT") }
+        @inlinable public static var timeSignal: Self { .init(rawValue: "TIME_SIGNAL") }
     }
 
-    public enum Method: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case get = "GET"
-        case post = "POST"
-        public var description: String { return self.rawValue }
+    public struct Method: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var get: Self { .init(rawValue: "GET") }
+        @inlinable public static var post: Self { .init(rawValue: "POST") }
     }
 
-    public enum MethodType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case get = "GET"
-        case post = "POST"
-        public var description: String { return self.rawValue }
+    public struct MethodType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var get: Self { .init(rawValue: "GET") }
+        @inlinable public static var post: Self { .init(rawValue: "POST") }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afterLiveEdge = "AFTER_LIVE_EDGE"
-        case behindLiveEdge = "BEHIND_LIVE_EDGE"
-        case off = "OFF"
-        public var description: String { return self.rawValue }
+    public struct Mode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afterLiveEdge: Self { .init(rawValue: "AFTER_LIVE_EDGE") }
+        @inlinable public static var behindLiveEdge: Self { .init(rawValue: "BEHIND_LIVE_EDGE") }
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
     }
 
-    public enum Operator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case equals = "EQUALS"
-        public var description: String { return self.rawValue }
+    public struct Operator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var equals: Self { .init(rawValue: "EQUALS") }
     }
 
-    public enum OriginManifestType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case multiPeriod = "MULTI_PERIOD"
-        case singlePeriod = "SINGLE_PERIOD"
-        public var description: String { return self.rawValue }
+    public struct OriginManifestType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var multiPeriod: Self { .init(rawValue: "MULTI_PERIOD") }
+        @inlinable public static var singlePeriod: Self { .init(rawValue: "SINGLE_PERIOD") }
     }
 
-    public enum PlaybackMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case linear = "LINEAR"
-        case loop = "LOOP"
-        public var description: String { return self.rawValue }
+    public struct PlaybackMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var linear: Self { .init(rawValue: "LINEAR") }
+        @inlinable public static var loop: Self { .init(rawValue: "LOOP") }
     }
 
-    public enum PreRollAdSequencingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case followAdSequence = "FOLLOW_AD_SEQUENCE"
-        case ignoreAdSequence = "IGNORE_AD_SEQUENCE"
-        public var description: String { return self.rawValue }
+    public struct PreRollAdSequencingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var followAdSequence: Self { .init(rawValue: "FOLLOW_AD_SEQUENCE") }
+        @inlinable public static var ignoreAdSequence: Self { .init(rawValue: "IGNORE_AD_SEQUENCE") }
     }
 
-    public enum PrefetchScheduleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case recurring = "RECURRING"
-        case single = "SINGLE"
-        public var description: String { return self.rawValue }
+    public struct PrefetchScheduleType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var recurring: Self { .init(rawValue: "RECURRING") }
+        @inlinable public static var single: Self { .init(rawValue: "SINGLE") }
     }
 
-    public enum RelativePosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afterProgram = "AFTER_PROGRAM"
-        case beforeProgram = "BEFORE_PROGRAM"
-        public var description: String { return self.rawValue }
+    public struct RelativePosition: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afterProgram: Self { .init(rawValue: "AFTER_PROGRAM") }
+        @inlinable public static var beforeProgram: Self { .init(rawValue: "BEFORE_PROGRAM") }
     }
 
-    public enum RuntimeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jsonata = "JSONATA"
-        public var description: String { return self.rawValue }
+    public struct RuntimeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jsonata: Self { .init(rawValue: "JSONATA") }
     }
 
-    public enum ScheduleEntryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alternateMedia = "ALTERNATE_MEDIA"
-        case fillerSlate = "FILLER_SLATE"
-        case program = "PROGRAM"
-        public var description: String { return self.rawValue }
+    public struct ScheduleEntryType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alternateMedia: Self { .init(rawValue: "ALTERNATE_MEDIA") }
+        @inlinable public static var fillerSlate: Self { .init(rawValue: "FILLER_SLATE") }
+        @inlinable public static var program: Self { .init(rawValue: "PROGRAM") }
     }
 
-    public enum StreamingMediaFileConditioning: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case transcode = "TRANSCODE"
-        public var description: String { return self.rawValue }
+    public struct StreamingMediaFileConditioning: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var transcode: Self { .init(rawValue: "TRANSCODE") }
     }
 
-    public enum Tier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case basic = "BASIC"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+    public struct Tier: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var basic: Self { .init(rawValue: "BASIC") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
     }
 
-    public enum TrafficShapingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case retrievalWindow = "RETRIEVAL_WINDOW"
-        case tps = "TPS"
-        public var description: String { return self.rawValue }
+    public struct TrafficShapingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var retrievalWindow: Self { .init(rawValue: "RETRIEVAL_WINDOW") }
+        @inlinable public static var tps: Self { .init(rawValue: "TPS") }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dash = "DASH"
-        case hls = "HLS"
-        public var description: String { return self.rawValue }
+    public struct `Type`: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dash: Self { .init(rawValue: "DASH") }
+        @inlinable public static var hls: Self { .init(rawValue: "HLS") }
     }
 
     // MARK: Shapes

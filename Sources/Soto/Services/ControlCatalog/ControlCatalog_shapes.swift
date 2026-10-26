@@ -25,52 +25,80 @@ import Foundation
 extension ControlCatalog {
     // MARK: Enums
 
-    public enum ControlBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case detective = "DETECTIVE"
-        case preventive = "PREVENTIVE"
-        case proactive = "PROACTIVE"
-        public var description: String { return self.rawValue }
+    public struct ControlBehavior: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var detective: Self { .init(rawValue: "DETECTIVE") }
+        @inlinable public static var preventive: Self { .init(rawValue: "PREVENTIVE") }
+        @inlinable public static var proactive: Self { .init(rawValue: "PROACTIVE") }
     }
 
-    public enum ControlParameterRequirement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case optional = "OPTIONAL"
-        case required = "REQUIRED"
-        public var description: String { return self.rawValue }
+    public struct ControlParameterRequirement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var optional: Self { .init(rawValue: "OPTIONAL") }
+        @inlinable public static var required: Self { .init(rawValue: "REQUIRED") }
     }
 
-    public enum ControlRelationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alternative = "ALTERNATIVE"
-        case complementary = "COMPLEMENTARY"
-        case mutuallyExclusive = "MUTUALLY_EXCLUSIVE"
-        public var description: String { return self.rawValue }
+    public struct ControlRelationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alternative: Self { .init(rawValue: "ALTERNATIVE") }
+        @inlinable public static var complementary: Self { .init(rawValue: "COMPLEMENTARY") }
+        @inlinable public static var mutuallyExclusive: Self { .init(rawValue: "MUTUALLY_EXCLUSIVE") }
     }
 
-    public enum ControlScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case global = "GLOBAL"
-        case regional = "REGIONAL"
-        public var description: String { return self.rawValue }
+    public struct ControlScope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var global: Self { .init(rawValue: "GLOBAL") }
+        @inlinable public static var regional: Self { .init(rawValue: "REGIONAL") }
     }
 
-    public enum ControlSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case critical = "CRITICAL"
-        case high = "HIGH"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        public var description: String { return self.rawValue }
+    public struct ControlSeverity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var critical: Self { .init(rawValue: "CRITICAL") }
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
     }
 
-    public enum MappingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case commonControl = "COMMON_CONTROL"
-        case framework = "FRAMEWORK"
-        case relatedControl = "RELATED_CONTROL"
-        public var description: String { return self.rawValue }
+    public struct MappingType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var commonControl: Self { .init(rawValue: "COMMON_CONTROL") }
+        @inlinable public static var framework: Self { .init(rawValue: "FRAMEWORK") }
+        @inlinable public static var relatedControl: Self { .init(rawValue: "RELATED_CONTROL") }
     }
 
-    public enum ParameterRequirementSummary: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "NONE"
-        case optional = "OPTIONAL"
-        case required = "REQUIRED"
-        public var description: String { return self.rawValue }
+    public struct ParameterRequirementSummary: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var optional: Self { .init(rawValue: "OPTIONAL") }
+        @inlinable public static var required: Self { .init(rawValue: "REQUIRED") }
     }
 
     public enum Mapping: AWSDecodableShape, Sendable {

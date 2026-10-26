@@ -25,68 +25,104 @@ import Foundation
 extension EMRContainers {
     // MARK: Enums
 
-    public enum AllowAWSToRetainLogs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct AllowAWSToRetainLogs: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum CertificateProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pem = "PEM"
-        public var description: String { return self.rawValue }
+    public struct CertificateProviderType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pem: Self { .init(rawValue: "PEM") }
     }
 
-    public enum ContainerProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case eks = "EKS"
-        public var description: String { return self.rawValue }
+    public struct ContainerProviderType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var eks: Self { .init(rawValue: "EKS") }
     }
 
-    public enum EndpointState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case terminated = "TERMINATED"
-        case terminatedWithErrors = "TERMINATED_WITH_ERRORS"
-        case terminating = "TERMINATING"
-        public var description: String { return self.rawValue }
+    public struct EndpointState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var terminated: Self { .init(rawValue: "TERMINATED") }
+        @inlinable public static var terminatedWithErrors: Self { .init(rawValue: "TERMINATED_WITH_ERRORS") }
+        @inlinable public static var terminating: Self { .init(rawValue: "TERMINATING") }
     }
 
-    public enum FailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case clusterUnavailable = "CLUSTER_UNAVAILABLE"
-        case internalError = "INTERNAL_ERROR"
-        case userError = "USER_ERROR"
-        case validationError = "VALIDATION_ERROR"
-        public var description: String { return self.rawValue }
+    public struct FailureReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var clusterUnavailable: Self { .init(rawValue: "CLUSTER_UNAVAILABLE") }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+        @inlinable public static var userError: Self { .init(rawValue: "USER_ERROR") }
+        @inlinable public static var validationError: Self { .init(rawValue: "VALIDATION_ERROR") }
     }
 
-    public enum JobRunState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelPending = "CANCEL_PENDING"
-        case cancelled = "CANCELLED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case submitted = "SUBMITTED"
-        public var description: String { return self.rawValue }
+    public struct JobRunState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelPending: Self { .init(rawValue: "CANCEL_PENDING") }
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
     }
 
-    public enum PersistentAppUI: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct PersistentAppUI: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum TemplateParameterDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case number = "NUMBER"
-        case string = "STRING"
-        public var description: String { return self.rawValue }
+    public struct TemplateParameterDataType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var number: Self { .init(rawValue: "NUMBER") }
+        @inlinable public static var string: Self { .init(rawValue: "STRING") }
     }
 
-    public enum VirtualClusterState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case arrested = "ARRESTED"
-        case running = "RUNNING"
-        case terminated = "TERMINATED"
-        case terminating = "TERMINATING"
-        public var description: String { return self.rawValue }
+    public struct VirtualClusterState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var arrested: Self { .init(rawValue: "ARRESTED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var terminated: Self { .init(rawValue: "TERMINATED") }
+        @inlinable public static var terminating: Self { .init(rawValue: "TERMINATING") }
     }
 
     // MARK: Shapes

@@ -25,36 +25,56 @@ import Foundation
 extension AppIntegrations {
     // MARK: Enums
 
-    public enum ApplicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case a2aServer = "A2A_SERVER"
-        case mcpServer = "MCP_SERVER"
-        case service = "SERVICE"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+    public struct ApplicationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var a2aServer: Self { .init(rawValue: "A2A_SERVER") }
+        @inlinable public static var mcpServer: Self { .init(rawValue: "MCP_SERVER") }
+        @inlinable public static var service: Self { .init(rawValue: "SERVICE") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
     }
 
-    public enum AuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case apiKey = "API_KEY"
-        public var description: String { return self.rawValue }
+    public struct AuthType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var apiKey: Self { .init(rawValue: "API_KEY") }
     }
 
-    public enum ContactHandlingScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case crossContacts = "CROSS_CONTACTS"
-        case perContact = "PER_CONTACT"
-        public var description: String { return self.rawValue }
+    public struct ContactHandlingScope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var crossContacts: Self { .init(rawValue: "CROSS_CONTACTS") }
+        @inlinable public static var perContact: Self { .init(rawValue: "PER_CONTACT") }
     }
 
-    public enum ExecutionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case onDemand = "ON_DEMAND"
-        case scheduled = "SCHEDULED"
-        public var description: String { return self.rawValue }
+    public struct ExecutionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var onDemand: Self { .init(rawValue: "ON_DEMAND") }
+        @inlinable public static var scheduled: Self { .init(rawValue: "SCHEDULED") }
     }
 
-    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct ExecutionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
     }
 
     // MARK: Shapes

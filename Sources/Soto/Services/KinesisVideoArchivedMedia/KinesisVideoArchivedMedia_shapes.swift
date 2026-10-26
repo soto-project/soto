@@ -25,96 +25,156 @@ import Foundation
 extension KinesisVideoArchivedMedia {
     // MARK: Enums
 
-    public enum ClipFragmentSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
+    public struct ClipFragmentSelectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var producerTimestamp: Self { .init(rawValue: "PRODUCER_TIMESTAMP") }
+        @inlinable public static var serverTimestamp: Self { .init(rawValue: "SERVER_TIMESTAMP") }
     }
 
-    public enum ContainerFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fragmentedMp4 = "FRAGMENTED_MP4"
-        case mpegTs = "MPEG_TS"
-        public var description: String { return self.rawValue }
+    public struct ContainerFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fragmentedMp4: Self { .init(rawValue: "FRAGMENTED_MP4") }
+        @inlinable public static var mpegTs: Self { .init(rawValue: "MPEG_TS") }
     }
 
-    public enum DASHDisplayFragmentNumber: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case always = "ALWAYS"
-        case never = "NEVER"
-        public var description: String { return self.rawValue }
+    public struct DASHDisplayFragmentNumber: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var always: Self { .init(rawValue: "ALWAYS") }
+        @inlinable public static var never: Self { .init(rawValue: "NEVER") }
     }
 
-    public enum DASHDisplayFragmentTimestamp: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case always = "ALWAYS"
-        case never = "NEVER"
-        public var description: String { return self.rawValue }
+    public struct DASHDisplayFragmentTimestamp: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var always: Self { .init(rawValue: "ALWAYS") }
+        @inlinable public static var never: Self { .init(rawValue: "NEVER") }
     }
 
-    public enum DASHFragmentSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
+    public struct DASHFragmentSelectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var producerTimestamp: Self { .init(rawValue: "PRODUCER_TIMESTAMP") }
+        @inlinable public static var serverTimestamp: Self { .init(rawValue: "SERVER_TIMESTAMP") }
     }
 
-    public enum DASHPlaybackMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case live = "LIVE"
-        case liveReplay = "LIVE_REPLAY"
-        case onDemand = "ON_DEMAND"
-        public var description: String { return self.rawValue }
+    public struct DASHPlaybackMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var live: Self { .init(rawValue: "LIVE") }
+        @inlinable public static var liveReplay: Self { .init(rawValue: "LIVE_REPLAY") }
+        @inlinable public static var onDemand: Self { .init(rawValue: "ON_DEMAND") }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jpeg = "JPEG"
-        case png = "PNG"
-        public var description: String { return self.rawValue }
+    public struct Format: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jpeg: Self { .init(rawValue: "JPEG") }
+        @inlinable public static var png: Self { .init(rawValue: "PNG") }
     }
 
-    public enum FormatConfigKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jpegQuality = "JPEGQuality"
-        public var description: String { return self.rawValue }
+    public struct FormatConfigKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jpegQuality: Self { .init(rawValue: "JPEGQuality") }
     }
 
-    public enum FragmentSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
+    public struct FragmentSelectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var producerTimestamp: Self { .init(rawValue: "PRODUCER_TIMESTAMP") }
+        @inlinable public static var serverTimestamp: Self { .init(rawValue: "SERVER_TIMESTAMP") }
     }
 
-    public enum HLSDiscontinuityMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case always = "ALWAYS"
-        case never = "NEVER"
-        case onDiscontinuity = "ON_DISCONTINUITY"
-        public var description: String { return self.rawValue }
+    public struct HLSDiscontinuityMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var always: Self { .init(rawValue: "ALWAYS") }
+        @inlinable public static var never: Self { .init(rawValue: "NEVER") }
+        @inlinable public static var onDiscontinuity: Self { .init(rawValue: "ON_DISCONTINUITY") }
     }
 
-    public enum HLSDisplayFragmentTimestamp: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case always = "ALWAYS"
-        case never = "NEVER"
-        public var description: String { return self.rawValue }
+    public struct HLSDisplayFragmentTimestamp: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var always: Self { .init(rawValue: "ALWAYS") }
+        @inlinable public static var never: Self { .init(rawValue: "NEVER") }
     }
 
-    public enum HLSFragmentSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
+    public struct HLSFragmentSelectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var producerTimestamp: Self { .init(rawValue: "PRODUCER_TIMESTAMP") }
+        @inlinable public static var serverTimestamp: Self { .init(rawValue: "SERVER_TIMESTAMP") }
     }
 
-    public enum HLSPlaybackMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case live = "LIVE"
-        case liveReplay = "LIVE_REPLAY"
-        case onDemand = "ON_DEMAND"
-        public var description: String { return self.rawValue }
+    public struct HLSPlaybackMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var live: Self { .init(rawValue: "LIVE") }
+        @inlinable public static var liveReplay: Self { .init(rawValue: "LIVE_REPLAY") }
+        @inlinable public static var onDemand: Self { .init(rawValue: "ON_DEMAND") }
     }
 
-    public enum ImageError: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mediaError = "MEDIA_ERROR"
-        case noMedia = "NO_MEDIA"
-        public var description: String { return self.rawValue }
+    public struct ImageError: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mediaError: Self { .init(rawValue: "MEDIA_ERROR") }
+        @inlinable public static var noMedia: Self { .init(rawValue: "NO_MEDIA") }
     }
 
-    public enum ImageSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        public var description: String { return self.rawValue }
+    public struct ImageSelectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var producerTimestamp: Self { .init(rawValue: "PRODUCER_TIMESTAMP") }
+        @inlinable public static var serverTimestamp: Self { .init(rawValue: "SERVER_TIMESTAMP") }
     }
 
     // MARK: Shapes

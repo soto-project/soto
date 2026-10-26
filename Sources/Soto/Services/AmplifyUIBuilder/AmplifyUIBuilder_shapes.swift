@@ -25,115 +25,175 @@ import Foundation
 extension AmplifyUIBuilder {
     // MARK: Enums
 
-    public enum CodegenGenericDataFieldDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `enum` = "Enum"
-        case awsDate = "AWSDate"
-        case awsDateTime = "AWSDateTime"
-        case awsEmail = "AWSEmail"
-        case awsIpAddress = "AWSIPAddress"
-        case awsJson = "AWSJSON"
-        case awsPhone = "AWSPhone"
-        case awsTime = "AWSTime"
-        case awsTimestamp = "AWSTimestamp"
-        case awsUrl = "AWSURL"
-        case boolean = "Boolean"
-        case float = "Float"
-        case id = "ID"
-        case int = "Int"
-        case model = "Model"
-        case nonModel = "NonModel"
-        case string = "String"
-        public var description: String { return self.rawValue }
+    public struct CodegenGenericDataFieldDataType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `enum`: Self { .init(rawValue: "Enum") }
+        @inlinable public static var awsDate: Self { .init(rawValue: "AWSDate") }
+        @inlinable public static var awsDateTime: Self { .init(rawValue: "AWSDateTime") }
+        @inlinable public static var awsEmail: Self { .init(rawValue: "AWSEmail") }
+        @inlinable public static var awsIpAddress: Self { .init(rawValue: "AWSIPAddress") }
+        @inlinable public static var awsJson: Self { .init(rawValue: "AWSJSON") }
+        @inlinable public static var awsPhone: Self { .init(rawValue: "AWSPhone") }
+        @inlinable public static var awsTime: Self { .init(rawValue: "AWSTime") }
+        @inlinable public static var awsTimestamp: Self { .init(rawValue: "AWSTimestamp") }
+        @inlinable public static var awsUrl: Self { .init(rawValue: "AWSURL") }
+        @inlinable public static var boolean: Self { .init(rawValue: "Boolean") }
+        @inlinable public static var float: Self { .init(rawValue: "Float") }
+        @inlinable public static var id: Self { .init(rawValue: "ID") }
+        @inlinable public static var int: Self { .init(rawValue: "Int") }
+        @inlinable public static var model: Self { .init(rawValue: "Model") }
+        @inlinable public static var nonModel: Self { .init(rawValue: "NonModel") }
+        @inlinable public static var string: Self { .init(rawValue: "String") }
     }
 
-    public enum CodegenJobGenericDataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dataStore = "DataStore"
-        public var description: String { return self.rawValue }
+    public struct CodegenJobGenericDataSourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dataStore: Self { .init(rawValue: "DataStore") }
     }
 
-    public enum CodegenJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "failed"
-        case inProgress = "in_progress"
-        case succeeded = "succeeded"
-        public var description: String { return self.rawValue }
+    public struct CodegenJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "in_progress") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "succeeded") }
     }
 
-    public enum FixedPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case first = "first"
-        public var description: String { return self.rawValue }
+    public struct FixedPosition: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var first: Self { .init(rawValue: "first") }
     }
 
-    public enum FormActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case create = "create"
-        case update = "update"
-        public var description: String { return self.rawValue }
+    public struct FormActionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var create: Self { .init(rawValue: "create") }
+        @inlinable public static var update: Self { .init(rawValue: "update") }
     }
 
-    public enum FormButtonsPosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bottom = "bottom"
-        case top = "top"
-        case topAndBottom = "top_and_bottom"
-        public var description: String { return self.rawValue }
+    public struct FormButtonsPosition: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bottom: Self { .init(rawValue: "bottom") }
+        @inlinable public static var top: Self { .init(rawValue: "top") }
+        @inlinable public static var topAndBottom: Self { .init(rawValue: "top_and_bottom") }
     }
 
-    public enum FormDataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct FormDataSourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Will use passed in hooks to use when creating a form from scratch
-        case custom = "Custom"
+        @inlinable public static var custom: Self { .init(rawValue: "Custom") }
         /// Will use a provided Amplify DataStore enabled API
-        case dataStore = "DataStore"
-        public var description: String { return self.rawValue }
+        @inlinable public static var dataStore: Self { .init(rawValue: "DataStore") }
     }
 
-    public enum GenericDataRelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case belongsTo = "BELONGS_TO"
-        case hasMany = "HAS_MANY"
-        case hasOne = "HAS_ONE"
-        public var description: String { return self.rawValue }
+    public struct GenericDataRelationshipType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var belongsTo: Self { .init(rawValue: "BELONGS_TO") }
+        @inlinable public static var hasMany: Self { .init(rawValue: "HAS_MANY") }
+        @inlinable public static var hasOne: Self { .init(rawValue: "HAS_ONE") }
     }
 
-    public enum JSModule: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case es2020 = "es2020"
-        case esnext = "esnext"
-        public var description: String { return self.rawValue }
+    public struct JSModule: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var es2020: Self { .init(rawValue: "es2020") }
+        @inlinable public static var esnext: Self { .init(rawValue: "esnext") }
     }
 
-    public enum JSScript: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case js = "js"
-        case jsx = "jsx"
-        case tsx = "tsx"
-        public var description: String { return self.rawValue }
+    public struct JSScript: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var js: Self { .init(rawValue: "js") }
+        @inlinable public static var jsx: Self { .init(rawValue: "jsx") }
+        @inlinable public static var tsx: Self { .init(rawValue: "tsx") }
     }
 
-    public enum JSTarget: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case es2015 = "es2015"
-        case es2020 = "es2020"
-        public var description: String { return self.rawValue }
+    public struct JSTarget: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var es2015: Self { .init(rawValue: "es2015") }
+        @inlinable public static var es2020: Self { .init(rawValue: "es2020") }
     }
 
-    public enum LabelDecorator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "none"
-        case optional = "optional"
-        case required = "required"
-        public var description: String { return self.rawValue }
+    public struct LabelDecorator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "none") }
+        @inlinable public static var optional: Self { .init(rawValue: "optional") }
+        @inlinable public static var required: Self { .init(rawValue: "required") }
     }
 
-    public enum SortDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
+    public struct SortDirection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asc: Self { .init(rawValue: "ASC") }
+        @inlinable public static var desc: Self { .init(rawValue: "DESC") }
     }
 
-    public enum StorageAccessLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `private` = "private"
-        case `public` = "public"
-        case protected = "protected"
-        public var description: String { return self.rawValue }
+    public struct StorageAccessLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `private`: Self { .init(rawValue: "private") }
+        @inlinable public static var `public`: Self { .init(rawValue: "public") }
+        @inlinable public static var protected: Self { .init(rawValue: "protected") }
     }
 
-    public enum TokenProviders: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct TokenProviders: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The figma token provider.
-        case figma = "figma"
-        public var description: String { return self.rawValue }
+        @inlinable public static var figma: Self { .init(rawValue: "figma") }
     }
 
     public enum ApiConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {

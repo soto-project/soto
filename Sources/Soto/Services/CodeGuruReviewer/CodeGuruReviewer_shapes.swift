@@ -25,92 +25,136 @@ import Foundation
 extension CodeGuruReviewer {
     // MARK: Enums
 
-    public enum AnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case codeQuality = "CodeQuality"
-        case security = "Security"
-        public var description: String { return self.rawValue }
+    public struct AnalysisType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var codeQuality: Self { .init(rawValue: "CodeQuality") }
+        @inlinable public static var security: Self { .init(rawValue: "Security") }
     }
 
-    public enum ConfigFileState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case absent = "Absent"
-        case present = "Present"
-        case presentWithErrors = "PresentWithErrors"
-        public var description: String { return self.rawValue }
+    public struct ConfigFileState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var absent: Self { .init(rawValue: "Absent") }
+        @inlinable public static var present: Self { .init(rawValue: "Present") }
+        @inlinable public static var presentWithErrors: Self { .init(rawValue: "PresentWithErrors") }
     }
 
-    public enum EncryptionOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aoCmk = "AWS_OWNED_CMK"
-        case cmCmk = "CUSTOMER_MANAGED_CMK"
-        public var description: String { return self.rawValue }
+    public struct EncryptionOption: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aoCmk: Self { .init(rawValue: "AWS_OWNED_CMK") }
+        @inlinable public static var cmCmk: Self { .init(rawValue: "CUSTOMER_MANAGED_CMK") }
     }
 
-    public enum JobState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "Completed"
-        case deleting = "Deleting"
-        case failed = "Failed"
-        case pending = "Pending"
-        public var description: String { return self.rawValue }
+    public struct JobState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "Completed") }
+        @inlinable public static var deleting: Self { .init(rawValue: "Deleting") }
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var pending: Self { .init(rawValue: "Pending") }
     }
 
-    public enum ProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bitbucket = "Bitbucket"
-        case codeCommit = "CodeCommit"
-        case gitHub = "GitHub"
-        case gitHubEnterpriseServer = "GitHubEnterpriseServer"
-        case s3Bucket = "S3Bucket"
-        public var description: String { return self.rawValue }
+    public struct ProviderType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bitbucket: Self { .init(rawValue: "Bitbucket") }
+        @inlinable public static var codeCommit: Self { .init(rawValue: "CodeCommit") }
+        @inlinable public static var gitHub: Self { .init(rawValue: "GitHub") }
+        @inlinable public static var gitHubEnterpriseServer: Self { .init(rawValue: "GitHubEnterpriseServer") }
+        @inlinable public static var s3Bucket: Self { .init(rawValue: "S3Bucket") }
     }
 
-    public enum Reaction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case thumbsDown = "ThumbsDown"
-        case thumbsUp = "ThumbsUp"
-        public var description: String { return self.rawValue }
+    public struct Reaction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var thumbsDown: Self { .init(rawValue: "ThumbsDown") }
+        @inlinable public static var thumbsUp: Self { .init(rawValue: "ThumbsUp") }
     }
 
-    public enum RecommendationCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsBestPractices = "AWSBestPractices"
-        case awsCloudformationIssues = "AWSCloudFormationIssues"
-        case codeInconsistencies = "CodeInconsistencies"
-        case codeMaintenanceIssues = "CodeMaintenanceIssues"
-        case concurrencyIssues = "ConcurrencyIssues"
-        case duplicateCode = "DuplicateCode"
-        case inputValidations = "InputValidations"
-        case javaBestPractices = "JavaBestPractices"
-        case pythonBestPractices = "PythonBestPractices"
-        case resourceLeaks = "ResourceLeaks"
-        case securityIssues = "SecurityIssues"
-        public var description: String { return self.rawValue }
+    public struct RecommendationCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsBestPractices: Self { .init(rawValue: "AWSBestPractices") }
+        @inlinable public static var awsCloudformationIssues: Self { .init(rawValue: "AWSCloudFormationIssues") }
+        @inlinable public static var codeInconsistencies: Self { .init(rawValue: "CodeInconsistencies") }
+        @inlinable public static var codeMaintenanceIssues: Self { .init(rawValue: "CodeMaintenanceIssues") }
+        @inlinable public static var concurrencyIssues: Self { .init(rawValue: "ConcurrencyIssues") }
+        @inlinable public static var duplicateCode: Self { .init(rawValue: "DuplicateCode") }
+        @inlinable public static var inputValidations: Self { .init(rawValue: "InputValidations") }
+        @inlinable public static var javaBestPractices: Self { .init(rawValue: "JavaBestPractices") }
+        @inlinable public static var pythonBestPractices: Self { .init(rawValue: "PythonBestPractices") }
+        @inlinable public static var resourceLeaks: Self { .init(rawValue: "ResourceLeaks") }
+        @inlinable public static var securityIssues: Self { .init(rawValue: "SecurityIssues") }
     }
 
-    public enum RepositoryAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case associated = "Associated"
-        case associating = "Associating"
-        case disassociated = "Disassociated"
-        case disassociating = "Disassociating"
-        case failed = "Failed"
-        public var description: String { return self.rawValue }
+    public struct RepositoryAssociationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var associated: Self { .init(rawValue: "Associated") }
+        @inlinable public static var associating: Self { .init(rawValue: "Associating") }
+        @inlinable public static var disassociated: Self { .init(rawValue: "Disassociated") }
+        @inlinable public static var disassociating: Self { .init(rawValue: "Disassociating") }
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
     }
 
-    public enum Severity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case critical = "Critical"
-        case high = "High"
-        case info = "Info"
-        case low = "Low"
-        case medium = "Medium"
-        public var description: String { return self.rawValue }
+    public struct Severity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var critical: Self { .init(rawValue: "Critical") }
+        @inlinable public static var high: Self { .init(rawValue: "High") }
+        @inlinable public static var info: Self { .init(rawValue: "Info") }
+        @inlinable public static var low: Self { .init(rawValue: "Low") }
+        @inlinable public static var medium: Self { .init(rawValue: "Medium") }
     }
 
-    public enum VendorName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case github = "GitHub"
-        case gitlab = "GitLab"
-        case nativeS3 = "NativeS3"
-        public var description: String { return self.rawValue }
+    public struct VendorName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var github: Self { .init(rawValue: "GitHub") }
+        @inlinable public static var gitlab: Self { .init(rawValue: "GitLab") }
+        @inlinable public static var nativeS3: Self { .init(rawValue: "NativeS3") }
     }
 
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pullRequest = "PullRequest"
-        case repositoryAnalysis = "RepositoryAnalysis"
-        public var description: String { return self.rawValue }
+    public struct `Type`: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pullRequest: Self { .init(rawValue: "PullRequest") }
+        @inlinable public static var repositoryAnalysis: Self { .init(rawValue: "RepositoryAnalysis") }
     }
 
     // MARK: Shapes

@@ -25,35 +25,51 @@ import Foundation
 extension ConnectContactLens {
     // MARK: Enums
 
-    public enum ExtractedInformationFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failedSafetyGuidelines = "FAILED_SAFETY_GUIDELINES"
-        case insufficientConversationContent = "INSUFFICIENT_CONVERSATION_CONTENT"
-        case internalError = "INTERNAL_ERROR"
-        case maxPackageFeatureOnly = "MAX_PACKAGE_FEATURE_ONLY"
-        case quotaExceeded = "QUOTA_EXCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ExtractedInformationFailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failedSafetyGuidelines: Self { .init(rawValue: "FAILED_SAFETY_GUIDELINES") }
+        @inlinable public static var insufficientConversationContent: Self { .init(rawValue: "INSUFFICIENT_CONVERSATION_CONTENT") }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+        @inlinable public static var maxPackageFeatureOnly: Self { .init(rawValue: "MAX_PACKAGE_FEATURE_ONLY") }
+        @inlinable public static var quotaExceeded: Self { .init(rawValue: "QUOTA_EXCEEDED") }
     }
 
-    public enum PostContactSummaryFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failedSafetyGuidelines = "FAILED_SAFETY_GUIDELINES"
-        case insufficientConversationContent = "INSUFFICIENT_CONVERSATION_CONTENT"
-        case internalError = "INTERNAL_ERROR"
-        case invalidAnalysisConfiguration = "INVALID_ANALYSIS_CONFIGURATION"
-        case quotaExceeded = "QUOTA_EXCEEDED"
-        public var description: String { return self.rawValue }
+    public struct PostContactSummaryFailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failedSafetyGuidelines: Self { .init(rawValue: "FAILED_SAFETY_GUIDELINES") }
+        @inlinable public static var insufficientConversationContent: Self { .init(rawValue: "INSUFFICIENT_CONVERSATION_CONTENT") }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+        @inlinable public static var invalidAnalysisConfiguration: Self { .init(rawValue: "INVALID_ANALYSIS_CONFIGURATION") }
+        @inlinable public static var quotaExceeded: Self { .init(rawValue: "QUOTA_EXCEEDED") }
     }
 
-    public enum PostContactSummaryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
+    public struct PostContactSummaryStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
     }
 
-    public enum SentimentValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case negative = "NEGATIVE"
-        case neutral = "NEUTRAL"
-        case positive = "POSITIVE"
-        public var description: String { return self.rawValue }
+    public struct SentimentValue: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var negative: Self { .init(rawValue: "NEGATIVE") }
+        @inlinable public static var neutral: Self { .init(rawValue: "NEUTRAL") }
+        @inlinable public static var positive: Self { .init(rawValue: "POSITIVE") }
     }
 
     // MARK: Shapes

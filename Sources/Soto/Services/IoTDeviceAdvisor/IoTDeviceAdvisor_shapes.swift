@@ -25,63 +25,87 @@ import Foundation
 extension IoTDeviceAdvisor {
     // MARK: Enums
 
-    public enum AuthenticationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case signatureVersion4 = "SignatureVersion4"
-        case x509ClientCertificate = "X509ClientCertificate"
-        public var description: String { return self.rawValue }
+    public struct AuthenticationMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var signatureVersion4: Self { .init(rawValue: "SignatureVersion4") }
+        @inlinable public static var x509ClientCertificate: Self { .init(rawValue: "X509ClientCertificate") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "CANCELED"
-        case error = "ERROR"
-        case fail = "FAIL"
-        case pass = "PASS"
-        case passWithWarnings = "PASS_WITH_WARNINGS"
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case stopped = "STOPPED"
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var fail: Self { .init(rawValue: "FAIL") }
+        @inlinable public static var pass: Self { .init(rawValue: "PASS") }
+        @inlinable public static var passWithWarnings: Self { .init(rawValue: "PASS_WITH_WARNINGS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
     }
 
-    public enum SuiteRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "CANCELED"
-        case error = "ERROR"
-        case fail = "FAIL"
-        case pass = "PASS"
-        case passWithWarnings = "PASS_WITH_WARNINGS"
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case stopped = "STOPPED"
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
+    public struct SuiteRunStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var fail: Self { .init(rawValue: "FAIL") }
+        @inlinable public static var pass: Self { .init(rawValue: "PASS") }
+        @inlinable public static var passWithWarnings: Self { .init(rawValue: "PASS_WITH_WARNINGS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
     }
 
-    public enum TestCaseScenarioStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case canceled = "CANCELED"
-        case error = "ERROR"
-        case fail = "FAIL"
-        case pass = "PASS"
-        case passWithWarnings = "PASS_WITH_WARNINGS"
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case stopped = "STOPPED"
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
+    public struct TestCaseScenarioStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var canceled: Self { .init(rawValue: "CANCELED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var fail: Self { .init(rawValue: "FAIL") }
+        @inlinable public static var pass: Self { .init(rawValue: "PASS") }
+        @inlinable public static var passWithWarnings: Self { .init(rawValue: "PASS_WITH_WARNINGS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
     }
 
-    public enum TestCaseScenarioType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case advanced = "Advanced"
-        case basic = "Basic"
-        public var description: String { return self.rawValue }
+    public struct TestCaseScenarioType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var advanced: Self { .init(rawValue: "Advanced") }
+        @inlinable public static var basic: Self { .init(rawValue: "Basic") }
     }
 
-    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mqttV311 = "MqttV3_1_1"
-        case mqttV311Overwebsocket = "MqttV3_1_1_OverWebSocket"
-        case mqttV5 = "MqttV5"
-        case mqttV5Overwebsocket = "MqttV5_OverWebSocket"
-        public var description: String { return self.rawValue }
+    public struct `Protocol`: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mqttV311: Self { .init(rawValue: "MqttV3_1_1") }
+        @inlinable public static var mqttV311Overwebsocket: Self { .init(rawValue: "MqttV3_1_1_OverWebSocket") }
+        @inlinable public static var mqttV5: Self { .init(rawValue: "MqttV5") }
+        @inlinable public static var mqttV5Overwebsocket: Self { .init(rawValue: "MqttV5_OverWebSocket") }
     }
 
     // MARK: Shapes

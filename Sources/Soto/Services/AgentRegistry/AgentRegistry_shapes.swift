@@ -25,49 +25,69 @@ import Foundation
 extension AgentRegistry {
     // MARK: Enums
 
-    public enum BatchGetDiscoverableRegistryRecordErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessDenied = "ACCESS_DENIED"
-        case internalError = "INTERNAL_ERROR"
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct BatchGetDiscoverableRegistryRecordErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessDenied: Self { .init(rawValue: "ACCESS_DENIED") }
+        @inlinable public static var internalError: Self { .init(rawValue: "INTERNAL_ERROR") }
+        @inlinable public static var resourceNotFound: Self { .init(rawValue: "RESOURCE_NOT_FOUND") }
     }
 
-    public enum RecordType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case agent = "AGENT"
-        case custom = "CUSTOM"
-        case gateway = "GATEWAY"
-        case mcp = "MCP"
-        case skill = "SKILL"
-        public var description: String { return self.rawValue }
+    public struct RecordType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var agent: Self { .init(rawValue: "AGENT") }
+        @inlinable public static var custom: Self { .init(rawValue: "CUSTOM") }
+        @inlinable public static var gateway: Self { .init(rawValue: "GATEWAY") }
+        @inlinable public static var mcp: Self { .init(rawValue: "MCP") }
+        @inlinable public static var skill: Self { .init(rawValue: "SKILL") }
     }
 
-    public enum RegistryRecordFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case descriptorType = "descriptorType"
+    public struct RegistryRecordFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var descriptorType: Self { .init(rawValue: "descriptorType") }
         ///  Filters records by record type, such as MCP or AGENT.
-        case recordType = "recordType"
-        public var description: String { return self.rawValue }
+        @inlinable public static var recordType: Self { .init(rawValue: "recordType") }
     }
 
-    public enum RegistryRecordStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case approved = "APPROVED"
-        case createFailed = "CREATE_FAILED"
-        case creating = "CREATING"
-        case deprecated = "DEPRECATED"
-        case draft = "DRAFT"
-        case pendingApproval = "PENDING_APPROVAL"
-        case rejected = "REJECTED"
-        case updateFailed = "UPDATE_FAILED"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct RegistryRecordStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var approved: Self { .init(rawValue: "APPROVED") }
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deprecated: Self { .init(rawValue: "DEPRECATED") }
+        @inlinable public static var draft: Self { .init(rawValue: "DRAFT") }
+        @inlinable public static var pendingApproval: Self { .init(rawValue: "PENDING_APPROVAL") }
+        @inlinable public static var rejected: Self { .init(rawValue: "REJECTED") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "CannotParse"
-        case fieldValidationFailed = "FieldValidationFailed"
-        case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
-        case resourceConflict = "ResourceConflict"
-        case rootEventInOtherSession = "EventInOtherSession"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FieldValidationFailed") }
+        @inlinable public static var idempotentParameterMismatchException: Self { .init(rawValue: "IdempotentParameterMismatchException") }
+        @inlinable public static var resourceConflict: Self { .init(rawValue: "ResourceConflict") }
+        @inlinable public static var rootEventInOtherSession: Self { .init(rawValue: "EventInOtherSession") }
     }
 
     // MARK: Shapes

@@ -25,64 +25,88 @@ import Foundation
 extension Sustainability {
     // MARK: Enums
 
-    public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct Dimension: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The geographical area containing data center clusters where Amazon Web Services services are hosted.
-        case region = "REGION"
+        @inlinable public static var region: Self { .init(rawValue: "REGION") }
         /// The cloud computing product and solution offered by Amazon Web Services.
-        case service = "SERVICE"
+        @inlinable public static var service: Self { .init(rawValue: "SERVICE") }
         /// The account ID whose Amazon Web Services usage is associated with the estimated environmental impact data.
-        case usageAccountId = "USAGE_ACCOUNT_ID"
-        public var description: String { return self.rawValue }
+        @inlinable public static var usageAccountId: Self { .init(rawValue: "USAGE_ACCOUNT_ID") }
     }
 
-    public enum EmissionsType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct EmissionsType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Total direct, indirect, and value chain emissions, calculated using GHG Protocol's Location-based method (LBM).
-        case totalLbmCarbonEmissions = "TOTAL_LBM_CARBON_EMISSIONS"
+        @inlinable public static var totalLbmCarbonEmissions: Self { .init(rawValue: "TOTAL_LBM_CARBON_EMISSIONS") }
         /// Total direct, indirect, and value chain emissions, calculated using GHG Protocol's Market-based method (MBM).
-        case totalMbmCarbonEmissions = "TOTAL_MBM_CARBON_EMISSIONS"
+        @inlinable public static var totalMbmCarbonEmissions: Self { .init(rawValue: "TOTAL_MBM_CARBON_EMISSIONS") }
         /// Total direct emissions from Amazon Web Services owned or controlled sources.
-        case totalScope1CarbonEmissions = "TOTAL_SCOPE_1_CARBON_EMISSIONS"
+        @inlinable public static var totalScope1CarbonEmissions: Self { .init(rawValue: "TOTAL_SCOPE_1_CARBON_EMISSIONS") }
         /// Total indirect emissions from the production of purchased energy, calculated using GHG Protocol's Location-based method (LBM).
-        case totalScope2LbmCarbonEmissions = "TOTAL_SCOPE_2_LBM_CARBON_EMISSIONS"
+        @inlinable public static var totalScope2LbmCarbonEmissions: Self { .init(rawValue: "TOTAL_SCOPE_2_LBM_CARBON_EMISSIONS") }
         /// Total indirect emissions from the production of purchased energy, calculated using GHG Protocol's Market-based method (MBM).
-        case totalScope2MbmCarbonEmissions = "TOTAL_SCOPE_2_MBM_CARBON_EMISSIONS"
+        @inlinable public static var totalScope2MbmCarbonEmissions: Self { .init(rawValue: "TOTAL_SCOPE_2_MBM_CARBON_EMISSIONS") }
         /// Total value chain emissions, calculated using GHG Protocol's Location-based method (LBM).
-        case totalScope3LbmCarbonEmissions = "TOTAL_SCOPE_3_LBM_CARBON_EMISSIONS"
+        @inlinable public static var totalScope3LbmCarbonEmissions: Self { .init(rawValue: "TOTAL_SCOPE_3_LBM_CARBON_EMISSIONS") }
         /// Total value chain emissions, calculated using GHG Protocol's Market-based method (MBM).
-        case totalScope3MbmCarbonEmissions = "TOTAL_SCOPE_3_MBM_CARBON_EMISSIONS"
-        public var description: String { return self.rawValue }
+        @inlinable public static var totalScope3MbmCarbonEmissions: Self { .init(rawValue: "TOTAL_SCOPE_3_MBM_CARBON_EMISSIONS") }
     }
 
-    public enum EmissionsUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct EmissionsUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Metric tons of carbon dioxide-equivalent (MTCO2e).
-        case mtCo2E = "MTCO2e"
-        public var description: String { return self.rawValue }
+        @inlinable public static var mtCo2E: Self { .init(rawValue: "MTCO2e") }
     }
 
-    public enum TimeGranularity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct TimeGranularity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Environmental impact data aggregated by calendar month.
-        case monthly = "MONTHLY"
+        @inlinable public static var monthly: Self { .init(rawValue: "MONTHLY") }
         /// Environmental impact data aggregated over calendar quarter periods (Q1: Jan-Mar, Q2: Apr-Jun, Q3: Jul-Sep, Q4: Oct-Dec).
-        case quarterlyCalendar = "QUARTERLY_CALENDAR"
+        @inlinable public static var quarterlyCalendar: Self { .init(rawValue: "QUARTERLY_CALENDAR") }
         /// Environmental impact data aggregated over fiscal quarter periods based on the fiscal year start month specified in GranularityConfiguration.FiscalYearStartMonth.
-        case quarterlyFiscal = "QUARTERLY_FISCAL"
+        @inlinable public static var quarterlyFiscal: Self { .init(rawValue: "QUARTERLY_FISCAL") }
         /// Environmental impact data aggregated over calendar year periods (January-December).
-        case yearlyCalendar = "YEARLY_CALENDAR"
+        @inlinable public static var yearlyCalendar: Self { .init(rawValue: "YEARLY_CALENDAR") }
         /// Environmental impact data aggregated over fiscal year periods starting from the month specified in GranularityConfiguration.FiscalYearStartMonth.
-        case yearlyFiscal = "YEARLY_FISCAL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var yearlyFiscal: Self { .init(rawValue: "YEARLY_FISCAL") }
     }
 
-    public enum WaterAllocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct WaterAllocationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Total water drawn from surface water, groundwater, seawater, or a third party associated with Amazon Web Services account usage.
-        case totalWaterWithdrawals = "TOTAL_WATER_WITHDRAWALS"
-        public var description: String { return self.rawValue }
+        @inlinable public static var totalWaterWithdrawals: Self { .init(rawValue: "TOTAL_WATER_WITHDRAWALS") }
     }
 
-    public enum WaterAllocationUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct WaterAllocationUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Cubic meters of water.
-        case cubicMeters = "m3"
-        public var description: String { return self.rawValue }
+        @inlinable public static var cubicMeters: Self { .init(rawValue: "m3") }
     }
 
     // MARK: Shapes

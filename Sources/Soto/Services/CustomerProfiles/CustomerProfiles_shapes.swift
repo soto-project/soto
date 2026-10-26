@@ -25,675 +25,955 @@ import Foundation
 extension CustomerProfiles {
     // MARK: Enums
 
-    public enum ActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addedProfileKey = "ADDED_PROFILE_KEY"
-        case created = "CREATED"
-        case deletedByCustomer = "DELETED_BY_CUSTOMER"
-        case deletedByMerge = "DELETED_BY_MERGE"
-        case deletedProfileKey = "DELETED_PROFILE_KEY"
-        case expired = "EXPIRED"
-        case ingested = "INGESTED"
-        case merged = "MERGED"
-        case updated = "UPDATED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AttributeDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case after = "AFTER"
-        case before = "BEFORE"
-        case beginsWith = "BEGINS_WITH"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case endsWith = "ENDS_WITH"
-        case equal = "EQUAL"
-        case exclusive = "EXCLUSIVE"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
-        case inclusive = "INCLUSIVE"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
-        case listContains = "LIST_CONTAINS"
-        case listContainsAll = "LIST_CONTAINS_ALL"
-        case notBetween = "NOT_BETWEEN"
-        case on = "ON"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum AttributeMatchingModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case manyToMany = "MANY_TO_MANY"
-        case oneToOne = "ONE_TO_ONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case after = "AFTER"
-        case before = "BEFORE"
-        case beginsWith = "BEGINS_WITH"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case endsWith = "ENDS_WITH"
-        case equal = "EQUAL"
-        case exclusive = "EXCLUSIVE"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
-        case inclusive = "INCLUSIVE"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
-        case notBetween = "NOT_BETWEEN"
-        case on = "ON"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ConflictResolvingModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case recency = "RECENCY"
-        case source = "SOURCE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case businessEmailAddress = "BusinessEmailAddress"
-        case businessPhoneNumber = "BusinessPhoneNumber"
-        case emailAddress = "EmailAddress"
-        case homePhoneNumber = "HomePhoneNumber"
-        case mobilePhoneNumber = "MobilePhoneNumber"
-        case personalEmailAddress = "PersonalEmailAddress"
-        case phoneNumber = "PhoneNumber"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case number = "NUMBER"
-        case string = "STRING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "CSV"
-        case jsonl = "JSONL"
-        case orc = "ORC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DataPullMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case complete = "Complete"
-        case incremental = "Incremental"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum DateDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case after = "AFTER"
-        case before = "BEFORE"
-        case between = "BETWEEN"
-        case notBetween = "NOT_BETWEEN"
-        case on = "ON"
-        public var description: String { return self.rawValue }
-    }
+    public struct ActionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addedProfileKey: Self { .init(rawValue: "ADDED_PROFILE_KEY") }
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var deletedByCustomer: Self { .init(rawValue: "DELETED_BY_CUSTOMER") }
+        @inlinable public static var deletedByMerge: Self { .init(rawValue: "DELETED_BY_MERGE") }
+        @inlinable public static var deletedProfileKey: Self { .init(rawValue: "DELETED_PROFILE_KEY") }
+        @inlinable public static var expired: Self { .init(rawValue: "EXPIRED") }
+        @inlinable public static var ingested: Self { .init(rawValue: "INGESTED") }
+        @inlinable public static var merged: Self { .init(rawValue: "MERGED") }
+        @inlinable public static var updated: Self { .init(rawValue: "UPDATED") }
+    }
+
+    public struct AttributeDimensionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var after: Self { .init(rawValue: "AFTER") }
+        @inlinable public static var before: Self { .init(rawValue: "BEFORE") }
+        @inlinable public static var beginsWith: Self { .init(rawValue: "BEGINS_WITH") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var endsWith: Self { .init(rawValue: "ENDS_WITH") }
+        @inlinable public static var equal: Self { .init(rawValue: "EQUAL") }
+        @inlinable public static var exclusive: Self { .init(rawValue: "EXCLUSIVE") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqual: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL") }
+        @inlinable public static var inclusive: Self { .init(rawValue: "INCLUSIVE") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqual: Self { .init(rawValue: "LESS_THAN_OR_EQUAL") }
+        @inlinable public static var listContains: Self { .init(rawValue: "LIST_CONTAINS") }
+        @inlinable public static var listContainsAll: Self { .init(rawValue: "LIST_CONTAINS_ALL") }
+        @inlinable public static var notBetween: Self { .init(rawValue: "NOT_BETWEEN") }
+        @inlinable public static var on: Self { .init(rawValue: "ON") }
+    }
+
+    public struct AttributeMatchingModel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var manyToMany: Self { .init(rawValue: "MANY_TO_MANY") }
+        @inlinable public static var oneToOne: Self { .init(rawValue: "ONE_TO_ONE") }
+    }
+
+    public struct ComparisonOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var after: Self { .init(rawValue: "AFTER") }
+        @inlinable public static var before: Self { .init(rawValue: "BEFORE") }
+        @inlinable public static var beginsWith: Self { .init(rawValue: "BEGINS_WITH") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var endsWith: Self { .init(rawValue: "ENDS_WITH") }
+        @inlinable public static var equal: Self { .init(rawValue: "EQUAL") }
+        @inlinable public static var exclusive: Self { .init(rawValue: "EXCLUSIVE") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqual: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL") }
+        @inlinable public static var inclusive: Self { .init(rawValue: "INCLUSIVE") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqual: Self { .init(rawValue: "LESS_THAN_OR_EQUAL") }
+        @inlinable public static var notBetween: Self { .init(rawValue: "NOT_BETWEEN") }
+        @inlinable public static var on: Self { .init(rawValue: "ON") }
+    }
+
+    public struct ConflictResolvingModel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var recency: Self { .init(rawValue: "RECENCY") }
+        @inlinable public static var source: Self { .init(rawValue: "SOURCE") }
+    }
+
+    public struct ContactType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var businessEmailAddress: Self { .init(rawValue: "BusinessEmailAddress") }
+        @inlinable public static var businessPhoneNumber: Self { .init(rawValue: "BusinessPhoneNumber") }
+        @inlinable public static var emailAddress: Self { .init(rawValue: "EmailAddress") }
+        @inlinable public static var homePhoneNumber: Self { .init(rawValue: "HomePhoneNumber") }
+        @inlinable public static var mobilePhoneNumber: Self { .init(rawValue: "MobilePhoneNumber") }
+        @inlinable public static var personalEmailAddress: Self { .init(rawValue: "PersonalEmailAddress") }
+        @inlinable public static var phoneNumber: Self { .init(rawValue: "PhoneNumber") }
+    }
+
+    public struct ContentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var number: Self { .init(rawValue: "NUMBER") }
+        @inlinable public static var string: Self { .init(rawValue: "STRING") }
+    }
+
+    public struct DataFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "CSV") }
+        @inlinable public static var jsonl: Self { .init(rawValue: "JSONL") }
+        @inlinable public static var orc: Self { .init(rawValue: "ORC") }
+    }
+
+    public struct DataPullMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var complete: Self { .init(rawValue: "Complete") }
+        @inlinable public static var incremental: Self { .init(rawValue: "Incremental") }
+    }
+
+    public struct DateDimensionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var after: Self { .init(rawValue: "AFTER") }
+        @inlinable public static var before: Self { .init(rawValue: "BEFORE") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var notBetween: Self { .init(rawValue: "NOT_BETWEEN") }
+        @inlinable public static var on: Self { .init(rawValue: "ON") }
+    }
+
+    public struct DiversityCapType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var percentage: Self { .init(rawValue: "PERCENTAGE") }
+        @inlinable public static var value: Self { .init(rawValue: "VALUE") }
+    }
+
+    public struct EstimateStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
+    }
+
+    public struct EventStreamDestinationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var healthy: Self { .init(rawValue: "HEALTHY") }
+        @inlinable public static var unhealthy: Self { .init(rawValue: "UNHEALTHY") }
+    }
+
+    public struct EventStreamState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+    }
+
+    public struct EventSubscriptionSegmentStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var starting: Self { .init(rawValue: "STARTING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+    }
+
+    public struct EventSubscriptionState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var unhealthy: Self { .init(rawValue: "UNHEALTHY") }
+    }
+
+    public struct EventTriggerLogicalOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var any: Self { .init(rawValue: "ANY") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct FeatureType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var categorical: Self { .init(rawValue: "CATEGORICAL") }
+        @inlinable public static var textual: Self { .init(rawValue: "TEXTUAL") }
+    }
+
+    public struct FieldContentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var emailAddress: Self { .init(rawValue: "EMAIL_ADDRESS") }
+        @inlinable public static var name: Self { .init(rawValue: "NAME") }
+        @inlinable public static var number: Self { .init(rawValue: "NUMBER") }
+        @inlinable public static var phoneNumber: Self { .init(rawValue: "PHONE_NUMBER") }
+        @inlinable public static var string: Self { .init(rawValue: "STRING") }
+    }
+
+    public struct FilterDimensionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var after: Self { .init(rawValue: "AFTER") }
+        @inlinable public static var before: Self { .init(rawValue: "BEFORE") }
+        @inlinable public static var beginsWith: Self { .init(rawValue: "BEGINS_WITH") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var endsWith: Self { .init(rawValue: "ENDS_WITH") }
+        @inlinable public static var equal: Self { .init(rawValue: "EQUAL") }
+        @inlinable public static var exclusive: Self { .init(rawValue: "EXCLUSIVE") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqual: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL") }
+        @inlinable public static var inclusive: Self { .init(rawValue: "INCLUSIVE") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqual: Self { .init(rawValue: "LESS_THAN_OR_EQUAL") }
+        @inlinable public static var notBetween: Self { .init(rawValue: "NOT_BETWEEN") }
+        @inlinable public static var on: Self { .init(rawValue: "ON") }
+    }
+
+    public struct Gender: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var female: Self { .init(rawValue: "FEMALE") }
+        @inlinable public static var male: Self { .init(rawValue: "MALE") }
+        @inlinable public static var unspecified: Self { .init(rawValue: "UNSPECIFIED") }
+    }
+
+    public struct IdentityResolutionJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var findMatching: Self { .init(rawValue: "FIND_MATCHING") }
+        @inlinable public static var merging: Self { .init(rawValue: "MERGING") }
+        @inlinable public static var partialSuccess: Self { .init(rawValue: "PARTIAL_SUCCESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var preprocessing: Self { .init(rawValue: "PREPROCESSING") }
+    }
+
+    public struct Include: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var any: Self { .init(rawValue: "ANY") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct IncludeOptions: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var any: Self { .init(rawValue: "ANY") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+    }
+
+    public struct JobScheduleDayOfTheWeek: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var friday: Self { .init(rawValue: "FRIDAY") }
+        @inlinable public static var monday: Self { .init(rawValue: "MONDAY") }
+        @inlinable public static var saturday: Self { .init(rawValue: "SATURDAY") }
+        @inlinable public static var sunday: Self { .init(rawValue: "SUNDAY") }
+        @inlinable public static var thursday: Self { .init(rawValue: "THURSDAY") }
+        @inlinable public static var tuesday: Self { .init(rawValue: "TUESDAY") }
+        @inlinable public static var wednesday: Self { .init(rawValue: "WEDNESDAY") }
+    }
+
+    public struct LayoutType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var profileExplorer: Self { .init(rawValue: "PROFILE_EXPLORER") }
+    }
+
+    public struct LogicalOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var and: Self { .init(rawValue: "AND") }
+        @inlinable public static var or: Self { .init(rawValue: "OR") }
+    }
+
+    public struct MarketoConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
+    }
+
+    public struct MatchType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mlBasedMatching: Self { .init(rawValue: "ML_BASED_MATCHING") }
+        @inlinable public static var ruleBasedMatching: Self { .init(rawValue: "RULE_BASED_MATCHING") }
+    }
+
+    public struct Operator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+    }
+
+    public struct OperatorPropertiesKeys: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var concatFormat: Self { .init(rawValue: "CONCAT_FORMAT") }
+        @inlinable public static var dataType: Self { .init(rawValue: "DATA_TYPE") }
+        @inlinable public static var destinationDataType: Self { .init(rawValue: "DESTINATION_DATA_TYPE") }
+        @inlinable public static var lowerBound: Self { .init(rawValue: "LOWER_BOUND") }
+        @inlinable public static var maskLength: Self { .init(rawValue: "MASK_LENGTH") }
+        @inlinable public static var maskValue: Self { .init(rawValue: "MASK_VALUE") }
+        @inlinable public static var mathOperationFieldsOrder: Self { .init(rawValue: "MATH_OPERATION_FIELDS_ORDER") }
+        @inlinable public static var sourceDataType: Self { .init(rawValue: "SOURCE_DATA_TYPE") }
+        @inlinable public static var subfieldCategoryMap: Self { .init(rawValue: "SUBFIELD_CATEGORY_MAP") }
+        @inlinable public static var truncateLength: Self { .init(rawValue: "TRUNCATE_LENGTH") }
+        @inlinable public static var upperBound: Self { .init(rawValue: "UPPER_BOUND") }
+        @inlinable public static var validationAction: Self { .init(rawValue: "VALIDATION_ACTION") }
+        @inlinable public static var value: Self { .init(rawValue: "VALUE") }
+        @inlinable public static var values: Self { .init(rawValue: "VALUES") }
+    }
+
+    public struct PartyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var business: Self { .init(rawValue: "BUSINESS") }
+        @inlinable public static var individual: Self { .init(rawValue: "INDIVIDUAL") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+    }
+
+    public struct PeriodUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days: Self { .init(rawValue: "DAYS") }
+        @inlinable public static var hours: Self { .init(rawValue: "HOURS") }
+        @inlinable public static var minutes: Self { .init(rawValue: "MINUTES") }
+        @inlinable public static var months: Self { .init(rawValue: "MONTHS") }
+        @inlinable public static var weeks: Self { .init(rawValue: "WEEKS") }
+    }
+
+    public struct ProfileType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountProfile: Self { .init(rawValue: "ACCOUNT_PROFILE") }
+        @inlinable public static var profile: Self { .init(rawValue: "PROFILE") }
+    }
+
+    public struct ProfileTypeDimensionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum DiversityCapType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case percentage = "PERCENTAGE"
-        case value = "VALUE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EstimateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum EventStreamDestinationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EventStreamState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case running = "RUNNING"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
+        @inlinable public static var exclusive: Self { .init(rawValue: "EXCLUSIVE") }
+        @inlinable public static var inclusive: Self { .init(rawValue: "INCLUSIVE") }
+    }
+
+    public struct QueryResult: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var absent: Self { .init(rawValue: "ABSENT") }
+        @inlinable public static var present: Self { .init(rawValue: "PRESENT") }
+    }
+
+    public struct RangeUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days: Self { .init(rawValue: "DAYS") }
+    }
+
+    public struct ReadinessStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var preparing: Self { .init(rawValue: "PREPARING") }
+    }
+
+    public struct RecommenderFilterStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+    }
+
+    public struct RecommenderRecipeName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var frequentlyPairedItems: Self { .init(rawValue: "frequently-paired-items") }
+        @inlinable public static var personalizedRanking: Self { .init(rawValue: "personalized-ranking") }
+        @inlinable public static var popularItems: Self { .init(rawValue: "popular-items") }
+        @inlinable public static var recommendedForYou: Self { .init(rawValue: "recommended-for-you") }
+        @inlinable public static var similarItems: Self { .init(rawValue: "similar-items") }
+        @inlinable public static var trendingNow: Self { .init(rawValue: "trending-now") }
+    }
+
+    public struct RecommenderSchemaStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+    }
+
+    public struct RecommenderStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var starting: Self { .init(rawValue: "STARTING") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
+    }
+
+    public struct RuleBasedMatchingStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+    }
+
+    public struct S3ConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
+    }
+
+    public struct SalesforceConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
+    }
+
+    public struct ScheduleConfigurationUnit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hourly: Self { .init(rawValue: "HOURLY") }
+    }
+
+    public struct Scope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var domain: Self { .init(rawValue: "DOMAIN") }
+        @inlinable public static var profile: Self { .init(rawValue: "PROFILE") }
+    }
+
+    public struct SegmentSnapshotStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+    }
+
+    public struct SegmentSortDataType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var date: Self { .init(rawValue: "DATE") }
+        @inlinable public static var number: Self { .init(rawValue: "NUMBER") }
+        @inlinable public static var string: Self { .init(rawValue: "STRING") }
+    }
+
+    public struct SegmentSortOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asc: Self { .init(rawValue: "ASC") }
+        @inlinable public static var desc: Self { .init(rawValue: "DESC") }
+    }
+
+    public struct SegmentSubscriptionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var starting: Self { .init(rawValue: "STARTING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+    }
+
+    public struct SegmentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum EventSubscriptionSegmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case running = "RUNNING"
-        case starting = "STARTING"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var classic: Self { .init(rawValue: "CLASSIC") }
+        @inlinable public static var enhanced: Self { .init(rawValue: "ENHANCED") }
     }
 
-    public enum EventSubscriptionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case running = "RUNNING"
-        case stopped = "STOPPED"
-        case unhealthy = "UNHEALTHY"
-        public var description: String { return self.rawValue }
+    public struct ServiceNowConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var between: Self { .init(rawValue: "BETWEEN") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var equalTo: Self { .init(rawValue: "EQUAL_TO") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var greaterThanOrEqualTo: Self { .init(rawValue: "GREATER_THAN_OR_EQUAL_TO") }
+        @inlinable public static var lessThan: Self { .init(rawValue: "LESS_THAN") }
+        @inlinable public static var lessThanOrEqualTo: Self { .init(rawValue: "LESS_THAN_OR_EQUAL_TO") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var notEqualTo: Self { .init(rawValue: "NOT_EQUAL_TO") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
+    }
+
+    public struct SortAttributeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var calculated: Self { .init(rawValue: "CALCULATED") }
+        @inlinable public static var profile: Self { .init(rawValue: "PROFILE") }
+    }
+
+    public struct SourceConnectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var marketo: Self { .init(rawValue: "Marketo") }
+        @inlinable public static var s3: Self { .init(rawValue: "S3") }
+        @inlinable public static var salesforce: Self { .init(rawValue: "Salesforce") }
+        @inlinable public static var servicenow: Self { .init(rawValue: "Servicenow") }
+        @inlinable public static var zendesk: Self { .init(rawValue: "Zendesk") }
+    }
+
+    public struct StandardIdentifier: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `case`: Self { .init(rawValue: "CASE") }
+        @inlinable public static var airBooking: Self { .init(rawValue: "AIR_BOOKING") }
+        @inlinable public static var airPreference: Self { .init(rawValue: "AIR_PREFERENCE") }
+        @inlinable public static var airSegment: Self { .init(rawValue: "AIR_SEGMENT") }
+        @inlinable public static var asset: Self { .init(rawValue: "ASSET") }
+        @inlinable public static var communicationRecord: Self { .init(rawValue: "COMMUNICATION_RECORD") }
+        @inlinable public static var device: Self { .init(rawValue: "DEVICE") }
+        @inlinable public static var hotelPreference: Self { .init(rawValue: "HOTEL_PREFERENCE") }
+        @inlinable public static var hotelReservation: Self { .init(rawValue: "HOTEL_RESERVATION") }
+        @inlinable public static var hotelStayRevenue: Self { .init(rawValue: "HOTEL_STAY_REVENUE") }
+        @inlinable public static var lookupOnly: Self { .init(rawValue: "LOOKUP_ONLY") }
+        @inlinable public static var loyalty: Self { .init(rawValue: "LOYALTY") }
+        @inlinable public static var loyaltyPromotion: Self { .init(rawValue: "LOYALTY_PROMOTION") }
+        @inlinable public static var loyaltyTransaction: Self { .init(rawValue: "LOYALTY_TRANSACTION") }
+        @inlinable public static var newOnly: Self { .init(rawValue: "NEW_ONLY") }
+        @inlinable public static var order: Self { .init(rawValue: "ORDER") }
+        @inlinable public static var profile: Self { .init(rawValue: "PROFILE") }
+        @inlinable public static var secondary: Self { .init(rawValue: "SECONDARY") }
+        @inlinable public static var unique: Self { .init(rawValue: "UNIQUE") }
+        @inlinable public static var webAnalytics: Self { .init(rawValue: "WEB_ANALYTICS") }
+    }
+
+    public struct Statistic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "AVERAGE") }
+        @inlinable public static var count: Self { .init(rawValue: "COUNT") }
+        @inlinable public static var firstOccurrence: Self { .init(rawValue: "FIRST_OCCURRENCE") }
+        @inlinable public static var lastOccurrence: Self { .init(rawValue: "LAST_OCCURRENCE") }
+        @inlinable public static var maxOccurrence: Self { .init(rawValue: "MAX_OCCURRENCE") }
+        @inlinable public static var maximum: Self { .init(rawValue: "MAXIMUM") }
+        @inlinable public static var minimum: Self { .init(rawValue: "MINIMUM") }
+        @inlinable public static var recentOccurrences: Self { .init(rawValue: "RECENT_OCCURRENCES") }
+        @inlinable public static var sum: Self { .init(rawValue: "SUM") }
+    }
+
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var complete: Self { .init(rawValue: "COMPLETE") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var notStarted: Self { .init(rawValue: "NOT_STARTED") }
+        @inlinable public static var retry: Self { .init(rawValue: "RETRY") }
+        @inlinable public static var split: Self { .init(rawValue: "SPLIT") }
+    }
+
+    public struct StatusReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var internalFailure: Self { .init(rawValue: "INTERNAL_FAILURE") }
+        @inlinable public static var validationFailure: Self { .init(rawValue: "VALIDATION_FAILURE") }
+    }
+
+    public struct StringDimensionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var beginsWith: Self { .init(rawValue: "BEGINS_WITH") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var endsWith: Self { .init(rawValue: "ENDS_WITH") }
+        @inlinable public static var exclusive: Self { .init(rawValue: "EXCLUSIVE") }
+        @inlinable public static var inclusive: Self { .init(rawValue: "INCLUSIVE") }
+    }
+
+    public struct SubscriptionEvent: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var joined: Self { .init(rawValue: "JOINED") }
+        @inlinable public static var left: Self { .init(rawValue: "LEFT") }
     }
+
+    public struct SubscriptionEventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var live: Self { .init(rawValue: "LIVE") }
+        @inlinable public static var schedule: Self { .init(rawValue: "SCHEDULE") }
+    }
+
+    public struct TaskType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var arithmetic: Self { .init(rawValue: "Arithmetic") }
+        @inlinable public static var filter: Self { .init(rawValue: "Filter") }
+        @inlinable public static var map: Self { .init(rawValue: "Map") }
+        @inlinable public static var mask: Self { .init(rawValue: "Mask") }
+        @inlinable public static var merge: Self { .init(rawValue: "Merge") }
+        @inlinable public static var truncate: Self { .init(rawValue: "Truncate") }
+        @inlinable public static var validate: Self { .init(rawValue: "Validate") }
+    }
+
+    public struct TrainingMetricName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var coverage: Self { .init(rawValue: "coverage") }
+        @inlinable public static var freshness: Self { .init(rawValue: "freshness") }
+        @inlinable public static var hit: Self { .init(rawValue: "hit") }
+        @inlinable public static var meanReciprocalRankAt25: Self { .init(rawValue: "mean_reciprocal_rank_at_25") }
+        @inlinable public static var normalizedDiscountedCumulativeGainAt10: Self { .init(rawValue: "normalized_discounted_cumulative_gain_at_10") }
+        @inlinable public static var normalizedDiscountedCumulativeGainAt25: Self { .init(rawValue: "normalized_discounted_cumulative_gain_at_25") }
+        @inlinable public static var normalizedDiscountedCumulativeGainAt5: Self { .init(rawValue: "normalized_discounted_cumulative_gain_at_5") }
+        @inlinable public static var popularity: Self { .init(rawValue: "popularity") }
+        @inlinable public static var precisionAt10: Self { .init(rawValue: "precision_at_10") }
+        @inlinable public static var precisionAt25: Self { .init(rawValue: "precision_at_25") }
+        @inlinable public static var precisionAt5: Self { .init(rawValue: "precision_at_5") }
+        @inlinable public static var recall: Self { .init(rawValue: "recall") }
+        @inlinable public static var similarity: Self { .init(rawValue: "similarity") }
+    }
+
+    public struct TriggerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var event: Self { .init(rawValue: "Event") }
+        @inlinable public static var ondemand: Self { .init(rawValue: "OnDemand") }
+        @inlinable public static var scheduled: Self { .init(rawValue: "Scheduled") }
+    }
+
+    public struct Unit: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days: Self { .init(rawValue: "DAYS") }
+    }
+
+    public struct UploadJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var partiallySucceeded: Self { .init(rawValue: "PARTIALLY_SUCCEEDED") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
+    }
+
+    public struct WorkflowType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var appflowIntegration: Self { .init(rawValue: "APPFLOW_INTEGRATION") }
+    }
+
+    public struct ZendeskConnectorOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var addition: Self { .init(rawValue: "ADDITION") }
+        @inlinable public static var division: Self { .init(rawValue: "DIVISION") }
+        @inlinable public static var greaterThan: Self { .init(rawValue: "GREATER_THAN") }
+        @inlinable public static var maskAll: Self { .init(rawValue: "MASK_ALL") }
+        @inlinable public static var maskFirstN: Self { .init(rawValue: "MASK_FIRST_N") }
+        @inlinable public static var maskLastN: Self { .init(rawValue: "MASK_LAST_N") }
+        @inlinable public static var multiplication: Self { .init(rawValue: "MULTIPLICATION") }
+        @inlinable public static var noOp: Self { .init(rawValue: "NO_OP") }
+        @inlinable public static var projection: Self { .init(rawValue: "PROJECTION") }
+        @inlinable public static var subtraction: Self { .init(rawValue: "SUBTRACTION") }
+        @inlinable public static var validateNonNegative: Self { .init(rawValue: "VALIDATE_NON_NEGATIVE") }
+        @inlinable public static var validateNonNull: Self { .init(rawValue: "VALIDATE_NON_NULL") }
+        @inlinable public static var validateNonZero: Self { .init(rawValue: "VALIDATE_NON_ZERO") }
+        @inlinable public static var validateNumeric: Self { .init(rawValue: "VALIDATE_NUMERIC") }
+    }
+
+    public struct `Type`: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum EventTriggerLogicalOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case any = "ANY"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FeatureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case categorical = "CATEGORICAL"
-        case textual = "TEXTUAL"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FieldContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case emailAddress = "EMAIL_ADDRESS"
-        case name = "NAME"
-        case number = "NUMBER"
-        case phoneNumber = "PHONE_NUMBER"
-        case string = "STRING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FilterDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case after = "AFTER"
-        case before = "BEFORE"
-        case beginsWith = "BEGINS_WITH"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case endsWith = "ENDS_WITH"
-        case equal = "EQUAL"
-        case exclusive = "EXCLUSIVE"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
-        case inclusive = "INCLUSIVE"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
-        case notBetween = "NOT_BETWEEN"
-        case on = "ON"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Gender: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case female = "FEMALE"
-        case male = "MALE"
-        case unspecified = "UNSPECIFIED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IdentityResolutionJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case findMatching = "FIND_MATCHING"
-        case merging = "MERGING"
-        case partialSuccess = "PARTIAL_SUCCESS"
-        case pending = "PENDING"
-        case preprocessing = "PREPROCESSING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Include: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case any = "ANY"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IncludeOptions: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case any = "ANY"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobScheduleDayOfTheWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case friday = "FRIDAY"
-        case monday = "MONDAY"
-        case saturday = "SATURDAY"
-        case sunday = "SUNDAY"
-        case thursday = "THURSDAY"
-        case tuesday = "TUESDAY"
-        case wednesday = "WEDNESDAY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LayoutType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case profileExplorer = "PROFILE_EXPLORER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LogicalOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case and = "AND"
-        case or = "OR"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MarketoConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case division = "DIVISION"
-        case greaterThan = "GREATER_THAN"
-        case lessThan = "LESS_THAN"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MatchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mlBasedMatching = "ML_BASED_MATCHING"
-        case ruleBasedMatching = "RULE_BASED_MATCHING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Operator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case lessThan = "LESS_THAN"
-        case notEqualTo = "NOT_EQUAL_TO"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum OperatorPropertiesKeys: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case concatFormat = "CONCAT_FORMAT"
-        case dataType = "DATA_TYPE"
-        case destinationDataType = "DESTINATION_DATA_TYPE"
-        case lowerBound = "LOWER_BOUND"
-        case maskLength = "MASK_LENGTH"
-        case maskValue = "MASK_VALUE"
-        case mathOperationFieldsOrder = "MATH_OPERATION_FIELDS_ORDER"
-        case sourceDataType = "SOURCE_DATA_TYPE"
-        case subfieldCategoryMap = "SUBFIELD_CATEGORY_MAP"
-        case truncateLength = "TRUNCATE_LENGTH"
-        case upperBound = "UPPER_BOUND"
-        case validationAction = "VALIDATION_ACTION"
-        case value = "VALUE"
-        case values = "VALUES"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PartyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case business = "BUSINESS"
-        case individual = "INDIVIDUAL"
-        case other = "OTHER"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PeriodUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days = "DAYS"
-        case hours = "HOURS"
-        case minutes = "MINUTES"
-        case months = "MONTHS"
-        case weeks = "WEEKS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountProfile = "ACCOUNT_PROFILE"
-        case profile = "PROFILE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ProfileTypeDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exclusive = "EXCLUSIVE"
-        case inclusive = "INCLUSIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum QueryResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case absent = "ABSENT"
-        case present = "PRESENT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RangeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days = "DAYS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ReadinessStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case preparing = "PREPARING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RecommenderFilterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RecommenderRecipeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case frequentlyPairedItems = "frequently-paired-items"
-        case personalizedRanking = "personalized-ranking"
-        case popularItems = "popular-items"
-        case recommendedForYou = "recommended-for-you"
-        case similarItems = "similar-items"
-        case trendingNow = "trending-now"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RecommenderSchemaStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RecommenderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case inactive = "INACTIVE"
-        case pending = "PENDING"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RuleBasedMatchingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case inProgress = "IN_PROGRESS"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum S3ConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SalesforceConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScheduleConfigurationUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hourly = "HOURLY"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Scope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case domain = "DOMAIN"
-        case profile = "PROFILE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SegmentSnapshotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SegmentSortDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case date = "DATE"
-        case number = "NUMBER"
-        case string = "STRING"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SegmentSortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SegmentSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case running = "RUNNING"
-        case starting = "STARTING"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SegmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case classic = "CLASSIC"
-        case enhanced = "ENHANCED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ServiceNowConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case between = "BETWEEN"
-        case contains = "CONTAINS"
-        case division = "DIVISION"
-        case equalTo = "EQUAL_TO"
-        case greaterThan = "GREATER_THAN"
-        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case notEqualTo = "NOT_EQUAL_TO"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SortAttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case calculated = "CALCULATED"
-        case profile = "PROFILE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SourceConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case marketo = "Marketo"
-        case s3 = "S3"
-        case salesforce = "Salesforce"
-        case servicenow = "Servicenow"
-        case zendesk = "Zendesk"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StandardIdentifier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `case` = "CASE"
-        case airBooking = "AIR_BOOKING"
-        case airPreference = "AIR_PREFERENCE"
-        case airSegment = "AIR_SEGMENT"
-        case asset = "ASSET"
-        case communicationRecord = "COMMUNICATION_RECORD"
-        case device = "DEVICE"
-        case hotelPreference = "HOTEL_PREFERENCE"
-        case hotelReservation = "HOTEL_RESERVATION"
-        case hotelStayRevenue = "HOTEL_STAY_REVENUE"
-        case lookupOnly = "LOOKUP_ONLY"
-        case loyalty = "LOYALTY"
-        case loyaltyPromotion = "LOYALTY_PROMOTION"
-        case loyaltyTransaction = "LOYALTY_TRANSACTION"
-        case newOnly = "NEW_ONLY"
-        case order = "ORDER"
-        case profile = "PROFILE"
-        case secondary = "SECONDARY"
-        case unique = "UNIQUE"
-        case webAnalytics = "WEB_ANALYTICS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Statistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "AVERAGE"
-        case count = "COUNT"
-        case firstOccurrence = "FIRST_OCCURRENCE"
-        case lastOccurrence = "LAST_OCCURRENCE"
-        case maxOccurrence = "MAX_OCCURRENCE"
-        case maximum = "MAXIMUM"
-        case minimum = "MINIMUM"
-        case recentOccurrences = "RECENT_OCCURRENCES"
-        case sum = "SUM"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case complete = "COMPLETE"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case notStarted = "NOT_STARTED"
-        case retry = "RETRY"
-        case split = "SPLIT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case internalFailure = "INTERNAL_FAILURE"
-        case validationFailure = "VALIDATION_FAILURE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum StringDimensionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case beginsWith = "BEGINS_WITH"
-        case contains = "CONTAINS"
-        case endsWith = "ENDS_WITH"
-        case exclusive = "EXCLUSIVE"
-        case inclusive = "INCLUSIVE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SubscriptionEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case joined = "JOINED"
-        case left = "LEFT"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SubscriptionEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case live = "LIVE"
-        case schedule = "SCHEDULE"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TaskType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case arithmetic = "Arithmetic"
-        case filter = "Filter"
-        case map = "Map"
-        case mask = "Mask"
-        case merge = "Merge"
-        case truncate = "Truncate"
-        case validate = "Validate"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TrainingMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case coverage = "coverage"
-        case freshness = "freshness"
-        case hit = "hit"
-        case meanReciprocalRankAt25 = "mean_reciprocal_rank_at_25"
-        case normalizedDiscountedCumulativeGainAt10 = "normalized_discounted_cumulative_gain_at_10"
-        case normalizedDiscountedCumulativeGainAt25 = "normalized_discounted_cumulative_gain_at_25"
-        case normalizedDiscountedCumulativeGainAt5 = "normalized_discounted_cumulative_gain_at_5"
-        case popularity = "popularity"
-        case precisionAt10 = "precision_at_10"
-        case precisionAt25 = "precision_at_25"
-        case precisionAt5 = "precision_at_5"
-        case recall = "recall"
-        case similarity = "similarity"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum TriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case event = "Event"
-        case ondemand = "OnDemand"
-        case scheduled = "Scheduled"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Unit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days = "DAYS"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum UploadJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case created = "CREATED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case partiallySucceeded = "PARTIALLY_SUCCEEDED"
-        case stopped = "STOPPED"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum WorkflowType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case appflowIntegration = "APPFLOW_INTEGRATION"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ZendeskConnectorOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case addition = "ADDITION"
-        case division = "DIVISION"
-        case greaterThan = "GREATER_THAN"
-        case maskAll = "MASK_ALL"
-        case maskFirstN = "MASK_FIRST_N"
-        case maskLastN = "MASK_LAST_N"
-        case multiplication = "MULTIPLICATION"
-        case noOp = "NO_OP"
-        case projection = "PROJECTION"
-        case subtraction = "SUBTRACTION"
-        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
-        case validateNonNull = "VALIDATE_NON_NULL"
-        case validateNonZero = "VALIDATE_NON_ZERO"
-        case validateNumeric = "VALIDATE_NUMERIC"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        case any = "ANY"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
+        @inlinable public static var any: Self { .init(rawValue: "ANY") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
     }
 
     public enum Dimension: AWSEncodableShape & AWSDecodableShape, Sendable {

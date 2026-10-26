@@ -25,86 +25,126 @@ import Foundation
 extension SSMIncidents {
     // MARK: Enums
 
-    public enum IncidentRecordStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case open = "OPEN"
-        case resolved = "RESOLVED"
-        public var description: String { return self.rawValue }
+    public struct IncidentRecordStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var open: Self { .init(rawValue: "OPEN") }
+        @inlinable public static var resolved: Self { .init(rawValue: "RESOLVED") }
     }
 
-    public enum ItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case analysis = "ANALYSIS"
-        case attachment = "ATTACHMENT"
-        case automation = "AUTOMATION"
-        case incident = "INCIDENT"
-        case involvedResource = "INVOLVED_RESOURCE"
-        case metric = "METRIC"
-        case other = "OTHER"
-        case parent = "PARENT"
-        case task = "TASK"
-        public var description: String { return self.rawValue }
+    public struct ItemType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var analysis: Self { .init(rawValue: "ANALYSIS") }
+        @inlinable public static var attachment: Self { .init(rawValue: "ATTACHMENT") }
+        @inlinable public static var automation: Self { .init(rawValue: "AUTOMATION") }
+        @inlinable public static var incident: Self { .init(rawValue: "INCIDENT") }
+        @inlinable public static var involvedResource: Self { .init(rawValue: "INVOLVED_RESOURCE") }
+        @inlinable public static var metric: Self { .init(rawValue: "METRIC") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var parent: Self { .init(rawValue: "PARENT") }
+        @inlinable public static var task: Self { .init(rawValue: "TASK") }
     }
 
-    public enum RegionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct RegionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// All operations have completed successfully and the region is ready to use
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// The region is in the process of being created.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// The region is in the process of being deleted.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// The region is not healthy and we cannot automatically fix it.
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
     }
 
-    public enum ReplicationSetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ReplicationSetStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// All operations have completed successfully and the replication set is ready to use
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Replication set is in the process of being created.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Replication set is in the process of being deleted.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Replication set is not healthy and we cannot fix it.
-        case failed = "FAILED"
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
         /// Replication set is in the process of being updated.
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case incidentRecord = "INCIDENT_RECORD"
-        case replicationSet = "REPLICATION_SET"
-        case resourcePolicy = "RESOURCE_POLICY"
-        case responsePlan = "RESPONSE_PLAN"
-        case timelineEvent = "TIMELINE_EVENT"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var incidentRecord: Self { .init(rawValue: "INCIDENT_RECORD") }
+        @inlinable public static var replicationSet: Self { .init(rawValue: "REPLICATION_SET") }
+        @inlinable public static var resourcePolicy: Self { .init(rawValue: "RESOURCE_POLICY") }
+        @inlinable public static var responsePlan: Self { .init(rawValue: "RESPONSE_PLAN") }
+        @inlinable public static var timelineEvent: Self { .init(rawValue: "TIMELINE_EVENT") }
     }
 
-    public enum ServiceCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ssmIncidents = "ssm-incidents"
-        public var description: String { return self.rawValue }
+    public struct ServiceCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ssmIncidents: Self { .init(rawValue: "ssm-incidents") }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
+    public struct SortOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ascending: Self { .init(rawValue: "ASCENDING") }
+        @inlinable public static var descending: Self { .init(rawValue: "DESCENDING") }
     }
 
-    public enum SsmTargetAccount: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case impactedAccount = "IMPACTED_ACCOUNT"
-        case responsePlanOwnerAccount = "RESPONSE_PLAN_OWNER_ACCOUNT"
-        public var description: String { return self.rawValue }
+    public struct SsmTargetAccount: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var impactedAccount: Self { .init(rawValue: "IMPACTED_ACCOUNT") }
+        @inlinable public static var responsePlanOwnerAccount: Self { .init(rawValue: "RESPONSE_PLAN_OWNER_ACCOUNT") }
     }
 
-    public enum TimelineEventSort: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case eventTime = "EVENT_TIME"
-        public var description: String { return self.rawValue }
+    public struct TimelineEventSort: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var eventTime: Self { .init(rawValue: "EVENT_TIME") }
     }
 
-    public enum VariableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case incidentRecordArn = "INCIDENT_RECORD_ARN"
-        case involvedResources = "INVOLVED_RESOURCES"
-        public var description: String { return self.rawValue }
+    public struct VariableType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var incidentRecordArn: Self { .init(rawValue: "INCIDENT_RECORD_ARN") }
+        @inlinable public static var involvedResources: Self { .init(rawValue: "INVOLVED_RESOURCES") }
     }
 
     public enum AttributeValueList: AWSEncodableShape, Sendable {

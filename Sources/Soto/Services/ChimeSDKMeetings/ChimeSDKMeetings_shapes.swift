@@ -25,134 +25,198 @@ import Foundation
 extension ChimeSDKMeetings {
     // MARK: Enums
 
-    public enum ContentResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fhd = "FHD"
-        case none = "None"
-        case uhd = "UHD"
-        public var description: String { return self.rawValue }
+    public struct ContentResolution: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fhd: Self { .init(rawValue: "FHD") }
+        @inlinable public static var none: Self { .init(rawValue: "None") }
+        @inlinable public static var uhd: Self { .init(rawValue: "UHD") }
     }
 
-    public enum MediaCapabilities: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case none = "None"
-        case receive = "Receive"
-        case send = "Send"
-        case sendReceive = "SendReceive"
-        public var description: String { return self.rawValue }
+    public struct MediaCapabilities: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var none: Self { .init(rawValue: "None") }
+        @inlinable public static var receive: Self { .init(rawValue: "Receive") }
+        @inlinable public static var send: Self { .init(rawValue: "Send") }
+        @inlinable public static var sendReceive: Self { .init(rawValue: "SendReceive") }
     }
 
-    public enum MediaPlacementNetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dualStack = "DualStack"
-        case ipv4Only = "Ipv4Only"
-        public var description: String { return self.rawValue }
+    public struct MediaPlacementNetworkType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dualStack: Self { .init(rawValue: "DualStack") }
+        @inlinable public static var ipv4Only: Self { .init(rawValue: "Ipv4Only") }
     }
 
-    public enum MeetingFeatureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case unavailable = "UNAVAILABLE"
-        public var description: String { return self.rawValue }
+    public struct MeetingFeatureStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var unavailable: Self { .init(rawValue: "UNAVAILABLE") }
     }
 
-    public enum TranscribeContentIdentificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pii = "PII"
-        public var description: String { return self.rawValue }
+    public struct TranscribeContentIdentificationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pii: Self { .init(rawValue: "PII") }
     }
 
-    public enum TranscribeContentRedactionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pii = "PII"
-        public var description: String { return self.rawValue }
+    public struct TranscribeContentRedactionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pii: Self { .init(rawValue: "PII") }
     }
 
-    public enum TranscribeLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deDe = "de-DE"
-        case enAu = "en-AU"
-        case enGb = "en-GB"
-        case enUs = "en-US"
-        case esUs = "es-US"
-        case frCa = "fr-CA"
-        case frFr = "fr-FR"
-        case hiIn = "hi-IN"
-        case itIt = "it-IT"
-        case jaJp = "ja-JP"
-        case koKr = "ko-KR"
-        case ptBr = "pt-BR"
-        case thTh = "th-TH"
-        case zhCn = "zh-CN"
-        public var description: String { return self.rawValue }
+    public struct TranscribeLanguageCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deDe: Self { .init(rawValue: "de-DE") }
+        @inlinable public static var enAu: Self { .init(rawValue: "en-AU") }
+        @inlinable public static var enGb: Self { .init(rawValue: "en-GB") }
+        @inlinable public static var enUs: Self { .init(rawValue: "en-US") }
+        @inlinable public static var esUs: Self { .init(rawValue: "es-US") }
+        @inlinable public static var frCa: Self { .init(rawValue: "fr-CA") }
+        @inlinable public static var frFr: Self { .init(rawValue: "fr-FR") }
+        @inlinable public static var hiIn: Self { .init(rawValue: "hi-IN") }
+        @inlinable public static var itIt: Self { .init(rawValue: "it-IT") }
+        @inlinable public static var jaJp: Self { .init(rawValue: "ja-JP") }
+        @inlinable public static var koKr: Self { .init(rawValue: "ko-KR") }
+        @inlinable public static var ptBr: Self { .init(rawValue: "pt-BR") }
+        @inlinable public static var thTh: Self { .init(rawValue: "th-TH") }
+        @inlinable public static var zhCn: Self { .init(rawValue: "zh-CN") }
     }
 
-    public enum TranscribeMedicalContentIdentificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case phi = "PHI"
-        public var description: String { return self.rawValue }
+    public struct TranscribeMedicalContentIdentificationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var phi: Self { .init(rawValue: "PHI") }
     }
 
-    public enum TranscribeMedicalLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enUs = "en-US"
-        public var description: String { return self.rawValue }
+    public struct TranscribeMedicalLanguageCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var enUs: Self { .init(rawValue: "en-US") }
     }
 
-    public enum TranscribeMedicalRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case apSoutheast2 = "ap-southeast-2"
-        case auto = "auto"
-        case caCentral1 = "ca-central-1"
-        case euWest1 = "eu-west-1"
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usWest2 = "us-west-2"
-        public var description: String { return self.rawValue }
+    public struct TranscribeMedicalRegion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
+        @inlinable public static var auto: Self { .init(rawValue: "auto") }
+        @inlinable public static var caCentral1: Self { .init(rawValue: "ca-central-1") }
+        @inlinable public static var euWest1: Self { .init(rawValue: "eu-west-1") }
+        @inlinable public static var usEast1: Self { .init(rawValue: "us-east-1") }
+        @inlinable public static var usEast2: Self { .init(rawValue: "us-east-2") }
+        @inlinable public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
-    public enum TranscribeMedicalSpecialty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cardiology = "CARDIOLOGY"
-        case neurology = "NEUROLOGY"
-        case oncology = "ONCOLOGY"
-        case primarycare = "PRIMARYCARE"
-        case radiology = "RADIOLOGY"
-        case urology = "UROLOGY"
-        public var description: String { return self.rawValue }
+    public struct TranscribeMedicalSpecialty: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cardiology: Self { .init(rawValue: "CARDIOLOGY") }
+        @inlinable public static var neurology: Self { .init(rawValue: "NEUROLOGY") }
+        @inlinable public static var oncology: Self { .init(rawValue: "ONCOLOGY") }
+        @inlinable public static var primarycare: Self { .init(rawValue: "PRIMARYCARE") }
+        @inlinable public static var radiology: Self { .init(rawValue: "RADIOLOGY") }
+        @inlinable public static var urology: Self { .init(rawValue: "UROLOGY") }
     }
 
-    public enum TranscribeMedicalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case conversation = "CONVERSATION"
-        case dictation = "DICTATION"
-        public var description: String { return self.rawValue }
+    public struct TranscribeMedicalType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var conversation: Self { .init(rawValue: "CONVERSATION") }
+        @inlinable public static var dictation: Self { .init(rawValue: "DICTATION") }
     }
 
-    public enum TranscribePartialResultsStability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "high"
-        case low = "low"
-        case medium = "medium"
-        public var description: String { return self.rawValue }
+    public struct TranscribePartialResultsStability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "high") }
+        @inlinable public static var low: Self { .init(rawValue: "low") }
+        @inlinable public static var medium: Self { .init(rawValue: "medium") }
     }
 
-    public enum TranscribeRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apSoutheast2 = "ap-southeast-2"
-        case auto = "auto"
-        case caCentral1 = "ca-central-1"
-        case euCentral1 = "eu-central-1"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case saEast1 = "sa-east-1"
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usGovWest1 = "us-gov-west-1"
-        case usWest2 = "us-west-2"
-        public var description: String { return self.rawValue }
+    public struct TranscribeRegion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
+        @inlinable public static var apNortheast2: Self { .init(rawValue: "ap-northeast-2") }
+        @inlinable public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
+        @inlinable public static var auto: Self { .init(rawValue: "auto") }
+        @inlinable public static var caCentral1: Self { .init(rawValue: "ca-central-1") }
+        @inlinable public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
+        @inlinable public static var euWest1: Self { .init(rawValue: "eu-west-1") }
+        @inlinable public static var euWest2: Self { .init(rawValue: "eu-west-2") }
+        @inlinable public static var saEast1: Self { .init(rawValue: "sa-east-1") }
+        @inlinable public static var usEast1: Self { .init(rawValue: "us-east-1") }
+        @inlinable public static var usEast2: Self { .init(rawValue: "us-east-2") }
+        @inlinable public static var usGovWest1: Self { .init(rawValue: "us-gov-west-1") }
+        @inlinable public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
-    public enum TranscribeVocabularyFilterMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mask = "mask"
-        case remove = "remove"
-        case tag = "tag"
-        public var description: String { return self.rawValue }
+    public struct TranscribeVocabularyFilterMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mask: Self { .init(rawValue: "mask") }
+        @inlinable public static var remove: Self { .init(rawValue: "remove") }
+        @inlinable public static var tag: Self { .init(rawValue: "tag") }
     }
 
-    public enum VideoResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fhd = "FHD"
-        case hd = "HD"
-        case none = "None"
-        public var description: String { return self.rawValue }
+    public struct VideoResolution: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fhd: Self { .init(rawValue: "FHD") }
+        @inlinable public static var hd: Self { .init(rawValue: "HD") }
+        @inlinable public static var none: Self { .init(rawValue: "None") }
     }
 
     // MARK: Shapes

@@ -25,12 +25,16 @@ import Foundation
 extension MarketplaceEntitlementService {
     // MARK: Enums
 
-    public enum GetEntitlementFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case customerAwsAccountId = "CUSTOMER_AWS_ACCOUNT_ID"
-        case customerIdentifier = "CUSTOMER_IDENTIFIER"
-        case dimension = "DIMENSION"
-        case licenseArn = "LICENSE_ARN"
-        public var description: String { return self.rawValue }
+    public struct GetEntitlementFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var customerAwsAccountId: Self { .init(rawValue: "CUSTOMER_AWS_ACCOUNT_ID") }
+        @inlinable public static var customerIdentifier: Self { .init(rawValue: "CUSTOMER_IDENTIFIER") }
+        @inlinable public static var dimension: Self { .init(rawValue: "DIMENSION") }
+        @inlinable public static var licenseArn: Self { .init(rawValue: "LICENSE_ARN") }
     }
 
     // MARK: Shapes

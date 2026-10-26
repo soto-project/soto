@@ -25,29 +25,45 @@ import Foundation
 extension RolesAnywhere {
     // MARK: Enums
 
-    public enum CertificateField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case x509Issuer = "x509Issuer"
-        case x509SAN = "x509SAN"
-        case x509Subject = "x509Subject"
-        public var description: String { return self.rawValue }
+    public struct CertificateField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var x509Issuer: Self { .init(rawValue: "x509Issuer") }
+        @inlinable public static var x509SAN: Self { .init(rawValue: "x509SAN") }
+        @inlinable public static var x509Subject: Self { .init(rawValue: "x509Subject") }
     }
 
-    public enum NotificationChannel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case all = "ALL"
-        public var description: String { return self.rawValue }
+    public struct NotificationChannel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var all: Self { .init(rawValue: "ALL") }
     }
 
-    public enum NotificationEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case caCertificateExpiry = "CA_CERTIFICATE_EXPIRY"
-        case endEntityCertificateExpiry = "END_ENTITY_CERTIFICATE_EXPIRY"
-        public var description: String { return self.rawValue }
+    public struct NotificationEvent: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var caCertificateExpiry: Self { .init(rawValue: "CA_CERTIFICATE_EXPIRY") }
+        @inlinable public static var endEntityCertificateExpiry: Self { .init(rawValue: "END_ENTITY_CERTIFICATE_EXPIRY") }
     }
 
-    public enum TrustAnchorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsAcmPca = "AWS_ACM_PCA"
-        case certificateBundle = "CERTIFICATE_BUNDLE"
-        case selfSignedRepository = "SELF_SIGNED_REPOSITORY"
-        public var description: String { return self.rawValue }
+    public struct TrustAnchorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsAcmPca: Self { .init(rawValue: "AWS_ACM_PCA") }
+        @inlinable public static var certificateBundle: Self { .init(rawValue: "CERTIFICATE_BUNDLE") }
+        @inlinable public static var selfSignedRepository: Self { .init(rawValue: "SELF_SIGNED_REPOSITORY") }
     }
 
     public enum SourceData: AWSEncodableShape & AWSDecodableShape, Sendable {

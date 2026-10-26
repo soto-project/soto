@@ -25,1099 +25,1451 @@ import Foundation
 extension ComputeOptimizer {
     // MARK: Enums
 
-    public enum AllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lowestPrice = "LowestPrice"
-        case prioritized = "Prioritized"
-        public var description: String { return self.rawValue }
+    public struct AllocationStrategy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lowestPrice: Self { .init(rawValue: "LowestPrice") }
+        @inlinable public static var prioritized: Self { .init(rawValue: "Prioritized") }
+    }
+
+    public struct AsgType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mixedInstanceType: Self { .init(rawValue: "MixedInstanceTypes") }
+        @inlinable public static var singleInstanceType: Self { .init(rawValue: "SingleInstanceType") }
+    }
+
+    public struct AutoScalingConfiguration: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var targetTrackingScalingCpu: Self { .init(rawValue: "TargetTrackingScalingCpu") }
+        @inlinable public static var targetTrackingScalingMemory: Self { .init(rawValue: "TargetTrackingScalingMemory") }
+    }
+
+    public struct CpuVendorArchitecture: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsArm64: Self { .init(rawValue: "AWS_ARM64") }
+        @inlinable public static var current: Self { .init(rawValue: "CURRENT") }
+    }
+
+    public struct Currency: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cny: Self { .init(rawValue: "CNY") }
+        @inlinable public static var usd: Self { .init(rawValue: "USD") }
+    }
+
+    public struct CurrentPerformanceRisk: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "High") }
+        @inlinable public static var low: Self { .init(rawValue: "Low") }
+        @inlinable public static var medium: Self { .init(rawValue: "Medium") }
+        @inlinable public static var veryLow: Self { .init(rawValue: "VeryLow") }
+    }
+
+    public struct CustomizableMetricHeadroom: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var percent0: Self { .init(rawValue: "PERCENT_0") }
+        @inlinable public static var percent10: Self { .init(rawValue: "PERCENT_10") }
+        @inlinable public static var percent20: Self { .init(rawValue: "PERCENT_20") }
+        @inlinable public static var percent30: Self { .init(rawValue: "PERCENT_30") }
+    }
+
+    public struct CustomizableMetricName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cpuUtilization: Self { .init(rawValue: "CpuUtilization") }
+        @inlinable public static var memoryUtilization: Self { .init(rawValue: "MemoryUtilization") }
+    }
+
+    public struct CustomizableMetricThreshold: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var p90: Self { .init(rawValue: "P90") }
+        @inlinable public static var p95: Self { .init(rawValue: "P95") }
+        @inlinable public static var p995: Self { .init(rawValue: "P99_5") }
     }
 
-    public enum AsgType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mixedInstanceType = "MixedInstanceTypes"
-        case singleInstanceType = "SingleInstanceType"
-        public var description: String { return self.rawValue }
+    public struct Dimension: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var savingsValue: Self { .init(rawValue: "SavingsValue") }
+        @inlinable public static var savingsValueAfterDiscount: Self { .init(rawValue: "SavingsValueAfterDiscount") }
+    }
+
+    public struct EBSFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+    }
+
+    public struct EBSFinding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notOptimized: Self { .init(rawValue: "NotOptimized") }
+        @inlinable public static var optimized: Self { .init(rawValue: "Optimized") }
     }
+
+    public struct EBSMetricName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
 
-    public enum AutoScalingConfiguration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case targetTrackingScalingCpu = "TargetTrackingScalingCpu"
-        case targetTrackingScalingMemory = "TargetTrackingScalingMemory"
-        public var description: String { return self.rawValue }
+        @inlinable public static var volumeIopsExceeded: Self { .init(rawValue: "VolumeIOPSExceeded") }
+        @inlinable public static var volumeReadBytesPerSecond: Self { .init(rawValue: "VolumeReadBytesPerSecond") }
+        @inlinable public static var volumeReadOpsPerSecond: Self { .init(rawValue: "VolumeReadOpsPerSecond") }
+        @inlinable public static var volumeThroughputExceeded: Self { .init(rawValue: "VolumeThroughputExceeded") }
+        @inlinable public static var volumeWriteBytesPerSecond: Self { .init(rawValue: "VolumeWriteBytesPerSecond") }
+        @inlinable public static var volumeWriteOpsPerSecond: Self { .init(rawValue: "VolumeWriteOpsPerSecond") }
     }
 
-    public enum CpuVendorArchitecture: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsArm64 = "AWS_ARM64"
-        case current = "CURRENT"
-        public var description: String { return self.rawValue }
+    public struct EBSSavingsEstimationModeSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var costExplorerRightsizing: Self { .init(rawValue: "CostExplorerRightsizing") }
+        @inlinable public static var costOptimizationHub: Self { .init(rawValue: "CostOptimizationHub") }
+        @inlinable public static var publicPricing: Self { .init(rawValue: "PublicPricing") }
     }
 
-    public enum Currency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cny = "CNY"
-        case usd = "USD"
-        public var description: String { return self.rawValue }
+    public struct ECSSavingsEstimationModeSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var costExplorerRightsizing: Self { .init(rawValue: "CostExplorerRightsizing") }
+        @inlinable public static var costOptimizationHub: Self { .init(rawValue: "CostOptimizationHub") }
+        @inlinable public static var publicPricing: Self { .init(rawValue: "PublicPricing") }
     }
+
+    public struct ECSServiceLaunchType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CurrentPerformanceRisk: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "High"
-        case low = "Low"
-        case medium = "Medium"
-        case veryLow = "VeryLow"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ec2: Self { .init(rawValue: "EC2") }
+        @inlinable public static var fargate: Self { .init(rawValue: "Fargate") }
     }
+
+    public struct ECSServiceMetricName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CustomizableMetricHeadroom: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case percent0 = "PERCENT_0"
-        case percent10 = "PERCENT_10"
-        case percent20 = "PERCENT_20"
-        case percent30 = "PERCENT_30"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cpu: Self { .init(rawValue: "Cpu") }
+        @inlinable public static var memory: Self { .init(rawValue: "Memory") }
     }
+
+    public struct ECSServiceMetricStatistic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CustomizableMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cpuUtilization = "CpuUtilization"
-        case memoryUtilization = "MemoryUtilization"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "Average") }
+        @inlinable public static var maximum: Self { .init(rawValue: "Maximum") }
     }
+
+    public struct ECSServiceRecommendationFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum CustomizableMetricThreshold: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case p90 = "P90"
-        case p95 = "P95"
-        case p995 = "P99_5"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var findingReasonCode: Self { .init(rawValue: "FindingReasonCode") }
     }
+
+    public struct ECSServiceRecommendationFinding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case savingsValue = "SavingsValue"
-        case savingsValueAfterDiscount = "SavingsValueAfterDiscount"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var optimized: Self { .init(rawValue: "Optimized") }
+        @inlinable public static var overProvisioned: Self { .init(rawValue: "Overprovisioned") }
+        @inlinable public static var underProvisioned: Self { .init(rawValue: "Underprovisioned") }
     }
+
+    public struct ECSServiceRecommendationFindingReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum EBSFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case finding = "Finding"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cpuOverProvisioned: Self { .init(rawValue: "CPUOverprovisioned") }
+        @inlinable public static var cpuUnderProvisioned: Self { .init(rawValue: "CPUUnderprovisioned") }
+        @inlinable public static var memoryOverProvisioned: Self { .init(rawValue: "MemoryOverprovisioned") }
+        @inlinable public static var memoryUnderProvisioned: Self { .init(rawValue: "MemoryUnderprovisioned") }
     }
+
+    public struct EnhancedInfrastructureMetrics: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum EBSFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notOptimized = "NotOptimized"
-        case optimized = "Optimized"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var inactive: Self { .init(rawValue: "Inactive") }
     }
+
+    public struct EnrollmentFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
 
-    public enum EBSMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case volumeIopsExceeded = "VolumeIOPSExceeded"
-        case volumeReadBytesPerSecond = "VolumeReadBytesPerSecond"
-        case volumeReadOpsPerSecond = "VolumeReadOpsPerSecond"
-        case volumeThroughputExceeded = "VolumeThroughputExceeded"
-        case volumeWriteBytesPerSecond = "VolumeWriteBytesPerSecond"
-        case volumeWriteOpsPerSecond = "VolumeWriteOpsPerSecond"
-        public var description: String { return self.rawValue }
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var status: Self { .init(rawValue: "Status") }
     }
-
-    public enum EBSSavingsEstimationModeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case costExplorerRightsizing = "CostExplorerRightsizing"
-        case costOptimizationHub = "CostOptimizationHub"
-        case publicPricing = "PublicPricing"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ECSSavingsEstimationModeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case costExplorerRightsizing = "CostExplorerRightsizing"
-        case costOptimizationHub = "CostOptimizationHub"
-        case publicPricing = "PublicPricing"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ECSServiceLaunchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ec2 = "EC2"
-        case fargate = "Fargate"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ECSServiceMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cpu = "Cpu"
-        case memory = "Memory"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ECSServiceMetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "Average"
-        case maximum = "Maximum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ECSServiceRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case finding = "Finding"
-        case findingReasonCode = "FindingReasonCode"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ECSServiceRecommendationFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case optimized = "Optimized"
-        case overProvisioned = "Overprovisioned"
-        case underProvisioned = "Underprovisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ECSServiceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cpuOverProvisioned = "CPUOverprovisioned"
-        case cpuUnderProvisioned = "CPUUnderprovisioned"
-        case memoryOverProvisioned = "MemoryOverprovisioned"
-        case memoryUnderProvisioned = "MemoryUnderprovisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EnhancedInfrastructureMetrics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum EnrollmentFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case status = "Status"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportableAutoScalingGroupField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "AccountId"
-        case autoScalingGroupArn = "AutoScalingGroupArn"
-        case autoScalingGroupName = "AutoScalingGroupName"
-        case currentConfigurationAllocationStrategy = "CurrentConfigurationAllocationStrategy"
-        case currentConfigurationDesiredCapacity = "CurrentConfigurationDesiredCapacity"
-        case currentConfigurationInstanceType = "CurrentConfigurationInstanceType"
-        case currentConfigurationMaxSize = "CurrentConfigurationMaxSize"
-        case currentConfigurationMinSize = "CurrentConfigurationMinSize"
-        case currentConfigurationMixedInstanceTypes = "CurrentConfigurationMixedInstanceTypes"
-        case currentConfigurationType = "CurrentConfigurationType"
-        case currentInstanceGpuInfo = "CurrentInstanceGpuInfo"
-        case currentMemory = "CurrentMemory"
-        case currentNetwork = "CurrentNetwork"
-        case currentOnDemandPrice = "CurrentOnDemandPrice"
-        case currentPerformanceRisk = "CurrentPerformanceRisk"
-        case currentStandardOneYearNoUpfrontReservedPrice = "CurrentStandardOneYearNoUpfrontReservedPrice"
-        case currentStandardThreeYearNoUpfrontReservedPrice = "CurrentStandardThreeYearNoUpfrontReservedPrice"
-        case currentStorage = "CurrentStorage"
-        case currentVcpus = "CurrentVCpus"
-        case effectiveRecommendationPreferencesCpuVendorArchitectures = "EffectiveRecommendationPreferencesCpuVendorArchitectures"
-        case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
-        case effectiveRecommendationPreferencesInferredWorkloadTypes = "EffectiveRecommendationPreferencesInferredWorkloadTypes"
-        case effectiveRecommendationPreferencesLookbackPeriod = "EffectiveRecommendationPreferencesLookBackPeriod"
-        case effectiveRecommendationPreferencesPreferredResources = "EffectiveRecommendationPreferencesPreferredResources"
-        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
-        case finding = "Finding"
-        case inferredWorkloadTypes = "InferredWorkloadTypes"
-        case lastRefreshTimestamp = "LastRefreshTimestamp"
-        case lookbackPeriodInDays = "LookbackPeriodInDays"
-        case recommendationOptionsConfigurationAllocationStrategy = "RecommendationOptionsConfigurationAllocationStrategy"
-        case recommendationOptionsConfigurationDesiredCapacity = "RecommendationOptionsConfigurationDesiredCapacity"
-        case recommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage = "RecommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage"
-        case recommendationOptionsConfigurationInstanceType = "RecommendationOptionsConfigurationInstanceType"
-        case recommendationOptionsConfigurationMaxSize = "RecommendationOptionsConfigurationMaxSize"
-        case recommendationOptionsConfigurationMinSize = "RecommendationOptionsConfigurationMinSize"
-        case recommendationOptionsConfigurationMixedInstanceTypes = "RecommendationOptionsConfigurationMixedInstanceTypes"
-        case recommendationOptionsConfigurationType = "RecommendationOptionsConfigurationType"
-        case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
-        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
-        case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
-        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
-        case recommendationOptionsInstanceGpuInfo = "RecommendationOptionsInstanceGpuInfo"
-        case recommendationOptionsMemory = "RecommendationOptionsMemory"
-        case recommendationOptionsMigrationEffort = "RecommendationOptionsMigrationEffort"
-        case recommendationOptionsNetwork = "RecommendationOptionsNetwork"
-        case recommendationOptionsOnDemandPrice = "RecommendationOptionsOnDemandPrice"
-        case recommendationOptionsPerformanceRisk = "RecommendationOptionsPerformanceRisk"
-        case recommendationOptionsProjectedUtilizationMetricsCpuMaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
-        case recommendationOptionsProjectedUtilizationMetricsGpuMaximum = "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum"
-        case recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum = "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum"
-        case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
-        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
-        case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
-        case recommendationOptionsStandardOneYearNoUpfrontReservedPrice = "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
-        case recommendationOptionsStandardThreeYearNoUpfrontReservedPrice = "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
-        case recommendationOptionsStorage = "RecommendationOptionsStorage"
-        case recommendationOptionsVcpus = "RecommendationOptionsVcpus"
-        case utilizationMetricsCpuMaximum = "UtilizationMetricsCpuMaximum"
-        case utilizationMetricsDiskReadBytesPerSecondMaximum = "UtilizationMetricsDiskReadBytesPerSecondMaximum"
-        case utilizationMetricsDiskReadOpsPerSecondMaximum = "UtilizationMetricsDiskReadOpsPerSecondMaximum"
-        case utilizationMetricsDiskWriteBytesPerSecondMaximum = "UtilizationMetricsDiskWriteBytesPerSecondMaximum"
-        case utilizationMetricsDiskWriteOpsPerSecondMaximum = "UtilizationMetricsDiskWriteOpsPerSecondMaximum"
-        case utilizationMetricsEbsReadBytesPerSecondMaximum = "UtilizationMetricsEbsReadBytesPerSecondMaximum"
-        case utilizationMetricsEbsReadOpsPerSecondMaximum = "UtilizationMetricsEbsReadOpsPerSecondMaximum"
-        case utilizationMetricsEbsWriteBytesPerSecondMaximum = "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
-        case utilizationMetricsEbsWriteOpsPerSecondMaximum = "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
-        case utilizationMetricsGpuMemoryPercentageMaximum = "UtilizationMetricsGpuMemoryPercentageMaximum"
-        case utilizationMetricsGpuPercentageMaximum = "UtilizationMetricsGpuPercentageMaximum"
-        case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
-        case utilizationMetricsNetworkInBytesPerSecondMaximum = "UtilizationMetricsNetworkInBytesPerSecondMaximum"
-        case utilizationMetricsNetworkOutBytesPerSecondMaximum = "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
-        case utilizationMetricsNetworkPacketsInPerSecondMaximum = "UtilizationMetricsNetworkPacketsInPerSecondMaximum"
-        case utilizationMetricsNetworkPacketsOutPerSecondMaximum = "UtilizationMetricsNetworkPacketsOutPerSecondMaximum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportableECSServiceField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "AccountId"
-        case currentPerformanceRisk = "CurrentPerformanceRisk"
-        case currentServiceConfigurationAutoScalingConfiguration = "CurrentServiceConfigurationAutoScalingConfiguration"
-        case currentServiceConfigurationCpu = "CurrentServiceConfigurationCpu"
-        case currentServiceConfigurationMemory = "CurrentServiceConfigurationMemory"
-        case currentServiceConfigurationTaskDefinitionArn = "CurrentServiceConfigurationTaskDefinitionArn"
-        case currentServiceContainerConfigurations = "CurrentServiceContainerConfigurations"
-        case effectiveRecommendationPreferencesLookbackPeriod = "EffectiveRecommendationPreferencesLookBackPeriod"
-        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
-        case finding = "Finding"
-        case findingReasonCodes = "FindingReasonCodes"
-        case lastRefreshTimestamp = "LastRefreshTimestamp"
-        case launchType = "LaunchType"
-        case lookbackPeriodInDays = "LookbackPeriodInDays"
-        case recommendationOptionsContainerRecommendations = "RecommendationOptionsContainerRecommendations"
-        case recommendationOptionsCpu = "RecommendationOptionsCpu"
-        case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
-        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
-        case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
-        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
-        case recommendationOptionsMemory = "RecommendationOptionsMemory"
-        case recommendationOptionsProjectedUtilizationMetricsCpuMaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
-        case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
-        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
-        case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
-        case serviceArn = "ServiceArn"
-        case tags = "Tags"
-        case utilizationMetricsCpuMaximum = "UtilizationMetricsCpuMaximum"
-        case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportableIdleField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "AccountId"
-        case finding = "Finding"
-        case findingDescription = "FindingDescription"
-        case lastRefreshTimestamp = "LastRefreshTimestamp"
-        case lookbackPeriodInDays = "LookbackPeriodInDays"
-        case resourceArn = "ResourceArn"
-        case resourceId = "ResourceId"
-        case resourceType = "ResourceType"
-        case savingsOpportunity = "SavingsOpportunity"
-        case savingsOpportunityAfterDiscount = "SavingsOpportunityAfterDiscount"
-        case tags = "Tags"
-        case utilizationMetricsActiveConnectionCountMaximum = "UtilizationMetricsActiveConnectionCountMaximum"
-        case utilizationMetricsCacheHitsSum = "UtilizationMetricsCacheHitsSum"
-        case utilizationMetricsCacheMissesSum = "UtilizationMetricsCacheMissesSum"
-        case utilizationMetricsConsumedReadCapacityUnitsSum = "UtilizationMetricsConsumedReadCapacityUnitsSum"
-        case utilizationMetricsConsumedWriteCapacityUnitsSum = "UtilizationMetricsConsumedWriteCapacityUnitsSum"
-        case utilizationMetricsCpuMaximum = "UtilizationMetricsCpuMaximum"
-        case utilizationMetricsCurrConnectionsSum = "UtilizationMetricsCurrConnectionsSum"
-        case utilizationMetricsDatabaseConnectionsMaximum = "UtilizationMetricsDatabaseConnectionsMaximum"
-        case utilizationMetricsDatabaseConnectionsSum = "UtilizationMetricsDatabaseConnectionsSum"
-        case utilizationMetricsEbsVolumeReadIopsMaximum = "UtilizationMetricsEBSVolumeReadIOPSMaximum"
-        case utilizationMetricsEbsVolumeWriteIopsMaximum = "UtilizationMetricsEBSVolumeWriteIOPSMaximum"
-        case utilizationMetricsElastiCacheProcessingUnitsSum = "UtilizationMetricsElastiCacheProcessingUnitsSum"
-        case utilizationMetricsEngineCpuUtilizationMaximum = "UtilizationMetricsEngineCPUUtilizationMaximum"
-        case utilizationMetricsGetTypeCmdsSum = "UtilizationMetricsGetTypeCmdsSum"
-        case utilizationMetricsInvocationsSum = "UtilizationMetricsInvocationsSum"
-        case utilizationMetricsIsIdleMinimum = "UtilizationMetricsIsIdleMinimum"
-        case utilizationMetricsKeyspaceHitsSum = "UtilizationMetricsKeyspaceHitsSum"
-        case utilizationMetricsKeyspaceMissesSum = "UtilizationMetricsKeyspaceMissesSum"
-        case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
-        case utilizationMetricsNetworkInBytesPerSecondMaximum = "UtilizationMetricsNetworkInBytesPerSecondMaximum"
-        case utilizationMetricsNetworkOutBytesPerSecondMaximum = "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
-        case utilizationMetricsNewConnectionsSum = "UtilizationMetricsNewConnectionsSum"
-        case utilizationMetricsPacketsInFromDestinationMaximum = "UtilizationMetricsPacketsInFromDestinationMaximum"
-        case utilizationMetricsPacketsInFromSourceMaximum = "UtilizationMetricsPacketsInFromSourceMaximum"
-        case utilizationMetricsSetTypeCmdsSum = "UtilizationMetricsSetTypeCmdsSum"
-        case utilizationMetricsUserConnectedSum = "UtilizationMetricsUserConnectedSum"
-        case utilizationMetricsVolumeReadOpsPerSecondMaximum = "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
-        case utilizationMetricsVolumeWriteOpsPerSecondMaximum = "UtilizationMetricsVolumeWriteOpsPerSecondMaximum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportableInstanceField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "AccountId"
-        case currentInstanceGpuInfo = "CurrentInstanceGpuInfo"
-        case currentInstanceType = "CurrentInstanceType"
-        case currentMemory = "CurrentMemory"
-        case currentNetwork = "CurrentNetwork"
-        case currentOnDemandPrice = "CurrentOnDemandPrice"
-        case currentPerformanceRisk = "CurrentPerformanceRisk"
-        case currentStandardOneYearNoUpfrontReservedPrice = "CurrentStandardOneYearNoUpfrontReservedPrice"
-        case currentStandardThreeYearNoUpfrontReservedPrice = "CurrentStandardThreeYearNoUpfrontReservedPrice"
-        case currentStorage = "CurrentStorage"
-        case currentVcpus = "CurrentVCpus"
-        case effectiveRecommendationPreferencesCpuVendorArchitectures = "EffectiveRecommendationPreferencesCpuVendorArchitectures"
-        case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
-        case effectiveRecommendationPreferencesExternalMetricsSource = "EffectiveRecommendationPreferencesExternalMetricsSource"
-        case effectiveRecommendationPreferencesInferredWorkloadTypes = "EffectiveRecommendationPreferencesInferredWorkloadTypes"
-        case effectiveRecommendationPreferencesLookbackPeriod = "EffectiveRecommendationPreferencesLookBackPeriod"
-        case effectiveRecommendationPreferencesPreferredResources = "EffectiveRecommendationPreferencesPreferredResources"
-        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
-        case effectiveRecommendationPreferencesUtilizationPreferences = "EffectiveRecommendationPreferencesUtilizationPreferences"
-        case externalMetricStatusCode = "ExternalMetricStatusCode"
-        case externalMetricStatusReason = "ExternalMetricStatusReason"
-        case finding = "Finding"
-        case findingReasonCodes = "FindingReasonCodes"
-        case idle = "Idle"
-        case inferredWorkloadTypes = "InferredWorkloadTypes"
-        case instanceArn = "InstanceArn"
-        case instanceName = "InstanceName"
-        case instanceState = "InstanceState"
-        case lastRefreshTimestamp = "LastRefreshTimestamp"
-        case lookbackPeriodInDays = "LookbackPeriodInDays"
-        case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
-        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
-        case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
-        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
-        case recommendationOptionsInstanceGpuInfo = "RecommendationOptionsInstanceGpuInfo"
-        case recommendationOptionsInstanceType = "RecommendationOptionsInstanceType"
-        case recommendationOptionsMemory = "RecommendationOptionsMemory"
-        case recommendationOptionsMigrationEffort = "RecommendationOptionsMigrationEffort"
-        case recommendationOptionsNetwork = "RecommendationOptionsNetwork"
-        case recommendationOptionsOnDemandPrice = "RecommendationOptionsOnDemandPrice"
-        case recommendationOptionsPerformanceRisk = "RecommendationOptionsPerformanceRisk"
-        case recommendationOptionsPlatformDifferences = "RecommendationOptionsPlatformDifferences"
-        case recommendationOptionsProjectedUtilizationMetricsCpuMaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
-        case recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum = "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum"
-        case recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum = "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum"
-        case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
-        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
-        case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
-        case recommendationOptionsStandardOneYearNoUpfrontReservedPrice = "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
-        case recommendationOptionsStandardThreeYearNoUpfrontReservedPrice = "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
-        case recommendationOptionsStorage = "RecommendationOptionsStorage"
-        case recommendationOptionsVcpus = "RecommendationOptionsVcpus"
-        case recommendationsSourcesRecommendationSourceArn = "RecommendationsSourcesRecommendationSourceArn"
-        case recommendationsSourcesRecommendationSourceType = "RecommendationsSourcesRecommendationSourceType"
-        case tags = "Tags"
-        case utilizationMetricsCpuMaximum = "UtilizationMetricsCpuMaximum"
-        case utilizationMetricsDiskReadBytesPerSecondMaximum = "UtilizationMetricsDiskReadBytesPerSecondMaximum"
-        case utilizationMetricsDiskReadOpsPerSecondMaximum = "UtilizationMetricsDiskReadOpsPerSecondMaximum"
-        case utilizationMetricsDiskWriteBytesPerSecondMaximum = "UtilizationMetricsDiskWriteBytesPerSecondMaximum"
-        case utilizationMetricsDiskWriteOpsPerSecondMaximum = "UtilizationMetricsDiskWriteOpsPerSecondMaximum"
-        case utilizationMetricsEbsReadBytesPerSecondMaximum = "UtilizationMetricsEbsReadBytesPerSecondMaximum"
-        case utilizationMetricsEbsReadOpsPerSecondMaximum = "UtilizationMetricsEbsReadOpsPerSecondMaximum"
-        case utilizationMetricsEbsWriteBytesPerSecondMaximum = "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
-        case utilizationMetricsEbsWriteOpsPerSecondMaximum = "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
-        case utilizationMetricsGpuMemoryPercentageMaximum = "UtilizationMetricsGpuMemoryPercentageMaximum"
-        case utilizationMetricsGpuPercentageMaximum = "UtilizationMetricsGpuPercentageMaximum"
-        case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
-        case utilizationMetricsNetworkInBytesPerSecondMaximum = "UtilizationMetricsNetworkInBytesPerSecondMaximum"
-        case utilizationMetricsNetworkOutBytesPerSecondMaximum = "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
-        case utilizationMetricsNetworkPacketsInPerSecondMaximum = "UtilizationMetricsNetworkPacketsInPerSecondMaximum"
-        case utilizationMetricsNetworkPacketsOutPerSecondMaximum = "UtilizationMetricsNetworkPacketsOutPerSecondMaximum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportableLambdaFunctionField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "AccountId"
-        case currentConfigurationMemorySize = "CurrentConfigurationMemorySize"
-        case currentConfigurationTimeout = "CurrentConfigurationTimeout"
-        case currentCostAverage = "CurrentCostAverage"
-        case currentCostTotal = "CurrentCostTotal"
-        case currentPerformanceRisk = "CurrentPerformanceRisk"
-        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
-        case finding = "Finding"
-        case findingReasonCodes = "FindingReasonCodes"
-        case functionArn = "FunctionArn"
-        case functionVersion = "FunctionVersion"
-        case lastRefreshTimestamp = "LastRefreshTimestamp"
-        case lookbackPeriodInDays = "LookbackPeriodInDays"
-        case numberOfInvocations = "NumberOfInvocations"
-        case recommendationOptionsConfigurationMemorySize = "RecommendationOptionsConfigurationMemorySize"
-        case recommendationOptionsCostHigh = "RecommendationOptionsCostHigh"
-        case recommendationOptionsCostLow = "RecommendationOptionsCostLow"
-        case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
-        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
-        case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
-        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
-        case recommendationOptionsProjectedUtilizationMetricsDurationExpected = "RecommendationOptionsProjectedUtilizationMetricsDurationExpected"
-        case recommendationOptionsProjectedUtilizationMetricsDurationLowerBound = "RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound"
-        case recommendationOptionsProjectedUtilizationMetricsDurationUpperBound = "RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound"
-        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
-        case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
-        case tags = "Tags"
-        case utilizationMetricsDurationAverage = "UtilizationMetricsDurationAverage"
-        case utilizationMetricsDurationMaximum = "UtilizationMetricsDurationMaximum"
-        case utilizationMetricsMemoryAverage = "UtilizationMetricsMemoryAverage"
-        case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportableLicenseField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "AccountId"
-        case currentLicenseConfigurationInstanceType = "CurrentLicenseConfigurationInstanceType"
-        case currentLicenseConfigurationLicenseEdition = "CurrentLicenseConfigurationLicenseEdition"
-        case currentLicenseConfigurationLicenseModel = "CurrentLicenseConfigurationLicenseModel"
-        case currentLicenseConfigurationLicenseName = "CurrentLicenseConfigurationLicenseName"
-        case currentLicenseConfigurationLicenseVersion = "CurrentLicenseConfigurationLicenseVersion"
-        case currentLicenseConfigurationMetricsSource = "CurrentLicenseConfigurationMetricsSource"
-        case currentLicenseConfigurationNumberOfCores = "CurrentLicenseConfigurationNumberOfCores"
-        case currentLicenseConfigurationOperatingSystem = "CurrentLicenseConfigurationOperatingSystem"
-        case lastRefreshTimestamp = "LastRefreshTimestamp"
-        case licenseFinding = "Finding"
-        case licenseFindingReasonCodes = "FindingReasonCodes"
-        case lookbackPeriodInDays = "LookbackPeriodInDays"
-        case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
-        case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
-        case recommendationOptionsLicenseEdition = "RecommendationOptionsLicenseEdition"
-        case recommendationOptionsLicenseModel = "RecommendationOptionsLicenseModel"
-        case recommendationOptionsOperatingSystem = "RecommendationOptionsOperatingSystem"
-        case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
-        case resourceArn = "ResourceArn"
-        case tags = "Tags"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportableRDSDBField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "AccountId"
-        case clusterWriter = "ClusterWriter"
-        case currentDbInstanceClass = "CurrentDBInstanceClass"
-        case currentInstanceOnDemandHourlyPrice = "CurrentInstanceOnDemandHourlyPrice"
-        case currentInstancePerformanceRisk = "CurrentInstancePerformanceRisk"
-        case currentStorageConfigurationAllocatedStorage = "CurrentStorageConfigurationAllocatedStorage"
-        case currentStorageConfigurationIops = "CurrentStorageConfigurationIOPS"
-        case currentStorageConfigurationMaxAllocatedStorage = "CurrentStorageConfigurationMaxAllocatedStorage"
-        case currentStorageConfigurationStorageThroughput = "CurrentStorageConfigurationStorageThroughput"
-        case currentStorageConfigurationStorageType = "CurrentStorageConfigurationStorageType"
-        case currentStorageEstimatedClusterInstanceOnDemandMonthlyCost = "CurrentStorageEstimatedClusterInstanceOnDemandMonthlyCost"
-        case currentStorageEstimatedClusterStorageIoOnDemandMonthlyCost = "CurrentStorageEstimatedClusterStorageIOOnDemandMonthlyCost"
-        case currentStorageEstimatedClusterStorageOnDemandMonthlyCost = "CurrentStorageEstimatedClusterStorageOnDemandMonthlyCost"
-        case currentStorageEstimatedMonthlyVolumeIopsCostVariation = "CurrentStorageEstimatedMonthlyVolumeIOPsCostVariation"
-        case currentStorageOnDemandMonthlyPrice = "CurrentStorageOnDemandMonthlyPrice"
-        case dbClusterIdentifier = "DBClusterIdentifier"
-        case effectiveRecommendationPreferencesCpuVendorArchitectures = "EffectiveRecommendationPreferencesCpuVendorArchitectures"
-        case effectiveRecommendationPreferencesEnhancedInfrastructureMetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
-        case effectiveRecommendationPreferencesLookbackPeriod = "EffectiveRecommendationPreferencesLookBackPeriod"
-        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
-        case engine = "Engine"
-        case engineVersion = "EngineVersion"
-        case idle = "Idle"
-        case instanceFinding = "InstanceFinding"
-        case instanceFindingReasonCodes = "InstanceFindingReasonCodes"
-        case instanceRecommendationOptionsDbInstanceClass = "InstanceRecommendationOptionsDBInstanceClass"
-        case instanceRecommendationOptionsEstimatedMonthlySavingsCurrency = "InstanceRecommendationOptionsEstimatedMonthlySavingsCurrency"
-        case instanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "InstanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
-        case instanceRecommendationOptionsEstimatedMonthlySavingsValue = "InstanceRecommendationOptionsEstimatedMonthlySavingsValue"
-        case instanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "InstanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
-        case instanceRecommendationOptionsInstanceOnDemandHourlyPrice = "InstanceRecommendationOptionsInstanceOnDemandHourlyPrice"
-        case instanceRecommendationOptionsPerformanceRisk = "InstanceRecommendationOptionsPerformanceRisk"
-        case instanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum = "InstanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
-        case instanceRecommendationOptionsRank = "InstanceRecommendationOptionsRank"
-        case instanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "InstanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
-        case instanceRecommendationOptionsSavingsOpportunityPercentage = "InstanceRecommendationOptionsSavingsOpportunityPercentage"
-        case lastRefreshTimestamp = "LastRefreshTimestamp"
-        case lookbackPeriodInDays = "LookbackPeriodInDays"
-        case multiAzDbInstance = "MultiAZDBInstance"
-        case promotionTier = "PromotionTier"
-        case resourceArn = "ResourceArn"
-        case storageFinding = "StorageFinding"
-        case storageFindingReasonCodes = "StorageFindingReasonCodes"
-        case storageRecommendationOptionsAllocatedStorage = "StorageRecommendationOptionsAllocatedStorage"
-        case storageRecommendationOptionsEstimatedClusterInstanceOnDemandMonthlyCost = "StorageRecommendationOptionsEstimatedClusterInstanceOnDemandMonthlyCost"
-        case storageRecommendationOptionsEstimatedClusterStorageIoOnDemandMonthlyCost = "StorageRecommendationOptionsEstimatedClusterStorageIOOnDemandMonthlyCost"
-        case storageRecommendationOptionsEstimatedClusterStorageOnDemandMonthlyCost = "StorageRecommendationOptionsEstimatedClusterStorageOnDemandMonthlyCost"
-        case storageRecommendationOptionsEstimatedMonthlySavingsCurrency = "StorageRecommendationOptionsEstimatedMonthlySavingsCurrency"
-        case storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "StorageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
-        case storageRecommendationOptionsEstimatedMonthlySavingsValue = "StorageRecommendationOptionsEstimatedMonthlySavingsValue"
-        case storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "StorageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
-        case storageRecommendationOptionsEstimatedMonthlyVolumeIopsCostVariation = "StorageRecommendationOptionsEstimatedMonthlyVolumeIOPsCostVariation"
-        case storageRecommendationOptionsIops = "StorageRecommendationOptionsIOPS"
-        case storageRecommendationOptionsMaxAllocatedStorage = "StorageRecommendationOptionsMaxAllocatedStorage"
-        case storageRecommendationOptionsOnDemandMonthlyPrice = "StorageRecommendationOptionsOnDemandMonthlyPrice"
-        case storageRecommendationOptionsRank = "StorageRecommendationOptionsRank"
-        case storageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "StorageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
-        case storageRecommendationOptionsSavingsOpportunityPercentage = "StorageRecommendationOptionsSavingsOpportunityPercentage"
-        case storageRecommendationOptionsStorageThroughput = "StorageRecommendationOptionsStorageThroughput"
-        case storageRecommendationOptionsStorageType = "StorageRecommendationOptionsStorageType"
-        case tags = "Tags"
-        case utilizationMetricsAuroraMemoryHealthStateMaximum = "UtilizationMetricsAuroraMemoryHealthStateMaximum"
-        case utilizationMetricsAuroraMemoryNumDeclinedSqlTotalMaximum = "UtilizationMetricsAuroraMemoryNumDeclinedSqlTotalMaximum"
-        case utilizationMetricsAuroraMemoryNumKillConnTotalMaximum = "UtilizationMetricsAuroraMemoryNumKillConnTotalMaximum"
-        case utilizationMetricsAuroraMemoryNumKillQueryTotalMaximum = "UtilizationMetricsAuroraMemoryNumKillQueryTotalMaximum"
-        case utilizationMetricsCpuMaximum = "UtilizationMetricsCpuMaximum"
-        case utilizationMetricsDatabaseConnectionsMaximum = "UtilizationMetricsDatabaseConnectionsMaximum"
-        case utilizationMetricsEbsVolumeReadIopsMaximum = "UtilizationMetricsEBSVolumeReadIOPSMaximum"
-        case utilizationMetricsEbsVolumeReadThroughputMaximum = "UtilizationMetricsEBSVolumeReadThroughputMaximum"
-        case utilizationMetricsEbsVolumeStorageSpaceUtilizationMaximum = "UtilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum"
-        case utilizationMetricsEbsVolumeWriteIopsMaximum = "UtilizationMetricsEBSVolumeWriteIOPSMaximum"
-        case utilizationMetricsEbsVolumeWriteThroughputMaximum = "UtilizationMetricsEBSVolumeWriteThroughputMaximum"
-        case utilizationMetricsMemoryMaximum = "UtilizationMetricsMemoryMaximum"
-        case utilizationMetricsNetworkReceiveThroughputMaximum = "UtilizationMetricsNetworkReceiveThroughputMaximum"
-        case utilizationMetricsNetworkTransmitThroughputMaximum = "UtilizationMetricsNetworkTransmitThroughputMaximum"
-        case utilizationMetricsReadIopsEphemeralStorageMaximum = "UtilizationMetricsReadIOPSEphemeralStorageMaximum"
-        case utilizationMetricsStorageNetworkReceiveThroughputMaximum = "UtilizationMetricsStorageNetworkReceiveThroughputMaximum"
-        case utilizationMetricsStorageNetworkTransmitThroughputMaximum = "UtilizationMetricsStorageNetworkTransmitThroughputMaximum"
-        case utilizationMetricsVolumeBytesUsedAverage = "UtilizationMetricsVolumeBytesUsedAverage"
-        case utilizationMetricsVolumeReadIopsAverage = "UtilizationMetricsVolumeReadIOPsAverage"
-        case utilizationMetricsVolumeWriteIopsAverage = "UtilizationMetricsVolumeWriteIOPsAverage"
-        case utilizationMetricsWriteIopsEphemeralStorageMaximum = "UtilizationMetricsWriteIOPSEphemeralStorageMaximum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExportableVolumeField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "AccountId"
-        case currentConfigurationRootVolume = "CurrentConfigurationRootVolume"
-        case currentConfigurationVolumeBaselineIops = "CurrentConfigurationVolumeBaselineIOPS"
-        case currentConfigurationVolumeBaselineThroughput = "CurrentConfigurationVolumeBaselineThroughput"
-        case currentConfigurationVolumeBurstIops = "CurrentConfigurationVolumeBurstIOPS"
-        case currentConfigurationVolumeBurstThroughput = "CurrentConfigurationVolumeBurstThroughput"
-        case currentConfigurationVolumeSize = "CurrentConfigurationVolumeSize"
-        case currentConfigurationVolumeType = "CurrentConfigurationVolumeType"
-        case currentMonthlyPrice = "CurrentMonthlyPrice"
-        case currentPerformanceRisk = "CurrentPerformanceRisk"
-        case effectiveRecommendationPreferencesLookbackPeriod = "EffectiveRecommendationPreferencesLookBackPeriod"
-        case effectiveRecommendationPreferencesSavingsEstimationMode = "EffectiveRecommendationPreferencesSavingsEstimationMode"
-        case finding = "Finding"
-        case lastRefreshTimestamp = "LastRefreshTimestamp"
-        case lookbackPeriodInDays = "LookbackPeriodInDays"
-        case recommendationOptionsConfigurationVolumeBaselineIops = "RecommendationOptionsConfigurationVolumeBaselineIOPS"
-        case recommendationOptionsConfigurationVolumeBaselineThroughput = "RecommendationOptionsConfigurationVolumeBaselineThroughput"
-        case recommendationOptionsConfigurationVolumeBurstIops = "RecommendationOptionsConfigurationVolumeBurstIOPS"
-        case recommendationOptionsConfigurationVolumeBurstThroughput = "RecommendationOptionsConfigurationVolumeBurstThroughput"
-        case recommendationOptionsConfigurationVolumeSize = "RecommendationOptionsConfigurationVolumeSize"
-        case recommendationOptionsConfigurationVolumeType = "RecommendationOptionsConfigurationVolumeType"
-        case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
-        case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
-        case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
-        case recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts"
-        case recommendationOptionsMonthlyPrice = "RecommendationOptionsMonthlyPrice"
-        case recommendationOptionsPerformanceRisk = "RecommendationOptionsPerformanceRisk"
-        case recommendationOptionsSavingsOpportunityAfterDiscountsPercentage = "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage"
-        case recommendationOptionsSavingsOpportunityPercentage = "RecommendationOptionsSavingsOpportunityPercentage"
-        case rootVolume = "RootVolume"
-        case tags = "Tags"
-        case utilizationMetricsVolumeIopsExceededMaximum = "UtilizationMetricsVolumeIOPSExceededMaximum"
-        case utilizationMetricsVolumeReadBytesPerSecondMaximum = "UtilizationMetricsVolumeReadBytesPerSecondMaximum"
-        case utilizationMetricsVolumeReadOpsPerSecondMaximum = "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
-        case utilizationMetricsVolumeThroughputExceededMaximum = "UtilizationMetricsVolumeThroughputExceededMaximum"
-        case utilizationMetricsVolumeWriteBytesPerSecondMaximum = "UtilizationMetricsVolumeWriteBytesPerSecondMaximum"
-        case utilizationMetricsVolumeWriteOpsPerSecondMaximum = "UtilizationMetricsVolumeWriteOpsPerSecondMaximum"
-        case volumeArn = "VolumeArn"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExternalMetricStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case datadogIntegrationError = "DATADOG_INTEGRATION_ERROR"
-        case dynatraceIntegrationError = "DYNATRACE_INTEGRATION_ERROR"
-        case instanaIntegrationError = "INSTANA_INTEGRATION_ERROR"
-        case insufficientDatadogMetrics = "INSUFFICIENT_DATADOG_METRICS"
-        case insufficientDynatraceMetrics = "INSUFFICIENT_DYNATRACE_METRICS"
-        case insufficientInstanaMetrics = "INSUFFICIENT_INSTANA_METRICS"
-        case insufficientNewrelicMetrics = "INSUFFICIENT_NEWRELIC_METRICS"
-        case integrationSuccess = "INTEGRATION_SUCCESS"
-        case newrelicIntegrationError = "NEWRELIC_INTEGRATION_ERROR"
-        case noExternalMetricSet = "NO_EXTERNAL_METRIC_SET"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ExternalMetricsSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case datadog = "Datadog"
-        case dynatrace = "Dynatrace"
-        case instana = "Instana"
-        case newrelic = "NewRelic"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "Csv"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case finding = "Finding"
-        case findingReasonCodes = "FindingReasonCodes"
-        case inferredWorkloadTypes = "InferredWorkloadTypes"
-        case recommendationSourceType = "RecommendationSourceType"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Finding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notOptimized = "NotOptimized"
-        case optimized = "Optimized"
-        case overProvisioned = "Overprovisioned"
-        case underProvisioned = "Underprovisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum FindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case memoryOverProvisioned = "MemoryOverprovisioned"
-        case memoryUnderProvisioned = "MemoryUnderprovisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Idle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `false` = "False"
-        case `true` = "True"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IdleFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case idle = "Idle"
-        case unattached = "Unattached"
-        case unused = "Unused"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IdleMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case activeConnectionCount = "ActiveConnectionCount"
-        case cacheHits = "CacheHits"
-        case cacheMisses = "CacheMisses"
-        case consumedChangeDataCaptureUnits = "ConsumedChangeDataCaptureUnits"
-        case consumedReadCapacityUnits = "ConsumedReadCapacityUnits"
-        case consumedWriteCapacityUnits = "ConsumedWriteCapacityUnits"
-        case cpu = "CPU"
-        case currConnections = "CurrConnections"
-        case databaseConnections = "DatabaseConnections"
-        case ebsVolumeReadIops = "EBSVolumeReadIOPS"
-        case ebsVolumeWriteIops = "EBSVolumeWriteIOPS"
-        case elastiCacheProcessingUnits = "ElastiCacheProcessingUnits"
-        case engineCpuUtilization = "EngineCPUUtilization"
-        case getTypeCmds = "GetTypeCmds"
-        case invocations = "Invocations"
-        case isIdle = "IsIdle"
-        case keyspaceHits = "KeyspaceHits"
-        case keyspaceMisses = "KeyspaceMisses"
-        case memory = "Memory"
-        case networkInBytesPerSecond = "NetworkInBytesPerSecond"
-        case networkOutBytesPerSecond = "NetworkOutBytesPerSecond"
-        case newConnections = "NewConnections"
-        case packetsInFromDestination = "PacketsInFromDestination"
-        case packetsInFromSource = "PacketsInFromSource"
-        case setTypeCmds = "SetTypeCmds"
-        case userConnected = "UserConnected"
-        case volumeReadOpsPerSecond = "VolumeReadOpsPerSecond"
-        case volumeWriteOpsPerSecond = "VolumeWriteOpsPerSecond"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IdleRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case finding = "Finding"
-        case resourceType = "ResourceType"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum IdleRecommendationResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case autoScalingGroup = "AutoScalingGroup"
-        case documentDbCluster = "DocumentDBCluster"
-        case dynamoDbTable = "DynamoDBTable"
-        case ebsVolume = "EBSVolume"
-        case ec2Instance = "EC2Instance"
-        case ecsService = "ECSService"
-        case elastiCacheCluster = "ElastiCacheCluster"
-        case memoryDbCluster = "MemoryDBCluster"
-        case natGateway = "NatGateway"
-        case rdsDbInstance = "RDSDBInstance"
-        case sageMakerEndpoint = "SageMakerEndpoint"
-        case workspaces = "WorkSpaces"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InferredWorkloadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case amazonEmr = "AmazonEmr"
-        case apacheCassandra = "ApacheCassandra"
-        case apacheHadoop = "ApacheHadoop"
-        case kafka = "Kafka"
-        case memcached = "Memcached"
-        case nginx = "Nginx"
-        case postgreSql = "PostgreSql"
-        case redis = "Redis"
-        case sqlserver = "SQLServer"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InferredWorkloadTypesPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case inactive = "Inactive"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceIdle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `false` = "False"
-        case `true` = "True"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cpuOverProvisioned = "CPUOverprovisioned"
-        case cpuUnderProvisioned = "CPUUnderprovisioned"
-        case diskIopsOverProvisioned = "DiskIOPSOverprovisioned"
-        case diskIopsUnderProvisioned = "DiskIOPSUnderprovisioned"
-        case diskThroughputOverProvisioned = "DiskThroughputOverprovisioned"
-        case diskThroughputUnderProvisioned = "DiskThroughputUnderprovisioned"
-        case ebsIopsOverProvisioned = "EBSIOPSOverprovisioned"
-        case ebsIopsUnderProvisioned = "EBSIOPSUnderprovisioned"
-        case ebsThroughputOverProvisioned = "EBSThroughputOverprovisioned"
-        case ebsThroughputUnderProvisioned = "EBSThroughputUnderprovisioned"
-        case gpuMemoryOverProvisioned = "GPUMemoryOverprovisioned"
-        case gpuMemoryUnderProvisioned = "GPUMemoryUnderprovisioned"
-        case gpuOverProvisioned = "GPUOverprovisioned"
-        case gpuUnderProvisioned = "GPUUnderprovisioned"
-        case memoryOverProvisioned = "MemoryOverprovisioned"
-        case memoryUnderProvisioned = "MemoryUnderprovisioned"
-        case networkBandwidthOverProvisioned = "NetworkBandwidthOverprovisioned"
-        case networkBandwidthUnderProvisioned = "NetworkBandwidthUnderprovisioned"
-        case networkPpsOverProvisioned = "NetworkPPSOverprovisioned"
-        case networkPpsUnderProvisioned = "NetworkPPSUnderprovisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceSavingsEstimationModeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case costExplorerRightsizing = "CostExplorerRightsizing"
-        case costOptimizationHub = "CostOptimizationHub"
-        case publicPricing = "PublicPricing"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum InstanceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pending = "pending"
-        case running = "running"
-        case shuttingDown = "shutting-down"
-        case stopped = "stopped"
-        case stopping = "stopping"
-        case terminated = "terminated"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case jobStatus = "JobStatus"
-        case resourceType = "ResourceType"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case complete = "Complete"
-        case failed = "Failed"
-        case inProgress = "InProgress"
-        case queued = "Queued"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LambdaFunctionMemoryMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duration = "Duration"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LambdaFunctionMemoryMetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case expected = "Expected"
-        case lowerBound = "LowerBound"
-        case upperBound = "UpperBound"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LambdaFunctionMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case duration = "Duration"
-        case memory = "Memory"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LambdaFunctionMetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "Average"
-        case maximum = "Maximum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LambdaFunctionRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case finding = "Finding"
-        case findingReasonCode = "FindingReasonCode"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LambdaFunctionRecommendationFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notOptimized = "NotOptimized"
-        case optimized = "Optimized"
-        case unavailable = "Unavailable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LambdaFunctionRecommendationFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inconclusive = "Inconclusive"
-        case insufficientData = "InsufficientData"
-        case memoryOverProvisioned = "MemoryOverprovisioned"
-        case memoryUnderProvisioned = "MemoryUnderprovisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LambdaSavingsEstimationModeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case costExplorerRightsizing = "CostExplorerRightsizing"
-        case costOptimizationHub = "CostOptimizationHub"
-        case publicPricing = "PublicPricing"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LicenseEdition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enterprise = "Enterprise"
-        case free = "Free"
-        case noLicenseEditionFound = "NoLicenseEditionFound"
-        case standard = "Standard"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LicenseFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case insufficientMetrics = "InsufficientMetrics"
-        case notOptimized = "NotOptimized"
-        case optimized = "Optimized"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LicenseFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cwAppInsightsDisabled = "InvalidCloudWatchApplicationInsightsSetup"
-        case cwAppInsightsError = "CloudWatchApplicationInsightsError"
-        case licenseOverProvisioned = "LicenseOverprovisioned"
-        case optimized = "Optimized"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LicenseModel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bringYourOwnLicense = "BringYourOwnLicense"
-        case licenseIncluded = "LicenseIncluded"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LicenseName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sqlserver = "SQLServer"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LicenseRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case licenseFinding = "Finding"
-        case licenseFindingReasonCode = "FindingReasonCode"
-        case licenseName = "LicenseName"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum LookBackPeriodPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days14 = "DAYS_14"
-        case days32 = "DAYS_32"
-        case days93 = "DAYS_93"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cpu = "Cpu"
-        case diskReadBytesPerSecond = "DISK_READ_BYTES_PER_SECOND"
-        case diskReadOpsPerSecond = "DISK_READ_OPS_PER_SECOND"
-        case diskWriteBytesPerSecond = "DISK_WRITE_BYTES_PER_SECOND"
-        case diskWriteOpsPerSecond = "DISK_WRITE_OPS_PER_SECOND"
-        case ebsReadBytesPerSecond = "EBS_READ_BYTES_PER_SECOND"
-        case ebsReadOpsPerSecond = "EBS_READ_OPS_PER_SECOND"
-        case ebsWriteBytesPerSecond = "EBS_WRITE_BYTES_PER_SECOND"
-        case ebsWriteOpsPerSecond = "EBS_WRITE_OPS_PER_SECOND"
-        case gpuMemoryPercentage = "GPU_MEMORY_PERCENTAGE"
-        case gpuPercentage = "GPU_PERCENTAGE"
-        case memory = "Memory"
-        case networkInBytesPerSecond = "NETWORK_IN_BYTES_PER_SECOND"
-        case networkOutBytesPerSecond = "NETWORK_OUT_BYTES_PER_SECOND"
-        case networkPacketsInPerSecond = "NETWORK_PACKETS_IN_PER_SECOND"
-        case networkPacketsOutPerSecond = "NETWORK_PACKETS_OUT_PER_SECOND"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MetricSourceProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cloudWatchAppInsights = "CloudWatchApplicationInsights"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "Average"
-        case maximum = "Maximum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum MigrationEffort: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "High"
-        case low = "Low"
-        case medium = "Medium"
-        case veryLow = "VeryLow"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Order: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asc = "Asc"
-        case desc = "Desc"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PlatformDifference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case architecture = "Architecture"
-        case hypervisor = "Hypervisor"
-        case instanceStoreAvailability = "InstanceStoreAvailability"
-        case networkInterface = "NetworkInterface"
-        case storageInterface = "StorageInterface"
-        case virtualizationType = "VirtualizationType"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum PreferredResourceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ec2InstanceTypes = "Ec2InstanceTypes"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RDSCurrentInstancePerformanceRisk: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "High"
-        case low = "Low"
-        case medium = "Medium"
-        case veryLow = "VeryLow"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RDSDBMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auroraMemoryHealthState = "AuroraMemoryHealthState"
-        case auroraMemoryNumDeclinedSql = "AuroraMemoryNumDeclinedSql"
-        case auroraMemoryNumKillConnTotal = "AuroraMemoryNumKillConnTotal"
-        case auroraMemoryNumKillQueryTotal = "AuroraMemoryNumKillQueryTotal"
-        case cpu = "CPU"
-        case databaseConnections = "DatabaseConnections"
-        case ebsVolumeReadIops = "EBSVolumeReadIOPS"
-        case ebsVolumeReadThroughput = "EBSVolumeReadThroughput"
-        case ebsVolumeStorageSpaceUtilization = "EBSVolumeStorageSpaceUtilization"
-        case ebsVolumeWriteIops = "EBSVolumeWriteIOPS"
-        case ebsVolumeWriteThroughput = "EBSVolumeWriteThroughput"
-        case memory = "Memory"
-        case networkReceiveThroughput = "NetworkReceiveThroughput"
-        case networkTransmitThroughput = "NetworkTransmitThroughput"
-        case readIopsEphemeralStorage = "ReadIOPSEphemeralStorage"
-        case storageNetworkReceiveThroughput = "StorageNetworkReceiveThroughput"
-        case storageNetworkTransmitThroughput = "StorageNetworkTransmitThroughput"
-        case volumeBytesUsed = "VolumeBytesUsed"
-        case volumeReadIops = "VolumeReadIOPs"
-        case volumeWriteIops = "VolumeWriteIOPs"
-        case writeIopsEphemeralStorage = "WriteIOPSEphemeralStorage"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RDSDBMetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "Average"
-        case maximum = "Maximum"
-        case minimum = "Minimum"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RDSDBRecommendationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case idle = "Idle"
-        case instanceFinding = "InstanceFinding"
-        case instanceFindingReasonCode = "InstanceFindingReasonCode"
-        case storageFinding = "StorageFinding"
-        case storageFindingReasonCode = "StorageFindingReasonCode"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RDSEstimatedMonthlyVolumeIOPsCostVariation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "High"
-        case low = "Low"
-        case medium = "Medium"
-        case none = "None"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RDSInstanceFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case optimized = "Optimized"
-        case overProvisioned = "Overprovisioned"
-        case underProvisioned = "Underprovisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RDSInstanceFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cpuOverProvisioned = "CPUOverprovisioned"
-        case cpuUnderProvisioned = "CPUUnderprovisioned"
-        case dbClusterWriterUnderProvisioned = "DBClusterWriterUnderprovisioned"
-        case ebsIopsOverProvisioned = "EBSIOPSOverprovisioned"
-        case ebsIopsUnderProvisioned = "EBSIOPSUnderprovisioned"
-        case ebsThroughputOverProvisioned = "EBSThroughputOverprovisioned"
-        case ebsThroughputUnderProvisioned = "EBSThroughputUnderprovisioned"
-        case instanceStorageReadIopsUnderProvisioned = "InstanceStorageReadIOPSUnderprovisioned"
-        case instanceStorageWriteIopsUnderProvisioned = "InstanceStorageWriteIOPSUnderprovisioned"
-        case memoryUnderProvisioned = "MemoryUnderprovisioned"
-        case networkBandwidthOverProvisioned = "NetworkBandwidthOverprovisioned"
-        case networkBandwidthUnderProvisioned = "NetworkBandwidthUnderprovisioned"
-        case newEngineVersionAvailable = "NewEngineVersionAvailable"
-        case newGenerationDbInstanceClassAvailable = "NewGenerationDBInstanceClassAvailable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RDSSavingsEstimationModeSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case costExplorerRightsizing = "CostExplorerRightsizing"
-        case costOptimizationHub = "CostOptimizationHub"
-        case publicPricing = "PublicPricing"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RDSStorageFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case notOptimized = "NotOptimized"
-        case optimized = "Optimized"
-        case overProvisioned = "Overprovisioned"
-        case underProvisioned = "Underprovisioned"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RDSStorageFindingReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dbClusterStorageOptionAvailable = "DBClusterStorageOptionAvailable"
-        case dbClusterStorageSavingsAvailable = "DBClusterStorageSavingsAvailable"
-        case ebsVolumeAllocatedStorageUnderProvisioned = "EBSVolumeAllocatedStorageUnderprovisioned"
-        case ebsVolumeIopsOverProvisioned = "EBSVolumeIOPSOverprovisioned"
-        case ebsVolumeThroughputOverProvisioned = "EBSVolumeThroughputOverprovisioned"
-        case ebsVolumeThroughputUnderProvisioned = "EBSVolumeThroughputUnderprovisioned"
-        case newGenerationStorageTypeAvailable = "NewGenerationStorageTypeAvailable"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RecommendationPreferenceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enhancedInfrastructureMetrics = "EnhancedInfrastructureMetrics"
-        case externalMetricsPreference = "ExternalMetricsPreference"
-        case inferredWorkloadTypes = "InferredWorkloadTypes"
-        case lookbackPeriodPreference = "LookBackPeriodPreference"
-        case preferredResources = "PreferredResources"
-        case utilizationPreferences = "UtilizationPreferences"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum RecommendationSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auroraDbClusterStorage = "AuroraDBClusterStorage"
-        case autoScalingGroup = "AutoScalingGroup"
-        case documentDbCluster = "DocumentDBCluster"
-        case dynamoDbTable = "DynamoDBTable"
-        case ebsVolume = "EbsVolume"
-        case ec2Instance = "Ec2Instance"
-        case ecsService = "EcsService"
-        case elastiCacheCluster = "ElastiCacheCluster"
-        case lambdaFunction = "LambdaFunction"
-        case license = "License"
-        case memoryDbCluster = "MemoryDBCluster"
-        case natGateway = "NatGateway"
-        case rdsDbInstance = "RdsDBInstance"
-        case rdsDbInstanceStorage = "RdsDBInstanceStorage"
-        case sageMakerEndpoint = "SageMakerEndpoint"
-        case workspaces = "WorkSpaces"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auroraDbClusterStorage = "AuroraDBClusterStorage"
-        case autoScalingGroup = "AutoScalingGroup"
-        case ebsVolume = "EbsVolume"
-        case ec2Instance = "Ec2Instance"
-        case ecsService = "EcsService"
-        case idle = "Idle"
-        case lambdaFunction = "LambdaFunction"
-        case license = "License"
-        case notApplicable = "NotApplicable"
-        case rdsDbInstance = "RdsDBInstance"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum SavingsEstimationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afterDiscounts = "AfterDiscounts"
-        case beforeDiscounts = "BeforeDiscounts"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum ScopeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "AccountId"
-        case organization = "Organization"
-        case resourceArn = "ResourceArn"
-        public var description: String { return self.rawValue }
-    }
-
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case failed = "Failed"
-        case inactive = "Inactive"
-        case pending = "Pending"
-        public var description: String { return self.rawValue }
+
+    public struct ExportableAutoScalingGroupField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "AccountId") }
+        @inlinable public static var autoScalingGroupArn: Self { .init(rawValue: "AutoScalingGroupArn") }
+        @inlinable public static var autoScalingGroupName: Self { .init(rawValue: "AutoScalingGroupName") }
+        @inlinable public static var currentConfigurationAllocationStrategy: Self { .init(rawValue: "CurrentConfigurationAllocationStrategy") }
+        @inlinable public static var currentConfigurationDesiredCapacity: Self { .init(rawValue: "CurrentConfigurationDesiredCapacity") }
+        @inlinable public static var currentConfigurationInstanceType: Self { .init(rawValue: "CurrentConfigurationInstanceType") }
+        @inlinable public static var currentConfigurationMaxSize: Self { .init(rawValue: "CurrentConfigurationMaxSize") }
+        @inlinable public static var currentConfigurationMinSize: Self { .init(rawValue: "CurrentConfigurationMinSize") }
+        @inlinable public static var currentConfigurationMixedInstanceTypes: Self { .init(rawValue: "CurrentConfigurationMixedInstanceTypes") }
+        @inlinable public static var currentConfigurationType: Self { .init(rawValue: "CurrentConfigurationType") }
+        @inlinable public static var currentInstanceGpuInfo: Self { .init(rawValue: "CurrentInstanceGpuInfo") }
+        @inlinable public static var currentMemory: Self { .init(rawValue: "CurrentMemory") }
+        @inlinable public static var currentNetwork: Self { .init(rawValue: "CurrentNetwork") }
+        @inlinable public static var currentOnDemandPrice: Self { .init(rawValue: "CurrentOnDemandPrice") }
+        @inlinable public static var currentPerformanceRisk: Self { .init(rawValue: "CurrentPerformanceRisk") }
+        @inlinable public static var currentStandardOneYearNoUpfrontReservedPrice: Self { .init(rawValue: "CurrentStandardOneYearNoUpfrontReservedPrice") }
+        @inlinable public static var currentStandardThreeYearNoUpfrontReservedPrice: Self { .init(rawValue: "CurrentStandardThreeYearNoUpfrontReservedPrice") }
+        @inlinable public static var currentStorage: Self { .init(rawValue: "CurrentStorage") }
+        @inlinable public static var currentVcpus: Self { .init(rawValue: "CurrentVCpus") }
+        @inlinable public static var effectiveRecommendationPreferencesCpuVendorArchitectures: Self { .init(rawValue: "EffectiveRecommendationPreferencesCpuVendorArchitectures") }
+        @inlinable public static var effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: Self { .init(rawValue: "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics") }
+        @inlinable public static var effectiveRecommendationPreferencesInferredWorkloadTypes: Self { .init(rawValue: "EffectiveRecommendationPreferencesInferredWorkloadTypes") }
+        @inlinable public static var effectiveRecommendationPreferencesLookbackPeriod: Self { .init(rawValue: "EffectiveRecommendationPreferencesLookBackPeriod") }
+        @inlinable public static var effectiveRecommendationPreferencesPreferredResources: Self { .init(rawValue: "EffectiveRecommendationPreferencesPreferredResources") }
+        @inlinable public static var effectiveRecommendationPreferencesSavingsEstimationMode: Self { .init(rawValue: "EffectiveRecommendationPreferencesSavingsEstimationMode") }
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var inferredWorkloadTypes: Self { .init(rawValue: "InferredWorkloadTypes") }
+        @inlinable public static var lastRefreshTimestamp: Self { .init(rawValue: "LastRefreshTimestamp") }
+        @inlinable public static var lookbackPeriodInDays: Self { .init(rawValue: "LookbackPeriodInDays") }
+        @inlinable public static var recommendationOptionsConfigurationAllocationStrategy: Self { .init(rawValue: "RecommendationOptionsConfigurationAllocationStrategy") }
+        @inlinable public static var recommendationOptionsConfigurationDesiredCapacity: Self { .init(rawValue: "RecommendationOptionsConfigurationDesiredCapacity") }
+        @inlinable public static var recommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage: Self { .init(rawValue: "RecommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage") }
+        @inlinable public static var recommendationOptionsConfigurationInstanceType: Self { .init(rawValue: "RecommendationOptionsConfigurationInstanceType") }
+        @inlinable public static var recommendationOptionsConfigurationMaxSize: Self { .init(rawValue: "RecommendationOptionsConfigurationMaxSize") }
+        @inlinable public static var recommendationOptionsConfigurationMinSize: Self { .init(rawValue: "RecommendationOptionsConfigurationMinSize") }
+        @inlinable public static var recommendationOptionsConfigurationMixedInstanceTypes: Self { .init(rawValue: "RecommendationOptionsConfigurationMixedInstanceTypes") }
+        @inlinable public static var recommendationOptionsConfigurationType: Self { .init(rawValue: "RecommendationOptionsConfigurationType") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrency: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrency") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValue: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValue") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts") }
+        @inlinable public static var recommendationOptionsInstanceGpuInfo: Self { .init(rawValue: "RecommendationOptionsInstanceGpuInfo") }
+        @inlinable public static var recommendationOptionsMemory: Self { .init(rawValue: "RecommendationOptionsMemory") }
+        @inlinable public static var recommendationOptionsMigrationEffort: Self { .init(rawValue: "RecommendationOptionsMigrationEffort") }
+        @inlinable public static var recommendationOptionsNetwork: Self { .init(rawValue: "RecommendationOptionsNetwork") }
+        @inlinable public static var recommendationOptionsOnDemandPrice: Self { .init(rawValue: "RecommendationOptionsOnDemandPrice") }
+        @inlinable public static var recommendationOptionsPerformanceRisk: Self { .init(rawValue: "RecommendationOptionsPerformanceRisk") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsCpuMaximum: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsGpuMaximum: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityPercentage") }
+        @inlinable public static var recommendationOptionsStandardOneYearNoUpfrontReservedPrice: Self { .init(rawValue: "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice") }
+        @inlinable public static var recommendationOptionsStandardThreeYearNoUpfrontReservedPrice: Self { .init(rawValue: "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice") }
+        @inlinable public static var recommendationOptionsStorage: Self { .init(rawValue: "RecommendationOptionsStorage") }
+        @inlinable public static var recommendationOptionsVcpus: Self { .init(rawValue: "RecommendationOptionsVcpus") }
+        @inlinable public static var utilizationMetricsCpuMaximum: Self { .init(rawValue: "UtilizationMetricsCpuMaximum") }
+        @inlinable public static var utilizationMetricsDiskReadBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsDiskReadBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsDiskReadOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsDiskReadOpsPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsDiskWriteBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsDiskWriteBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsDiskWriteOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsDiskWriteOpsPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsEbsReadBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsEbsReadBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsEbsReadOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsEbsReadOpsPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsEbsWriteBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsEbsWriteBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsEbsWriteOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsEbsWriteOpsPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsGpuMemoryPercentageMaximum: Self { .init(rawValue: "UtilizationMetricsGpuMemoryPercentageMaximum") }
+        @inlinable public static var utilizationMetricsGpuPercentageMaximum: Self { .init(rawValue: "UtilizationMetricsGpuPercentageMaximum") }
+        @inlinable public static var utilizationMetricsMemoryMaximum: Self { .init(rawValue: "UtilizationMetricsMemoryMaximum") }
+        @inlinable public static var utilizationMetricsNetworkInBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkInBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsNetworkOutBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkOutBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsNetworkPacketsInPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkPacketsInPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsNetworkPacketsOutPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkPacketsOutPerSecondMaximum") }
+    }
+
+    public struct ExportableECSServiceField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "AccountId") }
+        @inlinable public static var currentPerformanceRisk: Self { .init(rawValue: "CurrentPerformanceRisk") }
+        @inlinable public static var currentServiceConfigurationAutoScalingConfiguration: Self { .init(rawValue: "CurrentServiceConfigurationAutoScalingConfiguration") }
+        @inlinable public static var currentServiceConfigurationCpu: Self { .init(rawValue: "CurrentServiceConfigurationCpu") }
+        @inlinable public static var currentServiceConfigurationMemory: Self { .init(rawValue: "CurrentServiceConfigurationMemory") }
+        @inlinable public static var currentServiceConfigurationTaskDefinitionArn: Self { .init(rawValue: "CurrentServiceConfigurationTaskDefinitionArn") }
+        @inlinable public static var currentServiceContainerConfigurations: Self { .init(rawValue: "CurrentServiceContainerConfigurations") }
+        @inlinable public static var effectiveRecommendationPreferencesLookbackPeriod: Self { .init(rawValue: "EffectiveRecommendationPreferencesLookBackPeriod") }
+        @inlinable public static var effectiveRecommendationPreferencesSavingsEstimationMode: Self { .init(rawValue: "EffectiveRecommendationPreferencesSavingsEstimationMode") }
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var findingReasonCodes: Self { .init(rawValue: "FindingReasonCodes") }
+        @inlinable public static var lastRefreshTimestamp: Self { .init(rawValue: "LastRefreshTimestamp") }
+        @inlinable public static var launchType: Self { .init(rawValue: "LaunchType") }
+        @inlinable public static var lookbackPeriodInDays: Self { .init(rawValue: "LookbackPeriodInDays") }
+        @inlinable public static var recommendationOptionsContainerRecommendations: Self { .init(rawValue: "RecommendationOptionsContainerRecommendations") }
+        @inlinable public static var recommendationOptionsCpu: Self { .init(rawValue: "RecommendationOptionsCpu") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrency: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrency") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValue: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValue") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts") }
+        @inlinable public static var recommendationOptionsMemory: Self { .init(rawValue: "RecommendationOptionsMemory") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsCpuMaximum: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityPercentage") }
+        @inlinable public static var serviceArn: Self { .init(rawValue: "ServiceArn") }
+        @inlinable public static var tags: Self { .init(rawValue: "Tags") }
+        @inlinable public static var utilizationMetricsCpuMaximum: Self { .init(rawValue: "UtilizationMetricsCpuMaximum") }
+        @inlinable public static var utilizationMetricsMemoryMaximum: Self { .init(rawValue: "UtilizationMetricsMemoryMaximum") }
+    }
+
+    public struct ExportableIdleField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "AccountId") }
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var findingDescription: Self { .init(rawValue: "FindingDescription") }
+        @inlinable public static var lastRefreshTimestamp: Self { .init(rawValue: "LastRefreshTimestamp") }
+        @inlinable public static var lookbackPeriodInDays: Self { .init(rawValue: "LookbackPeriodInDays") }
+        @inlinable public static var resourceArn: Self { .init(rawValue: "ResourceArn") }
+        @inlinable public static var resourceId: Self { .init(rawValue: "ResourceId") }
+        @inlinable public static var resourceType: Self { .init(rawValue: "ResourceType") }
+        @inlinable public static var savingsOpportunity: Self { .init(rawValue: "SavingsOpportunity") }
+        @inlinable public static var savingsOpportunityAfterDiscount: Self { .init(rawValue: "SavingsOpportunityAfterDiscount") }
+        @inlinable public static var tags: Self { .init(rawValue: "Tags") }
+        @inlinable public static var utilizationMetricsActiveConnectionCountMaximum: Self { .init(rawValue: "UtilizationMetricsActiveConnectionCountMaximum") }
+        @inlinable public static var utilizationMetricsCacheHitsSum: Self { .init(rawValue: "UtilizationMetricsCacheHitsSum") }
+        @inlinable public static var utilizationMetricsCacheMissesSum: Self { .init(rawValue: "UtilizationMetricsCacheMissesSum") }
+        @inlinable public static var utilizationMetricsConsumedReadCapacityUnitsSum: Self { .init(rawValue: "UtilizationMetricsConsumedReadCapacityUnitsSum") }
+        @inlinable public static var utilizationMetricsConsumedWriteCapacityUnitsSum: Self { .init(rawValue: "UtilizationMetricsConsumedWriteCapacityUnitsSum") }
+        @inlinable public static var utilizationMetricsCpuMaximum: Self { .init(rawValue: "UtilizationMetricsCpuMaximum") }
+        @inlinable public static var utilizationMetricsCurrConnectionsSum: Self { .init(rawValue: "UtilizationMetricsCurrConnectionsSum") }
+        @inlinable public static var utilizationMetricsDatabaseConnectionsMaximum: Self { .init(rawValue: "UtilizationMetricsDatabaseConnectionsMaximum") }
+        @inlinable public static var utilizationMetricsDatabaseConnectionsSum: Self { .init(rawValue: "UtilizationMetricsDatabaseConnectionsSum") }
+        @inlinable public static var utilizationMetricsEbsVolumeReadIopsMaximum: Self { .init(rawValue: "UtilizationMetricsEBSVolumeReadIOPSMaximum") }
+        @inlinable public static var utilizationMetricsEbsVolumeWriteIopsMaximum: Self { .init(rawValue: "UtilizationMetricsEBSVolumeWriteIOPSMaximum") }
+        @inlinable public static var utilizationMetricsElastiCacheProcessingUnitsSum: Self { .init(rawValue: "UtilizationMetricsElastiCacheProcessingUnitsSum") }
+        @inlinable public static var utilizationMetricsEngineCpuUtilizationMaximum: Self { .init(rawValue: "UtilizationMetricsEngineCPUUtilizationMaximum") }
+        @inlinable public static var utilizationMetricsGetTypeCmdsSum: Self { .init(rawValue: "UtilizationMetricsGetTypeCmdsSum") }
+        @inlinable public static var utilizationMetricsInvocationsSum: Self { .init(rawValue: "UtilizationMetricsInvocationsSum") }
+        @inlinable public static var utilizationMetricsIsIdleMinimum: Self { .init(rawValue: "UtilizationMetricsIsIdleMinimum") }
+        @inlinable public static var utilizationMetricsKeyspaceHitsSum: Self { .init(rawValue: "UtilizationMetricsKeyspaceHitsSum") }
+        @inlinable public static var utilizationMetricsKeyspaceMissesSum: Self { .init(rawValue: "UtilizationMetricsKeyspaceMissesSum") }
+        @inlinable public static var utilizationMetricsMemoryMaximum: Self { .init(rawValue: "UtilizationMetricsMemoryMaximum") }
+        @inlinable public static var utilizationMetricsNetworkInBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkInBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsNetworkOutBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkOutBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsNewConnectionsSum: Self { .init(rawValue: "UtilizationMetricsNewConnectionsSum") }
+        @inlinable public static var utilizationMetricsPacketsInFromDestinationMaximum: Self { .init(rawValue: "UtilizationMetricsPacketsInFromDestinationMaximum") }
+        @inlinable public static var utilizationMetricsPacketsInFromSourceMaximum: Self { .init(rawValue: "UtilizationMetricsPacketsInFromSourceMaximum") }
+        @inlinable public static var utilizationMetricsSetTypeCmdsSum: Self { .init(rawValue: "UtilizationMetricsSetTypeCmdsSum") }
+        @inlinable public static var utilizationMetricsUserConnectedSum: Self { .init(rawValue: "UtilizationMetricsUserConnectedSum") }
+        @inlinable public static var utilizationMetricsVolumeReadOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsVolumeReadOpsPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsVolumeWriteOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsVolumeWriteOpsPerSecondMaximum") }
+    }
+
+    public struct ExportableInstanceField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "AccountId") }
+        @inlinable public static var currentInstanceGpuInfo: Self { .init(rawValue: "CurrentInstanceGpuInfo") }
+        @inlinable public static var currentInstanceType: Self { .init(rawValue: "CurrentInstanceType") }
+        @inlinable public static var currentMemory: Self { .init(rawValue: "CurrentMemory") }
+        @inlinable public static var currentNetwork: Self { .init(rawValue: "CurrentNetwork") }
+        @inlinable public static var currentOnDemandPrice: Self { .init(rawValue: "CurrentOnDemandPrice") }
+        @inlinable public static var currentPerformanceRisk: Self { .init(rawValue: "CurrentPerformanceRisk") }
+        @inlinable public static var currentStandardOneYearNoUpfrontReservedPrice: Self { .init(rawValue: "CurrentStandardOneYearNoUpfrontReservedPrice") }
+        @inlinable public static var currentStandardThreeYearNoUpfrontReservedPrice: Self { .init(rawValue: "CurrentStandardThreeYearNoUpfrontReservedPrice") }
+        @inlinable public static var currentStorage: Self { .init(rawValue: "CurrentStorage") }
+        @inlinable public static var currentVcpus: Self { .init(rawValue: "CurrentVCpus") }
+        @inlinable public static var effectiveRecommendationPreferencesCpuVendorArchitectures: Self { .init(rawValue: "EffectiveRecommendationPreferencesCpuVendorArchitectures") }
+        @inlinable public static var effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: Self { .init(rawValue: "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics") }
+        @inlinable public static var effectiveRecommendationPreferencesExternalMetricsSource: Self { .init(rawValue: "EffectiveRecommendationPreferencesExternalMetricsSource") }
+        @inlinable public static var effectiveRecommendationPreferencesInferredWorkloadTypes: Self { .init(rawValue: "EffectiveRecommendationPreferencesInferredWorkloadTypes") }
+        @inlinable public static var effectiveRecommendationPreferencesLookbackPeriod: Self { .init(rawValue: "EffectiveRecommendationPreferencesLookBackPeriod") }
+        @inlinable public static var effectiveRecommendationPreferencesPreferredResources: Self { .init(rawValue: "EffectiveRecommendationPreferencesPreferredResources") }
+        @inlinable public static var effectiveRecommendationPreferencesSavingsEstimationMode: Self { .init(rawValue: "EffectiveRecommendationPreferencesSavingsEstimationMode") }
+        @inlinable public static var effectiveRecommendationPreferencesUtilizationPreferences: Self { .init(rawValue: "EffectiveRecommendationPreferencesUtilizationPreferences") }
+        @inlinable public static var externalMetricStatusCode: Self { .init(rawValue: "ExternalMetricStatusCode") }
+        @inlinable public static var externalMetricStatusReason: Self { .init(rawValue: "ExternalMetricStatusReason") }
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var findingReasonCodes: Self { .init(rawValue: "FindingReasonCodes") }
+        @inlinable public static var idle: Self { .init(rawValue: "Idle") }
+        @inlinable public static var inferredWorkloadTypes: Self { .init(rawValue: "InferredWorkloadTypes") }
+        @inlinable public static var instanceArn: Self { .init(rawValue: "InstanceArn") }
+        @inlinable public static var instanceName: Self { .init(rawValue: "InstanceName") }
+        @inlinable public static var instanceState: Self { .init(rawValue: "InstanceState") }
+        @inlinable public static var lastRefreshTimestamp: Self { .init(rawValue: "LastRefreshTimestamp") }
+        @inlinable public static var lookbackPeriodInDays: Self { .init(rawValue: "LookbackPeriodInDays") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrency: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrency") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValue: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValue") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts") }
+        @inlinable public static var recommendationOptionsInstanceGpuInfo: Self { .init(rawValue: "RecommendationOptionsInstanceGpuInfo") }
+        @inlinable public static var recommendationOptionsInstanceType: Self { .init(rawValue: "RecommendationOptionsInstanceType") }
+        @inlinable public static var recommendationOptionsMemory: Self { .init(rawValue: "RecommendationOptionsMemory") }
+        @inlinable public static var recommendationOptionsMigrationEffort: Self { .init(rawValue: "RecommendationOptionsMigrationEffort") }
+        @inlinable public static var recommendationOptionsNetwork: Self { .init(rawValue: "RecommendationOptionsNetwork") }
+        @inlinable public static var recommendationOptionsOnDemandPrice: Self { .init(rawValue: "RecommendationOptionsOnDemandPrice") }
+        @inlinable public static var recommendationOptionsPerformanceRisk: Self { .init(rawValue: "RecommendationOptionsPerformanceRisk") }
+        @inlinable public static var recommendationOptionsPlatformDifferences: Self { .init(rawValue: "RecommendationOptionsPlatformDifferences") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsCpuMaximum: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityPercentage") }
+        @inlinable public static var recommendationOptionsStandardOneYearNoUpfrontReservedPrice: Self { .init(rawValue: "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice") }
+        @inlinable public static var recommendationOptionsStandardThreeYearNoUpfrontReservedPrice: Self { .init(rawValue: "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice") }
+        @inlinable public static var recommendationOptionsStorage: Self { .init(rawValue: "RecommendationOptionsStorage") }
+        @inlinable public static var recommendationOptionsVcpus: Self { .init(rawValue: "RecommendationOptionsVcpus") }
+        @inlinable public static var recommendationsSourcesRecommendationSourceArn: Self { .init(rawValue: "RecommendationsSourcesRecommendationSourceArn") }
+        @inlinable public static var recommendationsSourcesRecommendationSourceType: Self { .init(rawValue: "RecommendationsSourcesRecommendationSourceType") }
+        @inlinable public static var tags: Self { .init(rawValue: "Tags") }
+        @inlinable public static var utilizationMetricsCpuMaximum: Self { .init(rawValue: "UtilizationMetricsCpuMaximum") }
+        @inlinable public static var utilizationMetricsDiskReadBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsDiskReadBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsDiskReadOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsDiskReadOpsPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsDiskWriteBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsDiskWriteBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsDiskWriteOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsDiskWriteOpsPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsEbsReadBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsEbsReadBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsEbsReadOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsEbsReadOpsPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsEbsWriteBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsEbsWriteBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsEbsWriteOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsEbsWriteOpsPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsGpuMemoryPercentageMaximum: Self { .init(rawValue: "UtilizationMetricsGpuMemoryPercentageMaximum") }
+        @inlinable public static var utilizationMetricsGpuPercentageMaximum: Self { .init(rawValue: "UtilizationMetricsGpuPercentageMaximum") }
+        @inlinable public static var utilizationMetricsMemoryMaximum: Self { .init(rawValue: "UtilizationMetricsMemoryMaximum") }
+        @inlinable public static var utilizationMetricsNetworkInBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkInBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsNetworkOutBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkOutBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsNetworkPacketsInPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkPacketsInPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsNetworkPacketsOutPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkPacketsOutPerSecondMaximum") }
+    }
+
+    public struct ExportableLambdaFunctionField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "AccountId") }
+        @inlinable public static var currentConfigurationMemorySize: Self { .init(rawValue: "CurrentConfigurationMemorySize") }
+        @inlinable public static var currentConfigurationTimeout: Self { .init(rawValue: "CurrentConfigurationTimeout") }
+        @inlinable public static var currentCostAverage: Self { .init(rawValue: "CurrentCostAverage") }
+        @inlinable public static var currentCostTotal: Self { .init(rawValue: "CurrentCostTotal") }
+        @inlinable public static var currentPerformanceRisk: Self { .init(rawValue: "CurrentPerformanceRisk") }
+        @inlinable public static var effectiveRecommendationPreferencesSavingsEstimationMode: Self { .init(rawValue: "EffectiveRecommendationPreferencesSavingsEstimationMode") }
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var findingReasonCodes: Self { .init(rawValue: "FindingReasonCodes") }
+        @inlinable public static var functionArn: Self { .init(rawValue: "FunctionArn") }
+        @inlinable public static var functionVersion: Self { .init(rawValue: "FunctionVersion") }
+        @inlinable public static var lastRefreshTimestamp: Self { .init(rawValue: "LastRefreshTimestamp") }
+        @inlinable public static var lookbackPeriodInDays: Self { .init(rawValue: "LookbackPeriodInDays") }
+        @inlinable public static var numberOfInvocations: Self { .init(rawValue: "NumberOfInvocations") }
+        @inlinable public static var recommendationOptionsConfigurationMemorySize: Self { .init(rawValue: "RecommendationOptionsConfigurationMemorySize") }
+        @inlinable public static var recommendationOptionsCostHigh: Self { .init(rawValue: "RecommendationOptionsCostHigh") }
+        @inlinable public static var recommendationOptionsCostLow: Self { .init(rawValue: "RecommendationOptionsCostLow") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrency: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrency") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValue: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValue") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsDurationExpected: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsDurationExpected") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsDurationLowerBound: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound") }
+        @inlinable public static var recommendationOptionsProjectedUtilizationMetricsDurationUpperBound: Self { .init(rawValue: "RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityPercentage") }
+        @inlinable public static var tags: Self { .init(rawValue: "Tags") }
+        @inlinable public static var utilizationMetricsDurationAverage: Self { .init(rawValue: "UtilizationMetricsDurationAverage") }
+        @inlinable public static var utilizationMetricsDurationMaximum: Self { .init(rawValue: "UtilizationMetricsDurationMaximum") }
+        @inlinable public static var utilizationMetricsMemoryAverage: Self { .init(rawValue: "UtilizationMetricsMemoryAverage") }
+        @inlinable public static var utilizationMetricsMemoryMaximum: Self { .init(rawValue: "UtilizationMetricsMemoryMaximum") }
+    }
+
+    public struct ExportableLicenseField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "AccountId") }
+        @inlinable public static var currentLicenseConfigurationInstanceType: Self { .init(rawValue: "CurrentLicenseConfigurationInstanceType") }
+        @inlinable public static var currentLicenseConfigurationLicenseEdition: Self { .init(rawValue: "CurrentLicenseConfigurationLicenseEdition") }
+        @inlinable public static var currentLicenseConfigurationLicenseModel: Self { .init(rawValue: "CurrentLicenseConfigurationLicenseModel") }
+        @inlinable public static var currentLicenseConfigurationLicenseName: Self { .init(rawValue: "CurrentLicenseConfigurationLicenseName") }
+        @inlinable public static var currentLicenseConfigurationLicenseVersion: Self { .init(rawValue: "CurrentLicenseConfigurationLicenseVersion") }
+        @inlinable public static var currentLicenseConfigurationMetricsSource: Self { .init(rawValue: "CurrentLicenseConfigurationMetricsSource") }
+        @inlinable public static var currentLicenseConfigurationNumberOfCores: Self { .init(rawValue: "CurrentLicenseConfigurationNumberOfCores") }
+        @inlinable public static var currentLicenseConfigurationOperatingSystem: Self { .init(rawValue: "CurrentLicenseConfigurationOperatingSystem") }
+        @inlinable public static var lastRefreshTimestamp: Self { .init(rawValue: "LastRefreshTimestamp") }
+        @inlinable public static var licenseFinding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var licenseFindingReasonCodes: Self { .init(rawValue: "FindingReasonCodes") }
+        @inlinable public static var lookbackPeriodInDays: Self { .init(rawValue: "LookbackPeriodInDays") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrency: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrency") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValue: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValue") }
+        @inlinable public static var recommendationOptionsLicenseEdition: Self { .init(rawValue: "RecommendationOptionsLicenseEdition") }
+        @inlinable public static var recommendationOptionsLicenseModel: Self { .init(rawValue: "RecommendationOptionsLicenseModel") }
+        @inlinable public static var recommendationOptionsOperatingSystem: Self { .init(rawValue: "RecommendationOptionsOperatingSystem") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityPercentage") }
+        @inlinable public static var resourceArn: Self { .init(rawValue: "ResourceArn") }
+        @inlinable public static var tags: Self { .init(rawValue: "Tags") }
+    }
+
+    public struct ExportableRDSDBField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "AccountId") }
+        @inlinable public static var clusterWriter: Self { .init(rawValue: "ClusterWriter") }
+        @inlinable public static var currentDbInstanceClass: Self { .init(rawValue: "CurrentDBInstanceClass") }
+        @inlinable public static var currentInstanceOnDemandHourlyPrice: Self { .init(rawValue: "CurrentInstanceOnDemandHourlyPrice") }
+        @inlinable public static var currentInstancePerformanceRisk: Self { .init(rawValue: "CurrentInstancePerformanceRisk") }
+        @inlinable public static var currentStorageConfigurationAllocatedStorage: Self { .init(rawValue: "CurrentStorageConfigurationAllocatedStorage") }
+        @inlinable public static var currentStorageConfigurationIops: Self { .init(rawValue: "CurrentStorageConfigurationIOPS") }
+        @inlinable public static var currentStorageConfigurationMaxAllocatedStorage: Self { .init(rawValue: "CurrentStorageConfigurationMaxAllocatedStorage") }
+        @inlinable public static var currentStorageConfigurationStorageThroughput: Self { .init(rawValue: "CurrentStorageConfigurationStorageThroughput") }
+        @inlinable public static var currentStorageConfigurationStorageType: Self { .init(rawValue: "CurrentStorageConfigurationStorageType") }
+        @inlinable public static var currentStorageEstimatedClusterInstanceOnDemandMonthlyCost: Self { .init(rawValue: "CurrentStorageEstimatedClusterInstanceOnDemandMonthlyCost") }
+        @inlinable public static var currentStorageEstimatedClusterStorageIoOnDemandMonthlyCost: Self { .init(rawValue: "CurrentStorageEstimatedClusterStorageIOOnDemandMonthlyCost") }
+        @inlinable public static var currentStorageEstimatedClusterStorageOnDemandMonthlyCost: Self { .init(rawValue: "CurrentStorageEstimatedClusterStorageOnDemandMonthlyCost") }
+        @inlinable public static var currentStorageEstimatedMonthlyVolumeIopsCostVariation: Self { .init(rawValue: "CurrentStorageEstimatedMonthlyVolumeIOPsCostVariation") }
+        @inlinable public static var currentStorageOnDemandMonthlyPrice: Self { .init(rawValue: "CurrentStorageOnDemandMonthlyPrice") }
+        @inlinable public static var dbClusterIdentifier: Self { .init(rawValue: "DBClusterIdentifier") }
+        @inlinable public static var effectiveRecommendationPreferencesCpuVendorArchitectures: Self { .init(rawValue: "EffectiveRecommendationPreferencesCpuVendorArchitectures") }
+        @inlinable public static var effectiveRecommendationPreferencesEnhancedInfrastructureMetrics: Self { .init(rawValue: "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics") }
+        @inlinable public static var effectiveRecommendationPreferencesLookbackPeriod: Self { .init(rawValue: "EffectiveRecommendationPreferencesLookBackPeriod") }
+        @inlinable public static var effectiveRecommendationPreferencesSavingsEstimationMode: Self { .init(rawValue: "EffectiveRecommendationPreferencesSavingsEstimationMode") }
+        @inlinable public static var engine: Self { .init(rawValue: "Engine") }
+        @inlinable public static var engineVersion: Self { .init(rawValue: "EngineVersion") }
+        @inlinable public static var idle: Self { .init(rawValue: "Idle") }
+        @inlinable public static var instanceFinding: Self { .init(rawValue: "InstanceFinding") }
+        @inlinable public static var instanceFindingReasonCodes: Self { .init(rawValue: "InstanceFindingReasonCodes") }
+        @inlinable public static var instanceRecommendationOptionsDbInstanceClass: Self { .init(rawValue: "InstanceRecommendationOptionsDBInstanceClass") }
+        @inlinable public static var instanceRecommendationOptionsEstimatedMonthlySavingsCurrency: Self { .init(rawValue: "InstanceRecommendationOptionsEstimatedMonthlySavingsCurrency") }
+        @inlinable public static var instanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: Self { .init(rawValue: "InstanceRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts") }
+        @inlinable public static var instanceRecommendationOptionsEstimatedMonthlySavingsValue: Self { .init(rawValue: "InstanceRecommendationOptionsEstimatedMonthlySavingsValue") }
+        @inlinable public static var instanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: Self { .init(rawValue: "InstanceRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts") }
+        @inlinable public static var instanceRecommendationOptionsInstanceOnDemandHourlyPrice: Self { .init(rawValue: "InstanceRecommendationOptionsInstanceOnDemandHourlyPrice") }
+        @inlinable public static var instanceRecommendationOptionsPerformanceRisk: Self { .init(rawValue: "InstanceRecommendationOptionsPerformanceRisk") }
+        @inlinable public static var instanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum: Self { .init(rawValue: "InstanceRecommendationOptionsProjectedUtilizationMetricsCpuMaximum") }
+        @inlinable public static var instanceRecommendationOptionsRank: Self { .init(rawValue: "InstanceRecommendationOptionsRank") }
+        @inlinable public static var instanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage: Self { .init(rawValue: "InstanceRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage") }
+        @inlinable public static var instanceRecommendationOptionsSavingsOpportunityPercentage: Self { .init(rawValue: "InstanceRecommendationOptionsSavingsOpportunityPercentage") }
+        @inlinable public static var lastRefreshTimestamp: Self { .init(rawValue: "LastRefreshTimestamp") }
+        @inlinable public static var lookbackPeriodInDays: Self { .init(rawValue: "LookbackPeriodInDays") }
+        @inlinable public static var multiAzDbInstance: Self { .init(rawValue: "MultiAZDBInstance") }
+        @inlinable public static var promotionTier: Self { .init(rawValue: "PromotionTier") }
+        @inlinable public static var resourceArn: Self { .init(rawValue: "ResourceArn") }
+        @inlinable public static var storageFinding: Self { .init(rawValue: "StorageFinding") }
+        @inlinable public static var storageFindingReasonCodes: Self { .init(rawValue: "StorageFindingReasonCodes") }
+        @inlinable public static var storageRecommendationOptionsAllocatedStorage: Self { .init(rawValue: "StorageRecommendationOptionsAllocatedStorage") }
+        @inlinable public static var storageRecommendationOptionsEstimatedClusterInstanceOnDemandMonthlyCost: Self { .init(rawValue: "StorageRecommendationOptionsEstimatedClusterInstanceOnDemandMonthlyCost") }
+        @inlinable public static var storageRecommendationOptionsEstimatedClusterStorageIoOnDemandMonthlyCost: Self { .init(rawValue: "StorageRecommendationOptionsEstimatedClusterStorageIOOnDemandMonthlyCost") }
+        @inlinable public static var storageRecommendationOptionsEstimatedClusterStorageOnDemandMonthlyCost: Self { .init(rawValue: "StorageRecommendationOptionsEstimatedClusterStorageOnDemandMonthlyCost") }
+        @inlinable public static var storageRecommendationOptionsEstimatedMonthlySavingsCurrency: Self { .init(rawValue: "StorageRecommendationOptionsEstimatedMonthlySavingsCurrency") }
+        @inlinable public static var storageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: Self { .init(rawValue: "StorageRecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts") }
+        @inlinable public static var storageRecommendationOptionsEstimatedMonthlySavingsValue: Self { .init(rawValue: "StorageRecommendationOptionsEstimatedMonthlySavingsValue") }
+        @inlinable public static var storageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: Self { .init(rawValue: "StorageRecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts") }
+        @inlinable public static var storageRecommendationOptionsEstimatedMonthlyVolumeIopsCostVariation: Self { .init(rawValue: "StorageRecommendationOptionsEstimatedMonthlyVolumeIOPsCostVariation") }
+        @inlinable public static var storageRecommendationOptionsIops: Self { .init(rawValue: "StorageRecommendationOptionsIOPS") }
+        @inlinable public static var storageRecommendationOptionsMaxAllocatedStorage: Self { .init(rawValue: "StorageRecommendationOptionsMaxAllocatedStorage") }
+        @inlinable public static var storageRecommendationOptionsOnDemandMonthlyPrice: Self { .init(rawValue: "StorageRecommendationOptionsOnDemandMonthlyPrice") }
+        @inlinable public static var storageRecommendationOptionsRank: Self { .init(rawValue: "StorageRecommendationOptionsRank") }
+        @inlinable public static var storageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage: Self { .init(rawValue: "StorageRecommendationOptionsSavingsOpportunityAfterDiscountsPercentage") }
+        @inlinable public static var storageRecommendationOptionsSavingsOpportunityPercentage: Self { .init(rawValue: "StorageRecommendationOptionsSavingsOpportunityPercentage") }
+        @inlinable public static var storageRecommendationOptionsStorageThroughput: Self { .init(rawValue: "StorageRecommendationOptionsStorageThroughput") }
+        @inlinable public static var storageRecommendationOptionsStorageType: Self { .init(rawValue: "StorageRecommendationOptionsStorageType") }
+        @inlinable public static var tags: Self { .init(rawValue: "Tags") }
+        @inlinable public static var utilizationMetricsAuroraMemoryHealthStateMaximum: Self { .init(rawValue: "UtilizationMetricsAuroraMemoryHealthStateMaximum") }
+        @inlinable public static var utilizationMetricsAuroraMemoryNumDeclinedSqlTotalMaximum: Self { .init(rawValue: "UtilizationMetricsAuroraMemoryNumDeclinedSqlTotalMaximum") }
+        @inlinable public static var utilizationMetricsAuroraMemoryNumKillConnTotalMaximum: Self { .init(rawValue: "UtilizationMetricsAuroraMemoryNumKillConnTotalMaximum") }
+        @inlinable public static var utilizationMetricsAuroraMemoryNumKillQueryTotalMaximum: Self { .init(rawValue: "UtilizationMetricsAuroraMemoryNumKillQueryTotalMaximum") }
+        @inlinable public static var utilizationMetricsCpuMaximum: Self { .init(rawValue: "UtilizationMetricsCpuMaximum") }
+        @inlinable public static var utilizationMetricsDatabaseConnectionsMaximum: Self { .init(rawValue: "UtilizationMetricsDatabaseConnectionsMaximum") }
+        @inlinable public static var utilizationMetricsEbsVolumeReadIopsMaximum: Self { .init(rawValue: "UtilizationMetricsEBSVolumeReadIOPSMaximum") }
+        @inlinable public static var utilizationMetricsEbsVolumeReadThroughputMaximum: Self { .init(rawValue: "UtilizationMetricsEBSVolumeReadThroughputMaximum") }
+        @inlinable public static var utilizationMetricsEbsVolumeStorageSpaceUtilizationMaximum: Self { .init(rawValue: "UtilizationMetricsEBSVolumeStorageSpaceUtilizationMaximum") }
+        @inlinable public static var utilizationMetricsEbsVolumeWriteIopsMaximum: Self { .init(rawValue: "UtilizationMetricsEBSVolumeWriteIOPSMaximum") }
+        @inlinable public static var utilizationMetricsEbsVolumeWriteThroughputMaximum: Self { .init(rawValue: "UtilizationMetricsEBSVolumeWriteThroughputMaximum") }
+        @inlinable public static var utilizationMetricsMemoryMaximum: Self { .init(rawValue: "UtilizationMetricsMemoryMaximum") }
+        @inlinable public static var utilizationMetricsNetworkReceiveThroughputMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkReceiveThroughputMaximum") }
+        @inlinable public static var utilizationMetricsNetworkTransmitThroughputMaximum: Self { .init(rawValue: "UtilizationMetricsNetworkTransmitThroughputMaximum") }
+        @inlinable public static var utilizationMetricsReadIopsEphemeralStorageMaximum: Self { .init(rawValue: "UtilizationMetricsReadIOPSEphemeralStorageMaximum") }
+        @inlinable public static var utilizationMetricsStorageNetworkReceiveThroughputMaximum: Self { .init(rawValue: "UtilizationMetricsStorageNetworkReceiveThroughputMaximum") }
+        @inlinable public static var utilizationMetricsStorageNetworkTransmitThroughputMaximum: Self { .init(rawValue: "UtilizationMetricsStorageNetworkTransmitThroughputMaximum") }
+        @inlinable public static var utilizationMetricsVolumeBytesUsedAverage: Self { .init(rawValue: "UtilizationMetricsVolumeBytesUsedAverage") }
+        @inlinable public static var utilizationMetricsVolumeReadIopsAverage: Self { .init(rawValue: "UtilizationMetricsVolumeReadIOPsAverage") }
+        @inlinable public static var utilizationMetricsVolumeWriteIopsAverage: Self { .init(rawValue: "UtilizationMetricsVolumeWriteIOPsAverage") }
+        @inlinable public static var utilizationMetricsWriteIopsEphemeralStorageMaximum: Self { .init(rawValue: "UtilizationMetricsWriteIOPSEphemeralStorageMaximum") }
+    }
+
+    public struct ExportableVolumeField: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "AccountId") }
+        @inlinable public static var currentConfigurationRootVolume: Self { .init(rawValue: "CurrentConfigurationRootVolume") }
+        @inlinable public static var currentConfigurationVolumeBaselineIops: Self { .init(rawValue: "CurrentConfigurationVolumeBaselineIOPS") }
+        @inlinable public static var currentConfigurationVolumeBaselineThroughput: Self { .init(rawValue: "CurrentConfigurationVolumeBaselineThroughput") }
+        @inlinable public static var currentConfigurationVolumeBurstIops: Self { .init(rawValue: "CurrentConfigurationVolumeBurstIOPS") }
+        @inlinable public static var currentConfigurationVolumeBurstThroughput: Self { .init(rawValue: "CurrentConfigurationVolumeBurstThroughput") }
+        @inlinable public static var currentConfigurationVolumeSize: Self { .init(rawValue: "CurrentConfigurationVolumeSize") }
+        @inlinable public static var currentConfigurationVolumeType: Self { .init(rawValue: "CurrentConfigurationVolumeType") }
+        @inlinable public static var currentMonthlyPrice: Self { .init(rawValue: "CurrentMonthlyPrice") }
+        @inlinable public static var currentPerformanceRisk: Self { .init(rawValue: "CurrentPerformanceRisk") }
+        @inlinable public static var effectiveRecommendationPreferencesLookbackPeriod: Self { .init(rawValue: "EffectiveRecommendationPreferencesLookBackPeriod") }
+        @inlinable public static var effectiveRecommendationPreferencesSavingsEstimationMode: Self { .init(rawValue: "EffectiveRecommendationPreferencesSavingsEstimationMode") }
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var lastRefreshTimestamp: Self { .init(rawValue: "LastRefreshTimestamp") }
+        @inlinable public static var lookbackPeriodInDays: Self { .init(rawValue: "LookbackPeriodInDays") }
+        @inlinable public static var recommendationOptionsConfigurationVolumeBaselineIops: Self { .init(rawValue: "RecommendationOptionsConfigurationVolumeBaselineIOPS") }
+        @inlinable public static var recommendationOptionsConfigurationVolumeBaselineThroughput: Self { .init(rawValue: "RecommendationOptionsConfigurationVolumeBaselineThroughput") }
+        @inlinable public static var recommendationOptionsConfigurationVolumeBurstIops: Self { .init(rawValue: "RecommendationOptionsConfigurationVolumeBurstIOPS") }
+        @inlinable public static var recommendationOptionsConfigurationVolumeBurstThroughput: Self { .init(rawValue: "RecommendationOptionsConfigurationVolumeBurstThroughput") }
+        @inlinable public static var recommendationOptionsConfigurationVolumeSize: Self { .init(rawValue: "RecommendationOptionsConfigurationVolumeSize") }
+        @inlinable public static var recommendationOptionsConfigurationVolumeType: Self { .init(rawValue: "RecommendationOptionsConfigurationVolumeType") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrency: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrency") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValue: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValue") }
+        @inlinable public static var recommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts: Self { .init(rawValue: "RecommendationOptionsEstimatedMonthlySavingsValueAfterDiscounts") }
+        @inlinable public static var recommendationOptionsMonthlyPrice: Self { .init(rawValue: "RecommendationOptionsMonthlyPrice") }
+        @inlinable public static var recommendationOptionsPerformanceRisk: Self { .init(rawValue: "RecommendationOptionsPerformanceRisk") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityAfterDiscountsPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityAfterDiscountsPercentage") }
+        @inlinable public static var recommendationOptionsSavingsOpportunityPercentage: Self { .init(rawValue: "RecommendationOptionsSavingsOpportunityPercentage") }
+        @inlinable public static var rootVolume: Self { .init(rawValue: "RootVolume") }
+        @inlinable public static var tags: Self { .init(rawValue: "Tags") }
+        @inlinable public static var utilizationMetricsVolumeIopsExceededMaximum: Self { .init(rawValue: "UtilizationMetricsVolumeIOPSExceededMaximum") }
+        @inlinable public static var utilizationMetricsVolumeReadBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsVolumeReadBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsVolumeReadOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsVolumeReadOpsPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsVolumeThroughputExceededMaximum: Self { .init(rawValue: "UtilizationMetricsVolumeThroughputExceededMaximum") }
+        @inlinable public static var utilizationMetricsVolumeWriteBytesPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsVolumeWriteBytesPerSecondMaximum") }
+        @inlinable public static var utilizationMetricsVolumeWriteOpsPerSecondMaximum: Self { .init(rawValue: "UtilizationMetricsVolumeWriteOpsPerSecondMaximum") }
+        @inlinable public static var volumeArn: Self { .init(rawValue: "VolumeArn") }
+    }
+
+    public struct ExternalMetricStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var datadogIntegrationError: Self { .init(rawValue: "DATADOG_INTEGRATION_ERROR") }
+        @inlinable public static var dynatraceIntegrationError: Self { .init(rawValue: "DYNATRACE_INTEGRATION_ERROR") }
+        @inlinable public static var instanaIntegrationError: Self { .init(rawValue: "INSTANA_INTEGRATION_ERROR") }
+        @inlinable public static var insufficientDatadogMetrics: Self { .init(rawValue: "INSUFFICIENT_DATADOG_METRICS") }
+        @inlinable public static var insufficientDynatraceMetrics: Self { .init(rawValue: "INSUFFICIENT_DYNATRACE_METRICS") }
+        @inlinable public static var insufficientInstanaMetrics: Self { .init(rawValue: "INSUFFICIENT_INSTANA_METRICS") }
+        @inlinable public static var insufficientNewrelicMetrics: Self { .init(rawValue: "INSUFFICIENT_NEWRELIC_METRICS") }
+        @inlinable public static var integrationSuccess: Self { .init(rawValue: "INTEGRATION_SUCCESS") }
+        @inlinable public static var newrelicIntegrationError: Self { .init(rawValue: "NEWRELIC_INTEGRATION_ERROR") }
+        @inlinable public static var noExternalMetricSet: Self { .init(rawValue: "NO_EXTERNAL_METRIC_SET") }
+    }
+
+    public struct ExternalMetricsSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var datadog: Self { .init(rawValue: "Datadog") }
+        @inlinable public static var dynatrace: Self { .init(rawValue: "Dynatrace") }
+        @inlinable public static var instana: Self { .init(rawValue: "Instana") }
+        @inlinable public static var newrelic: Self { .init(rawValue: "NewRelic") }
+    }
+
+    public struct FileFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "Csv") }
+    }
+
+    public struct FilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var findingReasonCodes: Self { .init(rawValue: "FindingReasonCodes") }
+        @inlinable public static var inferredWorkloadTypes: Self { .init(rawValue: "InferredWorkloadTypes") }
+        @inlinable public static var recommendationSourceType: Self { .init(rawValue: "RecommendationSourceType") }
+    }
+
+    public struct Finding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notOptimized: Self { .init(rawValue: "NotOptimized") }
+        @inlinable public static var optimized: Self { .init(rawValue: "Optimized") }
+        @inlinable public static var overProvisioned: Self { .init(rawValue: "Overprovisioned") }
+        @inlinable public static var underProvisioned: Self { .init(rawValue: "Underprovisioned") }
+    }
+
+    public struct FindingReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var memoryOverProvisioned: Self { .init(rawValue: "MemoryOverprovisioned") }
+        @inlinable public static var memoryUnderProvisioned: Self { .init(rawValue: "MemoryUnderprovisioned") }
+    }
+
+    public struct Idle: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `false`: Self { .init(rawValue: "False") }
+        @inlinable public static var `true`: Self { .init(rawValue: "True") }
+    }
+
+    public struct IdleFinding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var idle: Self { .init(rawValue: "Idle") }
+        @inlinable public static var unattached: Self { .init(rawValue: "Unattached") }
+        @inlinable public static var unused: Self { .init(rawValue: "Unused") }
+    }
+
+    public struct IdleMetricName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var activeConnectionCount: Self { .init(rawValue: "ActiveConnectionCount") }
+        @inlinable public static var cacheHits: Self { .init(rawValue: "CacheHits") }
+        @inlinable public static var cacheMisses: Self { .init(rawValue: "CacheMisses") }
+        @inlinable public static var consumedChangeDataCaptureUnits: Self { .init(rawValue: "ConsumedChangeDataCaptureUnits") }
+        @inlinable public static var consumedReadCapacityUnits: Self { .init(rawValue: "ConsumedReadCapacityUnits") }
+        @inlinable public static var consumedWriteCapacityUnits: Self { .init(rawValue: "ConsumedWriteCapacityUnits") }
+        @inlinable public static var cpu: Self { .init(rawValue: "CPU") }
+        @inlinable public static var currConnections: Self { .init(rawValue: "CurrConnections") }
+        @inlinable public static var databaseConnections: Self { .init(rawValue: "DatabaseConnections") }
+        @inlinable public static var ebsVolumeReadIops: Self { .init(rawValue: "EBSVolumeReadIOPS") }
+        @inlinable public static var ebsVolumeWriteIops: Self { .init(rawValue: "EBSVolumeWriteIOPS") }
+        @inlinable public static var elastiCacheProcessingUnits: Self { .init(rawValue: "ElastiCacheProcessingUnits") }
+        @inlinable public static var engineCpuUtilization: Self { .init(rawValue: "EngineCPUUtilization") }
+        @inlinable public static var getTypeCmds: Self { .init(rawValue: "GetTypeCmds") }
+        @inlinable public static var invocations: Self { .init(rawValue: "Invocations") }
+        @inlinable public static var isIdle: Self { .init(rawValue: "IsIdle") }
+        @inlinable public static var keyspaceHits: Self { .init(rawValue: "KeyspaceHits") }
+        @inlinable public static var keyspaceMisses: Self { .init(rawValue: "KeyspaceMisses") }
+        @inlinable public static var memory: Self { .init(rawValue: "Memory") }
+        @inlinable public static var networkInBytesPerSecond: Self { .init(rawValue: "NetworkInBytesPerSecond") }
+        @inlinable public static var networkOutBytesPerSecond: Self { .init(rawValue: "NetworkOutBytesPerSecond") }
+        @inlinable public static var newConnections: Self { .init(rawValue: "NewConnections") }
+        @inlinable public static var packetsInFromDestination: Self { .init(rawValue: "PacketsInFromDestination") }
+        @inlinable public static var packetsInFromSource: Self { .init(rawValue: "PacketsInFromSource") }
+        @inlinable public static var setTypeCmds: Self { .init(rawValue: "SetTypeCmds") }
+        @inlinable public static var userConnected: Self { .init(rawValue: "UserConnected") }
+        @inlinable public static var volumeReadOpsPerSecond: Self { .init(rawValue: "VolumeReadOpsPerSecond") }
+        @inlinable public static var volumeWriteOpsPerSecond: Self { .init(rawValue: "VolumeWriteOpsPerSecond") }
+    }
+
+    public struct IdleRecommendationFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var resourceType: Self { .init(rawValue: "ResourceType") }
+    }
+
+    public struct IdleRecommendationResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var autoScalingGroup: Self { .init(rawValue: "AutoScalingGroup") }
+        @inlinable public static var documentDbCluster: Self { .init(rawValue: "DocumentDBCluster") }
+        @inlinable public static var dynamoDbTable: Self { .init(rawValue: "DynamoDBTable") }
+        @inlinable public static var ebsVolume: Self { .init(rawValue: "EBSVolume") }
+        @inlinable public static var ec2Instance: Self { .init(rawValue: "EC2Instance") }
+        @inlinable public static var ecsService: Self { .init(rawValue: "ECSService") }
+        @inlinable public static var elastiCacheCluster: Self { .init(rawValue: "ElastiCacheCluster") }
+        @inlinable public static var memoryDbCluster: Self { .init(rawValue: "MemoryDBCluster") }
+        @inlinable public static var natGateway: Self { .init(rawValue: "NatGateway") }
+        @inlinable public static var rdsDbInstance: Self { .init(rawValue: "RDSDBInstance") }
+        @inlinable public static var sageMakerEndpoint: Self { .init(rawValue: "SageMakerEndpoint") }
+        @inlinable public static var workspaces: Self { .init(rawValue: "WorkSpaces") }
+    }
+
+    public struct InferredWorkloadType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var amazonEmr: Self { .init(rawValue: "AmazonEmr") }
+        @inlinable public static var apacheCassandra: Self { .init(rawValue: "ApacheCassandra") }
+        @inlinable public static var apacheHadoop: Self { .init(rawValue: "ApacheHadoop") }
+        @inlinable public static var kafka: Self { .init(rawValue: "Kafka") }
+        @inlinable public static var memcached: Self { .init(rawValue: "Memcached") }
+        @inlinable public static var nginx: Self { .init(rawValue: "Nginx") }
+        @inlinable public static var postgreSql: Self { .init(rawValue: "PostgreSql") }
+        @inlinable public static var redis: Self { .init(rawValue: "Redis") }
+        @inlinable public static var sqlserver: Self { .init(rawValue: "SQLServer") }
+    }
+
+    public struct InferredWorkloadTypesPreference: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var inactive: Self { .init(rawValue: "Inactive") }
+    }
+
+    public struct InstanceIdle: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `false`: Self { .init(rawValue: "False") }
+        @inlinable public static var `true`: Self { .init(rawValue: "True") }
+    }
+
+    public struct InstanceRecommendationFindingReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cpuOverProvisioned: Self { .init(rawValue: "CPUOverprovisioned") }
+        @inlinable public static var cpuUnderProvisioned: Self { .init(rawValue: "CPUUnderprovisioned") }
+        @inlinable public static var diskIopsOverProvisioned: Self { .init(rawValue: "DiskIOPSOverprovisioned") }
+        @inlinable public static var diskIopsUnderProvisioned: Self { .init(rawValue: "DiskIOPSUnderprovisioned") }
+        @inlinable public static var diskThroughputOverProvisioned: Self { .init(rawValue: "DiskThroughputOverprovisioned") }
+        @inlinable public static var diskThroughputUnderProvisioned: Self { .init(rawValue: "DiskThroughputUnderprovisioned") }
+        @inlinable public static var ebsIopsOverProvisioned: Self { .init(rawValue: "EBSIOPSOverprovisioned") }
+        @inlinable public static var ebsIopsUnderProvisioned: Self { .init(rawValue: "EBSIOPSUnderprovisioned") }
+        @inlinable public static var ebsThroughputOverProvisioned: Self { .init(rawValue: "EBSThroughputOverprovisioned") }
+        @inlinable public static var ebsThroughputUnderProvisioned: Self { .init(rawValue: "EBSThroughputUnderprovisioned") }
+        @inlinable public static var gpuMemoryOverProvisioned: Self { .init(rawValue: "GPUMemoryOverprovisioned") }
+        @inlinable public static var gpuMemoryUnderProvisioned: Self { .init(rawValue: "GPUMemoryUnderprovisioned") }
+        @inlinable public static var gpuOverProvisioned: Self { .init(rawValue: "GPUOverprovisioned") }
+        @inlinable public static var gpuUnderProvisioned: Self { .init(rawValue: "GPUUnderprovisioned") }
+        @inlinable public static var memoryOverProvisioned: Self { .init(rawValue: "MemoryOverprovisioned") }
+        @inlinable public static var memoryUnderProvisioned: Self { .init(rawValue: "MemoryUnderprovisioned") }
+        @inlinable public static var networkBandwidthOverProvisioned: Self { .init(rawValue: "NetworkBandwidthOverprovisioned") }
+        @inlinable public static var networkBandwidthUnderProvisioned: Self { .init(rawValue: "NetworkBandwidthUnderprovisioned") }
+        @inlinable public static var networkPpsOverProvisioned: Self { .init(rawValue: "NetworkPPSOverprovisioned") }
+        @inlinable public static var networkPpsUnderProvisioned: Self { .init(rawValue: "NetworkPPSUnderprovisioned") }
+    }
+
+    public struct InstanceSavingsEstimationModeSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var costExplorerRightsizing: Self { .init(rawValue: "CostExplorerRightsizing") }
+        @inlinable public static var costOptimizationHub: Self { .init(rawValue: "CostOptimizationHub") }
+        @inlinable public static var publicPricing: Self { .init(rawValue: "PublicPricing") }
+    }
+
+    public struct InstanceState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pending: Self { .init(rawValue: "pending") }
+        @inlinable public static var running: Self { .init(rawValue: "running") }
+        @inlinable public static var shuttingDown: Self { .init(rawValue: "shutting-down") }
+        @inlinable public static var stopped: Self { .init(rawValue: "stopped") }
+        @inlinable public static var stopping: Self { .init(rawValue: "stopping") }
+        @inlinable public static var terminated: Self { .init(rawValue: "terminated") }
+    }
+
+    public struct JobFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var jobStatus: Self { .init(rawValue: "JobStatus") }
+        @inlinable public static var resourceType: Self { .init(rawValue: "ResourceType") }
+    }
+
+    public struct JobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var complete: Self { .init(rawValue: "Complete") }
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "InProgress") }
+        @inlinable public static var queued: Self { .init(rawValue: "Queued") }
+    }
+
+    public struct LambdaFunctionMemoryMetricName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var duration: Self { .init(rawValue: "Duration") }
+    }
+
+    public struct LambdaFunctionMemoryMetricStatistic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var expected: Self { .init(rawValue: "Expected") }
+        @inlinable public static var lowerBound: Self { .init(rawValue: "LowerBound") }
+        @inlinable public static var upperBound: Self { .init(rawValue: "UpperBound") }
+    }
+
+    public struct LambdaFunctionMetricName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var duration: Self { .init(rawValue: "Duration") }
+        @inlinable public static var memory: Self { .init(rawValue: "Memory") }
+    }
+
+    public struct LambdaFunctionMetricStatistic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "Average") }
+        @inlinable public static var maximum: Self { .init(rawValue: "Maximum") }
+    }
+
+    public struct LambdaFunctionRecommendationFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var finding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var findingReasonCode: Self { .init(rawValue: "FindingReasonCode") }
+    }
+
+    public struct LambdaFunctionRecommendationFinding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notOptimized: Self { .init(rawValue: "NotOptimized") }
+        @inlinable public static var optimized: Self { .init(rawValue: "Optimized") }
+        @inlinable public static var unavailable: Self { .init(rawValue: "Unavailable") }
+    }
+
+    public struct LambdaFunctionRecommendationFindingReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inconclusive: Self { .init(rawValue: "Inconclusive") }
+        @inlinable public static var insufficientData: Self { .init(rawValue: "InsufficientData") }
+        @inlinable public static var memoryOverProvisioned: Self { .init(rawValue: "MemoryOverprovisioned") }
+        @inlinable public static var memoryUnderProvisioned: Self { .init(rawValue: "MemoryUnderprovisioned") }
+    }
+
+    public struct LambdaSavingsEstimationModeSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var costExplorerRightsizing: Self { .init(rawValue: "CostExplorerRightsizing") }
+        @inlinable public static var costOptimizationHub: Self { .init(rawValue: "CostOptimizationHub") }
+        @inlinable public static var publicPricing: Self { .init(rawValue: "PublicPricing") }
+    }
+
+    public struct LicenseEdition: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var enterprise: Self { .init(rawValue: "Enterprise") }
+        @inlinable public static var free: Self { .init(rawValue: "Free") }
+        @inlinable public static var noLicenseEditionFound: Self { .init(rawValue: "NoLicenseEditionFound") }
+        @inlinable public static var standard: Self { .init(rawValue: "Standard") }
+    }
+
+    public struct LicenseFinding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var insufficientMetrics: Self { .init(rawValue: "InsufficientMetrics") }
+        @inlinable public static var notOptimized: Self { .init(rawValue: "NotOptimized") }
+        @inlinable public static var optimized: Self { .init(rawValue: "Optimized") }
+    }
+
+    public struct LicenseFindingReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cwAppInsightsDisabled: Self { .init(rawValue: "InvalidCloudWatchApplicationInsightsSetup") }
+        @inlinable public static var cwAppInsightsError: Self { .init(rawValue: "CloudWatchApplicationInsightsError") }
+        @inlinable public static var licenseOverProvisioned: Self { .init(rawValue: "LicenseOverprovisioned") }
+        @inlinable public static var optimized: Self { .init(rawValue: "Optimized") }
+    }
+
+    public struct LicenseModel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bringYourOwnLicense: Self { .init(rawValue: "BringYourOwnLicense") }
+        @inlinable public static var licenseIncluded: Self { .init(rawValue: "LicenseIncluded") }
+    }
+
+    public struct LicenseName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sqlserver: Self { .init(rawValue: "SQLServer") }
+    }
+
+    public struct LicenseRecommendationFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var licenseFinding: Self { .init(rawValue: "Finding") }
+        @inlinable public static var licenseFindingReasonCode: Self { .init(rawValue: "FindingReasonCode") }
+        @inlinable public static var licenseName: Self { .init(rawValue: "LicenseName") }
+    }
+
+    public struct LookBackPeriodPreference: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days14: Self { .init(rawValue: "DAYS_14") }
+        @inlinable public static var days32: Self { .init(rawValue: "DAYS_32") }
+        @inlinable public static var days93: Self { .init(rawValue: "DAYS_93") }
+    }
+
+    public struct MetricName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cpu: Self { .init(rawValue: "Cpu") }
+        @inlinable public static var diskReadBytesPerSecond: Self { .init(rawValue: "DISK_READ_BYTES_PER_SECOND") }
+        @inlinable public static var diskReadOpsPerSecond: Self { .init(rawValue: "DISK_READ_OPS_PER_SECOND") }
+        @inlinable public static var diskWriteBytesPerSecond: Self { .init(rawValue: "DISK_WRITE_BYTES_PER_SECOND") }
+        @inlinable public static var diskWriteOpsPerSecond: Self { .init(rawValue: "DISK_WRITE_OPS_PER_SECOND") }
+        @inlinable public static var ebsReadBytesPerSecond: Self { .init(rawValue: "EBS_READ_BYTES_PER_SECOND") }
+        @inlinable public static var ebsReadOpsPerSecond: Self { .init(rawValue: "EBS_READ_OPS_PER_SECOND") }
+        @inlinable public static var ebsWriteBytesPerSecond: Self { .init(rawValue: "EBS_WRITE_BYTES_PER_SECOND") }
+        @inlinable public static var ebsWriteOpsPerSecond: Self { .init(rawValue: "EBS_WRITE_OPS_PER_SECOND") }
+        @inlinable public static var gpuMemoryPercentage: Self { .init(rawValue: "GPU_MEMORY_PERCENTAGE") }
+        @inlinable public static var gpuPercentage: Self { .init(rawValue: "GPU_PERCENTAGE") }
+        @inlinable public static var memory: Self { .init(rawValue: "Memory") }
+        @inlinable public static var networkInBytesPerSecond: Self { .init(rawValue: "NETWORK_IN_BYTES_PER_SECOND") }
+        @inlinable public static var networkOutBytesPerSecond: Self { .init(rawValue: "NETWORK_OUT_BYTES_PER_SECOND") }
+        @inlinable public static var networkPacketsInPerSecond: Self { .init(rawValue: "NETWORK_PACKETS_IN_PER_SECOND") }
+        @inlinable public static var networkPacketsOutPerSecond: Self { .init(rawValue: "NETWORK_PACKETS_OUT_PER_SECOND") }
+    }
+
+    public struct MetricSourceProvider: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cloudWatchAppInsights: Self { .init(rawValue: "CloudWatchApplicationInsights") }
+    }
+
+    public struct MetricStatistic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "Average") }
+        @inlinable public static var maximum: Self { .init(rawValue: "Maximum") }
+    }
+
+    public struct MigrationEffort: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "High") }
+        @inlinable public static var low: Self { .init(rawValue: "Low") }
+        @inlinable public static var medium: Self { .init(rawValue: "Medium") }
+        @inlinable public static var veryLow: Self { .init(rawValue: "VeryLow") }
+    }
+
+    public struct Order: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asc: Self { .init(rawValue: "Asc") }
+        @inlinable public static var desc: Self { .init(rawValue: "Desc") }
+    }
+
+    public struct PlatformDifference: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var architecture: Self { .init(rawValue: "Architecture") }
+        @inlinable public static var hypervisor: Self { .init(rawValue: "Hypervisor") }
+        @inlinable public static var instanceStoreAvailability: Self { .init(rawValue: "InstanceStoreAvailability") }
+        @inlinable public static var networkInterface: Self { .init(rawValue: "NetworkInterface") }
+        @inlinable public static var storageInterface: Self { .init(rawValue: "StorageInterface") }
+        @inlinable public static var virtualizationType: Self { .init(rawValue: "VirtualizationType") }
+    }
+
+    public struct PreferredResourceName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ec2InstanceTypes: Self { .init(rawValue: "Ec2InstanceTypes") }
+    }
+
+    public struct RDSCurrentInstancePerformanceRisk: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "High") }
+        @inlinable public static var low: Self { .init(rawValue: "Low") }
+        @inlinable public static var medium: Self { .init(rawValue: "Medium") }
+        @inlinable public static var veryLow: Self { .init(rawValue: "VeryLow") }
+    }
+
+    public struct RDSDBMetricName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auroraMemoryHealthState: Self { .init(rawValue: "AuroraMemoryHealthState") }
+        @inlinable public static var auroraMemoryNumDeclinedSql: Self { .init(rawValue: "AuroraMemoryNumDeclinedSql") }
+        @inlinable public static var auroraMemoryNumKillConnTotal: Self { .init(rawValue: "AuroraMemoryNumKillConnTotal") }
+        @inlinable public static var auroraMemoryNumKillQueryTotal: Self { .init(rawValue: "AuroraMemoryNumKillQueryTotal") }
+        @inlinable public static var cpu: Self { .init(rawValue: "CPU") }
+        @inlinable public static var databaseConnections: Self { .init(rawValue: "DatabaseConnections") }
+        @inlinable public static var ebsVolumeReadIops: Self { .init(rawValue: "EBSVolumeReadIOPS") }
+        @inlinable public static var ebsVolumeReadThroughput: Self { .init(rawValue: "EBSVolumeReadThroughput") }
+        @inlinable public static var ebsVolumeStorageSpaceUtilization: Self { .init(rawValue: "EBSVolumeStorageSpaceUtilization") }
+        @inlinable public static var ebsVolumeWriteIops: Self { .init(rawValue: "EBSVolumeWriteIOPS") }
+        @inlinable public static var ebsVolumeWriteThroughput: Self { .init(rawValue: "EBSVolumeWriteThroughput") }
+        @inlinable public static var memory: Self { .init(rawValue: "Memory") }
+        @inlinable public static var networkReceiveThroughput: Self { .init(rawValue: "NetworkReceiveThroughput") }
+        @inlinable public static var networkTransmitThroughput: Self { .init(rawValue: "NetworkTransmitThroughput") }
+        @inlinable public static var readIopsEphemeralStorage: Self { .init(rawValue: "ReadIOPSEphemeralStorage") }
+        @inlinable public static var storageNetworkReceiveThroughput: Self { .init(rawValue: "StorageNetworkReceiveThroughput") }
+        @inlinable public static var storageNetworkTransmitThroughput: Self { .init(rawValue: "StorageNetworkTransmitThroughput") }
+        @inlinable public static var volumeBytesUsed: Self { .init(rawValue: "VolumeBytesUsed") }
+        @inlinable public static var volumeReadIops: Self { .init(rawValue: "VolumeReadIOPs") }
+        @inlinable public static var volumeWriteIops: Self { .init(rawValue: "VolumeWriteIOPs") }
+        @inlinable public static var writeIopsEphemeralStorage: Self { .init(rawValue: "WriteIOPSEphemeralStorage") }
+    }
+
+    public struct RDSDBMetricStatistic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "Average") }
+        @inlinable public static var maximum: Self { .init(rawValue: "Maximum") }
+        @inlinable public static var minimum: Self { .init(rawValue: "Minimum") }
+    }
+
+    public struct RDSDBRecommendationFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var idle: Self { .init(rawValue: "Idle") }
+        @inlinable public static var instanceFinding: Self { .init(rawValue: "InstanceFinding") }
+        @inlinable public static var instanceFindingReasonCode: Self { .init(rawValue: "InstanceFindingReasonCode") }
+        @inlinable public static var storageFinding: Self { .init(rawValue: "StorageFinding") }
+        @inlinable public static var storageFindingReasonCode: Self { .init(rawValue: "StorageFindingReasonCode") }
+    }
+
+    public struct RDSEstimatedMonthlyVolumeIOPsCostVariation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "High") }
+        @inlinable public static var low: Self { .init(rawValue: "Low") }
+        @inlinable public static var medium: Self { .init(rawValue: "Medium") }
+        @inlinable public static var none: Self { .init(rawValue: "None") }
+    }
+
+    public struct RDSInstanceFinding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var optimized: Self { .init(rawValue: "Optimized") }
+        @inlinable public static var overProvisioned: Self { .init(rawValue: "Overprovisioned") }
+        @inlinable public static var underProvisioned: Self { .init(rawValue: "Underprovisioned") }
+    }
+
+    public struct RDSInstanceFindingReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cpuOverProvisioned: Self { .init(rawValue: "CPUOverprovisioned") }
+        @inlinable public static var cpuUnderProvisioned: Self { .init(rawValue: "CPUUnderprovisioned") }
+        @inlinable public static var dbClusterWriterUnderProvisioned: Self { .init(rawValue: "DBClusterWriterUnderprovisioned") }
+        @inlinable public static var ebsIopsOverProvisioned: Self { .init(rawValue: "EBSIOPSOverprovisioned") }
+        @inlinable public static var ebsIopsUnderProvisioned: Self { .init(rawValue: "EBSIOPSUnderprovisioned") }
+        @inlinable public static var ebsThroughputOverProvisioned: Self { .init(rawValue: "EBSThroughputOverprovisioned") }
+        @inlinable public static var ebsThroughputUnderProvisioned: Self { .init(rawValue: "EBSThroughputUnderprovisioned") }
+        @inlinable public static var instanceStorageReadIopsUnderProvisioned: Self { .init(rawValue: "InstanceStorageReadIOPSUnderprovisioned") }
+        @inlinable public static var instanceStorageWriteIopsUnderProvisioned: Self { .init(rawValue: "InstanceStorageWriteIOPSUnderprovisioned") }
+        @inlinable public static var memoryUnderProvisioned: Self { .init(rawValue: "MemoryUnderprovisioned") }
+        @inlinable public static var networkBandwidthOverProvisioned: Self { .init(rawValue: "NetworkBandwidthOverprovisioned") }
+        @inlinable public static var networkBandwidthUnderProvisioned: Self { .init(rawValue: "NetworkBandwidthUnderprovisioned") }
+        @inlinable public static var newEngineVersionAvailable: Self { .init(rawValue: "NewEngineVersionAvailable") }
+        @inlinable public static var newGenerationDbInstanceClassAvailable: Self { .init(rawValue: "NewGenerationDBInstanceClassAvailable") }
+    }
+
+    public struct RDSSavingsEstimationModeSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var costExplorerRightsizing: Self { .init(rawValue: "CostExplorerRightsizing") }
+        @inlinable public static var costOptimizationHub: Self { .init(rawValue: "CostOptimizationHub") }
+        @inlinable public static var publicPricing: Self { .init(rawValue: "PublicPricing") }
+    }
+
+    public struct RDSStorageFinding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var notOptimized: Self { .init(rawValue: "NotOptimized") }
+        @inlinable public static var optimized: Self { .init(rawValue: "Optimized") }
+        @inlinable public static var overProvisioned: Self { .init(rawValue: "Overprovisioned") }
+        @inlinable public static var underProvisioned: Self { .init(rawValue: "Underprovisioned") }
+    }
+
+    public struct RDSStorageFindingReasonCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dbClusterStorageOptionAvailable: Self { .init(rawValue: "DBClusterStorageOptionAvailable") }
+        @inlinable public static var dbClusterStorageSavingsAvailable: Self { .init(rawValue: "DBClusterStorageSavingsAvailable") }
+        @inlinable public static var ebsVolumeAllocatedStorageUnderProvisioned: Self { .init(rawValue: "EBSVolumeAllocatedStorageUnderprovisioned") }
+        @inlinable public static var ebsVolumeIopsOverProvisioned: Self { .init(rawValue: "EBSVolumeIOPSOverprovisioned") }
+        @inlinable public static var ebsVolumeThroughputOverProvisioned: Self { .init(rawValue: "EBSVolumeThroughputOverprovisioned") }
+        @inlinable public static var ebsVolumeThroughputUnderProvisioned: Self { .init(rawValue: "EBSVolumeThroughputUnderprovisioned") }
+        @inlinable public static var newGenerationStorageTypeAvailable: Self { .init(rawValue: "NewGenerationStorageTypeAvailable") }
+    }
+
+    public struct RecommendationPreferenceName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var enhancedInfrastructureMetrics: Self { .init(rawValue: "EnhancedInfrastructureMetrics") }
+        @inlinable public static var externalMetricsPreference: Self { .init(rawValue: "ExternalMetricsPreference") }
+        @inlinable public static var inferredWorkloadTypes: Self { .init(rawValue: "InferredWorkloadTypes") }
+        @inlinable public static var lookbackPeriodPreference: Self { .init(rawValue: "LookBackPeriodPreference") }
+        @inlinable public static var preferredResources: Self { .init(rawValue: "PreferredResources") }
+        @inlinable public static var utilizationPreferences: Self { .init(rawValue: "UtilizationPreferences") }
+    }
+
+    public struct RecommendationSourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auroraDbClusterStorage: Self { .init(rawValue: "AuroraDBClusterStorage") }
+        @inlinable public static var autoScalingGroup: Self { .init(rawValue: "AutoScalingGroup") }
+        @inlinable public static var documentDbCluster: Self { .init(rawValue: "DocumentDBCluster") }
+        @inlinable public static var dynamoDbTable: Self { .init(rawValue: "DynamoDBTable") }
+        @inlinable public static var ebsVolume: Self { .init(rawValue: "EbsVolume") }
+        @inlinable public static var ec2Instance: Self { .init(rawValue: "Ec2Instance") }
+        @inlinable public static var ecsService: Self { .init(rawValue: "EcsService") }
+        @inlinable public static var elastiCacheCluster: Self { .init(rawValue: "ElastiCacheCluster") }
+        @inlinable public static var lambdaFunction: Self { .init(rawValue: "LambdaFunction") }
+        @inlinable public static var license: Self { .init(rawValue: "License") }
+        @inlinable public static var memoryDbCluster: Self { .init(rawValue: "MemoryDBCluster") }
+        @inlinable public static var natGateway: Self { .init(rawValue: "NatGateway") }
+        @inlinable public static var rdsDbInstance: Self { .init(rawValue: "RdsDBInstance") }
+        @inlinable public static var rdsDbInstanceStorage: Self { .init(rawValue: "RdsDBInstanceStorage") }
+        @inlinable public static var sageMakerEndpoint: Self { .init(rawValue: "SageMakerEndpoint") }
+        @inlinable public static var workspaces: Self { .init(rawValue: "WorkSpaces") }
+    }
+
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auroraDbClusterStorage: Self { .init(rawValue: "AuroraDBClusterStorage") }
+        @inlinable public static var autoScalingGroup: Self { .init(rawValue: "AutoScalingGroup") }
+        @inlinable public static var ebsVolume: Self { .init(rawValue: "EbsVolume") }
+        @inlinable public static var ec2Instance: Self { .init(rawValue: "Ec2Instance") }
+        @inlinable public static var ecsService: Self { .init(rawValue: "EcsService") }
+        @inlinable public static var idle: Self { .init(rawValue: "Idle") }
+        @inlinable public static var lambdaFunction: Self { .init(rawValue: "LambdaFunction") }
+        @inlinable public static var license: Self { .init(rawValue: "License") }
+        @inlinable public static var notApplicable: Self { .init(rawValue: "NotApplicable") }
+        @inlinable public static var rdsDbInstance: Self { .init(rawValue: "RdsDBInstance") }
+    }
+
+    public struct SavingsEstimationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afterDiscounts: Self { .init(rawValue: "AfterDiscounts") }
+        @inlinable public static var beforeDiscounts: Self { .init(rawValue: "BeforeDiscounts") }
+    }
+
+    public struct ScopeName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "AccountId") }
+        @inlinable public static var organization: Self { .init(rawValue: "Organization") }
+        @inlinable public static var resourceArn: Self { .init(rawValue: "ResourceArn") }
+    }
+
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
+        @inlinable public static var inactive: Self { .init(rawValue: "Inactive") }
+        @inlinable public static var pending: Self { .init(rawValue: "Pending") }
     }
 
     // MARK: Shapes

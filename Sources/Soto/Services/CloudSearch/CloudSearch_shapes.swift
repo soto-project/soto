@@ -25,108 +25,136 @@ import Foundation
 extension CloudSearch {
     // MARK: Enums
 
-    public enum AlgorithmicStemming: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case full = "full"
-        case light = "light"
-        case minimal = "minimal"
-        case none = "none"
-        public var description: String { return self.rawValue }
+    public struct AlgorithmicStemming: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var full: Self { .init(rawValue: "full") }
+        @inlinable public static var light: Self { .init(rawValue: "light") }
+        @inlinable public static var minimal: Self { .init(rawValue: "minimal") }
+        @inlinable public static var none: Self { .init(rawValue: "none") }
     }
 
-    public enum AnalysisSchemeLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ar = "ar"
-        case bg = "bg"
-        case ca = "ca"
-        case cs = "cs"
-        case da = "da"
-        case de = "de"
-        case el = "el"
-        case en = "en"
-        case es = "es"
-        case eu = "eu"
-        case fa = "fa"
-        case fi = "fi"
-        case fr = "fr"
-        case ga = "ga"
-        case gl = "gl"
-        case he = "he"
-        case hi = "hi"
-        case hu = "hu"
-        case hy = "hy"
-        case id = "id"
-        case it = "it"
-        case ja = "ja"
-        case ko = "ko"
-        case lv = "lv"
-        case mul = "mul"
-        case nl = "nl"
-        case no = "no"
-        case pt = "pt"
-        case ro = "ro"
-        case ru = "ru"
-        case sv = "sv"
-        case th = "th"
-        case tr = "tr"
-        case zhHans = "zh-Hans"
-        case zhHant = "zh-Hant"
-        public var description: String { return self.rawValue }
+    public struct AnalysisSchemeLanguage: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ar: Self { .init(rawValue: "ar") }
+        @inlinable public static var bg: Self { .init(rawValue: "bg") }
+        @inlinable public static var ca: Self { .init(rawValue: "ca") }
+        @inlinable public static var cs: Self { .init(rawValue: "cs") }
+        @inlinable public static var da: Self { .init(rawValue: "da") }
+        @inlinable public static var de: Self { .init(rawValue: "de") }
+        @inlinable public static var el: Self { .init(rawValue: "el") }
+        @inlinable public static var en: Self { .init(rawValue: "en") }
+        @inlinable public static var es: Self { .init(rawValue: "es") }
+        @inlinable public static var eu: Self { .init(rawValue: "eu") }
+        @inlinable public static var fa: Self { .init(rawValue: "fa") }
+        @inlinable public static var fi: Self { .init(rawValue: "fi") }
+        @inlinable public static var fr: Self { .init(rawValue: "fr") }
+        @inlinable public static var ga: Self { .init(rawValue: "ga") }
+        @inlinable public static var gl: Self { .init(rawValue: "gl") }
+        @inlinable public static var he: Self { .init(rawValue: "he") }
+        @inlinable public static var hi: Self { .init(rawValue: "hi") }
+        @inlinable public static var hu: Self { .init(rawValue: "hu") }
+        @inlinable public static var hy: Self { .init(rawValue: "hy") }
+        @inlinable public static var id: Self { .init(rawValue: "id") }
+        @inlinable public static var it: Self { .init(rawValue: "it") }
+        @inlinable public static var ja: Self { .init(rawValue: "ja") }
+        @inlinable public static var ko: Self { .init(rawValue: "ko") }
+        @inlinable public static var lv: Self { .init(rawValue: "lv") }
+        @inlinable public static var mul: Self { .init(rawValue: "mul") }
+        @inlinable public static var nl: Self { .init(rawValue: "nl") }
+        @inlinable public static var no: Self { .init(rawValue: "no") }
+        @inlinable public static var pt: Self { .init(rawValue: "pt") }
+        @inlinable public static var ro: Self { .init(rawValue: "ro") }
+        @inlinable public static var ru: Self { .init(rawValue: "ru") }
+        @inlinable public static var sv: Self { .init(rawValue: "sv") }
+        @inlinable public static var th: Self { .init(rawValue: "th") }
+        @inlinable public static var tr: Self { .init(rawValue: "tr") }
+        @inlinable public static var zhHans: Self { .init(rawValue: "zh-Hans") }
+        @inlinable public static var zhHant: Self { .init(rawValue: "zh-Hant") }
     }
 
-    public enum IndexFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case date = "date"
-        case dateArray = "date-array"
-        case double = "double"
-        case doubleArray = "double-array"
-        case int = "int"
-        case intArray = "int-array"
-        case latlon = "latlon"
-        case literal = "literal"
-        case literalArray = "literal-array"
-        case text = "text"
-        case textArray = "text-array"
-        public var description: String { return self.rawValue }
+    public struct IndexFieldType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var date: Self { .init(rawValue: "date") }
+        @inlinable public static var dateArray: Self { .init(rawValue: "date-array") }
+        @inlinable public static var double: Self { .init(rawValue: "double") }
+        @inlinable public static var doubleArray: Self { .init(rawValue: "double-array") }
+        @inlinable public static var int: Self { .init(rawValue: "int") }
+        @inlinable public static var intArray: Self { .init(rawValue: "int-array") }
+        @inlinable public static var latlon: Self { .init(rawValue: "latlon") }
+        @inlinable public static var literal: Self { .init(rawValue: "literal") }
+        @inlinable public static var literalArray: Self { .init(rawValue: "literal-array") }
+        @inlinable public static var text: Self { .init(rawValue: "text") }
+        @inlinable public static var textArray: Self { .init(rawValue: "text-array") }
     }
 
-    public enum OptionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case failedToValidate = "FailedToValidate"
-        case processing = "Processing"
-        case requiresIndexDocuments = "RequiresIndexDocuments"
-        public var description: String { return self.rawValue }
+    public struct OptionState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var failedToValidate: Self { .init(rawValue: "FailedToValidate") }
+        @inlinable public static var processing: Self { .init(rawValue: "Processing") }
+        @inlinable public static var requiresIndexDocuments: Self { .init(rawValue: "RequiresIndexDocuments") }
     }
 
-    public enum PartitionInstanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case search2Xlarge = "search.2xlarge"
-        case searchLarge = "search.large"
-        case searchM1Large = "search.m1.large"
-        case searchM1Small = "search.m1.small"
-        case searchM22Xlarge = "search.m2.2xlarge"
-        case searchM2Xlarge = "search.m2.xlarge"
-        case searchM32Xlarge = "search.m3.2xlarge"
-        case searchM3Large = "search.m3.large"
-        case searchM3Medium = "search.m3.medium"
-        case searchM3Xlarge = "search.m3.xlarge"
-        case searchMedium = "search.medium"
-        case searchPreviousgeneration2Xlarge = "search.previousgeneration.2xlarge"
-        case searchPreviousgenerationLarge = "search.previousgeneration.large"
-        case searchPreviousgenerationSmall = "search.previousgeneration.small"
-        case searchPreviousgenerationXlarge = "search.previousgeneration.xlarge"
-        case searchSmall = "search.small"
-        case searchXlarge = "search.xlarge"
-        public var description: String { return self.rawValue }
+    public struct PartitionInstanceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var search2Xlarge: Self { .init(rawValue: "search.2xlarge") }
+        @inlinable public static var searchLarge: Self { .init(rawValue: "search.large") }
+        @inlinable public static var searchM1Large: Self { .init(rawValue: "search.m1.large") }
+        @inlinable public static var searchM1Small: Self { .init(rawValue: "search.m1.small") }
+        @inlinable public static var searchM22Xlarge: Self { .init(rawValue: "search.m2.2xlarge") }
+        @inlinable public static var searchM2Xlarge: Self { .init(rawValue: "search.m2.xlarge") }
+        @inlinable public static var searchM32Xlarge: Self { .init(rawValue: "search.m3.2xlarge") }
+        @inlinable public static var searchM3Large: Self { .init(rawValue: "search.m3.large") }
+        @inlinable public static var searchM3Medium: Self { .init(rawValue: "search.m3.medium") }
+        @inlinable public static var searchM3Xlarge: Self { .init(rawValue: "search.m3.xlarge") }
+        @inlinable public static var searchMedium: Self { .init(rawValue: "search.medium") }
+        @inlinable public static var searchPreviousgeneration2Xlarge: Self { .init(rawValue: "search.previousgeneration.2xlarge") }
+        @inlinable public static var searchPreviousgenerationLarge: Self { .init(rawValue: "search.previousgeneration.large") }
+        @inlinable public static var searchPreviousgenerationSmall: Self { .init(rawValue: "search.previousgeneration.small") }
+        @inlinable public static var searchPreviousgenerationXlarge: Self { .init(rawValue: "search.previousgeneration.xlarge") }
+        @inlinable public static var searchSmall: Self { .init(rawValue: "search.small") }
+        @inlinable public static var searchXlarge: Self { .init(rawValue: "search.xlarge") }
     }
 
-    public enum SuggesterFuzzyMatching: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "high"
-        case low = "low"
-        case none = "none"
-        public var description: String { return self.rawValue }
+    public struct SuggesterFuzzyMatching: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "high") }
+        @inlinable public static var low: Self { .init(rawValue: "low") }
+        @inlinable public static var none: Self { .init(rawValue: "none") }
     }
 
-    public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
-        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
-        public var description: String { return self.rawValue }
+    public struct TLSSecurityPolicy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var policyMinTls10201907: Self { .init(rawValue: "Policy-Min-TLS-1-0-2019-07") }
+        @inlinable public static var policyMinTls12201907: Self { .init(rawValue: "Policy-Min-TLS-1-2-2019-07") }
     }
 
     // MARK: Shapes

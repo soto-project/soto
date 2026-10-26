@@ -25,15 +25,19 @@ import Foundation
 extension PinpointSMSVoice {
     // MARK: Enums
 
-    public enum EventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case answered = "ANSWERED"
-        case busy = "BUSY"
-        case completedCall = "COMPLETED_CALL"
-        case failed = "FAILED"
-        case initiatedCall = "INITIATED_CALL"
-        case noAnswer = "NO_ANSWER"
-        case ringing = "RINGING"
-        public var description: String { return self.rawValue }
+    public struct EventType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var answered: Self { .init(rawValue: "ANSWERED") }
+        @inlinable public static var busy: Self { .init(rawValue: "BUSY") }
+        @inlinable public static var completedCall: Self { .init(rawValue: "COMPLETED_CALL") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var initiatedCall: Self { .init(rawValue: "INITIATED_CALL") }
+        @inlinable public static var noAnswer: Self { .init(rawValue: "NO_ANSWER") }
+        @inlinable public static var ringing: Self { .init(rawValue: "RINGING") }
     }
 
     // MARK: Shapes

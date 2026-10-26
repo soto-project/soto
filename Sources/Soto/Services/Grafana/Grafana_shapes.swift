@@ -25,146 +25,198 @@ import Foundation
 extension Grafana {
     // MARK: Enums
 
-    public enum AccountAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct AccountAccessType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that the customer is using Grafana to monitor resources in their current account.
-        case currentAccount = "CURRENT_ACCOUNT"
+        @inlinable public static var currentAccount: Self { .init(rawValue: "CURRENT_ACCOUNT") }
         /// Indicates that the customer is using Grafana to monitor resources in organizational units.
-        case organization = "ORGANIZATION"
-        public var description: String { return self.rawValue }
+        @inlinable public static var organization: Self { .init(rawValue: "ORGANIZATION") }
     }
 
-    public enum AuthenticationProviderTypes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct AuthenticationProviderTypes: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that AMG workspace has AWS SSO enabled as its authentication provider.
-        case awsSso = "AWS_SSO"
+        @inlinable public static var awsSso: Self { .init(rawValue: "AWS_SSO") }
         /// Indicates that the AMG workspace has SAML enabled as its authentication provider.
-        case saml = "SAML"
-        public var description: String { return self.rawValue }
+        @inlinable public static var saml: Self { .init(rawValue: "SAML") }
     }
 
-    public enum DataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct DataSourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Amazon OpenSearch Service
-        case amazonOpensearchService = "AMAZON_OPENSEARCH_SERVICE"
+        @inlinable public static var amazonOpensearchService: Self { .init(rawValue: "AMAZON_OPENSEARCH_SERVICE") }
         /// Amazon Athena
-        case athena = "ATHENA"
+        @inlinable public static var athena: Self { .init(rawValue: "ATHENA") }
         /// CloudWatch Logs
-        case cloudwatch = "CLOUDWATCH"
+        @inlinable public static var cloudwatch: Self { .init(rawValue: "CLOUDWATCH") }
         /// Managed Prometheus
-        case prometheus = "PROMETHEUS"
+        @inlinable public static var prometheus: Self { .init(rawValue: "PROMETHEUS") }
         /// Redshift
-        case redshift = "REDSHIFT"
+        @inlinable public static var redshift: Self { .init(rawValue: "REDSHIFT") }
         /// IoT SiteWise
-        case sitewise = "SITEWISE"
+        @inlinable public static var sitewise: Self { .init(rawValue: "SITEWISE") }
         /// Timestream
-        case timestream = "TIMESTREAM"
+        @inlinable public static var timestream: Self { .init(rawValue: "TIMESTREAM") }
         /// IoT TwinMaker
-        case twinmaker = "TWINMAKER"
+        @inlinable public static var twinmaker: Self { .init(rawValue: "TWINMAKER") }
         /// X-Ray
-        case xray = "XRAY"
-        public var description: String { return self.rawValue }
+        @inlinable public static var xray: Self { .init(rawValue: "XRAY") }
     }
 
-    public enum IPAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct IPAddressType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that connections to this workspace can be made over IPv4 or IPv6.
-        case dualStack = "DualStack"
+        @inlinable public static var dualStack: Self { .init(rawValue: "DualStack") }
         /// Indicates that connections to this workspace can only be made over IPv4.
-        case iPv4 = "IPv4"
-        public var description: String { return self.rawValue }
+        @inlinable public static var iPv4: Self { .init(rawValue: "IPv4") }
     }
 
-    public enum LicenseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct LicenseType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Grafana Enterprise License.
-        case enterprise = "ENTERPRISE"
+        @inlinable public static var enterprise: Self { .init(rawValue: "ENTERPRISE") }
         /// Grafana Enterprise Free Trial License.
-        case enterpriseFreeTrial = "ENTERPRISE_FREE_TRIAL"
-        public var description: String { return self.rawValue }
+        @inlinable public static var enterpriseFreeTrial: Self { .init(rawValue: "ENTERPRISE_FREE_TRIAL") }
     }
 
-    public enum NotificationDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct NotificationDestinationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// AWS Simple Notification Service
-        case sns = "SNS"
-        public var description: String { return self.rawValue }
+        @inlinable public static var sns: Self { .init(rawValue: "SNS") }
     }
 
-    public enum PermissionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct PermissionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Customer Managed
-        case customerManaged = "CUSTOMER_MANAGED"
+        @inlinable public static var customerManaged: Self { .init(rawValue: "CUSTOMER_MANAGED") }
         /// Service Managed
-        case serviceManaged = "SERVICE_MANAGED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var serviceManaged: Self { .init(rawValue: "SERVICE_MANAGED") }
     }
 
-    public enum Role: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct Role: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Role Admin.
-        case admin = "ADMIN"
+        @inlinable public static var admin: Self { .init(rawValue: "ADMIN") }
         /// Role Editor.
-        case editor = "EDITOR"
+        @inlinable public static var editor: Self { .init(rawValue: "EDITOR") }
         /// Role Viewer.
-        case viewer = "VIEWER"
-        public var description: String { return self.rawValue }
+        @inlinable public static var viewer: Self { .init(rawValue: "VIEWER") }
     }
 
-    public enum SamlConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct SamlConfigurationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that SAML on an AMG workspace is enabled and has been configured.
-        case configured = "CONFIGURED"
+        @inlinable public static var configured: Self { .init(rawValue: "CONFIGURED") }
         /// Indicates that SAML on an AMG workspace is enabled but has not been configured.
-        case notConfigured = "NOT_CONFIGURED"
-        public var description: String { return self.rawValue }
+        @inlinable public static var notConfigured: Self { .init(rawValue: "NOT_CONFIGURED") }
     }
 
-    public enum UpdateAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct UpdateAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Add permissions.
-        case add = "ADD"
+        @inlinable public static var add: Self { .init(rawValue: "ADD") }
         /// Revoke permissions.
-        case revoke = "REVOKE"
-        public var description: String { return self.rawValue }
+        @inlinable public static var revoke: Self { .init(rawValue: "REVOKE") }
     }
 
-    public enum UserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct UserType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// SSO group.
-        case ssoGroup = "SSO_GROUP"
+        @inlinable public static var ssoGroup: Self { .init(rawValue: "SSO_GROUP") }
         /// SSO user.
-        case ssoUser = "SSO_USER"
-        public var description: String { return self.rawValue }
+        @inlinable public static var ssoUser: Self { .init(rawValue: "SSO_USER") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "CANNOT_PARSE"
-        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
-        case other = "OTHER"
-        case unknownOperation = "UNKNOWN_OPERATION"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CANNOT_PARSE") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FIELD_VALIDATION_FAILED") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UNKNOWN_OPERATION") }
     }
 
-    public enum WorkspaceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct WorkspaceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Workspace is active.
-        case active = "ACTIVE"
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
         /// Workspace is being created.
-        case creating = "CREATING"
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
         /// Workspace creation failed.
-        case creationFailed = "CREATION_FAILED"
+        @inlinable public static var creationFailed: Self { .init(rawValue: "CREATION_FAILED") }
         /// Workspace is degraded.
-        case degraded = "DEGRADED"
+        @inlinable public static var degraded: Self { .init(rawValue: "DEGRADED") }
         /// Workspace is being deleted.
-        case deleting = "DELETING"
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
         /// Workspace deletion failed.
-        case deletionFailed = "DELETION_FAILED"
+        @inlinable public static var deletionFailed: Self { .init(rawValue: "DELETION_FAILED") }
         /// Workspace is in an invalid state, it can only and should be deleted.
-        case failed = "FAILED"
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
         /// Failed to remove enterprise license from workspace.
-        case licenseRemovalFailed = "LICENSE_REMOVAL_FAILED"
+        @inlinable public static var licenseRemovalFailed: Self { .init(rawValue: "LICENSE_REMOVAL_FAILED") }
         /// Workspace update failed.
-        case updateFailed = "UPDATE_FAILED"
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
         /// Workspace is being updated.
-        case updating = "UPDATING"
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
         /// Workspace upgrade failed.
-        case upgradeFailed = "UPGRADE_FAILED"
+        @inlinable public static var upgradeFailed: Self { .init(rawValue: "UPGRADE_FAILED") }
         /// Workspace is being upgraded to enterprise.
-        case upgrading = "UPGRADING"
+        @inlinable public static var upgrading: Self { .init(rawValue: "UPGRADING") }
         /// Workspace version update failed.
-        case versionUpdateFailed = "VERSION_UPDATE_FAILED"
+        @inlinable public static var versionUpdateFailed: Self { .init(rawValue: "VERSION_UPDATE_FAILED") }
         /// Workspace version is being updated.
-        case versionUpdating = "VERSION_UPDATING"
-        public var description: String { return self.rawValue }
+        @inlinable public static var versionUpdating: Self { .init(rawValue: "VERSION_UPDATING") }
     }
 
     public enum IdpMetadata: AWSEncodableShape & AWSDecodableShape, Sendable {

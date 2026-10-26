@@ -25,18 +25,26 @@ import Foundation
 extension CloudSearchDomain {
     // MARK: Enums
 
-    public enum ContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case applicationJson = "application/json"
-        case applicationXml = "application/xml"
-        public var description: String { return self.rawValue }
+    public struct ContentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var applicationJson: Self { .init(rawValue: "application/json") }
+        @inlinable public static var applicationXml: Self { .init(rawValue: "application/xml") }
     }
 
-    public enum QueryParser: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dismax = "dismax"
-        case lucene = "lucene"
-        case simple = "simple"
-        case structured = "structured"
-        public var description: String { return self.rawValue }
+    public struct QueryParser: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dismax: Self { .init(rawValue: "dismax") }
+        @inlinable public static var lucene: Self { .init(rawValue: "lucene") }
+        @inlinable public static var simple: Self { .init(rawValue: "simple") }
+        @inlinable public static var structured: Self { .init(rawValue: "structured") }
     }
 
     // MARK: Shapes

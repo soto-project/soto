@@ -25,108 +25,148 @@ import Foundation
 extension Neptunedata {
     // MARK: Enums
 
-    public enum Action: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case initializeReset = "initiateDatabaseReset"
-        case performReset = "performDatabaseReset"
-        public var description: String { return self.rawValue }
+    public struct Action: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var initializeReset: Self { .init(rawValue: "initiateDatabaseReset") }
+        @inlinable public static var performReset: Self { .init(rawValue: "performDatabaseReset") }
     }
 
-    public enum Encoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case gzip = "gzip"
-        public var description: String { return self.rawValue }
+    public struct Encoding: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var gzip: Self { .init(rawValue: "gzip") }
     }
 
-    public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case csv = "csv"
-        case nquads = "nquads"
-        case ntriples = "ntriples"
-        case opencypher = "opencypher"
-        case rdfxml = "rdfxml"
-        case turtle = "turtle"
-        public var description: String { return self.rawValue }
+    public struct Format: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var csv: Self { .init(rawValue: "csv") }
+        @inlinable public static var nquads: Self { .init(rawValue: "nquads") }
+        @inlinable public static var ntriples: Self { .init(rawValue: "ntriples") }
+        @inlinable public static var opencypher: Self { .init(rawValue: "opencypher") }
+        @inlinable public static var rdfxml: Self { .init(rawValue: "rdfxml") }
+        @inlinable public static var turtle: Self { .init(rawValue: "turtle") }
     }
 
-    public enum GraphSummaryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case basic = "basic"
-        case detailed = "detailed"
-        public var description: String { return self.rawValue }
+    public struct GraphSummaryType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var basic: Self { .init(rawValue: "basic") }
+        @inlinable public static var detailed: Self { .init(rawValue: "detailed") }
     }
 
-    public enum IteratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
-        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
-        case latest = "LATEST"
-        case trimHorizon = "TRIM_HORIZON"
-        public var description: String { return self.rawValue }
+    public struct IteratorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afterSequenceNumber: Self { .init(rawValue: "AFTER_SEQUENCE_NUMBER") }
+        @inlinable public static var atSequenceNumber: Self { .init(rawValue: "AT_SEQUENCE_NUMBER") }
+        @inlinable public static var latest: Self { .init(rawValue: "LATEST") }
+        @inlinable public static var trimHorizon: Self { .init(rawValue: "TRIM_HORIZON") }
     }
 
-    public enum Mode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case auto = "AUTO"
-        case new = "NEW"
-        case resume = "RESUME"
-        public var description: String { return self.rawValue }
+    public struct Mode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var auto: Self { .init(rawValue: "AUTO") }
+        @inlinable public static var new: Self { .init(rawValue: "NEW") }
+        @inlinable public static var resume: Self { .init(rawValue: "RESUME") }
     }
 
-    public enum OpenCypherExplainMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `static` = "static"
-        case details = "details"
-        case dynamic = "dynamic"
-        public var description: String { return self.rawValue }
+    public struct OpenCypherExplainMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `static`: Self { .init(rawValue: "static") }
+        @inlinable public static var details: Self { .init(rawValue: "details") }
+        @inlinable public static var dynamic: Self { .init(rawValue: "dynamic") }
     }
 
-    public enum Parallelism: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "HIGH"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        case oversubscribe = "OVERSUBSCRIBE"
-        public var description: String { return self.rawValue }
+    public struct Parallelism: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
+        @inlinable public static var oversubscribe: Self { .init(rawValue: "OVERSUBSCRIBE") }
     }
 
-    public enum S3BucketRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afSouth1 = "af-south-1"
-        case apEast1 = "ap-east-1"
-        case apEast2 = "ap-east-2"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case apSouth1 = "ap-south-1"
-        case apSouth2 = "ap-south-2"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apSoutheast3 = "ap-southeast-3"
-        case apSoutheast4 = "ap-southeast-4"
-        case apSoutheast5 = "ap-southeast-5"
-        case apSoutheast7 = "ap-southeast-7"
-        case caCentral1 = "ca-central-1"
-        case caWest1 = "ca-west-1"
-        case cnNorth1 = "cn-north-1"
-        case cnNorthwest1 = "cn-northwest-1"
-        case euCentral1 = "eu-central-1"
-        case euCentral2 = "eu-central-2"
-        case euNorth1 = "eu-north-1"
-        case euSouth2 = "eu-south-2"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case ilCentral1 = "il-central-1"
-        case meCentral1 = "me-central-1"
-        case meSouth1 = "me-south-1"
-        case mxCentral1 = "mx-central-1"
-        case saEast1 = "sa-east-1"
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usGovEast1 = "us-gov-east-1"
-        case usGovWest1 = "us-gov-west-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        public var description: String { return self.rawValue }
+    public struct S3BucketRegion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afSouth1: Self { .init(rawValue: "af-south-1") }
+        @inlinable public static var apEast1: Self { .init(rawValue: "ap-east-1") }
+        @inlinable public static var apEast2: Self { .init(rawValue: "ap-east-2") }
+        @inlinable public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
+        @inlinable public static var apNortheast2: Self { .init(rawValue: "ap-northeast-2") }
+        @inlinable public static var apNortheast3: Self { .init(rawValue: "ap-northeast-3") }
+        @inlinable public static var apSouth1: Self { .init(rawValue: "ap-south-1") }
+        @inlinable public static var apSouth2: Self { .init(rawValue: "ap-south-2") }
+        @inlinable public static var apSoutheast1: Self { .init(rawValue: "ap-southeast-1") }
+        @inlinable public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
+        @inlinable public static var apSoutheast3: Self { .init(rawValue: "ap-southeast-3") }
+        @inlinable public static var apSoutheast4: Self { .init(rawValue: "ap-southeast-4") }
+        @inlinable public static var apSoutheast5: Self { .init(rawValue: "ap-southeast-5") }
+        @inlinable public static var apSoutheast7: Self { .init(rawValue: "ap-southeast-7") }
+        @inlinable public static var caCentral1: Self { .init(rawValue: "ca-central-1") }
+        @inlinable public static var caWest1: Self { .init(rawValue: "ca-west-1") }
+        @inlinable public static var cnNorth1: Self { .init(rawValue: "cn-north-1") }
+        @inlinable public static var cnNorthwest1: Self { .init(rawValue: "cn-northwest-1") }
+        @inlinable public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
+        @inlinable public static var euCentral2: Self { .init(rawValue: "eu-central-2") }
+        @inlinable public static var euNorth1: Self { .init(rawValue: "eu-north-1") }
+        @inlinable public static var euSouth2: Self { .init(rawValue: "eu-south-2") }
+        @inlinable public static var euWest1: Self { .init(rawValue: "eu-west-1") }
+        @inlinable public static var euWest2: Self { .init(rawValue: "eu-west-2") }
+        @inlinable public static var euWest3: Self { .init(rawValue: "eu-west-3") }
+        @inlinable public static var ilCentral1: Self { .init(rawValue: "il-central-1") }
+        @inlinable public static var meCentral1: Self { .init(rawValue: "me-central-1") }
+        @inlinable public static var meSouth1: Self { .init(rawValue: "me-south-1") }
+        @inlinable public static var mxCentral1: Self { .init(rawValue: "mx-central-1") }
+        @inlinable public static var saEast1: Self { .init(rawValue: "sa-east-1") }
+        @inlinable public static var usEast1: Self { .init(rawValue: "us-east-1") }
+        @inlinable public static var usEast2: Self { .init(rawValue: "us-east-2") }
+        @inlinable public static var usGovEast1: Self { .init(rawValue: "us-gov-east-1") }
+        @inlinable public static var usGovWest1: Self { .init(rawValue: "us-gov-west-1") }
+        @inlinable public static var usWest1: Self { .init(rawValue: "us-west-1") }
+        @inlinable public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
-    public enum StatisticsAutoGenerationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disableAutocompute = "disableAutoCompute"
-        case enableAutocompute = "enableAutoCompute"
-        case refresh = "refresh"
-        public var description: String { return self.rawValue }
+    public struct StatisticsAutoGenerationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disableAutocompute: Self { .init(rawValue: "disableAutoCompute") }
+        @inlinable public static var enableAutocompute: Self { .init(rawValue: "enableAutoCompute") }
+        @inlinable public static var refresh: Self { .init(rawValue: "refresh") }
     }
 
     // MARK: Shapes

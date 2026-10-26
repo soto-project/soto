@@ -25,70 +25,106 @@ import Foundation
 extension SSMContacts {
     // MARK: Enums
 
-    public enum AcceptCodeValidation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enforce = "ENFORCE"
-        case ignore = "IGNORE"
-        public var description: String { return self.rawValue }
+    public struct AcceptCodeValidation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var enforce: Self { .init(rawValue: "ENFORCE") }
+        @inlinable public static var ignore: Self { .init(rawValue: "IGNORE") }
     }
 
-    public enum AcceptType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case delivered = "DELIVERED"
-        case read = "READ"
-        public var description: String { return self.rawValue }
+    public struct AcceptType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var delivered: Self { .init(rawValue: "DELIVERED") }
+        @inlinable public static var read: Self { .init(rawValue: "READ") }
     }
 
-    public enum ActivationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case activated = "ACTIVATED"
-        case notActivated = "NOT_ACTIVATED"
-        public var description: String { return self.rawValue }
+    public struct ActivationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var activated: Self { .init(rawValue: "ACTIVATED") }
+        @inlinable public static var notActivated: Self { .init(rawValue: "NOT_ACTIVATED") }
     }
 
-    public enum ChannelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case email = "EMAIL"
-        case sms = "SMS"
-        case voice = "VOICE"
-        public var description: String { return self.rawValue }
+    public struct ChannelType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
+        @inlinable public static var sms: Self { .init(rawValue: "SMS") }
+        @inlinable public static var voice: Self { .init(rawValue: "VOICE") }
     }
 
-    public enum ContactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case escalation = "ESCALATION"
-        case oncallSchedule = "ONCALL_SCHEDULE"
-        case personal = "PERSONAL"
-        public var description: String { return self.rawValue }
+    public struct ContactType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var escalation: Self { .init(rawValue: "ESCALATION") }
+        @inlinable public static var oncallSchedule: Self { .init(rawValue: "ONCALL_SCHEDULE") }
+        @inlinable public static var personal: Self { .init(rawValue: "PERSONAL") }
     }
 
-    public enum DayOfWeek: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fri = "FRI"
-        case mon = "MON"
-        case sat = "SAT"
-        case sun = "SUN"
-        case thu = "THU"
-        case tue = "TUE"
-        case wed = "WED"
-        public var description: String { return self.rawValue }
+    public struct DayOfWeek: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fri: Self { .init(rawValue: "FRI") }
+        @inlinable public static var mon: Self { .init(rawValue: "MON") }
+        @inlinable public static var sat: Self { .init(rawValue: "SAT") }
+        @inlinable public static var sun: Self { .init(rawValue: "SUN") }
+        @inlinable public static var thu: Self { .init(rawValue: "THU") }
+        @inlinable public static var tue: Self { .init(rawValue: "TUE") }
+        @inlinable public static var wed: Self { .init(rawValue: "WED") }
     }
 
-    public enum ReceiptType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case delivered = "DELIVERED"
-        case error = "ERROR"
-        case read = "READ"
-        case sent = "SENT"
-        case stop = "STOP"
-        public var description: String { return self.rawValue }
+    public struct ReceiptType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var delivered: Self { .init(rawValue: "DELIVERED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var read: Self { .init(rawValue: "READ") }
+        @inlinable public static var sent: Self { .init(rawValue: "SENT") }
+        @inlinable public static var stop: Self { .init(rawValue: "STOP") }
     }
 
-    public enum ShiftType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case overridden = "OVERRIDDEN"
-        case regular = "REGULAR"
-        public var description: String { return self.rawValue }
+    public struct ShiftType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var overridden: Self { .init(rawValue: "OVERRIDDEN") }
+        @inlinable public static var regular: Self { .init(rawValue: "REGULAR") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "CANNOT_PARSE"
-        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
-        case other = "OTHER"
-        case unknownOperation = "UNKNOWN_OPERATION"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CANNOT_PARSE") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FIELD_VALIDATION_FAILED") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UNKNOWN_OPERATION") }
     }
 
     // MARK: Shapes

@@ -25,64 +25,92 @@ import Foundation
 extension ConnectCampaigns {
     // MARK: Enums
 
-    public enum CampaignState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct CampaignState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Campaign is in failed state
-        case failed = "Failed"
+        @inlinable public static var failed: Self { .init(rawValue: "Failed") }
         /// Campaign is in initialized state
-        case initialized = "Initialized"
+        @inlinable public static var initialized: Self { .init(rawValue: "Initialized") }
         /// Campaign is in paused state
-        case paused = "Paused"
+        @inlinable public static var paused: Self { .init(rawValue: "Paused") }
         /// Campaign is in running state
-        case running = "Running"
+        @inlinable public static var running: Self { .init(rawValue: "Running") }
         /// Campaign is in stopped state
-        case stopped = "Stopped"
-        public var description: String { return self.rawValue }
+        @inlinable public static var stopped: Self { .init(rawValue: "Stopped") }
     }
 
-    public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kms = "KMS"
-        public var description: String { return self.rawValue }
+    public struct EncryptionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kms: Self { .init(rawValue: "KMS") }
     }
 
-    public enum FailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct FailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The request failed to satisfy the constraints specified by the service
-        case invalidInput = "InvalidInput"
+        @inlinable public static var invalidInput: Self { .init(rawValue: "InvalidInput") }
         /// Request throttled due to large number of pending dial requests
-        case requestThrottled = "RequestThrottled"
+        @inlinable public static var requestThrottled: Self { .init(rawValue: "RequestThrottled") }
         /// Unexpected error during processing of request
-        case unknownError = "UnknownError"
-        public var description: String { return self.rawValue }
+        @inlinable public static var unknownError: Self { .init(rawValue: "UnknownError") }
     }
 
-    public enum GetCampaignStateBatchFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct GetCampaignStateBatchFailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// The specified resource was not found
-        case resourceNotFound = "ResourceNotFound"
+        @inlinable public static var resourceNotFound: Self { .init(rawValue: "ResourceNotFound") }
         /// Unexpected error during processing of request
-        case unknownError = "UnknownError"
-        public var description: String { return self.rawValue }
+        @inlinable public static var unknownError: Self { .init(rawValue: "UnknownError") }
     }
 
-    public enum InstanceIdFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct InstanceIdFilterOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Equals operator
-        case eq = "Eq"
-        public var description: String { return self.rawValue }
+        @inlinable public static var eq: Self { .init(rawValue: "Eq") }
     }
 
-    public enum InstanceOnboardingJobFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case eventBridgeAccessDenied = "EVENT_BRIDGE_ACCESS_DENIED"
-        case eventBridgeManagedRuleLimitExceeded = "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED"
-        case iamAccessDenied = "IAM_ACCESS_DENIED"
-        case internalFailure = "INTERNAL_FAILURE"
-        case kmsAccessDenied = "KMS_ACCESS_DENIED"
-        case kmsKeyNotFound = "KMS_KEY_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct InstanceOnboardingJobFailureCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var eventBridgeAccessDenied: Self { .init(rawValue: "EVENT_BRIDGE_ACCESS_DENIED") }
+        @inlinable public static var eventBridgeManagedRuleLimitExceeded: Self { .init(rawValue: "EVENT_BRIDGE_MANAGED_RULE_LIMIT_EXCEEDED") }
+        @inlinable public static var iamAccessDenied: Self { .init(rawValue: "IAM_ACCESS_DENIED") }
+        @inlinable public static var internalFailure: Self { .init(rawValue: "INTERNAL_FAILURE") }
+        @inlinable public static var kmsAccessDenied: Self { .init(rawValue: "KMS_ACCESS_DENIED") }
+        @inlinable public static var kmsKeyNotFound: Self { .init(rawValue: "KMS_KEY_NOT_FOUND") }
     }
 
-    public enum InstanceOnboardingJobStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct InstanceOnboardingJobStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
     public enum DialerConfig: AWSEncodableShape & AWSDecodableShape, Sendable {

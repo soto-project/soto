@@ -25,46 +25,70 @@ import Foundation
 extension CodeStarNotifications {
     // MARK: Enums
 
-    public enum DetailType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case basic = "BASIC"
-        case full = "FULL"
-        public var description: String { return self.rawValue }
+    public struct DetailType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var basic: Self { .init(rawValue: "BASIC") }
+        @inlinable public static var full: Self { .init(rawValue: "FULL") }
     }
 
-    public enum ListEventTypesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case resourceType = "RESOURCE_TYPE"
-        case serviceName = "SERVICE_NAME"
-        public var description: String { return self.rawValue }
+    public struct ListEventTypesFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var resourceType: Self { .init(rawValue: "RESOURCE_TYPE") }
+        @inlinable public static var serviceName: Self { .init(rawValue: "SERVICE_NAME") }
     }
 
-    public enum ListNotificationRulesFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createdBy = "CREATED_BY"
-        case eventTypeId = "EVENT_TYPE_ID"
-        case resource = "RESOURCE"
-        case targetAddress = "TARGET_ADDRESS"
-        public var description: String { return self.rawValue }
+    public struct ListNotificationRulesFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createdBy: Self { .init(rawValue: "CREATED_BY") }
+        @inlinable public static var eventTypeId: Self { .init(rawValue: "EVENT_TYPE_ID") }
+        @inlinable public static var resource: Self { .init(rawValue: "RESOURCE") }
+        @inlinable public static var targetAddress: Self { .init(rawValue: "TARGET_ADDRESS") }
     }
 
-    public enum ListTargetsFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case targetAddress = "TARGET_ADDRESS"
-        case targetStatus = "TARGET_STATUS"
-        case targetType = "TARGET_TYPE"
-        public var description: String { return self.rawValue }
+    public struct ListTargetsFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var targetAddress: Self { .init(rawValue: "TARGET_ADDRESS") }
+        @inlinable public static var targetStatus: Self { .init(rawValue: "TARGET_STATUS") }
+        @inlinable public static var targetType: Self { .init(rawValue: "TARGET_TYPE") }
     }
 
-    public enum NotificationRuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct NotificationRuleStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum TargetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deactivated = "DEACTIVATED"
-        case inactive = "INACTIVE"
-        case pending = "PENDING"
-        case unreachable = "UNREACHABLE"
-        public var description: String { return self.rawValue }
+    public struct TargetStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deactivated: Self { .init(rawValue: "DEACTIVATED") }
+        @inlinable public static var inactive: Self { .init(rawValue: "INACTIVE") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var unreachable: Self { .init(rawValue: "UNREACHABLE") }
     }
 
     // MARK: Shapes

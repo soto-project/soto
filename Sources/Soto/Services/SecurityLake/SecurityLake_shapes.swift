@@ -25,51 +25,75 @@ import Foundation
 extension SecurityLake {
     // MARK: Enums
 
-    public enum AccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lakeformation = "LAKEFORMATION"
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
+    public struct AccessType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lakeformation: Self { .init(rawValue: "LAKEFORMATION") }
+        @inlinable public static var s3: Self { .init(rawValue: "S3") }
     }
 
-    public enum AwsLogSourceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cloudTrailMgmt = "CLOUD_TRAIL_MGMT"
-        case eksAudit = "EKS_AUDIT"
-        case lambdaExecution = "LAMBDA_EXECUTION"
-        case route53 = "ROUTE53"
-        case s3Data = "S3_DATA"
-        case shFindings = "SH_FINDINGS"
-        case vpcFlow = "VPC_FLOW"
-        case waf = "WAF"
-        public var description: String { return self.rawValue }
+    public struct AwsLogSourceName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cloudTrailMgmt: Self { .init(rawValue: "CLOUD_TRAIL_MGMT") }
+        @inlinable public static var eksAudit: Self { .init(rawValue: "EKS_AUDIT") }
+        @inlinable public static var lambdaExecution: Self { .init(rawValue: "LAMBDA_EXECUTION") }
+        @inlinable public static var route53: Self { .init(rawValue: "ROUTE53") }
+        @inlinable public static var s3Data: Self { .init(rawValue: "S3_DATA") }
+        @inlinable public static var shFindings: Self { .init(rawValue: "SH_FINDINGS") }
+        @inlinable public static var vpcFlow: Self { .init(rawValue: "VPC_FLOW") }
+        @inlinable public static var waf: Self { .init(rawValue: "WAF") }
     }
 
-    public enum DataLakeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case initialized = "INITIALIZED"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct DataLakeStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var initialized: Self { .init(rawValue: "INITIALIZED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum HttpMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case post = "POST"
-        case put = "PUT"
-        public var description: String { return self.rawValue }
+    public struct HttpMethod: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var post: Self { .init(rawValue: "POST") }
+        @inlinable public static var put: Self { .init(rawValue: "PUT") }
     }
 
-    public enum SourceCollectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case collecting = "COLLECTING"
-        case misconfigured = "MISCONFIGURED"
-        case notCollecting = "NOT_COLLECTING"
-        public var description: String { return self.rawValue }
+    public struct SourceCollectionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var collecting: Self { .init(rawValue: "COLLECTING") }
+        @inlinable public static var misconfigured: Self { .init(rawValue: "MISCONFIGURED") }
+        @inlinable public static var notCollecting: Self { .init(rawValue: "NOT_COLLECTING") }
     }
 
-    public enum SubscriberStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deactivated = "DEACTIVATED"
-        case pending = "PENDING"
-        case ready = "READY"
-        public var description: String { return self.rawValue }
+    public struct SubscriberStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deactivated: Self { .init(rawValue: "DEACTIVATED") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
     }
 
     public enum LogSourceResource: AWSEncodableShape & AWSDecodableShape, Sendable {

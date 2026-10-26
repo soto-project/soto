@@ -25,74 +25,118 @@ import Foundation
 extension VerifiedPermissions {
     // MARK: Enums
 
-    public enum AliasState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case pendingDeletion = "PendingDeletion"
-        public var description: String { return self.rawValue }
+    public struct AliasState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var pendingDeletion: Self { .init(rawValue: "PendingDeletion") }
     }
 
-    public enum BatchGetPolicyErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case policyNotFound = "POLICY_NOT_FOUND"
-        case policyStoreAliasNotFound = "POLICY_STORE_ALIAS_NOT_FOUND"
-        case policyStoreNotFound = "POLICY_STORE_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct BatchGetPolicyErrorCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var policyNotFound: Self { .init(rawValue: "POLICY_NOT_FOUND") }
+        @inlinable public static var policyStoreAliasNotFound: Self { .init(rawValue: "POLICY_STORE_ALIAS_NOT_FOUND") }
+        @inlinable public static var policyStoreNotFound: Self { .init(rawValue: "POLICY_STORE_NOT_FOUND") }
     }
 
-    public enum CedarVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cedar2 = "CEDAR_2"
-        case cedar4 = "CEDAR_4"
-        public var description: String { return self.rawValue }
+    public struct CedarVersion: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cedar2: Self { .init(rawValue: "CEDAR_2") }
+        @inlinable public static var cedar4: Self { .init(rawValue: "CEDAR_4") }
     }
 
-    public enum Decision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allow = "ALLOW"
-        case deny = "DENY"
-        public var description: String { return self.rawValue }
+    public struct Decision: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allow: Self { .init(rawValue: "ALLOW") }
+        @inlinable public static var deny: Self { .init(rawValue: "DENY") }
     }
 
-    public enum DeletionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case hardDelete = "HardDelete"
-        case softDelete = "SoftDelete"
-        public var description: String { return self.rawValue }
+    public struct DeletionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var hardDelete: Self { .init(rawValue: "HardDelete") }
+        @inlinable public static var softDelete: Self { .init(rawValue: "SoftDelete") }
     }
 
-    public enum DeletionProtection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct DeletionProtection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum OpenIdIssuer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cognito = "COGNITO"
-        public var description: String { return self.rawValue }
+    public struct OpenIdIssuer: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cognito: Self { .init(rawValue: "COGNITO") }
     }
 
-    public enum PolicyEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case forbid = "Forbid"
-        case permit = "Permit"
-        public var description: String { return self.rawValue }
+    public struct PolicyEffect: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var forbid: Self { .init(rawValue: "Forbid") }
+        @inlinable public static var permit: Self { .init(rawValue: "Permit") }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `static` = "STATIC"
-        case templateLinked = "TEMPLATE_LINKED"
-        public var description: String { return self.rawValue }
+    public struct PolicyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `static`: Self { .init(rawValue: "STATIC") }
+        @inlinable public static var templateLinked: Self { .init(rawValue: "TEMPLATE_LINKED") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case identitySource = "IDENTITY_SOURCE"
-        case policy = "POLICY"
-        case policyStore = "POLICY_STORE"
-        case policyStoreAlias = "POLICY_STORE_ALIAS"
-        case policyTemplate = "POLICY_TEMPLATE"
-        case schema = "SCHEMA"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var identitySource: Self { .init(rawValue: "IDENTITY_SOURCE") }
+        @inlinable public static var policy: Self { .init(rawValue: "POLICY") }
+        @inlinable public static var policyStore: Self { .init(rawValue: "POLICY_STORE") }
+        @inlinable public static var policyStoreAlias: Self { .init(rawValue: "POLICY_STORE_ALIAS") }
+        @inlinable public static var policyTemplate: Self { .init(rawValue: "POLICY_TEMPLATE") }
+        @inlinable public static var schema: Self { .init(rawValue: "SCHEMA") }
     }
 
-    public enum ValidationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case off = "OFF"
-        case strict = "STRICT"
-        public var description: String { return self.rawValue }
+    public struct ValidationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var off: Self { .init(rawValue: "OFF") }
+        @inlinable public static var strict: Self { .init(rawValue: "STRICT") }
     }
 
     public enum AttributeValue: AWSEncodableShape & AWSDecodableShape, Sendable {

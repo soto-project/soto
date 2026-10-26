@@ -25,101 +25,145 @@ import Foundation
 extension MachineLearning {
     // MARK: Enums
 
-    public enum Algorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case sgd = "sgd"
-        public var description: String { return self.rawValue }
+    public struct Algorithm: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var sgd: Self { .init(rawValue: "sgd") }
     }
 
-    public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createdAt = "CreatedAt"
-        case dataUri = "DataURI"
-        case datasourceId = "DataSourceId"
-        case iamUser = "IAMUser"
-        case lastUpdatedAt = "LastUpdatedAt"
-        case mlModelId = "MLModelId"
-        case name = "Name"
-        case status = "Status"
-        public var description: String { return self.rawValue }
+    public struct BatchPredictionFilterVariable: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createdAt: Self { .init(rawValue: "CreatedAt") }
+        @inlinable public static var dataUri: Self { .init(rawValue: "DataURI") }
+        @inlinable public static var datasourceId: Self { .init(rawValue: "DataSourceId") }
+        @inlinable public static var iamUser: Self { .init(rawValue: "IAMUser") }
+        @inlinable public static var lastUpdatedAt: Self { .init(rawValue: "LastUpdatedAt") }
+        @inlinable public static var mlModelId: Self { .init(rawValue: "MLModelId") }
+        @inlinable public static var name: Self { .init(rawValue: "Name") }
+        @inlinable public static var status: Self { .init(rawValue: "Status") }
     }
 
-    public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createdAt = "CreatedAt"
-        case dataUri = "DataLocationS3"
-        case iamUser = "IAMUser"
-        case lastUpdatedAt = "LastUpdatedAt"
-        case name = "Name"
-        case status = "Status"
-        public var description: String { return self.rawValue }
+    public struct DataSourceFilterVariable: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createdAt: Self { .init(rawValue: "CreatedAt") }
+        @inlinable public static var dataUri: Self { .init(rawValue: "DataLocationS3") }
+        @inlinable public static var iamUser: Self { .init(rawValue: "IAMUser") }
+        @inlinable public static var lastUpdatedAt: Self { .init(rawValue: "LastUpdatedAt") }
+        @inlinable public static var name: Self { .init(rawValue: "Name") }
+        @inlinable public static var status: Self { .init(rawValue: "Status") }
     }
 
-    public enum DetailsAttributes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case algorithm = "Algorithm"
-        case predictiveModelType = "PredictiveModelType"
-        public var description: String { return self.rawValue }
+    public struct DetailsAttributes: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var algorithm: Self { .init(rawValue: "Algorithm") }
+        @inlinable public static var predictiveModelType: Self { .init(rawValue: "PredictiveModelType") }
     }
 
-    public enum EntityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case deleted = "DELETED"
-        case failed = "FAILED"
-        case inprogress = "INPROGRESS"
-        case pending = "PENDING"
-        public var description: String { return self.rawValue }
+    public struct EntityStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inprogress: Self { .init(rawValue: "INPROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
     }
 
-    public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createdAt = "CreatedAt"
-        case dataUri = "DataURI"
-        case datasourceId = "DataSourceId"
-        case iamUser = "IAMUser"
-        case lastUpdatedAt = "LastUpdatedAt"
-        case mlModelId = "MLModelId"
-        case name = "Name"
-        case status = "Status"
-        public var description: String { return self.rawValue }
+    public struct EvaluationFilterVariable: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createdAt: Self { .init(rawValue: "CreatedAt") }
+        @inlinable public static var dataUri: Self { .init(rawValue: "DataURI") }
+        @inlinable public static var datasourceId: Self { .init(rawValue: "DataSourceId") }
+        @inlinable public static var iamUser: Self { .init(rawValue: "IAMUser") }
+        @inlinable public static var lastUpdatedAt: Self { .init(rawValue: "LastUpdatedAt") }
+        @inlinable public static var mlModelId: Self { .init(rawValue: "MLModelId") }
+        @inlinable public static var name: Self { .init(rawValue: "Name") }
+        @inlinable public static var status: Self { .init(rawValue: "Status") }
     }
 
-    public enum MLModelFilterVariable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case algorithm = "Algorithm"
-        case createdAt = "CreatedAt"
-        case iamUser = "IAMUser"
-        case lastUpdatedAt = "LastUpdatedAt"
-        case mlModelType = "MLModelType"
-        case name = "Name"
-        case realTimeEndpointStatus = "RealtimeEndpointStatus"
-        case status = "Status"
-        case trainingDataUri = "TrainingDataURI"
-        case trainingDatasourceId = "TrainingDataSourceId"
-        public var description: String { return self.rawValue }
+    public struct MLModelFilterVariable: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var algorithm: Self { .init(rawValue: "Algorithm") }
+        @inlinable public static var createdAt: Self { .init(rawValue: "CreatedAt") }
+        @inlinable public static var iamUser: Self { .init(rawValue: "IAMUser") }
+        @inlinable public static var lastUpdatedAt: Self { .init(rawValue: "LastUpdatedAt") }
+        @inlinable public static var mlModelType: Self { .init(rawValue: "MLModelType") }
+        @inlinable public static var name: Self { .init(rawValue: "Name") }
+        @inlinable public static var realTimeEndpointStatus: Self { .init(rawValue: "RealtimeEndpointStatus") }
+        @inlinable public static var status: Self { .init(rawValue: "Status") }
+        @inlinable public static var trainingDataUri: Self { .init(rawValue: "TrainingDataURI") }
+        @inlinable public static var trainingDatasourceId: Self { .init(rawValue: "TrainingDataSourceId") }
     }
 
-    public enum MLModelType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case binary = "BINARY"
-        case multiclass = "MULTICLASS"
-        case regression = "REGRESSION"
-        public var description: String { return self.rawValue }
+    public struct MLModelType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var binary: Self { .init(rawValue: "BINARY") }
+        @inlinable public static var multiclass: Self { .init(rawValue: "MULTICLASS") }
+        @inlinable public static var regression: Self { .init(rawValue: "REGRESSION") }
     }
 
-    public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case none = "NONE"
-        case ready = "READY"
-        case updating = "UPDATING"
-        public var description: String { return self.rawValue }
+    public struct RealtimeEndpointStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var none: Self { .init(rawValue: "NONE") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asc = "asc"
-        case dsc = "dsc"
-        public var description: String { return self.rawValue }
+    public struct SortOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asc: Self { .init(rawValue: "asc") }
+        @inlinable public static var dsc: Self { .init(rawValue: "dsc") }
     }
 
-    public enum TaggableResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case batchPrediction = "BatchPrediction"
-        case datasource = "DataSource"
-        case evaluation = "Evaluation"
-        case mlModel = "MLModel"
-        public var description: String { return self.rawValue }
+    public struct TaggableResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var batchPrediction: Self { .init(rawValue: "BatchPrediction") }
+        @inlinable public static var datasource: Self { .init(rawValue: "DataSource") }
+        @inlinable public static var evaluation: Self { .init(rawValue: "Evaluation") }
+        @inlinable public static var mlModel: Self { .init(rawValue: "MLModel") }
     }
 
     // MARK: Shapes

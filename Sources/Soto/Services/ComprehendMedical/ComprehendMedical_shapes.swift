@@ -25,236 +25,316 @@ import Foundation
 extension ComprehendMedical {
     // MARK: Enums
 
-    public enum AttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case diagnosis = "DIAGNOSIS"
-        case future = "FUTURE"
-        case hypothetical = "HYPOTHETICAL"
-        case lowConfidence = "LOW_CONFIDENCE"
-        case negation = "NEGATION"
-        case pastHistory = "PAST_HISTORY"
-        case pertainsToFamily = "PERTAINS_TO_FAMILY"
-        case sign = "SIGN"
-        case symptom = "SYMPTOM"
-        public var description: String { return self.rawValue }
+    public struct AttributeName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var diagnosis: Self { .init(rawValue: "DIAGNOSIS") }
+        @inlinable public static var future: Self { .init(rawValue: "FUTURE") }
+        @inlinable public static var hypothetical: Self { .init(rawValue: "HYPOTHETICAL") }
+        @inlinable public static var lowConfidence: Self { .init(rawValue: "LOW_CONFIDENCE") }
+        @inlinable public static var negation: Self { .init(rawValue: "NEGATION") }
+        @inlinable public static var pastHistory: Self { .init(rawValue: "PAST_HISTORY") }
+        @inlinable public static var pertainsToFamily: Self { .init(rawValue: "PERTAINS_TO_FAMILY") }
+        @inlinable public static var sign: Self { .init(rawValue: "SIGN") }
+        @inlinable public static var symptom: Self { .init(rawValue: "SYMPTOM") }
     }
 
-    public enum EntitySubType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case acuity = "ACUITY"
-        case address = "ADDRESS"
-        case age = "AGE"
-        case alcoholConsumption = "ALCOHOL_CONSUMPTION"
-        case allergies = "ALLERGIES"
-        case amount = "AMOUNT"
-        case brandName = "BRAND_NAME"
-        case contactPoint = "CONTACT_POINT"
-        case date = "DATE"
-        case direction = "DIRECTION"
-        case dosage = "DOSAGE"
-        case duration = "DURATION"
-        case dxName = "DX_NAME"
-        case email = "EMAIL"
-        case form = "FORM"
-        case frequency = "FREQUENCY"
-        case gender = "GENDER"
-        case genericName = "GENERIC_NAME"
-        case id = "ID"
-        case identifier = "IDENTIFIER"
-        case name = "NAME"
-        case phoneOrFax = "PHONE_OR_FAX"
-        case procedureName = "PROCEDURE_NAME"
-        case profession = "PROFESSION"
-        case quality = "QUALITY"
-        case quantity = "QUANTITY"
-        case raceEthnicity = "RACE_ETHNICITY"
-        case rate = "RATE"
-        case recDrugUse = "REC_DRUG_USE"
-        case routeOrMode = "ROUTE_OR_MODE"
-        case strength = "STRENGTH"
-        case systemOrganSite = "SYSTEM_ORGAN_SITE"
-        case testName = "TEST_NAME"
-        case testUnit = "TEST_UNIT"
-        case testUnits = "TEST_UNITS"
-        case testValue = "TEST_VALUE"
-        case timeExpression = "TIME_EXPRESSION"
-        case timeToDxName = "TIME_TO_DX_NAME"
-        case timeToMedicationName = "TIME_TO_MEDICATION_NAME"
-        case timeToProcedureName = "TIME_TO_PROCEDURE_NAME"
-        case timeToTestName = "TIME_TO_TEST_NAME"
-        case timeToTreatmentName = "TIME_TO_TREATMENT_NAME"
-        case tobaccoUse = "TOBACCO_USE"
-        case treatmentName = "TREATMENT_NAME"
-        case url = "URL"
-        public var description: String { return self.rawValue }
+    public struct EntitySubType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var acuity: Self { .init(rawValue: "ACUITY") }
+        @inlinable public static var address: Self { .init(rawValue: "ADDRESS") }
+        @inlinable public static var age: Self { .init(rawValue: "AGE") }
+        @inlinable public static var alcoholConsumption: Self { .init(rawValue: "ALCOHOL_CONSUMPTION") }
+        @inlinable public static var allergies: Self { .init(rawValue: "ALLERGIES") }
+        @inlinable public static var amount: Self { .init(rawValue: "AMOUNT") }
+        @inlinable public static var brandName: Self { .init(rawValue: "BRAND_NAME") }
+        @inlinable public static var contactPoint: Self { .init(rawValue: "CONTACT_POINT") }
+        @inlinable public static var date: Self { .init(rawValue: "DATE") }
+        @inlinable public static var direction: Self { .init(rawValue: "DIRECTION") }
+        @inlinable public static var dosage: Self { .init(rawValue: "DOSAGE") }
+        @inlinable public static var duration: Self { .init(rawValue: "DURATION") }
+        @inlinable public static var dxName: Self { .init(rawValue: "DX_NAME") }
+        @inlinable public static var email: Self { .init(rawValue: "EMAIL") }
+        @inlinable public static var form: Self { .init(rawValue: "FORM") }
+        @inlinable public static var frequency: Self { .init(rawValue: "FREQUENCY") }
+        @inlinable public static var gender: Self { .init(rawValue: "GENDER") }
+        @inlinable public static var genericName: Self { .init(rawValue: "GENERIC_NAME") }
+        @inlinable public static var id: Self { .init(rawValue: "ID") }
+        @inlinable public static var identifier: Self { .init(rawValue: "IDENTIFIER") }
+        @inlinable public static var name: Self { .init(rawValue: "NAME") }
+        @inlinable public static var phoneOrFax: Self { .init(rawValue: "PHONE_OR_FAX") }
+        @inlinable public static var procedureName: Self { .init(rawValue: "PROCEDURE_NAME") }
+        @inlinable public static var profession: Self { .init(rawValue: "PROFESSION") }
+        @inlinable public static var quality: Self { .init(rawValue: "QUALITY") }
+        @inlinable public static var quantity: Self { .init(rawValue: "QUANTITY") }
+        @inlinable public static var raceEthnicity: Self { .init(rawValue: "RACE_ETHNICITY") }
+        @inlinable public static var rate: Self { .init(rawValue: "RATE") }
+        @inlinable public static var recDrugUse: Self { .init(rawValue: "REC_DRUG_USE") }
+        @inlinable public static var routeOrMode: Self { .init(rawValue: "ROUTE_OR_MODE") }
+        @inlinable public static var strength: Self { .init(rawValue: "STRENGTH") }
+        @inlinable public static var systemOrganSite: Self { .init(rawValue: "SYSTEM_ORGAN_SITE") }
+        @inlinable public static var testName: Self { .init(rawValue: "TEST_NAME") }
+        @inlinable public static var testUnit: Self { .init(rawValue: "TEST_UNIT") }
+        @inlinable public static var testUnits: Self { .init(rawValue: "TEST_UNITS") }
+        @inlinable public static var testValue: Self { .init(rawValue: "TEST_VALUE") }
+        @inlinable public static var timeExpression: Self { .init(rawValue: "TIME_EXPRESSION") }
+        @inlinable public static var timeToDxName: Self { .init(rawValue: "TIME_TO_DX_NAME") }
+        @inlinable public static var timeToMedicationName: Self { .init(rawValue: "TIME_TO_MEDICATION_NAME") }
+        @inlinable public static var timeToProcedureName: Self { .init(rawValue: "TIME_TO_PROCEDURE_NAME") }
+        @inlinable public static var timeToTestName: Self { .init(rawValue: "TIME_TO_TEST_NAME") }
+        @inlinable public static var timeToTreatmentName: Self { .init(rawValue: "TIME_TO_TREATMENT_NAME") }
+        @inlinable public static var tobaccoUse: Self { .init(rawValue: "TOBACCO_USE") }
+        @inlinable public static var treatmentName: Self { .init(rawValue: "TREATMENT_NAME") }
+        @inlinable public static var url: Self { .init(rawValue: "URL") }
     }
 
-    public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case anatomy = "ANATOMY"
-        case behavioralEnvironmentalSocial = "BEHAVIORAL_ENVIRONMENTAL_SOCIAL"
-        case medicalCondition = "MEDICAL_CONDITION"
-        case medication = "MEDICATION"
-        case protectedHealthInformation = "PROTECTED_HEALTH_INFORMATION"
-        case testTreatmentProcedure = "TEST_TREATMENT_PROCEDURE"
-        case timeExpression = "TIME_EXPRESSION"
-        public var description: String { return self.rawValue }
+    public struct EntityType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var anatomy: Self { .init(rawValue: "ANATOMY") }
+        @inlinable public static var behavioralEnvironmentalSocial: Self { .init(rawValue: "BEHAVIORAL_ENVIRONMENTAL_SOCIAL") }
+        @inlinable public static var medicalCondition: Self { .init(rawValue: "MEDICAL_CONDITION") }
+        @inlinable public static var medication: Self { .init(rawValue: "MEDICATION") }
+        @inlinable public static var protectedHealthInformation: Self { .init(rawValue: "PROTECTED_HEALTH_INFORMATION") }
+        @inlinable public static var testTreatmentProcedure: Self { .init(rawValue: "TEST_TREATMENT_PROCEDURE") }
+        @inlinable public static var timeExpression: Self { .init(rawValue: "TIME_EXPRESSION") }
     }
 
-    public enum ICD10CMAttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case acuity = "ACUITY"
-        case direction = "DIRECTION"
-        case quality = "QUALITY"
-        case quantity = "QUANTITY"
-        case systemOrganSite = "SYSTEM_ORGAN_SITE"
-        case timeExpression = "TIME_EXPRESSION"
-        case timeToDxName = "TIME_TO_DX_NAME"
-        public var description: String { return self.rawValue }
+    public struct ICD10CMAttributeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var acuity: Self { .init(rawValue: "ACUITY") }
+        @inlinable public static var direction: Self { .init(rawValue: "DIRECTION") }
+        @inlinable public static var quality: Self { .init(rawValue: "QUALITY") }
+        @inlinable public static var quantity: Self { .init(rawValue: "QUANTITY") }
+        @inlinable public static var systemOrganSite: Self { .init(rawValue: "SYSTEM_ORGAN_SITE") }
+        @inlinable public static var timeExpression: Self { .init(rawValue: "TIME_EXPRESSION") }
+        @inlinable public static var timeToDxName: Self { .init(rawValue: "TIME_TO_DX_NAME") }
     }
 
-    public enum ICD10CMEntityCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case medicalCondition = "MEDICAL_CONDITION"
-        public var description: String { return self.rawValue }
+    public struct ICD10CMEntityCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var medicalCondition: Self { .init(rawValue: "MEDICAL_CONDITION") }
     }
 
-    public enum ICD10CMEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dxName = "DX_NAME"
-        case timeExpression = "TIME_EXPRESSION"
-        public var description: String { return self.rawValue }
+    public struct ICD10CMEntityType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dxName: Self { .init(rawValue: "DX_NAME") }
+        @inlinable public static var timeExpression: Self { .init(rawValue: "TIME_EXPRESSION") }
     }
 
-    public enum ICD10CMRelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case overlap = "OVERLAP"
-        case quality = "QUALITY"
-        case systemOrganSite = "SYSTEM_ORGAN_SITE"
-        public var description: String { return self.rawValue }
+    public struct ICD10CMRelationshipType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var overlap: Self { .init(rawValue: "OVERLAP") }
+        @inlinable public static var quality: Self { .init(rawValue: "QUALITY") }
+        @inlinable public static var systemOrganSite: Self { .init(rawValue: "SYSTEM_ORGAN_SITE") }
     }
 
-    public enum ICD10CMTraitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case diagnosis = "DIAGNOSIS"
-        case hypothetical = "HYPOTHETICAL"
-        case lowConfidence = "LOW_CONFIDENCE"
-        case negation = "NEGATION"
-        case pertainsToFamily = "PERTAINS_TO_FAMILY"
-        case sign = "SIGN"
-        case symptom = "SYMPTOM"
-        public var description: String { return self.rawValue }
+    public struct ICD10CMTraitName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var diagnosis: Self { .init(rawValue: "DIAGNOSIS") }
+        @inlinable public static var hypothetical: Self { .init(rawValue: "HYPOTHETICAL") }
+        @inlinable public static var lowConfidence: Self { .init(rawValue: "LOW_CONFIDENCE") }
+        @inlinable public static var negation: Self { .init(rawValue: "NEGATION") }
+        @inlinable public static var pertainsToFamily: Self { .init(rawValue: "PERTAINS_TO_FAMILY") }
+        @inlinable public static var sign: Self { .init(rawValue: "SIGN") }
+        @inlinable public static var symptom: Self { .init(rawValue: "SYMPTOM") }
     }
 
-    public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case partialSuccess = "PARTIAL_SUCCESS"
-        case stopRequested = "STOP_REQUESTED"
-        case stopped = "STOPPED"
-        case submitted = "SUBMITTED"
-        public var description: String { return self.rawValue }
+    public struct JobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var partialSuccess: Self { .init(rawValue: "PARTIAL_SUCCESS") }
+        @inlinable public static var stopRequested: Self { .init(rawValue: "STOP_REQUESTED") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var submitted: Self { .init(rawValue: "SUBMITTED") }
     }
 
-    public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case en = "en"
-        public var description: String { return self.rawValue }
+    public struct LanguageCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var en: Self { .init(rawValue: "en") }
     }
 
-    public enum RelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `for` = "FOR"
-        case acuity = "ACUITY"
-        case administeredVia = "ADMINISTERED_VIA"
-        case amount = "AMOUNT"
-        case direction = "DIRECTION"
-        case dosage = "DOSAGE"
-        case duration = "DURATION"
-        case every = "EVERY"
-        case form = "FORM"
-        case frequency = "FREQUENCY"
-        case negative = "NEGATIVE"
-        case overlap = "OVERLAP"
-        case quality = "QUALITY"
-        case rate = "RATE"
-        case routeOrMode = "ROUTE_OR_MODE"
-        case strength = "STRENGTH"
-        case systemOrganSite = "SYSTEM_ORGAN_SITE"
-        case testUnit = "TEST_UNIT"
-        case testUnits = "TEST_UNITS"
-        case testValue = "TEST_VALUE"
-        case usage = "USAGE"
-        case withDosage = "WITH_DOSAGE"
-        public var description: String { return self.rawValue }
+    public struct RelationshipType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `for`: Self { .init(rawValue: "FOR") }
+        @inlinable public static var acuity: Self { .init(rawValue: "ACUITY") }
+        @inlinable public static var administeredVia: Self { .init(rawValue: "ADMINISTERED_VIA") }
+        @inlinable public static var amount: Self { .init(rawValue: "AMOUNT") }
+        @inlinable public static var direction: Self { .init(rawValue: "DIRECTION") }
+        @inlinable public static var dosage: Self { .init(rawValue: "DOSAGE") }
+        @inlinable public static var duration: Self { .init(rawValue: "DURATION") }
+        @inlinable public static var every: Self { .init(rawValue: "EVERY") }
+        @inlinable public static var form: Self { .init(rawValue: "FORM") }
+        @inlinable public static var frequency: Self { .init(rawValue: "FREQUENCY") }
+        @inlinable public static var negative: Self { .init(rawValue: "NEGATIVE") }
+        @inlinable public static var overlap: Self { .init(rawValue: "OVERLAP") }
+        @inlinable public static var quality: Self { .init(rawValue: "QUALITY") }
+        @inlinable public static var rate: Self { .init(rawValue: "RATE") }
+        @inlinable public static var routeOrMode: Self { .init(rawValue: "ROUTE_OR_MODE") }
+        @inlinable public static var strength: Self { .init(rawValue: "STRENGTH") }
+        @inlinable public static var systemOrganSite: Self { .init(rawValue: "SYSTEM_ORGAN_SITE") }
+        @inlinable public static var testUnit: Self { .init(rawValue: "TEST_UNIT") }
+        @inlinable public static var testUnits: Self { .init(rawValue: "TEST_UNITS") }
+        @inlinable public static var testValue: Self { .init(rawValue: "TEST_VALUE") }
+        @inlinable public static var usage: Self { .init(rawValue: "USAGE") }
+        @inlinable public static var withDosage: Self { .init(rawValue: "WITH_DOSAGE") }
     }
 
-    public enum RxNormAttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dosage = "DOSAGE"
-        case duration = "DURATION"
-        case form = "FORM"
-        case frequency = "FREQUENCY"
-        case rate = "RATE"
-        case routeOrMode = "ROUTE_OR_MODE"
-        case strength = "STRENGTH"
-        public var description: String { return self.rawValue }
+    public struct RxNormAttributeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dosage: Self { .init(rawValue: "DOSAGE") }
+        @inlinable public static var duration: Self { .init(rawValue: "DURATION") }
+        @inlinable public static var form: Self { .init(rawValue: "FORM") }
+        @inlinable public static var frequency: Self { .init(rawValue: "FREQUENCY") }
+        @inlinable public static var rate: Self { .init(rawValue: "RATE") }
+        @inlinable public static var routeOrMode: Self { .init(rawValue: "ROUTE_OR_MODE") }
+        @inlinable public static var strength: Self { .init(rawValue: "STRENGTH") }
     }
 
-    public enum RxNormEntityCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case medication = "MEDICATION"
-        public var description: String { return self.rawValue }
+    public struct RxNormEntityCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var medication: Self { .init(rawValue: "MEDICATION") }
     }
 
-    public enum RxNormEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case brandName = "BRAND_NAME"
-        case genericName = "GENERIC_NAME"
-        public var description: String { return self.rawValue }
+    public struct RxNormEntityType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var brandName: Self { .init(rawValue: "BRAND_NAME") }
+        @inlinable public static var genericName: Self { .init(rawValue: "GENERIC_NAME") }
     }
 
-    public enum RxNormTraitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case negation = "NEGATION"
-        case pastHistory = "PAST_HISTORY"
-        public var description: String { return self.rawValue }
+    public struct RxNormTraitName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var negation: Self { .init(rawValue: "NEGATION") }
+        @inlinable public static var pastHistory: Self { .init(rawValue: "PAST_HISTORY") }
     }
 
-    public enum SNOMEDCTAttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case acuity = "ACUITY"
-        case direction = "DIRECTION"
-        case quality = "QUALITY"
-        case systemOrganSite = "SYSTEM_ORGAN_SITE"
-        case testUnit = "TEST_UNIT"
-        case testValue = "TEST_VALUE"
-        public var description: String { return self.rawValue }
+    public struct SNOMEDCTAttributeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var acuity: Self { .init(rawValue: "ACUITY") }
+        @inlinable public static var direction: Self { .init(rawValue: "DIRECTION") }
+        @inlinable public static var quality: Self { .init(rawValue: "QUALITY") }
+        @inlinable public static var systemOrganSite: Self { .init(rawValue: "SYSTEM_ORGAN_SITE") }
+        @inlinable public static var testUnit: Self { .init(rawValue: "TEST_UNIT") }
+        @inlinable public static var testValue: Self { .init(rawValue: "TEST_VALUE") }
     }
 
-    public enum SNOMEDCTEntityCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case anatomy = "ANATOMY"
-        case medicalCondition = "MEDICAL_CONDITION"
-        case testTreatmentProcedure = "TEST_TREATMENT_PROCEDURE"
-        public var description: String { return self.rawValue }
+    public struct SNOMEDCTEntityCategory: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var anatomy: Self { .init(rawValue: "ANATOMY") }
+        @inlinable public static var medicalCondition: Self { .init(rawValue: "MEDICAL_CONDITION") }
+        @inlinable public static var testTreatmentProcedure: Self { .init(rawValue: "TEST_TREATMENT_PROCEDURE") }
     }
 
-    public enum SNOMEDCTEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dxName = "DX_NAME"
-        case procedureName = "PROCEDURE_NAME"
-        case testName = "TEST_NAME"
-        case treatmentName = "TREATMENT_NAME"
-        public var description: String { return self.rawValue }
+    public struct SNOMEDCTEntityType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dxName: Self { .init(rawValue: "DX_NAME") }
+        @inlinable public static var procedureName: Self { .init(rawValue: "PROCEDURE_NAME") }
+        @inlinable public static var testName: Self { .init(rawValue: "TEST_NAME") }
+        @inlinable public static var treatmentName: Self { .init(rawValue: "TREATMENT_NAME") }
     }
 
-    public enum SNOMEDCTRelationshipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case acuity = "ACUITY"
-        case direction = "DIRECTION"
-        case quality = "QUALITY"
-        case systemOrganSite = "SYSTEM_ORGAN_SITE"
-        case testUnit = "TEST_UNIT"
-        case testUnits = "TEST_UNITS"
-        case testValue = "TEST_VALUE"
-        public var description: String { return self.rawValue }
+    public struct SNOMEDCTRelationshipType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var acuity: Self { .init(rawValue: "ACUITY") }
+        @inlinable public static var direction: Self { .init(rawValue: "DIRECTION") }
+        @inlinable public static var quality: Self { .init(rawValue: "QUALITY") }
+        @inlinable public static var systemOrganSite: Self { .init(rawValue: "SYSTEM_ORGAN_SITE") }
+        @inlinable public static var testUnit: Self { .init(rawValue: "TEST_UNIT") }
+        @inlinable public static var testUnits: Self { .init(rawValue: "TEST_UNITS") }
+        @inlinable public static var testValue: Self { .init(rawValue: "TEST_VALUE") }
     }
 
-    public enum SNOMEDCTTraitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case diagnosis = "DIAGNOSIS"
-        case future = "FUTURE"
-        case hypothetical = "HYPOTHETICAL"
-        case lowConfidence = "LOW_CONFIDENCE"
-        case negation = "NEGATION"
-        case pastHistory = "PAST_HISTORY"
-        case pertainsToFamily = "PERTAINS_TO_FAMILY"
-        case sign = "SIGN"
-        case symptom = "SYMPTOM"
-        public var description: String { return self.rawValue }
+    public struct SNOMEDCTTraitName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var diagnosis: Self { .init(rawValue: "DIAGNOSIS") }
+        @inlinable public static var future: Self { .init(rawValue: "FUTURE") }
+        @inlinable public static var hypothetical: Self { .init(rawValue: "HYPOTHETICAL") }
+        @inlinable public static var lowConfidence: Self { .init(rawValue: "LOW_CONFIDENCE") }
+        @inlinable public static var negation: Self { .init(rawValue: "NEGATION") }
+        @inlinable public static var pastHistory: Self { .init(rawValue: "PAST_HISTORY") }
+        @inlinable public static var pertainsToFamily: Self { .init(rawValue: "PERTAINS_TO_FAMILY") }
+        @inlinable public static var sign: Self { .init(rawValue: "SIGN") }
+        @inlinable public static var symptom: Self { .init(rawValue: "SYMPTOM") }
     }
 
     // MARK: Shapes

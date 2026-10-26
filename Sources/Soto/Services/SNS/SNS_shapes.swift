@@ -25,41 +25,57 @@ import Foundation
 extension SNS {
     // MARK: Enums
 
-    public enum LanguageCodeString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deDE = "de-DE"
-        case enGB = "en-GB"
-        case enUS = "en-US"
-        case es419 = "es-419"
-        case esES = "es-ES"
-        case frCA = "fr-CA"
-        case frFR = "fr-FR"
-        case itIT = "it-IT"
-        case jpJP = "ja-JP"
-        case krKR = "kr-KR"
-        case ptBR = "pt-BR"
-        case zhCN = "zh-CN"
-        case zhTW = "zh-TW"
-        public var description: String { return self.rawValue }
+    public struct LanguageCodeString: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deDE: Self { .init(rawValue: "de-DE") }
+        @inlinable public static var enGB: Self { .init(rawValue: "en-GB") }
+        @inlinable public static var enUS: Self { .init(rawValue: "en-US") }
+        @inlinable public static var es419: Self { .init(rawValue: "es-419") }
+        @inlinable public static var esES: Self { .init(rawValue: "es-ES") }
+        @inlinable public static var frCA: Self { .init(rawValue: "fr-CA") }
+        @inlinable public static var frFR: Self { .init(rawValue: "fr-FR") }
+        @inlinable public static var itIT: Self { .init(rawValue: "it-IT") }
+        @inlinable public static var jpJP: Self { .init(rawValue: "ja-JP") }
+        @inlinable public static var krKR: Self { .init(rawValue: "kr-KR") }
+        @inlinable public static var ptBR: Self { .init(rawValue: "pt-BR") }
+        @inlinable public static var zhCN: Self { .init(rawValue: "zh-CN") }
+        @inlinable public static var zhTW: Self { .init(rawValue: "zh-TW") }
     }
 
-    public enum NumberCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case mms = "MMS"
-        case sms = "SMS"
-        case voice = "VOICE"
-        public var description: String { return self.rawValue }
+    public struct NumberCapability: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var mms: Self { .init(rawValue: "MMS") }
+        @inlinable public static var sms: Self { .init(rawValue: "SMS") }
+        @inlinable public static var voice: Self { .init(rawValue: "VOICE") }
     }
 
-    public enum RouteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case premium = "Premium"
-        case promotional = "Promotional"
-        case transactional = "Transactional"
-        public var description: String { return self.rawValue }
+    public struct RouteType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var premium: Self { .init(rawValue: "Premium") }
+        @inlinable public static var promotional: Self { .init(rawValue: "Promotional") }
+        @inlinable public static var transactional: Self { .init(rawValue: "Transactional") }
     }
 
-    public enum SMSSandboxPhoneNumberVerificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pending = "Pending"
-        case verified = "Verified"
-        public var description: String { return self.rawValue }
+    public struct SMSSandboxPhoneNumberVerificationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pending: Self { .init(rawValue: "Pending") }
+        @inlinable public static var verified: Self { .init(rawValue: "Verified") }
     }
 
     // MARK: Shapes

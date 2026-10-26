@@ -25,173 +25,237 @@ import Foundation
 extension Billingconductor {
     // MARK: Enums
 
-    public enum AssociateResourceErrorReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case illegalCustomlineitem = "ILLEGAL_CUSTOMLINEITEM"
-        case internalServerException = "INTERNAL_SERVER_EXCEPTION"
-        case invalidArn = "INVALID_ARN"
-        case invalidBillingPeriodRange = "INVALID_BILLING_PERIOD_RANGE"
-        case serviceLimitExceeded = "SERVICE_LIMIT_EXCEEDED"
-        public var description: String { return self.rawValue }
+    public struct AssociateResourceErrorReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var illegalCustomlineitem: Self { .init(rawValue: "ILLEGAL_CUSTOMLINEITEM") }
+        @inlinable public static var internalServerException: Self { .init(rawValue: "INTERNAL_SERVER_EXCEPTION") }
+        @inlinable public static var invalidArn: Self { .init(rawValue: "INVALID_ARN") }
+        @inlinable public static var invalidBillingPeriodRange: Self { .init(rawValue: "INVALID_BILLING_PERIOD_RANGE") }
+        @inlinable public static var serviceLimitExceeded: Self { .init(rawValue: "SERVICE_LIMIT_EXCEEDED") }
     }
 
-    public enum BillingGroupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case pending = "PENDING"
-        case primaryAccountMissing = "PRIMARY_ACCOUNT_MISSING"
-        public var description: String { return self.rawValue }
+    public struct BillingGroupStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var primaryAccountMissing: Self { .init(rawValue: "PRIMARY_ACCOUNT_MISSING") }
     }
 
-    public enum BillingGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case standard = "STANDARD"
-        case transferBilling = "TRANSFER_BILLING"
-        public var description: String { return self.rawValue }
+    public struct BillingGroupType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
+        @inlinable public static var transferBilling: Self { .init(rawValue: "TRANSFER_BILLING") }
     }
 
-    public enum ComputationRuleEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case consolidated = "CONSOLIDATED"
-        case itemized = "ITEMIZED"
-        public var description: String { return self.rawValue }
+    public struct ComputationRuleEnum: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var consolidated: Self { .init(rawValue: "CONSOLIDATED") }
+        @inlinable public static var itemized: Self { .init(rawValue: "ITEMIZED") }
     }
 
-    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case pricingPlanAttachedToBillingGroupDeleteConflict = "PRICING_PLAN_ATTACHED_TO_BILLING_GROUP_DELETE_CONFLICT"
-        case pricingPlanReferencedByPreferenceDeleteConflict = "PRICING_PLAN_REFERENCED_BY_PREFERENCE_DELETE_CONFLICT"
-        case pricingRuleAttachedToPricingPlanDeleteConflict = "PRICING_RULE_ATTACHED_TO_PRICING_PLAN_DELETE_CONFLICT"
-        case pricingRuleInPricingPlanConflict = "PRICING_RULE_IN_PRICING_PLAN_CONFLICT"
-        case resourceNameConflict = "RESOURCE_NAME_CONFLICT"
-        case writeConflictRetry = "WRITE_CONFLICT_RETRY"
-        public var description: String { return self.rawValue }
+    public struct ConflictExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var pricingPlanAttachedToBillingGroupDeleteConflict: Self { .init(rawValue: "PRICING_PLAN_ATTACHED_TO_BILLING_GROUP_DELETE_CONFLICT") }
+        @inlinable public static var pricingPlanReferencedByPreferenceDeleteConflict: Self { .init(rawValue: "PRICING_PLAN_REFERENCED_BY_PREFERENCE_DELETE_CONFLICT") }
+        @inlinable public static var pricingRuleAttachedToPricingPlanDeleteConflict: Self { .init(rawValue: "PRICING_RULE_ATTACHED_TO_PRICING_PLAN_DELETE_CONFLICT") }
+        @inlinable public static var pricingRuleInPricingPlanConflict: Self { .init(rawValue: "PRICING_RULE_IN_PRICING_PLAN_CONFLICT") }
+        @inlinable public static var resourceNameConflict: Self { .init(rawValue: "RESOURCE_NAME_CONFLICT") }
+        @inlinable public static var writeConflictRetry: Self { .init(rawValue: "WRITE_CONFLICT_RETRY") }
     }
 
-    public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cny = "CNY"
-        case usd = "USD"
-        public var description: String { return self.rawValue }
+    public struct CurrencyCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cny: Self { .init(rawValue: "CNY") }
+        @inlinable public static var usd: Self { .init(rawValue: "USD") }
     }
 
-    public enum CustomLineItemRelationship: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case child = "CHILD"
-        case parent = "PARENT"
-        public var description: String { return self.rawValue }
+    public struct CustomLineItemRelationship: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var child: Self { .init(rawValue: "CHILD") }
+        @inlinable public static var parent: Self { .init(rawValue: "PARENT") }
     }
 
-    public enum CustomLineItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case credit = "CREDIT"
-        case fee = "FEE"
-        public var description: String { return self.rawValue }
+    public struct CustomLineItemType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var credit: Self { .init(rawValue: "CREDIT") }
+        @inlinable public static var fee: Self { .init(rawValue: "FEE") }
     }
 
-    public enum GroupByAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billingPeriod = "BILLING_PERIOD"
-        case productName = "PRODUCT_NAME"
-        public var description: String { return self.rawValue }
+    public struct GroupByAttributeName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billingPeriod: Self { .init(rawValue: "BILLING_PERIOD") }
+        @inlinable public static var productName: Self { .init(rawValue: "PRODUCT_NAME") }
     }
 
-    public enum LineItemFilterAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case lineItemType = "LINE_ITEM_TYPE"
-        case service = "SERVICE"
-        public var description: String { return self.rawValue }
+    public struct LineItemFilterAttributeName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var lineItemType: Self { .init(rawValue: "LINE_ITEM_TYPE") }
+        @inlinable public static var service: Self { .init(rawValue: "SERVICE") }
     }
 
-    public enum LineItemFilterValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case savingsPlanNegation = "SAVINGS_PLAN_NEGATION"
-        public var description: String { return self.rawValue }
+    public struct LineItemFilterValue: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var savingsPlanNegation: Self { .init(rawValue: "SAVINGS_PLAN_NEGATION") }
     }
 
-    public enum MatchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case equal = "EQUAL"
-        case notEqual = "NOT_EQUAL"
-        public var description: String { return self.rawValue }
+    public struct MatchOption: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var equal: Self { .init(rawValue: "EQUAL") }
+        @inlinable public static var notEqual: Self { .init(rawValue: "NOT_EQUAL") }
     }
 
-    public enum PricingRuleScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case billingEntity = "BILLING_ENTITY"
-        case global = "GLOBAL"
-        case service = "SERVICE"
-        case sku = "SKU"
-        public var description: String { return self.rawValue }
+    public struct PricingRuleScope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var billingEntity: Self { .init(rawValue: "BILLING_ENTITY") }
+        @inlinable public static var global: Self { .init(rawValue: "GLOBAL") }
+        @inlinable public static var service: Self { .init(rawValue: "SERVICE") }
+        @inlinable public static var sku: Self { .init(rawValue: "SKU") }
     }
 
-    public enum PricingRuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case discount = "DISCOUNT"
-        case markup = "MARKUP"
-        case tiering = "TIERING"
-        public var description: String { return self.rawValue }
+    public struct PricingRuleType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var discount: Self { .init(rawValue: "DISCOUNT") }
+        @inlinable public static var markup: Self { .init(rawValue: "MARKUP") }
+        @inlinable public static var tiering: Self { .init(rawValue: "TIERING") }
     }
 
-    public enum SearchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case startsWith = "STARTS_WITH"
-        public var description: String { return self.rawValue }
+    public struct SearchOption: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var startsWith: Self { .init(rawValue: "STARTS_WITH") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountsAlreadyAssociated = "ACCOUNTS_ALREADY_ASSOCIATED"
-        case accountsNotAssociated = "ACCOUNTS_NOT_ASSOCIATED"
-        case billingGroupAlreadyExistInCurrentBillingPeriod = "BILLING_GROUP_ALREADY_EXIST_IN_CURRENT_BILLING_PERIOD"
-        case cannotDeleteAutoAssociateBillingGroup = "CANNOT_DELETE_AUTO_ASSOCIATE_BILLING_GROUP"
-        case cannotParse = "CANNOT_PARSE"
-        case customLineItemAssociationExists = "CUSTOM_LINE_ITEM_ASSOCIATION_EXISTS"
-        case duplicateAccount = "DUPLICATE_ACCOUNT"
-        case duplicatePricingruleArns = "DUPLICATE_PRICINGRULE_ARNS"
-        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
-        case illegalAccountId = "ILLEGAL_ACCOUNT_ID"
-        case illegalAccounts = "ILLEGAL_ACCOUNTS"
-        case illegalBillingEntity = "ILLEGAL_BILLING_ENTITY"
-        case illegalBillingGroupPricingPlan = "ILLEGAL_BILLING_GROUP_PRICING_PLAN"
-        case illegalBillingGroupType = "ILLEGAL_BILLING_GROUP_TYPE"
-        case illegalBillingPeriod = "ILLEGAL_BILLING_PERIOD"
-        case illegalBillingPeriodRange = "ILLEGAL_BILLING_PERIOD_RANGE"
-        case illegalChargeDetails = "ILLEGAL_CHARGE_DETAILS"
-        case illegalChildAssociateResource = "ILLEGAL_CHILD_ASSOCIATE_RESOURCE"
-        case illegalComputationRule = "ILLEGAL_COMPUTATION_RULE"
-        case illegalCustomlineitem = "ILLEGAL_CUSTOMLINEITEM"
-        case illegalCustomlineitemModification = "ILLEGAL_CUSTOMLINEITEM_MODIFICATION"
-        case illegalCustomlineitemUpdate = "ILLEGAL_CUSTOMLINEITEM_UPDATE"
-        case illegalEndedBillinggroup = "ILLEGAL_ENDED_BILLINGGROUP"
-        case illegalExpression = "ILLEGAL_EXPRESSION"
-        case illegalLineItemFilter = "ILLEGAL_LINE_ITEM_FILTER"
-        case illegalModifierPercentage = "ILLEGAL_MODIFIER_PERCENTAGE"
-        case illegalOperation = "ILLEGAL_OPERATION"
-        case illegalPrimaryAccount = "ILLEGAL_PRIMARY_ACCOUNT"
-        case illegalResourceArns = "ILLEGAL_RESOURCE_ARNS"
-        case illegalScope = "ILLEGAL_SCOPE"
-        case illegalService = "ILLEGAL_SERVICE"
-        case illegalTieringInput = "ILLEGAL_TIERING_INPUT"
-        case illegalType = "ILLEGAL_TYPE"
-        case illegalUpdateChargeDetails = "ILLEGAL_UPDATE_CHARGE_DETAILS"
-        case illegalUsageType = "ILLEGAL_USAGE_TYPE"
-        case invalidArn = "INVALID_ARN"
-        case invalidBillingGroup = "INVALID_BILLING_GROUP"
-        case invalidBillingGroupStatus = "INVALID_BILLING_GROUP_STATUS"
-        case invalidBillingPeriodForOperation = "INVALID_BILLING_PERIOD_FOR_OPERATION"
-        case invalidBillingviewArn = "INVALID_BILLINGVIEW_ARN"
-        case invalidFilter = "INVALID_FILTER"
-        case invalidSkuCombo = "INVALID_SKU_COMBO"
-        case invalidTimeRange = "INVALID_TIME_RANGE"
-        case mismatchedBillinggroupArn = "MISMATCHED_BILLINGGROUP_ARN"
-        case mismatchedBillingviewArn = "MISMATCHED_BILLINGVIEW_ARN"
-        case mismatchedCustomlineitemArn = "MISMATCHED_CUSTOMLINEITEM_ARN"
-        case mismatchedPricingplanArn = "MISMATCHED_PRICINGPLAN_ARN"
-        case mismatchedPricingruleArn = "MISMATCHED_PRICINGRULE_ARN"
-        case missingBillinggroup = "MISSING_BILLINGGROUP"
-        case missingCostcategory = "MISSING_COSTCATEGORY"
-        case missingCustomlineitem = "MISSING_CUSTOMLINEITEM"
-        case missingLinkedAccountIds = "MISSING_LINKED_ACCOUNT_IDS"
-        case missingPricingPlanArn = "MISSING_PRICING_PLAN_ARN"
-        case missingPricingplan = "MISSING_PRICINGPLAN"
-        case multipleLinkedAccountIds = "MULTIPLE_LINKED_ACCOUNT_IDS"
-        case multiplePricingPlanArn = "MULTIPLE_PRICING_PLAN_ARN"
-        case other = "OTHER"
-        case pricingrulesAlreadyAssociated = "PRICINGRULES_ALREADY_ASSOCIATED"
-        case pricingrulesNotAssociated = "PRICINGRULES_NOT_ASSOCIATED"
-        case pricingrulesNotExist = "PRICINGRULES_NOT_EXIST"
-        case primaryCannotDisassociate = "PRIMARY_CANNOT_DISASSOCIATE"
-        case primaryNotAssociated = "PRIMARY_NOT_ASSOCIATED"
-        case tooManyAccountsInRequest = "TOO_MANY_ACCOUNTS_IN_REQUEST"
-        case tooManyAutoAssociateBillingGroups = "TOO_MANY_AUTO_ASSOCIATE_BILLING_GROUPS"
-        case tooManyCustomlineitemsInRequest = "TOO_MANY_CUSTOMLINEITEMS_IN_REQUEST"
-        case unknownOperation = "UNKNOWN_OPERATION"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountsAlreadyAssociated: Self { .init(rawValue: "ACCOUNTS_ALREADY_ASSOCIATED") }
+        @inlinable public static var accountsNotAssociated: Self { .init(rawValue: "ACCOUNTS_NOT_ASSOCIATED") }
+        @inlinable public static var billingGroupAlreadyExistInCurrentBillingPeriod: Self { .init(rawValue: "BILLING_GROUP_ALREADY_EXIST_IN_CURRENT_BILLING_PERIOD") }
+        @inlinable public static var cannotDeleteAutoAssociateBillingGroup: Self { .init(rawValue: "CANNOT_DELETE_AUTO_ASSOCIATE_BILLING_GROUP") }
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CANNOT_PARSE") }
+        @inlinable public static var customLineItemAssociationExists: Self { .init(rawValue: "CUSTOM_LINE_ITEM_ASSOCIATION_EXISTS") }
+        @inlinable public static var duplicateAccount: Self { .init(rawValue: "DUPLICATE_ACCOUNT") }
+        @inlinable public static var duplicatePricingruleArns: Self { .init(rawValue: "DUPLICATE_PRICINGRULE_ARNS") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FIELD_VALIDATION_FAILED") }
+        @inlinable public static var illegalAccountId: Self { .init(rawValue: "ILLEGAL_ACCOUNT_ID") }
+        @inlinable public static var illegalAccounts: Self { .init(rawValue: "ILLEGAL_ACCOUNTS") }
+        @inlinable public static var illegalBillingEntity: Self { .init(rawValue: "ILLEGAL_BILLING_ENTITY") }
+        @inlinable public static var illegalBillingGroupPricingPlan: Self { .init(rawValue: "ILLEGAL_BILLING_GROUP_PRICING_PLAN") }
+        @inlinable public static var illegalBillingGroupType: Self { .init(rawValue: "ILLEGAL_BILLING_GROUP_TYPE") }
+        @inlinable public static var illegalBillingPeriod: Self { .init(rawValue: "ILLEGAL_BILLING_PERIOD") }
+        @inlinable public static var illegalBillingPeriodRange: Self { .init(rawValue: "ILLEGAL_BILLING_PERIOD_RANGE") }
+        @inlinable public static var illegalChargeDetails: Self { .init(rawValue: "ILLEGAL_CHARGE_DETAILS") }
+        @inlinable public static var illegalChildAssociateResource: Self { .init(rawValue: "ILLEGAL_CHILD_ASSOCIATE_RESOURCE") }
+        @inlinable public static var illegalComputationRule: Self { .init(rawValue: "ILLEGAL_COMPUTATION_RULE") }
+        @inlinable public static var illegalCustomlineitem: Self { .init(rawValue: "ILLEGAL_CUSTOMLINEITEM") }
+        @inlinable public static var illegalCustomlineitemModification: Self { .init(rawValue: "ILLEGAL_CUSTOMLINEITEM_MODIFICATION") }
+        @inlinable public static var illegalCustomlineitemUpdate: Self { .init(rawValue: "ILLEGAL_CUSTOMLINEITEM_UPDATE") }
+        @inlinable public static var illegalEndedBillinggroup: Self { .init(rawValue: "ILLEGAL_ENDED_BILLINGGROUP") }
+        @inlinable public static var illegalExpression: Self { .init(rawValue: "ILLEGAL_EXPRESSION") }
+        @inlinable public static var illegalLineItemFilter: Self { .init(rawValue: "ILLEGAL_LINE_ITEM_FILTER") }
+        @inlinable public static var illegalModifierPercentage: Self { .init(rawValue: "ILLEGAL_MODIFIER_PERCENTAGE") }
+        @inlinable public static var illegalOperation: Self { .init(rawValue: "ILLEGAL_OPERATION") }
+        @inlinable public static var illegalPrimaryAccount: Self { .init(rawValue: "ILLEGAL_PRIMARY_ACCOUNT") }
+        @inlinable public static var illegalResourceArns: Self { .init(rawValue: "ILLEGAL_RESOURCE_ARNS") }
+        @inlinable public static var illegalScope: Self { .init(rawValue: "ILLEGAL_SCOPE") }
+        @inlinable public static var illegalService: Self { .init(rawValue: "ILLEGAL_SERVICE") }
+        @inlinable public static var illegalTieringInput: Self { .init(rawValue: "ILLEGAL_TIERING_INPUT") }
+        @inlinable public static var illegalType: Self { .init(rawValue: "ILLEGAL_TYPE") }
+        @inlinable public static var illegalUpdateChargeDetails: Self { .init(rawValue: "ILLEGAL_UPDATE_CHARGE_DETAILS") }
+        @inlinable public static var illegalUsageType: Self { .init(rawValue: "ILLEGAL_USAGE_TYPE") }
+        @inlinable public static var invalidArn: Self { .init(rawValue: "INVALID_ARN") }
+        @inlinable public static var invalidBillingGroup: Self { .init(rawValue: "INVALID_BILLING_GROUP") }
+        @inlinable public static var invalidBillingGroupStatus: Self { .init(rawValue: "INVALID_BILLING_GROUP_STATUS") }
+        @inlinable public static var invalidBillingPeriodForOperation: Self { .init(rawValue: "INVALID_BILLING_PERIOD_FOR_OPERATION") }
+        @inlinable public static var invalidBillingviewArn: Self { .init(rawValue: "INVALID_BILLINGVIEW_ARN") }
+        @inlinable public static var invalidFilter: Self { .init(rawValue: "INVALID_FILTER") }
+        @inlinable public static var invalidSkuCombo: Self { .init(rawValue: "INVALID_SKU_COMBO") }
+        @inlinable public static var invalidTimeRange: Self { .init(rawValue: "INVALID_TIME_RANGE") }
+        @inlinable public static var mismatchedBillinggroupArn: Self { .init(rawValue: "MISMATCHED_BILLINGGROUP_ARN") }
+        @inlinable public static var mismatchedBillingviewArn: Self { .init(rawValue: "MISMATCHED_BILLINGVIEW_ARN") }
+        @inlinable public static var mismatchedCustomlineitemArn: Self { .init(rawValue: "MISMATCHED_CUSTOMLINEITEM_ARN") }
+        @inlinable public static var mismatchedPricingplanArn: Self { .init(rawValue: "MISMATCHED_PRICINGPLAN_ARN") }
+        @inlinable public static var mismatchedPricingruleArn: Self { .init(rawValue: "MISMATCHED_PRICINGRULE_ARN") }
+        @inlinable public static var missingBillinggroup: Self { .init(rawValue: "MISSING_BILLINGGROUP") }
+        @inlinable public static var missingCostcategory: Self { .init(rawValue: "MISSING_COSTCATEGORY") }
+        @inlinable public static var missingCustomlineitem: Self { .init(rawValue: "MISSING_CUSTOMLINEITEM") }
+        @inlinable public static var missingLinkedAccountIds: Self { .init(rawValue: "MISSING_LINKED_ACCOUNT_IDS") }
+        @inlinable public static var missingPricingPlanArn: Self { .init(rawValue: "MISSING_PRICING_PLAN_ARN") }
+        @inlinable public static var missingPricingplan: Self { .init(rawValue: "MISSING_PRICINGPLAN") }
+        @inlinable public static var multipleLinkedAccountIds: Self { .init(rawValue: "MULTIPLE_LINKED_ACCOUNT_IDS") }
+        @inlinable public static var multiplePricingPlanArn: Self { .init(rawValue: "MULTIPLE_PRICING_PLAN_ARN") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var pricingrulesAlreadyAssociated: Self { .init(rawValue: "PRICINGRULES_ALREADY_ASSOCIATED") }
+        @inlinable public static var pricingrulesNotAssociated: Self { .init(rawValue: "PRICINGRULES_NOT_ASSOCIATED") }
+        @inlinable public static var pricingrulesNotExist: Self { .init(rawValue: "PRICINGRULES_NOT_EXIST") }
+        @inlinable public static var primaryCannotDisassociate: Self { .init(rawValue: "PRIMARY_CANNOT_DISASSOCIATE") }
+        @inlinable public static var primaryNotAssociated: Self { .init(rawValue: "PRIMARY_NOT_ASSOCIATED") }
+        @inlinable public static var tooManyAccountsInRequest: Self { .init(rawValue: "TOO_MANY_ACCOUNTS_IN_REQUEST") }
+        @inlinable public static var tooManyAutoAssociateBillingGroups: Self { .init(rawValue: "TOO_MANY_AUTO_ASSOCIATE_BILLING_GROUPS") }
+        @inlinable public static var tooManyCustomlineitemsInRequest: Self { .init(rawValue: "TOO_MANY_CUSTOMLINEITEMS_IN_REQUEST") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UNKNOWN_OPERATION") }
     }
 
     // MARK: Shapes

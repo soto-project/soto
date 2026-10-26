@@ -25,32 +25,48 @@ import Foundation
 extension CognitoSync {
     // MARK: Enums
 
-    public enum BulkPublishStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case notStarted = "NOT_STARTED"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct BulkPublishStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var notStarted: Self { .init(rawValue: "NOT_STARTED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum Operation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case remove = "remove"
-        case replace = "replace"
-        public var description: String { return self.rawValue }
+    public struct Operation: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var remove: Self { .init(rawValue: "remove") }
+        @inlinable public static var replace: Self { .init(rawValue: "replace") }
     }
 
-    public enum Platform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case adm = "ADM"
-        case apns = "APNS"
-        case apnsSandbox = "APNS_SANDBOX"
-        case gcm = "GCM"
-        public var description: String { return self.rawValue }
+    public struct Platform: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var adm: Self { .init(rawValue: "ADM") }
+        @inlinable public static var apns: Self { .init(rawValue: "APNS") }
+        @inlinable public static var apnsSandbox: Self { .init(rawValue: "APNS_SANDBOX") }
+        @inlinable public static var gcm: Self { .init(rawValue: "GCM") }
     }
 
-    public enum StreamingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct StreamingStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
     // MARK: Shapes

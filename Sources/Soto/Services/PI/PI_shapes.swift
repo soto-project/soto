@@ -25,71 +25,111 @@ import Foundation
 extension PI {
     // MARK: Enums
 
-    public enum AcceptLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enUs = "EN_US"
-        public var description: String { return self.rawValue }
+    public struct AcceptLanguage: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var enUs: Self { .init(rawValue: "EN_US") }
     }
 
-    public enum AnalysisStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct AnalysisStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ContextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case causal = "CAUSAL"
-        case contextual = "CONTEXTUAL"
-        public var description: String { return self.rawValue }
+    public struct ContextType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var causal: Self { .init(rawValue: "CAUSAL") }
+        @inlinable public static var contextual: Self { .init(rawValue: "CONTEXTUAL") }
     }
 
-    public enum DetailStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "AVAILABLE"
-        case processing = "PROCESSING"
-        case unavailable = "UNAVAILABLE"
-        public var description: String { return self.rawValue }
+    public struct DetailStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "AVAILABLE") }
+        @inlinable public static var processing: Self { .init(rawValue: "PROCESSING") }
+        @inlinable public static var unavailable: Self { .init(rawValue: "UNAVAILABLE") }
     }
 
-    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case disabledPendingReboot = "DISABLED_PENDING_REBOOT"
-        case enabled = "ENABLED"
-        case enabledPendingReboot = "ENABLED_PENDING_REBOOT"
-        case unknown = "UNKNOWN"
-        case unsupported = "UNSUPPORTED"
-        public var description: String { return self.rawValue }
+    public struct FeatureStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var disabledPendingReboot: Self { .init(rawValue: "DISABLED_PENDING_REBOOT") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var enabledPendingReboot: Self { .init(rawValue: "ENABLED_PENDING_REBOOT") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
+        @inlinable public static var unsupported: Self { .init(rawValue: "UNSUPPORTED") }
     }
 
-    public enum FineGrainedAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case describeDimensionKeys = "DescribeDimensionKeys"
-        case getDimensionKeyDetails = "GetDimensionKeyDetails"
-        case getResourceMetrics = "GetResourceMetrics"
-        public var description: String { return self.rawValue }
+    public struct FineGrainedAction: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var describeDimensionKeys: Self { .init(rawValue: "DescribeDimensionKeys") }
+        @inlinable public static var getDimensionKeyDetails: Self { .init(rawValue: "GetDimensionKeyDetails") }
+        @inlinable public static var getResourceMetrics: Self { .init(rawValue: "GetResourceMetrics") }
     }
 
-    public enum PeriodAlignment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case endTime = "END_TIME"
-        case startTime = "START_TIME"
-        public var description: String { return self.rawValue }
+    public struct PeriodAlignment: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var endTime: Self { .init(rawValue: "END_TIME") }
+        @inlinable public static var startTime: Self { .init(rawValue: "START_TIME") }
     }
 
-    public enum ServiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case docdb = "DOCDB"
-        case rds = "RDS"
-        public var description: String { return self.rawValue }
+    public struct ServiceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var docdb: Self { .init(rawValue: "DOCDB") }
+        @inlinable public static var rds: Self { .init(rawValue: "RDS") }
     }
 
-    public enum Severity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case high = "HIGH"
-        case low = "LOW"
-        case medium = "MEDIUM"
-        public var description: String { return self.rawValue }
+    public struct Severity: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var high: Self { .init(rawValue: "HIGH") }
+        @inlinable public static var low: Self { .init(rawValue: "LOW") }
+        @inlinable public static var medium: Self { .init(rawValue: "MEDIUM") }
     }
 
-    public enum TextFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case markdown = "MARKDOWN"
-        case plainText = "PLAIN_TEXT"
-        public var description: String { return self.rawValue }
+    public struct TextFormat: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var markdown: Self { .init(rawValue: "MARKDOWN") }
+        @inlinable public static var plainText: Self { .init(rawValue: "PLAIN_TEXT") }
     }
 
     // MARK: Shapes

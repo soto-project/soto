@@ -25,112 +25,172 @@ import Foundation
 extension Tnb {
     // MARK: Enums
 
-    public enum DescriptorContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case textPlain = "text/plain"
-        public var description: String { return self.rawValue }
+    public struct DescriptorContentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var textPlain: Self { .init(rawValue: "text/plain") }
     }
 
-    public enum LcmOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case instantiate = "INSTANTIATE"
-        case terminate = "TERMINATE"
-        case update = "UPDATE"
-        public var description: String { return self.rawValue }
+    public struct LcmOperationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var instantiate: Self { .init(rawValue: "INSTANTIATE") }
+        @inlinable public static var terminate: Self { .init(rawValue: "TERMINATE") }
+        @inlinable public static var update: Self { .init(rawValue: "UPDATE") }
     }
 
-    public enum NsLcmOperationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case cancelling = "CANCELLING"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case processing = "PROCESSING"
-        public var description: String { return self.rawValue }
+    public struct NsLcmOperationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var cancelling: Self { .init(rawValue: "CANCELLING") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var processing: Self { .init(rawValue: "PROCESSING") }
     }
 
-    public enum NsState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleted = "DELETED"
-        case impaired = "IMPAIRED"
-        case instantiateInProgress = "INSTANTIATE_IN_PROGRESS"
-        case instantiated = "INSTANTIATED"
-        case intentToUpdateInProgress = "INTENT_TO_UPDATE_IN_PROGRESS"
-        case notInstantiated = "NOT_INSTANTIATED"
-        case stopped = "STOPPED"
-        case terminateInProgress = "TERMINATE_IN_PROGRESS"
-        case updateFailed = "UPDATE_FAILED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updated = "UPDATED"
-        public var description: String { return self.rawValue }
+    public struct NsState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var impaired: Self { .init(rawValue: "IMPAIRED") }
+        @inlinable public static var instantiateInProgress: Self { .init(rawValue: "INSTANTIATE_IN_PROGRESS") }
+        @inlinable public static var instantiated: Self { .init(rawValue: "INSTANTIATED") }
+        @inlinable public static var intentToUpdateInProgress: Self { .init(rawValue: "INTENT_TO_UPDATE_IN_PROGRESS") }
+        @inlinable public static var notInstantiated: Self { .init(rawValue: "NOT_INSTANTIATED") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var terminateInProgress: Self { .init(rawValue: "TERMINATE_IN_PROGRESS") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updateInProgress: Self { .init(rawValue: "UPDATE_IN_PROGRESS") }
+        @inlinable public static var updated: Self { .init(rawValue: "UPDATED") }
     }
 
-    public enum NsdOnboardingState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case created = "CREATED"
-        case error = "ERROR"
-        case onboarded = "ONBOARDED"
-        public var description: String { return self.rawValue }
+    public struct NsdOnboardingState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var onboarded: Self { .init(rawValue: "ONBOARDED") }
     }
 
-    public enum NsdOperationalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct NsdOperationalState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum NsdUsageState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inUse = "IN_USE"
-        case notInUse = "NOT_IN_USE"
-        public var description: String { return self.rawValue }
+    public struct NsdUsageState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inUse: Self { .init(rawValue: "IN_USE") }
+        @inlinable public static var notInUse: Self { .init(rawValue: "NOT_IN_USE") }
     }
 
-    public enum OnboardingState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case created = "CREATED"
-        case error = "ERROR"
-        case onboarded = "ONBOARDED"
-        public var description: String { return self.rawValue }
+    public struct OnboardingState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var created: Self { .init(rawValue: "CREATED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var onboarded: Self { .init(rawValue: "ONBOARDED") }
     }
 
-    public enum OperationalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct OperationalState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum PackageContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case applicationZip = "application/zip"
-        public var description: String { return self.rawValue }
+    public struct PackageContentType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var applicationZip: Self { .init(rawValue: "application/zip") }
     }
 
-    public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cancelled = "CANCELLED"
-        case completed = "COMPLETED"
-        case error = "ERROR"
-        case inProgress = "IN_PROGRESS"
-        case scheduled = "SCHEDULED"
-        case skipped = "SKIPPED"
-        case started = "STARTED"
-        public var description: String { return self.rawValue }
+    public struct TaskStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cancelled: Self { .init(rawValue: "CANCELLED") }
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var scheduled: Self { .init(rawValue: "SCHEDULED") }
+        @inlinable public static var skipped: Self { .init(rawValue: "SKIPPED") }
+        @inlinable public static var started: Self { .init(rawValue: "STARTED") }
     }
 
-    public enum UpdateSolNetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case modifyVnfInformation = "MODIFY_VNF_INFORMATION"
-        case updateNs = "UPDATE_NS"
-        public var description: String { return self.rawValue }
+    public struct UpdateSolNetworkType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var modifyVnfInformation: Self { .init(rawValue: "MODIFY_VNF_INFORMATION") }
+        @inlinable public static var updateNs: Self { .init(rawValue: "UPDATE_NS") }
     }
 
-    public enum UsageState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inUse = "IN_USE"
-        case notInUse = "NOT_IN_USE"
-        public var description: String { return self.rawValue }
+    public struct UsageState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inUse: Self { .init(rawValue: "IN_USE") }
+        @inlinable public static var notInUse: Self { .init(rawValue: "NOT_IN_USE") }
     }
 
-    public enum VnfInstantiationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case instantiated = "INSTANTIATED"
-        case notInstantiated = "NOT_INSTANTIATED"
-        public var description: String { return self.rawValue }
+    public struct VnfInstantiationState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var instantiated: Self { .init(rawValue: "INSTANTIATED") }
+        @inlinable public static var notInstantiated: Self { .init(rawValue: "NOT_INSTANTIATED") }
     }
 
-    public enum VnfOperationalState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case started = "STARTED"
-        case stopped = "STOPPED"
-        public var description: String { return self.rawValue }
+    public struct VnfOperationalState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var started: Self { .init(rawValue: "STARTED") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
     }
 
     // MARK: Shapes

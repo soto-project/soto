@@ -25,38 +25,58 @@ import Foundation
 extension IdentityStore {
     // MARK: Enums
 
-    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case concurrentModification = "CONCURRENT_MODIFICATION"
-        case uniquenessConstraintViolation = "UNIQUENESS_CONSTRAINT_VIOLATION"
-        public var description: String { return self.rawValue }
+    public struct ConflictExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var concurrentModification: Self { .init(rawValue: "CONCURRENT_MODIFICATION") }
+        @inlinable public static var uniquenessConstraintViolation: Self { .init(rawValue: "UNIQUENESS_CONSTRAINT_VIOLATION") }
     }
 
-    public enum ResourceNotFoundExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kmsKeyNotFound = "KMS_KEY_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct ResourceNotFoundExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kmsKeyNotFound: Self { .init(rawValue: "KMS_KEY_NOT_FOUND") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case group = "GROUP"
-        case groupMembership = "GROUP_MEMBERSHIP"
-        case identityStore = "IDENTITY_STORE"
-        case resourcePolicy = "RESOURCE_POLICY"
-        case user = "USER"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var group: Self { .init(rawValue: "GROUP") }
+        @inlinable public static var groupMembership: Self { .init(rawValue: "GROUP_MEMBERSHIP") }
+        @inlinable public static var identityStore: Self { .init(rawValue: "IDENTITY_STORE") }
+        @inlinable public static var resourcePolicy: Self { .init(rawValue: "RESOURCE_POLICY") }
+        @inlinable public static var user: Self { .init(rawValue: "USER") }
     }
 
-    public enum UserStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        public var description: String { return self.rawValue }
+    public struct UserStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case kmsDisabled = "KMS_DISABLED"
-        case kmsInvalidArn = "KMS_INVALID_ARN"
-        case kmsInvalidKeyUsage = "KMS_INVALID_KEY_USAGE"
-        case kmsInvalidState = "KMS_INVALID_STATE"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var kmsDisabled: Self { .init(rawValue: "KMS_DISABLED") }
+        @inlinable public static var kmsInvalidArn: Self { .init(rawValue: "KMS_INVALID_ARN") }
+        @inlinable public static var kmsInvalidKeyUsage: Self { .init(rawValue: "KMS_INVALID_KEY_USAGE") }
+        @inlinable public static var kmsInvalidState: Self { .init(rawValue: "KMS_INVALID_STATE") }
     }
 
     public enum AlternateIdentifier: AWSEncodableShape, Sendable {

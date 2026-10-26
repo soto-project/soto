@@ -25,57 +25,77 @@ import Foundation
 extension DocDBElastic {
     // MARK: Enums
 
-    public enum Auth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case plainText = "PLAIN_TEXT"
-        case secretArn = "SECRET_ARN"
-        public var description: String { return self.rawValue }
+    public struct Auth: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var plainText: Self { .init(rawValue: "PLAIN_TEXT") }
+        @inlinable public static var secretArn: Self { .init(rawValue: "SECRET_ARN") }
     }
 
-    public enum OptInType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case applyOn = "APPLY_ON"
-        case immediate = "IMMEDIATE"
-        case nextMaintenance = "NEXT_MAINTENANCE"
-        case undoOptIn = "UNDO_OPT_IN"
-        public var description: String { return self.rawValue }
+    public struct OptInType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var applyOn: Self { .init(rawValue: "APPLY_ON") }
+        @inlinable public static var immediate: Self { .init(rawValue: "IMMEDIATE") }
+        @inlinable public static var nextMaintenance: Self { .init(rawValue: "NEXT_MAINTENANCE") }
+        @inlinable public static var undoOptIn: Self { .init(rawValue: "UNDO_OPT_IN") }
     }
 
-    public enum SnapshotType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case automated = "AUTOMATED"
-        case manual = "MANUAL"
-        public var description: String { return self.rawValue }
+    public struct SnapshotType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var automated: Self { .init(rawValue: "AUTOMATED") }
+        @inlinable public static var manual: Self { .init(rawValue: "MANUAL") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case copying = "COPYING"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case inaccessibleEncryptionCredentialsRecoverable = "INACCESSIBLE_ENCRYPTION_CREDENTIALS_RECOVERABLE"
-        case inaccessibleEncryptionCreds = "INACCESSIBLE_ENCRYPTION_CREDS"
-        case inaccessibleSecretArn = "INACCESSIBLE_SECRET_ARN"
-        case inaccessibleVpcEndpoint = "INACCESSIBLE_VPC_ENDPOINT"
-        case incompatibleNetwork = "INCOMPATIBLE_NETWORK"
-        case invalidSecurityGroupId = "INVALID_SECURITY_GROUP_ID"
-        case invalidSubnetId = "INVALID_SUBNET_ID"
-        case ipAddressLimitExceeded = "IP_ADDRESS_LIMIT_EXCEEDED"
-        case maintenance = "MAINTENANCE"
-        case merging = "MERGING"
-        case modifying = "MODIFYING"
-        case splitting = "SPLITTING"
-        case starting = "STARTING"
-        case stopped = "STOPPED"
-        case stopping = "STOPPING"
-        case updating = "UPDATING"
-        case vpcEndpointLimitExceeded = "VPC_ENDPOINT_LIMIT_EXCEEDED"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var copying: Self { .init(rawValue: "COPYING") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var inaccessibleEncryptionCredentialsRecoverable: Self { .init(rawValue: "INACCESSIBLE_ENCRYPTION_CREDENTIALS_RECOVERABLE") }
+        @inlinable public static var inaccessibleEncryptionCreds: Self { .init(rawValue: "INACCESSIBLE_ENCRYPTION_CREDS") }
+        @inlinable public static var inaccessibleSecretArn: Self { .init(rawValue: "INACCESSIBLE_SECRET_ARN") }
+        @inlinable public static var inaccessibleVpcEndpoint: Self { .init(rawValue: "INACCESSIBLE_VPC_ENDPOINT") }
+        @inlinable public static var incompatibleNetwork: Self { .init(rawValue: "INCOMPATIBLE_NETWORK") }
+        @inlinable public static var invalidSecurityGroupId: Self { .init(rawValue: "INVALID_SECURITY_GROUP_ID") }
+        @inlinable public static var invalidSubnetId: Self { .init(rawValue: "INVALID_SUBNET_ID") }
+        @inlinable public static var ipAddressLimitExceeded: Self { .init(rawValue: "IP_ADDRESS_LIMIT_EXCEEDED") }
+        @inlinable public static var maintenance: Self { .init(rawValue: "MAINTENANCE") }
+        @inlinable public static var merging: Self { .init(rawValue: "MERGING") }
+        @inlinable public static var modifying: Self { .init(rawValue: "MODIFYING") }
+        @inlinable public static var splitting: Self { .init(rawValue: "SPLITTING") }
+        @inlinable public static var starting: Self { .init(rawValue: "STARTING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
+        @inlinable public static var updating: Self { .init(rawValue: "UPDATING") }
+        @inlinable public static var vpcEndpointLimitExceeded: Self { .init(rawValue: "VPC_ENDPOINT_LIMIT_EXCEEDED") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "cannotParse"
-        case fieldValidationFailed = "fieldValidationFailed"
-        case other = "other"
-        case unknownOperation = "unknownOperation"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "cannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "fieldValidationFailed") }
+        @inlinable public static var other: Self { .init(rawValue: "other") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "unknownOperation") }
     }
 
     // MARK: Shapes

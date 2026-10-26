@@ -25,108 +25,160 @@ import Foundation
 extension EFS {
     // MARK: Enums
 
-    public enum DeletionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allConfigurations = "ALL_CONFIGURATIONS"
-        case localConfigurationOnly = "LOCAL_CONFIGURATION_ONLY"
-        public var description: String { return self.rawValue }
+    public struct DeletionMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allConfigurations: Self { .init(rawValue: "ALL_CONFIGURATIONS") }
+        @inlinable public static var localConfigurationOnly: Self { .init(rawValue: "LOCAL_CONFIGURATION_ONLY") }
     }
 
-    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dualStack = "DUAL_STACK"
-        case ipv4Only = "IPV4_ONLY"
-        case ipv6Only = "IPV6_ONLY"
-        public var description: String { return self.rawValue }
+    public struct IpAddressType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dualStack: Self { .init(rawValue: "DUAL_STACK") }
+        @inlinable public static var ipv4Only: Self { .init(rawValue: "IPV4_ONLY") }
+        @inlinable public static var ipv6Only: Self { .init(rawValue: "IPV6_ONLY") }
     }
 
-    public enum LifeCycleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case available = "available"
-        case creating = "creating"
-        case deleted = "deleted"
-        case deleting = "deleting"
-        case error = "error"
-        case updating = "updating"
-        public var description: String { return self.rawValue }
+    public struct LifeCycleState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var available: Self { .init(rawValue: "available") }
+        @inlinable public static var creating: Self { .init(rawValue: "creating") }
+        @inlinable public static var deleted: Self { .init(rawValue: "deleted") }
+        @inlinable public static var deleting: Self { .init(rawValue: "deleting") }
+        @inlinable public static var error: Self { .init(rawValue: "error") }
+        @inlinable public static var updating: Self { .init(rawValue: "updating") }
     }
 
-    public enum PerformanceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case generalPurpose = "generalPurpose"
-        case maxIo = "maxIO"
-        public var description: String { return self.rawValue }
+    public struct PerformanceMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var generalPurpose: Self { .init(rawValue: "generalPurpose") }
+        @inlinable public static var maxIo: Self { .init(rawValue: "maxIO") }
     }
 
-    public enum ReplicationOverwriteProtection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case replicating = "REPLICATING"
-        public var description: String { return self.rawValue }
+    public struct ReplicationOverwriteProtection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var replicating: Self { .init(rawValue: "REPLICATING") }
     }
 
-    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case deleting = "DELETING"
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
-        case error = "ERROR"
-        case paused = "PAUSED"
-        case pausing = "PAUSING"
-        public var description: String { return self.rawValue }
+    public struct ReplicationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var enabling: Self { .init(rawValue: "ENABLING") }
+        @inlinable public static var error: Self { .init(rawValue: "ERROR") }
+        @inlinable public static var paused: Self { .init(rawValue: "PAUSED") }
+        @inlinable public static var pausing: Self { .init(rawValue: "PAUSING") }
     }
 
-    public enum Resource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fileSystem = "FILE_SYSTEM"
-        case mountTarget = "MOUNT_TARGET"
-        public var description: String { return self.rawValue }
+    public struct Resource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fileSystem: Self { .init(rawValue: "FILE_SYSTEM") }
+        @inlinable public static var mountTarget: Self { .init(rawValue: "MOUNT_TARGET") }
     }
 
-    public enum ResourceIdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case longId = "LONG_ID"
-        case shortId = "SHORT_ID"
-        public var description: String { return self.rawValue }
+    public struct ResourceIdType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var longId: Self { .init(rawValue: "LONG_ID") }
+        @inlinable public static var shortId: Self { .init(rawValue: "SHORT_ID") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case disabling = "DISABLING"
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var disabling: Self { .init(rawValue: "DISABLING") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var enabling: Self { .init(rawValue: "ENABLING") }
     }
 
-    public enum ThroughputMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case bursting = "bursting"
-        case elastic = "elastic"
-        case provisioned = "provisioned"
-        public var description: String { return self.rawValue }
+    public struct ThroughputMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var bursting: Self { .init(rawValue: "bursting") }
+        @inlinable public static var elastic: Self { .init(rawValue: "elastic") }
+        @inlinable public static var provisioned: Self { .init(rawValue: "provisioned") }
     }
 
-    public enum TransitionToArchiveRules: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case after14Days = "AFTER_14_DAYS"
-        case after180Days = "AFTER_180_DAYS"
-        case after1Day = "AFTER_1_DAY"
-        case after270Days = "AFTER_270_DAYS"
-        case after30Days = "AFTER_30_DAYS"
-        case after365Days = "AFTER_365_DAYS"
-        case after60Days = "AFTER_60_DAYS"
-        case after7Days = "AFTER_7_DAYS"
-        case after90Days = "AFTER_90_DAYS"
-        public var description: String { return self.rawValue }
+    public struct TransitionToArchiveRules: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var after14Days: Self { .init(rawValue: "AFTER_14_DAYS") }
+        @inlinable public static var after180Days: Self { .init(rawValue: "AFTER_180_DAYS") }
+        @inlinable public static var after1Day: Self { .init(rawValue: "AFTER_1_DAY") }
+        @inlinable public static var after270Days: Self { .init(rawValue: "AFTER_270_DAYS") }
+        @inlinable public static var after30Days: Self { .init(rawValue: "AFTER_30_DAYS") }
+        @inlinable public static var after365Days: Self { .init(rawValue: "AFTER_365_DAYS") }
+        @inlinable public static var after60Days: Self { .init(rawValue: "AFTER_60_DAYS") }
+        @inlinable public static var after7Days: Self { .init(rawValue: "AFTER_7_DAYS") }
+        @inlinable public static var after90Days: Self { .init(rawValue: "AFTER_90_DAYS") }
     }
 
-    public enum TransitionToIARules: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case after14Days = "AFTER_14_DAYS"
-        case after180Days = "AFTER_180_DAYS"
-        case after1Day = "AFTER_1_DAY"
-        case after270Days = "AFTER_270_DAYS"
-        case after30Days = "AFTER_30_DAYS"
-        case after365Days = "AFTER_365_DAYS"
-        case after60Days = "AFTER_60_DAYS"
-        case after7Days = "AFTER_7_DAYS"
-        case after90Days = "AFTER_90_DAYS"
-        public var description: String { return self.rawValue }
+    public struct TransitionToIARules: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var after14Days: Self { .init(rawValue: "AFTER_14_DAYS") }
+        @inlinable public static var after180Days: Self { .init(rawValue: "AFTER_180_DAYS") }
+        @inlinable public static var after1Day: Self { .init(rawValue: "AFTER_1_DAY") }
+        @inlinable public static var after270Days: Self { .init(rawValue: "AFTER_270_DAYS") }
+        @inlinable public static var after30Days: Self { .init(rawValue: "AFTER_30_DAYS") }
+        @inlinable public static var after365Days: Self { .init(rawValue: "AFTER_365_DAYS") }
+        @inlinable public static var after60Days: Self { .init(rawValue: "AFTER_60_DAYS") }
+        @inlinable public static var after7Days: Self { .init(rawValue: "AFTER_7_DAYS") }
+        @inlinable public static var after90Days: Self { .init(rawValue: "AFTER_90_DAYS") }
     }
 
-    public enum TransitionToPrimaryStorageClassRules: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case after1Access = "AFTER_1_ACCESS"
-        public var description: String { return self.rawValue }
+    public struct TransitionToPrimaryStorageClassRules: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var after1Access: Self { .init(rawValue: "AFTER_1_ACCESS") }
     }
 
     // MARK: Shapes

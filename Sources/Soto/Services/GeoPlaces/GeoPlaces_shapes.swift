@@ -25,307 +25,455 @@ import Foundation
 extension GeoPlaces {
     // MARK: Enums
 
-    public enum AccessPointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case delivery = "Delivery"
-        case emergency = "Emergency"
-        case entrance = "Entrance"
-        case loading = "Loading"
-        case other = "Other"
-        case parking = "Parking"
-        case taxi = "Taxi"
-        public var description: String { return self.rawValue }
+    public struct AccessPointType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var delivery: Self { .init(rawValue: "Delivery") }
+        @inlinable public static var emergency: Self { .init(rawValue: "Emergency") }
+        @inlinable public static var entrance: Self { .init(rawValue: "Entrance") }
+        @inlinable public static var loading: Self { .init(rawValue: "Loading") }
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
+        @inlinable public static var parking: Self { .init(rawValue: "Parking") }
+        @inlinable public static var taxi: Self { .init(rawValue: "Taxi") }
     }
 
-    public enum AddressTranslationComponent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case district = "District"
-        case locality = "Locality"
-        case region = "Region"
-        case subRegion = "SubRegion"
-        public var description: String { return self.rawValue }
+    public struct AddressTranslationComponent: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var district: Self { .init(rawValue: "District") }
+        @inlinable public static var locality: Self { .init(rawValue: "Locality") }
+        @inlinable public static var region: Self { .init(rawValue: "Region") }
+        @inlinable public static var subRegion: Self { .init(rawValue: "SubRegion") }
     }
 
-    public enum AdminNamesPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case alternative = "Alternative"
-        case primary = "Primary"
-        public var description: String { return self.rawValue }
+    public struct AdminNamesPreference: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var alternative: Self { .init(rawValue: "Alternative") }
+        @inlinable public static var primary: Self { .init(rawValue: "Primary") }
     }
 
-    public enum AutocompleteAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case core = "Core"
-        public var description: String { return self.rawValue }
+    public struct AutocompleteAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var core: Self { .init(rawValue: "Core") }
     }
 
-    public enum AutocompleteFilterPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case country = "Country"
-        case interpolatedAddress = "InterpolatedAddress"
-        case intersection = "Intersection"
-        case locality = "Locality"
-        case pointAddress = "PointAddress"
-        case postalCode = "PostalCode"
-        case region = "Region"
-        case street = "Street"
-        public var description: String { return self.rawValue }
+    public struct AutocompleteFilterPlaceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var country: Self { .init(rawValue: "Country") }
+        @inlinable public static var interpolatedAddress: Self { .init(rawValue: "InterpolatedAddress") }
+        @inlinable public static var intersection: Self { .init(rawValue: "Intersection") }
+        @inlinable public static var locality: Self { .init(rawValue: "Locality") }
+        @inlinable public static var pointAddress: Self { .init(rawValue: "PointAddress") }
+        @inlinable public static var postalCode: Self { .init(rawValue: "PostalCode") }
+        @inlinable public static var region: Self { .init(rawValue: "Region") }
+        @inlinable public static var street: Self { .init(rawValue: "Street") }
     }
 
-    public enum AutocompleteIntendedUse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct AutocompleteIntendedUse: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
-        case singleUse = "SingleUse"
-        public var description: String { return self.rawValue }
+        @inlinable public static var singleUse: Self { .init(rawValue: "SingleUse") }
     }
 
-    public enum GeocodeAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case access = "Access"
-        case intersections = "Intersections"
-        case secondaryAddresses = "SecondaryAddresses"
-        case timeZone = "TimeZone"
-        public var description: String { return self.rawValue }
+    public struct GeocodeAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var access: Self { .init(rawValue: "Access") }
+        @inlinable public static var intersections: Self { .init(rawValue: "Intersections") }
+        @inlinable public static var secondaryAddresses: Self { .init(rawValue: "SecondaryAddresses") }
+        @inlinable public static var timeZone: Self { .init(rawValue: "TimeZone") }
     }
 
-    public enum GeocodeAddressNamesMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case administrative = "Administrative"
-        case matched = "Matched"
-        public var description: String { return self.rawValue }
+    public struct GeocodeAddressNamesMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var administrative: Self { .init(rawValue: "Administrative") }
+        @inlinable public static var matched: Self { .init(rawValue: "Matched") }
     }
 
-    public enum GeocodeFilterPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case country = "Country"
-        case interpolatedAddress = "InterpolatedAddress"
-        case intersection = "Intersection"
-        case locality = "Locality"
-        case pointAddress = "PointAddress"
-        case pointOfInterest = "PointOfInterest"
-        case postalCode = "PostalCode"
-        case region = "Region"
-        case secondaryAddress = "SecondaryAddress"
-        case street = "Street"
-        public var description: String { return self.rawValue }
+    public struct GeocodeFilterPlaceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var country: Self { .init(rawValue: "Country") }
+        @inlinable public static var interpolatedAddress: Self { .init(rawValue: "InterpolatedAddress") }
+        @inlinable public static var intersection: Self { .init(rawValue: "Intersection") }
+        @inlinable public static var locality: Self { .init(rawValue: "Locality") }
+        @inlinable public static var pointAddress: Self { .init(rawValue: "PointAddress") }
+        @inlinable public static var pointOfInterest: Self { .init(rawValue: "PointOfInterest") }
+        @inlinable public static var postalCode: Self { .init(rawValue: "PostalCode") }
+        @inlinable public static var region: Self { .init(rawValue: "Region") }
+        @inlinable public static var secondaryAddress: Self { .init(rawValue: "SecondaryAddress") }
+        @inlinable public static var street: Self { .init(rawValue: "Street") }
     }
 
-    public enum GeocodeIntendedUse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct GeocodeIntendedUse: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
-        case singleUse = "SingleUse"
+        @inlinable public static var singleUse: Self { .init(rawValue: "SingleUse") }
         /// Indicates that results of the operation may be stored locally.
-        case storage = "Storage"
-        public var description: String { return self.rawValue }
+        @inlinable public static var storage: Self { .init(rawValue: "Storage") }
     }
 
-    public enum GetPlaceAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case access = "Access"
-        case contact = "Contact"
-        case crossReferences = "CrossReferences"
-        case phonemes = "Phonemes"
-        case secondaryAddresses = "SecondaryAddresses"
-        case timeZone = "TimeZone"
-        public var description: String { return self.rawValue }
+    public struct GetPlaceAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var access: Self { .init(rawValue: "Access") }
+        @inlinable public static var contact: Self { .init(rawValue: "Contact") }
+        @inlinable public static var crossReferences: Self { .init(rawValue: "CrossReferences") }
+        @inlinable public static var phonemes: Self { .init(rawValue: "Phonemes") }
+        @inlinable public static var secondaryAddresses: Self { .init(rawValue: "SecondaryAddresses") }
+        @inlinable public static var timeZone: Self { .init(rawValue: "TimeZone") }
     }
 
-    public enum GetPlaceAddressNamesMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case administrative = "Administrative"
-        public var description: String { return self.rawValue }
+    public struct GetPlaceAddressNamesMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var administrative: Self { .init(rawValue: "Administrative") }
     }
 
-    public enum GetPlaceIntendedUse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct GetPlaceIntendedUse: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
-        case singleUse = "SingleUse"
+        @inlinable public static var singleUse: Self { .init(rawValue: "SingleUse") }
         /// Indicates that results of the operation may be stored locally.
-        case storage = "Storage"
-        public var description: String { return self.rawValue }
+        @inlinable public static var storage: Self { .init(rawValue: "Storage") }
     }
 
-    public enum PlaceAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case driveThrough = "DriveThrough"
-        public var description: String { return self.rawValue }
+    public struct PlaceAttribute: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var driveThrough: Self { .init(rawValue: "DriveThrough") }
     }
 
-    public enum PlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case block = "Block"
-        case country = "Country"
-        case district = "District"
-        case inferredSecondaryAddress = "InferredSecondaryAddress"
-        case interpolatedAddress = "InterpolatedAddress"
-        case intersection = "Intersection"
-        case locality = "Locality"
-        case pointAddress = "PointAddress"
-        case pointOfInterest = "PointOfInterest"
-        case postalCode = "PostalCode"
-        case region = "Region"
-        case secondaryAddress = "SecondaryAddress"
-        case street = "Street"
-        case subBlock = "SubBlock"
-        case subDistrict = "SubDistrict"
-        case subRegion = "SubRegion"
-        public var description: String { return self.rawValue }
+    public struct PlaceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var block: Self { .init(rawValue: "Block") }
+        @inlinable public static var country: Self { .init(rawValue: "Country") }
+        @inlinable public static var district: Self { .init(rawValue: "District") }
+        @inlinable public static var inferredSecondaryAddress: Self { .init(rawValue: "InferredSecondaryAddress") }
+        @inlinable public static var interpolatedAddress: Self { .init(rawValue: "InterpolatedAddress") }
+        @inlinable public static var intersection: Self { .init(rawValue: "Intersection") }
+        @inlinable public static var locality: Self { .init(rawValue: "Locality") }
+        @inlinable public static var pointAddress: Self { .init(rawValue: "PointAddress") }
+        @inlinable public static var pointOfInterest: Self { .init(rawValue: "PointOfInterest") }
+        @inlinable public static var postalCode: Self { .init(rawValue: "PostalCode") }
+        @inlinable public static var region: Self { .init(rawValue: "Region") }
+        @inlinable public static var secondaryAddress: Self { .init(rawValue: "SecondaryAddress") }
+        @inlinable public static var street: Self { .init(rawValue: "Street") }
+        @inlinable public static var subBlock: Self { .init(rawValue: "SubBlock") }
+        @inlinable public static var subDistrict: Self { .init(rawValue: "SubDistrict") }
+        @inlinable public static var subRegion: Self { .init(rawValue: "SubRegion") }
     }
 
-    public enum PostalAuthority: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case usps = "Usps"
-        public var description: String { return self.rawValue }
+    public struct PostalAuthority: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var usps: Self { .init(rawValue: "Usps") }
     }
 
-    public enum PostalCodeMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case enumerateSpannedDistricts = "EnumerateSpannedDistricts"
-        case enumerateSpannedLocalities = "EnumerateSpannedLocalities"
-        case mergeAllSpannedLocalities = "MergeAllSpannedLocalities"
-        public var description: String { return self.rawValue }
+    public struct PostalCodeMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var enumerateSpannedDistricts: Self { .init(rawValue: "EnumerateSpannedDistricts") }
+        @inlinable public static var enumerateSpannedLocalities: Self { .init(rawValue: "EnumerateSpannedLocalities") }
+        @inlinable public static var mergeAllSpannedLocalities: Self { .init(rawValue: "MergeAllSpannedLocalities") }
     }
 
-    public enum PostalCodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case uspsZip = "UspsZip"
-        case uspsZipPlus4 = "UspsZipPlus4"
-        public var description: String { return self.rawValue }
+    public struct PostalCodeType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var uspsZip: Self { .init(rawValue: "UspsZip") }
+        @inlinable public static var uspsZipPlus4: Self { .init(rawValue: "UspsZipPlus4") }
     }
 
-    public enum QueryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case businessChain = "BusinessChain"
-        case category = "Category"
-        public var description: String { return self.rawValue }
+    public struct QueryType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var businessChain: Self { .init(rawValue: "BusinessChain") }
+        @inlinable public static var category: Self { .init(rawValue: "Category") }
     }
 
-    public enum RecordTypeCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case firm = "Firm"
-        case general = "General"
-        case highRise = "HighRise"
-        case postOfficeBox = "PostOfficeBox"
-        case rural = "Rural"
-        case street = "Street"
-        public var description: String { return self.rawValue }
+    public struct RecordTypeCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var firm: Self { .init(rawValue: "Firm") }
+        @inlinable public static var general: Self { .init(rawValue: "General") }
+        @inlinable public static var highRise: Self { .init(rawValue: "HighRise") }
+        @inlinable public static var postOfficeBox: Self { .init(rawValue: "PostOfficeBox") }
+        @inlinable public static var rural: Self { .init(rawValue: "Rural") }
+        @inlinable public static var street: Self { .init(rawValue: "Street") }
     }
 
-    public enum ReverseGeocodeAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case access = "Access"
-        case intersections = "Intersections"
-        case timeZone = "TimeZone"
-        public var description: String { return self.rawValue }
+    public struct ReverseGeocodeAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var access: Self { .init(rawValue: "Access") }
+        @inlinable public static var intersections: Self { .init(rawValue: "Intersections") }
+        @inlinable public static var timeZone: Self { .init(rawValue: "TimeZone") }
     }
 
-    public enum ReverseGeocodeAddressNamesMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case administrative = "Administrative"
-        public var description: String { return self.rawValue }
+    public struct ReverseGeocodeAddressNamesMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var administrative: Self { .init(rawValue: "Administrative") }
     }
 
-    public enum ReverseGeocodeFilterPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case interpolatedAddress = "InterpolatedAddress"
-        case intersection = "Intersection"
-        case locality = "Locality"
-        case pointAddress = "PointAddress"
-        case pointOfInterest = "PointOfInterest"
-        case secondaryAddress = "SecondaryAddress"
-        case street = "Street"
-        public var description: String { return self.rawValue }
+    public struct ReverseGeocodeFilterPlaceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var interpolatedAddress: Self { .init(rawValue: "InterpolatedAddress") }
+        @inlinable public static var intersection: Self { .init(rawValue: "Intersection") }
+        @inlinable public static var locality: Self { .init(rawValue: "Locality") }
+        @inlinable public static var pointAddress: Self { .init(rawValue: "PointAddress") }
+        @inlinable public static var pointOfInterest: Self { .init(rawValue: "PointOfInterest") }
+        @inlinable public static var secondaryAddress: Self { .init(rawValue: "SecondaryAddress") }
+        @inlinable public static var street: Self { .init(rawValue: "Street") }
     }
 
-    public enum ReverseGeocodeIntendedUse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct ReverseGeocodeIntendedUse: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
-        case singleUse = "SingleUse"
+        @inlinable public static var singleUse: Self { .init(rawValue: "SingleUse") }
         /// Indicates that results of the operation may be stored locally.
-        case storage = "Storage"
-        public var description: String { return self.rawValue }
+        @inlinable public static var storage: Self { .init(rawValue: "Storage") }
     }
 
-    public enum SearchNearbyAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case access = "Access"
-        case contact = "Contact"
-        case crossReferences = "CrossReferences"
-        case phonemes = "Phonemes"
-        case timeZone = "TimeZone"
-        public var description: String { return self.rawValue }
+    public struct SearchNearbyAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var access: Self { .init(rawValue: "Access") }
+        @inlinable public static var contact: Self { .init(rawValue: "Contact") }
+        @inlinable public static var crossReferences: Self { .init(rawValue: "CrossReferences") }
+        @inlinable public static var phonemes: Self { .init(rawValue: "Phonemes") }
+        @inlinable public static var timeZone: Self { .init(rawValue: "TimeZone") }
     }
 
-    public enum SearchNearbyIntendedUse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct SearchNearbyIntendedUse: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
-        case singleUse = "SingleUse"
+        @inlinable public static var singleUse: Self { .init(rawValue: "SingleUse") }
         /// Indicates that results of the operation may be stored locally.
-        case storage = "Storage"
-        public var description: String { return self.rawValue }
+        @inlinable public static var storage: Self { .init(rawValue: "Storage") }
     }
 
-    public enum SearchTextAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case access = "Access"
-        case contact = "Contact"
-        case crossReferences = "CrossReferences"
-        case phonemes = "Phonemes"
-        case timeZone = "TimeZone"
-        public var description: String { return self.rawValue }
+    public struct SearchTextAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var access: Self { .init(rawValue: "Access") }
+        @inlinable public static var contact: Self { .init(rawValue: "Contact") }
+        @inlinable public static var crossReferences: Self { .init(rawValue: "CrossReferences") }
+        @inlinable public static var phonemes: Self { .init(rawValue: "Phonemes") }
+        @inlinable public static var timeZone: Self { .init(rawValue: "TimeZone") }
     }
 
-    public enum SearchTextIntendedUse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct SearchTextIntendedUse: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
-        case singleUse = "SingleUse"
+        @inlinable public static var singleUse: Self { .init(rawValue: "SingleUse") }
         /// Indicates that results of the operation may be stored locally.
-        case storage = "Storage"
-        public var description: String { return self.rawValue }
+        @inlinable public static var storage: Self { .init(rawValue: "Storage") }
     }
 
-    public enum SearchTextTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case car = "Car"
-        case scooter = "Scooter"
-        case truck = "Truck"
-        public var description: String { return self.rawValue }
+    public struct SearchTextTravelMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+        @inlinable public static var scooter: Self { .init(rawValue: "Scooter") }
+        @inlinable public static var truck: Self { .init(rawValue: "Truck") }
     }
 
-    public enum SuggestAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case access = "Access"
-        case core = "Core"
-        case crossReferences = "CrossReferences"
-        case phonemes = "Phonemes"
-        case timeZone = "TimeZone"
-        public var description: String { return self.rawValue }
+    public struct SuggestAdditionalFeature: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var access: Self { .init(rawValue: "Access") }
+        @inlinable public static var core: Self { .init(rawValue: "Core") }
+        @inlinable public static var crossReferences: Self { .init(rawValue: "CrossReferences") }
+        @inlinable public static var phonemes: Self { .init(rawValue: "Phonemes") }
+        @inlinable public static var timeZone: Self { .init(rawValue: "TimeZone") }
     }
 
-    public enum SuggestIntendedUse: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct SuggestIntendedUse: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Indicates that results of the operation are for single use, e.g., displaying results on a map or presenting options to users.
-        case singleUse = "SingleUse"
-        public var description: String { return self.rawValue }
+        @inlinable public static var singleUse: Self { .init(rawValue: "SingleUse") }
     }
 
-    public enum SuggestResultItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case place = "Place"
-        case query = "Query"
-        public var description: String { return self.rawValue }
+    public struct SuggestResultItemType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var place: Self { .init(rawValue: "Place") }
+        @inlinable public static var query: Self { .init(rawValue: "Query") }
     }
 
-    public enum SuggestTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case car = "Car"
-        case scooter = "Scooter"
-        case truck = "Truck"
-        public var description: String { return self.rawValue }
+    public struct SuggestTravelMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var car: Self { .init(rawValue: "Car") }
+        @inlinable public static var scooter: Self { .init(rawValue: "Scooter") }
+        @inlinable public static var truck: Self { .init(rawValue: "Truck") }
     }
 
-    public enum TranslationNameType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case abbreviation = "Abbreviation"
-        case areaCode = "AreaCode"
-        case baseName = "BaseName"
-        case exonym = "Exonym"
-        case shortened = "Shortened"
-        case synonym = "Synonym"
-        public var description: String { return self.rawValue }
+    public struct TranslationNameType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var abbreviation: Self { .init(rawValue: "Abbreviation") }
+        @inlinable public static var areaCode: Self { .init(rawValue: "AreaCode") }
+        @inlinable public static var baseName: Self { .init(rawValue: "BaseName") }
+        @inlinable public static var exonym: Self { .init(rawValue: "Exonym") }
+        @inlinable public static var shortened: Self { .init(rawValue: "Shortened") }
+        @inlinable public static var synonym: Self { .init(rawValue: "Synonym") }
     }
 
-    public enum TypePlacement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case afterBaseName = "AfterBaseName"
-        case beforeBaseName = "BeforeBaseName"
-        public var description: String { return self.rawValue }
+    public struct TypePlacement: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var afterBaseName: Self { .init(rawValue: "AfterBaseName") }
+        @inlinable public static var beforeBaseName: Self { .init(rawValue: "BeforeBaseName") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cannotParse = "CannotParse"
-        case fieldValidationFailed = "FieldValidationFailed"
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cannotParse: Self { .init(rawValue: "CannotParse") }
+        @inlinable public static var fieldValidationFailed: Self { .init(rawValue: "FieldValidationFailed") }
         /// The required input is missing.
-        case missing = "Missing"
+        @inlinable public static var missing: Self { .init(rawValue: "Missing") }
         /// The input is invalid but no more specific reason is applicable.
-        case other = "Other"
+        @inlinable public static var other: Self { .init(rawValue: "Other") }
         /// No such field is supported.
-        case unknownField = "UnknownField"
+        @inlinable public static var unknownField: Self { .init(rawValue: "UnknownField") }
         /// No such operation is supported.
-        case unknownOperation = "UnknownOperation"
-        public var description: String { return self.rawValue }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UnknownOperation") }
     }
 
-    public enum ZipClassificationCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case military = "Military"
-        case postOfficeBoxes = "PostOfficeBoxes"
-        case unique = "Unique"
-        public var description: String { return self.rawValue }
+    public struct ZipClassificationCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var military: Self { .init(rawValue: "Military") }
+        @inlinable public static var postOfficeBoxes: Self { .init(rawValue: "PostOfficeBoxes") }
+        @inlinable public static var unique: Self { .init(rawValue: "Unique") }
     }
 
     // MARK: Shapes

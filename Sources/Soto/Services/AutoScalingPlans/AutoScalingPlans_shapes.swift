@@ -25,110 +25,158 @@ import Foundation
 extension AutoScalingPlans {
     // MARK: Enums
 
-    public enum ForecastDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case capacityForecast = "CapacityForecast"
-        case loadForecast = "LoadForecast"
-        case scheduledActionMaxCapacity = "ScheduledActionMaxCapacity"
-        case scheduledActionMinCapacity = "ScheduledActionMinCapacity"
-        public var description: String { return self.rawValue }
+    public struct ForecastDataType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var capacityForecast: Self { .init(rawValue: "CapacityForecast") }
+        @inlinable public static var loadForecast: Self { .init(rawValue: "LoadForecast") }
+        @inlinable public static var scheduledActionMaxCapacity: Self { .init(rawValue: "ScheduledActionMaxCapacity") }
+        @inlinable public static var scheduledActionMinCapacity: Self { .init(rawValue: "ScheduledActionMinCapacity") }
     }
 
-    public enum LoadMetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case albTargetGroupRequestCount = "ALBTargetGroupRequestCount"
-        case asgTotalCPUUtilization = "ASGTotalCPUUtilization"
-        case asgTotalNetworkIn = "ASGTotalNetworkIn"
-        case asgTotalNetworkOut = "ASGTotalNetworkOut"
-        public var description: String { return self.rawValue }
+    public struct LoadMetricType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var albTargetGroupRequestCount: Self { .init(rawValue: "ALBTargetGroupRequestCount") }
+        @inlinable public static var asgTotalCPUUtilization: Self { .init(rawValue: "ASGTotalCPUUtilization") }
+        @inlinable public static var asgTotalNetworkIn: Self { .init(rawValue: "ASGTotalNetworkIn") }
+        @inlinable public static var asgTotalNetworkOut: Self { .init(rawValue: "ASGTotalNetworkOut") }
     }
 
-    public enum MetricStatistic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case average = "Average"
-        case maximum = "Maximum"
-        case minimum = "Minimum"
-        case sampleCount = "SampleCount"
-        case sum = "Sum"
-        public var description: String { return self.rawValue }
+    public struct MetricStatistic: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var average: Self { .init(rawValue: "Average") }
+        @inlinable public static var maximum: Self { .init(rawValue: "Maximum") }
+        @inlinable public static var minimum: Self { .init(rawValue: "Minimum") }
+        @inlinable public static var sampleCount: Self { .init(rawValue: "SampleCount") }
+        @inlinable public static var sum: Self { .init(rawValue: "Sum") }
     }
 
-    public enum PolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case targetTrackingScaling = "TargetTrackingScaling"
-        public var description: String { return self.rawValue }
+    public struct PolicyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var targetTrackingScaling: Self { .init(rawValue: "TargetTrackingScaling") }
     }
 
-    public enum PredictiveScalingMaxCapacityBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case setForecastCapacityToMaxCapacity = "SetForecastCapacityToMaxCapacity"
-        case setMaxCapacityAboveForecastCapacity = "SetMaxCapacityAboveForecastCapacity"
-        case setMaxCapacityToForecastCapacity = "SetMaxCapacityToForecastCapacity"
-        public var description: String { return self.rawValue }
+    public struct PredictiveScalingMaxCapacityBehavior: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var setForecastCapacityToMaxCapacity: Self { .init(rawValue: "SetForecastCapacityToMaxCapacity") }
+        @inlinable public static var setMaxCapacityAboveForecastCapacity: Self { .init(rawValue: "SetMaxCapacityAboveForecastCapacity") }
+        @inlinable public static var setMaxCapacityToForecastCapacity: Self { .init(rawValue: "SetMaxCapacityToForecastCapacity") }
     }
 
-    public enum PredictiveScalingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case forecastAndScale = "ForecastAndScale"
-        case forecastOnly = "ForecastOnly"
-        public var description: String { return self.rawValue }
+    public struct PredictiveScalingMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var forecastAndScale: Self { .init(rawValue: "ForecastAndScale") }
+        @inlinable public static var forecastOnly: Self { .init(rawValue: "ForecastOnly") }
     }
 
-    public enum ScalableDimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case autoScalingGroupDesiredCapacity = "autoscaling:autoScalingGroup:DesiredCapacity"
-        case dynamoDBIndexReadCapacityUnits = "dynamodb:index:ReadCapacityUnits"
-        case dynamoDBIndexWriteCapacityUnits = "dynamodb:index:WriteCapacityUnits"
-        case dynamoDBTableReadCapacityUnits = "dynamodb:table:ReadCapacityUnits"
-        case dynamoDBTableWriteCapacityUnits = "dynamodb:table:WriteCapacityUnits"
-        case ec2SpotFleetRequestTargetCapacity = "ec2:spot-fleet-request:TargetCapacity"
-        case ecsServiceDesiredCount = "ecs:service:DesiredCount"
-        case rdsClusterReadReplicaCount = "rds:cluster:ReadReplicaCount"
-        public var description: String { return self.rawValue }
+    public struct ScalableDimension: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var autoScalingGroupDesiredCapacity: Self { .init(rawValue: "autoscaling:autoScalingGroup:DesiredCapacity") }
+        @inlinable public static var dynamoDBIndexReadCapacityUnits: Self { .init(rawValue: "dynamodb:index:ReadCapacityUnits") }
+        @inlinable public static var dynamoDBIndexWriteCapacityUnits: Self { .init(rawValue: "dynamodb:index:WriteCapacityUnits") }
+        @inlinable public static var dynamoDBTableReadCapacityUnits: Self { .init(rawValue: "dynamodb:table:ReadCapacityUnits") }
+        @inlinable public static var dynamoDBTableWriteCapacityUnits: Self { .init(rawValue: "dynamodb:table:WriteCapacityUnits") }
+        @inlinable public static var ec2SpotFleetRequestTargetCapacity: Self { .init(rawValue: "ec2:spot-fleet-request:TargetCapacity") }
+        @inlinable public static var ecsServiceDesiredCount: Self { .init(rawValue: "ecs:service:DesiredCount") }
+        @inlinable public static var rdsClusterReadReplicaCount: Self { .init(rawValue: "rds:cluster:ReadReplicaCount") }
     }
 
-    public enum ScalingMetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case albRequestCountPerTarget = "ALBRequestCountPerTarget"
-        case asgAverageCPUUtilization = "ASGAverageCPUUtilization"
-        case asgAverageNetworkIn = "ASGAverageNetworkIn"
-        case asgAverageNetworkOut = "ASGAverageNetworkOut"
-        case dynamoDBReadCapacityUtilization = "DynamoDBReadCapacityUtilization"
-        case dynamoDBWriteCapacityUtilization = "DynamoDBWriteCapacityUtilization"
-        case ec2SpotFleetRequestAverageCPUUtilization = "EC2SpotFleetRequestAverageCPUUtilization"
-        case ec2SpotFleetRequestAverageNetworkIn = "EC2SpotFleetRequestAverageNetworkIn"
-        case ec2SpotFleetRequestAverageNetworkOut = "EC2SpotFleetRequestAverageNetworkOut"
-        case ecsServiceAverageCPUUtilization = "ECSServiceAverageCPUUtilization"
-        case ecsServiceAverageMemoryUtilization = "ECSServiceAverageMemoryUtilization"
-        case rdsReaderAverageCPUUtilization = "RDSReaderAverageCPUUtilization"
-        case rdsReaderAverageDatabaseConnections = "RDSReaderAverageDatabaseConnections"
-        public var description: String { return self.rawValue }
+    public struct ScalingMetricType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var albRequestCountPerTarget: Self { .init(rawValue: "ALBRequestCountPerTarget") }
+        @inlinable public static var asgAverageCPUUtilization: Self { .init(rawValue: "ASGAverageCPUUtilization") }
+        @inlinable public static var asgAverageNetworkIn: Self { .init(rawValue: "ASGAverageNetworkIn") }
+        @inlinable public static var asgAverageNetworkOut: Self { .init(rawValue: "ASGAverageNetworkOut") }
+        @inlinable public static var dynamoDBReadCapacityUtilization: Self { .init(rawValue: "DynamoDBReadCapacityUtilization") }
+        @inlinable public static var dynamoDBWriteCapacityUtilization: Self { .init(rawValue: "DynamoDBWriteCapacityUtilization") }
+        @inlinable public static var ec2SpotFleetRequestAverageCPUUtilization: Self { .init(rawValue: "EC2SpotFleetRequestAverageCPUUtilization") }
+        @inlinable public static var ec2SpotFleetRequestAverageNetworkIn: Self { .init(rawValue: "EC2SpotFleetRequestAverageNetworkIn") }
+        @inlinable public static var ec2SpotFleetRequestAverageNetworkOut: Self { .init(rawValue: "EC2SpotFleetRequestAverageNetworkOut") }
+        @inlinable public static var ecsServiceAverageCPUUtilization: Self { .init(rawValue: "ECSServiceAverageCPUUtilization") }
+        @inlinable public static var ecsServiceAverageMemoryUtilization: Self { .init(rawValue: "ECSServiceAverageMemoryUtilization") }
+        @inlinable public static var rdsReaderAverageCPUUtilization: Self { .init(rawValue: "RDSReaderAverageCPUUtilization") }
+        @inlinable public static var rdsReaderAverageDatabaseConnections: Self { .init(rawValue: "RDSReaderAverageDatabaseConnections") }
     }
 
-    public enum ScalingPlanStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case activeWithProblems = "ActiveWithProblems"
-        case creationFailed = "CreationFailed"
-        case creationInProgress = "CreationInProgress"
-        case deletionFailed = "DeletionFailed"
-        case deletionInProgress = "DeletionInProgress"
-        case updateFailed = "UpdateFailed"
-        case updateInProgress = "UpdateInProgress"
-        public var description: String { return self.rawValue }
+    public struct ScalingPlanStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var activeWithProblems: Self { .init(rawValue: "ActiveWithProblems") }
+        @inlinable public static var creationFailed: Self { .init(rawValue: "CreationFailed") }
+        @inlinable public static var creationInProgress: Self { .init(rawValue: "CreationInProgress") }
+        @inlinable public static var deletionFailed: Self { .init(rawValue: "DeletionFailed") }
+        @inlinable public static var deletionInProgress: Self { .init(rawValue: "DeletionInProgress") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UpdateFailed") }
+        @inlinable public static var updateInProgress: Self { .init(rawValue: "UpdateInProgress") }
     }
 
-    public enum ScalingPolicyUpdateBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case keepExternalPolicies = "KeepExternalPolicies"
-        case replaceExternalPolicies = "ReplaceExternalPolicies"
-        public var description: String { return self.rawValue }
+    public struct ScalingPolicyUpdateBehavior: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var keepExternalPolicies: Self { .init(rawValue: "KeepExternalPolicies") }
+        @inlinable public static var replaceExternalPolicies: Self { .init(rawValue: "ReplaceExternalPolicies") }
     }
 
-    public enum ScalingStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "Active"
-        case inactive = "Inactive"
-        case partiallyActive = "PartiallyActive"
-        public var description: String { return self.rawValue }
+    public struct ScalingStatusCode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "Active") }
+        @inlinable public static var inactive: Self { .init(rawValue: "Inactive") }
+        @inlinable public static var partiallyActive: Self { .init(rawValue: "PartiallyActive") }
     }
 
-    public enum ServiceNamespace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case autoscaling = "autoscaling"
-        case dynamodb = "dynamodb"
-        case ec2 = "ec2"
-        case ecs = "ecs"
-        case rds = "rds"
-        public var description: String { return self.rawValue }
+    public struct ServiceNamespace: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var autoscaling: Self { .init(rawValue: "autoscaling") }
+        @inlinable public static var dynamodb: Self { .init(rawValue: "dynamodb") }
+        @inlinable public static var ec2: Self { .init(rawValue: "ec2") }
+        @inlinable public static var ecs: Self { .init(rawValue: "ecs") }
+        @inlinable public static var rds: Self { .init(rawValue: "rds") }
     }
 
     // MARK: Shapes

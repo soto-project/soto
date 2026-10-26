@@ -25,54 +25,78 @@ import Foundation
 extension BackupSearch {
     // MARK: Enums
 
-    public enum ExportJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case running = "RUNNING"
-        public var description: String { return self.rawValue }
+    public struct ExportJobStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
     }
 
-    public enum LongConditionOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case equalsTo = "EQUALS_TO"
-        case greaterThanEqualTo = "GREATER_THAN_EQUAL_TO"
-        case lessThanEqualTo = "LESS_THAN_EQUAL_TO"
-        case notEqualsTo = "NOT_EQUALS_TO"
-        public var description: String { return self.rawValue }
+    public struct LongConditionOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var equalsTo: Self { .init(rawValue: "EQUALS_TO") }
+        @inlinable public static var greaterThanEqualTo: Self { .init(rawValue: "GREATER_THAN_EQUAL_TO") }
+        @inlinable public static var lessThanEqualTo: Self { .init(rawValue: "LESS_THAN_EQUAL_TO") }
+        @inlinable public static var notEqualsTo: Self { .init(rawValue: "NOT_EQUALS_TO") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ebs = "EBS"
-        case s3 = "S3"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ebs: Self { .init(rawValue: "EBS") }
+        @inlinable public static var s3: Self { .init(rawValue: "S3") }
     }
 
-    public enum SearchJobState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case running = "RUNNING"
-        case stopped = "STOPPED"
-        case stopping = "STOPPING"
-        public var description: String { return self.rawValue }
+    public struct SearchJobState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var completed: Self { .init(rawValue: "COMPLETED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var running: Self { .init(rawValue: "RUNNING") }
+        @inlinable public static var stopped: Self { .init(rawValue: "STOPPED") }
+        @inlinable public static var stopping: Self { .init(rawValue: "STOPPING") }
     }
 
-    public enum StringConditionOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case beginsWith = "BEGINS_WITH"
-        case contains = "CONTAINS"
-        case doesNotBeginWith = "DOES_NOT_BEGIN_WITH"
-        case doesNotContain = "DOES_NOT_CONTAIN"
-        case doesNotEndWith = "DOES_NOT_END_WITH"
-        case endsWith = "ENDS_WITH"
-        case equalsTo = "EQUALS_TO"
-        case notEqualsTo = "NOT_EQUALS_TO"
-        public var description: String { return self.rawValue }
+    public struct StringConditionOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var beginsWith: Self { .init(rawValue: "BEGINS_WITH") }
+        @inlinable public static var contains: Self { .init(rawValue: "CONTAINS") }
+        @inlinable public static var doesNotBeginWith: Self { .init(rawValue: "DOES_NOT_BEGIN_WITH") }
+        @inlinable public static var doesNotContain: Self { .init(rawValue: "DOES_NOT_CONTAIN") }
+        @inlinable public static var doesNotEndWith: Self { .init(rawValue: "DOES_NOT_END_WITH") }
+        @inlinable public static var endsWith: Self { .init(rawValue: "ENDS_WITH") }
+        @inlinable public static var equalsTo: Self { .init(rawValue: "EQUALS_TO") }
+        @inlinable public static var notEqualsTo: Self { .init(rawValue: "NOT_EQUALS_TO") }
     }
 
-    public enum TimeConditionOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case equalsTo = "EQUALS_TO"
-        case greaterThanEqualTo = "GREATER_THAN_EQUAL_TO"
-        case lessThanEqualTo = "LESS_THAN_EQUAL_TO"
-        case notEqualsTo = "NOT_EQUALS_TO"
-        public var description: String { return self.rawValue }
+    public struct TimeConditionOperator: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var equalsTo: Self { .init(rawValue: "EQUALS_TO") }
+        @inlinable public static var greaterThanEqualTo: Self { .init(rawValue: "GREATER_THAN_EQUAL_TO") }
+        @inlinable public static var lessThanEqualTo: Self { .init(rawValue: "LESS_THAN_EQUAL_TO") }
+        @inlinable public static var notEqualsTo: Self { .init(rawValue: "NOT_EQUALS_TO") }
     }
 
     public enum ResultItem: AWSDecodableShape, Sendable {

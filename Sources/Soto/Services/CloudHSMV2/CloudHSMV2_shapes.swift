@@ -25,58 +25,86 @@ import Foundation
 extension CloudHSMV2 {
     // MARK: Enums
 
-    public enum BackupPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `default` = "DEFAULT"
-        public var description: String { return self.rawValue }
+    public struct BackupPolicy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `default`: Self { .init(rawValue: "DEFAULT") }
     }
 
-    public enum BackupRetentionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case days = "DAYS"
-        public var description: String { return self.rawValue }
+    public struct BackupRetentionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var days: Self { .init(rawValue: "DAYS") }
     }
 
-    public enum BackupState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case deleted = "DELETED"
-        case pendingDeletion = "PENDING_DELETION"
-        case ready = "READY"
-        public var description: String { return self.rawValue }
+    public struct BackupState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var pendingDeletion: Self { .init(rawValue: "PENDING_DELETION") }
+        @inlinable public static var ready: Self { .init(rawValue: "READY") }
     }
 
-    public enum ClusterMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case fips = "FIPS"
-        case nonFips = "NON_FIPS"
-        public var description: String { return self.rawValue }
+    public struct ClusterMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var fips: Self { .init(rawValue: "FIPS") }
+        @inlinable public static var nonFips: Self { .init(rawValue: "NON_FIPS") }
     }
 
-    public enum ClusterState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case degraded = "DEGRADED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleted = "DELETED"
-        case initializeInProgress = "INITIALIZE_IN_PROGRESS"
-        case initialized = "INITIALIZED"
-        case modifyInProgress = "MODIFY_IN_PROGRESS"
-        case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
-        case uninitialized = "UNINITIALIZED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct ClusterState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var degraded: Self { .init(rawValue: "DEGRADED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
+        @inlinable public static var initializeInProgress: Self { .init(rawValue: "INITIALIZE_IN_PROGRESS") }
+        @inlinable public static var initialized: Self { .init(rawValue: "INITIALIZED") }
+        @inlinable public static var modifyInProgress: Self { .init(rawValue: "MODIFY_IN_PROGRESS") }
+        @inlinable public static var rollbackInProgress: Self { .init(rawValue: "ROLLBACK_IN_PROGRESS") }
+        @inlinable public static var uninitialized: Self { .init(rawValue: "UNINITIALIZED") }
+        @inlinable public static var updateInProgress: Self { .init(rawValue: "UPDATE_IN_PROGRESS") }
     }
 
-    public enum HsmState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case degraded = "DEGRADED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleted = "DELETED"
-        public var description: String { return self.rawValue }
+    public struct HsmState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var degraded: Self { .init(rawValue: "DEGRADED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
+        @inlinable public static var deleted: Self { .init(rawValue: "DELETED") }
     }
 
-    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dualstack = "DUALSTACK"
-        case ipv4 = "IPV4"
-        public var description: String { return self.rawValue }
+    public struct NetworkType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var dualstack: Self { .init(rawValue: "DUALSTACK") }
+        @inlinable public static var ipv4: Self { .init(rawValue: "IPV4") }
     }
 
     // MARK: Shapes

@@ -25,9 +25,13 @@ import Foundation
 extension KinesisVideoSignaling {
     // MARK: Enums
 
-    public enum Service: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case turn = "TURN"
-        public var description: String { return self.rawValue }
+    public struct Service: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var turn: Self { .init(rawValue: "TURN") }
     }
 
     // MARK: Shapes

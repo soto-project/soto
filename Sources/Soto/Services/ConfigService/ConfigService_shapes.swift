@@ -25,832 +25,996 @@ import Foundation
 extension ConfigService {
     // MARK: Enums
 
-    public enum AggregateConformancePackComplianceSummaryGroupKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "ACCOUNT_ID"
-        case awsRegion = "AWS_REGION"
-        public var description: String { return self.rawValue }
+    public struct AggregateConformancePackComplianceSummaryGroupKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "ACCOUNT_ID") }
+        @inlinable public static var awsRegion: Self { .init(rawValue: "AWS_REGION") }
     }
 
-    public enum AggregatedSourceStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case outdated = "OUTDATED"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct AggregatedSourceStatusType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var outdated: Self { .init(rawValue: "OUTDATED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum AggregatedSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case account = "ACCOUNT"
-        case organization = "ORGANIZATION"
-        public var description: String { return self.rawValue }
+    public struct AggregatedSourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var account: Self { .init(rawValue: "ACCOUNT") }
+        @inlinable public static var organization: Self { .init(rawValue: "ORGANIZATION") }
     }
 
-    public enum AggregatorFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case include = "INCLUDE"
-        public var description: String { return self.rawValue }
+    public struct AggregatorFilterType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var include: Self { .init(rawValue: "INCLUDE") }
     }
 
-    public enum ChronologicalOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case forward = "Forward"
-        case reverse = "Reverse"
-        public var description: String { return self.rawValue }
+    public struct ChronologicalOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var forward: Self { .init(rawValue: "Forward") }
+        @inlinable public static var reverse: Self { .init(rawValue: "Reverse") }
     }
 
-    public enum ComplianceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case compliant = "COMPLIANT"
-        case insufficientData = "INSUFFICIENT_DATA"
-        case nonCompliant = "NON_COMPLIANT"
-        case notApplicable = "NOT_APPLICABLE"
-        public var description: String { return self.rawValue }
+    public struct ComplianceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var compliant: Self { .init(rawValue: "COMPLIANT") }
+        @inlinable public static var insufficientData: Self { .init(rawValue: "INSUFFICIENT_DATA") }
+        @inlinable public static var nonCompliant: Self { .init(rawValue: "NON_COMPLIANT") }
+        @inlinable public static var notApplicable: Self { .init(rawValue: "NOT_APPLICABLE") }
     }
 
-    public enum ConfigRuleComplianceSummaryGroupKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "ACCOUNT_ID"
-        case awsRegion = "AWS_REGION"
-        public var description: String { return self.rawValue }
+    public struct ConfigRuleComplianceSummaryGroupKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "ACCOUNT_ID") }
+        @inlinable public static var awsRegion: Self { .init(rawValue: "AWS_REGION") }
     }
 
-    public enum ConfigRuleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case deleting = "DELETING"
-        case deletingResults = "DELETING_RESULTS"
-        case evaluating = "EVALUATING"
-        public var description: String { return self.rawValue }
+    public struct ConfigRuleState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var deletingResults: Self { .init(rawValue: "DELETING_RESULTS") }
+        @inlinable public static var evaluating: Self { .init(rawValue: "EVALUATING") }
     }
 
-    public enum ConfigurationItemStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ok = "OK"
-        case resourceDeleted = "ResourceDeleted"
-        case resourceDeletedNotRecorded = "ResourceDeletedNotRecorded"
-        case resourceDiscovered = "ResourceDiscovered"
-        case resourceNotRecorded = "ResourceNotRecorded"
-        public var description: String { return self.rawValue }
+    public struct ConfigurationItemStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ok: Self { .init(rawValue: "OK") }
+        @inlinable public static var resourceDeleted: Self { .init(rawValue: "ResourceDeleted") }
+        @inlinable public static var resourceDeletedNotRecorded: Self { .init(rawValue: "ResourceDeletedNotRecorded") }
+        @inlinable public static var resourceDiscovered: Self { .init(rawValue: "ResourceDiscovered") }
+        @inlinable public static var resourceNotRecorded: Self { .init(rawValue: "ResourceNotRecorded") }
     }
 
-    public enum ConfigurationRecorderFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case recordingScope = "recordingScope"
-        public var description: String { return self.rawValue }
+    public struct ConfigurationRecorderFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var recordingScope: Self { .init(rawValue: "recordingScope") }
     }
 
-    public enum ConformancePackComplianceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case compliant = "COMPLIANT"
-        case insufficientData = "INSUFFICIENT_DATA"
-        case nonCompliant = "NON_COMPLIANT"
-        public var description: String { return self.rawValue }
+    public struct ConformancePackComplianceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var compliant: Self { .init(rawValue: "COMPLIANT") }
+        @inlinable public static var insufficientData: Self { .init(rawValue: "INSUFFICIENT_DATA") }
+        @inlinable public static var nonCompliant: Self { .init(rawValue: "NON_COMPLIANT") }
     }
 
-    public enum ConformancePackState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createComplete = "CREATE_COMPLETE"
-        case createFailed = "CREATE_FAILED"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        public var description: String { return self.rawValue }
+    public struct ConformancePackState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createComplete: Self { .init(rawValue: "CREATE_COMPLETE") }
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
     }
 
-    public enum ConnectorFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case provider = "provider"
-        public var description: String { return self.rawValue }
+    public struct ConnectorFilterName: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var provider: Self { .init(rawValue: "provider") }
     }
 
-    public enum DeliveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failure = "Failure"
-        case notApplicable = "Not_Applicable"
-        case success = "Success"
-        public var description: String { return self.rawValue }
+    public struct DeliveryStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failure: Self { .init(rawValue: "Failure") }
+        @inlinable public static var notApplicable: Self { .init(rawValue: "Not_Applicable") }
+        @inlinable public static var success: Self { .init(rawValue: "Success") }
     }
 
-    public enum EvaluationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case detective = "DETECTIVE"
-        case proactive = "PROACTIVE"
-        public var description: String { return self.rawValue }
+    public struct EvaluationMode: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var detective: Self { .init(rawValue: "DETECTIVE") }
+        @inlinable public static var proactive: Self { .init(rawValue: "PROACTIVE") }
     }
 
-    public enum EventSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case awsConfig = "aws.config"
-        public var description: String { return self.rawValue }
+    public struct EventSource: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var awsConfig: Self { .init(rawValue: "aws.config") }
     }
 
-    public enum MaximumExecutionFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case oneHour = "One_Hour"
-        case sixHours = "Six_Hours"
-        case threeHours = "Three_Hours"
-        case twelveHours = "Twelve_Hours"
-        case twentyFourHours = "TwentyFour_Hours"
-        public var description: String { return self.rawValue }
+    public struct MaximumExecutionFrequency: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var oneHour: Self { .init(rawValue: "One_Hour") }
+        @inlinable public static var sixHours: Self { .init(rawValue: "Six_Hours") }
+        @inlinable public static var threeHours: Self { .init(rawValue: "Three_Hours") }
+        @inlinable public static var twelveHours: Self { .init(rawValue: "Twelve_Hours") }
+        @inlinable public static var twentyFourHours: Self { .init(rawValue: "TwentyFour_Hours") }
     }
 
-    public enum MemberAccountRuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createFailed = "CREATE_FAILED"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createSuccessful = "CREATE_SUCCESSFUL"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleteSuccessful = "DELETE_SUCCESSFUL"
-        case updateFailed = "UPDATE_FAILED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        public var description: String { return self.rawValue }
+    public struct MemberAccountRuleStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var createSuccessful: Self { .init(rawValue: "CREATE_SUCCESSFUL") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
+        @inlinable public static var deleteSuccessful: Self { .init(rawValue: "DELETE_SUCCESSFUL") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updateInProgress: Self { .init(rawValue: "UPDATE_IN_PROGRESS") }
+        @inlinable public static var updateSuccessful: Self { .init(rawValue: "UPDATE_SUCCESSFUL") }
     }
 
-    public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
-        case configurationSnapshotDeliveryCompleted = "ConfigurationSnapshotDeliveryCompleted"
-        case oversizedConfigurationItemChangeNotification = "OversizedConfigurationItemChangeNotification"
-        case scheduledNotification = "ScheduledNotification"
-        public var description: String { return self.rawValue }
+    public struct MessageType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var configurationItemChangeNotification: Self { .init(rawValue: "ConfigurationItemChangeNotification") }
+        @inlinable public static var configurationSnapshotDeliveryCompleted: Self { .init(rawValue: "ConfigurationSnapshotDeliveryCompleted") }
+        @inlinable public static var oversizedConfigurationItemChangeNotification: Self { .init(rawValue: "OversizedConfigurationItemChangeNotification") }
+        @inlinable public static var scheduledNotification: Self { .init(rawValue: "ScheduledNotification") }
     }
 
-    public enum OrganizationConfigRuleTriggerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
-        case oversizedConfigurationItemChangeNotifcation = "OversizedConfigurationItemChangeNotification"
-        case scheduledNotification = "ScheduledNotification"
-        public var description: String { return self.rawValue }
+    public struct OrganizationConfigRuleTriggerType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var configurationItemChangeNotification: Self { .init(rawValue: "ConfigurationItemChangeNotification") }
+        @inlinable public static var oversizedConfigurationItemChangeNotifcation: Self { .init(rawValue: "OversizedConfigurationItemChangeNotification") }
+        @inlinable public static var scheduledNotification: Self { .init(rawValue: "ScheduledNotification") }
     }
 
-    public enum OrganizationConfigRuleTriggerTypeNoSN: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case configurationItemChangeNotification = "ConfigurationItemChangeNotification"
-        case oversizedConfigurationItemChangeNotifcation = "OversizedConfigurationItemChangeNotification"
-        public var description: String { return self.rawValue }
+    public struct OrganizationConfigRuleTriggerTypeNoSN: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var configurationItemChangeNotification: Self { .init(rawValue: "ConfigurationItemChangeNotification") }
+        @inlinable public static var oversizedConfigurationItemChangeNotifcation: Self { .init(rawValue: "OversizedConfigurationItemChangeNotification") }
     }
 
-    public enum OrganizationResourceDetailedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createFailed = "CREATE_FAILED"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createSuccessful = "CREATE_SUCCESSFUL"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleteSuccessful = "DELETE_SUCCESSFUL"
-        case updateFailed = "UPDATE_FAILED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        public var description: String { return self.rawValue }
+    public struct OrganizationResourceDetailedStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var createSuccessful: Self { .init(rawValue: "CREATE_SUCCESSFUL") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
+        @inlinable public static var deleteSuccessful: Self { .init(rawValue: "DELETE_SUCCESSFUL") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updateInProgress: Self { .init(rawValue: "UPDATE_IN_PROGRESS") }
+        @inlinable public static var updateSuccessful: Self { .init(rawValue: "UPDATE_SUCCESSFUL") }
     }
 
-    public enum OrganizationResourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createFailed = "CREATE_FAILED"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createSuccessful = "CREATE_SUCCESSFUL"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleteSuccessful = "DELETE_SUCCESSFUL"
-        case updateFailed = "UPDATE_FAILED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        public var description: String { return self.rawValue }
+    public struct OrganizationResourceStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var createSuccessful: Self { .init(rawValue: "CREATE_SUCCESSFUL") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
+        @inlinable public static var deleteSuccessful: Self { .init(rawValue: "DELETE_SUCCESSFUL") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updateInProgress: Self { .init(rawValue: "UPDATE_IN_PROGRESS") }
+        @inlinable public static var updateSuccessful: Self { .init(rawValue: "UPDATE_SUCCESSFUL") }
     }
 
-    public enum OrganizationRuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case createFailed = "CREATE_FAILED"
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case createSuccessful = "CREATE_SUCCESSFUL"
-        case deleteFailed = "DELETE_FAILED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
-        case deleteSuccessful = "DELETE_SUCCESSFUL"
-        case updateFailed = "UPDATE_FAILED"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
-        case updateSuccessful = "UPDATE_SUCCESSFUL"
-        public var description: String { return self.rawValue }
+    public struct OrganizationRuleStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var createFailed: Self { .init(rawValue: "CREATE_FAILED") }
+        @inlinable public static var createInProgress: Self { .init(rawValue: "CREATE_IN_PROGRESS") }
+        @inlinable public static var createSuccessful: Self { .init(rawValue: "CREATE_SUCCESSFUL") }
+        @inlinable public static var deleteFailed: Self { .init(rawValue: "DELETE_FAILED") }
+        @inlinable public static var deleteInProgress: Self { .init(rawValue: "DELETE_IN_PROGRESS") }
+        @inlinable public static var deleteSuccessful: Self { .init(rawValue: "DELETE_SUCCESSFUL") }
+        @inlinable public static var updateFailed: Self { .init(rawValue: "UPDATE_FAILED") }
+        @inlinable public static var updateInProgress: Self { .init(rawValue: "UPDATE_IN_PROGRESS") }
+        @inlinable public static var updateSuccessful: Self { .init(rawValue: "UPDATE_SUCCESSFUL") }
     }
 
-    public enum Owner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case aws = "AWS"
-        case customLambda = "CUSTOM_LAMBDA"
-        case customPolicy = "CUSTOM_POLICY"
-        public var description: String { return self.rawValue }
+    public struct Owner: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var aws: Self { .init(rawValue: "AWS") }
+        @inlinable public static var customLambda: Self { .init(rawValue: "CUSTOM_LAMBDA") }
+        @inlinable public static var customPolicy: Self { .init(rawValue: "CUSTOM_POLICY") }
     }
 
-    public enum Provider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case azure = "AZURE"
-        public var description: String { return self.rawValue }
+    public struct Provider: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var azure: Self { .init(rawValue: "AZURE") }
     }
 
-    public enum RecorderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failure = "Failure"
-        case notApplicable = "NotApplicable"
-        case pending = "Pending"
-        case success = "Success"
-        public var description: String { return self.rawValue }
+    public struct RecorderStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failure: Self { .init(rawValue: "Failure") }
+        @inlinable public static var notApplicable: Self { .init(rawValue: "NotApplicable") }
+        @inlinable public static var pending: Self { .init(rawValue: "Pending") }
+        @inlinable public static var success: Self { .init(rawValue: "Success") }
     }
 
-    public enum RecordingFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case continuous = "CONTINUOUS"
-        case daily = "DAILY"
-        public var description: String { return self.rawValue }
+    public struct RecordingFrequency: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var continuous: Self { .init(rawValue: "CONTINUOUS") }
+        @inlinable public static var daily: Self { .init(rawValue: "DAILY") }
     }
 
-    public enum RecordingScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `internal` = "INTERNAL"
-        case paid = "PAID"
-        public var description: String { return self.rawValue }
+    public struct RecordingScope: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `internal`: Self { .init(rawValue: "INTERNAL") }
+        @inlinable public static var paid: Self { .init(rawValue: "PAID") }
     }
 
-    public enum RecordingStrategyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case allSupportedResourceTypes = "ALL_SUPPORTED_RESOURCE_TYPES"
-        case exclusionByResourceTypes = "EXCLUSION_BY_RESOURCE_TYPES"
-        case inclusionByResourceTypes = "INCLUSION_BY_RESOURCE_TYPES"
-        public var description: String { return self.rawValue }
+    public struct RecordingStrategyType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var allSupportedResourceTypes: Self { .init(rawValue: "ALL_SUPPORTED_RESOURCE_TYPES") }
+        @inlinable public static var exclusionByResourceTypes: Self { .init(rawValue: "EXCLUSION_BY_RESOURCE_TYPES") }
+        @inlinable public static var inclusionByResourceTypes: Self { .init(rawValue: "INCLUSION_BY_RESOURCE_TYPES") }
     }
 
-    public enum RemediationExecutionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case queued = "QUEUED"
-        case succeeded = "SUCCEEDED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
+    public struct RemediationExecutionState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var queued: Self { .init(rawValue: "QUEUED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
     }
 
-    public enum RemediationExecutionStepState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case exited = "EXITED"
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case pending = "PENDING"
-        case succeeded = "SUCCEEDED"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
+    public struct RemediationExecutionStepState: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var exited: Self { .init(rawValue: "EXITED") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var pending: Self { .init(rawValue: "PENDING") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
     }
 
-    public enum RemediationTargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ssmDocument = "SSM_DOCUMENT"
-        public var description: String { return self.rawValue }
+    public struct RemediationTargetType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ssmDocument: Self { .init(rawValue: "SSM_DOCUMENT") }
     }
 
-    public enum ResourceConfigurationSchemaType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case cfnResourceSchema = "CFN_RESOURCE_SCHEMA"
-        public var description: String { return self.rawValue }
+    public struct ResourceConfigurationSchemaType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var cfnResourceSchema: Self { .init(rawValue: "CFN_RESOURCE_SCHEMA") }
     }
 
-    public enum ResourceCountGroupKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accountId = "ACCOUNT_ID"
-        case awsRegion = "AWS_REGION"
-        case resourceType = "RESOURCE_TYPE"
-        public var description: String { return self.rawValue }
+    public struct ResourceCountGroupKey: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accountId: Self { .init(rawValue: "ACCOUNT_ID") }
+        @inlinable public static var awsRegion: Self { .init(rawValue: "AWS_REGION") }
+        @inlinable public static var resourceType: Self { .init(rawValue: "RESOURCE_TYPE") }
     }
 
-    public enum ResourceEvaluationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ResourceEvaluationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case accessAnalyzerAnalyzer = "AWS::AccessAnalyzer::Analyzer"
-        case accountPublicAccessBlock = "AWS::S3::AccountPublicAccessBlock"
-        case acmpcaCertificateAuthority = "AWS::ACMPCA::CertificateAuthority"
-        case acmpcaCertificateAuthorityActivation = "AWS::ACMPCA::CertificateAuthorityActivation"
-        case alarm = "AWS::CloudWatch::Alarm"
-        case amazonMQBroker = "AWS::AmazonMQ::Broker"
-        case amplifyApp = "AWS::Amplify::App"
-        case amplifyBranch = "AWS::Amplify::Branch"
-        case api = "AWS::ApiGatewayV2::Api"
-        case apiGatewayMethod = "AWS::ApiGateway::Method"
-        case apiGatewayUsagePlan = "AWS::ApiGateway::UsagePlan"
-        case apiGatewayV2Integration = "AWS::ApiGatewayV2::Integration"
-        case appConfigApplication = "AWS::AppConfig::Application"
-        case appConfigConfigurationProfile = "AWS::AppConfig::ConfigurationProfile"
-        case appConfigDeploymentStrategy = "AWS::AppConfig::DeploymentStrategy"
-        case appConfigEnvironment = "AWS::AppConfig::Environment"
-        case appConfigExtension = "AWS::AppConfig::Extension"
-        case appConfigExtensionAssociation = "AWS::AppConfig::ExtensionAssociation"
-        case appConfigHostedConfigurationVersion = "AWS::AppConfig::HostedConfigurationVersion"
-        case appFlowFlow = "AWS::AppFlow::Flow"
-        case appIntegrationsApplication = "AWS::AppIntegrations::Application"
-        case appIntegrationsEventIntegration = "AWS::AppIntegrations::EventIntegration"
-        case appMeshGatewayRoute = "AWS::AppMesh::GatewayRoute"
-        case appMeshMesh = "AWS::AppMesh::Mesh"
-        case appMeshRoute = "AWS::AppMesh::Route"
-        case appMeshVirtualGateway = "AWS::AppMesh::VirtualGateway"
-        case appMeshVirtualNode = "AWS::AppMesh::VirtualNode"
-        case appMeshVirtualRouter = "AWS::AppMesh::VirtualRouter"
-        case appMeshVirtualService = "AWS::AppMesh::VirtualService"
-        case appRunnerService = "AWS::AppRunner::Service"
-        case appRunnerVpcConnector = "AWS::AppRunner::VpcConnector"
-        case appStreamAppBlockBuilder = "AWS::AppStream::AppBlockBuilder"
-        case appStreamApplication = "AWS::AppStream::Application"
-        case appStreamDirectoryConfig = "AWS::AppStream::DirectoryConfig"
-        case appStreamFleet = "AWS::AppStream::Fleet"
-        case appStreamStack = "AWS::AppStream::Stack"
-        case appSyncApiCache = "AWS::AppSync::ApiCache"
-        case appSyncGraphQLApi = "AWS::AppSync::GraphQLApi"
-        case application = "AWS::ElasticBeanstalk::Application"
-        case applicationVersion = "AWS::ElasticBeanstalk::ApplicationVersion"
-        case apsRuleGroupsNamespace = "AWS::APS::RuleGroupsNamespace"
-        case associationCompliance = "AWS::SSM::AssociationCompliance"
-        case athenaDataCatalog = "AWS::Athena::DataCatalog"
-        case athenaPreparedStatement = "AWS::Athena::PreparedStatement"
-        case athenaWorkGroup = "AWS::Athena::WorkGroup"
-        case auditManagerAssessment = "AWS::AuditManager::Assessment"
-        case autoScalingGroup = "AWS::AutoScaling::AutoScalingGroup"
-        case autoScalingWarmPool = "AWS::AutoScaling::WarmPool"
-        case b2biCapability = "AWS::B2BI::Capability"
-        case backupGatewayHypervisor = "AWS::BackupGateway::Hypervisor"
-        case backupPlan = "AWS::Backup::BackupPlan"
-        case backupRecoveryPoint = "AWS::Backup::RecoveryPoint"
-        case backupReportPlan = "AWS::Backup::ReportPlan"
-        case backupRestoreTestingPlan = "AWS::Backup::RestoreTestingPlan"
-        case backupSelection = "AWS::Backup::BackupSelection"
-        case backupVault = "AWS::Backup::BackupVault"
-        case batchComputeEnvironment = "AWS::Batch::ComputeEnvironment"
-        case batchJobQueue = "AWS::Batch::JobQueue"
-        case batchSchedulingPolicy = "AWS::Batch::SchedulingPolicy"
-        case bcmDataExportsExport = "AWS::BCMDataExports::Export"
-        case bedrockAgentCoreBrowserCustom = "AWS::BedrockAgentCore::BrowserCustom"
-        case bedrockAgentCoreRuntime = "AWS::BedrockAgentCore::Runtime"
-        case bedrockApplicationInferenceProfile = "AWS::Bedrock::ApplicationInferenceProfile"
-        case bedrockGuardrail = "AWS::Bedrock::Guardrail"
-        case bedrockKnowledgeBase = "AWS::Bedrock::KnowledgeBase"
-        case bedrockPrompt = "AWS::Bedrock::Prompt"
-        case bucket = "AWS::S3::Bucket"
-        case budgetsBudgetsAction = "AWS::Budgets::BudgetsAction"
-        case cassandraKeyspace = "AWS::Cassandra::Keyspace"
-        case certificate = "AWS::ACM::Certificate"
-        case cleanRoomsMLTrainingDataset = "AWS::CleanRoomsML::TrainingDataset"
-        case cloud9EnvironmentEC2 = "AWS::Cloud9::EnvironmentEC2"
-        case cloudFormationGuardHook = "AWS::CloudFormation::GuardHook"
-        case cloudFormationLambdaHook = "AWS::CloudFormation::LambdaHook"
-        case cloudFormationProduct = "AWS::ServiceCatalog::CloudFormationProduct"
-        case cloudFormationProvisionedProduct = "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
-        case cloudFormationStackSet = "AWS::CloudFormation::StackSet"
-        case cloudFrontKeyValueStore = "AWS::CloudFront::KeyValueStore"
-        case cloudFrontPublicKey = "AWS::CloudFront::PublicKey"
-        case cloudFrontRealtimeLogConfig = "AWS::CloudFront::RealtimeLogConfig"
-        case cloudTrailEventDataStore = "AWS::CloudTrail::EventDataStore"
-        case cloudWatchMetricStream = "AWS::CloudWatch::MetricStream"
-        case cluster = "AWS::Redshift::Cluster"
-        case clusterParameterGroup = "AWS::Redshift::ClusterParameterGroup"
-        case clusterSecurityGroup = "AWS::Redshift::ClusterSecurityGroup"
-        case clusterSnapshot = "AWS::Redshift::ClusterSnapshot"
-        case clusterSubnetGroup = "AWS::Redshift::ClusterSubnetGroup"
-        case codeArtifactDomain = "AWS::CodeArtifact::Domain"
-        case codeArtifactRepository = "AWS::CodeArtifact::Repository"
-        case codeBuildReportGroup = "AWS::CodeBuild::ReportGroup"
-        case codeDeployApplication = "AWS::CodeDeploy::Application"
-        case codeDeployDeploymentConfig = "AWS::CodeDeploy::DeploymentConfig"
-        case codeDeployDeploymentGroup = "AWS::CodeDeploy::DeploymentGroup"
-        case codeGuruProfilerProfilingGroup = "AWS::CodeGuruProfiler::ProfilingGroup"
-        case codeGuruReviewerRepositoryAssociation = "AWS::CodeGuruReviewer::RepositoryAssociation"
-        case cognitoIdentityPool = "AWS::Cognito::IdentityPool"
-        case cognitoUserPool = "AWS::Cognito::UserPool"
-        case cognitoUserPoolClient = "AWS::Cognito::UserPoolClient"
-        case cognitoUserPoolGroup = "AWS::Cognito::UserPoolGroup"
-        case comprehendFlywheel = "AWS::Comprehend::Flywheel"
-        case configAggregationAuthorization = "AWS::Config::AggregationAuthorization"
-        case configConformancePack = "AWS::Config::ConformancePack"
-        case configStoredQuery = "AWS::Config::StoredQuery"
-        case conformancePackCompliance = "AWS::Config::ConformancePackCompliance"
-        case connectInstance = "AWS::Connect::Instance"
-        case connectPhoneNumber = "AWS::Connect::PhoneNumber"
-        case connectQuickConnect = "AWS::Connect::QuickConnect"
-        case connectRule = "AWS::Connect::Rule"
-        case connectSecurityProfile = "AWS::Connect::SecurityProfile"
-        case connectUser = "AWS::Connect::User"
-        case customerGateway = "AWS::EC2::CustomerGateway"
-        case customerProfilesDomain = "AWS::CustomerProfiles::Domain"
-        case customerProfilesObjectType = "AWS::CustomerProfiles::ObjectType"
-        case dataSyncAgent = "AWS::DataSync::Agent"
-        case dataSyncLocationEFS = "AWS::DataSync::LocationEFS"
-        case dataSyncLocationFSxLustre = "AWS::DataSync::LocationFSxLustre"
-        case dataSyncLocationFSxWindows = "AWS::DataSync::LocationFSxWindows"
-        case dataSyncLocationHDFS = "AWS::DataSync::LocationHDFS"
-        case dataSyncLocationNFS = "AWS::DataSync::LocationNFS"
-        case dataSyncLocationObjectStorage = "AWS::DataSync::LocationObjectStorage"
-        case dataSyncLocationS3 = "AWS::DataSync::LocationS3"
-        case dataSyncLocationSMB = "AWS::DataSync::LocationSMB"
-        case dataSyncTask = "AWS::DataSync::Task"
-        case dbCluster = "AWS::RDS::DBCluster"
-        case dbClusterSnapshot = "AWS::RDS::DBClusterSnapshot"
-        case dbInstance = "AWS::RDS::DBInstance"
-        case dbSecurityGroup = "AWS::RDS::DBSecurityGroup"
-        case dbSnapshot = "AWS::RDS::DBSnapshot"
-        case dbSubnetGroup = "AWS::RDS::DBSubnetGroup"
-        case deadlineFleet = "AWS::Deadline::Fleet"
-        case deadlineMonitor = "AWS::Deadline::Monitor"
-        case deadlineQueueFleetAssociation = "AWS::Deadline::QueueFleetAssociation"
-        case detectiveGraph = "AWS::Detective::Graph"
-        case deviceFarmInstanceProfile = "AWS::DeviceFarm::InstanceProfile"
-        case deviceFarmProject = "AWS::DeviceFarm::Project"
-        case deviceFarmTestGridProject = "AWS::DeviceFarm::TestGridProject"
-        case distribution = "AWS::CloudFront::Distribution"
-        case dmsCertificate = "AWS::DMS::Certificate"
-        case dmsEndpoint = "AWS::DMS::Endpoint"
-        case dmsEventSubscription = "AWS::DMS::EventSubscription"
-        case dmsReplicationSubnetGroup = "AWS::DMS::ReplicationSubnetGroup"
-        case domain = "AWS::Elasticsearch::Domain"
-        case ec2CapacityReservation = "AWS::EC2::CapacityReservation"
-        case ec2CarrierGateway = "AWS::EC2::CarrierGateway"
-        case ec2ClientVpnEndpoint = "AWS::EC2::ClientVpnEndpoint"
-        case ec2ClientVpnTargetNetworkAssociation = "AWS::EC2::ClientVpnTargetNetworkAssociation"
-        case ec2InstanceConnectEndpoint = "AWS::EC2::InstanceConnectEndpoint"
-        case ec2NetworkInsightsAccessScope = "AWS::EC2::NetworkInsightsAccessScope"
-        case ec2NetworkInsightsAnalysis = "AWS::EC2::NetworkInsightsAnalysis"
-        case ec2NetworkInsightsPath = "AWS::EC2::NetworkInsightsPath"
-        case ec2PrefixList = "AWS::EC2::PrefixList"
-        case ec2SecurityGroupVpcAssociation = "AWS::EC2::SecurityGroupVpcAssociation"
-        case ec2SnapshotBlockPublicAccess = "AWS::EC2::SnapshotBlockPublicAccess"
-        case ec2SpotFleet = "AWS::EC2::SpotFleet"
-        case ec2SubnetCidrBlock = "AWS::EC2::SubnetCidrBlock"
-        case ec2SubnetNetworkAclAssociation = "AWS::EC2::SubnetNetworkAclAssociation"
-        case ec2SubnetRouteTableAssociation = "AWS::EC2::SubnetRouteTableAssociation"
-        case ec2TrafficMirrorFilter = "AWS::EC2::TrafficMirrorFilter"
-        case ec2TrafficMirrorSession = "AWS::EC2::TrafficMirrorSession"
-        case ec2TrafficMirrorTarget = "AWS::EC2::TrafficMirrorTarget"
-        case ec2TransitGatewayConnect = "AWS::EC2::TransitGatewayConnect"
-        case ec2TransitGatewayMulticastDomain = "AWS::EC2::TransitGatewayMulticastDomain"
-        case ec2VerifiedAccessInstance = "AWS::EC2::VerifiedAccessInstance"
-        case ec2dhcpOptions = "AWS::EC2::DHCPOptions"
-        case ec2ec2Fleet = "AWS::EC2::EC2Fleet"
-        case ec2eipAssociation = "AWS::EC2::EIPAssociation"
-        case ec2ipam = "AWS::EC2::IPAM"
-        case ec2ipamPool = "AWS::EC2::IPAMPool"
-        case ec2ipamPoolCidr = "AWS::EC2::IPAMPoolCidr"
-        case ec2ipamResourceDiscovery = "AWS::EC2::IPAMResourceDiscovery"
-        case ec2ipamResourceDiscoveryAssociation = "AWS::EC2::IPAMResourceDiscoveryAssociation"
-        case ec2ipamScope = "AWS::EC2::IPAMScope"
-        case ec2vpcBlockPublicAccessExclusion = "AWS::EC2::VPCBlockPublicAccessExclusion"
-        case ec2vpcBlockPublicAccessOptions = "AWS::EC2::VPCBlockPublicAccessOptions"
-        case ec2vpcEndpointConnectionNotification = "AWS::EC2::VPCEndpointConnectionNotification"
-        case ec2vpcGatewayAttachment = "AWS::EC2::VPCGatewayAttachment"
-        case ec2vpnConnectionRoute = "AWS::EC2::VPNConnectionRoute"
-        case ecrPublicRepository = "AWS::ECR::PublicRepository"
-        case ecrPullThroughCacheRule = "AWS::ECR::PullThroughCacheRule"
-        case ecrRegistryPolicy = "AWS::ECR::RegistryPolicy"
-        case ecrReplicationConfiguration = "AWS::ECR::ReplicationConfiguration"
-        case ecrRepository = "AWS::ECR::Repository"
-        case ecrRepositoryCreationTemplate = "AWS::ECR::RepositoryCreationTemplate"
-        case ecsCapacityProvider = "AWS::ECS::CapacityProvider"
-        case ecsCluster = "AWS::ECS::Cluster"
-        case ecsService = "AWS::ECS::Service"
-        case ecsTaskDefinition = "AWS::ECS::TaskDefinition"
-        case ecsTaskSet = "AWS::ECS::TaskSet"
-        case efsAccessPoint = "AWS::EFS::AccessPoint"
-        case efsFileSystem = "AWS::EFS::FileSystem"
-        case egressOnlyInternetGateway = "AWS::EC2::EgressOnlyInternetGateway"
-        case eip = "AWS::EC2::EIP"
-        case eksAddon = "AWS::EKS::Addon"
-        case eksCluster = "AWS::EKS::Cluster"
-        case eksFargateProfile = "AWS::EKS::FargateProfile"
-        case eksIdentityProviderConfig = "AWS::EKS::IdentityProviderConfig"
-        case elasticLoadBalancingV2TargetGroup = "AWS::ElasticLoadBalancingV2::TargetGroup"
-        case emrContainersVirtualCluster = "AWS::EMRContainers::VirtualCluster"
-        case emrSecurityConfiguration = "AWS::EMR::SecurityConfiguration"
-        case emrServerlessApplication = "AWS::EMRServerless::Application"
-        case emrStudio = "AWS::EMR::Studio"
-        case encryptionConfig = "AWS::XRay::EncryptionConfig"
-        case entityResolutionIdMappingWorkflow = "AWS::EntityResolution::IdMappingWorkflow"
-        case entityResolutionMatchingWorkflow = "AWS::EntityResolution::MatchingWorkflow"
-        case entityResolutionSchemaMapping = "AWS::EntityResolution::SchemaMapping"
-        case environment = "AWS::ElasticBeanstalk::Environment"
-        case eventSchemasDiscoverer = "AWS::EventSchemas::Discoverer"
-        case eventSchemasRegistry = "AWS::EventSchemas::Registry"
-        case eventSchemasRegistryPolicy = "AWS::EventSchemas::RegistryPolicy"
-        case eventSchemasSchema = "AWS::EventSchemas::Schema"
-        case eventSubscription = "AWS::RDS::EventSubscription"
-        case eventsApiDestination = "AWS::Events::ApiDestination"
-        case eventsArchive = "AWS::Events::Archive"
-        case eventsConnection = "AWS::Events::Connection"
-        case eventsEndpoint = "AWS::Events::Endpoint"
-        case eventsEventBus = "AWS::Events::EventBus"
-        case eventsRule = "AWS::Events::Rule"
-        case evidentlyLaunch = "AWS::Evidently::Launch"
-        case evidentlyProject = "AWS::Evidently::Project"
-        case evidentlySegment = "AWS::Evidently::Segment"
-        case fileData = "AWS::SSM::FileData"
-        case fisExperimentTemplate = "AWS::FIS::ExperimentTemplate"
-        case flowLog = "AWS::EC2::FlowLog"
-        case forecastDataset = "AWS::Forecast::Dataset"
-        case forecastDatasetGroup = "AWS::Forecast::DatasetGroup"
-        case fraudDetectorEntityType = "AWS::FraudDetector::EntityType"
-        case fraudDetectorLabel = "AWS::FraudDetector::Label"
-        case fraudDetectorOutcome = "AWS::FraudDetector::Outcome"
-        case fraudDetectorVariable = "AWS::FraudDetector::Variable"
-        case function = "AWS::Lambda::Function"
-        case gameLiftBuild = "AWS::GameLift::Build"
-        case globalAcceleratorAccelerator = "AWS::GlobalAccelerator::Accelerator"
-        case globalAcceleratorEndpointGroup = "AWS::GlobalAccelerator::EndpointGroup"
-        case globalAcceleratorListener = "AWS::GlobalAccelerator::Listener"
-        case glueClassifier = "AWS::Glue::Classifier"
-        case glueDatabase = "AWS::Glue::Database"
-        case glueJob = "AWS::Glue::Job"
-        case glueMLTransform = "AWS::Glue::MLTransform"
-        case grafanaWorkspace = "AWS::Grafana::Workspace"
-        case greengrassV2ComponentVersion = "AWS::GreengrassV2::ComponentVersion"
-        case groundStationConfig = "AWS::GroundStation::Config"
-        case groundStationDataflowEndpointGroup = "AWS::GroundStation::DataflowEndpointGroup"
-        case groundStationMissionProfile = "AWS::GroundStation::MissionProfile"
-        case group = "AWS::IAM::Group"
-        case guardDutyDetector = "AWS::GuardDuty::Detector"
-        case guardDutyFilter = "AWS::GuardDuty::Filter"
-        case guardDutyIPSet = "AWS::GuardDuty::IPSet"
-        case guardDutyMalwareProtectionPlan = "AWS::GuardDuty::MalwareProtectionPlan"
-        case guardDutyThreatIntelSet = "AWS::GuardDuty::ThreatIntelSet"
-        case healthLakeFHIRDatastore = "AWS::HealthLake::FHIRDatastore"
-        case host = "AWS::EC2::Host"
-        case iamInstanceProfile = "AWS::IAM::InstanceProfile"
-        case iamServerCertificate = "AWS::IAM::ServerCertificate"
-        case iamoidcProvider = "AWS::IAM::OIDCProvider"
-        case iamsamlProvider = "AWS::IAM::SAMLProvider"
-        case imageBuilderContainerRecipe = "AWS::ImageBuilder::ContainerRecipe"
-        case imageBuilderDistributionConfiguration = "AWS::ImageBuilder::DistributionConfiguration"
-        case imageBuilderImagePipeline = "AWS::ImageBuilder::ImagePipeline"
-        case imageBuilderImageRecipe = "AWS::ImageBuilder::ImageRecipe"
-        case imageBuilderInfrastructureConfiguration = "AWS::ImageBuilder::InfrastructureConfiguration"
-        case imageBuilderLifecyclePolicy = "AWS::ImageBuilder::LifecyclePolicy"
-        case inspectorV2Activation = "AWS::InspectorV2::Activation"
-        case inspectorV2Filter = "AWS::InspectorV2::Filter"
-        case instance = "AWS::EC2::Instance"
-        case internetGateway = "AWS::EC2::InternetGateway"
-        case ioTAccountAuditConfiguration = "AWS::IoT::AccountAuditConfiguration"
-        case ioTAnalyticsChannel = "AWS::IoTAnalytics::Channel"
-        case ioTAnalyticsDataset = "AWS::IoTAnalytics::Dataset"
-        case ioTAnalyticsDatastore = "AWS::IoTAnalytics::Datastore"
-        case ioTAnalyticsPipeline = "AWS::IoTAnalytics::Pipeline"
-        case ioTAuthorizer = "AWS::IoT::Authorizer"
-        case ioTCACertificate = "AWS::IoT::CACertificate"
-        case ioTCoreDeviceAdvisorSuiteDefinition = "AWS::IoTCoreDeviceAdvisor::SuiteDefinition"
-        case ioTCustomMetric = "AWS::IoT::CustomMetric"
-        case ioTDimension = "AWS::IoT::Dimension"
-        case ioTDomainConfiguration = "AWS::IoT::DomainConfiguration"
-        case ioTEventsAlarmModel = "AWS::IoTEvents::AlarmModel"
-        case ioTEventsDetectorModel = "AWS::IoTEvents::DetectorModel"
-        case ioTEventsInput = "AWS::IoTEvents::Input"
-        case ioTFleetMetric = "AWS::IoT::FleetMetric"
-        case ioTJobTemplate = "AWS::IoT::JobTemplate"
-        case ioTMitigationAction = "AWS::IoT::MitigationAction"
-        case ioTPolicy = "AWS::IoT::Policy"
-        case ioTProvisioningTemplate = "AWS::IoT::ProvisioningTemplate"
-        case ioTRoleAlias = "AWS::IoT::RoleAlias"
-        case ioTScheduledAudit = "AWS::IoT::ScheduledAudit"
-        case ioTSecurityProfile = "AWS::IoT::SecurityProfile"
-        case ioTSiteWiseAsset = "AWS::IoTSiteWise::Asset"
-        case ioTSiteWiseAssetModel = "AWS::IoTSiteWise::AssetModel"
-        case ioTSiteWiseDashboard = "AWS::IoTSiteWise::Dashboard"
-        case ioTSiteWiseGateway = "AWS::IoTSiteWise::Gateway"
-        case ioTSiteWisePortal = "AWS::IoTSiteWise::Portal"
-        case ioTSiteWiseProject = "AWS::IoTSiteWise::Project"
-        case ioTThingGroup = "AWS::IoT::ThingGroup"
-        case ioTTwinMakerComponentType = "AWS::IoTTwinMaker::ComponentType"
-        case ioTTwinMakerEntity = "AWS::IoTTwinMaker::Entity"
-        case ioTTwinMakerScene = "AWS::IoTTwinMaker::Scene"
-        case ioTTwinMakerSyncJob = "AWS::IoTTwinMaker::SyncJob"
-        case ioTTwinMakerWorkspace = "AWS::IoTTwinMaker::Workspace"
-        case ioTWirelessFuotaTask = "AWS::IoTWireless::FuotaTask"
-        case ioTWirelessMulticastGroup = "AWS::IoTWireless::MulticastGroup"
-        case ioTWirelessServiceProfile = "AWS::IoTWireless::ServiceProfile"
-        case ipSetV2 = "AWS::WAFv2::IPSet"
-        case ivsChannel = "AWS::IVS::Channel"
-        case ivsPlaybackKeyPair = "AWS::IVS::PlaybackKeyPair"
-        case ivsRecordingConfiguration = "AWS::IVS::RecordingConfiguration"
-        case kafkaConnectConnector = "AWS::KafkaConnect::Connector"
-        case kafkaConnectCustomPlugin = "AWS::KafkaConnect::CustomPlugin"
-        case kendraIndex = "AWS::Kendra::Index"
-        case key = "AWS::KMS::Key"
-        case kinesisAnalyticsV2Application = "AWS::KinesisAnalyticsV2::Application"
-        case kinesisFirehoseDeliveryStream = "AWS::KinesisFirehose::DeliveryStream"
-        case kinesisStream = "AWS::Kinesis::Stream"
-        case kinesisStreamConsumer = "AWS::Kinesis::StreamConsumer"
-        case kinesisVideoSignalingChannel = "AWS::KinesisVideo::SignalingChannel"
-        case kinesisVideoStream = "AWS::KinesisVideo::Stream"
-        case kmsAlias = "AWS::KMS::Alias"
-        case lambdaCodeSigningConfig = "AWS::Lambda::CodeSigningConfig"
-        case launchConfiguration = "AWS::AutoScaling::LaunchConfiguration"
-        case launchTemplate = "AWS::EC2::LaunchTemplate"
-        case lexBot = "AWS::Lex::Bot"
-        case lexBotAlias = "AWS::Lex::BotAlias"
-        case lightsailBucket = "AWS::Lightsail::Bucket"
-        case lightsailCertificate = "AWS::Lightsail::Certificate"
-        case lightsailDisk = "AWS::Lightsail::Disk"
-        case lightsailStaticIp = "AWS::Lightsail::StaticIp"
-        case listenerV2 = "AWS::ElasticLoadBalancingV2::Listener"
-        case loadBalancer = "AWS::ElasticLoadBalancing::LoadBalancer"
-        case loadBalancerV2 = "AWS::ElasticLoadBalancingV2::LoadBalancer"
-        case locationAPIKey = "AWS::Location::APIKey"
-        case logsDestination = "AWS::Logs::Destination"
-        case lookoutMetricsAlert = "AWS::LookoutMetrics::Alert"
-        case lookoutVisionProject = "AWS::LookoutVision::Project"
-        case m2Environment = "AWS::M2::Environment"
-        case managedInstanceInventory = "AWS::SSM::ManagedInstanceInventory"
-        case managedRuleSetV2 = "AWS::WAFv2::ManagedRuleSet"
-        case mediaConnectFlowEntitlement = "AWS::MediaConnect::FlowEntitlement"
-        case mediaConnectFlowSource = "AWS::MediaConnect::FlowSource"
-        case mediaConnectFlowVpcInterface = "AWS::MediaConnect::FlowVpcInterface"
-        case mediaConnectGateway = "AWS::MediaConnect::Gateway"
-        case mediaPackagePackagingConfiguration = "AWS::MediaPackage::PackagingConfiguration"
-        case mediaPackagePackagingGroup = "AWS::MediaPackage::PackagingGroup"
-        case mediaPackageV2Channel = "AWS::MediaPackageV2::Channel"
-        case mediaPackageV2OriginEndpoint = "AWS::MediaPackageV2::OriginEndpoint"
-        case mediaTailorLiveSource = "AWS::MediaTailor::LiveSource"
-        case mediaTailorPlaybackConfiguration = "AWS::MediaTailor::PlaybackConfiguration"
-        case memoryDBSubnetGroup = "AWS::MemoryDB::SubnetGroup"
-        case mskBatchScramSecret = "AWS::MSK::BatchScramSecret"
-        case mskCluster = "AWS::MSK::Cluster"
-        case mskClusterPolicy = "AWS::MSK::ClusterPolicy"
-        case mskConfiguration = "AWS::MSK::Configuration"
-        case mskServerlessCluster = "AWS::MSK::ServerlessCluster"
-        case mskVpcConnection = "AWS::MSK::VpcConnection"
-        case natGateway = "AWS::EC2::NatGateway"
-        case networkAcl = "AWS::EC2::NetworkAcl"
-        case networkFirewallFirewall = "AWS::NetworkFirewall::Firewall"
-        case networkFirewallFirewallPolicy = "AWS::NetworkFirewall::FirewallPolicy"
-        case networkFirewallRuleGroup = "AWS::NetworkFirewall::RuleGroup"
-        case networkInsightsAccessScopeAnalysis = "AWS::EC2::NetworkInsightsAccessScopeAnalysis"
-        case networkInterface = "AWS::EC2::NetworkInterface"
-        case networkManagerConnectPeer = "AWS::NetworkManager::ConnectPeer"
-        case networkManagerCustomerGatewayAssociation = "AWS::NetworkManager::CustomerGatewayAssociation"
-        case networkManagerDevice = "AWS::NetworkManager::Device"
-        case networkManagerGlobalNetwork = "AWS::NetworkManager::GlobalNetwork"
-        case networkManagerLink = "AWS::NetworkManager::Link"
-        case networkManagerLinkAssociation = "AWS::NetworkManager::LinkAssociation"
-        case networkManagerSite = "AWS::NetworkManager::Site"
-        case networkManagerTransitGatewayPeering = "AWS::NetworkManager::TransitGatewayPeering"
-        case networkManagerTransitGatewayRegistration = "AWS::NetworkManager::TransitGatewayRegistration"
-        case openSearchDomain = "AWS::OpenSearch::Domain"
-        case openSearchServerlessCollection = "AWS::OpenSearchServerless::Collection"
-        case openSearchServerlessSecurityConfig = "AWS::OpenSearchServerless::SecurityConfig"
-        case openSearchServerlessVpcEndpoint = "AWS::OpenSearchServerless::VpcEndpoint"
-        case organizationsOrganizationalUnit = "AWS::Organizations::OrganizationalUnit"
-        case panoramaPackage = "AWS::Panorama::Package"
-        case patchCompliance = "AWS::SSM::PatchCompliance"
-        case pcaConnectorADConnector = "AWS::PCAConnectorAD::Connector"
-        case pcaConnectorADDirectoryRegistration = "AWS::PCAConnectorAD::DirectoryRegistration"
-        case personalizeDataset = "AWS::Personalize::Dataset"
-        case personalizeDatasetGroup = "AWS::Personalize::DatasetGroup"
-        case personalizeSchema = "AWS::Personalize::Schema"
-        case personalizeSolution = "AWS::Personalize::Solution"
-        case pinpointApp = "AWS::Pinpoint::App"
-        case pinpointApplicationSettings = "AWS::Pinpoint::ApplicationSettings"
-        case pinpointCampaign = "AWS::Pinpoint::Campaign"
-        case pinpointEmailChannel = "AWS::Pinpoint::EmailChannel"
-        case pinpointEmailTemplate = "AWS::Pinpoint::EmailTemplate"
-        case pinpointEventStream = "AWS::Pinpoint::EventStream"
-        case pinpointInAppTemplate = "AWS::Pinpoint::InAppTemplate"
-        case pinpointSegment = "AWS::Pinpoint::Segment"
-        case pipeline = "AWS::CodePipeline::Pipeline"
-        case policy = "AWS::IAM::Policy"
-        case portfolio = "AWS::ServiceCatalog::Portfolio"
-        case project = "AWS::CodeBuild::Project"
-        case protection = "AWS::Shield::Protection"
-        case qldbLedger = "AWS::QLDB::Ledger"
-        case queue = "AWS::SQS::Queue"
-        case quickSightDataSource = "AWS::QuickSight::DataSource"
-        case quickSightTemplate = "AWS::QuickSight::Template"
-        case quickSightTheme = "AWS::QuickSight::Theme"
-        case rateBasedRule = "AWS::WAF::RateBasedRule"
-        case rdsGlobalCluster = "AWS::RDS::GlobalCluster"
-        case rdsIntegration = "AWS::RDS::Integration"
-        case rdsOptionGroup = "AWS::RDS::OptionGroup"
-        case redshiftEndpointAccess = "AWS::Redshift::EndpointAccess"
-        case redshiftEndpointAuthorization = "AWS::Redshift::EndpointAuthorization"
-        case redshiftEventSubscription = "AWS::Redshift::EventSubscription"
-        case redshiftIntegration = "AWS::Redshift::Integration"
-        case redshiftScheduledAction = "AWS::Redshift::ScheduledAction"
-        case regexPatternSetV2 = "AWS::WAFv2::RegexPatternSet"
-        case regionalProtection = "AWS::ShieldRegional::Protection"
-        case regionalRateBasedRule = "AWS::WAFRegional::RateBasedRule"
-        case regionalRule = "AWS::WAFRegional::Rule"
-        case regionalRuleGroup = "AWS::WAFRegional::RuleGroup"
-        case regionalWebACL = "AWS::WAFRegional::WebACL"
-        case registeredHAInstance = "AWS::EC2::RegisteredHAInstance"
-        case resilienceHubApp = "AWS::ResilienceHub::App"
-        case resilienceHubResiliencyPolicy = "AWS::ResilienceHub::ResiliencyPolicy"
-        case resourceCompliance = "AWS::Config::ResourceCompliance"
-        case resourceExplorer2Index = "AWS::ResourceExplorer2::Index"
-        case restApi = "AWS::ApiGateway::RestApi"
-        case roboMakerRobotApplication = "AWS::RoboMaker::RobotApplication"
-        case roboMakerRobotApplicationVersion = "AWS::RoboMaker::RobotApplicationVersion"
-        case roboMakerSimulationApplication = "AWS::RoboMaker::SimulationApplication"
-        case role = "AWS::IAM::Role"
-        case rolesAnywhereProfile = "AWS::RolesAnywhere::Profile"
-        case rolesAnywhereTrustAnchor = "AWS::RolesAnywhere::TrustAnchor"
-        case route53DNSSEC = "AWS::Route53::DNSSEC"
-        case route53HostedZone = "AWS::Route53::HostedZone"
-        case route53ProfilesProfile = "AWS::Route53Profiles::Profile"
-        case route53ProfilesProfileAssociation = "AWS::Route53Profiles::ProfileAssociation"
-        case route53RecoveryControlCluster = "AWS::Route53RecoveryControl::Cluster"
-        case route53RecoveryControlControlPanel = "AWS::Route53RecoveryControl::ControlPanel"
-        case route53RecoveryControlRoutingControl = "AWS::Route53RecoveryControl::RoutingControl"
-        case route53RecoveryControlSafetyRule = "AWS::Route53RecoveryControl::SafetyRule"
-        case route53RecoveryReadinessCell = "AWS::Route53RecoveryReadiness::Cell"
-        case route53RecoveryReadinessReadinessCheck = "AWS::Route53RecoveryReadiness::ReadinessCheck"
-        case route53RecoveryReadinessRecoveryGroup = "AWS::Route53RecoveryReadiness::RecoveryGroup"
-        case route53RecoveryReadinessResourceSet = "AWS::Route53RecoveryReadiness::ResourceSet"
-        case route53ResolverFirewallDomainList = "AWS::Route53Resolver::FirewallDomainList"
-        case route53ResolverFirewallRuleGroup = "AWS::Route53Resolver::FirewallRuleGroup"
-        case route53ResolverFirewallRuleGroupAssociation = "AWS::Route53Resolver::FirewallRuleGroupAssociation"
-        case route53ResolverResolverEndpoint = "AWS::Route53Resolver::ResolverEndpoint"
-        case route53ResolverResolverQueryLoggingConfig = "AWS::Route53Resolver::ResolverQueryLoggingConfig"
-        case route53ResolverResolverQueryLoggingConfigAssociation = "AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation"
-        case route53ResolverResolverRule = "AWS::Route53Resolver::ResolverRule"
-        case route53ResolverResolverRuleAssociation = "AWS::Route53Resolver::ResolverRuleAssociation"
-        case routeTable = "AWS::EC2::RouteTable"
-        case rule = "AWS::WAF::Rule"
-        case ruleGroup = "AWS::WAF::RuleGroup"
-        case ruleGroupV2 = "AWS::WAFv2::RuleGroup"
-        case rumAppMonitor = "AWS::RUM::AppMonitor"
-        case s3AccessGrant = "AWS::S3::AccessGrant"
-        case s3AccessGrantsInstance = "AWS::S3::AccessGrantsInstance"
-        case s3AccessGrantsLocation = "AWS::S3::AccessGrantsLocation"
-        case s3AccessPoint = "AWS::S3::AccessPoint"
-        case s3ExpressBucketPolicy = "AWS::S3Express::BucketPolicy"
-        case s3ExpressDirectoryBucket = "AWS::S3Express::DirectoryBucket"
-        case s3MultiRegionAccessPoint = "AWS::S3::MultiRegionAccessPoint"
-        case s3StorageLens = "AWS::S3::StorageLens"
-        case s3StorageLensGroup = "AWS::S3::StorageLensGroup"
-        case s3TablesTableBucket = "AWS::S3Tables::TableBucket"
-        case s3TablesTableBucketPolicy = "AWS::S3Tables::TableBucketPolicy"
-        case sageMakerAppImageConfig = "AWS::SageMaker::AppImageConfig"
-        case sageMakerCodeRepository = "AWS::SageMaker::CodeRepository"
-        case sageMakerDataQualityJobDefinition = "AWS::SageMaker::DataQualityJobDefinition"
-        case sageMakerDomain = "AWS::SageMaker::Domain"
-        case sageMakerFeatureGroup = "AWS::SageMaker::FeatureGroup"
-        case sageMakerImage = "AWS::SageMaker::Image"
-        case sageMakerInferenceExperiment = "AWS::SageMaker::InferenceExperiment"
-        case sageMakerMlflowTrackingServer = "AWS::SageMaker::MlflowTrackingServer"
-        case sageMakerModel = "AWS::SageMaker::Model"
-        case sageMakerModelBiasJobDefinition = "AWS::SageMaker::ModelBiasJobDefinition"
-        case sageMakerModelExplainabilityJobDefinition = "AWS::SageMaker::ModelExplainabilityJobDefinition"
-        case sageMakerModelQualityJobDefinition = "AWS::SageMaker::ModelQualityJobDefinition"
-        case sageMakerNotebookInstanceLifecycleConfig = "AWS::SageMaker::NotebookInstanceLifecycleConfig"
-        case sageMakerStudioLifecycleConfig = "AWS::SageMaker::StudioLifecycleConfig"
-        case sageMakerUserProfile = "AWS::SageMaker::UserProfile"
-        case sageMakerWorkteam = "AWS::SageMaker::Workteam"
-        case scalingPolicy = "AWS::AutoScaling::ScalingPolicy"
-        case scheduledAction = "AWS::AutoScaling::ScheduledAction"
-        case secret = "AWS::SecretsManager::Secret"
-        case secretsManagerResourcePolicy = "AWS::SecretsManager::ResourcePolicy"
-        case secretsManagerRotationSchedule = "AWS::SecretsManager::RotationSchedule"
-        case securityGroup = "AWS::EC2::SecurityGroup"
-        case securityHubStandard = "AWS::SecurityHub::Standard"
-        case serviceDiscoveryHttpNamespace = "AWS::ServiceDiscovery::HttpNamespace"
-        case serviceDiscoveryInstance = "AWS::ServiceDiscovery::Instance"
-        case serviceDiscoveryPublicDnsNamespace = "AWS::ServiceDiscovery::PublicDnsNamespace"
-        case serviceDiscoveryService = "AWS::ServiceDiscovery::Service"
-        case sesConfigurationSet = "AWS::SES::ConfigurationSet"
-        case sesContactList = "AWS::SES::ContactList"
-        case sesDedicatedIpPool = "AWS::SES::DedicatedIpPool"
-        case sesMailManagerTrafficPolicy = "AWS::SES::MailManagerTrafficPolicy"
-        case sesReceiptFilter = "AWS::SES::ReceiptFilter"
-        case sesReceiptRuleSet = "AWS::SES::ReceiptRuleSet"
-        case sesTemplate = "AWS::SES::Template"
-        case signerSigningProfile = "AWS::Signer::SigningProfile"
-        case ssmContactsContact = "AWS::SSMContacts::Contact"
-        case ssmDocument = "AWS::SSM::Document"
-        case ssmIncidentsResponsePlan = "AWS::SSMIncidents::ResponsePlan"
-        case ssmResourceDataSync = "AWS::SSM::ResourceDataSync"
-        case stack = "AWS::CloudFormation::Stack"
-        case stage = "AWS::ApiGateway::Stage"
-        case stageV2 = "AWS::ApiGatewayV2::Stage"
-        case stepFunctionsActivity = "AWS::StepFunctions::Activity"
-        case stepFunctionsStateMachine = "AWS::StepFunctions::StateMachine"
-        case streamingDistribution = "AWS::CloudFront::StreamingDistribution"
-        case subnet = "AWS::EC2::Subnet"
-        case table = "AWS::DynamoDB::Table"
-        case topic = "AWS::SNS::Topic"
-        case trail = "AWS::CloudTrail::Trail"
-        case transferAgreement = "AWS::Transfer::Agreement"
-        case transferCertificate = "AWS::Transfer::Certificate"
-        case transferConnector = "AWS::Transfer::Connector"
-        case transferProfile = "AWS::Transfer::Profile"
-        case transferServer = "AWS::Transfer::Server"
-        case transferWorkflow = "AWS::Transfer::Workflow"
-        case transitGateway = "AWS::EC2::TransitGateway"
-        case transitGatewayAttachment = "AWS::EC2::TransitGatewayAttachment"
-        case transitGatewayRouteTable = "AWS::EC2::TransitGatewayRouteTable"
-        case user = "AWS::IAM::User"
-        case volume = "AWS::EC2::Volume"
-        case vpc = "AWS::EC2::VPC"
-        case vpcEndpoint = "AWS::EC2::VPCEndpoint"
-        case vpcEndpointService = "AWS::EC2::VPCEndpointService"
-        case vpcPeeringConnection = "AWS::EC2::VPCPeeringConnection"
-        case vpnConnection = "AWS::EC2::VPNConnection"
-        case vpnGateway = "AWS::EC2::VPNGateway"
-        case webACL = "AWS::WAF::WebACL"
-        case webACLV2 = "AWS::WAFv2::WebACL"
-        case workSpacesConnectionAlias = "AWS::WorkSpaces::ConnectionAlias"
-        case workSpacesWorkspace = "AWS::WorkSpaces::Workspace"
-        public var description: String { return self.rawValue }
+    public struct ResourceType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var accessAnalyzerAnalyzer: Self { .init(rawValue: "AWS::AccessAnalyzer::Analyzer") }
+        @inlinable public static var accountPublicAccessBlock: Self { .init(rawValue: "AWS::S3::AccountPublicAccessBlock") }
+        @inlinable public static var acmpcaCertificateAuthority: Self { .init(rawValue: "AWS::ACMPCA::CertificateAuthority") }
+        @inlinable public static var acmpcaCertificateAuthorityActivation: Self { .init(rawValue: "AWS::ACMPCA::CertificateAuthorityActivation") }
+        @inlinable public static var alarm: Self { .init(rawValue: "AWS::CloudWatch::Alarm") }
+        @inlinable public static var amazonMQBroker: Self { .init(rawValue: "AWS::AmazonMQ::Broker") }
+        @inlinable public static var amplifyApp: Self { .init(rawValue: "AWS::Amplify::App") }
+        @inlinable public static var amplifyBranch: Self { .init(rawValue: "AWS::Amplify::Branch") }
+        @inlinable public static var api: Self { .init(rawValue: "AWS::ApiGatewayV2::Api") }
+        @inlinable public static var apiGatewayMethod: Self { .init(rawValue: "AWS::ApiGateway::Method") }
+        @inlinable public static var apiGatewayUsagePlan: Self { .init(rawValue: "AWS::ApiGateway::UsagePlan") }
+        @inlinable public static var apiGatewayV2Integration: Self { .init(rawValue: "AWS::ApiGatewayV2::Integration") }
+        @inlinable public static var appConfigApplication: Self { .init(rawValue: "AWS::AppConfig::Application") }
+        @inlinable public static var appConfigConfigurationProfile: Self { .init(rawValue: "AWS::AppConfig::ConfigurationProfile") }
+        @inlinable public static var appConfigDeploymentStrategy: Self { .init(rawValue: "AWS::AppConfig::DeploymentStrategy") }
+        @inlinable public static var appConfigEnvironment: Self { .init(rawValue: "AWS::AppConfig::Environment") }
+        @inlinable public static var appConfigExtension: Self { .init(rawValue: "AWS::AppConfig::Extension") }
+        @inlinable public static var appConfigExtensionAssociation: Self { .init(rawValue: "AWS::AppConfig::ExtensionAssociation") }
+        @inlinable public static var appConfigHostedConfigurationVersion: Self { .init(rawValue: "AWS::AppConfig::HostedConfigurationVersion") }
+        @inlinable public static var appFlowFlow: Self { .init(rawValue: "AWS::AppFlow::Flow") }
+        @inlinable public static var appIntegrationsApplication: Self { .init(rawValue: "AWS::AppIntegrations::Application") }
+        @inlinable public static var appIntegrationsEventIntegration: Self { .init(rawValue: "AWS::AppIntegrations::EventIntegration") }
+        @inlinable public static var appMeshGatewayRoute: Self { .init(rawValue: "AWS::AppMesh::GatewayRoute") }
+        @inlinable public static var appMeshMesh: Self { .init(rawValue: "AWS::AppMesh::Mesh") }
+        @inlinable public static var appMeshRoute: Self { .init(rawValue: "AWS::AppMesh::Route") }
+        @inlinable public static var appMeshVirtualGateway: Self { .init(rawValue: "AWS::AppMesh::VirtualGateway") }
+        @inlinable public static var appMeshVirtualNode: Self { .init(rawValue: "AWS::AppMesh::VirtualNode") }
+        @inlinable public static var appMeshVirtualRouter: Self { .init(rawValue: "AWS::AppMesh::VirtualRouter") }
+        @inlinable public static var appMeshVirtualService: Self { .init(rawValue: "AWS::AppMesh::VirtualService") }
+        @inlinable public static var appRunnerService: Self { .init(rawValue: "AWS::AppRunner::Service") }
+        @inlinable public static var appRunnerVpcConnector: Self { .init(rawValue: "AWS::AppRunner::VpcConnector") }
+        @inlinable public static var appStreamAppBlockBuilder: Self { .init(rawValue: "AWS::AppStream::AppBlockBuilder") }
+        @inlinable public static var appStreamApplication: Self { .init(rawValue: "AWS::AppStream::Application") }
+        @inlinable public static var appStreamDirectoryConfig: Self { .init(rawValue: "AWS::AppStream::DirectoryConfig") }
+        @inlinable public static var appStreamFleet: Self { .init(rawValue: "AWS::AppStream::Fleet") }
+        @inlinable public static var appStreamStack: Self { .init(rawValue: "AWS::AppStream::Stack") }
+        @inlinable public static var appSyncApiCache: Self { .init(rawValue: "AWS::AppSync::ApiCache") }
+        @inlinable public static var appSyncGraphQLApi: Self { .init(rawValue: "AWS::AppSync::GraphQLApi") }
+        @inlinable public static var application: Self { .init(rawValue: "AWS::ElasticBeanstalk::Application") }
+        @inlinable public static var applicationVersion: Self { .init(rawValue: "AWS::ElasticBeanstalk::ApplicationVersion") }
+        @inlinable public static var apsRuleGroupsNamespace: Self { .init(rawValue: "AWS::APS::RuleGroupsNamespace") }
+        @inlinable public static var associationCompliance: Self { .init(rawValue: "AWS::SSM::AssociationCompliance") }
+        @inlinable public static var athenaDataCatalog: Self { .init(rawValue: "AWS::Athena::DataCatalog") }
+        @inlinable public static var athenaPreparedStatement: Self { .init(rawValue: "AWS::Athena::PreparedStatement") }
+        @inlinable public static var athenaWorkGroup: Self { .init(rawValue: "AWS::Athena::WorkGroup") }
+        @inlinable public static var auditManagerAssessment: Self { .init(rawValue: "AWS::AuditManager::Assessment") }
+        @inlinable public static var autoScalingGroup: Self { .init(rawValue: "AWS::AutoScaling::AutoScalingGroup") }
+        @inlinable public static var autoScalingWarmPool: Self { .init(rawValue: "AWS::AutoScaling::WarmPool") }
+        @inlinable public static var b2biCapability: Self { .init(rawValue: "AWS::B2BI::Capability") }
+        @inlinable public static var backupGatewayHypervisor: Self { .init(rawValue: "AWS::BackupGateway::Hypervisor") }
+        @inlinable public static var backupPlan: Self { .init(rawValue: "AWS::Backup::BackupPlan") }
+        @inlinable public static var backupRecoveryPoint: Self { .init(rawValue: "AWS::Backup::RecoveryPoint") }
+        @inlinable public static var backupReportPlan: Self { .init(rawValue: "AWS::Backup::ReportPlan") }
+        @inlinable public static var backupRestoreTestingPlan: Self { .init(rawValue: "AWS::Backup::RestoreTestingPlan") }
+        @inlinable public static var backupSelection: Self { .init(rawValue: "AWS::Backup::BackupSelection") }
+        @inlinable public static var backupVault: Self { .init(rawValue: "AWS::Backup::BackupVault") }
+        @inlinable public static var batchComputeEnvironment: Self { .init(rawValue: "AWS::Batch::ComputeEnvironment") }
+        @inlinable public static var batchJobQueue: Self { .init(rawValue: "AWS::Batch::JobQueue") }
+        @inlinable public static var batchSchedulingPolicy: Self { .init(rawValue: "AWS::Batch::SchedulingPolicy") }
+        @inlinable public static var bcmDataExportsExport: Self { .init(rawValue: "AWS::BCMDataExports::Export") }
+        @inlinable public static var bedrockAgentCoreBrowserCustom: Self { .init(rawValue: "AWS::BedrockAgentCore::BrowserCustom") }
+        @inlinable public static var bedrockAgentCoreRuntime: Self { .init(rawValue: "AWS::BedrockAgentCore::Runtime") }
+        @inlinable public static var bedrockApplicationInferenceProfile: Self { .init(rawValue: "AWS::Bedrock::ApplicationInferenceProfile") }
+        @inlinable public static var bedrockGuardrail: Self { .init(rawValue: "AWS::Bedrock::Guardrail") }
+        @inlinable public static var bedrockKnowledgeBase: Self { .init(rawValue: "AWS::Bedrock::KnowledgeBase") }
+        @inlinable public static var bedrockPrompt: Self { .init(rawValue: "AWS::Bedrock::Prompt") }
+        @inlinable public static var bucket: Self { .init(rawValue: "AWS::S3::Bucket") }
+        @inlinable public static var budgetsBudgetsAction: Self { .init(rawValue: "AWS::Budgets::BudgetsAction") }
+        @inlinable public static var cassandraKeyspace: Self { .init(rawValue: "AWS::Cassandra::Keyspace") }
+        @inlinable public static var certificate: Self { .init(rawValue: "AWS::ACM::Certificate") }
+        @inlinable public static var cleanRoomsMLTrainingDataset: Self { .init(rawValue: "AWS::CleanRoomsML::TrainingDataset") }
+        @inlinable public static var cloud9EnvironmentEC2: Self { .init(rawValue: "AWS::Cloud9::EnvironmentEC2") }
+        @inlinable public static var cloudFormationGuardHook: Self { .init(rawValue: "AWS::CloudFormation::GuardHook") }
+        @inlinable public static var cloudFormationLambdaHook: Self { .init(rawValue: "AWS::CloudFormation::LambdaHook") }
+        @inlinable public static var cloudFormationProduct: Self { .init(rawValue: "AWS::ServiceCatalog::CloudFormationProduct") }
+        @inlinable public static var cloudFormationProvisionedProduct: Self { .init(rawValue: "AWS::ServiceCatalog::CloudFormationProvisionedProduct") }
+        @inlinable public static var cloudFormationStackSet: Self { .init(rawValue: "AWS::CloudFormation::StackSet") }
+        @inlinable public static var cloudFrontKeyValueStore: Self { .init(rawValue: "AWS::CloudFront::KeyValueStore") }
+        @inlinable public static var cloudFrontPublicKey: Self { .init(rawValue: "AWS::CloudFront::PublicKey") }
+        @inlinable public static var cloudFrontRealtimeLogConfig: Self { .init(rawValue: "AWS::CloudFront::RealtimeLogConfig") }
+        @inlinable public static var cloudTrailEventDataStore: Self { .init(rawValue: "AWS::CloudTrail::EventDataStore") }
+        @inlinable public static var cloudWatchMetricStream: Self { .init(rawValue: "AWS::CloudWatch::MetricStream") }
+        @inlinable public static var cluster: Self { .init(rawValue: "AWS::Redshift::Cluster") }
+        @inlinable public static var clusterParameterGroup: Self { .init(rawValue: "AWS::Redshift::ClusterParameterGroup") }
+        @inlinable public static var clusterSecurityGroup: Self { .init(rawValue: "AWS::Redshift::ClusterSecurityGroup") }
+        @inlinable public static var clusterSnapshot: Self { .init(rawValue: "AWS::Redshift::ClusterSnapshot") }
+        @inlinable public static var clusterSubnetGroup: Self { .init(rawValue: "AWS::Redshift::ClusterSubnetGroup") }
+        @inlinable public static var codeArtifactDomain: Self { .init(rawValue: "AWS::CodeArtifact::Domain") }
+        @inlinable public static var codeArtifactRepository: Self { .init(rawValue: "AWS::CodeArtifact::Repository") }
+        @inlinable public static var codeBuildReportGroup: Self { .init(rawValue: "AWS::CodeBuild::ReportGroup") }
+        @inlinable public static var codeDeployApplication: Self { .init(rawValue: "AWS::CodeDeploy::Application") }
+        @inlinable public static var codeDeployDeploymentConfig: Self { .init(rawValue: "AWS::CodeDeploy::DeploymentConfig") }
+        @inlinable public static var codeDeployDeploymentGroup: Self { .init(rawValue: "AWS::CodeDeploy::DeploymentGroup") }
+        @inlinable public static var codeGuruProfilerProfilingGroup: Self { .init(rawValue: "AWS::CodeGuruProfiler::ProfilingGroup") }
+        @inlinable public static var codeGuruReviewerRepositoryAssociation: Self { .init(rawValue: "AWS::CodeGuruReviewer::RepositoryAssociation") }
+        @inlinable public static var cognitoIdentityPool: Self { .init(rawValue: "AWS::Cognito::IdentityPool") }
+        @inlinable public static var cognitoUserPool: Self { .init(rawValue: "AWS::Cognito::UserPool") }
+        @inlinable public static var cognitoUserPoolClient: Self { .init(rawValue: "AWS::Cognito::UserPoolClient") }
+        @inlinable public static var cognitoUserPoolGroup: Self { .init(rawValue: "AWS::Cognito::UserPoolGroup") }
+        @inlinable public static var comprehendFlywheel: Self { .init(rawValue: "AWS::Comprehend::Flywheel") }
+        @inlinable public static var configAggregationAuthorization: Self { .init(rawValue: "AWS::Config::AggregationAuthorization") }
+        @inlinable public static var configConformancePack: Self { .init(rawValue: "AWS::Config::ConformancePack") }
+        @inlinable public static var configStoredQuery: Self { .init(rawValue: "AWS::Config::StoredQuery") }
+        @inlinable public static var conformancePackCompliance: Self { .init(rawValue: "AWS::Config::ConformancePackCompliance") }
+        @inlinable public static var connectInstance: Self { .init(rawValue: "AWS::Connect::Instance") }
+        @inlinable public static var connectPhoneNumber: Self { .init(rawValue: "AWS::Connect::PhoneNumber") }
+        @inlinable public static var connectQuickConnect: Self { .init(rawValue: "AWS::Connect::QuickConnect") }
+        @inlinable public static var connectRule: Self { .init(rawValue: "AWS::Connect::Rule") }
+        @inlinable public static var connectSecurityProfile: Self { .init(rawValue: "AWS::Connect::SecurityProfile") }
+        @inlinable public static var connectUser: Self { .init(rawValue: "AWS::Connect::User") }
+        @inlinable public static var customerGateway: Self { .init(rawValue: "AWS::EC2::CustomerGateway") }
+        @inlinable public static var customerProfilesDomain: Self { .init(rawValue: "AWS::CustomerProfiles::Domain") }
+        @inlinable public static var customerProfilesObjectType: Self { .init(rawValue: "AWS::CustomerProfiles::ObjectType") }
+        @inlinable public static var dataSyncAgent: Self { .init(rawValue: "AWS::DataSync::Agent") }
+        @inlinable public static var dataSyncLocationEFS: Self { .init(rawValue: "AWS::DataSync::LocationEFS") }
+        @inlinable public static var dataSyncLocationFSxLustre: Self { .init(rawValue: "AWS::DataSync::LocationFSxLustre") }
+        @inlinable public static var dataSyncLocationFSxWindows: Self { .init(rawValue: "AWS::DataSync::LocationFSxWindows") }
+        @inlinable public static var dataSyncLocationHDFS: Self { .init(rawValue: "AWS::DataSync::LocationHDFS") }
+        @inlinable public static var dataSyncLocationNFS: Self { .init(rawValue: "AWS::DataSync::LocationNFS") }
+        @inlinable public static var dataSyncLocationObjectStorage: Self { .init(rawValue: "AWS::DataSync::LocationObjectStorage") }
+        @inlinable public static var dataSyncLocationS3: Self { .init(rawValue: "AWS::DataSync::LocationS3") }
+        @inlinable public static var dataSyncLocationSMB: Self { .init(rawValue: "AWS::DataSync::LocationSMB") }
+        @inlinable public static var dataSyncTask: Self { .init(rawValue: "AWS::DataSync::Task") }
+        @inlinable public static var dbCluster: Self { .init(rawValue: "AWS::RDS::DBCluster") }
+        @inlinable public static var dbClusterSnapshot: Self { .init(rawValue: "AWS::RDS::DBClusterSnapshot") }
+        @inlinable public static var dbInstance: Self { .init(rawValue: "AWS::RDS::DBInstance") }
+        @inlinable public static var dbSecurityGroup: Self { .init(rawValue: "AWS::RDS::DBSecurityGroup") }
+        @inlinable public static var dbSnapshot: Self { .init(rawValue: "AWS::RDS::DBSnapshot") }
+        @inlinable public static var dbSubnetGroup: Self { .init(rawValue: "AWS::RDS::DBSubnetGroup") }
+        @inlinable public static var deadlineFleet: Self { .init(rawValue: "AWS::Deadline::Fleet") }
+        @inlinable public static var deadlineMonitor: Self { .init(rawValue: "AWS::Deadline::Monitor") }
+        @inlinable public static var deadlineQueueFleetAssociation: Self { .init(rawValue: "AWS::Deadline::QueueFleetAssociation") }
+        @inlinable public static var detectiveGraph: Self { .init(rawValue: "AWS::Detective::Graph") }
+        @inlinable public static var deviceFarmInstanceProfile: Self { .init(rawValue: "AWS::DeviceFarm::InstanceProfile") }
+        @inlinable public static var deviceFarmProject: Self { .init(rawValue: "AWS::DeviceFarm::Project") }
+        @inlinable public static var deviceFarmTestGridProject: Self { .init(rawValue: "AWS::DeviceFarm::TestGridProject") }
+        @inlinable public static var distribution: Self { .init(rawValue: "AWS::CloudFront::Distribution") }
+        @inlinable public static var dmsCertificate: Self { .init(rawValue: "AWS::DMS::Certificate") }
+        @inlinable public static var dmsEndpoint: Self { .init(rawValue: "AWS::DMS::Endpoint") }
+        @inlinable public static var dmsEventSubscription: Self { .init(rawValue: "AWS::DMS::EventSubscription") }
+        @inlinable public static var dmsReplicationSubnetGroup: Self { .init(rawValue: "AWS::DMS::ReplicationSubnetGroup") }
+        @inlinable public static var domain: Self { .init(rawValue: "AWS::Elasticsearch::Domain") }
+        @inlinable public static var ec2CapacityReservation: Self { .init(rawValue: "AWS::EC2::CapacityReservation") }
+        @inlinable public static var ec2CarrierGateway: Self { .init(rawValue: "AWS::EC2::CarrierGateway") }
+        @inlinable public static var ec2ClientVpnEndpoint: Self { .init(rawValue: "AWS::EC2::ClientVpnEndpoint") }
+        @inlinable public static var ec2ClientVpnTargetNetworkAssociation: Self { .init(rawValue: "AWS::EC2::ClientVpnTargetNetworkAssociation") }
+        @inlinable public static var ec2InstanceConnectEndpoint: Self { .init(rawValue: "AWS::EC2::InstanceConnectEndpoint") }
+        @inlinable public static var ec2NetworkInsightsAccessScope: Self { .init(rawValue: "AWS::EC2::NetworkInsightsAccessScope") }
+        @inlinable public static var ec2NetworkInsightsAnalysis: Self { .init(rawValue: "AWS::EC2::NetworkInsightsAnalysis") }
+        @inlinable public static var ec2NetworkInsightsPath: Self { .init(rawValue: "AWS::EC2::NetworkInsightsPath") }
+        @inlinable public static var ec2PrefixList: Self { .init(rawValue: "AWS::EC2::PrefixList") }
+        @inlinable public static var ec2SecurityGroupVpcAssociation: Self { .init(rawValue: "AWS::EC2::SecurityGroupVpcAssociation") }
+        @inlinable public static var ec2SnapshotBlockPublicAccess: Self { .init(rawValue: "AWS::EC2::SnapshotBlockPublicAccess") }
+        @inlinable public static var ec2SpotFleet: Self { .init(rawValue: "AWS::EC2::SpotFleet") }
+        @inlinable public static var ec2SubnetCidrBlock: Self { .init(rawValue: "AWS::EC2::SubnetCidrBlock") }
+        @inlinable public static var ec2SubnetNetworkAclAssociation: Self { .init(rawValue: "AWS::EC2::SubnetNetworkAclAssociation") }
+        @inlinable public static var ec2SubnetRouteTableAssociation: Self { .init(rawValue: "AWS::EC2::SubnetRouteTableAssociation") }
+        @inlinable public static var ec2TrafficMirrorFilter: Self { .init(rawValue: "AWS::EC2::TrafficMirrorFilter") }
+        @inlinable public static var ec2TrafficMirrorSession: Self { .init(rawValue: "AWS::EC2::TrafficMirrorSession") }
+        @inlinable public static var ec2TrafficMirrorTarget: Self { .init(rawValue: "AWS::EC2::TrafficMirrorTarget") }
+        @inlinable public static var ec2TransitGatewayConnect: Self { .init(rawValue: "AWS::EC2::TransitGatewayConnect") }
+        @inlinable public static var ec2TransitGatewayMulticastDomain: Self { .init(rawValue: "AWS::EC2::TransitGatewayMulticastDomain") }
+        @inlinable public static var ec2VerifiedAccessInstance: Self { .init(rawValue: "AWS::EC2::VerifiedAccessInstance") }
+        @inlinable public static var ec2dhcpOptions: Self { .init(rawValue: "AWS::EC2::DHCPOptions") }
+        @inlinable public static var ec2ec2Fleet: Self { .init(rawValue: "AWS::EC2::EC2Fleet") }
+        @inlinable public static var ec2eipAssociation: Self { .init(rawValue: "AWS::EC2::EIPAssociation") }
+        @inlinable public static var ec2ipam: Self { .init(rawValue: "AWS::EC2::IPAM") }
+        @inlinable public static var ec2ipamPool: Self { .init(rawValue: "AWS::EC2::IPAMPool") }
+        @inlinable public static var ec2ipamPoolCidr: Self { .init(rawValue: "AWS::EC2::IPAMPoolCidr") }
+        @inlinable public static var ec2ipamResourceDiscovery: Self { .init(rawValue: "AWS::EC2::IPAMResourceDiscovery") }
+        @inlinable public static var ec2ipamResourceDiscoveryAssociation: Self { .init(rawValue: "AWS::EC2::IPAMResourceDiscoveryAssociation") }
+        @inlinable public static var ec2ipamScope: Self { .init(rawValue: "AWS::EC2::IPAMScope") }
+        @inlinable public static var ec2vpcBlockPublicAccessExclusion: Self { .init(rawValue: "AWS::EC2::VPCBlockPublicAccessExclusion") }
+        @inlinable public static var ec2vpcBlockPublicAccessOptions: Self { .init(rawValue: "AWS::EC2::VPCBlockPublicAccessOptions") }
+        @inlinable public static var ec2vpcEndpointConnectionNotification: Self { .init(rawValue: "AWS::EC2::VPCEndpointConnectionNotification") }
+        @inlinable public static var ec2vpcGatewayAttachment: Self { .init(rawValue: "AWS::EC2::VPCGatewayAttachment") }
+        @inlinable public static var ec2vpnConnectionRoute: Self { .init(rawValue: "AWS::EC2::VPNConnectionRoute") }
+        @inlinable public static var ecrPublicRepository: Self { .init(rawValue: "AWS::ECR::PublicRepository") }
+        @inlinable public static var ecrPullThroughCacheRule: Self { .init(rawValue: "AWS::ECR::PullThroughCacheRule") }
+        @inlinable public static var ecrRegistryPolicy: Self { .init(rawValue: "AWS::ECR::RegistryPolicy") }
+        @inlinable public static var ecrReplicationConfiguration: Self { .init(rawValue: "AWS::ECR::ReplicationConfiguration") }
+        @inlinable public static var ecrRepository: Self { .init(rawValue: "AWS::ECR::Repository") }
+        @inlinable public static var ecrRepositoryCreationTemplate: Self { .init(rawValue: "AWS::ECR::RepositoryCreationTemplate") }
+        @inlinable public static var ecsCapacityProvider: Self { .init(rawValue: "AWS::ECS::CapacityProvider") }
+        @inlinable public static var ecsCluster: Self { .init(rawValue: "AWS::ECS::Cluster") }
+        @inlinable public static var ecsService: Self { .init(rawValue: "AWS::ECS::Service") }
+        @inlinable public static var ecsTaskDefinition: Self { .init(rawValue: "AWS::ECS::TaskDefinition") }
+        @inlinable public static var ecsTaskSet: Self { .init(rawValue: "AWS::ECS::TaskSet") }
+        @inlinable public static var efsAccessPoint: Self { .init(rawValue: "AWS::EFS::AccessPoint") }
+        @inlinable public static var efsFileSystem: Self { .init(rawValue: "AWS::EFS::FileSystem") }
+        @inlinable public static var egressOnlyInternetGateway: Self { .init(rawValue: "AWS::EC2::EgressOnlyInternetGateway") }
+        @inlinable public static var eip: Self { .init(rawValue: "AWS::EC2::EIP") }
+        @inlinable public static var eksAddon: Self { .init(rawValue: "AWS::EKS::Addon") }
+        @inlinable public static var eksCluster: Self { .init(rawValue: "AWS::EKS::Cluster") }
+        @inlinable public static var eksFargateProfile: Self { .init(rawValue: "AWS::EKS::FargateProfile") }
+        @inlinable public static var eksIdentityProviderConfig: Self { .init(rawValue: "AWS::EKS::IdentityProviderConfig") }
+        @inlinable public static var elasticLoadBalancingV2TargetGroup: Self { .init(rawValue: "AWS::ElasticLoadBalancingV2::TargetGroup") }
+        @inlinable public static var emrContainersVirtualCluster: Self { .init(rawValue: "AWS::EMRContainers::VirtualCluster") }
+        @inlinable public static var emrSecurityConfiguration: Self { .init(rawValue: "AWS::EMR::SecurityConfiguration") }
+        @inlinable public static var emrServerlessApplication: Self { .init(rawValue: "AWS::EMRServerless::Application") }
+        @inlinable public static var emrStudio: Self { .init(rawValue: "AWS::EMR::Studio") }
+        @inlinable public static var encryptionConfig: Self { .init(rawValue: "AWS::XRay::EncryptionConfig") }
+        @inlinable public static var entityResolutionIdMappingWorkflow: Self { .init(rawValue: "AWS::EntityResolution::IdMappingWorkflow") }
+        @inlinable public static var entityResolutionMatchingWorkflow: Self { .init(rawValue: "AWS::EntityResolution::MatchingWorkflow") }
+        @inlinable public static var entityResolutionSchemaMapping: Self { .init(rawValue: "AWS::EntityResolution::SchemaMapping") }
+        @inlinable public static var environment: Self { .init(rawValue: "AWS::ElasticBeanstalk::Environment") }
+        @inlinable public static var eventSchemasDiscoverer: Self { .init(rawValue: "AWS::EventSchemas::Discoverer") }
+        @inlinable public static var eventSchemasRegistry: Self { .init(rawValue: "AWS::EventSchemas::Registry") }
+        @inlinable public static var eventSchemasRegistryPolicy: Self { .init(rawValue: "AWS::EventSchemas::RegistryPolicy") }
+        @inlinable public static var eventSchemasSchema: Self { .init(rawValue: "AWS::EventSchemas::Schema") }
+        @inlinable public static var eventSubscription: Self { .init(rawValue: "AWS::RDS::EventSubscription") }
+        @inlinable public static var eventsApiDestination: Self { .init(rawValue: "AWS::Events::ApiDestination") }
+        @inlinable public static var eventsArchive: Self { .init(rawValue: "AWS::Events::Archive") }
+        @inlinable public static var eventsConnection: Self { .init(rawValue: "AWS::Events::Connection") }
+        @inlinable public static var eventsEndpoint: Self { .init(rawValue: "AWS::Events::Endpoint") }
+        @inlinable public static var eventsEventBus: Self { .init(rawValue: "AWS::Events::EventBus") }
+        @inlinable public static var eventsRule: Self { .init(rawValue: "AWS::Events::Rule") }
+        @inlinable public static var evidentlyLaunch: Self { .init(rawValue: "AWS::Evidently::Launch") }
+        @inlinable public static var evidentlyProject: Self { .init(rawValue: "AWS::Evidently::Project") }
+        @inlinable public static var evidentlySegment: Self { .init(rawValue: "AWS::Evidently::Segment") }
+        @inlinable public static var fileData: Self { .init(rawValue: "AWS::SSM::FileData") }
+        @inlinable public static var fisExperimentTemplate: Self { .init(rawValue: "AWS::FIS::ExperimentTemplate") }
+        @inlinable public static var flowLog: Self { .init(rawValue: "AWS::EC2::FlowLog") }
+        @inlinable public static var forecastDataset: Self { .init(rawValue: "AWS::Forecast::Dataset") }
+        @inlinable public static var forecastDatasetGroup: Self { .init(rawValue: "AWS::Forecast::DatasetGroup") }
+        @inlinable public static var fraudDetectorEntityType: Self { .init(rawValue: "AWS::FraudDetector::EntityType") }
+        @inlinable public static var fraudDetectorLabel: Self { .init(rawValue: "AWS::FraudDetector::Label") }
+        @inlinable public static var fraudDetectorOutcome: Self { .init(rawValue: "AWS::FraudDetector::Outcome") }
+        @inlinable public static var fraudDetectorVariable: Self { .init(rawValue: "AWS::FraudDetector::Variable") }
+        @inlinable public static var function: Self { .init(rawValue: "AWS::Lambda::Function") }
+        @inlinable public static var gameLiftBuild: Self { .init(rawValue: "AWS::GameLift::Build") }
+        @inlinable public static var globalAcceleratorAccelerator: Self { .init(rawValue: "AWS::GlobalAccelerator::Accelerator") }
+        @inlinable public static var globalAcceleratorEndpointGroup: Self { .init(rawValue: "AWS::GlobalAccelerator::EndpointGroup") }
+        @inlinable public static var globalAcceleratorListener: Self { .init(rawValue: "AWS::GlobalAccelerator::Listener") }
+        @inlinable public static var glueClassifier: Self { .init(rawValue: "AWS::Glue::Classifier") }
+        @inlinable public static var glueDatabase: Self { .init(rawValue: "AWS::Glue::Database") }
+        @inlinable public static var glueJob: Self { .init(rawValue: "AWS::Glue::Job") }
+        @inlinable public static var glueMLTransform: Self { .init(rawValue: "AWS::Glue::MLTransform") }
+        @inlinable public static var grafanaWorkspace: Self { .init(rawValue: "AWS::Grafana::Workspace") }
+        @inlinable public static var greengrassV2ComponentVersion: Self { .init(rawValue: "AWS::GreengrassV2::ComponentVersion") }
+        @inlinable public static var groundStationConfig: Self { .init(rawValue: "AWS::GroundStation::Config") }
+        @inlinable public static var groundStationDataflowEndpointGroup: Self { .init(rawValue: "AWS::GroundStation::DataflowEndpointGroup") }
+        @inlinable public static var groundStationMissionProfile: Self { .init(rawValue: "AWS::GroundStation::MissionProfile") }
+        @inlinable public static var group: Self { .init(rawValue: "AWS::IAM::Group") }
+        @inlinable public static var guardDutyDetector: Self { .init(rawValue: "AWS::GuardDuty::Detector") }
+        @inlinable public static var guardDutyFilter: Self { .init(rawValue: "AWS::GuardDuty::Filter") }
+        @inlinable public static var guardDutyIPSet: Self { .init(rawValue: "AWS::GuardDuty::IPSet") }
+        @inlinable public static var guardDutyMalwareProtectionPlan: Self { .init(rawValue: "AWS::GuardDuty::MalwareProtectionPlan") }
+        @inlinable public static var guardDutyThreatIntelSet: Self { .init(rawValue: "AWS::GuardDuty::ThreatIntelSet") }
+        @inlinable public static var healthLakeFHIRDatastore: Self { .init(rawValue: "AWS::HealthLake::FHIRDatastore") }
+        @inlinable public static var host: Self { .init(rawValue: "AWS::EC2::Host") }
+        @inlinable public static var iamInstanceProfile: Self { .init(rawValue: "AWS::IAM::InstanceProfile") }
+        @inlinable public static var iamServerCertificate: Self { .init(rawValue: "AWS::IAM::ServerCertificate") }
+        @inlinable public static var iamoidcProvider: Self { .init(rawValue: "AWS::IAM::OIDCProvider") }
+        @inlinable public static var iamsamlProvider: Self { .init(rawValue: "AWS::IAM::SAMLProvider") }
+        @inlinable public static var imageBuilderContainerRecipe: Self { .init(rawValue: "AWS::ImageBuilder::ContainerRecipe") }
+        @inlinable public static var imageBuilderDistributionConfiguration: Self { .init(rawValue: "AWS::ImageBuilder::DistributionConfiguration") }
+        @inlinable public static var imageBuilderImagePipeline: Self { .init(rawValue: "AWS::ImageBuilder::ImagePipeline") }
+        @inlinable public static var imageBuilderImageRecipe: Self { .init(rawValue: "AWS::ImageBuilder::ImageRecipe") }
+        @inlinable public static var imageBuilderInfrastructureConfiguration: Self { .init(rawValue: "AWS::ImageBuilder::InfrastructureConfiguration") }
+        @inlinable public static var imageBuilderLifecyclePolicy: Self { .init(rawValue: "AWS::ImageBuilder::LifecyclePolicy") }
+        @inlinable public static var inspectorV2Activation: Self { .init(rawValue: "AWS::InspectorV2::Activation") }
+        @inlinable public static var inspectorV2Filter: Self { .init(rawValue: "AWS::InspectorV2::Filter") }
+        @inlinable public static var instance: Self { .init(rawValue: "AWS::EC2::Instance") }
+        @inlinable public static var internetGateway: Self { .init(rawValue: "AWS::EC2::InternetGateway") }
+        @inlinable public static var ioTAccountAuditConfiguration: Self { .init(rawValue: "AWS::IoT::AccountAuditConfiguration") }
+        @inlinable public static var ioTAnalyticsChannel: Self { .init(rawValue: "AWS::IoTAnalytics::Channel") }
+        @inlinable public static var ioTAnalyticsDataset: Self { .init(rawValue: "AWS::IoTAnalytics::Dataset") }
+        @inlinable public static var ioTAnalyticsDatastore: Self { .init(rawValue: "AWS::IoTAnalytics::Datastore") }
+        @inlinable public static var ioTAnalyticsPipeline: Self { .init(rawValue: "AWS::IoTAnalytics::Pipeline") }
+        @inlinable public static var ioTAuthorizer: Self { .init(rawValue: "AWS::IoT::Authorizer") }
+        @inlinable public static var ioTCACertificate: Self { .init(rawValue: "AWS::IoT::CACertificate") }
+        @inlinable public static var ioTCoreDeviceAdvisorSuiteDefinition: Self { .init(rawValue: "AWS::IoTCoreDeviceAdvisor::SuiteDefinition") }
+        @inlinable public static var ioTCustomMetric: Self { .init(rawValue: "AWS::IoT::CustomMetric") }
+        @inlinable public static var ioTDimension: Self { .init(rawValue: "AWS::IoT::Dimension") }
+        @inlinable public static var ioTDomainConfiguration: Self { .init(rawValue: "AWS::IoT::DomainConfiguration") }
+        @inlinable public static var ioTEventsAlarmModel: Self { .init(rawValue: "AWS::IoTEvents::AlarmModel") }
+        @inlinable public static var ioTEventsDetectorModel: Self { .init(rawValue: "AWS::IoTEvents::DetectorModel") }
+        @inlinable public static var ioTEventsInput: Self { .init(rawValue: "AWS::IoTEvents::Input") }
+        @inlinable public static var ioTFleetMetric: Self { .init(rawValue: "AWS::IoT::FleetMetric") }
+        @inlinable public static var ioTJobTemplate: Self { .init(rawValue: "AWS::IoT::JobTemplate") }
+        @inlinable public static var ioTMitigationAction: Self { .init(rawValue: "AWS::IoT::MitigationAction") }
+        @inlinable public static var ioTPolicy: Self { .init(rawValue: "AWS::IoT::Policy") }
+        @inlinable public static var ioTProvisioningTemplate: Self { .init(rawValue: "AWS::IoT::ProvisioningTemplate") }
+        @inlinable public static var ioTRoleAlias: Self { .init(rawValue: "AWS::IoT::RoleAlias") }
+        @inlinable public static var ioTScheduledAudit: Self { .init(rawValue: "AWS::IoT::ScheduledAudit") }
+        @inlinable public static var ioTSecurityProfile: Self { .init(rawValue: "AWS::IoT::SecurityProfile") }
+        @inlinable public static var ioTSiteWiseAsset: Self { .init(rawValue: "AWS::IoTSiteWise::Asset") }
+        @inlinable public static var ioTSiteWiseAssetModel: Self { .init(rawValue: "AWS::IoTSiteWise::AssetModel") }
+        @inlinable public static var ioTSiteWiseDashboard: Self { .init(rawValue: "AWS::IoTSiteWise::Dashboard") }
+        @inlinable public static var ioTSiteWiseGateway: Self { .init(rawValue: "AWS::IoTSiteWise::Gateway") }
+        @inlinable public static var ioTSiteWisePortal: Self { .init(rawValue: "AWS::IoTSiteWise::Portal") }
+        @inlinable public static var ioTSiteWiseProject: Self { .init(rawValue: "AWS::IoTSiteWise::Project") }
+        @inlinable public static var ioTThingGroup: Self { .init(rawValue: "AWS::IoT::ThingGroup") }
+        @inlinable public static var ioTTwinMakerComponentType: Self { .init(rawValue: "AWS::IoTTwinMaker::ComponentType") }
+        @inlinable public static var ioTTwinMakerEntity: Self { .init(rawValue: "AWS::IoTTwinMaker::Entity") }
+        @inlinable public static var ioTTwinMakerScene: Self { .init(rawValue: "AWS::IoTTwinMaker::Scene") }
+        @inlinable public static var ioTTwinMakerSyncJob: Self { .init(rawValue: "AWS::IoTTwinMaker::SyncJob") }
+        @inlinable public static var ioTTwinMakerWorkspace: Self { .init(rawValue: "AWS::IoTTwinMaker::Workspace") }
+        @inlinable public static var ioTWirelessFuotaTask: Self { .init(rawValue: "AWS::IoTWireless::FuotaTask") }
+        @inlinable public static var ioTWirelessMulticastGroup: Self { .init(rawValue: "AWS::IoTWireless::MulticastGroup") }
+        @inlinable public static var ioTWirelessServiceProfile: Self { .init(rawValue: "AWS::IoTWireless::ServiceProfile") }
+        @inlinable public static var ipSetV2: Self { .init(rawValue: "AWS::WAFv2::IPSet") }
+        @inlinable public static var ivsChannel: Self { .init(rawValue: "AWS::IVS::Channel") }
+        @inlinable public static var ivsPlaybackKeyPair: Self { .init(rawValue: "AWS::IVS::PlaybackKeyPair") }
+        @inlinable public static var ivsRecordingConfiguration: Self { .init(rawValue: "AWS::IVS::RecordingConfiguration") }
+        @inlinable public static var kafkaConnectConnector: Self { .init(rawValue: "AWS::KafkaConnect::Connector") }
+        @inlinable public static var kafkaConnectCustomPlugin: Self { .init(rawValue: "AWS::KafkaConnect::CustomPlugin") }
+        @inlinable public static var kendraIndex: Self { .init(rawValue: "AWS::Kendra::Index") }
+        @inlinable public static var key: Self { .init(rawValue: "AWS::KMS::Key") }
+        @inlinable public static var kinesisAnalyticsV2Application: Self { .init(rawValue: "AWS::KinesisAnalyticsV2::Application") }
+        @inlinable public static var kinesisFirehoseDeliveryStream: Self { .init(rawValue: "AWS::KinesisFirehose::DeliveryStream") }
+        @inlinable public static var kinesisStream: Self { .init(rawValue: "AWS::Kinesis::Stream") }
+        @inlinable public static var kinesisStreamConsumer: Self { .init(rawValue: "AWS::Kinesis::StreamConsumer") }
+        @inlinable public static var kinesisVideoSignalingChannel: Self { .init(rawValue: "AWS::KinesisVideo::SignalingChannel") }
+        @inlinable public static var kinesisVideoStream: Self { .init(rawValue: "AWS::KinesisVideo::Stream") }
+        @inlinable public static var kmsAlias: Self { .init(rawValue: "AWS::KMS::Alias") }
+        @inlinable public static var lambdaCodeSigningConfig: Self { .init(rawValue: "AWS::Lambda::CodeSigningConfig") }
+        @inlinable public static var launchConfiguration: Self { .init(rawValue: "AWS::AutoScaling::LaunchConfiguration") }
+        @inlinable public static var launchTemplate: Self { .init(rawValue: "AWS::EC2::LaunchTemplate") }
+        @inlinable public static var lexBot: Self { .init(rawValue: "AWS::Lex::Bot") }
+        @inlinable public static var lexBotAlias: Self { .init(rawValue: "AWS::Lex::BotAlias") }
+        @inlinable public static var lightsailBucket: Self { .init(rawValue: "AWS::Lightsail::Bucket") }
+        @inlinable public static var lightsailCertificate: Self { .init(rawValue: "AWS::Lightsail::Certificate") }
+        @inlinable public static var lightsailDisk: Self { .init(rawValue: "AWS::Lightsail::Disk") }
+        @inlinable public static var lightsailStaticIp: Self { .init(rawValue: "AWS::Lightsail::StaticIp") }
+        @inlinable public static var listenerV2: Self { .init(rawValue: "AWS::ElasticLoadBalancingV2::Listener") }
+        @inlinable public static var loadBalancer: Self { .init(rawValue: "AWS::ElasticLoadBalancing::LoadBalancer") }
+        @inlinable public static var loadBalancerV2: Self { .init(rawValue: "AWS::ElasticLoadBalancingV2::LoadBalancer") }
+        @inlinable public static var locationAPIKey: Self { .init(rawValue: "AWS::Location::APIKey") }
+        @inlinable public static var logsDestination: Self { .init(rawValue: "AWS::Logs::Destination") }
+        @inlinable public static var lookoutMetricsAlert: Self { .init(rawValue: "AWS::LookoutMetrics::Alert") }
+        @inlinable public static var lookoutVisionProject: Self { .init(rawValue: "AWS::LookoutVision::Project") }
+        @inlinable public static var m2Environment: Self { .init(rawValue: "AWS::M2::Environment") }
+        @inlinable public static var managedInstanceInventory: Self { .init(rawValue: "AWS::SSM::ManagedInstanceInventory") }
+        @inlinable public static var managedRuleSetV2: Self { .init(rawValue: "AWS::WAFv2::ManagedRuleSet") }
+        @inlinable public static var mediaConnectFlowEntitlement: Self { .init(rawValue: "AWS::MediaConnect::FlowEntitlement") }
+        @inlinable public static var mediaConnectFlowSource: Self { .init(rawValue: "AWS::MediaConnect::FlowSource") }
+        @inlinable public static var mediaConnectFlowVpcInterface: Self { .init(rawValue: "AWS::MediaConnect::FlowVpcInterface") }
+        @inlinable public static var mediaConnectGateway: Self { .init(rawValue: "AWS::MediaConnect::Gateway") }
+        @inlinable public static var mediaPackagePackagingConfiguration: Self { .init(rawValue: "AWS::MediaPackage::PackagingConfiguration") }
+        @inlinable public static var mediaPackagePackagingGroup: Self { .init(rawValue: "AWS::MediaPackage::PackagingGroup") }
+        @inlinable public static var mediaPackageV2Channel: Self { .init(rawValue: "AWS::MediaPackageV2::Channel") }
+        @inlinable public static var mediaPackageV2OriginEndpoint: Self { .init(rawValue: "AWS::MediaPackageV2::OriginEndpoint") }
+        @inlinable public static var mediaTailorLiveSource: Self { .init(rawValue: "AWS::MediaTailor::LiveSource") }
+        @inlinable public static var mediaTailorPlaybackConfiguration: Self { .init(rawValue: "AWS::MediaTailor::PlaybackConfiguration") }
+        @inlinable public static var memoryDBSubnetGroup: Self { .init(rawValue: "AWS::MemoryDB::SubnetGroup") }
+        @inlinable public static var mskBatchScramSecret: Self { .init(rawValue: "AWS::MSK::BatchScramSecret") }
+        @inlinable public static var mskCluster: Self { .init(rawValue: "AWS::MSK::Cluster") }
+        @inlinable public static var mskClusterPolicy: Self { .init(rawValue: "AWS::MSK::ClusterPolicy") }
+        @inlinable public static var mskConfiguration: Self { .init(rawValue: "AWS::MSK::Configuration") }
+        @inlinable public static var mskServerlessCluster: Self { .init(rawValue: "AWS::MSK::ServerlessCluster") }
+        @inlinable public static var mskVpcConnection: Self { .init(rawValue: "AWS::MSK::VpcConnection") }
+        @inlinable public static var natGateway: Self { .init(rawValue: "AWS::EC2::NatGateway") }
+        @inlinable public static var networkAcl: Self { .init(rawValue: "AWS::EC2::NetworkAcl") }
+        @inlinable public static var networkFirewallFirewall: Self { .init(rawValue: "AWS::NetworkFirewall::Firewall") }
+        @inlinable public static var networkFirewallFirewallPolicy: Self { .init(rawValue: "AWS::NetworkFirewall::FirewallPolicy") }
+        @inlinable public static var networkFirewallRuleGroup: Self { .init(rawValue: "AWS::NetworkFirewall::RuleGroup") }
+        @inlinable public static var networkInsightsAccessScopeAnalysis: Self { .init(rawValue: "AWS::EC2::NetworkInsightsAccessScopeAnalysis") }
+        @inlinable public static var networkInterface: Self { .init(rawValue: "AWS::EC2::NetworkInterface") }
+        @inlinable public static var networkManagerConnectPeer: Self { .init(rawValue: "AWS::NetworkManager::ConnectPeer") }
+        @inlinable public static var networkManagerCustomerGatewayAssociation: Self { .init(rawValue: "AWS::NetworkManager::CustomerGatewayAssociation") }
+        @inlinable public static var networkManagerDevice: Self { .init(rawValue: "AWS::NetworkManager::Device") }
+        @inlinable public static var networkManagerGlobalNetwork: Self { .init(rawValue: "AWS::NetworkManager::GlobalNetwork") }
+        @inlinable public static var networkManagerLink: Self { .init(rawValue: "AWS::NetworkManager::Link") }
+        @inlinable public static var networkManagerLinkAssociation: Self { .init(rawValue: "AWS::NetworkManager::LinkAssociation") }
+        @inlinable public static var networkManagerSite: Self { .init(rawValue: "AWS::NetworkManager::Site") }
+        @inlinable public static var networkManagerTransitGatewayPeering: Self { .init(rawValue: "AWS::NetworkManager::TransitGatewayPeering") }
+        @inlinable public static var networkManagerTransitGatewayRegistration: Self { .init(rawValue: "AWS::NetworkManager::TransitGatewayRegistration") }
+        @inlinable public static var openSearchDomain: Self { .init(rawValue: "AWS::OpenSearch::Domain") }
+        @inlinable public static var openSearchServerlessCollection: Self { .init(rawValue: "AWS::OpenSearchServerless::Collection") }
+        @inlinable public static var openSearchServerlessSecurityConfig: Self { .init(rawValue: "AWS::OpenSearchServerless::SecurityConfig") }
+        @inlinable public static var openSearchServerlessVpcEndpoint: Self { .init(rawValue: "AWS::OpenSearchServerless::VpcEndpoint") }
+        @inlinable public static var organizationsOrganizationalUnit: Self { .init(rawValue: "AWS::Organizations::OrganizationalUnit") }
+        @inlinable public static var panoramaPackage: Self { .init(rawValue: "AWS::Panorama::Package") }
+        @inlinable public static var patchCompliance: Self { .init(rawValue: "AWS::SSM::PatchCompliance") }
+        @inlinable public static var pcaConnectorADConnector: Self { .init(rawValue: "AWS::PCAConnectorAD::Connector") }
+        @inlinable public static var pcaConnectorADDirectoryRegistration: Self { .init(rawValue: "AWS::PCAConnectorAD::DirectoryRegistration") }
+        @inlinable public static var personalizeDataset: Self { .init(rawValue: "AWS::Personalize::Dataset") }
+        @inlinable public static var personalizeDatasetGroup: Self { .init(rawValue: "AWS::Personalize::DatasetGroup") }
+        @inlinable public static var personalizeSchema: Self { .init(rawValue: "AWS::Personalize::Schema") }
+        @inlinable public static var personalizeSolution: Self { .init(rawValue: "AWS::Personalize::Solution") }
+        @inlinable public static var pinpointApp: Self { .init(rawValue: "AWS::Pinpoint::App") }
+        @inlinable public static var pinpointApplicationSettings: Self { .init(rawValue: "AWS::Pinpoint::ApplicationSettings") }
+        @inlinable public static var pinpointCampaign: Self { .init(rawValue: "AWS::Pinpoint::Campaign") }
+        @inlinable public static var pinpointEmailChannel: Self { .init(rawValue: "AWS::Pinpoint::EmailChannel") }
+        @inlinable public static var pinpointEmailTemplate: Self { .init(rawValue: "AWS::Pinpoint::EmailTemplate") }
+        @inlinable public static var pinpointEventStream: Self { .init(rawValue: "AWS::Pinpoint::EventStream") }
+        @inlinable public static var pinpointInAppTemplate: Self { .init(rawValue: "AWS::Pinpoint::InAppTemplate") }
+        @inlinable public static var pinpointSegment: Self { .init(rawValue: "AWS::Pinpoint::Segment") }
+        @inlinable public static var pipeline: Self { .init(rawValue: "AWS::CodePipeline::Pipeline") }
+        @inlinable public static var policy: Self { .init(rawValue: "AWS::IAM::Policy") }
+        @inlinable public static var portfolio: Self { .init(rawValue: "AWS::ServiceCatalog::Portfolio") }
+        @inlinable public static var project: Self { .init(rawValue: "AWS::CodeBuild::Project") }
+        @inlinable public static var protection: Self { .init(rawValue: "AWS::Shield::Protection") }
+        @inlinable public static var qldbLedger: Self { .init(rawValue: "AWS::QLDB::Ledger") }
+        @inlinable public static var queue: Self { .init(rawValue: "AWS::SQS::Queue") }
+        @inlinable public static var quickSightDataSource: Self { .init(rawValue: "AWS::QuickSight::DataSource") }
+        @inlinable public static var quickSightTemplate: Self { .init(rawValue: "AWS::QuickSight::Template") }
+        @inlinable public static var quickSightTheme: Self { .init(rawValue: "AWS::QuickSight::Theme") }
+        @inlinable public static var rateBasedRule: Self { .init(rawValue: "AWS::WAF::RateBasedRule") }
+        @inlinable public static var rdsGlobalCluster: Self { .init(rawValue: "AWS::RDS::GlobalCluster") }
+        @inlinable public static var rdsIntegration: Self { .init(rawValue: "AWS::RDS::Integration") }
+        @inlinable public static var rdsOptionGroup: Self { .init(rawValue: "AWS::RDS::OptionGroup") }
+        @inlinable public static var redshiftEndpointAccess: Self { .init(rawValue: "AWS::Redshift::EndpointAccess") }
+        @inlinable public static var redshiftEndpointAuthorization: Self { .init(rawValue: "AWS::Redshift::EndpointAuthorization") }
+        @inlinable public static var redshiftEventSubscription: Self { .init(rawValue: "AWS::Redshift::EventSubscription") }
+        @inlinable public static var redshiftIntegration: Self { .init(rawValue: "AWS::Redshift::Integration") }
+        @inlinable public static var redshiftScheduledAction: Self { .init(rawValue: "AWS::Redshift::ScheduledAction") }
+        @inlinable public static var regexPatternSetV2: Self { .init(rawValue: "AWS::WAFv2::RegexPatternSet") }
+        @inlinable public static var regionalProtection: Self { .init(rawValue: "AWS::ShieldRegional::Protection") }
+        @inlinable public static var regionalRateBasedRule: Self { .init(rawValue: "AWS::WAFRegional::RateBasedRule") }
+        @inlinable public static var regionalRule: Self { .init(rawValue: "AWS::WAFRegional::Rule") }
+        @inlinable public static var regionalRuleGroup: Self { .init(rawValue: "AWS::WAFRegional::RuleGroup") }
+        @inlinable public static var regionalWebACL: Self { .init(rawValue: "AWS::WAFRegional::WebACL") }
+        @inlinable public static var registeredHAInstance: Self { .init(rawValue: "AWS::EC2::RegisteredHAInstance") }
+        @inlinable public static var resilienceHubApp: Self { .init(rawValue: "AWS::ResilienceHub::App") }
+        @inlinable public static var resilienceHubResiliencyPolicy: Self { .init(rawValue: "AWS::ResilienceHub::ResiliencyPolicy") }
+        @inlinable public static var resourceCompliance: Self { .init(rawValue: "AWS::Config::ResourceCompliance") }
+        @inlinable public static var resourceExplorer2Index: Self { .init(rawValue: "AWS::ResourceExplorer2::Index") }
+        @inlinable public static var restApi: Self { .init(rawValue: "AWS::ApiGateway::RestApi") }
+        @inlinable public static var roboMakerRobotApplication: Self { .init(rawValue: "AWS::RoboMaker::RobotApplication") }
+        @inlinable public static var roboMakerRobotApplicationVersion: Self { .init(rawValue: "AWS::RoboMaker::RobotApplicationVersion") }
+        @inlinable public static var roboMakerSimulationApplication: Self { .init(rawValue: "AWS::RoboMaker::SimulationApplication") }
+        @inlinable public static var role: Self { .init(rawValue: "AWS::IAM::Role") }
+        @inlinable public static var rolesAnywhereProfile: Self { .init(rawValue: "AWS::RolesAnywhere::Profile") }
+        @inlinable public static var rolesAnywhereTrustAnchor: Self { .init(rawValue: "AWS::RolesAnywhere::TrustAnchor") }
+        @inlinable public static var route53DNSSEC: Self { .init(rawValue: "AWS::Route53::DNSSEC") }
+        @inlinable public static var route53HostedZone: Self { .init(rawValue: "AWS::Route53::HostedZone") }
+        @inlinable public static var route53ProfilesProfile: Self { .init(rawValue: "AWS::Route53Profiles::Profile") }
+        @inlinable public static var route53ProfilesProfileAssociation: Self { .init(rawValue: "AWS::Route53Profiles::ProfileAssociation") }
+        @inlinable public static var route53RecoveryControlCluster: Self { .init(rawValue: "AWS::Route53RecoveryControl::Cluster") }
+        @inlinable public static var route53RecoveryControlControlPanel: Self { .init(rawValue: "AWS::Route53RecoveryControl::ControlPanel") }
+        @inlinable public static var route53RecoveryControlRoutingControl: Self { .init(rawValue: "AWS::Route53RecoveryControl::RoutingControl") }
+        @inlinable public static var route53RecoveryControlSafetyRule: Self { .init(rawValue: "AWS::Route53RecoveryControl::SafetyRule") }
+        @inlinable public static var route53RecoveryReadinessCell: Self { .init(rawValue: "AWS::Route53RecoveryReadiness::Cell") }
+        @inlinable public static var route53RecoveryReadinessReadinessCheck: Self { .init(rawValue: "AWS::Route53RecoveryReadiness::ReadinessCheck") }
+        @inlinable public static var route53RecoveryReadinessRecoveryGroup: Self { .init(rawValue: "AWS::Route53RecoveryReadiness::RecoveryGroup") }
+        @inlinable public static var route53RecoveryReadinessResourceSet: Self { .init(rawValue: "AWS::Route53RecoveryReadiness::ResourceSet") }
+        @inlinable public static var route53ResolverFirewallDomainList: Self { .init(rawValue: "AWS::Route53Resolver::FirewallDomainList") }
+        @inlinable public static var route53ResolverFirewallRuleGroup: Self { .init(rawValue: "AWS::Route53Resolver::FirewallRuleGroup") }
+        @inlinable public static var route53ResolverFirewallRuleGroupAssociation: Self { .init(rawValue: "AWS::Route53Resolver::FirewallRuleGroupAssociation") }
+        @inlinable public static var route53ResolverResolverEndpoint: Self { .init(rawValue: "AWS::Route53Resolver::ResolverEndpoint") }
+        @inlinable public static var route53ResolverResolverQueryLoggingConfig: Self { .init(rawValue: "AWS::Route53Resolver::ResolverQueryLoggingConfig") }
+        @inlinable public static var route53ResolverResolverQueryLoggingConfigAssociation: Self { .init(rawValue: "AWS::Route53Resolver::ResolverQueryLoggingConfigAssociation") }
+        @inlinable public static var route53ResolverResolverRule: Self { .init(rawValue: "AWS::Route53Resolver::ResolverRule") }
+        @inlinable public static var route53ResolverResolverRuleAssociation: Self { .init(rawValue: "AWS::Route53Resolver::ResolverRuleAssociation") }
+        @inlinable public static var routeTable: Self { .init(rawValue: "AWS::EC2::RouteTable") }
+        @inlinable public static var rule: Self { .init(rawValue: "AWS::WAF::Rule") }
+        @inlinable public static var ruleGroup: Self { .init(rawValue: "AWS::WAF::RuleGroup") }
+        @inlinable public static var ruleGroupV2: Self { .init(rawValue: "AWS::WAFv2::RuleGroup") }
+        @inlinable public static var rumAppMonitor: Self { .init(rawValue: "AWS::RUM::AppMonitor") }
+        @inlinable public static var s3AccessGrant: Self { .init(rawValue: "AWS::S3::AccessGrant") }
+        @inlinable public static var s3AccessGrantsInstance: Self { .init(rawValue: "AWS::S3::AccessGrantsInstance") }
+        @inlinable public static var s3AccessGrantsLocation: Self { .init(rawValue: "AWS::S3::AccessGrantsLocation") }
+        @inlinable public static var s3AccessPoint: Self { .init(rawValue: "AWS::S3::AccessPoint") }
+        @inlinable public static var s3ExpressBucketPolicy: Self { .init(rawValue: "AWS::S3Express::BucketPolicy") }
+        @inlinable public static var s3ExpressDirectoryBucket: Self { .init(rawValue: "AWS::S3Express::DirectoryBucket") }
+        @inlinable public static var s3MultiRegionAccessPoint: Self { .init(rawValue: "AWS::S3::MultiRegionAccessPoint") }
+        @inlinable public static var s3StorageLens: Self { .init(rawValue: "AWS::S3::StorageLens") }
+        @inlinable public static var s3StorageLensGroup: Self { .init(rawValue: "AWS::S3::StorageLensGroup") }
+        @inlinable public static var s3TablesTableBucket: Self { .init(rawValue: "AWS::S3Tables::TableBucket") }
+        @inlinable public static var s3TablesTableBucketPolicy: Self { .init(rawValue: "AWS::S3Tables::TableBucketPolicy") }
+        @inlinable public static var sageMakerAppImageConfig: Self { .init(rawValue: "AWS::SageMaker::AppImageConfig") }
+        @inlinable public static var sageMakerCodeRepository: Self { .init(rawValue: "AWS::SageMaker::CodeRepository") }
+        @inlinable public static var sageMakerDataQualityJobDefinition: Self { .init(rawValue: "AWS::SageMaker::DataQualityJobDefinition") }
+        @inlinable public static var sageMakerDomain: Self { .init(rawValue: "AWS::SageMaker::Domain") }
+        @inlinable public static var sageMakerFeatureGroup: Self { .init(rawValue: "AWS::SageMaker::FeatureGroup") }
+        @inlinable public static var sageMakerImage: Self { .init(rawValue: "AWS::SageMaker::Image") }
+        @inlinable public static var sageMakerInferenceExperiment: Self { .init(rawValue: "AWS::SageMaker::InferenceExperiment") }
+        @inlinable public static var sageMakerMlflowTrackingServer: Self { .init(rawValue: "AWS::SageMaker::MlflowTrackingServer") }
+        @inlinable public static var sageMakerModel: Self { .init(rawValue: "AWS::SageMaker::Model") }
+        @inlinable public static var sageMakerModelBiasJobDefinition: Self { .init(rawValue: "AWS::SageMaker::ModelBiasJobDefinition") }
+        @inlinable public static var sageMakerModelExplainabilityJobDefinition: Self { .init(rawValue: "AWS::SageMaker::ModelExplainabilityJobDefinition") }
+        @inlinable public static var sageMakerModelQualityJobDefinition: Self { .init(rawValue: "AWS::SageMaker::ModelQualityJobDefinition") }
+        @inlinable public static var sageMakerNotebookInstanceLifecycleConfig: Self { .init(rawValue: "AWS::SageMaker::NotebookInstanceLifecycleConfig") }
+        @inlinable public static var sageMakerStudioLifecycleConfig: Self { .init(rawValue: "AWS::SageMaker::StudioLifecycleConfig") }
+        @inlinable public static var sageMakerUserProfile: Self { .init(rawValue: "AWS::SageMaker::UserProfile") }
+        @inlinable public static var sageMakerWorkteam: Self { .init(rawValue: "AWS::SageMaker::Workteam") }
+        @inlinable public static var scalingPolicy: Self { .init(rawValue: "AWS::AutoScaling::ScalingPolicy") }
+        @inlinable public static var scheduledAction: Self { .init(rawValue: "AWS::AutoScaling::ScheduledAction") }
+        @inlinable public static var secret: Self { .init(rawValue: "AWS::SecretsManager::Secret") }
+        @inlinable public static var secretsManagerResourcePolicy: Self { .init(rawValue: "AWS::SecretsManager::ResourcePolicy") }
+        @inlinable public static var secretsManagerRotationSchedule: Self { .init(rawValue: "AWS::SecretsManager::RotationSchedule") }
+        @inlinable public static var securityGroup: Self { .init(rawValue: "AWS::EC2::SecurityGroup") }
+        @inlinable public static var securityHubStandard: Self { .init(rawValue: "AWS::SecurityHub::Standard") }
+        @inlinable public static var serviceDiscoveryHttpNamespace: Self { .init(rawValue: "AWS::ServiceDiscovery::HttpNamespace") }
+        @inlinable public static var serviceDiscoveryInstance: Self { .init(rawValue: "AWS::ServiceDiscovery::Instance") }
+        @inlinable public static var serviceDiscoveryPublicDnsNamespace: Self { .init(rawValue: "AWS::ServiceDiscovery::PublicDnsNamespace") }
+        @inlinable public static var serviceDiscoveryService: Self { .init(rawValue: "AWS::ServiceDiscovery::Service") }
+        @inlinable public static var sesConfigurationSet: Self { .init(rawValue: "AWS::SES::ConfigurationSet") }
+        @inlinable public static var sesContactList: Self { .init(rawValue: "AWS::SES::ContactList") }
+        @inlinable public static var sesDedicatedIpPool: Self { .init(rawValue: "AWS::SES::DedicatedIpPool") }
+        @inlinable public static var sesMailManagerTrafficPolicy: Self { .init(rawValue: "AWS::SES::MailManagerTrafficPolicy") }
+        @inlinable public static var sesReceiptFilter: Self { .init(rawValue: "AWS::SES::ReceiptFilter") }
+        @inlinable public static var sesReceiptRuleSet: Self { .init(rawValue: "AWS::SES::ReceiptRuleSet") }
+        @inlinable public static var sesTemplate: Self { .init(rawValue: "AWS::SES::Template") }
+        @inlinable public static var signerSigningProfile: Self { .init(rawValue: "AWS::Signer::SigningProfile") }
+        @inlinable public static var ssmContactsContact: Self { .init(rawValue: "AWS::SSMContacts::Contact") }
+        @inlinable public static var ssmDocument: Self { .init(rawValue: "AWS::SSM::Document") }
+        @inlinable public static var ssmIncidentsResponsePlan: Self { .init(rawValue: "AWS::SSMIncidents::ResponsePlan") }
+        @inlinable public static var ssmResourceDataSync: Self { .init(rawValue: "AWS::SSM::ResourceDataSync") }
+        @inlinable public static var stack: Self { .init(rawValue: "AWS::CloudFormation::Stack") }
+        @inlinable public static var stage: Self { .init(rawValue: "AWS::ApiGateway::Stage") }
+        @inlinable public static var stageV2: Self { .init(rawValue: "AWS::ApiGatewayV2::Stage") }
+        @inlinable public static var stepFunctionsActivity: Self { .init(rawValue: "AWS::StepFunctions::Activity") }
+        @inlinable public static var stepFunctionsStateMachine: Self { .init(rawValue: "AWS::StepFunctions::StateMachine") }
+        @inlinable public static var streamingDistribution: Self { .init(rawValue: "AWS::CloudFront::StreamingDistribution") }
+        @inlinable public static var subnet: Self { .init(rawValue: "AWS::EC2::Subnet") }
+        @inlinable public static var table: Self { .init(rawValue: "AWS::DynamoDB::Table") }
+        @inlinable public static var topic: Self { .init(rawValue: "AWS::SNS::Topic") }
+        @inlinable public static var trail: Self { .init(rawValue: "AWS::CloudTrail::Trail") }
+        @inlinable public static var transferAgreement: Self { .init(rawValue: "AWS::Transfer::Agreement") }
+        @inlinable public static var transferCertificate: Self { .init(rawValue: "AWS::Transfer::Certificate") }
+        @inlinable public static var transferConnector: Self { .init(rawValue: "AWS::Transfer::Connector") }
+        @inlinable public static var transferProfile: Self { .init(rawValue: "AWS::Transfer::Profile") }
+        @inlinable public static var transferServer: Self { .init(rawValue: "AWS::Transfer::Server") }
+        @inlinable public static var transferWorkflow: Self { .init(rawValue: "AWS::Transfer::Workflow") }
+        @inlinable public static var transitGateway: Self { .init(rawValue: "AWS::EC2::TransitGateway") }
+        @inlinable public static var transitGatewayAttachment: Self { .init(rawValue: "AWS::EC2::TransitGatewayAttachment") }
+        @inlinable public static var transitGatewayRouteTable: Self { .init(rawValue: "AWS::EC2::TransitGatewayRouteTable") }
+        @inlinable public static var user: Self { .init(rawValue: "AWS::IAM::User") }
+        @inlinable public static var volume: Self { .init(rawValue: "AWS::EC2::Volume") }
+        @inlinable public static var vpc: Self { .init(rawValue: "AWS::EC2::VPC") }
+        @inlinable public static var vpcEndpoint: Self { .init(rawValue: "AWS::EC2::VPCEndpoint") }
+        @inlinable public static var vpcEndpointService: Self { .init(rawValue: "AWS::EC2::VPCEndpointService") }
+        @inlinable public static var vpcPeeringConnection: Self { .init(rawValue: "AWS::EC2::VPCPeeringConnection") }
+        @inlinable public static var vpnConnection: Self { .init(rawValue: "AWS::EC2::VPNConnection") }
+        @inlinable public static var vpnGateway: Self { .init(rawValue: "AWS::EC2::VPNGateway") }
+        @inlinable public static var webACL: Self { .init(rawValue: "AWS::WAF::WebACL") }
+        @inlinable public static var webACLV2: Self { .init(rawValue: "AWS::WAFv2::WebACL") }
+        @inlinable public static var workSpacesConnectionAlias: Self { .init(rawValue: "AWS::WorkSpaces::ConnectionAlias") }
+        @inlinable public static var workSpacesWorkspace: Self { .init(rawValue: "AWS::WorkSpaces::Workspace") }
     }
 
-    public enum ResourceValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case resourceId = "RESOURCE_ID"
-        public var description: String { return self.rawValue }
+    public struct ResourceValueType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var resourceId: Self { .init(rawValue: "RESOURCE_ID") }
     }
 
-    public enum RuleEvaluationVisibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case `internal` = "INTERNAL"
-        case external = "EXTERNAL"
-        public var description: String { return self.rawValue }
+    public struct RuleEvaluationVisibility: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var `internal`: Self { .init(rawValue: "INTERNAL") }
+        @inlinable public static var external: Self { .init(rawValue: "EXTERNAL") }
     }
 
-    public enum SortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case score = "SCORE"
-        public var description: String { return self.rawValue }
+    public struct SortBy: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var score: Self { .init(rawValue: "SCORE") }
     }
 
-    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case ascending = "ASCENDING"
-        case descending = "DESCENDING"
-        public var description: String { return self.rawValue }
+    public struct SortOrder: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var ascending: Self { .init(rawValue: "ASCENDING") }
+        @inlinable public static var descending: Self { .init(rawValue: "DESCENDING") }
     }
 
     // MARK: Shapes

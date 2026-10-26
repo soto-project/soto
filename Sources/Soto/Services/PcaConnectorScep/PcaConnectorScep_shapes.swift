@@ -25,39 +25,55 @@ import Foundation
 extension PcaConnectorScep {
     // MARK: Enums
 
-    public enum ConnectorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case creating = "CREATING"
-        case deleting = "DELETING"
-        case failed = "FAILED"
-        public var description: String { return self.rawValue }
+    public struct ConnectorStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var creating: Self { .init(rawValue: "CREATING") }
+        @inlinable public static var deleting: Self { .init(rawValue: "DELETING") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
     }
 
-    public enum ConnectorStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case internalFailure = "INTERNAL_FAILURE"
-        case privatecaAccessDenied = "PRIVATECA_ACCESS_DENIED"
-        case privatecaInvalidState = "PRIVATECA_INVALID_STATE"
-        case privatecaResourceNotFound = "PRIVATECA_RESOURCE_NOT_FOUND"
-        case vpcEndpointDnsEntriesNotFound = "VPC_ENDPOINT_DNS_ENTRIES_NOT_FOUND"
-        case vpcEndpointResourceNotFound = "VPC_ENDPOINT_RESOURCE_NOT_FOUND"
-        public var description: String { return self.rawValue }
+    public struct ConnectorStatusReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var internalFailure: Self { .init(rawValue: "INTERNAL_FAILURE") }
+        @inlinable public static var privatecaAccessDenied: Self { .init(rawValue: "PRIVATECA_ACCESS_DENIED") }
+        @inlinable public static var privatecaInvalidState: Self { .init(rawValue: "PRIVATECA_INVALID_STATE") }
+        @inlinable public static var privatecaResourceNotFound: Self { .init(rawValue: "PRIVATECA_RESOURCE_NOT_FOUND") }
+        @inlinable public static var vpcEndpointDnsEntriesNotFound: Self { .init(rawValue: "VPC_ENDPOINT_DNS_ENTRIES_NOT_FOUND") }
+        @inlinable public static var vpcEndpointResourceNotFound: Self { .init(rawValue: "VPC_ENDPOINT_RESOURCE_NOT_FOUND") }
     }
 
-    public enum ConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case generalPurpose = "GENERAL_PURPOSE"
-        case intune = "INTUNE"
-        public var description: String { return self.rawValue }
+    public struct ConnectorType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var generalPurpose: Self { .init(rawValue: "GENERAL_PURPOSE") }
+        @inlinable public static var intune: Self { .init(rawValue: "INTUNE") }
     }
 
-    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case caCertValidityTooShort = "CA_CERT_VALIDITY_TOO_SHORT"
-        case invalidCaUsageMode = "INVALID_CA_USAGE_MODE"
-        case invalidConnectorType = "INVALID_CONNECTOR_TYPE"
-        case invalidState = "INVALID_STATE"
-        case noClientToken = "NO_CLIENT_TOKEN"
-        case other = "OTHER"
-        case unknownOperation = "UNKNOWN_OPERATION"
-        public var description: String { return self.rawValue }
+    public struct ValidationExceptionReason: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var caCertValidityTooShort: Self { .init(rawValue: "CA_CERT_VALIDITY_TOO_SHORT") }
+        @inlinable public static var invalidCaUsageMode: Self { .init(rawValue: "INVALID_CA_USAGE_MODE") }
+        @inlinable public static var invalidConnectorType: Self { .init(rawValue: "INVALID_CONNECTOR_TYPE") }
+        @inlinable public static var invalidState: Self { .init(rawValue: "INVALID_STATE") }
+        @inlinable public static var noClientToken: Self { .init(rawValue: "NO_CLIENT_TOKEN") }
+        @inlinable public static var other: Self { .init(rawValue: "OTHER") }
+        @inlinable public static var unknownOperation: Self { .init(rawValue: "UNKNOWN_OPERATION") }
     }
 
     // MARK: Shapes

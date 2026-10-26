@@ -25,88 +25,136 @@ import Foundation
 extension ControlTower {
     // MARK: Enums
 
-    public enum BaselineOperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct BaselineOperationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum BaselineOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disableBaseline = "DISABLE_BASELINE"
-        case enableBaseline = "ENABLE_BASELINE"
-        case resetEnabledBaseline = "RESET_ENABLED_BASELINE"
-        case updateEnabledBaseline = "UPDATE_ENABLED_BASELINE"
-        public var description: String { return self.rawValue }
+    public struct BaselineOperationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disableBaseline: Self { .init(rawValue: "DISABLE_BASELINE") }
+        @inlinable public static var enableBaseline: Self { .init(rawValue: "ENABLE_BASELINE") }
+        @inlinable public static var resetEnabledBaseline: Self { .init(rawValue: "RESET_ENABLED_BASELINE") }
+        @inlinable public static var updateEnabledBaseline: Self { .init(rawValue: "UPDATE_ENABLED_BASELINE") }
     }
 
-    public enum ControlOperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct ControlOperationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum ControlOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disableControl = "DISABLE_CONTROL"
-        case enableControl = "ENABLE_CONTROL"
-        case resetEnabledControl = "RESET_ENABLED_CONTROL"
-        case updateEnabledControl = "UPDATE_ENABLED_CONTROL"
-        public var description: String { return self.rawValue }
+    public struct ControlOperationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disableControl: Self { .init(rawValue: "DISABLE_CONTROL") }
+        @inlinable public static var enableControl: Self { .init(rawValue: "ENABLE_CONTROL") }
+        @inlinable public static var resetEnabledControl: Self { .init(rawValue: "RESET_ENABLED_CONTROL") }
+        @inlinable public static var updateEnabledControl: Self { .init(rawValue: "UPDATE_ENABLED_CONTROL") }
     }
 
-    public enum DriftStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case drifted = "DRIFTED"
-        case inSync = "IN_SYNC"
-        case notChecking = "NOT_CHECKING"
-        case unknown = "UNKNOWN"
-        public var description: String { return self.rawValue }
+    public struct DriftStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var drifted: Self { .init(rawValue: "DRIFTED") }
+        @inlinable public static var inSync: Self { .init(rawValue: "IN_SYNC") }
+        @inlinable public static var notChecking: Self { .init(rawValue: "NOT_CHECKING") }
+        @inlinable public static var unknown: Self { .init(rawValue: "UNKNOWN") }
     }
 
-    public enum EnabledBaselineDriftStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case drifted = "DRIFTED"
-        case inSync = "IN_SYNC"
-        public var description: String { return self.rawValue }
+    public struct EnabledBaselineDriftStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var drifted: Self { .init(rawValue: "DRIFTED") }
+        @inlinable public static var inSync: Self { .init(rawValue: "IN_SYNC") }
     }
 
-    public enum EnablementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        case underChange = "UNDER_CHANGE"
-        public var description: String { return self.rawValue }
+    public struct EnablementStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
+        @inlinable public static var underChange: Self { .init(rawValue: "UNDER_CHANGE") }
     }
 
-    public enum LandingZoneDriftStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case drifted = "DRIFTED"
-        case inSync = "IN_SYNC"
-        public var description: String { return self.rawValue }
+    public struct LandingZoneDriftStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var drifted: Self { .init(rawValue: "DRIFTED") }
+        @inlinable public static var inSync: Self { .init(rawValue: "IN_SYNC") }
     }
 
-    public enum LandingZoneOperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case failed = "FAILED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        public var description: String { return self.rawValue }
+    public struct LandingZoneOperationStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var inProgress: Self { .init(rawValue: "IN_PROGRESS") }
+        @inlinable public static var succeeded: Self { .init(rawValue: "SUCCEEDED") }
     }
 
-    public enum LandingZoneOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case create = "CREATE"
-        case delete = "DELETE"
-        case reset = "RESET"
-        case update = "UPDATE"
-        public var description: String { return self.rawValue }
+    public struct LandingZoneOperationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var create: Self { .init(rawValue: "CREATE") }
+        @inlinable public static var delete: Self { .init(rawValue: "DELETE") }
+        @inlinable public static var reset: Self { .init(rawValue: "RESET") }
+        @inlinable public static var update: Self { .init(rawValue: "UPDATE") }
     }
 
-    public enum LandingZoneStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case active = "ACTIVE"
-        case failed = "FAILED"
-        case processing = "PROCESSING"
-        public var description: String { return self.rawValue }
+    public struct LandingZoneStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var active: Self { .init(rawValue: "ACTIVE") }
+        @inlinable public static var failed: Self { .init(rawValue: "FAILED") }
+        @inlinable public static var processing: Self { .init(rawValue: "PROCESSING") }
     }
 
-    public enum RemediationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case inheritanceDrift = "INHERITANCE_DRIFT"
-        public var description: String { return self.rawValue }
+    public struct RemediationType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var inheritanceDrift: Self { .init(rawValue: "INHERITANCE_DRIFT") }
     }
 
     // MARK: Shapes

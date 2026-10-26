@@ -25,46 +25,62 @@ import Foundation
 extension Wickr {
     // MARK: Enums
 
-    public enum AccessLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case premium = "PREMIUM"
-        case standard = "STANDARD"
-        public var description: String { return self.rawValue }
+    public struct AccessLevel: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var premium: Self { .init(rawValue: "PREMIUM") }
+        @inlinable public static var standard: Self { .init(rawValue: "STANDARD") }
     }
 
-    public enum BotStatus: Int, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        /// The bot is active and operational, able to send and receive messages.
-        case active = 2
-        /// The bot has been created but is not yet active, pending initial setup or activation.
-        case pending = 1
-        public var description: String { return "\(self.rawValue)" }
+    public struct BotStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
     }
 
-    public enum DataRetentionActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disable = "DISABLE"
-        case enable = "ENABLE"
-        case pubkeyMsgAck = "PUBKEY_MSG_ACK"
-        public var description: String { return self.rawValue }
+    public struct DataRetentionActionType: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disable: Self { .init(rawValue: "DISABLE") }
+        @inlinable public static var enable: Self { .init(rawValue: "ENABLE") }
+        @inlinable public static var pubkeyMsgAck: Self { .init(rawValue: "PUBKEY_MSG_ACK") }
     }
 
-    public enum SortDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case asc = "ASC"
-        case desc = "DESC"
-        public var description: String { return self.rawValue }
+    public struct SortDirection: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var asc: Self { .init(rawValue: "ASC") }
+        @inlinable public static var desc: Self { .init(rawValue: "DESC") }
     }
 
-    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case disabled = "DISABLED"
-        case enabled = "ENABLED"
-        case forceEnabled = "FORCE_ENABLED"
-        public var description: String { return self.rawValue }
+    public struct Status: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
+        @inlinable public static var disabled: Self { .init(rawValue: "DISABLED") }
+        @inlinable public static var enabled: Self { .init(rawValue: "ENABLED") }
+        @inlinable public static var forceEnabled: Self { .init(rawValue: "FORCE_ENABLED") }
     }
 
-    public enum UserStatus: Int, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        /// The user has accepted their invitation and is active in the network.
-        case active = 2
-        /// The user has been invited to the network but has not yet accepted their invitation.
-        case pending = 1
-        public var description: String { return "\(self.rawValue)" }
+    public struct UserStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
     }
 
     // MARK: Shapes

@@ -25,12 +25,16 @@ import Foundation
 extension SagemakerJobRuntime {
     // MARK: Enums
 
-    public enum CompletionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+    public struct CompletionStatus: RawRepresentable, Hashable, Codable, Sendable, CustomStringConvertible, CodingKeyRepresentable {
+        public var rawValue: String
+
+        @inlinable public init(rawValue: String) { self.rawValue = rawValue }
+        @inlinable public var description: String { self.rawValue }
+
         /// Trajectory failed; terminal state, no further processing.
-        case failed = "failed"
+        @inlinable public static var failed: Self { .init(rawValue: "failed") }
         /// Trajectory completed successfully; sealed and eligible for reward submission.
-        case ready = "ready"
-        public var description: String { return self.rawValue }
+        @inlinable public static var ready: Self { .init(rawValue: "ready") }
     }
 
     // MARK: Shapes
