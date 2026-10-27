@@ -135,13 +135,18 @@ class APIGatewayTests: XCTestCase {
             let request = APIGateway.GetResourcesRequest(restApiId: "Test+%/*%25")
             _ = try await Self.apiGateway.getResources(request, logger: TestEnvironment.logger)
             XCTFail("This request should fail")
-        } catch let error as APIGatewayErrorType where error == .notFoundException {
-            // Localstack produces a different error message to AWS
-            if !TestEnvironment.isUsingLocalstack {
-                XCTAssert(error.message?.hasPrefix("Invalid API identifier specified") == true)
-                XCTAssert(error.message?.hasSuffix(":Test+%/*%25") == true)
+        } catch let error as APIGatewayErrorType {
+            switch error.error {
+            case .notFoundException:
+                // Localstack produces a different error message to AWS
+                if !TestEnvironment.isUsingLocalstack {
+                    XCTAssert(error.message?.hasPrefix("Invalid API identifier specified") == true)
+                    XCTAssert(error.message?.hasSuffix(":Test+%/*%25") == true)
+                }
+            default:
+                throw error
             }
-        } catch let error as AWSClientError where error == .invalidSignature {
+        } catch let error as AWSResponseError where error == .invalidSignature {
             XCTFail("Invalid signature")
         }
     }
@@ -150,8 +155,13 @@ class APIGatewayTests: XCTestCase {
         do {
             _ = try await Self.apiGateway.getModels(.init(restApiId: "invalid-rest-api-id"), logger: TestEnvironment.logger)
             XCTFail("This request should fail")
-        } catch let error as APIGatewayErrorType where error == .notFoundException {
-            XCTAssertNotNil(error.message)
+        } catch let error as APIGatewayErrorType {
+            switch error.error {
+            case .notFoundException:
+                XCTAssertNotNil(error.message)
+            default:
+                throw error
+            }
 
         } catch {
             // local stack is returning a duff error at the moment

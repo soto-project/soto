@@ -86,7 +86,7 @@ class AWSHTTPRequestTests: XCTestCase {
         do {
             _ = try AWSHTTPRequest(operation: operation, path: path, method: method, input: input, configuration: config)
             XCTFail()
-        } catch let error as AWSClientError where error == .validationError {
+        } catch let error as AWSResponseError where error == .validationError {
             print(error.message ?? "")
         } catch {
             XCTFail(error.localizedDescription)

@@ -63,8 +63,10 @@ class IAMTests: XCTestCase {
         do {
             let response = try await iam.createUser(request, logger: TestEnvironment.logger)
             XCTAssertEqual(response.user?.userName, userName)
-        } catch let error as IAMErrorType where error == .entityAlreadyExistsException {
-            print("User (\(userName)) already exists")
+        } catch let error as IAMErrorType {
+            if case .entityAlreadyExistsException = error.error {
+                print("User (\(userName)) already exists")
+            }
         }
         try await iam.waitUntilUserExists(.init(userName: userName))
     }
@@ -176,8 +178,9 @@ class IAMTests: XCTestCase {
     func testError() async throws {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-        await XCTAsyncExpectError(IAMErrorType.noSuchEntityException) {
+        let error = await XCTAsyncExpectError(IAMErrorType.self) {
             _ = try await self.iam.getRole(.init(roleName: "_invalid-role-name"), logger: TestEnvironment.logger)
         }
+        XCTAssertEqual(error?.error, .noSuchEntityException)
     }
 }

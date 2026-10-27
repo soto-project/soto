@@ -84,8 +84,14 @@ class SSMTests: XCTestCase {
     func testError() async throws {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
-        await XCTAsyncExpectError(SSMErrorType.invalidDocument) {
+        let error = await XCTAsyncExpectError(SSMErrorType.self) {
             _ = try await self.ssm.describeDocument(.init(name: "non-existent-document"))
+        }
+        switch error?.error {
+        case .invalidDocument:
+            break
+        default:
+            XCTFail()
         }
     }
 }

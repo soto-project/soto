@@ -377,7 +377,7 @@ extension S3 {
         logger: Logger = AWSClient.loggingDisabled
     ) async throws -> CompleteMultipartUploadOutput {
         // get object bucket, key and version from copySource
-        guard let copySourceValues = getBucketKeyVersion(from: input.copySource) else { throw AWSClientError.validationError }
+        guard let copySourceValues = getBucketKeyVersion(from: input.copySource) else { throw AWSResponseError.validationError }
 
         // get object size from headObject
         let head = try await self.headObject(

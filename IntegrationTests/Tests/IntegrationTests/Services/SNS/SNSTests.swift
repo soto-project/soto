@@ -91,8 +91,14 @@ class SNSTests: XCTestCase {
 
     func testError() async throws {
         guard !TestEnvironment.isUsingLocalstack else { return }
-        await XCTAsyncExpectError(SNSErrorType.invalidParameterException) {
+        let error = await XCTAsyncExpectError(SNSErrorType.self) {
             _ = try await self.sns.getTopicAttributes(.init(topicArn: "arn:sns:invalid"))
+        }
+        switch error?.error {
+        case .invalidParameterException:
+            break
+        default:
+            XCTFail()
         }
     }
 }

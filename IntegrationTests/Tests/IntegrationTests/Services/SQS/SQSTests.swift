@@ -105,8 +105,9 @@ class SQSTests: XCTestCase {
     func testError() async throws {
         // get wrong error with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
-        await XCTAsyncExpectError(SQSErrorType.queueDoesNotExist) {
+        let error = await XCTAsyncExpectError(SQSErrorType.self) {
             try await self.sqs.addPermission(.init(actions: [], awsAccountIds: [], label: "label", queueUrl: "http://aws-not-a-queue"))
         }
+        XCTAssertEqual(error?.error, .queueDoesNotExist)
     }
 }
