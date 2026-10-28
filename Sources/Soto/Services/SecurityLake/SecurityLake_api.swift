@@ -438,27 +438,14 @@ public struct SecurityLake: AWSService {
     /// Deletes the specified notification subscription in Amazon Security Lake for the organization you specify.
     @Sendable
     @inlinable
-    public func deleteDataLakeExceptionSubscription(_ input: DeleteDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataLakeExceptionSubscriptionResponse {
+    public func deleteDataLakeExceptionSubscription(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataLakeExceptionSubscriptionResponse {
         try await self.client.execute(
             operation: "DeleteDataLakeExceptionSubscription", 
             path: "/v1/datalake/exceptions/subscription", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes the specified notification subscription in Amazon Security Lake for the organization you specify.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteDataLakeExceptionSubscription(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteDataLakeExceptionSubscriptionResponse {
-        let input = DeleteDataLakeExceptionSubscriptionRequest(
-        )
-        return try await self.deleteDataLakeExceptionSubscription(input, logger: logger)
     }
 
     /// Turns off automatic enablement of Amazon Security Lake for member accounts that are added to an organization in Organizations. Only the delegated  Security Lake administrator for an organization can perform this operation. If the delegated Security Lake administrator performs this operation, new member accounts won't automatically contribute data to the data lake.
@@ -551,79 +538,40 @@ public struct SecurityLake: AWSService {
     /// Deletes the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account.
     @Sendable
     @inlinable
-    public func deregisterDataLakeDelegatedAdministrator(_ input: DeregisterDataLakeDelegatedAdministratorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterDataLakeDelegatedAdministratorResponse {
+    public func deregisterDataLakeDelegatedAdministrator(logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterDataLakeDelegatedAdministratorResponse {
         try await self.client.execute(
             operation: "DeregisterDataLakeDelegatedAdministrator", 
             path: "/v1/datalake/delegate", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes the Amazon Security Lake delegated administrator account for the organization. This API can only be called by the organization management account. The organization management account cannot be the delegated administrator account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deregisterDataLakeDelegatedAdministrator(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeregisterDataLakeDelegatedAdministratorResponse {
-        let input = DeregisterDataLakeDelegatedAdministratorRequest(
-        )
-        return try await self.deregisterDataLakeDelegatedAdministrator(input, logger: logger)
     }
 
     /// Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics for exception notifications.
     @Sendable
     @inlinable
-    public func getDataLakeExceptionSubscription(_ input: GetDataLakeExceptionSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeExceptionSubscriptionResponse {
+    public func getDataLakeExceptionSubscription(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeExceptionSubscriptionResponse {
         try await self.client.execute(
             operation: "GetDataLakeExceptionSubscription", 
             path: "/v1/datalake/exceptions/subscription", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics for exception notifications.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDataLakeExceptionSubscription(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDataLakeExceptionSubscriptionResponse {
-        let input = GetDataLakeExceptionSubscriptionRequest(
-        )
-        return try await self.getDataLakeExceptionSubscription(input, logger: logger)
     }
 
     /// Retrieves the configuration that will be automatically set up for accounts added to the organization after the organization has onboarded to Amazon Security Lake. This API does not take input parameters.
     @Sendable
     @inlinable
-    public func getDataLakeOrganizationConfiguration(_ input: GetDataLakeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeOrganizationConfigurationResponse {
+    public func getDataLakeOrganizationConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataLakeOrganizationConfigurationResponse {
         try await self.client.execute(
             operation: "GetDataLakeOrganizationConfiguration", 
             path: "/v1/datalake/organization/configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the configuration that will be automatically set up for accounts added to the organization after the organization has onboarded to Amazon Security Lake. This API does not take input parameters.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDataLakeOrganizationConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDataLakeOrganizationConfigurationResponse {
-        let input = GetDataLakeOrganizationConfigurationRequest(
-        )
-        return try await self.getDataLakeOrganizationConfiguration(input, logger: logger)
     }
 
     /// Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled for those accounts and which sources Security Lake is collecting data from.

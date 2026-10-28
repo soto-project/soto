@@ -430,27 +430,14 @@ public struct GreengrassV2: AWSService {
     /// Disassociates the Greengrass service role from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. Without a service role, IoT Greengrass can't verify the identity of client devices or manage core device connectivity information. For more information, see Greengrass service role in the IoT Greengrass Version 2 Developer Guide.
     @Sendable
     @inlinable
-    public func disassociateServiceRoleFromAccount(_ input: DisassociateServiceRoleFromAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateServiceRoleFromAccountResponse {
+    public func disassociateServiceRoleFromAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateServiceRoleFromAccountResponse {
         try await self.client.execute(
             operation: "DisassociateServiceRoleFromAccount", 
             path: "/greengrass/servicerole", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disassociates the Greengrass service role from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. Without a service role, IoT Greengrass can't verify the identity of client devices or manage core device connectivity information. For more information, see Greengrass service role in the IoT Greengrass Version 2 Developer Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disassociateServiceRoleFromAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisassociateServiceRoleFromAccountResponse {
-        let input = DisassociateServiceRoleFromAccountRequest(
-        )
-        return try await self.disassociateServiceRoleFromAccount(input, logger: logger)
     }
 
     /// Gets the recipe for a version of a component.
@@ -613,27 +600,14 @@ public struct GreengrassV2: AWSService {
     /// Gets the service role associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass uses this role to verify the identity of client devices and manage core device connectivity information. For more information, see Greengrass service role in the IoT Greengrass Version 2 Developer Guide.
     @Sendable
     @inlinable
-    public func getServiceRoleForAccount(_ input: GetServiceRoleForAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceRoleForAccountResponse {
+    public func getServiceRoleForAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceRoleForAccountResponse {
         try await self.client.execute(
             operation: "GetServiceRoleForAccount", 
             path: "/greengrass/servicerole", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets the service role associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region. IoT Greengrass uses this role to verify the identity of client devices and manage core device connectivity information. For more information, see Greengrass service role in the IoT Greengrass Version 2 Developer Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getServiceRoleForAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetServiceRoleForAccountResponse {
-        let input = GetServiceRoleForAccountRequest(
-        )
-        return try await self.getServiceRoleForAccount(input, logger: logger)
     }
 
     /// Retrieves a paginated list of client devices that are associated with a core device.

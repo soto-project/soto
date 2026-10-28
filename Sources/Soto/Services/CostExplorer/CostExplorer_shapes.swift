@@ -5854,10 +5854,6 @@ extension CostExplorer {
         }
     }
 
-    public struct StartSavingsPlansPurchaseRecommendationGenerationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct StartSavingsPlansPurchaseRecommendationGenerationResponse: AWSDecodableShape {
         /// The estimated time for when the recommendation generation will complete.
         public let estimatedCompletionTime: String?

@@ -1240,27 +1240,14 @@ public struct CodeBuild: AWSService {
     /// Gets information about Docker images that are managed by CodeBuild.
     @Sendable
     @inlinable
-    public func listCuratedEnvironmentImages(_ input: ListCuratedEnvironmentImagesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCuratedEnvironmentImagesOutput {
+    public func listCuratedEnvironmentImages(logger: Logger = AWSClient.loggingDisabled) async throws -> ListCuratedEnvironmentImagesOutput {
         try await self.client.execute(
             operation: "ListCuratedEnvironmentImages", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets information about Docker images that are managed by CodeBuild.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listCuratedEnvironmentImages(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListCuratedEnvironmentImagesOutput {
-        let input = ListCuratedEnvironmentImagesInput(
-        )
-        return try await self.listCuratedEnvironmentImages(input, logger: logger)
     }
 
     /// Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
@@ -1605,27 +1592,14 @@ public struct CodeBuild: AWSService {
     ///  Returns a list of SourceCredentialsInfo objects.
     @Sendable
     @inlinable
-    public func listSourceCredentials(_ input: ListSourceCredentialsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSourceCredentialsOutput {
+    public func listSourceCredentials(logger: Logger = AWSClient.loggingDisabled) async throws -> ListSourceCredentialsOutput {
         try await self.client.execute(
             operation: "ListSourceCredentials", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Returns a list of SourceCredentialsInfo objects.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listSourceCredentials(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListSourceCredentialsOutput {
-        let input = ListSourceCredentialsInput(
-        )
-        return try await self.listSourceCredentials(input, logger: logger)
     }
 
     ///  Stores a resource policy for the ARN of a Project or ReportGroup object.

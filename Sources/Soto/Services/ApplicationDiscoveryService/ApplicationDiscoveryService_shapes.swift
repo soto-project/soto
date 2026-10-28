@@ -1513,10 +1513,6 @@ extension ApplicationDiscoveryService {
         }
     }
 
-    public struct GetDiscoverySummaryRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetDiscoverySummaryResponse: AWSDecodableShape {
         ///  Details about Agentless Collector collectors, including status.
         public let agentlessCollectorSummary: CustomerAgentlessCollectorInfo?
@@ -1884,10 +1880,6 @@ extension ApplicationDiscoveryService {
         private enum CodingKeys: String, CodingKey {
             case taskId = "taskId"
         }
-    }
-
-    public struct StartContinuousExportRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct StartContinuousExportResponse: AWSDecodableShape {

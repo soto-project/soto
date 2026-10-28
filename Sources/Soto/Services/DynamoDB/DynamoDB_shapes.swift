@@ -2397,10 +2397,6 @@ extension DynamoDB {
         }
     }
 
-    public struct DescribeEndpointsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeEndpointsResponse: AWSDecodableShape {
         /// List of endpoints.
         public let endpoints: [Endpoint]
@@ -2588,10 +2584,6 @@ extension DynamoDB {
             case kinesisDataStreamDestinations = "KinesisDataStreamDestinations"
             case tableName = "TableName"
         }
-    }
-
-    public struct DescribeLimitsInput: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeLimitsOutput: AWSDecodableShape {

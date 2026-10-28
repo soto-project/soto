@@ -1136,10 +1136,6 @@ extension ECR {
         }
     }
 
-    public struct DeleteRegistryPolicyRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DeleteRegistryPolicyResponse: AWSDecodableShape {
         /// The contents of the registry permissions policy that was deleted.
         public let policyText: String?
@@ -1284,10 +1280,6 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case repository = "repository"
         }
-    }
-
-    public struct DeleteSigningConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DeleteSigningConfigurationResponse: AWSDecodableShape {
@@ -1658,10 +1650,6 @@ extension ECR {
             case nextToken = "nextToken"
             case pullThroughCacheRules = "pullThroughCacheRules"
         }
-    }
-
-    public struct DescribeRegistryRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeRegistryResponse: AWSDecodableShape {
@@ -2181,10 +2169,6 @@ extension ECR {
         }
     }
 
-    public struct GetRegistryPolicyRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetRegistryPolicyResponse: AWSDecodableShape {
         /// The JSON text of the permissions policy for a registry.
         public let policyText: String?
@@ -2201,10 +2185,6 @@ extension ECR {
             case policyText = "policyText"
             case registryId = "registryId"
         }
-    }
-
-    public struct GetRegistryScanningConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetRegistryScanningConfigurationResponse: AWSDecodableShape {
@@ -2270,10 +2250,6 @@ extension ECR {
             case registryId = "registryId"
             case repositoryName = "repositoryName"
         }
-    }
-
-    public struct GetSigningConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetSigningConfigurationResponse: AWSDecodableShape {

@@ -381,27 +381,14 @@ public struct OSIS: AWSService {
     /// Retrieves a list of all available blueprints for Data Prepper. For more information, see Using blueprints to create a pipeline.
     @Sendable
     @inlinable
-    public func listPipelineBlueprints(_ input: ListPipelineBlueprintsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelineBlueprintsResponse {
+    public func listPipelineBlueprints(logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelineBlueprintsResponse {
         try await self.client.execute(
             operation: "ListPipelineBlueprints", 
             path: "/2022-01-01/osis/listPipelineBlueprints", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves a list of all available blueprints for Data Prepper. For more information, see Using blueprints to create a pipeline.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func listPipelineBlueprints(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListPipelineBlueprintsResponse {
-        let input = ListPipelineBlueprintsRequest(
-        )
-        return try await self.listPipelineBlueprints(input, logger: logger)
     }
 
     /// Lists the pipeline endpoints connected to pipelines in your account.

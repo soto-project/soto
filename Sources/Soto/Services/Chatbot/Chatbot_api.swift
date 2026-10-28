@@ -738,27 +738,14 @@ public struct Chatbot: AWSService {
     /// Returns AWS Chatbot account preferences.
     @Sendable
     @inlinable
-    public func getAccountPreferences(_ input: GetAccountPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountPreferencesResult {
+    public func getAccountPreferences(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountPreferencesResult {
         try await self.client.execute(
             operation: "GetAccountPreferences", 
             path: "/get-account-preferences", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns AWS Chatbot account preferences.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountPreferences(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountPreferencesResult {
-        let input = GetAccountPreferencesRequest(
-        )
-        return try await self.getAccountPreferences(input, logger: logger)
     }
 
     /// Returns a custom action.

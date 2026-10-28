@@ -1077,10 +1077,6 @@ extension Chatbot {
         public init() {}
     }
 
-    public struct GetAccountPreferencesRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountPreferencesResult: AWSDecodableShape {
         /// The preferences related to AWS Chatbot usage in the calling AWS account.
         public let accountPreferences: AccountPreferences?

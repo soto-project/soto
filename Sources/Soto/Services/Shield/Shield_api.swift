@@ -303,27 +303,14 @@ public struct Shield: AWSService {
     /// Activates Shield Advanced for an account.  For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account, regardless of whether the payer account itself is subscribed.   When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period.  You can change this by submitting an UpdateSubscription request.
     @Sendable
     @inlinable
-    public func createSubscription(_ input: CreateSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubscriptionResponse {
+    public func createSubscription(logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubscriptionResponse {
         try await self.client.execute(
             operation: "CreateSubscription", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Activates Shield Advanced for an account.  For accounts that are members of an Organizations organization, Shield Advanced subscriptions are billed against the organization's payer account, regardless of whether the payer account itself is subscribed.   When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period.  You can change this by submitting an UpdateSubscription request.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func createSubscription(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> CreateSubscriptionResponse {
-        let input = CreateSubscriptionRequest(
-        )
-        return try await self.createSubscription(input, logger: logger)
     }
 
     /// Deletes an Shield Advanced Protection.
@@ -387,27 +374,14 @@ public struct Shield: AWSService {
     /// Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
     @Sendable
     @inlinable
-    public func deleteSubscription(_ input: DeleteSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSubscriptionResponse {
+    public func deleteSubscription(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSubscriptionResponse {
         try await self.client.execute(
             operation: "DeleteSubscription", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteSubscription(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteSubscriptionResponse {
-        let input = DeleteSubscriptionRequest(
-        )
-        return try await self.deleteSubscription(input, logger: logger)
     }
 
     /// Describes the details of a DDoS attack.
@@ -442,79 +416,40 @@ public struct Shield: AWSService {
     /// Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers. The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:39:32 PDT, equal to 2020-10-26 22:39:32 UTC, then the time range for the attack data returned is from 2019-10-26 00:00:00 UTC to 2020-10-26 00:00:00 UTC.  The time range indicates the period covered by the attack statistics data items.
     @Sendable
     @inlinable
-    public func describeAttackStatistics(_ input: DescribeAttackStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAttackStatisticsResponse {
+    public func describeAttackStatistics(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAttackStatisticsResponse {
         try await self.client.execute(
             operation: "DescribeAttackStatistics", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Provides information about the number and type of attacks Shield has detected in the last year for all resources that belong to your account, regardless of whether you've defined Shield protections for them. This operation is available to Shield customers as well as to Shield Advanced customers. The operation returns data for the time range of midnight UTC, one year ago, to midnight UTC, today. For example, if the current time is 2020-10-26 15:39:32 PDT, equal to 2020-10-26 22:39:32 UTC, then the time range for the attack data returned is from 2019-10-26 00:00:00 UTC to 2020-10-26 00:00:00 UTC.  The time range indicates the period covered by the attack statistics data items.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeAttackStatistics(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeAttackStatisticsResponse {
-        let input = DescribeAttackStatisticsRequest(
-        )
-        return try await self.describeAttackStatistics(input, logger: logger)
     }
 
     /// Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
     @Sendable
     @inlinable
-    public func describeDRTAccess(_ input: DescribeDRTAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDRTAccessResponse {
+    public func describeDRTAccess(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDRTAccessResponse {
         try await self.client.execute(
             operation: "DescribeDRTAccess", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeDRTAccess(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeDRTAccessResponse {
-        let input = DescribeDRTAccessRequest(
-        )
-        return try await self.describeDRTAccess(input, logger: logger)
     }
 
     /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
     @Sendable
     @inlinable
-    public func describeEmergencyContactSettings(_ input: DescribeEmergencyContactSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEmergencyContactSettingsResponse {
+    public func describeEmergencyContactSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEmergencyContactSettingsResponse {
         try await self.client.execute(
             operation: "DescribeEmergencyContactSettings", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeEmergencyContactSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeEmergencyContactSettingsResponse {
-        let input = DescribeEmergencyContactSettingsRequest(
-        )
-        return try await self.describeEmergencyContactSettings(input, logger: logger)
     }
 
     /// Lists the details of a Protection object.
@@ -581,27 +516,14 @@ public struct Shield: AWSService {
     /// Provides details about the Shield Advanced subscription for an account.
     @Sendable
     @inlinable
-    public func describeSubscription(_ input: DescribeSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSubscriptionResponse {
+    public func describeSubscription(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSubscriptionResponse {
         try await self.client.execute(
             operation: "DescribeSubscription", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Provides details about the Shield Advanced subscription for an account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeSubscription(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeSubscriptionResponse {
-        let input = DescribeSubscriptionRequest(
-        )
-        return try await self.describeSubscription(input, logger: logger)
     }
 
     /// Disable the Shield Advanced automatic application layer DDoS mitigation feature for the protected resource. This stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
@@ -636,27 +558,14 @@ public struct Shield: AWSService {
     /// Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
     @Sendable
     @inlinable
-    public func disableProactiveEngagement(_ input: DisableProactiveEngagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableProactiveEngagementResponse {
+    public func disableProactiveEngagement(logger: Logger = AWSClient.loggingDisabled) async throws -> DisableProactiveEngagementResponse {
         try await self.client.execute(
             operation: "DisableProactiveEngagement", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disableProactiveEngagement(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisableProactiveEngagementResponse {
-        let input = DisableProactiveEngagementRequest(
-        )
-        return try await self.disableProactiveEngagement(input, logger: logger)
     }
 
     /// Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
@@ -691,27 +600,14 @@ public struct Shield: AWSService {
     /// Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
     @Sendable
     @inlinable
-    public func disassociateDRTRole(_ input: DisassociateDRTRoleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDRTRoleResponse {
+    public func disassociateDRTRole(logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDRTRoleResponse {
         try await self.client.execute(
             operation: "DisassociateDRTRole", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disassociateDRTRole(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisassociateDRTRoleResponse {
-        let input = DisassociateDRTRoleRequest(
-        )
-        return try await self.disassociateDRTRole(input, logger: logger)
     }
 
     /// Removes health-based detection from the Shield Advanced protection for a resource. Shield Advanced health-based detection uses the health of your Amazon Web Services resource to improve responsiveness and accuracy in attack detection and response.  You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the WAF Developer Guide.
@@ -781,53 +677,27 @@ public struct Shield: AWSService {
     /// Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
     @Sendable
     @inlinable
-    public func enableProactiveEngagement(_ input: EnableProactiveEngagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableProactiveEngagementResponse {
+    public func enableProactiveEngagement(logger: Logger = AWSClient.loggingDisabled) async throws -> EnableProactiveEngagementResponse {
         try await self.client.execute(
             operation: "EnableProactiveEngagement", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func enableProactiveEngagement(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> EnableProactiveEngagementResponse {
-        let input = EnableProactiveEngagementRequest(
-        )
-        return try await self.enableProactiveEngagement(input, logger: logger)
     }
 
     /// Returns the SubscriptionState, either Active or Inactive.
     @Sendable
     @inlinable
-    public func getSubscriptionState(_ input: GetSubscriptionStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSubscriptionStateResponse {
+    public func getSubscriptionState(logger: Logger = AWSClient.loggingDisabled) async throws -> GetSubscriptionStateResponse {
         try await self.client.execute(
             operation: "GetSubscriptionState", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the SubscriptionState, either Active or Inactive.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getSubscriptionState(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetSubscriptionStateResponse {
-        let input = GetSubscriptionStateRequest(
-        )
-        return try await self.getSubscriptionState(input, logger: logger)
     }
 
     /// Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.

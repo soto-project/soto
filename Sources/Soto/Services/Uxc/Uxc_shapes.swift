@@ -45,10 +45,6 @@ extension Uxc {
 
     // MARK: Shapes
 
-    public struct GetAccountCustomizationsInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountCustomizationsOutput: AWSDecodableShape {
         /// The account color preference. A value of none indicates that you have not set a color.
         public let accountColor: AccountColor?

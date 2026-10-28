@@ -8317,10 +8317,6 @@ extension MediaLive {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DescribeAccountConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeAccountConfigurationResponse: AWSDecodableShape {
         public let accountConfiguration: AccountConfiguration?
 
@@ -14174,10 +14170,6 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
         }
-    }
-
-    public struct ListVersionsRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct ListVersionsResponse: AWSDecodableShape {

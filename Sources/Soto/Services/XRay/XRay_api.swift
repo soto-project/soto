@@ -325,27 +325,14 @@ public struct XRay: AWSService {
     /// Retrieves the current encryption configuration for X-Ray data.
     @Sendable
     @inlinable
-    public func getEncryptionConfig(_ input: GetEncryptionConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEncryptionConfigResult {
+    public func getEncryptionConfig(logger: Logger = AWSClient.loggingDisabled) async throws -> GetEncryptionConfigResult {
         try await self.client.execute(
             operation: "GetEncryptionConfig", 
             path: "/EncryptionConfig", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the current encryption configuration for X-Ray data.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getEncryptionConfig(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetEncryptionConfigResult {
-        let input = GetEncryptionConfigRequest(
-        )
-        return try await self.getEncryptionConfig(input, logger: logger)
     }
 
     /// Retrieves group resource details.
@@ -837,27 +824,14 @@ public struct XRay: AWSService {
     ///  Retrieves the current destination of data sent to PutTraceSegments and OpenTelemetry protocol (OTLP) endpoint. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see Transaction Search and OpenTelemetry.
     @Sendable
     @inlinable
-    public func getTraceSegmentDestination(_ input: GetTraceSegmentDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTraceSegmentDestinationResult {
+    public func getTraceSegmentDestination(logger: Logger = AWSClient.loggingDisabled) async throws -> GetTraceSegmentDestinationResult {
         try await self.client.execute(
             operation: "GetTraceSegmentDestination", 
             path: "/GetTraceSegmentDestination", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Retrieves the current destination of data sent to PutTraceSegments and OpenTelemetry protocol (OTLP) endpoint. The Transaction Search feature requires a CloudWatchLogs destination. For more information, see Transaction Search and OpenTelemetry.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getTraceSegmentDestination(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetTraceSegmentDestinationResult {
-        let input = GetTraceSegmentDestinationRequest(
-        )
-        return try await self.getTraceSegmentDestination(input, logger: logger)
     }
 
     /// Retrieves IDs and annotations for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com:  service("api.example.com")  This filter expression finds traces that have an annotation named account with the value 12345:  annotation.account = "12345"  For a full list of indexed fields and keywords that you can use in filter expressions, see Use filter expressions in the Amazon Web Services X-Ray Developer Guide.

@@ -1050,10 +1050,6 @@ extension Kinesis {
         }
     }
 
-    public struct DescribeAccountSettingsInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeAccountSettingsOutput: AWSDecodableShape {
         /// The current configuration of the minimum throughput billing commitment for your Amazon Web Services account.
         public let minimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentOutput?
@@ -1100,10 +1096,6 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case channelDescription = "ChannelDescription"
         }
-    }
-
-    public struct DescribeLimitsInput: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeLimitsOutput: AWSDecodableShape {

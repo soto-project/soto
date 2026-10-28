@@ -769,28 +769,15 @@ public struct IoTTwinMaker: AWSService {
     /// Gets the pricing plan.
     @Sendable
     @inlinable
-    public func getPricingPlan(_ input: GetPricingPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPricingPlanResponse {
+    public func getPricingPlan(logger: Logger = AWSClient.loggingDisabled) async throws -> GetPricingPlanResponse {
         try await self.client.execute(
             operation: "GetPricingPlan", 
             path: "/pricingplan", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             hostPrefix: "api.", 
             logger: logger
         )
-    }
-    /// Gets the pricing plan.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getPricingPlan(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetPricingPlanResponse {
-        let input = GetPricingPlanRequest(
-        )
-        return try await self.getPricingPlan(input, logger: logger)
     }
 
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.

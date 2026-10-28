@@ -2102,10 +2102,6 @@ extension CloudWatch {
         }
     }
 
-    public struct GetOTelEnrichmentInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetOTelEnrichmentOutput: AWSDecodableShape {
         /// The date and time that enrichment started for the account. This parameter is omitted when enrichment is stopped.
         public let createdAt: Date?
@@ -4512,10 +4508,6 @@ extension CloudWatch {
     }
 
     public struct StopMetricStreamsOutput: AWSDecodableShape {
-        public init() {}
-    }
-
-    public struct StopOTelEnrichmentInput: AWSEncodableShape {
         public init() {}
     }
 

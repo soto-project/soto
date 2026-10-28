@@ -1025,10 +1025,6 @@ extension SES {
         }
     }
 
-    public struct DescribeActiveReceiptRuleSetRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeActiveReceiptRuleSetResponse: AWSDecodableShape {
         /// The metadata for the currently active receipt rule set. The metadata consists of the rule set name and a timestamp of when the rule set was created.
         public let metadata: ReceiptRuleSetMetadata?
@@ -2020,10 +2016,6 @@ extension SES {
         private enum CodingKeys: String, CodingKey {
             case policyNames = "PolicyNames"
         }
-    }
-
-    public struct ListReceiptFiltersRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct ListReceiptFiltersResponse: AWSDecodableShape {

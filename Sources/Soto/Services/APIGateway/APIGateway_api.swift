@@ -1680,27 +1680,14 @@ public struct APIGateway: AWSService {
     /// Gets information about the current Account resource.
     @Sendable
     @inlinable
-    public func getAccount(_ input: GetAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Account {
+    public func getAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> Account {
         try await self.client.execute(
             operation: "GetAccount", 
             path: "/account", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Gets information about the current Account resource.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> Account {
-        let input = GetAccountRequest(
-        )
-        return try await self.getAccount(input, logger: logger)
     }
 
     /// Gets information about the current ApiKey resource.

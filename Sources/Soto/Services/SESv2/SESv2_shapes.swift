@@ -3051,10 +3051,6 @@ extension SESv2 {
         }
     }
 
-    public struct GetAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountResponse: AWSDecodableShape {
         /// Indicates whether or not the automatic warm-up feature is enabled for dedicated IP addresses that are associated with your account.
         public let dedicatedIpAutoWarmupEnabled: Bool?
@@ -3515,10 +3511,6 @@ extension SESv2 {
             case dedicatedIps = "DedicatedIps"
             case nextToken = "NextToken"
         }
-    }
-
-    public struct GetDeliverabilityDashboardOptionsRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetDeliverabilityDashboardOptionsResponse: AWSDecodableShape {

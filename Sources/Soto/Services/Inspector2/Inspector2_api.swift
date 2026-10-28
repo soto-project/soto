@@ -840,27 +840,14 @@ public struct Inspector2: AWSService {
     /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
     @Sendable
     @inlinable
-    public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
+    public func describeOrganizationConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
         try await self.client.execute(
             operation: "DescribeOrganizationConfiguration", 
             path: "/organizationconfiguration/describe", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeOrganizationConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeOrganizationConfigurationResponse {
-        let input = DescribeOrganizationConfigurationRequest(
-        )
-        return try await self.describeOrganizationConfiguration(input, logger: logger)
     }
 
     /// Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an account disables the Amazon Inspector service.
@@ -1265,53 +1252,27 @@ public struct Inspector2: AWSService {
     /// Retrieves information about the Amazon Inspector delegated administrator for your organization.
     @Sendable
     @inlinable
-    public func getDelegatedAdminAccount(_ input: GetDelegatedAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDelegatedAdminAccountResponse {
+    public func getDelegatedAdminAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetDelegatedAdminAccountResponse {
         try await self.client.execute(
             operation: "GetDelegatedAdminAccount", 
             path: "/delegatedadminaccounts/get", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves information about the Amazon Inspector delegated administrator for your organization.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getDelegatedAdminAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetDelegatedAdminAccountResponse {
-        let input = GetDelegatedAdminAccountRequest(
-        )
-        return try await self.getDelegatedAdminAccount(input, logger: logger)
     }
 
     /// Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated with your account.
     @Sendable
     @inlinable
-    public func getEc2DeepInspectionConfiguration(_ input: GetEc2DeepInspectionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEc2DeepInspectionConfigurationResponse {
+    public func getEc2DeepInspectionConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetEc2DeepInspectionConfigurationResponse {
         try await self.client.execute(
             operation: "GetEc2DeepInspectionConfiguration", 
             path: "/ec2deepinspectionconfiguration/get", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated with your account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getEc2DeepInspectionConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetEc2DeepInspectionConfigurationResponse {
-        let input = GetEc2DeepInspectionConfigurationRequest(
-        )
-        return try await self.getEc2DeepInspectionConfiguration(input, logger: logger)
     }
 
     /// Gets an encryption key.

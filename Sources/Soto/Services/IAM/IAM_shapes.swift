@@ -2424,10 +2424,6 @@ extension IAM {
         }
     }
 
-    public struct DisableOrganizationsRootCredentialsManagementRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisableOrganizationsRootCredentialsManagementResponse: AWSDecodableShape {
         /// The features enabled for centralized root access for member accounts in your organization.
         @OptionalCustomCoding<StandardArrayCoder<FeatureType>>
@@ -2445,10 +2441,6 @@ extension IAM {
             case enabledFeatures = "EnabledFeatures"
             case organizationId = "OrganizationId"
         }
-    }
-
-    public struct DisableOrganizationsRootSessionsRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DisableOrganizationsRootSessionsResponse: AWSDecodableShape {
@@ -2511,10 +2503,6 @@ extension IAM {
         }
     }
 
-    public struct EnableOrganizationsRootCredentialsManagementRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct EnableOrganizationsRootCredentialsManagementResponse: AWSDecodableShape {
         /// The features you have enabled for centralized root access.
         @OptionalCustomCoding<StandardArrayCoder<FeatureType>>
@@ -2532,10 +2520,6 @@ extension IAM {
             case enabledFeatures = "EnabledFeatures"
             case organizationId = "OrganizationId"
         }
-    }
-
-    public struct EnableOrganizationsRootSessionsRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct EnableOrganizationsRootSessionsResponse: AWSDecodableShape {
@@ -2899,10 +2883,6 @@ extension IAM {
         private enum CodingKeys: String, CodingKey {
             case passwordPolicy = "PasswordPolicy"
         }
-    }
-
-    public struct GetAccountPropertiesRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetAccountPropertiesResponse: AWSDecodableShape {
@@ -5193,10 +5173,6 @@ extension IAM {
         }
     }
 
-    public struct ListOpenIDConnectProvidersRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct ListOpenIDConnectProvidersResponse: AWSDecodableShape {
         /// The list of IAM OIDC provider resource objects defined in the Amazon Web Services account.
         @OptionalCustomCoding<StandardArrayCoder<OpenIDConnectProviderListEntry>>
@@ -5210,10 +5186,6 @@ extension IAM {
         private enum CodingKeys: String, CodingKey {
             case openIDConnectProviderList = "OpenIDConnectProviderList"
         }
-    }
-
-    public struct ListOrganizationsFeaturesRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct ListOrganizationsFeaturesResponse: AWSDecodableShape {
@@ -5714,10 +5686,6 @@ extension IAM {
             case marker = "Marker"
             case tags = "Tags"
         }
-    }
-
-    public struct ListSAMLProvidersRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct ListSAMLProvidersResponse: AWSDecodableShape {

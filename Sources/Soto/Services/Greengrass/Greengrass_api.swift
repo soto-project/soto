@@ -1151,27 +1151,14 @@ public struct Greengrass: AWSService {
     /// Disassociates the service role from your account. Without a service role, deployments will not work.
     @Sendable
     @inlinable
-    public func disassociateServiceRoleFromAccount(_ input: DisassociateServiceRoleFromAccountRequest, logger: Logging.Logger = AWSClient.loggingDisabled) async throws -> DisassociateServiceRoleFromAccountResponse {
+    public func disassociateServiceRoleFromAccount(logger: Logging.Logger = AWSClient.loggingDisabled) async throws -> DisassociateServiceRoleFromAccountResponse {
         try await self.client.execute(
             operation: "DisassociateServiceRoleFromAccount", 
             path: "/greengrass/servicerole", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disassociates the service role from your account. Without a service role, deployments will not work.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disassociateServiceRoleFromAccount(
-        logger: Logging.Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisassociateServiceRoleFromAccountResponse {
-        let input = DisassociateServiceRoleFromAccountRequest(
-        )
-        return try await self.disassociateServiceRoleFromAccount(input, logger: logger)
     }
 
     /// Retrieves the role associated with a particular group.
@@ -1796,27 +1783,14 @@ public struct Greengrass: AWSService {
     /// Retrieves the service role that is attached to your account.
     @Sendable
     @inlinable
-    public func getServiceRoleForAccount(_ input: GetServiceRoleForAccountRequest, logger: Logging.Logger = AWSClient.loggingDisabled) async throws -> GetServiceRoleForAccountResponse {
+    public func getServiceRoleForAccount(logger: Logging.Logger = AWSClient.loggingDisabled) async throws -> GetServiceRoleForAccountResponse {
         try await self.client.execute(
             operation: "GetServiceRoleForAccount", 
             path: "/greengrass/servicerole", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the service role that is attached to your account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getServiceRoleForAccount(
-        logger: Logging.Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetServiceRoleForAccountResponse {
-        let input = GetServiceRoleForAccountRequest(
-        )
-        return try await self.getServiceRoleForAccount(input, logger: logger)
     }
 
     /// Retrieves information about a subscription definition.

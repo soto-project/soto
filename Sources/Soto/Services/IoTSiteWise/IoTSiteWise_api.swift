@@ -2614,28 +2614,15 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see Key management in the IoT SiteWise User Guide.
     @Sendable
     @inlinable
-    public func describeDefaultEncryptionConfiguration(_ input: DescribeDefaultEncryptionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDefaultEncryptionConfigurationResponse {
+    public func describeDefaultEncryptionConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDefaultEncryptionConfigurationResponse {
         try await self.client.execute(
             operation: "DescribeDefaultEncryptionConfiguration", 
             path: "/configuration/account/encryption", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             hostPrefix: "api.", 
             logger: logger
         )
-    }
-    /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see Key management in the IoT SiteWise User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeDefaultEncryptionConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeDefaultEncryptionConfigurationResponse {
-        let input = DescribeDefaultEncryptionConfigurationRequest(
-        )
-        return try await self.describeDefaultEncryptionConfiguration(input, logger: logger)
     }
 
     /// Retrieves detailed information about a specific enrichment job, including its current status,
@@ -3051,28 +3038,15 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves information about the storage configuration for IoT SiteWise.
     @Sendable
     @inlinable
-    public func describeStorageConfiguration(_ input: DescribeStorageConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStorageConfigurationResponse {
+    public func describeStorageConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStorageConfigurationResponse {
         try await self.client.execute(
             operation: "DescribeStorageConfiguration", 
             path: "/configuration/account/storage", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             hostPrefix: "api.", 
             logger: logger
         )
-    }
-    /// Retrieves information about the storage configuration for IoT SiteWise.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeStorageConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeStorageConfigurationResponse {
-        let input = DescribeStorageConfigurationRequest(
-        )
-        return try await self.describeStorageConfiguration(input, logger: logger)
     }
 
     /// Retrieves detailed information about a specific task in a workspace.

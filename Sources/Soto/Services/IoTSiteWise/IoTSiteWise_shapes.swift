@@ -8155,10 +8155,6 @@ extension IoTSiteWise {
         }
     }
 
-    public struct DescribeDefaultEncryptionConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeDefaultEncryptionConfigurationResponse: AWSDecodableShape {
         /// The status of the account configuration. This contains the ConfigurationState. If there's an error, it also contains the ErrorDetails.
         public let configurationStatus: ConfigurationStatus
@@ -9005,10 +9001,6 @@ extension IoTSiteWise {
             case statusReason = "statusReason"
             case workspaceName = "workspaceName"
         }
-    }
-
-    public struct DescribeStorageConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeStorageConfigurationResponse: AWSDecodableShape {

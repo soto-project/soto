@@ -584,27 +584,14 @@ public struct ECR: AWSService {
     /// Deletes the registry permissions policy.
     @Sendable
     @inlinable
-    public func deleteRegistryPolicy(_ input: DeleteRegistryPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRegistryPolicyResponse {
+    public func deleteRegistryPolicy(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRegistryPolicyResponse {
         try await self.client.execute(
             operation: "DeleteRegistryPolicy", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes the registry permissions policy.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteRegistryPolicy(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteRegistryPolicyResponse {
-        let input = DeleteRegistryPolicyRequest(
-        )
-        return try await self.deleteRegistryPolicy(input, logger: logger)
     }
 
     /// Deletes a repository. If the repository isn't empty, you must either delete the contents of the repository or use the force option to delete the repository and have Amazon ECR delete all of its contents on your behalf.
@@ -706,27 +693,14 @@ public struct ECR: AWSService {
     /// Deletes the registry's signing configuration. Images pushed after deletion of the signing configuration will no longer be automatically signed. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.  Deleting the signing configuration does not affect existing image signatures.
     @Sendable
     @inlinable
-    public func deleteSigningConfiguration(_ input: DeleteSigningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSigningConfigurationResponse {
+    public func deleteSigningConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSigningConfigurationResponse {
         try await self.client.execute(
             operation: "DeleteSigningConfiguration", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes the registry's signing configuration. Images pushed after deletion of the signing configuration will no longer be automatically signed. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.  Deleting the signing configuration does not affect existing image signatures.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteSigningConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DeleteSigningConfigurationResponse {
-        let input = DeleteSigningConfigurationRequest(
-        )
-        return try await self.deleteSigningConfiguration(input, logger: logger)
     }
 
     /// Removes a principal from the pull time update exclusion list for a registry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image.
@@ -954,27 +928,14 @@ public struct ECR: AWSService {
     /// Describes the settings for a registry. The replication configuration for a repository can be created or updated with the PutReplicationConfiguration API action.
     @Sendable
     @inlinable
-    public func describeRegistry(_ input: DescribeRegistryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRegistryResponse {
+    public func describeRegistry(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRegistryResponse {
         try await self.client.execute(
             operation: "DescribeRegistry", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Describes the settings for a registry. The replication configuration for a repository can be created or updated with the PutReplicationConfiguration API action.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeRegistry(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeRegistryResponse {
-        let input = DescribeRegistryRequest(
-        )
-        return try await self.describeRegistry(input, logger: logger)
     }
 
     /// Describes image repositories in a registry.
@@ -1219,53 +1180,27 @@ public struct ECR: AWSService {
     /// Retrieves the permissions policy for a registry.
     @Sendable
     @inlinable
-    public func getRegistryPolicy(_ input: GetRegistryPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistryPolicyResponse {
+    public func getRegistryPolicy(logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistryPolicyResponse {
         try await self.client.execute(
             operation: "GetRegistryPolicy", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the permissions policy for a registry.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getRegistryPolicy(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetRegistryPolicyResponse {
-        let input = GetRegistryPolicyRequest(
-        )
-        return try await self.getRegistryPolicy(input, logger: logger)
     }
 
     /// Retrieves the scanning configuration for a registry.
     @Sendable
     @inlinable
-    public func getRegistryScanningConfiguration(_ input: GetRegistryScanningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistryScanningConfigurationResponse {
+    public func getRegistryScanningConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistryScanningConfigurationResponse {
         try await self.client.execute(
             operation: "GetRegistryScanningConfiguration", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the scanning configuration for a registry.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getRegistryScanningConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetRegistryScanningConfigurationResponse {
-        let input = GetRegistryScanningConfigurationRequest(
-        )
-        return try await self.getRegistryScanningConfiguration(input, logger: logger)
     }
 
     /// Retrieves the repository policy for the specified repository.
@@ -1303,27 +1238,14 @@ public struct ECR: AWSService {
     /// Retrieves the registry's signing configuration, which defines rules for automatically signing images using Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.
     @Sendable
     @inlinable
-    public func getSigningConfiguration(_ input: GetSigningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSigningConfigurationResponse {
+    public func getSigningConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetSigningConfigurationResponse {
         try await self.client.execute(
             operation: "GetSigningConfiguration", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the registry's signing configuration, which defines rules for automatically signing images using Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getSigningConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetSigningConfigurationResponse {
-        let input = GetSigningConfigurationRequest(
-        )
-        return try await self.getSigningConfiguration(input, logger: logger)
     }
 
     /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once per image layer that has not already been uploaded. Whether or not an image layer has been uploaded is determined by the BatchCheckLayerAvailability API action.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.

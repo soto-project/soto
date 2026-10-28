@@ -743,10 +743,6 @@ extension TimestreamWrite {
         }
     }
 
-    public struct DescribeEndpointsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeEndpointsResponse: AWSDecodableShape {
         /// An Endpoints object is returned when a DescribeEndpoints request is made.
         public let endpoints: [Endpoint]

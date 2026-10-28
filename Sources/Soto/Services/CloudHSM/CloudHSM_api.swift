@@ -468,28 +468,14 @@ public struct CloudHSM: AWSService {
     @available(*, deprecated, message: "This API is deprecated.")
     @Sendable
     @inlinable
-    public func listAvailableZones(_ input: ListAvailableZonesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAvailableZonesResponse {
+    public func listAvailableZones(logger: Logger = AWSClient.loggingDisabled) async throws -> ListAvailableZonesResponse {
         try await self.client.execute(
             operation: "ListAvailableZones", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM, the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Lists the Availability Zones that have available AWS CloudHSM capacity.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @available(*, deprecated, message: "This API is deprecated.")
-    @inlinable
-    public func listAvailableZones(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> ListAvailableZonesResponse {
-        let input = ListAvailableZonesRequest(
-        )
-        return try await self.listAvailableZones(input, logger: logger)
     }
 
     /// This is documentation for AWS CloudHSM Classic. For more information, see AWS CloudHSM Classic FAQs, the AWS CloudHSM Classic User Guide, and the AWS CloudHSM Classic API Reference.  For information about the current version of AWS CloudHSM, see AWS CloudHSM, the AWS CloudHSM User Guide, and the AWS CloudHSM API Reference. Lists the high-availability partition groups for the account. This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to ListHapgs to retrieve the next set of items.

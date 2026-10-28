@@ -1045,27 +1045,14 @@ public struct Lambda: AWSService {
     /// Retrieves details about your account's limits and usage in an Amazon Web Services Region.
     @Sendable
     @inlinable
-    public func getAccountSettings(_ input: GetAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResponse {
+    public func getAccountSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingsResponse {
         try await self.client.execute(
             operation: "GetAccountSettings", 
             path: "/2016-08-19/account-settings", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves details about your account's limits and usage in an Amazon Web Services Region.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAccountSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAccountSettingsResponse {
-        let input = GetAccountSettingsRequest(
-        )
-        return try await self.getAccountSettings(input, logger: logger)
     }
 
     /// Returns details about a Lambda function alias.

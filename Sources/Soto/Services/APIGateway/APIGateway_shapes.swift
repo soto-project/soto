@@ -2408,10 +2408,6 @@ extension APIGateway {
         }
     }
 
-    public struct GetAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetApiKeyRequest: AWSEncodableShape {
         /// The identifier of the ApiKey resource.
         public let apiKey: String

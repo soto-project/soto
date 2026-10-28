@@ -156,27 +156,14 @@ public struct LicenseManagerLinuxSubscriptions: AWSService {
     /// Lists the Linux subscriptions service settings for your account.
     @Sendable
     @inlinable
-    public func getServiceSettings(_ input: GetServiceSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceSettingsResponse {
+    public func getServiceSettings(logger: Logger = AWSClient.loggingDisabled) async throws -> GetServiceSettingsResponse {
         try await self.client.execute(
             operation: "GetServiceSettings", 
             path: "/subscription/GetServiceSettings", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Lists the Linux subscriptions service settings for your account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getServiceSettings(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetServiceSettingsResponse {
-        let input = GetServiceSettingsRequest(
-        )
-        return try await self.getServiceSettings(input, logger: logger)
     }
 
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.

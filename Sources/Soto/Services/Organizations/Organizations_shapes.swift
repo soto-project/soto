@@ -1490,10 +1490,6 @@ extension Organizations {
         }
     }
 
-    public struct EnableAllFeaturesRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct EnableAllFeaturesResponse: AWSDecodableShape {
         /// A structure that contains details about the handshake created to support this request to enable all features in the organization.
         public let handshake: Handshake?

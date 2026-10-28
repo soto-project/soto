@@ -1307,27 +1307,14 @@ public struct Drs: AWSService {
     /// Initialize Elastic Disaster Recovery.
     @Sendable
     @inlinable
-    public func initializeService(_ input: InitializeServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InitializeServiceResponse {
+    public func initializeService(logger: Logger = AWSClient.loggingDisabled) async throws -> InitializeServiceResponse {
         try await self.client.execute(
             operation: "InitializeService", 
             path: "/InitializeService", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Initialize Elastic Disaster Recovery.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func initializeService(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> InitializeServiceResponse {
-        let input = InitializeServiceRequest(
-        )
-        return try await self.initializeService(input, logger: logger)
     }
 
     /// Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.

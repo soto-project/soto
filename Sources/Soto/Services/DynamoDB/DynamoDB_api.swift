@@ -615,27 +615,14 @@ public struct DynamoDB: AWSService {
     /// Returns the regional endpoint information. For more information on policy permissions, please see Internetwork traffic privacy.
     @Sendable
     @inlinable
-    public func describeEndpoints(_ input: DescribeEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
+    public func describeEndpoints(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointsResponse {
         try await self.client.execute(
             operation: "DescribeEndpoints", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the regional endpoint information. For more information on policy permissions, please see Internetwork traffic privacy.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeEndpoints(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeEndpointsResponse {
-        let input = DescribeEndpointsRequest(
-        )
-        return try await self.describeEndpoints(input, logger: logger)
     }
 
     /// Describes an existing table export.
@@ -792,7 +779,7 @@ public struct DynamoDB: AWSService {
     /// Returns the current provisioned-capacity quotas for your Amazon Web Services account in a Region, both for the Region as a whole and for any one DynamoDB table that you create there. When you establish an Amazon Web Services account, the account has initial quotas on the maximum read capacity units and write capacity units that you can provision across all of your DynamoDB tables in a given Region. Also, there are per-table quotas that apply when you create a table there. For more information, see Service, Account, and Table Quotas page in the Amazon DynamoDB Developer Guide. Although you can increase these quotas by filing a case at Amazon Web Services Support Center, obtaining the increase is not instantaneous. The DescribeLimits action lets you write code to compare the capacity you are currently using to those quotas imposed by your account so that you have enough time to apply for an increase before you hit a quota. For example, you could use one of the Amazon Web Services SDKs to do the following:   Call DescribeLimits for a particular Region to obtain your current account quotas on provisioned capacity there.   Create a variable to hold the aggregate read capacity units provisioned for all your tables in that Region, and one to hold the aggregate write capacity units. Zero them both.   Call ListTables to obtain a list of all your DynamoDB tables.   For each table name listed by ListTables, do the following:   Call DescribeTable with the table name.   Use the data returned by DescribeTable to add the read capacity units and write capacity units provisioned for the table itself to your variables.   If the table has one or more global secondary indexes (GSIs), loop over these GSIs and add their provisioned capacity values to your variables as well.     Report the account quotas for that Region returned by DescribeLimits, along with the total current provisioned capacity levels you have calculated.   This will let you see whether you are getting close to your account-level quotas. The per-table quotas apply only when you are creating a new table. They restrict the sum of the provisioned capacity of the new table itself and all its global secondary indexes. For existing tables and their GSIs, DynamoDB doesn't let you increase provisioned capacity extremely rapidly, but the only quota that applies is that the aggregate provisioned capacity over all your tables and GSIs cannot exceed either of the per-account quotas.   DescribeLimits should only be called periodically. You can expect throttling errors if you call it more than once in a minute.  The DescribeLimits Request element has no content.
     @Sendable
     @inlinable
-    public func describeLimits(_ input: DescribeLimitsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLimitsOutput {
+    public func describeLimits(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLimitsOutput {
         try await self.client.execute(
             operation: "DescribeLimits", 
             path: "/", 
@@ -800,21 +787,8 @@ public struct DynamoDB: AWSService {
             serviceConfig: self.config
                 .with(middleware: EndpointDiscoveryMiddleware(storage: self.endpointStorage, discover: self.getEndpoint, required: false)
             ), 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the current provisioned-capacity quotas for your Amazon Web Services account in a Region, both for the Region as a whole and for any one DynamoDB table that you create there. When you establish an Amazon Web Services account, the account has initial quotas on the maximum read capacity units and write capacity units that you can provision across all of your DynamoDB tables in a given Region. Also, there are per-table quotas that apply when you create a table there. For more information, see Service, Account, and Table Quotas page in the Amazon DynamoDB Developer Guide. Although you can increase these quotas by filing a case at Amazon Web Services Support Center, obtaining the increase is not instantaneous. The DescribeLimits action lets you write code to compare the capacity you are currently using to those quotas imposed by your account so that you have enough time to apply for an increase before you hit a quota. For example, you could use one of the Amazon Web Services SDKs to do the following:   Call DescribeLimits for a particular Region to obtain your current account quotas on provisioned capacity there.   Create a variable to hold the aggregate read capacity units provisioned for all your tables in that Region, and one to hold the aggregate write capacity units. Zero them both.   Call ListTables to obtain a list of all your DynamoDB tables.   For each table name listed by ListTables, do the following:   Call DescribeTable with the table name.   Use the data returned by DescribeTable to add the read capacity units and write capacity units provisioned for the table itself to your variables.   If the table has one or more global secondary indexes (GSIs), loop over these GSIs and add their provisioned capacity values to your variables as well.     Report the account quotas for that Region returned by DescribeLimits, along with the total current provisioned capacity levels you have calculated.   This will let you see whether you are getting close to your account-level quotas. The per-table quotas apply only when you are creating a new table. They restrict the sum of the provisioned capacity of the new table itself and all its global secondary indexes. For existing tables and their GSIs, DynamoDB doesn't let you increase provisioned capacity extremely rapidly, but the only quota that applies is that the aggregate provisioned capacity over all your tables and GSIs cannot exceed either of the per-account quotas.   DescribeLimits should only be called periodically. You can expect throttling errors if you call it more than once in a minute.  The DescribeLimits Request element has no content.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeLimits(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeLimitsOutput {
-        let input = DescribeLimitsInput(
-        )
-        return try await self.describeLimits(input, logger: logger)
     }
 
     /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table.  If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
@@ -2480,7 +2454,7 @@ public struct DynamoDB: AWSService {
     @Sendable 
     @usableFromInline 
     func getEndpoint(logger: Logger) async throws -> AWSEndpoints {
-        let response = try await self.describeEndpoints(.init(), logger: logger)
+        let response = try await self.describeEndpoints(logger: logger)
         return .init(endpoints: response.endpoints.map {
             .init(address: "https://\($0.address)", cachePeriodInMinutes: $0.cachePeriodInMinutes)
         })

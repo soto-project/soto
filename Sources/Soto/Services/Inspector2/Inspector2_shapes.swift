@@ -5989,10 +5989,6 @@ extension Inspector2 {
         }
     }
 
-    public struct DescribeOrganizationConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
         /// The scan types are automatically enabled for new members of your organization.
         public let autoEnable: AutoEnable?
@@ -8024,10 +8020,6 @@ extension Inspector2 {
         }
     }
 
-    public struct GetDelegatedAdminAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetDelegatedAdminAccountResponse: AWSDecodableShape {
         /// The Amazon Web Services account ID of the Amazon Inspector delegated administrator.
         public let delegatedAdmin: DelegatedAdmin?
@@ -8040,10 +8032,6 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case delegatedAdmin = "delegatedAdmin"
         }
-    }
-
-    public struct GetEc2DeepInspectionConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetEc2DeepInspectionConfigurationResponse: AWSDecodableShape {

@@ -1978,10 +1978,6 @@ extension Greengrass {
         }
     }
 
-    public struct DisassociateServiceRoleFromAccountRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisassociateServiceRoleFromAccountResponse: AWSDecodableShape {
         /// The time when the service role was disassociated from the account.
         public let disassociatedAt: String?
@@ -3259,10 +3255,6 @@ extension Greengrass {
             case id = "Id"
             case version = "Version"
         }
-    }
-
-    public struct GetServiceRoleForAccountRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetServiceRoleForAccountResponse: AWSDecodableShape {

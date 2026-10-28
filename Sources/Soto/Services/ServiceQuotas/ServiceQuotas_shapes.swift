@@ -161,10 +161,6 @@ extension ServiceQuotas {
 
     // MARK: Shapes
 
-    public struct AssociateServiceQuotaTemplateRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct AssociateServiceQuotaTemplateResponse: AWSDecodableShape {
         public init() {}
     }
@@ -231,10 +227,6 @@ extension ServiceQuotas {
         public init() {}
     }
 
-    public struct DisassociateServiceQuotaTemplateRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DisassociateServiceQuotaTemplateResponse: AWSDecodableShape {
         public init() {}
     }
@@ -298,10 +290,6 @@ extension ServiceQuotas {
         }
     }
 
-    public struct GetAssociationForServiceQuotaTemplateRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAssociationForServiceQuotaTemplateResponse: AWSDecodableShape {
         /// The association status. If the status is ASSOCIATED, the quota increase requests in the template are automatically applied to new Amazon Web Services accounts in your organization.
         public let serviceQuotaTemplateAssociationStatus: ServiceQuotaTemplateAssociationStatus?
@@ -314,10 +302,6 @@ extension ServiceQuotas {
         private enum CodingKeys: String, CodingKey {
             case serviceQuotaTemplateAssociationStatus = "ServiceQuotaTemplateAssociationStatus"
         }
-    }
-
-    public struct GetAutoManagementConfigurationRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetAutoManagementConfigurationResponse: AWSDecodableShape {
@@ -1411,10 +1395,6 @@ extension ServiceQuotas {
         public init() {}
     }
 
-    public struct StartQuotaUtilizationReportRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct StartQuotaUtilizationReportResponse: AWSDecodableShape {
         /// An optional message providing additional information about the report generation status.  This field may contain details about the report initiation or indicate if an existing recent  report is being reused.
         public let message: String?
@@ -1435,10 +1415,6 @@ extension ServiceQuotas {
             case reportId = "ReportId"
             case status = "Status"
         }
-    }
-
-    public struct StopAutoManagementRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct StopAutoManagementResponse: AWSDecodableShape {

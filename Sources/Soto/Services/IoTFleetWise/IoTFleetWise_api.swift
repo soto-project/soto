@@ -814,27 +814,14 @@ public struct IoTFleetWise: AWSService {
     /// Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
     @Sendable
     @inlinable
-    public func getEncryptionConfiguration(_ input: GetEncryptionConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEncryptionConfigurationResponse {
+    public func getEncryptionConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetEncryptionConfigurationResponse {
         try await self.client.execute(
             operation: "GetEncryptionConfiguration", 
             path: "/encryptionConfiguration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getEncryptionConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetEncryptionConfigurationResponse {
-        let input = GetEncryptionConfigurationRequest(
-        )
-        return try await self.getEncryptionConfiguration(input, logger: logger)
     }
 
     ///  Retrieves information about a fleet.
@@ -869,27 +856,14 @@ public struct IoTFleetWise: AWSService {
     /// Retrieves the logging options.
     @Sendable
     @inlinable
-    public func getLoggingOptions(_ input: GetLoggingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLoggingOptionsResponse {
+    public func getLoggingOptions(logger: Logger = AWSClient.loggingDisabled) async throws -> GetLoggingOptionsResponse {
         try await self.client.execute(
             operation: "GetLoggingOptions", 
             path: "/loggingOptions", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the logging options.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getLoggingOptions(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetLoggingOptionsResponse {
-        let input = GetLoggingOptionsRequest(
-        )
-        return try await self.getLoggingOptions(input, logger: logger)
     }
 
     ///  Retrieves information about a vehicle model (model manifest).
@@ -924,27 +898,14 @@ public struct IoTFleetWise: AWSService {
     ///  Retrieves information about the status of registering your Amazon Web Services account, IAM, and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud.  For more information, including step-by-step procedures, see Setting up Amazon Web Services IoT FleetWise.   This API operation doesn't require input parameters.
     @Sendable
     @inlinable
-    public func getRegisterAccountStatus(_ input: GetRegisterAccountStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegisterAccountStatusResponse {
+    public func getRegisterAccountStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegisterAccountStatusResponse {
         try await self.client.execute(
             operation: "GetRegisterAccountStatus", 
             path: "/account/registration_status", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Retrieves information about the status of registering your Amazon Web Services account, IAM, and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud.  For more information, including step-by-step procedures, see Setting up Amazon Web Services IoT FleetWise.   This API operation doesn't require input parameters.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getRegisterAccountStatus(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetRegisterAccountStatusResponse {
-        let input = GetRegisterAccountStatusRequest(
-        )
-        return try await self.getRegisterAccountStatus(input, logger: logger)
     }
 
     ///  Retrieves information about a signal catalog.

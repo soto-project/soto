@@ -266,27 +266,14 @@ public struct FMS: AWSService {
     /// Deletes an Firewall Manager association with the IAM role and the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
     @Sendable
     @inlinable
-    public func deleteNotificationChannel(_ input: DeleteNotificationChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+    public func deleteNotificationChannel(logger: Logger = AWSClient.loggingDisabled) async throws {
         try await self.client.execute(
             operation: "DeleteNotificationChannel", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Deletes an Firewall Manager association with the IAM role and the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func deleteNotificationChannel(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws {
-        let input = DeleteNotificationChannelRequest(
-        )
-        return try await self.deleteNotificationChannel(input, logger: logger)
     }
 
     /// Permanently deletes an Firewall Manager policy.
@@ -382,27 +369,14 @@ public struct FMS: AWSService {
     /// Disassociates an Firewall Manager administrator account. To set a different account as an Firewall Manager administrator, submit a PutAdminAccount request. To set an account as a default administrator account, you must submit an AssociateAdminAccount request. Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
     @Sendable
     @inlinable
-    public func disassociateAdminAccount(_ input: DisassociateAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+    public func disassociateAdminAccount(logger: Logger = AWSClient.loggingDisabled) async throws {
         try await self.client.execute(
             operation: "DisassociateAdminAccount", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disassociates an Firewall Manager administrator account. To set a different account as an Firewall Manager administrator, submit a PutAdminAccount request. To set an account as a default administrator account, you must submit an AssociateAdminAccount request. Disassociation of the default administrator account follows the first in, last out principle. If you are the default administrator, all Firewall Manager administrators within the organization must first disassociate their accounts before you can disassociate your account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disassociateAdminAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws {
-        let input = DisassociateAdminAccountRequest(
-        )
-        return try await self.disassociateAdminAccount(input, logger: logger)
     }
 
     /// Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call DisassociateThirdPartyFirewall, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
@@ -437,27 +411,14 @@ public struct FMS: AWSService {
     /// Returns the Organizations account that is associated with Firewall Manager as the Firewall Manager default administrator.
     @Sendable
     @inlinable
-    public func getAdminAccount(_ input: GetAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdminAccountResponse {
+    public func getAdminAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdminAccountResponse {
         try await self.client.execute(
             operation: "GetAdminAccount", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the Organizations account that is associated with Firewall Manager as the Firewall Manager default administrator.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAdminAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAdminAccountResponse {
-        let input = GetAdminAccountRequest(
-        )
-        return try await self.getAdminAccount(input, logger: logger)
     }
 
     /// Returns information about the specified account's administrative scope. The administrative scope defines the resources that an Firewall Manager administrator can manage.
@@ -556,27 +517,14 @@ public struct FMS: AWSService {
     /// Information about the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
     @Sendable
     @inlinable
-    public func getNotificationChannel(_ input: GetNotificationChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotificationChannelResponse {
+    public func getNotificationChannel(logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotificationChannelResponse {
         try await self.client.execute(
             operation: "GetNotificationChannel", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Information about the Amazon Simple Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getNotificationChannel(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetNotificationChannelResponse {
-        let input = GetNotificationChannelRequest(
-        )
-        return try await self.getNotificationChannel(input, logger: logger)
     }
 
     /// Returns information about the specified Firewall Manager policy.

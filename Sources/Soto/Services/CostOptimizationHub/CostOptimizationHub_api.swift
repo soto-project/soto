@@ -94,27 +94,14 @@ public struct CostOptimizationHub: AWSService {
     /// Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
     @Sendable
     @inlinable
-    public func getPreferences(_ input: GetPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPreferencesResponse {
+    public func getPreferences(logger: Logger = AWSClient.loggingDisabled) async throws -> GetPreferencesResponse {
         try await self.client.execute(
             operation: "GetPreferences", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getPreferences(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetPreferencesResponse {
-        let input = GetPreferencesRequest(
-        )
-        return try await self.getPreferences(input, logger: logger)
     }
 
     /// Returns both the current and recommended resource configuration and the estimated cost impact for a recommendation. The recommendationId is only valid for up to a maximum of 24 hours as recommendations are refreshed daily. To retrieve the recommendationId, use the ListRecommendations API.

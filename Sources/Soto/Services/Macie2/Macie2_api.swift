@@ -765,53 +765,27 @@ public struct Macie2: AWSService {
     /// Retrieves the Amazon Macie configuration settings for an organization in Organizations.
     @Sendable
     @inlinable
-    public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
+    public func describeOrganizationConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
         try await self.client.execute(
             operation: "DescribeOrganizationConfiguration", 
             path: "/admin/configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the Amazon Macie configuration settings for an organization in Organizations.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func describeOrganizationConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DescribeOrganizationConfigurationResponse {
-        let input = DescribeOrganizationConfigurationRequest(
-        )
-        return try await self.describeOrganizationConfiguration(input, logger: logger)
     }
 
     /// Disables Amazon Macie and deletes all settings and resources for a Macie account.
     @Sendable
     @inlinable
-    public func disableMacie(_ input: DisableMacieRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableMacieResponse {
+    public func disableMacie(logger: Logger = AWSClient.loggingDisabled) async throws -> DisableMacieResponse {
         try await self.client.execute(
             operation: "DisableMacie", 
             path: "/macie", 
             httpMethod: .delete, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disables Amazon Macie and deletes all settings and resources for a Macie account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disableMacie(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisableMacieResponse {
-        let input = DisableMacieRequest(
-        )
-        return try await self.disableMacie(input, logger: logger)
     }
 
     /// Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
@@ -846,53 +820,27 @@ public struct Macie2: AWSService {
     /// Disassociates a member account from its Amazon Macie administrator account.
     @Sendable
     @inlinable
-    public func disassociateFromAdministratorAccount(_ input: DisassociateFromAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromAdministratorAccountResponse {
+    public func disassociateFromAdministratorAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromAdministratorAccountResponse {
         try await self.client.execute(
             operation: "DisassociateFromAdministratorAccount", 
             path: "/administrator/disassociate", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Disassociates a member account from its Amazon Macie administrator account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disassociateFromAdministratorAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisassociateFromAdministratorAccountResponse {
-        let input = DisassociateFromAdministratorAccountRequest(
-        )
-        return try await self.disassociateFromAdministratorAccount(input, logger: logger)
     }
 
     /// (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
     @Sendable
     @inlinable
-    public func disassociateFromMasterAccount(_ input: DisassociateFromMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromMasterAccountResponse {
+    public func disassociateFromMasterAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromMasterAccountResponse {
         try await self.client.execute(
             operation: "DisassociateFromMasterAccount", 
             path: "/master/disassociate", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func disassociateFromMasterAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> DisassociateFromMasterAccountResponse {
-        let input = DisassociateFromMasterAccountRequest(
-        )
-        return try await self.disassociateFromMasterAccount(input, logger: logger)
     }
 
     /// Disassociates an Amazon Macie administrator account from a member account.
@@ -994,27 +942,14 @@ public struct Macie2: AWSService {
     /// Retrieves information about the Amazon Macie administrator account for an account.
     @Sendable
     @inlinable
-    public func getAdministratorAccount(_ input: GetAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdministratorAccountResponse {
+    public func getAdministratorAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdministratorAccountResponse {
         try await self.client.execute(
             operation: "GetAdministratorAccount", 
             path: "/administrator", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves information about the Amazon Macie administrator account for an account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAdministratorAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAdministratorAccountResponse {
-        let input = GetAdministratorAccountRequest(
-        )
-        return try await self.getAdministratorAccount(input, logger: logger)
     }
 
     /// Retrieves the settings and status of an allow list.
@@ -1049,27 +984,14 @@ public struct Macie2: AWSService {
     /// Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
     @Sendable
     @inlinable
-    public func getAutomatedDiscoveryConfiguration(_ input: GetAutomatedDiscoveryConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedDiscoveryConfigurationResponse {
+    public func getAutomatedDiscoveryConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutomatedDiscoveryConfigurationResponse {
         try await self.client.execute(
             operation: "GetAutomatedDiscoveryConfiguration", 
             path: "/automated-discovery/configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getAutomatedDiscoveryConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetAutomatedDiscoveryConfigurationResponse {
-        let input = GetAutomatedDiscoveryConfigurationRequest(
-        )
-        return try await self.getAutomatedDiscoveryConfiguration(input, logger: logger)
     }
 
     /// Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
@@ -1104,27 +1026,14 @@ public struct Macie2: AWSService {
     /// Retrieves the configuration settings for storing data classification results.
     @Sendable
     @inlinable
-    public func getClassificationExportConfiguration(_ input: GetClassificationExportConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClassificationExportConfigurationResponse {
+    public func getClassificationExportConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetClassificationExportConfigurationResponse {
         try await self.client.execute(
             operation: "GetClassificationExportConfiguration", 
             path: "/classification-export-configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the configuration settings for storing data classification results.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getClassificationExportConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetClassificationExportConfigurationResponse {
-        let input = GetClassificationExportConfigurationRequest(
-        )
-        return try await self.getClassificationExportConfiguration(input, logger: logger)
     }
 
     /// Retrieves the classification scope settings for an account.
@@ -1287,105 +1196,53 @@ public struct Macie2: AWSService {
     /// Retrieves the configuration settings for publishing findings to Security Hub.
     @Sendable
     @inlinable
-    public func getFindingsPublicationConfiguration(_ input: GetFindingsPublicationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsPublicationConfigurationResponse {
+    public func getFindingsPublicationConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsPublicationConfigurationResponse {
         try await self.client.execute(
             operation: "GetFindingsPublicationConfiguration", 
             path: "/findings-publication-configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the configuration settings for publishing findings to Security Hub.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getFindingsPublicationConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetFindingsPublicationConfigurationResponse {
-        let input = GetFindingsPublicationConfigurationRequest(
-        )
-        return try await self.getFindingsPublicationConfiguration(input, logger: logger)
     }
 
     /// Retrieves the count of Amazon Macie membership invitations that were received by an account.
     @Sendable
     @inlinable
-    public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
+    public func getInvitationsCount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
         try await self.client.execute(
             operation: "GetInvitationsCount", 
             path: "/invitations/count", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the count of Amazon Macie membership invitations that were received by an account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getInvitationsCount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetInvitationsCountResponse {
-        let input = GetInvitationsCountRequest(
-        )
-        return try await self.getInvitationsCount(input, logger: logger)
     }
 
     /// Retrieves the status and configuration settings for an Amazon Macie account.
     @Sendable
     @inlinable
-    public func getMacieSession(_ input: GetMacieSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMacieSessionResponse {
+    public func getMacieSession(logger: Logger = AWSClient.loggingDisabled) async throws -> GetMacieSessionResponse {
         try await self.client.execute(
             operation: "GetMacieSession", 
             path: "/macie", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the status and configuration settings for an Amazon Macie account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getMacieSession(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetMacieSessionResponse {
-        let input = GetMacieSessionRequest(
-        )
-        return try await self.getMacieSession(input, logger: logger)
     }
 
     /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
     @Sendable
     @inlinable
-    public func getMasterAccount(_ input: GetMasterAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMasterAccountResponse {
+    public func getMasterAccount(logger: Logger = AWSClient.loggingDisabled) async throws -> GetMasterAccountResponse {
         try await self.client.execute(
             operation: "GetMasterAccount", 
             path: "/master", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getMasterAccount(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetMasterAccountResponse {
-        let input = GetMasterAccountRequest(
-        )
-        return try await self.getMasterAccount(input, logger: logger)
     }
 
     /// Retrieves information about an account that's associated with an Amazon Macie administrator account.
@@ -1449,27 +1306,14 @@ public struct Macie2: AWSService {
     /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     @Sendable
     @inlinable
-    public func getRevealConfiguration(_ input: GetRevealConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRevealConfigurationResponse {
+    public func getRevealConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetRevealConfigurationResponse {
         try await self.client.execute(
             operation: "GetRevealConfiguration", 
             path: "/reveal-configuration", 
             httpMethod: .get, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getRevealConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetRevealConfigurationResponse {
-        let input = GetRevealConfigurationRequest(
-        )
-        return try await self.getRevealConfiguration(input, logger: logger)
     }
 
     /// Retrieves occurrences of sensitive data reported by a finding.

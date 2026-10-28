@@ -1115,10 +1115,6 @@ extension Evs {
         }
     }
 
-    public struct GetAccountSettingsRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountSettingsResponse: AWSDecodableShape {
         /// A list of regional account-level EVS settings for the account. EVS settings that have never been explicitly set are omitted from the response.
         public let settings: [AccountSetting]?
@@ -1213,10 +1209,6 @@ extension Evs {
         private enum CodingKeys: String, CodingKey {
             case environment = "environment"
         }
-    }
-
-    public struct GetVersionsRequest: AWSEncodableShape {
-        public init() {}
     }
 
     public struct GetVersionsResponse: AWSDecodableShape {

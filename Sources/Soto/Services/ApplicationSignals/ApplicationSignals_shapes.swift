@@ -3924,10 +3924,6 @@ extension ApplicationSignals {
         }
     }
 
-    public struct StartDiscoveryInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct StartDiscoveryOutput: AWSDecodableShape {
         public init() {}
     }

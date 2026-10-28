@@ -1098,10 +1098,6 @@ extension ComputeOptimizerAutomation {
         }
     }
 
-    public struct GetEnrollmentConfigurationRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetEnrollmentConfigurationResponse: AWSDecodableShape {
         ///  The timestamp of the last update to the enrollment configuration.
         public let lastUpdatedTimestamp: Date?

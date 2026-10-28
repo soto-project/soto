@@ -2708,10 +2708,6 @@ extension IoTTwinMaker {
         }
     }
 
-    public struct GetPricingPlanRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetPricingPlanResponse: AWSDecodableShape {
         /// The chosen pricing plan for the current billing cycle.
         public let currentPricingPlan: PricingPlan

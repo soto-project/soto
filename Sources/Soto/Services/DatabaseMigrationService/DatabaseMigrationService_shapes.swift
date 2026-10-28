@@ -2604,10 +2604,6 @@ extension DatabaseMigrationService {
         }
     }
 
-    public struct DescribeAccountAttributesMessage: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeAccountAttributesResponse: AWSDecodableShape {
         /// Account quota information.
         public let accountQuotas: [AccountQuota]?

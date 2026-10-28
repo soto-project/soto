@@ -3962,10 +3962,6 @@ extension WellArchitected {
         }
     }
 
-    public struct GetProfileTemplateInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetProfileTemplateOutput: AWSDecodableShape {
         /// The profile template.
         public let profileTemplate: ProfileTemplate?

@@ -1611,27 +1611,14 @@ public struct Odb: AWSService {
     /// Returns the tenancy activation link and onboarding status for your Amazon Web Services account.
     @Sendable
     @inlinable
-    public func getOciOnboardingStatus(_ input: GetOciOnboardingStatusInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOciOnboardingStatusOutput {
+    public func getOciOnboardingStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetOciOnboardingStatusOutput {
         try await self.client.execute(
             operation: "GetOciOnboardingStatus", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    /// Returns the tenancy activation link and onboarding status for your Amazon Web Services account.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getOciOnboardingStatus(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetOciOnboardingStatusOutput {
-        let input = GetOciOnboardingStatusInput(
-        )
-        return try await self.getOciOnboardingStatus(input, logger: logger)
     }
 
     /// Returns information about the specified ODB network.

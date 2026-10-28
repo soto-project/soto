@@ -303,27 +303,14 @@ public struct ComputeOptimizerAutomation: AWSService {
     ///  Retrieves the current enrollment configuration for Compute Optimizer Automation.
     @Sendable
     @inlinable
-    public func getEnrollmentConfiguration(_ input: GetEnrollmentConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnrollmentConfigurationResponse {
+    public func getEnrollmentConfiguration(logger: Logger = AWSClient.loggingDisabled) async throws -> GetEnrollmentConfigurationResponse {
         try await self.client.execute(
             operation: "GetEnrollmentConfiguration", 
             path: "/", 
             httpMethod: .post, 
             serviceConfig: self.config, 
-            input: input, 
             logger: logger
         )
-    }
-    ///  Retrieves the current enrollment configuration for Compute Optimizer Automation.
-    ///
-    /// Parameters:
-    ///   - logger: Logger use during operation
-    @inlinable
-    public func getEnrollmentConfiguration(
-        logger: Logger = AWSClient.loggingDisabled        
-    ) async throws -> GetEnrollmentConfigurationResponse {
-        let input = GetEnrollmentConfigurationRequest(
-        )
-        return try await self.getEnrollmentConfiguration(input, logger: logger)
     }
 
     ///  Lists the accounts in your organization that are enrolled in Compute Optimizer and whether they have enabled Automation.   Only the management account or a delegated administrator can perform this action.

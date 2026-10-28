@@ -2990,10 +2990,6 @@ extension Backup {
         }
     }
 
-    public struct DescribeGlobalSettingsInput: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct DescribeGlobalSettingsOutput: AWSDecodableShape {
         /// The status of the flags isCrossAccountBackupEnabled, isMpaEnabled ('Mpa' refers to multi-party approval), and isDelegatedAdministratorEnabled.    isCrossAccountBackupEnabled: Allow accounts in your organization to copy backups to other accounts.    isMpaEnabled: Add cross-account access to your organization with the option to assign a Multi-party approval team to a logically air-gapped vault.    isDelegatedAdministratorEnabled: Allow Backup to automatically synchronize delegated administrator permissions with Organizations.
         public let globalSettings: [String: String]?
@@ -3231,10 +3227,6 @@ extension Backup {
             case storageClass = "StorageClass"
             case vaultType = "VaultType"
         }
-    }
-
-    public struct DescribeRegionSettingsInput: AWSEncodableShape {
-        public init() {}
     }
 
     public struct DescribeRegionSettingsOutput: AWSDecodableShape {

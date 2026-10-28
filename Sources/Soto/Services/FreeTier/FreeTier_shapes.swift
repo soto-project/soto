@@ -336,10 +336,6 @@ extension FreeTier {
         }
     }
 
-    public struct GetAccountPlanStateRequest: AWSEncodableShape {
-        public init() {}
-    }
-
     public struct GetAccountPlanStateResponse: AWSDecodableShape {
         ///  A unique identifier that identifies the account.
         public let accountId: String
