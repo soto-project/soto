@@ -46,14 +46,6 @@ class SESTests: XCTestCase {
         _ = try await self.ses.getAccountSendingEnabled()
     }
 
-    /* func testSESIdentityExistsWaiter() {
-         let response = self.ses.verifyEmailIdentity(.init(emailAddress: "admin@opticalaberration.com"))
-             .flatMap{ _ in
-                 return self.ses.waitUntilIdentityExists(.init(identities: ["admin@opticalaberration.com"]))
-             }
-         XCTAssertNoThrow(try response.wait())
-     } */
-
     // test fips region
     func testFipsRegion() async throws {
         struct TestError: Error {}

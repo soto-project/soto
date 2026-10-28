@@ -65,7 +65,14 @@ class S3Tests: XCTestCase {
         do {
             _ = try await s3.createBucket(bucketRequest, logger: TestEnvironment.logger)
             try await s3.waitUntilBucketExists(.init(bucket: name), logger: TestEnvironment.logger)
-        } catch let error as S3ErrorType where error == .bucketAlreadyOwnedByYou {}
+        } catch let error as S3ErrorType {
+            switch error.error {
+            case .bucketAlreadyOwnedByYou:
+                break
+            default:
+                throw error
+            }
+        }
     }
 
     static func deleteBucket(name: String, s3: S3) async throws {
@@ -458,7 +465,7 @@ class S3Tests: XCTestCase {
 
             let response = try await self.s3.createMultipartUpload(.init(bucket: name, key: "test"))
 
-            guard let uploadId = response.uploadId else { throw AWSClientError.missingParameter }
+            guard let uploadId = response.uploadId else { throw AWSResponseError.missingParameter }
             _ = try await self.s3.abortMultipartUpload(
                 .init(bucket: name, key: "test", uploadId: uploadId)
             )
@@ -630,8 +637,14 @@ class S3Tests: XCTestCase {
     func testError() async {
         // get wrong error with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
-        await XCTAsyncExpectError(S3ErrorType.noSuchBucket) {
+        let error = await XCTAsyncExpectError(S3ErrorType.self) {
             _ = try await self.s3.deleteBucket(.init(bucket: "nosuch-bucket-name3458bjhdfgdf"))
+        }
+        switch error?.error {
+        case .noSuchBucket:
+            break
+        default:
+            XCTFail()
         }
     }
 
@@ -673,7 +686,14 @@ class S3Tests: XCTestCase {
                 logger: TestEnvironment.logger
             )
             try await self.s3.waitUntilBucketExists(.init(bucket: bucket), logger: TestEnvironment.logger)
-        } catch let error as S3ErrorType where error == .bucketAlreadyOwnedByYou {}
+        } catch let error as S3ErrorType {
+            switch error.error {
+            case .bucketAlreadyOwnedByYou:
+                break
+            default:
+                throw error
+            }
+        }
         try await withTeardown {
             let (client, _expressS3) = self.s3.createS3ExpressClientAndService(bucket: bucket)
             let expressS3 = _expressS3.with(middleware: TestEnvironment.middlewares)

@@ -55,7 +55,8 @@ class CloudTrailTests: XCTestCase {
         guard !TestEnvironment.isUsingLocalstack else { return }
         do {
             _ = try await self.cloudTrail.getTrail(.init(name: "nonexistent-trail"))
-        } catch let error as CloudTrailErrorType where error == .trailNotFoundException {
+        } catch let error as CloudTrailErrorType {
+            XCTAssertEqual(error.error, .trailNotFoundException)
             XCTAssertNotNil(error.message)
         } catch {
             XCTFail("Wrong error: \(error)")

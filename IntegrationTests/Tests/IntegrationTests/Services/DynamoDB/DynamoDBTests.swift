@@ -91,8 +91,13 @@ class DynamoDBTests: XCTestCase {
         do {
             let response = try await Self.dynamoDB.createTable(input, logger: TestEnvironment.logger)
             XCTAssertEqual(response.tableDescription?.tableName, name)
-        } catch let error as DynamoDBErrorType where error == .resourceInUseException {
-            print("Table (\(name)) already exists")
+        } catch let error as DynamoDBErrorType {
+            switch error.error {
+            case .resourceInUseException:
+                print("Table (\(name)) already exists")
+            default:
+                throw error
+            }
         }
         try await Self.dynamoDB.waitUntilTableExists(.init(tableName: name), logger: TestEnvironment.logger)
     }
@@ -151,8 +156,14 @@ class DynamoDBTests: XCTestCase {
     }
 
     func testError() async {
-        await XCTAsyncExpectError(DynamoDBErrorType.resourceNotFoundException) {
+        let error = await XCTAsyncExpectError(DynamoDBErrorType.self) {
             _ = try await Self.dynamoDB.describeTable(.init(tableName: "non-existent-table"))
+        }
+        switch error?.error {
+        case .resourceNotFoundException:
+            print("Table (\(name)) already exists")
+        default:
+            XCTFail()
         }
     }
 }
